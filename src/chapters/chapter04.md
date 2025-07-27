@@ -297,6 +297,265 @@ pred moveAddress[c: Contact, newAddr: Address, t, t': Time] {
     
     // 他の部分は変化しない
     all other: Contact - c | other.address.t' = other.address.t
+    all contact: Contact | contact.friends.t' = contact.friends.t
+}
+```
+
+### 実践例1：電子メールシステムのアクセス制御
+
+より実践的な例として、電子メールシステムのアクセス制御をモデル化してみましょう：
+
+```alloy
+module EmailSecurity
+
+// 基本エンティティ
+sig User {
+    roles: set Role
+}
+
+sig Role {
+    permissions: set Permission
+}
+
+sig Permission {}
+
+sig Email {
+    sender: one User,
+    recipients: set User,
+    confidential: lone User  // 機密メールの場合、閲覧可能ユーザー
+}
+
+// 具体的な権限
+one sig ReadEmail, SendEmail, AdminAccess extends Permission {}
+
+// 具体的な役割  
+one sig RegularUser, Manager, Administrator extends Role {}
+
+// アクセス制御の制約
+fact RolePermissions {
+    RegularUser.permissions = ReadEmail + SendEmail
+    Manager.permissions = ReadEmail + SendEmail  
+    Administrator.permissions = ReadEmail + SendEmail + AdminAccess
+}
+
+// セキュリティポリシー
+pred canReadEmail[u: User, e: Email] {
+    // 送信者または受信者は読める
+    u = e.sender or u in e.recipients
+    or
+    // 機密メールでない場合、読み取り権限があれば読める
+    (no e.confidential and ReadEmail in u.roles.permissions)
+    or  
+    // 機密メールの場合、指定ユーザーまたは管理者のみ
+    (some e.confidential and (u = e.confidential or AdminAccess in u.roles.permissions))
+}
+
+// セキュリティ検証のアサーション
+assert NoUnauthorizedAccess {
+    all u: User, e: Email |
+        canReadEmail[u, e] or not (u can read e)
+}
+
+check NoUnauthorizedAccess for 5 User, 5 Email, 3 Role
+```
+
+### 実践例2：オンライン書店の在庫管理システム
+
+複雑なビジネスロジックを含む例として、オンライン書店システムをモデル化します：
+
+```alloy
+module OnlineBookstore
+
+// 基本エンティティ
+sig Book {
+    isbn: one ISBN,
+    price: one Int,
+    stock: Int one -> Time
+}
+
+sig ISBN {}
+
+sig Customer {
+    orders: set Order
+}
+
+sig Order {
+    items: set OrderItem,
+    status: Status one -> Time,
+    timestamp: one Time
+}
+
+sig OrderItem {
+    book: one Book,
+    quantity: one Int
+}
+
+abstract sig Status {}
+one sig Pending, Confirmed, Shipped, Delivered, Cancelled extends Status {}
+
+sig Time {
+    next: lone Time
+}
+
+// ビジネス制約
+fact ValidQuantities {
+    all item: OrderItem | item.quantity > 0
+    all b: Book, t: Time | b.stock.t >= 0
+}
+
+fact OrderIntegrity {
+    all o: Order | some o.items  // 空の注文は存在しない
+    all item: OrderItem | one orders.items.item  // 各項目は1つの注文にのみ属する
+}
+
+// 在庫予約操作
+pred reserveStock[b: Book, qty: Int, t, t': Time] {
+    t' = t.next
+    b.stock.t >= qty  // 十分な在庫がある
+    b.stock.t' = b.stock.t - qty  // 在庫を減らす
+    
+    // 他の本の在庫は変化しない
+    all other: Book - b | other.stock.t' = other.stock.t
+}
+
+// 注文処理操作
+pred processOrder[o: Order, t, t': Time] {
+    t' = t.next
+    o.status.t = Pending
+    
+    // 在庫チェック
+    all item: o.items | item.book.stock.t >= item.quantity
+    
+    // 在庫予約
+    all item: o.items | 
+        item.book.stock.t' = item.book.stock.t - item.quantity
+    
+    // ステータス更新
+    o.status.t' = Confirmed
+}
+
+// ビジネスルール検証
+assert NoOverselling {
+    all b: Book, t: Time | 
+        b.stock.t >= 0 implies 
+            (all t': Time | t'.^(~next) = t implies b.stock.t' >= 0)
+}
+
+assert OrderConsistency {
+    all o: Order, t: Time |
+        o.status.t = Confirmed implies
+            (all item: o.items | item.quantity <= item.book.stock.t)
+}
+
+check NoOverselling for 5 Book, 5 Order, 10 Time
+check OrderConsistency for 5 Book, 5 Order, 10 Time
+```
+
+### 実践例3：分散システムのリーダー選出アルゴリズム
+
+より高度な例として、分散システムにおけるリーダー選出アルゴリズムをモデル化します：
+
+```alloy
+module LeaderElection
+
+// ノードとメッセージ
+sig Node {
+    id: one Int,
+    leader: Node lone -> Time,
+    alive: Boolean one -> Time
+}
+
+sig Message {
+    from: one Node,
+    to: one Node,
+    content: one MessageType,
+    timestamp: one Time
+}
+
+abstract sig MessageType {}
+one sig Election, OK, Coordinator extends MessageType {}
+
+sig Time {
+    next: lone Time
+}
+
+// アルゴリズムの制約
+fact UniqueIDs {
+    all disj n1, n2: Node | n1.id != n2.id
+}
+
+fact InitialState {
+    some first: Time | no first.~next and
+        all n: Node | 
+            no n.leader.first and
+            n.alive.first = True
+}
+
+// リーダー選出プロセス
+pred startElection[n: Node, t: Time] {
+    n.alive.t = True
+    no n.leader.t  // リーダーが決まっていない
+    
+    // より高いIDを持つノードに選出メッセージを送信
+    all higher: Node | higher.id > n.id and higher.alive.t = True implies
+        some m: Message | 
+            m.from = n and m.to = higher and 
+            m.content = Election and m.timestamp = t
+}
+
+pred respondToElection[receiver: Node, sender: Node, t: Time] {
+    receiver.alive.t = True
+    receiver.id > sender.id  // 受信者のIDが高い
+    
+    // OK応答を送信
+    some m: Message |
+        m.from = receiver and m.to = sender and
+        m.content = OK and m.timestamp = t
+    
+    // 自分も選出プロセスを開始
+    startElection[receiver, t]
+}
+
+pred becomeLeader[n: Node, t, t': Time] {
+    t' = t.next
+    n.alive.t = True
+    
+    // タイムアウト内にOK応答がなかった
+    no m: Message | 
+        m.to = n and m.content = OK and m.timestamp = t
+    
+    // 自分をリーダーに設定
+    n.leader.t' = n
+    
+    // より低いIDのノードにCoordinatorメッセージを送信
+    all lower: Node | lower.id < n.id and lower.alive.t = True implies
+        some m: Message |
+            m.from = n and m.to = lower and
+            m.content = Coordinator and m.timestamp = t'
+}
+
+// 安全性の検証
+assert LeaderUniqueness {
+    all t: Time | lone n: Node | n.leader.t = n
+}
+
+assert LeaderIsAlive {
+    all n: Node, t: Time | 
+        n.leader.t = n implies n.alive.t = True
+}
+
+assert HighestIdWins {
+    all t: Time, n: Node |
+        n.leader.t = n implies
+            (no higher: Node | higher.id > n.id and higher.alive.t = True)
+}
+
+check LeaderUniqueness for 5 Node, 10 Message, 8 Time
+check LeaderIsAlive for 5 Node, 10 Message, 8 Time  
+check HighestIdWins for 5 Node, 10 Message, 8 Time
+```
+
+これらの実例は、第8章の模型検査や第11章の開発プロセス統合で再び参照され、Alloyモデルの実用的価値を具体的に示しています。
     all x: Contact | x.friends.t' = x.friends.t
 }
 ```
