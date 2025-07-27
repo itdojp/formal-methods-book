@@ -1,0 +1,36 @@
+title: "形式的手法の基礎と応用"
+description: "仕様記述、模型検査、定理証明の統合的理解 - ソフトウェアの数学的設計入門"
+author: "太田和彦（株式会社アイティードゥ）"
+organization: "株式会社アイティードゥ"
+version: "1.0.0"
+lang: "ja"
+
+# Jekyll設定
+markdown: kramdown
+highlighter: rouge
+theme: minima
+
+# プラグイン
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# 除外ファイル
+exclude:
+  - node_modules/
+  - package.json
+  - package-lock.json
+  - scripts/
+  - tests/
+  - "README.md"
+
+# 日本語対応
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  
+# GitHub Pages設定
+
+repository: "itdojp/formal-methods-book"
+
