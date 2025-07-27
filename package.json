@@ -1,0 +1,30 @@
+{
+  "name": "itインフラストラクチャ技術ガイド",
+  "version": "1.0.0",
+  "description": "ベンダー非依存の観点からインフラストラクチャ技術の本質的な設計原理と実装手法を体系化した技術書",
+  "main": "index.md",
+  "scripts": {
+    "start": "jekyll serve --livereload",
+    "build": "jekyll build",
+    "test": "npm run lint && npm run check-links",
+    "lint": "markdownlint src/**/*.md",
+    "check-links": "markdown-link-check src/**/*.md",
+    "deploy": "gh-pages -d _site"
+  },
+  "keywords": [
+    "book",
+    "documentation",
+    "ja"
+  ],
+  "author": "太田和彦（株式会社アイティードゥ）",
+  "license": "MIT",
+  "devDependencies": {
+    "markdownlint-cli": "^0.37.0",
+    "markdown-link-check": "^3.11.2",
+    "gh-pages": "^6.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/itdojp/IT-infra-book.git"
+  }
+}

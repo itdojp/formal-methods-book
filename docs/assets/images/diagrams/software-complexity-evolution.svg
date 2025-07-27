@@ -1,0 +1,185 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      :root {
+        --primary-blue: #2563eb;
+        --secondary-indigo: #4f46e5;
+        --accent-purple: #7c3aed;
+        --neutral-gray: #6b7280;
+        --light-gray: #f3f4f6;
+        --success-green: #059669;
+        --warning-orange: #d97706;
+        --error-red: #dc2626;
+      }
+      
+      .title-text {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        fill: var(--neutral-gray);
+      }
+      
+      .label-text {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        fill: var(--neutral-gray);
+      }
+      
+      .detail-text {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-size: 12px;
+        font-weight: 400;
+        fill: var(--neutral-gray);
+      }
+      
+      .era-box {
+        rx: 4;
+        ry: 4;
+        stroke: var(--primary-blue);
+        stroke-width: 2;
+        fill: rgba(37, 99, 235, 0.1);
+      }
+      
+      .complexity-curve {
+        stroke: var(--error-red);
+        stroke-width: 3;
+        fill: none;
+      }
+      
+      .reliability-demand {
+        stroke: var(--success-green);
+        stroke-width: 3;
+        fill: none;
+      }
+      
+      .component-circle {
+        fill: var(--primary-blue);
+        opacity: 0.8;
+      }
+      
+      .interaction-line {
+        stroke: var(--accent-purple);
+        stroke-width: 1;
+        opacity: 0.6;
+      }
+    </style>
+  </defs>
+  
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" class="title-text">ソフトウェアシステムの複雑性の進化</text>
+  
+  <!-- Timeline axis -->
+  <line x1="80" y1="550" x2="720" y2="550" stroke="var(--neutral-gray)" stroke-width="2"/>
+  
+  <!-- Era markers -->
+  <text x="150" y="570" text-anchor="middle" class="detail-text">1990年代</text>
+  <text x="300" y="570" text-anchor="middle" class="detail-text">2000年代</text>
+  <text x="450" y="570" text-anchor="middle" class="detail-text">2010年代</text>
+  <text x="600" y="570" text-anchor="middle" class="detail-text">2020年代</text>
+  
+  <!-- Era boxes with descriptions -->
+  <rect x="100" y="480" width="100" height="60" class="era-box"/>
+  <text x="150" y="500" text-anchor="middle" class="detail-text">単一アプリ</text>
+  <text x="150" y="515" text-anchor="middle" class="detail-text">数万行</text>
+  <text x="150" y="530" text-anchor="middle" class="detail-text">1台のPC</text>
+  
+  <rect x="250" y="460" width="100" height="80" class="era-box"/>
+  <text x="300" y="480" text-anchor="middle" class="detail-text">Webシステム</text>
+  <text x="300" y="495" text-anchor="middle" class="detail-text">数十万行</text>
+  <text x="300" y="510" text-anchor="middle" class="detail-text">クライアント</text>
+  <text x="300" y="525" text-anchor="middle" class="detail-text">サーバー</text>
+  
+  <rect x="400" y="420" width="100" height="120" class="era-box"/>
+  <text x="450" y="440" text-anchor="middle" class="detail-text">分散システム</text>
+  <text x="450" y="455" text-anchor="middle" class="detail-text">数百万行</text>
+  <text x="450" y="470" text-anchor="middle" class="detail-text">マイクロ</text>
+  <text x="450" y="485" text-anchor="middle" class="detail-text">サービス</text>
+  <text x="450" y="500" text-anchor="middle" class="detail-text">クラウド</text>
+  <text x="450" y="515" text-anchor="middle" class="detail-text">API連携</text>
+  
+  <rect x="550" y="360" width="100" height="180" class="era-box"/>
+  <text x="600" y="380" text-anchor="middle" class="detail-text">AI/IoT時代</text>
+  <text x="600" y="395" text-anchor="middle" class="detail-text">数千万行</text>
+  <text x="600" y="410" text-anchor="middle" class="detail-text">グローバル</text>
+  <text x="600" y="425" text-anchor="middle" class="detail-text">分散</text>
+  <text x="600" y="440" text-anchor="middle" class="detail-text">リアルタイム</text>
+  <text x="600" y="455" text-anchor="middle" class="detail-text">AI処理</text>
+  <text x="600" y="470" text-anchor="middle" class="detail-text">エッジ</text>
+  <text x="600" y="485" text-anchor="middle" class="detail-text">コンピュート</text>
+  
+  <!-- Complexity curve -->
+  <path d="M 80 450 Q 200 400 300 350 Q 400 250 450 200 Q 550 120 720 80" class="complexity-curve"/>
+  <text x="730" y="85" class="label-text">複雑性</text>
+  
+  <!-- Reliability demand curve -->
+  <path d="M 80 420 Q 200 380 300 340 Q 400 280 450 220 Q 550 150 720 100" class="reliability-demand"/>
+  <text x="730" y="105" class="label-text">信頼性要求</text>
+  
+  <!-- Component interaction illustration -->
+  <g transform="translate(60, 60)">
+    <text x="0" y="0" class="label-text">構成要素の相互作用</text>
+    
+    <!-- 1990s: Simple -->
+    <g transform="translate(0, 30)">
+      <text x="0" y="0" class="detail-text">1990年代</text>
+      <circle cx="30" cy="20" r="4" class="component-circle"/>
+      <circle cx="50" cy="20" r="4" class="component-circle"/>
+      <circle cx="70" cy="20" r="4" class="component-circle"/>
+      <line x1="34" y1="20" x2="46" y2="20" class="interaction-line"/>
+      <line x1="54" y1="20" x2="66" y2="20" class="interaction-line"/>
+      <text x="90" y="25" class="detail-text">3要素→2接続</text>
+    </g>
+    
+    <!-- 2020s: Complex -->
+    <g transform="translate(0, 80)">
+      <text x="0" y="0" class="detail-text">2020年代</text>
+      <!-- Multiple nodes in network pattern -->
+      <circle cx="20" cy="20" r="3" class="component-circle"/>
+      <circle cx="40" cy="15" r="3" class="component-circle"/>
+      <circle cx="60" cy="25" r="3" class="component-circle"/>
+      <circle cx="80" cy="10" r="3" class="component-circle"/>
+      <circle cx="100" cy="30" r="3" class="component-circle"/>
+      <circle cx="120" cy="20" r="3" class="component-circle"/>
+      
+      <!-- Interconnections -->
+      <line x1="20" y1="20" x2="40" y2="15" class="interaction-line"/>
+      <line x1="20" y1="20" x2="60" y2="25" class="interaction-line"/>
+      <line x1="40" y1="15" x2="80" y2="10" class="interaction-line"/>
+      <line x1="40" y1="15" x2="60" y2="25" class="interaction-line"/>
+      <line x1="60" y1="25" x2="100" y2="30" class="interaction-line"/>
+      <line x1="80" y1="10" x2="120" y2="20" class="interaction-line"/>
+      <line x1="100" y1="30" x2="120" y2="20" class="interaction-line"/>
+      <line x1="20" y1="20" x2="100" y2="30" class="interaction-line"/>
+      <line x1="40" y1="15" x2="120" y2="20" class="interaction-line"/>
+      
+      <text x="140" y="25" class="detail-text">6要素→15接続</text>
+    </g>
+    
+    <!-- Mathematical formula -->
+    <g transform="translate(0, 130)">
+      <text x="0" y="0" class="detail-text">組み合わせ計算：n(n-1)/2</text>
+      <text x="0" y="20" class="detail-text">1000要素 → 約50万接続</text>
+    </g>
+  </g>
+  
+  <!-- Legend -->
+  <g transform="translate(60, 300)">
+    <text x="0" y="0" class="label-text">重大事故の例</text>
+    
+    <circle cx="10" cy="25" r="4" fill="var(--error-red)"/>
+    <text x="25" y="30" class="detail-text">1996年 アリアン5号墜落</text>
+    
+    <circle cx="10" cy="45" r="4" fill="var(--error-red)"/>
+    <text x="25" y="50" class="detail-text">1985-87年 テラック25医療事故</text>
+    
+    <circle cx="10" cy="65" r="4" fill="var(--error-red)"/>
+    <text x="25" y="70" class="detail-text">2003年 北米大停電</text>
+    
+    <circle cx="10" cy="85" r="4" fill="var(--error-red)"/>
+    <text x="25" y="90" class="detail-text">2018年 ボーイング737MAX</text>
+  </g>
+  
+  <!-- Bottom note -->
+  <text x="400" y="590" text-anchor="middle" class="detail-text">図1-1：ソフトウェア複雑性の指数的増大と信頼性要求の高まり</text>
+</svg>
