@@ -1,0 +1,170 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .diagram-text { 
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+        font-size: 11px; 
+        fill: var(--text-color, #2c3e50);
+        font-weight: 500;
+      }
+      .title-text { 
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+        font-size: 16px; 
+        fill: var(--text-color, #2c3e50);
+        font-weight: 600;
+      }
+      .state-circle {
+        fill: var(--accent-color, #3498db);
+        stroke: var(--border-color, #2980b9);
+        stroke-width: 2;
+      }
+      .initial-state {
+        fill: var(--success-color, #27ae60);
+        stroke: var(--border-color, #229954);
+        stroke-width: 2;
+      }
+      .error-state {
+        fill: var(--danger-color, #e74c3c);
+        stroke: var(--border-color, #c0392b);
+        stroke-width: 2;
+      }
+      .transition-arrow {
+        stroke: var(--secondary-color, #7f8c8d);
+        stroke-width: 2;
+        marker-end: url(#arrowhead);
+      }
+      .state-text {
+        fill: white;
+        font-weight: 600;
+        font-size: 12px;
+      }
+      .transition-text {
+        fill: var(--text-color, #2c3e50);
+        font-size: 10px;
+        font-weight: 500;
+      }
+      .invariant-box {
+        fill: var(--warning-color, #f39c12);
+        stroke: var(--border-color, #e67e22);
+        stroke-width: 2;
+        rx: 4;
+      }
+      .invariant-text {
+        fill: white;
+        font-weight: 500;
+      }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+     refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="var(--secondary-color, #7f8c8d)" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="400" y="25" class="title-text" text-anchor="middle">状態遷移モデル（銀行口座システムの例）</text>
+
+  <!-- States -->
+  <!-- Initial State -->
+  <circle cx="100" cy="100" r="35" class="initial-state"/>
+  <text x="100" y="95" class="state-text" text-anchor="middle">初期状態</text>
+  <text x="100" y="110" class="state-text" text-anchor="middle">残高: 0</text>
+
+  <!-- Normal State -->
+  <circle cx="300" cy="100" r="35" class="state-circle"/>
+  <text x="300" y="95" class="state-text" text-anchor="middle">通常状態</text>
+  <text x="300" y="110" class="state-text" text-anchor="middle">残高: n > 0</text>
+
+  <!-- Frozen State -->
+  <circle cx="500" cy="100" r="35" class="state-circle"/>
+  <text x="500" y="95" class="state-text" text-anchor="middle">凍結状態</text>
+  <text x="500" y="110" class="state-text" text-anchor="middle">操作停止</text>
+
+  <!-- Overdrawn State -->
+  <circle cx="300" cy="250" r="35" class="error-state"/>
+  <text x="300" y="245" class="error-state text" text-anchor="middle">当座貸越</text>
+  <text x="300" y="260" class="state-text" text-anchor="middle">残高: n < 0</text>
+
+  <!-- Closed State -->
+  <circle cx="700" cy="175" r="35" class="state-circle"/>
+  <text x="700" y="170" class="state-text" text-anchor="middle">閉鎖状態</text>
+  <text x="700" y="185" class="state-text" text-anchor="middle">口座終了</text>
+
+  <!-- Transitions -->
+  <!-- Initial to Normal -->
+  <path d="M 135 100 Q 200 80 265 100" fill="none" class="transition-arrow"/>
+  <text x="200" y="75" class="transition-text" text-anchor="middle">deposit(amount > 0)</text>
+
+  <!-- Normal self-loop for deposits -->
+  <path d="M 330 80 Q 370 60 330 120" fill="none" class="transition-arrow"/>
+  <text x="360" y="55" class="transition-text" text-anchor="middle">deposit(amount)</text>
+
+  <!-- Normal self-loop for valid withdrawals -->
+  <path d="M 270 80 Q 230 60 270 120" fill="none" class="transition-arrow"/>
+  <text x="240" y="55" class="transition-text" text-anchor="middle">withdraw(amount ≤ balance)</text>
+
+  <!-- Normal to Overdrawn -->
+  <path d="M 300 135 L 300 215" fill="none" class="transition-arrow"/>
+  <text x="340" y="175" class="transition-text">withdraw(amount > balance)</text>
+
+  <!-- Overdrawn to Normal -->
+  <path d="M 280 215 L 280 135" fill="none" class="transition-arrow"/>
+  <text x="240" y="175" class="transition-text">deposit(amount)</text>
+
+  <!-- Normal to Frozen -->
+  <path d="M 335 100 L 465 100" fill="none" class="transition-arrow"/>
+  <text x="400" y="90" class="transition-text" text-anchor="middle">freeze()</text>
+
+  <!-- Frozen to Normal -->
+  <path d="M 465 110 L 335 110" fill="none" class="transition-arrow"/>
+  <text x="400" y="125" class="transition-text" text-anchor="middle">unfreeze()</text>
+
+  <!-- Normal to Closed -->
+  <path d="M 330 120 Q 450 180 665 175" fill="none" class="transition-arrow"/>
+  <text x="500" y="155" class="transition-text" text-anchor="middle">close(balance = 0)</text>
+
+  <!-- Frozen to Closed -->
+  <path d="M 535 110 Q 600 140 665 165" fill="none" class="transition-arrow"/>
+  <text x="600" y="135" class="transition-text" text-anchor="middle">close()</text>
+
+  <!-- Input/Output description -->
+  <rect x="50" y="320" width="200" height="120" fill="var(--bg-color, #ecf0f1)" stroke="var(--border-color, #bdc3c7)" stroke-width="1" rx="4"/>
+  <text x="60" y="340" class="diagram-text" font-weight="600">入力集合 I:</text>
+  <text x="60" y="355" class="diagram-text">• deposit(amount: ℕ)</text>
+  <text x="60" y="370" class="diagram-text">• withdraw(amount: ℕ)</text>
+  <text x="60" y="385" class="diagram-text">• freeze()</text>
+  <text x="60" y="400" class="diagram-text">• unfreeze()</text>
+  <text x="60" y="415" class="diagram-text">• close()</text>
+  <text x="60" y="430" class="diagram-text">• check_balance()</text>
+
+  <!-- State Space description -->
+  <rect x="280" y="320" width="200" height="120" fill="var(--bg-color, #ecf0f1)" stroke="var(--border-color, #bdc3c7)" stroke-width="1" rx="4"/>
+  <text x="290" y="340" class="diagram-text" font-weight="600">状態空間 S:</text>
+  <text x="290" y="355" class="diagram-text">• balance: ℤ (残高)</text>
+  <text x="290" y="370" class="diagram-text">• status: {active, frozen, closed}</text>
+  <text x="290" y="385" class="diagram-text">• account_id: String</text>
+  <text x="290" y="400" class="diagram-text">• created_date: Date</text>
+
+  <!-- Invariants -->
+  <rect x="510" y="320" width="240" height="120" class="invariant-box"/>
+  <text x="520" y="340" class="invariant-text" font-weight="600">システム不変条件:</text>
+  <text x="520" y="355" class="invariant-text">• closed状態では操作不可</text>
+  <text x="520" y="370" class="invariant-text">• frozen状態では残高変更不可</text>
+  <text x="520" y="385" class="invariant-text">• 負の金額での操作は無効</text>
+  <text x="520" y="400" class="invariant-text">• close時は残高を0にする</text>
+  <text x="520" y="415" class="invariant-text">• 口座IDは一意</text>
+
+  <!-- Legend -->
+  <circle cx="50" cy="460" r="12" class="initial-state"/>
+  <text x="70" y="465" class="diagram-text">開始状態</text>
+
+  <circle cx="150" cy="460" r="12" class="state-circle"/>
+  <text x="170" y="465" class="diagram-text">通常状態</text>
+
+  <circle cx="250" cy="460" r="12" class="error-state"/>
+  <text x="270" y="465" class="diagram-text">例外状態</text>
+
+  <!-- Mathematical notation -->
+  <text x="400" y="480" class="diagram-text" text-anchor="middle" font-style="italic">
+    δ: S × I → S (状態遷移関数), ∀s ∈ S. invariant(s) = true
+  </text>
+</svg>

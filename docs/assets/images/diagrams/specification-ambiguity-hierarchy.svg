@@ -1,0 +1,182 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .diagram-text { 
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+        font-size: 11px; 
+        fill: var(--text-color, #2c3e50);
+        font-weight: 500;
+      }
+      .title-text { 
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+        font-size: 16px; 
+        fill: var(--text-color, #2c3e50);
+        font-weight: 600;
+      }
+      .natural-lang-box {
+        fill: var(--danger-color, #e74c3c);
+        stroke: var(--border-color, #c0392b);
+        stroke-width: 2;
+        rx: 8;
+      }
+      .structured-box {
+        fill: var(--warning-color, #f39c12);
+        stroke: var(--border-color, #e67e22);
+        stroke-width: 2;
+        rx: 8;
+      }
+      .formal-box {
+        fill: var(--success-color, #27ae60);
+        stroke: var(--border-color, #229954);
+        stroke-width: 2;
+        rx: 8;
+      }
+      .arrow {
+        stroke: var(--secondary-color, #7f8c8d);
+        stroke-width: 2;
+        marker-end: url(#arrowhead);
+      }
+      .ambiguity-indicator {
+        fill: var(--danger-color, #e74c3c);
+        stroke: var(--border-color, #c0392b);
+        stroke-width: 1;
+      }
+      .precision-indicator {
+        fill: var(--success-color, #27ae60);
+        stroke: var(--border-color, #229954);
+        stroke-width: 1;
+      }
+      .box-text {
+        fill: white;
+        font-weight: 600;
+        font-size: 12px;
+      }
+      .example-text {
+        fill: white;
+        font-size: 10px;
+      }
+      .metric-text {
+        font-size: 10px;
+        fill: var(--text-color, #2c3e50);
+      }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+     refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="var(--secondary-color, #7f8c8d)" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="400" y="25" class="title-text" text-anchor="middle">仕様記述の曖昧性階層と形式化による改善</text>
+
+  <!-- Natural Language Level -->
+  <rect x="50" y="80" width="200" height="120" class="natural-lang-box"/>
+  <text x="150" y="105" class="box-text" text-anchor="middle">自然言語仕様</text>
+  <text x="150" y="125" class="box-text" text-anchor="middle">（最も曖昧）</text>
+  
+  <text x="60" y="145" class="example-text">例: "システムは適切な時間内に</text>
+  <text x="60" y="158" class="example-text">応答する"</text>
+  <text x="60" y="175" class="example-text">• "適切" = ?</text>
+  <text x="60" y="188" class="example-text">• "時間内" = ?</text>
+
+  <!-- Ambiguity metrics for natural language -->
+  <rect x="60" y="210" width="60" height="8" class="ambiguity-indicator"/>
+  <text x="130" y="218" class="metric-text">曖昧性: 80%</text>
+
+  <!-- Structured Natural Language Level -->
+  <rect x="300" y="80" width="200" height="120" class="structured-box"/>
+  <text x="400" y="105" class="box-text" text-anchor="middle">構造化自然言語</text>
+  <text x="400" y="125" class="box-text" text-anchor="middle">（中程度の曖昧性）</text>
+  
+  <text x="310" y="145" class="example-text">例: "事前条件: ユーザーが認証済み</text>
+  <text x="310" y="158" class="example-text">　　処理: データベース検索</text>
+  <text x="310" y="171" class="example-text">　　事後条件: 結果を返す</text>
+  <text x="310" y="184" class="example-text">　　例外: 接続エラー時は404"</text>
+
+  <!-- Ambiguity metrics for structured -->
+  <rect x="310" y="210" width="40" height="8" class="ambiguity-indicator"/>
+  <rect x="350" y="210" width="20" height="8" class="precision-indicator"/>
+  <text x="380" y="218" class="metric-text">曖昧性: 50%</text>
+
+  <!-- Formal Specification Level -->
+  <rect x="550" y="80" width="200" height="120" class="formal-box"/>
+  <text x="650" y="105" class="box-text" text-anchor="middle">形式的仕様</text>
+  <text x="650" y="125" class="box-text" text-anchor="middle">（曖昧性最小）</text>
+  
+  <text x="560" y="145" class="example-text">例: ∀req ∈ Requests.</text>
+  <text x="560" y="158" class="example-text">  authenticated(req) →</text>
+  <text x="560" y="171" class="example-text">  response_time(process(req))</text>
+  <text x="560" y="184" class="example-text">  ≤ 200ms</text>
+
+  <!-- Precision metrics for formal -->
+  <rect x="560" y="210" width="55" height="8" class="precision-indicator"/>
+  <rect x="615" y="210" width="5" height="8" class="ambiguity-indicator"/>
+  <text x="630" y="218" class="metric-text">曖昧性: 5%</text>
+
+  <!-- Arrows showing progression -->
+  <path d="M 250 140 L 300 140" fill="none" class="arrow"/>
+  <text x="275" y="130" class="diagram-text" text-anchor="middle">構造化</text>
+
+  <path d="M 500 140 L 550 140" fill="none" class="arrow"/>
+  <text x="525" y="130" class="diagram-text" text-anchor="middle">形式化</text>
+
+  <!-- Problem Examples Section -->
+  <text x="50" y="270" class="title-text">曖昧性による実際の問題例</text>
+
+  <!-- Problem 1 -->
+  <rect x="50" y="290" width="220" height="80" fill="var(--bg-color, #ecf0f1)" stroke="var(--border-color, #bdc3c7)" stroke-width="1" rx="4"/>
+  <text x="60" y="310" class="diagram-text" font-weight="600">語彙的曖昧性</text>
+  <text x="60" y="325" class="diagram-text">"ログを確認してください"</text>
+  <text x="60" y="340" class="diagram-text">→ システムログ？</text>
+  <text x="60" y="355" class="diagram-text">→ アクセスログ？</text>
+  <text x="60" y="365" class="diagram-text">→ エラーログ？</text>
+
+  <!-- Problem 2 -->
+  <rect x="290" y="290" width="220" height="80" fill="var(--bg-color, #ecf0f1)" stroke="var(--border-color, #bdc3c7)" stroke-width="1" rx="4"/>
+  <text x="300" y="310" class="diagram-text" font-weight="600">構文的曖昧性</text>
+  <text x="300" y="325" class="diagram-text">"新しいユーザーと管理者の権限"</text>
+  <text x="300" y="340" class="diagram-text">→ 新しい（ユーザーと管理者）の権限？</text>
+  <text x="300" y="355" class="diagram-text">→ 新しいユーザーと（管理者の権限）？</text>
+
+  <!-- Problem 3 -->
+  <rect x="530" y="290" width="220" height="80" fill="var(--bg-color, #ecf0f1)" stroke="var(--border-color, #bdc3c7)" stroke-width="1" rx="4"/>
+  <text x="540" y="310" class="diagram-text" font-weight="600">意味的曖昧性</text>
+  <text x="540" y="325" class="diagram-text">"システムは安全である"</text>
+  <text x="540" y="340" class="diagram-text">→ セキュリティ？</text>
+  <text x="540" y="355" class="diagram-text">→ 障害耐性？</text>
+  <text x="540" y="365" class="diagram-text">→ データ保護？</text>
+
+  <!-- Solution Approach -->
+  <text x="50" y="400" class="title-text">形式的手法による曖昧性解決アプローチ</text>
+
+  <!-- Step 1 -->
+  <rect x="50" y="420" width="150" height="60" fill="var(--info-color, #3498db)" stroke="var(--border-color, #2980b9)" stroke-width="2" rx="4"/>
+  <text x="125" y="440" class="box-text" text-anchor="middle">1. 語彙定義</text>
+  <text x="60" y="455" class="example-text">用語集による</text>
+  <text x="60" y="468" class="example-text">明確な定義</text>
+
+  <!-- Step 2 -->
+  <rect x="220" y="420" width="150" height="60" fill="var(--info-color, #3498db)" stroke="var(--border-color, #2980b9)" stroke-width="2" rx="4"/>
+  <text x="295" y="440" class="box-text" text-anchor="middle">2. 構造化記述</text>
+  <text x="230" y="455" class="example-text">事前・事後条件</text>
+  <text x="230" y="468" class="example-text">による明確化</text>
+
+  <!-- Step 3 -->
+  <rect x="390" y="420" width="150" height="60" fill="var(--info-color, #3498db)" stroke="var(--border-color, #2980b9)" stroke-width="2" rx="4"/>
+  <text x="465" y="440" class="box-text" text-anchor="middle">3. 数学的表現</text>
+  <text x="400" y="455" class="example-text">論理式・集合論</text>
+  <text x="400" y="468" class="example-text">による厳密化</text>
+
+  <!-- Step 4 -->
+  <rect x="560" y="420" width="150" height="60" fill="var(--info-color, #3498db)" stroke="var(--border-color, #2980b9)" stroke-width="2" rx="4"/>
+  <text x="635" y="440" class="box-text" text-anchor="middle">4. 自動検証</text>
+  <text x="570" y="455" class="example-text">ツールによる</text>
+  <text x="570" y="468" class="example-text">一貫性確認</text>
+
+  <!-- Benefits -->
+  <text x="50" y="510" class="title-text">形式化による具体的な改善効果</text>
+
+  <rect x="50" y="530" width="700" height="50" fill="var(--success-color, #27ae60)" stroke="var(--border-color, #229954)" stroke-width="2" rx="4"/>
+  <text x="60" y="550" class="box-text">• 解釈の一意性確保　• 自動テスト生成　• 実装の正しさ検証　• 変更影響分析の自動化</text>
+  <text x="60" y="565" class="box-text">• 開発チーム間の認識統一　• 顧客との合意形成　• 保守時の理解促進</text>
+</svg>

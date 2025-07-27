@@ -1,0 +1,189 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .diagram-text { 
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+        font-size: 11px; 
+        fill: var(--text-color, #2c3e50);
+        font-weight: 500;
+      }
+      .title-text { 
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+        font-size: 16px; 
+        fill: var(--text-color, #2c3e50);
+        font-weight: 600;
+      }
+      .level-box {
+        stroke-width: 2;
+        rx: 8;
+      }
+      .level1 {
+        fill: var(--danger-light, #fceaea);
+        stroke: var(--danger-color, #e74c3c);
+      }
+      .level2 {
+        fill: var(--warning-light, #fef9e7);
+        stroke: var(--warning-color, #f39c12);
+      }
+      .level3 {
+        fill: var(--info-light, #e8f4fd);
+        stroke: var(--info-color, #3498db);
+      }
+      .level4 {
+        fill: var(--success-light, #e8f5e8);
+        stroke: var(--success-color, #27ae60);
+      }
+      .level-title {
+        font-weight: 600;
+        font-size: 14px;
+        fill: var(--text-color, #2c3e50);
+      }
+      .precision-bar {
+        stroke-width: 3;
+        stroke-linecap: round;
+      }
+      .precision-low {
+        stroke: var(--danger-color, #e74c3c);
+      }
+      .precision-medium {
+        stroke: var(--warning-color, #f39c12);
+      }
+      .precision-high {
+        stroke: var(--info-color, #3498db);
+      }
+      .precision-very-high {
+        stroke: var(--success-color, #27ae60);
+      }
+      .example-text {
+        font-size: 10px;
+        fill: var(--text-color, #2c3e50);
+      }
+      .math-text {
+        font-family: 'Times New Roman', serif;
+        font-size: 10px;
+        fill: var(--text-color, #2c3e50);
+      }
+      .arrow {
+        stroke: var(--secondary-color, #7f8c8d);
+        stroke-width: 2;
+        marker-end: url(#arrowhead);
+      }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+     refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="var(--secondary-color, #7f8c8d)" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="400" y="25" class="title-text" text-anchor="middle">仕様記述の精密度レベルと認知負荷軽減効果</text>
+
+  <!-- Level 1: Natural Language -->
+  <rect x="50" y="60" width="160" height="140" class="level-box level1"/>
+  <text x="130" y="80" class="level-title" text-anchor="middle">レベル1</text>
+  <text x="130" y="95" class="level-title" text-anchor="middle">自然言語</text>
+  
+  <text x="60" y="115" class="example-text">例: "システムは高速に</text>
+  <text x="60" y="128" class="example-text">応答する"</text>
+  
+  <text x="60" y="145" class="diagram-text">特徴:</text>
+  <text x="60" y="158" class="example-text">• 直感的理解</text>
+  <text x="60" y="171" class="example-text">• 高い曖昧性</text>
+  <text x="60" y="184" class="example-text">• 解釈の多様性</text>
+  
+  <!-- Precision bar for Level 1 -->
+  <line x1="60" y1="190" x2="80" y2="190" class="precision-bar precision-low"/>
+  <text x="85" y="195" class="example-text">精密度: 20%</text>
+
+  <!-- Level 2: Structured Natural Language -->
+  <rect x="230" y="60" width="160" height="140" class="level-box level2"/>
+  <text x="310" y="80" class="level-title" text-anchor="middle">レベル2</text>
+  <text x="310" y="95" class="level-title" text-anchor="middle">構造化自然言語</text>
+  
+  <text x="240" y="115" class="example-text">例: "事前条件: ユーザー認証済み</text>
+  <text x="240" y="128" class="example-text">処理: データ検索実行</text>
+  <text x="240" y="141" class="example-text">事後条件: 3秒以内応答"</text>
+  
+  <text x="240" y="158" class="diagram-text">特徴:</text>
+  <text x="240" y="171" class="example-text">• 構造化された記述</text>
+  <text x="240" y="184" class="example-text">• 中程度の曖昧性</text>
+  
+  <!-- Precision bar for Level 2 -->
+  <line x1="240" y1="190" x2="280" y2="190" class="precision-bar precision-medium"/>
+  <text x="285" y="195" class="example-text">精密度: 50%</text>
+
+  <!-- Level 3: Semi-formal -->
+  <rect x="410" y="60" width="160" height="140" class="level-box level3"/>
+  <text x="490" y="80" class="level-title" text-anchor="middle">レベル3</text>
+  <text x="490" y="95" class="level-title" text-anchor="middle">半形式的記述</text>
+  
+  <text x="420" y="115" class="example-text">例: response_time ≤ 3000ms</text>
+  <text x="420" y="128" class="example-text">∀user ∈ AuthenticatedUsers</text>
+  <text x="420" y="141" class="example-text">IF request(user) THEN</text>
+  <text x="420" y="154" class="example-text">response_time ≤ threshold</text>
+  
+  <text x="420" y="171" class="diagram-text">特徴:</text>
+  <text x="420" y="184" class="example-text">• 論理式の導入</text>
+  
+  <!-- Precision bar for Level 3 -->
+  <line x1="420" y1="190" x2="480" y2="190" class="precision-bar precision-high"/>
+  <text x="485" y="195" class="example-text">精密度: 75%</text>
+
+  <!-- Level 4: Formal -->
+  <rect x="590" y="60" width="160" height="140" class="level-box level4"/>
+  <text x="670" y="80" class="level-title" text-anchor="middle">レベル4</text>
+  <text x="670" y="95" class="level-title" text-anchor="middle">完全形式的</text>
+  
+  <text x="600" y="115" class="math-text">Schema: SearchOperation</text>
+  <text x="600" y="128" class="math-text">authenticated: ℙ User</text>
+  <text x="600" y="141" class="math-text">request: User → Query</text>
+  <text x="600" y="154" class="math-text">∀u:User | u ∈ authenticated</text>
+  <text x="600" y="167" class="math-text">⟹ time(process(request(u))) ≤ 3000</text>
+  
+  <text x="600" y="184" class="example-text">• 数学的厳密性</text>
+  
+  <!-- Precision bar for Level 4 -->
+  <line x1="600" y1="190" x2="660" y2="190" class="precision-bar precision-very-high"/>
+  <text x="665" y="195" class="example-text">精密度: 95%</text>
+
+  <!-- Arrows showing progression -->
+  <path d="M 210 130 L 230 130" fill="none" class="arrow"/>
+  <path d="M 390 130 L 410 130" fill="none" class="arrow"/>
+  <path d="M 570 130 L 590 130" fill="none" class="arrow"/>
+
+  <!-- Cognitive Load Analysis -->
+  <text x="50" y="250" class="title-text">認知負荷と理解度の関係</text>
+
+  <!-- Cognitive Load Chart -->
+  <rect x="50" y="270" width="700" height="120" fill="var(--bg-color, #ecf0f1)" stroke="var(--border-color, #bdc3c7)" stroke-width="2" rx="4"/>
+  
+  <!-- Y-axis labels -->
+  <text x="40" y="290" class="diagram-text" text-anchor="end">高</text>
+  <text x="40" y="330" class="diagram-text" text-anchor="end">中</text>
+  <text x="40" y="370" class="diagram-text" text-anchor="end">低</text>
+  
+  <!-- Cognitive Load Line (decreasing) -->
+  <polyline points="80,290 250,310 420,340 590,365" 
+            fill="none" stroke="var(--danger-color, #e74c3c)" 
+            stroke-width="3" stroke-dasharray="5,5"/>
+  <text x="350" y="285" class="diagram-text" fill="var(--danger-color, #e74c3c)" font-weight="600">認知負荷</text>
+  
+  <!-- Understanding Line (increasing) -->
+  <polyline points="80,365 250,340 420,310 590,285" 
+            fill="none" stroke="var(--success-color, #27ae60)" 
+            stroke-width="3"/>
+  <text x="350" y="305" class="diagram-text" fill="var(--success-color, #27ae60)" font-weight="600">理解度・検証可能性</text>
+
+  <!-- X-axis labels -->
+  <text x="130" y="405" class="diagram-text" text-anchor="middle">自然言語</text>
+  <text x="310" y="405" class="diagram-text" text-anchor="middle">構造化</text>
+  <text x="490" y="405" class="diagram-text" text-anchor="middle">半形式的</text>
+  <text x="670" y="405" class="diagram-text" text-anchor="middle">完全形式的</text>
+
+  <!-- Key Benefits -->
+  <text x="50" y="440" class="title-text">段階的形式化による利点</text>
+
+  <rect x="50" y="455" width="700" height="35" fill="var(--success-color, #27ae60)" stroke="var(--border-color, #229954)" stroke-width="2" rx="4"/>
+  <text x="60" y="470" class="diagram-text" fill="white" font-weight="600">1. 学習コストの分散　2. 段階的理解の促進　3. チーム内での合意形成　4. 自動検証への移行</text>
+  <text x="60" y="485" class="diagram-text" fill="white" font-weight="600">5. 曖昧性の段階的除去　6. 実装との対応明確化　7. 保守・変更時の影響分析</text>
+</svg>

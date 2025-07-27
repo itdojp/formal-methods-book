@@ -1,0 +1,165 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .diagram-text { 
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+        font-size: 11px; 
+        fill: var(--text-color, #2c3e50);
+        font-weight: 500;
+      }
+      .title-text { 
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+        font-size: 16px; 
+        fill: var(--text-color, #2c3e50);
+        font-weight: 600;
+      }
+      .pyramid-level {
+        stroke-width: 2;
+        stroke: var(--border-color, #34495e);
+      }
+      .level1 {
+        fill: var(--danger-color, #e74c3c);
+      }
+      .level2 {
+        fill: var(--warning-color, #f39c12);
+      }
+      .level3 {
+        fill: var(--info-color, #3498db);
+      }
+      .level4 {
+        fill: var(--success-color, #27ae60);
+      }
+      .level-text {
+        fill: white;
+        font-weight: 600;
+        font-size: 12px;
+      }
+      .description-text {
+        font-size: 10px;
+        fill: var(--text-color, #2c3e50);
+      }
+      .confidence-bar {
+        stroke-width: 4;
+        stroke-linecap: round;
+      }
+      .conf-low { stroke: var(--danger-color, #e74c3c); }
+      .conf-medium { stroke: var(--warning-color, #f39c12); }
+      .conf-high { stroke: var(--info-color, #3498db); }
+      .conf-very-high { stroke: var(--success-color, #27ae60); }
+      .example-box {
+        fill: var(--bg-color, #ecf0f1);
+        stroke: var(--border-color, #bdc3c7);
+        stroke-width: 1;
+        rx: 4;
+      }
+      .math-text {
+        font-family: 'Times New Roman', serif;
+        font-size: 10px;
+        fill: var(--text-color, #2c3e50);
+      }
+    </style>
+  </defs>
+
+  <!-- Title -->
+  <text x="400" y="25" class="title-text" text-anchor="middle">正しさの検証ピラミッド：信頼度と検証コストの関係</text>
+
+  <!-- Pyramid Structure -->
+  
+  <!-- Level 4: Formal Verification (Top) -->
+  <polygon points="350,80 450,80 425,120 375,120" class="pyramid-level level4"/>
+  <text x="400" y="95" class="level-text" text-anchor="middle">形式的検証</text>
+  <text x="400" y="110" class="level-text" text-anchor="middle">Mathematical Proof</text>
+
+  <!-- Level 3: Model Checking -->
+  <polygon points="320,120 480,120 460,180 340,180" class="pyramid-level level3"/>
+  <text x="400" y="140" class="level-text" text-anchor="middle">模型検査</text>
+  <text x="400" y="155" class="level-text" text-anchor="middle">Model Checking</text>
+  <text x="400" y="170" class="level-text" text-anchor="middle">自動状態探索</text>
+
+  <!-- Level 2: Static Analysis & Unit Testing -->
+  <polygon points="280,180 520,180 500,260 300,260" class="pyramid-level level2"/>
+  <text x="400" y="205" class="level-text" text-anchor="middle">静的解析・単体テスト</text>
+  <text x="400" y="220" class="level-text" text-anchor="middle">Static Analysis</text>
+  <text x="400" y="235" class="level-text" text-anchor="middle">Unit Testing</text>
+  <text x="400" y="250" class="level-text" text-anchor="middle">型検査・コード分析</text>
+
+  <!-- Level 1: Manual Testing (Bottom) -->
+  <polygon points="220,260 580,260 560,340 240,340" class="pyramid-level level1"/>
+  <text x="400" y="285" class="level-text" text-anchor="middle">手動テスト・レビュー</text>
+  <text x="400" y="300" class="level-text" text-anchor="middle">Manual Testing</text>
+  <text x="400" y="315" class="level-text" text-anchor="middle">Code Review</text>
+  <text x="400" y="330" class="level-text" text-anchor="middle">人的検証プロセス</text>
+
+  <!-- Confidence Levels (Right side) -->
+  <text x="620" y="70" class="diagram-text" font-weight="600">信頼度</text>
+  
+  <line x1="620" y1="100" x2="680" y2="100" class="confidence-bar conf-very-high"/>
+  <text x="690" y="105" class="description-text">99.9%+ 数学的保証</text>
+  
+  <line x1="620" y1="150" x2="670" y2="150" class="confidence-bar conf-high"/>
+  <text x="680" y="155" class="description-text">95-99% 自動検証</text>
+  
+  <line x1="620" y1="220" x2="650" y2="220" class="confidence-bar conf-medium"/>
+  <text x="660" y="225" class="description-text">80-95% 部分的保証</text>
+  
+  <line x1="620" y1="300" x2="630" y2="300" class="confidence-bar conf-low"/>
+  <text x="640" y="305" class="description-text">60-80% 経験的保証</text>
+
+  <!-- Cost and Coverage (Left side) -->
+  <text x="50" y="70" class="diagram-text" font-weight="600">コスト・複雑度</text>
+  
+  <text x="50" y="100" class="description-text">高コスト・高専門性</text>
+  <text x="50" y="115" class="description-text">学習コスト大</text>
+  
+  <text x="50" y="150" class="description-text">中コスト・ツール必要</text>
+  <text x="50" y="165" class="description-text">自動化可能</text>
+  
+  <text x="50" y="220" class="description-text">低コスト・既存ツール</text>
+  <text x="50" y="235" class="description-text">開発フローに統合</text>
+  
+  <text x="50" y="300" class="description-text">最低コスト・人的作業</text>
+  <text x="50" y="315" class="description-text">スケーラビリティ限界</text>
+
+  <!-- Examples Section -->
+  <text x="50" y="380" class="title-text">各レベルの具体例と適用場面</text>
+
+  <!-- Formal Verification Example -->
+  <rect x="50" y="400" width="170" height="80" class="example-box"/>
+  <text x="60" y="415" class="diagram-text" font-weight="600">形式的検証</text>
+  <text x="60" y="430" class="description-text">• Coq/Isabelle による証明</text>
+  <text x="60" y="443" class="description-text">• 暗号アルゴリズム</text>
+  <text x="60" y="456" class="description-text">• 安全クリティカル</text>
+  <text x="60" y="469" class="math-text">∀x∈D. P(x) → Q(f(x))</text>
+
+  <!-- Model Checking Example -->
+  <rect x="240" y="400" width="170" height="80" class="example-box"/>
+  <text x="250" y="415" class="diagram-text" font-weight="600">模型検査</text>
+  <text x="250" y="430" class="description-text">• SPIN/TLA+ による検証</text>
+  <text x="250" y="443" class="description-text">• 並行システム</text>
+  <text x="250" y="456" class="description-text">• プロトコル検証</text>
+  <text x="250" y="469" class="math-text">□(P → ◇Q) - 時相論理</text>
+
+  <!-- Static Analysis Example -->
+  <rect x="430" y="400" width="170" height="80" class="example-box"/>
+  <text x="440" y="415" class="diagram-text" font-weight="600">静的解析</text>
+  <text x="440" y="430" class="description-text">• ESLint/SonarQube</text>
+  <text x="440" y="443" class="description-text">• 型チェッカー</text>
+  <text x="440" y="456" class="description-text">• メモリ安全性</text>
+  <text x="440" y="469" class="description-text">コンパイル時検証</text>
+
+  <!-- Manual Testing Example -->
+  <rect x="620" y="400" width="170" height="80" class="example-box"/>
+  <text x="630" y="415" class="diagram-text" font-weight="600">手動テスト</text>
+  <text x="630" y="430" class="description-text">• ユニットテスト</text>
+  <text x="630" y="443" class="description-text">• 結合テスト</text>
+  <text x="630" y="456" class="description-text">• ユーザビリティテスト</text>
+  <text x="630" y="469" class="description-text">実行時検証</text>
+
+  <!-- Strategic Application -->
+  <text x="50" y="510" class="title-text">戦略的適用指針</text>
+  
+  <rect x="50" y="525" width="700" height="60" fill="var(--info-color, #3498db)" stroke="var(--border-color, #2980b9)" stroke-width="2" rx="4"/>
+  <text x="60" y="545" class="level-text">重要度とリスクに応じた段階的適用</text>
+  <text x="60" y="560" class="level-text">• 安全クリティカル → 形式的検証　• 並行性重要 → 模型検査</text>
+  <text x="60" y="575" class="level-text">• 一般業務 → 静的解析+テスト　• プロトタイプ → 手動テスト</text>
+</svg>

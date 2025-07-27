@@ -1,0 +1,166 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .diagram-text { 
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+        font-size: 12px; 
+        fill: var(--text-color, #2c3e50);
+        font-weight: 500;
+      }
+      .title-text { 
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+        font-size: 16px; 
+        fill: var(--text-color, #2c3e50);
+        font-weight: 600;
+      }
+      .programming-box {
+        fill: var(--accent-color, #3498db);
+        stroke: var(--border-color, #2980b9);
+        stroke-width: 2;
+        rx: 4;
+      }
+      .math-box {
+        fill: var(--success-color, #27ae60);
+        stroke: var(--border-color, #229954);
+        stroke-width: 2;
+        rx: 4;
+      }
+      .connection-line {
+        stroke: var(--secondary-color, #7f8c8d);
+        stroke-width: 2;
+        stroke-dasharray: 5,5;
+      }
+      .arrow-head {
+        fill: var(--secondary-color, #7f8c8d);
+      }
+      .programming-text {
+        fill: white;
+        font-weight: 500;
+      }
+      .math-text {
+        fill: white;
+        font-weight: 500;
+      }
+    </style>
+  </defs>
+
+  <!-- Title -->
+  <text x="400" y="30" class="title-text" text-anchor="middle">プログラミング概念と数学概念の対応関係</text>
+
+  <!-- Programming Side (Left) -->
+  <text x="200" y="60" class="diagram-text" text-anchor="middle" font-weight="600">プログラミング</text>
+  
+  <!-- Variables -->
+  <rect x="50" y="80" width="140" height="40" class="programming-box"/>
+  <text x="120" y="95" class="programming-text" text-anchor="middle">変数宣言</text>
+  <text x="120" y="110" class="programming-text" text-anchor="middle">int x = 5;</text>
+
+  <!-- Functions -->
+  <rect x="50" y="140" width="140" height="40" class="programming-box"/>
+  <text x="120" y="155" class="programming-text" text-anchor="middle">関数定義</text>
+  <text x="120" y="170" class="programming-text" text-anchor="middle">f(x) { return x*2; }</text>
+
+  <!-- Control Structures -->
+  <rect x="50" y="200" width="140" height="40" class="programming-box"/>
+  <text x="120" y="215" class="programming-text" text-anchor="middle">条件分岐</text>
+  <text x="120" y="230" class="programming-text" text-anchor="middle">if (x > 0) {...}</text>
+
+  <!-- Data Structures -->
+  <rect x="50" y="260" width="140" height="40" class="programming-box"/>
+  <text x="120" y="275" class="programming-text" text-anchor="middle">配列・リスト</text>
+  <text x="120" y="290" class="programming-text" text-anchor="middle">[1, 2, 3, 4]</text>
+
+  <!-- Types -->
+  <rect x="50" y="320" width="140" height="40" class="programming-box"/>
+  <text x="120" y="335" class="programming-text" text-anchor="middle">型システム</text>
+  <text x="120" y="350" class="programming-text" text-anchor="middle">String, int, boolean</text>
+
+  <!-- Loops -->
+  <rect x="50" y="380" width="140" height="40" class="programming-box"/>
+  <text x="120" y="395" class="programming-text" text-anchor="middle">ループ</text>
+  <text x="120" y="410" class="programming-text" text-anchor="middle">for (i=0; i&lt;n; i++)</text>
+
+  <!-- State -->
+  <rect x="50" y="440" width="140" height="40" class="programming-box"/>
+  <text x="120" y="455" class="programming-text" text-anchor="middle">プログラム状態</text>
+  <text x="120" y="470" class="programming-text" text-anchor="middle">実行時の変数値</text>
+
+  <!-- Logic -->
+  <rect x="50" y="500" width="140" height="40" class="programming-box"/>
+  <text x="120" y="515" class="programming-text" text-anchor="middle">論理演算</text>
+  <text x="120" y="530" class="programming-text" text-anchor="middle">&amp;&amp;, ||, !</text>
+
+  <!-- Math Side (Right) -->
+  <text x="600" y="60" class="diagram-text" text-anchor="middle" font-weight="600">数学</text>
+
+  <!-- Mathematical Variables -->
+  <rect x="610" y="80" width="140" height="40" class="math-box"/>
+  <text x="680" y="95" class="math-text" text-anchor="middle">集合の要素</text>
+  <text x="680" y="110" class="math-text" text-anchor="middle">x ∈ ℤ, x = 5</text>
+
+  <!-- Mathematical Functions -->
+  <rect x="610" y="140" width="140" height="40" class="math-box"/>
+  <text x="680" y="155" class="math-text" text-anchor="middle">数学的関数</text>
+  <text x="680" y="170" class="math-text" text-anchor="middle">f: ℤ → ℤ, f(x) = 2x</text>
+
+  <!-- Logic Implication -->
+  <rect x="610" y="200" width="140" height="40" class="math-box"/>
+  <text x="680" y="215" class="math-text" text-anchor="middle">論理的含意</text>
+  <text x="680" y="230" class="math-text" text-anchor="middle">P → Q</text>
+
+  <!-- Sets -->
+  <rect x="610" y="260" width="140" height="40" class="math-box"/>
+  <text x="680" y="275" class="math-text" text-anchor="middle">集合・関係</text>
+  <text x="680" y="290" class="math-text" text-anchor="middle">{1, 2, 3, 4}</text>
+
+  <!-- Type Theory -->
+  <rect x="610" y="320" width="140" height="40" class="math-box"/>
+  <text x="680" y="335" class="math-text" text-anchor="middle">型理論・集合論</text>
+  <text x="680" y="350" class="math-text" text-anchor="middle">String, ℤ, 𝔹</text>
+
+  <!-- Induction -->
+  <rect x="610" y="380" width="140" height="40" class="math-box"/>
+  <text x="680" y="395" class="math-text" text-anchor="middle">数学的帰納法</text>
+  <text x="680" y="410" class="math-text" text-anchor="middle">∀n ∈ ℕ. P(n)</text>
+
+  <!-- State Space -->
+  <rect x="610" y="440" width="140" height="40" class="math-box"/>
+  <text x="680" y="455" class="math-text" text-anchor="middle">状態空間</text>
+  <text x="680" y="470" class="math-text" text-anchor="middle">S = V₁ × V₂ × ... × Vₙ</text>
+
+  <!-- Boolean Logic -->
+  <rect x="610" y="500" width="140" height="40" class="math-box"/>
+  <text x="680" y="515" class="math-text" text-anchor="middle">命題論理</text>
+  <text x="680" y="530" class="math-text" text-anchor="middle">∧, ∨, ¬</text>
+
+  <!-- Connection Lines -->
+  <line x1="190" y1="100" x2="610" y2="100" class="connection-line"/>
+  <line x1="190" y1="160" x2="610" y2="160" class="connection-line"/>
+  <line x1="190" y1="220" x2="610" y2="220" class="connection-line"/>
+  <line x1="190" y1="280" x2="610" y2="280" class="connection-line"/>
+  <line x1="190" y1="340" x2="610" y2="340" class="connection-line"/>
+  <line x1="190" y1="400" x2="610" y2="400" class="connection-line"/>
+  <line x1="190" y1="460" x2="610" y2="460" class="connection-line"/>
+  <line x1="190" y1="520" x2="610" y2="520" class="connection-line"/>
+
+  <!-- Arrow heads for connection lines -->
+  <polygon points="605,95 610,100 605,105" class="arrow-head"/>
+  <polygon points="605,155 610,160 605,165" class="arrow-head"/>
+  <polygon points="605,215 610,220 605,225" class="arrow-head"/>
+  <polygon points="605,275 610,280 605,285" class="arrow-head"/>
+  <polygon points="605,335 610,340 605,345" class="arrow-head"/>
+  <polygon points="605,395 610,400 605,405" class="arrow-head"/>
+  <polygon points="605,455 610,460 605,465" class="arrow-head"/>
+  <polygon points="605,515 610,520 605,525" class="arrow-head"/>
+
+  <!-- Center Bridge -->
+  <rect x="350" y="270" width="100" height="60" fill="var(--warning-color, #f39c12)" stroke="var(--border-color, #e67e22)" stroke-width="2" rx="4"/>
+  <text x="400" y="295" class="diagram-text" text-anchor="middle" fill="white" font-weight="600">形式的手法</text>
+  <text x="400" y="310" class="diagram-text" text-anchor="middle" fill="white">による</text>
+  <text x="400" y="325" class="diagram-text" text-anchor="middle" fill="white">架け橋</text>
+
+  <!-- Bottom explanation -->
+  <text x="400" y="570" class="diagram-text" text-anchor="middle" font-style="italic">
+    形式的手法は、プログラミングと数学の概念を結び付け、厳密な仕様記述と検証を可能にします
+  </text>
+</svg>

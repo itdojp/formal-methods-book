@@ -1,0 +1,199 @@
+<svg viewBox="0 0 800 650" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .diagram-text { 
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+        font-size: 11px; 
+        fill: var(--text-color, #2c3e50);
+        font-weight: 500;
+      }
+      .title-text { 
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+        font-size: 16px; 
+        fill: var(--text-color, #2c3e50);
+        font-weight: 600;
+      }
+      .schema-box {
+        fill: var(--bg-color, #ecf0f1);
+        stroke: var(--text-color, #2c3e50);
+        stroke-width: 2;
+        rx: 4;
+      }
+      .schema-header {
+        fill: var(--accent-color, #3498db);
+        stroke: var(--border-color, #2980b9);
+        stroke-width: 2;
+        rx: 4;
+      }
+      .state-section {
+        fill: var(--info-color, #e8f4fd);
+        stroke: var(--info-color, #3498db);
+        stroke-width: 1;
+        stroke-dasharray: 3,3;
+      }
+      .predicate-section {
+        fill: var(--success-light, #e8f5e8);
+        stroke: var(--success-color, #27ae60);
+        stroke-width: 1;
+        stroke-dasharray: 3,3;
+      }
+      .operation-section {
+        fill: var(--warning-light, #fef9e7);
+        stroke: var(--warning-color, #f39c12);
+        stroke-width: 1;
+        stroke-dasharray: 3,3;
+      }
+      .schema-title {
+        font-weight: 600;
+        font-size: 14px;
+        fill: white;
+      }
+      .section-title {
+        font-weight: 600;
+        font-size: 12px;
+        fill: var(--text-color, #2c3e50);
+      }
+      .math-text {
+        font-family: 'Times New Roman', serif;
+        font-size: 11px;
+        fill: var(--text-color, #2c3e50);
+      }
+      .comment-text {
+        font-style: italic;
+        font-size: 10px;
+        fill: var(--secondary-color, #7f8c8d);
+      }
+      .arrow {
+        stroke: var(--secondary-color, #7f8c8d);
+        stroke-width: 2;
+        marker-end: url(#arrowhead);
+      }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+     refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="var(--secondary-color, #7f8c8d)" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="400" y="25" class="title-text" text-anchor="middle">Z記法のスキーマ構造と状態ベース仕様記述</text>
+
+  <!-- State Schema Example -->
+  <text x="50" y="60" class="section-title">状態スキーマ（State Schema）例</text>
+  
+  <!-- Library State Schema -->
+  <rect x="50" y="80" width="300" height="180" class="schema-box"/>
+  <rect x="50" y="80" width="300" height="30" class="schema-header"/>
+  <text x="200" y="100" class="schema-title" text-anchor="middle">LibraryState</text>
+
+  <!-- State Variables Section -->
+  <rect x="60" y="120" width="280" height="80" class="state-section"/>
+  <text x="70" y="135" class="section-title">状態変数（State Variables）</text>
+  <text x="70" y="150" class="math-text">books : ℙ BookID</text>
+  <text x="70" y="165" class="math-text">members : ℙ Person</text>
+  <text x="70" y="180" class="math-text">borrowed : Person ↔ BookID</text>
+  <text x="70" y="195" class="math-text">available : ℙ BookID</text>
+
+  <!-- Predicates Section -->
+  <rect x="60" y="210" width="280" height="40" class="predicate-section"/>
+  <text x="70" y="225" class="section-title">述語部（Predicates）</text>
+  <text x="70" y="240" class="math-text">available = books \ ran borrowed</text>
+
+  <!-- Operation Schema Example -->
+  <text x="400" y="60" class="section-title">操作スキーマ（Operation Schema）例</text>
+  
+  <!-- Borrow Book Operation -->
+  <rect x="400" y="80" width="300" height="220" class="schema-box"/>
+  <rect x="400" y="80" width="300" height="30" class="schema-header"/>
+  <text x="550" y="100" class="schema-title" text-anchor="middle">BorrowBook</text>
+
+  <!-- State Reference -->
+  <rect x="410" y="120" width="280" height="40" class="state-section"/>
+  <text x="420" y="135" class="section-title">状態参照</text>
+  <text x="420" y="150" class="math-text">ΔLibraryState</text>
+  <text x="500" y="150" class="comment-text">; 変更前後の状態</text>
+
+  <!-- Input/Output -->
+  <rect x="410" y="170" width="280" height="60" class="operation-section"/>
+  <text x="420" y="185" class="section-title">入出力</text>
+  <text x="420" y="200" class="math-text">p? : Person</text>
+  <text x="420" y="215" class="math-text">b? : BookID</text>
+  <text x="420" y="230" class="math-text">result! : Status</text>
+
+  <!-- Operation Predicates -->
+  <rect x="410" y="240" width="280" height="50" class="predicate-section"/>
+  <text x="420" y="255" class="section-title">操作の制約</text>
+  <text x="420" y="270" class="math-text">p? ∈ members ∧ b? ∈ available</text>
+  <text x="420" y="285" class="math-text">borrowed' = borrowed ∪ {p? ↦ b?}</text>
+
+  <!-- Components Explanation -->
+  <text x="50" y="330" class="title-text">スキーマの構成要素</text>
+
+  <!-- Declaration Section -->
+  <rect x="50" y="350" width="200" height="100" fill="var(--info-light, #e8f4fd)" stroke="var(--info-color, #3498db)" stroke-width="2" rx="4"/>
+  <text x="60" y="370" class="section-title">1. 宣言部（Declaration）</text>
+  <text x="60" y="385" class="diagram-text">• 状態変数の型定義</text>
+  <text x="60" y="400" class="diagram-text">• 入出力パラメータ</text>
+  <text x="60" y="415" class="diagram-text">• 補助変数の導入</text>
+  <text x="60" y="430" class="diagram-text">例: books : ℙ BookID</text>
+
+  <!-- Predicate Section -->
+  <rect x="270" y="350" width="200" height="100" fill="var(--success-light, #e8f5e8)" stroke="var(--success-color, #27ae60)" stroke-width="2" rx="4"/>
+  <text x="280" y="370" class="section-title">2. 述語部（Predicate）</text>
+  <text x="280" y="385" class="diagram-text">• 不変条件の定義</text>
+  <text x="280" y="400" class="diagram-text">• 操作の事前・事後条件</text>
+  <text x="280" y="415" class="diagram-text">• 制約の数学的表現</text>
+  <text x="280" y="430" class="math-text">例: p? ∈ members</text>
+
+  <!-- Schema Types -->
+  <rect x="490" y="350" width="200" height="100" fill="var(--warning-light, #fef9e7)" stroke="var(--warning-color, #f39c12)" stroke-width="2" rx="4"/>
+  <text x="500" y="370" class="section-title">3. スキーマの種類</text>
+  <text x="500" y="385" class="diagram-text">• 状態スキーマ</text>
+  <text x="500" y="400" class="diagram-text">• 操作スキーマ</text>
+  <text x="500" y="415" class="diagram-text">• エラースキーマ</text>
+  <text x="500" y="430" class="diagram-text">• 初期化スキーマ</text>
+
+  <!-- Mathematical Foundations -->
+  <text x="50" y="480" class="title-text">Z記法の数学的基盤</text>
+
+  <!-- Set Theory -->
+  <rect x="50" y="500" width="120" height="80" fill="var(--bg-color, #ecf0f1)" stroke="var(--border-color, #bdc3c7)" stroke-width="1" rx="4"/>
+  <text x="60" y="520" class="section-title">集合論</text>
+  <text x="60" y="535" class="math-text">ℙ X : 冪集合</text>
+  <text x="60" y="550" class="math-text">∈, ⊆, ∪, ∩</text>
+  <text x="60" y="565" class="math-text"># S : 濃度</text>
+
+  <!-- Logic -->
+  <rect x="190" y="500" width="120" height="80" fill="var(--bg-color, #ecf0f1)" stroke="var(--border-color, #bdc3c7)" stroke-width="1" rx="4"/>
+  <text x="200" y="520" class="section-title">述語論理</text>
+  <text x="200" y="535" class="math-text">∀, ∃ : 量詞</text>
+  <text x="200" y="550" class="math-text">∧, ∨, ¬ : 結合子</text>
+  <text x="200" y="565" class="math-text">→, ↔ : 含意</text>
+
+  <!-- Relations -->
+  <rect x="330" y="500" width="120" height="80" fill="var(--bg-color, #ecf0f1)" stroke="var(--border-color, #bdc3c7)" stroke-width="1" rx="4"/>
+  <text x="340" y="520" class="section-title">関係と関数</text>
+  <text x="340" y="535" class="math-text">↔ : 関係</text>
+  <text x="340" y="550" class="math-text">→ : 部分関数</text>
+  <text x="340" y="565" class="math-text">↣, ↠ : 単射、全射</text>
+
+  <!-- Sequences -->
+  <rect x="470" y="500" width="120" height="80" fill="var(--bg-color, #ecf0f1)" stroke="var(--border-color, #bdc3c7)" stroke-width="1" rx="4"/>
+  <text x="480" y="520" class="section-title">列と袋</text>
+  <text x="480" y="535" class="math-text">seq X : 列</text>
+  <text x="480" y="550" class="math-text">bag X : 袋</text>
+  <text x="480" y="565" class="math-text">head, tail</text>
+
+  <!-- Schema Calculus -->
+  <rect x="610" y="500" width="140" height="80" fill="var(--bg-color, #ecf0f1)" stroke="var(--border-color, #bdc3c7)" stroke-width="1" rx="4"/>
+  <text x="620" y="520" class="section-title">スキーマ計算</text>
+  <text x="620" y="535" class="math-text">Δ : 状態変化</text>
+  <text x="620" y="550" class="math-text">Ξ : 状態不変</text>
+  <text x="620" y="565" class="math-text">∧, ∨ : 合成</text>
+
+  <!-- Benefits -->
+  <text x="50" y="610" class="title-text">Z記法による仕様記述の利点</text>
+  
+  <rect x="50" y="620" width="700" height="25" fill="var(--success-color, #27ae60)" stroke="var(--border-color, #229954)" stroke-width="2" rx="4"/>
+  <text x="60" y="635" class="schema-title">数学的厳密性 → 曖昧性の排除 → 自動検証可能 → 実装との対応明確 → 保守性向上</text>
+</svg>
