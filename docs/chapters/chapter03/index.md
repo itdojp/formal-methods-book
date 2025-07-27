@@ -1,3 +1,10 @@
+---
+layout: book
+title: "第3章：仕様記述の基本"
+chapter: chapter03
+order: 3
+---
+
 # 第3章　仕様記述の基本
 
 ## 3.1 仕様とは何か：理想と現実の架け橋
