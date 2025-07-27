@@ -1,0 +1,254 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      :root {
+        --primary-blue: #2563eb;
+        --secondary-indigo: #4f46e5;
+        --accent-purple: #7c3aed;
+        --neutral-gray: #6b7280;
+        --light-gray: #f3f4f6;
+        --success-green: #059669;
+        --warning-orange: #d97706;
+        --error-red: #dc2626;
+      }
+      
+      .title-text {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        fill: var(--neutral-gray);
+      }
+      
+      .label-text {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        fill: var(--neutral-gray);
+      }
+      
+      .detail-text {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-size: 12px;
+        font-weight: 400;
+        fill: var(--neutral-gray);
+      }
+      
+      .process-box {
+        rx: 4;
+        ry: 4;
+        stroke: var(--primary-blue);
+        stroke-width: 2;
+        fill: rgba(37, 99, 235, 0.1);
+      }
+      
+      .verification-success {
+        rx: 4;
+        ry: 4;
+        stroke: var(--success-green);
+        stroke-width: 2;
+        fill: rgba(5, 150, 105, 0.1);
+      }
+      
+      .verification-failure {
+        rx: 4;
+        ry: 4;
+        stroke: var(--error-red);
+        stroke-width: 2;
+        fill: rgba(220, 38, 38, 0.1);
+      }
+      
+      .state-circle {
+        fill: var(--primary-blue);
+        stroke: var(--primary-blue);
+        stroke-width: 2;
+      }
+      
+      .transition-arrow {
+        stroke: var(--secondary-indigo);
+        stroke-width: 2;
+        marker-end: url(#arrowhead);
+      }
+      
+      .counterexample-arrow {
+        stroke: var(--error-red);
+        stroke-width: 2;
+        stroke-dasharray: 5,5;
+        marker-end: url(#arrowhead-red);
+      }
+      
+      .success-arrow {
+        stroke: var(--success-green);
+        stroke-width: 2;
+        marker-end: url(#arrowhead-green);
+      }
+    </style>
+    
+    <!-- Arrow markers -->
+    <defs>
+      <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+              refX="9" refY="3.5" orient="auto">
+        <polygon points="0 0, 10 3.5, 0 7" fill="var(--secondary-indigo)" />
+      </marker>
+      <marker id="arrowhead-red" markerWidth="10" markerHeight="7" 
+              refX="9" refY="3.5" orient="auto">
+        <polygon points="0 0, 10 3.5, 0 7" fill="var(--error-red)" />
+      </marker>
+      <marker id="arrowhead-green" markerWidth="10" markerHeight="7" 
+              refX="9" refY="3.5" orient="auto">
+        <polygon points="0 0, 10 3.5, 0 7" fill="var(--success-green)" />
+      </marker>
+    </defs>
+  </defs>
+  
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" class="title-text">模型検査プロセスの全体像</text>
+  
+  <!-- Input: System Model and Properties -->
+  <g transform="translate(50, 60)">
+    <!-- System Model -->
+    <rect x="0" y="0" width="150" height="80" class="process-box"/>
+    <text x="75" y="20" text-anchor="middle" class="label-text">システムモデル</text>
+    <text x="10" y="40" class="detail-text">• 状態変数</text>
+    <text x="10" y="55" class="detail-text">• 初期状態</text>
+    <text x="10" y="70" class="detail-text">• 状態遷移関係</text>
+    
+    <!-- Properties -->
+    <rect x="200" y="0" width="150" height="80" class="process-box"/>
+    <text x="275" y="20" text-anchor="middle" class="label-text">検証したい性質</text>
+    <text x="210" y="40" class="detail-text">• 安全性 (Safety)</text>
+    <text x="210" y="55" class="detail-text">• 活性 (Liveness)</text>
+    <text x="210" y="70" class="detail-text">• 時相論理式</text>
+  </g>
+  
+  <!-- Model Checker -->
+  <g transform="translate(400, 60)">
+    <rect x="0" y="0" width="200" height="120" class="process-box"/>
+    <text x="100" y="20" text-anchor="middle" class="label-text">模型検査器</text>
+    
+    <text x="10" y="45" class="detail-text">1. 状態空間の構築</text>
+    <text x="10" y="60" class="detail-text">2. 網羅的探索</text>
+    <text x="10" y="75" class="detail-text">3. 性質の評価</text>
+    <text x="10" y="90" class="detail-text">4. 反例生成（失敗時）</text>
+    <text x="10" y="105" class="detail-text">5. 検証結果の報告</text>
+    
+    <!-- Input arrows -->
+    <line x1="-50" y1="40" x2="0" y2="60" class="transition-arrow"/>
+    <line x1="-125" y1="40" x2="0" y2="60" class="transition-arrow"/>
+  </g>
+  
+  <!-- State Space Representation -->
+  <g transform="translate(50, 220)">
+    <text x="150" y="0" class="label-text">状態空間の表現</text>
+    
+    <!-- State graph example -->
+    <g transform="translate(0, 20)">
+      <!-- States -->
+      <circle cx="50" cy="50" r="20" class="state-circle" fill="rgba(37, 99, 235, 0.3)"/>
+      <text x="50" y="55" text-anchor="middle" class="detail-text">S0</text>
+      <text x="50" y="80" text-anchor="middle" class="detail-text">初期状態</text>
+      
+      <circle cx="150" cy="30" r="20" class="state-circle" fill="rgba(37, 99, 235, 0.3)"/>
+      <text x="150" y="35" text-anchor="middle" class="detail-text">S1</text>
+      
+      <circle cx="150" cy="70" r="20" class="state-circle" fill="rgba(37, 99, 235, 0.3)"/>
+      <text x="150" y="75" text-anchor="middle" class="detail-text">S2</text>
+      
+      <circle cx="250" cy="50" r="20" class="state-circle" fill="rgba(220, 38, 38, 0.3)"/>
+      <text x="250" y="55" text-anchor="middle" class="detail-text">SE</text>
+      <text x="250" y="80" text-anchor="middle" class="detail-text">エラー状態</text>
+      
+      <!-- Transitions -->
+      <line x1="70" y1="40" x2="130" y2="35" class="transition-arrow"/>
+      <line x1="70" y1="60" x2="130" y2="65" class="transition-arrow"/>
+      <line x1="170" y1="30" x2="230" y2="40" class="transition-arrow"/>
+      <line x1="170" y1="70" x2="230" y2="60" class="transition-arrow"/>
+      
+      <!-- Self loops -->
+      <path d="M 130 30 Q 120 10 150 10 Q 180 10 170 30" 
+            stroke="var(--secondary-indigo)" stroke-width="2" fill="none"
+            marker-end="url(#arrowhead)"/>
+      <path d="M 130 70 Q 120 90 150 90 Q 180 90 170 70" 
+            stroke="var(--secondary-indigo)" stroke-width="2" fill="none"
+            marker-end="url(#arrowhead)"/>
+    </g>
+    
+    <!-- Algorithm description -->
+    <g transform="translate(320, 20)">
+      <rect x="0" y="0" width="200" height="100" class="process-box"/>
+      <text x="100" y="20" text-anchor="middle" class="label-text">探索アルゴリズム</text>
+      
+      <text x="10" y="40" class="detail-text">• 深さ優先探索 (DFS)</text>
+      <text x="10" y="55" class="detail-text">• 幅優先探索 (BFS)</text>
+      <text x="10" y="70" class="detail-text">• 最良優先探索</text>
+      <text x="10" y="85" class="detail-text">• 部分順序削減</text>
+    </g>
+  </g>
+  
+  <!-- Results -->
+  <g transform="translate(50, 360)">
+    <text x="0" y="0" class="label-text">検証結果</text>
+    
+    <!-- Success Case -->
+    <g transform="translate(0, 30)">
+      <rect x="0" y="0" width="150" height="80" class="verification-success"/>
+      <text x="75" y="20" text-anchor="middle" class="label-text">検証成功</text>
+      <text x="10" y="40" class="detail-text">✓ 性質が成立</text>
+      <text x="10" y="55" class="detail-text">✓ 反例なし</text>
+      <text x="10" y="70" class="detail-text">✓ システム正常</text>
+    </g>
+    
+    <!-- Failure Case -->
+    <g transform="translate(180, 30)">
+      <rect x="0" y="0" width="150" height="80" class="verification-failure"/>
+      <text x="75" y="20" text-anchor="middle" class="label-text">検証失敗</text>
+      <text x="10" y="40" class="detail-text">✗ 性質違反発見</text>
+      <text x="10" y="55" class="detail-text">✗ 反例生成</text>
+      <text x="10" y="70" class="detail-text">✗ 修正が必要</text>
+    </g>
+    
+    <!-- Counterexample -->
+    <g transform="translate(360, 30)">
+      <rect x="0" y="0" width="180" height="80" class="process-box"/>
+      <text x="90" y="20" text-anchor="middle" class="label-text">反例トレース</text>
+      <text x="10" y="40" class="detail-text">S0 → S1 → S2 → SE</text>
+      <text x="10" y="55" class="detail-text">エラーまでの経路</text>
+      <text x="10" y="70" class="detail-text">デバッグ情報</text>
+    </g>
+    
+    <!-- Arrows -->
+    <line x1="500" y1="120" x2="460" y2="60" class="success-arrow"/>
+    <line x1="500" y1="120" x2="400" y2="60" class="counterexample-arrow"/>
+  </g>
+  
+  <!-- State Explosion Problem -->
+  <g transform="translate(50, 480)">
+    <text x="0" y="0" class="label-text">状態爆発問題への対策</text>
+    
+    <g transform="translate(0, 30)">
+      <!-- Problem -->
+      <rect x="0" y="0" width="140" height="60" stroke="var(--error-red)" stroke-width="2" fill="rgba(220, 38, 38, 0.1)" rx="4" ry="4"/>
+      <text x="70" y="20" text-anchor="middle" class="label-text">問題</text>
+      <text x="10" y="40" class="detail-text">状態数 = 2^n</text>
+      <text x="10" y="55" class="detail-text">指数的増加</text>
+      
+      <!-- Solutions -->
+      <rect x="170" y="0" width="140" height="60" class="verification-success"/>
+      <text x="240" y="20" text-anchor="middle" class="label-text">抽象化</text>
+      <text x="180" y="40" class="detail-text">状態の統合</text>
+      <text x="180" y="55" class="detail-text">近似的検証</text>
+      
+      <rect x="340" y="0" width="140" height="60" class="verification-success"/>
+      <text x="410" y="20" text-anchor="middle" class="label-text">部分探索</text>
+      <text x="350" y="40" class="detail-text">重要部分のみ</text>
+      <text x="350" y="55" class="detail-text">確率的手法</text>
+      
+      <rect x="510" y="0" width="140" height="60" class="verification-success"/>
+      <text x="580" y="20" text-anchor="middle" class="label-text">シンボリック</text>
+      <text x="520" y="40" class="detail-text">BDD使用</text>
+      <text x="520" y="55" class="detail-text">効率的表現</text>
+    </g>
+  </g>
+  
+  <!-- Bottom caption -->
+  <text x="400" y="580" text-anchor="middle" class="detail-text">図8-1：模型検査による自動検証のプロセス</text>
+</svg>

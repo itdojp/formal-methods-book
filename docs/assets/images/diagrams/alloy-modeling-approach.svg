@@ -1,0 +1,244 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      :root {
+        --primary-blue: #2563eb;
+        --secondary-indigo: #4f46e5;
+        --accent-purple: #7c3aed;
+        --neutral-gray: #6b7280;
+        --light-gray: #f3f4f6;
+        --success-green: #059669;
+        --warning-orange: #d97706;
+        --error-red: #dc2626;
+      }
+      
+      .title-text {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        fill: var(--neutral-gray);
+      }
+      
+      .label-text {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        fill: var(--neutral-gray);
+      }
+      
+      .detail-text {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-size: 12px;
+        font-weight: 400;
+        fill: var(--neutral-gray);
+      }
+      
+      .phase-box {
+        rx: 4;
+        ry: 4;
+        stroke: var(--primary-blue);
+        stroke-width: 2;
+        fill: rgba(37, 99, 235, 0.1);
+      }
+      
+      .alloy-box {
+        rx: 4;
+        ry: 4;
+        stroke: var(--accent-purple);
+        stroke-width: 2;
+        fill: rgba(124, 58, 237, 0.1);
+      }
+      
+      .relation-arrow {
+        stroke: var(--secondary-indigo);
+        stroke-width: 2;
+        fill: var(--secondary-indigo);
+        marker-end: url(#arrowhead);
+      }
+      
+      .verification-arrow {
+        stroke: var(--success-green);
+        stroke-width: 2;
+        fill: var(--success-green);
+        marker-end: url(#arrowhead-green);
+      }
+      
+      .atom-circle {
+        fill: var(--primary-blue);
+        opacity: 0.8;
+      }
+      
+      .relation-line {
+        stroke: var(--accent-purple);
+        stroke-width: 2;
+        opacity: 0.7;
+      }
+    </style>
+    
+    <!-- Arrow markers -->
+    <defs>
+      <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+              refX="9" refY="3.5" orient="auto">
+        <polygon points="0 0, 10 3.5, 0 7" fill="var(--secondary-indigo)" />
+      </marker>
+      <marker id="arrowhead-green" markerWidth="10" markerHeight="7" 
+              refX="9" refY="3.5" orient="auto">
+        <polygon points="0 0, 10 3.5, 0 7" fill="var(--success-green)" />
+      </marker>
+    </defs>
+  </defs>
+  
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" class="title-text">Alloyによる軽量形式的手法のアプローチ</text>
+  
+  <!-- Three main phases -->
+  <g transform="translate(50, 60)">
+    <!-- Phase 1: Modeling -->
+    <rect x="0" y="0" width="200" height="120" class="phase-box"/>
+    <text x="100" y="20" text-anchor="middle" class="label-text">1. モデリング</text>
+    
+    <text x="10" y="40" class="detail-text">• シグネチャ定義</text>
+    <text x="10" y="55" class="detail-text">• 関係の記述</text>
+    <text x="10" y="70" class="detail-text">• 制約の表現</text>
+    <text x="10" y="85" class="detail-text">• ファクトの設定</text>
+    <text x="10" y="100" class="detail-text">• 関数の定義</text>
+    
+    <!-- Phase 2: Analysis -->
+    <rect x="280" y="0" width="200" height="120" class="phase-box"/>
+    <text x="380" y="20" text-anchor="middle" class="label-text">2. 分析・検証</text>
+    
+    <text x="290" y="40" class="detail-text">• Alloy Analyzer実行</text>
+    <text x="290" y="55" class="detail-text">• インスタンス生成</text>
+    <text x="290" y="70" class="detail-text">• 制約の充足性確認</text>
+    <text x="290" y="85" class="detail-text">• 反例の発見</text>
+    <text x="290" y="100" class="detail-text">• 性質の検証</text>
+    
+    <!-- Phase 3: Refinement -->
+    <rect x="560" y="0" width="180" height="120" class="phase-box"/>
+    <text x="650" y="20" text-anchor="middle" class="label-text">3. 改良・反復</text>
+    
+    <text x="570" y="40" class="detail-text">• モデルの修正</text>
+    <text x="570" y="55" class="detail-text">• 制約の調整</text>
+    <text x="570" y="70" class="detail-text">• 新たな性質追加</text>
+    <text x="570" y="85" class="detail-text">• 反例の分析</text>
+    <text x="570" y="100" class="detail-text">• 設計の改善</text>
+    
+    <!-- Arrows between phases -->
+    <line x1="200" y1="60" x2="280" y2="60" class="relation-arrow"/>
+    <line x1="480" y1="60" x2="560" y2="60" class="relation-arrow"/>
+    
+    <!-- Feedback arrow -->
+    <path d="M 650 120 Q 650 140 380 140 Q 100 140 100 120" 
+          stroke="var(--warning-orange)" stroke-width="2" fill="none"
+          marker-end="url(#arrowhead)" stroke-dasharray="5,5"/>
+    <text x="380" y="155" text-anchor="middle" class="detail-text">フィードバックループ</text>
+  </g>
+  
+  <!-- Alloy core concepts -->
+  <g transform="translate(50, 220)">
+    <text x="0" y="0" class="label-text">Alloyの核心概念</text>
+    
+    <!-- Atoms and Relations -->
+    <g transform="translate(0, 30)">
+      <rect x="0" y="0" width="150" height="100" class="alloy-box"/>
+      <text x="75" y="20" text-anchor="middle" class="label-text">アトムと関係</text>
+      
+      <!-- Atoms -->
+      <circle cx="30" cy="40" r="6" class="atom-circle"/>
+      <text x="30" y="58" text-anchor="middle" class="detail-text">Person</text>
+      
+      <circle cx="120" cy="40" r="6" class="atom-circle"/>
+      <text x="120" y="58" text-anchor="middle" class="detail-text">Book</text>
+      
+      <!-- Relation -->
+      <line x1="36" y1="40" x2="114" y2="40" class="relation-line"/>
+      <text x="75" y="35" text-anchor="middle" class="detail-text">borrows</text>
+      
+      <text x="75" y="85" text-anchor="middle" class="detail-text">関係中心の世界観</text>
+    </g>
+    
+    <!-- Signatures -->
+    <g transform="translate(180, 30)">
+      <rect x="0" y="0" width="150" height="100" class="alloy-box"/>
+      <text x="75" y="20" text-anchor="middle" class="label-text">シグネチャ</text>
+      
+      <text x="10" y="40" class="detail-text">sig Person {</text>
+      <text x="20" y="55" class="detail-text">borrows: set Book</text>
+      <text x="10" y="70" class="detail-text">}</text>
+      
+      <text x="75" y="90" text-anchor="middle" class="detail-text">型と構造の定義</text>
+    </g>
+    
+    <!-- Constraints -->
+    <g transform="translate(360, 30)">
+      <rect x="0" y="0" width="150" height="100" class="alloy-box"/>
+      <text x="75" y="20" text-anchor="middle" class="label-text">制約</text>
+      
+      <text x="10" y="40" class="detail-text">fact {</text>
+      <text x="15" y="55" class="detail-text">all p: Person |</text>
+      <text x="20" y="70" class="detail-text">#p.borrows <= 3</text>
+      <text x="10" y="85" class="detail-text">}</text>
+    </g>
+    
+    <!-- Analysis -->
+    <g transform="translate(540, 30)">
+      <rect x="0" y="0" width="150" height="100" class="alloy-box"/>
+      <text x="75" y="20" text-anchor="middle" class="label-text">分析コマンド</text>
+      
+      <text x="10" y="40" class="detail-text">run {} for 5</text>
+      <text x="10" y="55" class="detail-text">check property</text>
+      <text x="10" y="70" class="detail-text">for 10</text>
+      
+      <text x="75" y="90" text-anchor="middle" class="detail-text">自動検証</text>
+    </g>
+  </g>
+  
+  <!-- Lightweight approach comparison -->
+  <g transform="translate(50, 380)">
+    <text x="0" y="0" class="label-text">軽量アプローチの特徴</text>
+    
+    <!-- Traditional vs Alloy -->
+    <g transform="translate(0, 30)">
+      <!-- Traditional Heavy -->
+      <rect x="0" y="0" width="180" height="120" stroke="var(--error-red)" stroke-width="2" fill="rgba(220, 38, 38, 0.1)" rx="4" ry="4"/>
+      <text x="90" y="20" text-anchor="middle" class="label-text">重量級手法</text>
+      
+      <text x="10" y="40" class="detail-text">• 完全な証明が必要</text>
+      <text x="10" y="55" class="detail-text">• 高い学習コスト</text>
+      <text x="10" y="70" class="detail-text">• 専門家が必要</text>
+      <text x="10" y="85" class="detail-text">• 長期間の投資</text>
+      <text x="10" y="100" class="detail-text">• 適用範囲が限定</text>
+      
+      <!-- Alloy Lightweight -->
+      <rect x="250" y="0" width="180" height="120" stroke="var(--success-green)" stroke-width="2" fill="rgba(5, 150, 105, 0.1)" rx="4" ry="4"/>
+      <text x="340" y="20" text-anchor="middle" class="label-text">Alloy軽量手法</text>
+      
+      <text x="260" y="40" class="detail-text">• 反例による検証</text>
+      <text x="260" y="55" class="detail-text">• 学習しやすい</text>
+      <text x="260" y="70" class="detail-text">• 開発者でも使用可能</text>
+      <text x="260" y="85" class="detail-text">• 迅速なフィードバック</text>
+      <text x="260" y="100" class="detail-text">• 段階的導入可能</text>
+      
+      <!-- Benefits -->
+      <rect x="500" y="0" width="180" height="120" stroke="var(--primary-blue)" stroke-width="2" fill="rgba(37, 99, 235, 0.1)" rx="4" ry="4"/>
+      <text x="590" y="20" text-anchor="middle" class="label-text">実践的効果</text>
+      
+      <text x="510" y="40" class="detail-text">• 設計の早期検証</text>
+      <text x="510" y="55" class="detail-text">• 仕様の曖昧性除去</text>
+      <text x="510" y="70" class="detail-text">• 設計ミスの発見</text>
+      <text x="510" y="85" class="detail-text">• チーム内での議論促進</text>
+      <text x="510" y="100" class="detail-text">• 品質向上</text>
+    </g>
+  </g>
+  
+  <!-- Bottom example -->
+  <g transform="translate(50, 540)">
+    <text x="300" y="0" text-anchor="middle" class="label-text">図4-1：Alloyによる軽量形式的手法の全体像</text>
+    
+    <!-- Small example visualization -->
+    <text x="0" y="25" class="detail-text">例：図書館システム</text>
+    <text x="0" y="40" class="detail-text">Person -borrows→ Book, Person -returns→ Book</text>
+    <text x="300" y="40" class="detail-text">制約：一人最大3冊まで</text>
+    <text x="500" y="40" class="detail-text">検証：制約違反のインスタンス発見</text>
+  </g>
+</svg>
