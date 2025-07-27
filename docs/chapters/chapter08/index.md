@@ -1,3 +1,10 @@
+---
+layout: book
+title: "第8章：模型検査入門"
+chapter: chapter08
+order: 8
+---
+
 # 第8章　模型検査入門
 
 ## 8.1 自動検証の夢：コンピュータによる証明
