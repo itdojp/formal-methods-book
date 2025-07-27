@@ -31,6 +31,7 @@ kramdown:
   syntax_highlighter: rouge
   
 # GitHub Pages設定
-
+url: "https://itdojp.github.io"
+baseurl: "/formal-methods-book"
 repository: "itdojp/formal-methods-book"
 
