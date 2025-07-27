@@ -1,0 +1,277 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      :root {
+        --primary-blue: #2563eb;
+        --secondary-indigo: #4f46e5;
+        --accent-purple: #7c3aed;
+        --neutral-gray: #6b7280;
+        --light-gray: #f3f4f6;
+        --success-green: #059669;
+        --warning-orange: #d97706;
+        --error-red: #dc2626;
+      }
+      
+      .title-text {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        fill: var(--neutral-gray);
+      }
+      
+      .label-text {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        fill: var(--neutral-gray);
+      }
+      
+      .detail-text {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-size: 12px;
+        font-weight: 400;
+        fill: var(--neutral-gray);
+      }
+      
+      .specification-tool {
+        rx: 4;
+        ry: 4;
+        stroke: var(--primary-blue);
+        stroke-width: 2;
+        fill: rgba(37, 99, 235, 0.1);
+      }
+      
+      .verification-tool {
+        rx: 4;
+        ry: 4;
+        stroke: var(--accent-purple);
+        stroke-width: 2;
+        fill: rgba(124, 58, 237, 0.1);
+      }
+      
+      .proof-tool {
+        rx: 4;
+        ry: 4;
+        stroke: var(--success-green);
+        stroke-width: 2;
+        fill: rgba(5, 150, 105, 0.1);
+      }
+      
+      .integration-tool {
+        rx: 4;
+        ry: 4;
+        stroke: var(--warning-orange);
+        stroke-width: 2;
+        fill: rgba(217, 119, 6, 0.1);
+      }
+      
+      .workflow-arrow {
+        stroke: var(--secondary-indigo);
+        stroke-width: 2;
+        marker-end: url(#arrowhead);
+      }
+      
+      .data-flow {
+        stroke: var(--neutral-gray);
+        stroke-width: 1;
+        stroke-dasharray: 3,3;
+        opacity: 0.7;
+      }
+    </style>
+    
+    <!-- Arrow marker -->
+    <defs>
+      <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+              refX="9" refY="3.5" orient="auto">
+        <polygon points="0 0, 10 3.5, 0 7" fill="var(--secondary-indigo)" />
+      </marker>
+    </defs>
+  </defs>
+  
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" class="title-text">形式的手法ツールエコシステム</text>
+  
+  <!-- Specification Tools -->
+  <g transform="translate(50, 60)">
+    <text x="0" y="0" class="label-text">仕様記述ツール</text>
+    
+    <!-- Alloy -->
+    <rect x="0" y="20" width="100" height="80" class="specification-tool"/>
+    <text x="50" y="40" text-anchor="middle" class="label-text">Alloy</text>
+    <text x="10" y="55" class="detail-text">• Analyzer</text>
+    <text x="10" y="70" class="detail-text">• 関係モデル</text>
+    <text x="10" y="85" class="detail-text">• 軽量検証</text>
+    
+    <!-- Z Notation Tools -->
+    <rect x="120" y="20" width="100" height="80" class="specification-tool"/>
+    <text x="170" y="40" text-anchor="middle" class="label-text">Z記法</text>
+    <text x="130" y="55" class="detail-text">• ZTC</text>
+    <text x="130" y="70" class="detail-text">• CZT</text>
+    <text x="130" y="85" class="detail-text">• 状態ベース</text>
+    
+    <!-- TLA+ -->
+    <rect x="240" y="20" width="100" height="80" class="specification-tool"/>
+    <text x="290" y="40" text-anchor="middle" class="label-text">TLA+</text>
+    <text x="250" y="55" class="detail-text">• TLA+ Tools</text>
+    <text x="250" y="70" class="detail-text">• 時相論理</text>
+    <text x="250" y="85" class="detail-text">• 分散システム</text>
+    
+    <!-- CSP Tools -->
+    <rect x="360" y="20" width="100" height="80" class="specification-tool"/>
+    <text x="410" y="40" text-anchor="middle" class="label-text">CSP</text>
+    <text x="370" y="55" class="detail-text">• FDR</text>
+    <text x="370" y="70" class="detail-text">• ProB</text>
+    <text x="370" y="85" class="detail-text">• 並行プロセス</text>
+  </g>
+  
+  <!-- Model Checking Tools -->
+  <g transform="translate(50, 200)">
+    <text x="0" y="0" class="label-text">模型検査ツール</text>
+    
+    <!-- SPIN -->
+    <rect x="0" y="20" width="100" height="80" class="verification-tool"/>
+    <text x="50" y="40" text-anchor="middle" class="label-text">SPIN</text>
+    <text x="10" y="55" class="detail-text">• Promela</text>
+    <text x="10" y="70" class="detail-text">• 分散システム</text>
+    <text x="10" y="85" class="detail-text">• プロトコル</text>
+    
+    <!-- NuSMV -->
+    <rect x="120" y="20" width="100" height="80" class="verification-tool"/>
+    <text x="170" y="40" text-anchor="middle" class="label-text">NuSMV</text>
+    <text x="130" y="55" class="detail-text">• CTL/LTL</text>
+    <text x="130" y="70" class="detail-text">• シンボリック</text>
+    <text x="130" y="85" class="detail-text">• BDD</text>
+    
+    <!-- TLC -->
+    <rect x="240" y="20" width="100" height="80" class="verification-tool"/>
+    <text x="290" y="40" text-anchor="middle" class="label-text">TLC</text>
+    <text x="250" y="55" class="detail-text">• TLA+用</text>
+    <text x="250" y="70" class="detail-text">• 明示状態</text>
+    <text x="250" y="85" class="detail-text">• 並列検査</text>
+    
+    <!-- CBMC -->
+    <rect x="360" y="20" width="100" height="80" class="verification-tool"/>
+    <text x="410" y="40" text-anchor="middle" class="label-text">CBMC</text>
+    <text x="370" y="55" class="detail-text">• C/C++</text>
+    <text x="370" y="70" class="detail-text">• 境界検査</text>
+    <text x="370" y="85" class="detail-text">• SAT solver</text>
+  </g>
+  
+  <!-- Theorem Proving Tools -->
+  <g transform="translate(50, 340)">
+    <text x="0" y="0" class="label-text">定理証明ツール</text>
+    
+    <!-- Coq -->
+    <rect x="0" y="20" width="100" height="80" class="proof-tool"/>
+    <text x="50" y="40" text-anchor="middle" class="label-text">Coq</text>
+    <text x="10" y="55" class="detail-text">• 依存型</text>
+    <text x="10" y="70" class="detail-text">• Gallina</text>
+    <text x="10" y="85" class="detail-text">• 抽出</text>
+    
+    <!-- Isabelle/HOL -->
+    <rect x="120" y="20" width="100" height="80" class="proof-tool"/>
+    <text x="170" y="40" text-anchor="middle" class="label-text">Isabelle</text>
+    <text x="130" y="55" class="detail-text">• HOL</text>
+    <text x="130" y="70" class="detail-text">• Sledgehammer</text>
+    <text x="130" y="85" class="detail-text">• 自動証明</text>
+    
+    <!-- Lean -->
+    <rect x="240" y="20" width="100" height="80" class="proof-tool"/>
+    <text x="290" y="40" text-anchor="middle" class="label-text">Lean</text>
+    <text x="250" y="55" class="detail-text">• 現代的UI</text>
+    <text x="250" y="70" class="detail-text">• 数学ライブラリ</text>
+    <text x="250" y="85" class="detail-text">• VS Code</text>
+    
+    <!-- Dafny -->
+    <rect x="360" y="20" width="100" height="80" class="proof-tool"/>
+    <text x="410" y="40" text-anchor="middle" class="label-text">Dafny</text>
+    <text x="370" y="55" class="detail-text">• 実用言語</text>
+    <text x="370" y="70" class="detail-text">• 自動証明</text>
+    <text x="370" y="85" class="detail-text">• コード生成</text>
+  </g>
+  
+  <!-- Integration and Automation -->
+  <g transform="translate(520, 120)">
+    <text x="0" y="0" class="label-text">統合・自動化</text>
+    
+    <!-- CI/CD Integration -->
+    <rect x="0" y="20" width="120" height="60" class="integration-tool"/>
+    <text x="60" y="40" text-anchor="middle" class="label-text">CI/CD統合</text>
+    <text x="10" y="55" class="detail-text">• GitHub Actions</text>
+    <text x="10" y="70" class="detail-text">• Jenkins</text>
+    
+    <!-- IDEs -->
+    <rect x="0" y="100" width="120" height="60" class="integration-tool"/>
+    <text x="60" y="120" text-anchor="middle" class="label-text">IDE統合</text>
+    <text x="10" y="135" class="detail-text">• VS Code</text>
+    <text x="10" y="150" class="detail-text">• IntelliJ</text>
+    
+    <!-- Documentation -->
+    <rect x="0" y="180" width="120" height="60" class="integration-tool"/>
+    <text x="60" y="200" text-anchor="middle" class="label-text">文書化</text>
+    <text x="10" y="215" class="detail-text">• LaTeX生成</text>
+    <text x="10" y="230" class="detail-text">• Web出力</text>
+    
+    <!-- Version Control -->
+    <rect x="140" y="20" width="120" height="60" class="integration-tool"/>
+    <text x="200" y="40" text-anchor="middle" class="label-text">バージョン管理</text>
+    <text x="150" y="55" class="detail-text">• Git統合</text>
+    <text x="150" y="70" class="detail-text">• 変更追跡</text>
+    
+    <!-- Testing -->
+    <rect x="140" y="100" width="120" height="60" class="integration-tool"/>
+    <text x="200" y="120" text-anchor="middle" class="label-text">テスト統合</text>
+    <text x="150" y="135" class="detail-text">• 単体テスト</text>
+    <text x="150" y="150" class="detail-text">• プロパティ</text>
+    
+    <!-- Static Analysis -->
+    <rect x="140" y="180" width="120" height="60" class="integration-tool"/>
+    <text x="200" y="200" text-anchor="middle" class="label-text">静的解析</text>
+    <text x="150" y="215" class="detail-text">• CBMC</text>
+    <text x="150" y="230" class="detail-text">• KLEE</text>
+  </g>
+  
+  <!-- Workflow arrows -->
+  <g>
+    <!-- Specification to Verification -->
+    <line x1="250" y1="110" x2="250" y2="190" class="workflow-arrow"/>
+    <text x="260" y="150" class="detail-text">検証</text>
+    
+    <!-- Verification to Proof -->
+    <line x1="250" y1="290" x2="250" y2="330" class="workflow-arrow"/>
+    <text x="260" y="315" class="detail-text">証明</text>
+    
+    <!-- To Integration -->
+    <line x1="470" y1="200" x2="510" y2="200" class="workflow-arrow"/>
+    <text x="475" y="190" class="detail-text">統合</text>
+  </g>
+  
+  <!-- Tool Categories Legend -->
+  <g transform="translate(50, 480)">
+    <text x="0" y="0" class="label-text">ツールカテゴリ</text>
+    
+    <rect x="0" y="20" width="15" height="15" class="specification-tool"/>
+    <text x="25" y="32" class="detail-text">仕様記述</text>
+    
+    <rect x="100" y="20" width="15" height="15" class="verification-tool"/>
+    <text x="125" y="32" class="detail-text">模型検査</text>
+    
+    <rect x="200" y="20" width="15" height="15" class="proof-tool"/>
+    <text x="225" y="32" class="detail-text">定理証明</text>
+    
+    <rect x="300" y="20" width="15" height="15" class="integration-tool"/>
+    <text x="325" y="32" class="detail-text">統合・自動化</text>
+  </g>
+  
+  <!-- Selection Criteria -->
+  <g transform="translate(50, 530)">
+    <text x="0" y="0" class="label-text">選択基準</text>
+    
+    <text x="0" y="20" class="detail-text">• 学習コスト vs 表現力</text>
+    <text x="200" y="20" class="detail-text">• 自動化レベル vs 制御性</text>
+    <text x="400" y="20" class="detail-text">• コミュニティサポート</text>
+  </g>
+  
+  <!-- Bottom caption -->
+  <text x="400" y="580" text-anchor="middle" class="detail-text">図12-1：形式的手法ツールエコシステムと選択指針</text>
+</svg>

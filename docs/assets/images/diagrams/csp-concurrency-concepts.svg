@@ -1,0 +1,281 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      :root {
+        --primary-blue: #2563eb;
+        --secondary-indigo: #4f46e5;
+        --accent-purple: #7c3aed;
+        --neutral-gray: #6b7280;
+        --light-gray: #f3f4f6;
+        --success-green: #059669;
+        --warning-orange: #d97706;
+        --error-red: #dc2626;
+      }
+      
+      .title-text {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        fill: var(--neutral-gray);
+      }
+      
+      .label-text {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        fill: var(--neutral-gray);
+      }
+      
+      .detail-text {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-size: 12px;
+        font-weight: 400;
+        fill: var(--neutral-gray);
+      }
+      
+      .process-box {
+        rx: 4;
+        ry: 4;
+        stroke: var(--primary-blue);
+        stroke-width: 2;
+        fill: rgba(37, 99, 235, 0.1);
+      }
+      
+      .deadlock-box {
+        rx: 4;
+        ry: 4;
+        stroke: var(--error-red);
+        stroke-width: 2;
+        fill: rgba(220, 38, 38, 0.1);
+      }
+      
+      .communication-arrow {
+        stroke: var(--success-green);
+        stroke-width: 2;
+        marker-end: url(#arrowhead-green);
+      }
+      
+      .sync-arrow {
+        stroke: var(--warning-orange);
+        stroke-width: 2;
+        stroke-dasharray: 5,5;
+        marker-end: url(#arrowhead-orange);
+      }
+      
+      .process-circle {
+        fill: var(--primary-blue);
+        stroke: var(--primary-blue);
+        stroke-width: 2;
+      }
+      
+      .channel-line {
+        stroke: var(--secondary-indigo);
+        stroke-width: 3;
+      }
+    </style>
+    
+    <!-- Arrow markers -->
+    <defs>
+      <marker id="arrowhead-green" markerWidth="10" markerHeight="7" 
+              refX="9" refY="3.5" orient="auto">
+        <polygon points="0 0, 10 3.5, 0 7" fill="var(--success-green)" />
+      </marker>
+      <marker id="arrowhead-orange" markerWidth="10" markerHeight="7" 
+              refX="9" refY="3.5" orient="auto">
+        <polygon points="0 0, 10 3.5, 0 7" fill="var(--warning-orange)" />
+      </marker>
+    </defs>
+  </defs>
+  
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" class="title-text">CSPによる並行システムの概念</text>
+  
+  <!-- Sequential vs Concurrent -->
+  <g transform="translate(50, 60)">
+    <text x="0" y="0" class="label-text">逐次 vs 並行</text>
+    
+    <!-- Sequential Process -->
+    <g transform="translate(0, 30)">
+      <rect x="0" y="0" width="140" height="80" stroke="var(--neutral-gray)" stroke-width="2" fill="rgba(107, 114, 128, 0.1)" rx="4" ry="4"/>
+      <text x="70" y="20" text-anchor="middle" class="label-text">逐次プロセス</text>
+      
+      <!-- Sequential steps -->
+      <circle cx="25" cy="40" r="8" fill="var(--neutral-gray)"/>
+      <text x="25" y="45" text-anchor="middle" class="detail-text">1</text>
+      
+      <line x1="33" y1="40" x2="47" y2="40" stroke="var(--neutral-gray)" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+      
+      <circle cx="55" cy="40" r="8" fill="var(--neutral-gray)"/>
+      <text x="55" y="45" text-anchor="middle" class="detail-text">2</text>
+      
+      <line x1="63" y1="40" x2="77" y2="40" stroke="var(--neutral-gray)" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+      
+      <circle cx="85" cy="40" r="8" fill="var(--neutral-gray)"/>
+      <text x="85" y="45" text-anchor="middle" class="detail-text">3</text>
+      
+      <line x1="93" y1="40" x2="107" y2="40" stroke="var(--neutral-gray)" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+      
+      <circle cx="115" cy="40" r="8" fill="var(--neutral-gray)"/>
+      <text x="115" y="45" text-anchor="middle" class="detail-text">4</text>
+      
+      <text x="70" y="70" text-anchor="middle" class="detail-text">予測可能な順序</text>
+    </g>
+    
+    <!-- Concurrent Processes -->
+    <g transform="translate(200, 30)">
+      <rect x="0" y="0" width="180" height="80" class="process-box"/>
+      <text x="90" y="20" text-anchor="middle" class="label-text">並行プロセス</text>
+      
+      <!-- Process A -->
+      <circle cx="30" cy="40" r="8" class="process-circle"/>
+      <text x="30" y="45" text-anchor="middle" class="detail-text">A1</text>
+      
+      <circle cx="60" cy="40" r="8" class="process-circle"/>
+      <text x="60" y="45" text-anchor="middle" class="detail-text">A2</text>
+      
+      <line x1="38" y1="40" x2="52" y2="40" class="communication-arrow"/>
+      
+      <!-- Process B -->
+      <circle cx="30" cy="60" r="8" class="process-circle"/>
+      <text x="30" y="65" text-anchor="middle" class="detail-text">B1</text>
+      
+      <circle cx="60" cy="60" r="8" class="process-circle"/>
+      <text x="60" y="65" text-anchor="middle" class="detail-text">B2</text>
+      
+      <line x1="38" y1="60" x2="52" y2="60" class="communication-arrow"/>
+      
+      <!-- Interaction -->
+      <line x1="30" y1="48" x2="30" y2="52" class="sync-arrow"/>
+      <line x1="60" y1="48" x2="60" y2="52" class="sync-arrow"/>
+      
+      <text x="100" y="45" class="detail-text">相互作用</text>
+      <text x="100" y="60" class="detail-text">非決定性</text>
+    </g>
+  </g>
+  
+  <!-- CSP Process Communication -->
+  <g transform="translate(50, 180)">
+    <text x="0" y="0" class="label-text">CSPプロセス間通信</text>
+    
+    <!-- Process definitions -->
+    <g transform="translate(0, 30)">
+      <!-- Process P -->
+      <rect x="0" y="0" width="120" height="100" class="process-box"/>
+      <text x="60" y="20" text-anchor="middle" class="label-text">プロセス P</text>
+      
+      <text x="10" y="40" class="detail-text">P = coin → coffee → P</text>
+      <text x="10" y="60" class="detail-text">または</text>
+      <text x="10" y="75" class="detail-text">P = coin → tea → P</text>
+      
+      <!-- Process Q -->
+      <rect x="200" y="0" width="120" height="100" class="process-box"/>
+      <text x="260" y="20" text-anchor="middle" class="label-text">プロセス Q</text>
+      
+      <text x="210" y="40" class="detail-text">Q = coin → (coffee</text>
+      <text x="210" y="55" class="detail-text">    → Q [] tea → Q)</text>
+      
+      <!-- Channel communication -->
+      <line x1="120" y1="50" x2="200" y2="50" class="channel-line"/>
+      <text x="160" y="45" text-anchor="middle" class="detail-text">coin</text>
+      <text x="160" y="65" text-anchor="middle" class="detail-text">チャネル</text>
+      
+      <!-- Synchronization explanation -->
+      <g transform="translate(350, 0)">
+        <rect x="0" y="0" width="140" height="100" stroke="var(--warning-orange)" stroke-width="2" fill="rgba(217, 119, 6, 0.1)" rx="4" ry="4"/>
+        <text x="70" y="20" text-anchor="middle" class="label-text">同期通信</text>
+        
+        <text x="10" y="40" class="detail-text">• 送信者と受信者が</text>
+        <text x="10" y="55" class="detail-text">  同時に準備完了</text>
+        <text x="10" y="70" class="detail-text">• ハンドシェイク</text>
+        <text x="10" y="85" class="detail-text">• 原子的な実行</text>
+      </g>
+    </g>
+  </g>
+  
+  <!-- Parallel Composition -->
+  <g transform="translate(50, 320)">
+    <text x="0" y="0" class="label-text">並行合成演算子</text>
+    
+    <g transform="translate(0, 30)">
+      <!-- Interleaving -->
+      <rect x="0" y="0" width="120" height="80" class="process-box"/>
+      <text x="60" y="20" text-anchor="middle" class="label-text">インターリーブ</text>
+      <text x="60" y="40" text-anchor="middle" class="detail-text">P ||| Q</text>
+      <text x="10" y="60" class="detail-text">独立した並行実行</text>
+      
+      <!-- Interface Parallel -->
+      <rect x="140" y="0" width="120" height="80" class="process-box"/>
+      <text x="200" y="20" text-anchor="middle" class="label-text">インターフェイス</text>
+      <text x="200" y="35" text-anchor="middle" class="detail-text">並行</text>
+      <text x="200" y="50" text-anchor="middle" class="detail-text">P [|A|] Q</text>
+      <text x="150" y="70" class="detail-text">集合Aで同期</text>
+      
+      <!-- Alphabetized Parallel -->
+      <rect x="280" y="0" width="120" height="80" class="process-box"/>
+      <text x="340" y="20" text-anchor="middle" class="label-text">アルファベット</text>
+      <text x="340" y="35" text-anchor="middle" class="detail-text">並行</text>
+      <text x="340" y="50" text-anchor="middle" class="detail-text">P || Q</text>
+      <text x="290" y="70" class="detail-text">共通イベントで同期</text>
+    </g>
+  </g>
+  
+  <!-- Deadlock Example -->
+  <g transform="translate(450, 320)">
+    <text x="0" y="0" class="label-text">デッドロックの例</text>
+    
+    <g transform="translate(0, 30)">
+      <rect x="0" y="0" width="280" height="100" class="deadlock-box"/>
+      <text x="140" y="20" text-anchor="middle" class="label-text">哲学者の食事問題</text>
+      
+      <!-- Philosophers -->
+      <circle cx="50" cy="60" r="15" fill="var(--primary-blue)" opacity="0.7"/>
+      <text x="50" y="65" text-anchor="middle" class="detail-text">P1</text>
+      
+      <circle cx="140" cy="45" r="15" fill="var(--primary-blue)" opacity="0.7"/>
+      <text x="140" y="50" text-anchor="middle" class="detail-text">P2</text>
+      
+      <circle cx="230" cy="60" r="15" fill="var(--primary-blue)" opacity="0.7"/>
+      <text x="230" y="65" text-anchor="middle" class="detail-text">P3</text>
+      
+      <!-- Forks -->
+      <rect x="90" y="55" width="20" height="4" fill="var(--error-red)"/>
+      <text x="100" y="70" text-anchor="middle" class="detail-text">F1</text>
+      
+      <rect x="170" y="55" width="20" height="4" fill="var(--error-red)"/>
+      <text x="180" y="70" text-anchor="middle" class="detail-text">F2</text>
+      
+      <text x="140" y="90" text-anchor="middle" class="detail-text">循環待機 → デッドロック</text>
+    </g>
+  </g>
+  
+  <!-- Event and Choice -->
+  <g transform="translate(50, 450)">
+    <text x="0" y="0" class="label-text">イベントと選択</text>
+    
+    <g transform="translate(0, 30)">
+      <!-- External Choice -->
+      <rect x="0" y="0" width="120" height="80" stroke="var(--success-green)" stroke-width="2" fill="rgba(5, 150, 105, 0.1)" rx="4" ry="4"/>
+      <text x="60" y="20" text-anchor="middle" class="label-text">外部選択</text>
+      <text x="60" y="40" text-anchor="middle" class="detail-text">P [] Q</text>
+      <text x="10" y="60" class="detail-text">環境が選択</text>
+      <text x="10" y="75" class="detail-text">非決定的</text>
+      
+      <!-- Internal Choice -->
+      <rect x="140" y="0" width="120" height="80" stroke="var(--accent-purple)" stroke-width="2" fill="rgba(124, 58, 237, 0.1)" rx="4" ry="4"/>
+      <text x="200" y="20" text-anchor="middle" class="label-text">内部選択</text>
+      <text x="200" y="40" text-anchor="middle" class="detail-text">P |~| Q</text>
+      <text x="150" y="60" class="detail-text">プロセスが選択</text>
+      <text x="150" y="75" class="detail-text">制御可能</text>
+      
+      <!-- Sequential Composition -->
+      <rect x="280" y="0" width="120" height="80" stroke="var(--secondary-indigo)" stroke-width="2" fill="rgba(79, 70, 229, 0.1)" rx="4" ry="4"/>
+      <text x="340" y="20" text-anchor="middle" class="label-text">逐次合成</text>
+      <text x="340" y="40" text-anchor="middle" class="detail-text">P ; Q</text>
+      <text x="290" y="60" class="detail-text">P終了後にQ開始</text>
+      <text x="290" y="75" class="detail-text">順序保証</text>
+    </g>
+  </g>
+  
+  <!-- Bottom caption -->
+  <text x="400" y="580" text-anchor="middle" class="detail-text">図6-1：CSPによる並行システムの基本概念と通信モデル</text>
+</svg>
