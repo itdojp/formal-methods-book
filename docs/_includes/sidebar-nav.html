@@ -1,0 +1,342 @@
+<!-- Sidebar Navigation -->
+<div class="sidebar-header">
+    <div class="sidebar-title">{{ site.title | escape }}</div>
+    {% if site.description %}
+    <div class="sidebar-description">{{ site.description | escape }}</div>
+    {% endif %}
+</div>
+
+<div class="sidebar-content">
+    <!-- Introduction -->
+    {% if site.data.navigation.introduction %}
+    <div class="nav-section">
+        {% if site.data.navigation.introduction.size == 1 %}
+        <!-- Single introduction - display as direct link -->
+        {% for item in site.data.navigation.introduction %}
+        <a href="{{ site.baseurl }}{{ item.path }}" 
+           class="nav-link nav-single-item{% if page.url contains item.path %} active{% endif %}"
+           aria-current="{% if page.url contains item.path %}page{% endif %}">
+            {{ item.title }}
+        </a>
+        {% endfor %}
+        {% else %}
+        <!-- Multiple introduction items - display with section header -->
+        <h3 class="nav-section-title">はじめに</h3>
+        <ul class="nav-list">
+            {% for item in site.data.navigation.introduction %}
+            <li class="nav-item">
+                <a href="{{ site.baseurl }}{{ item.path }}" 
+                   class="nav-link{% if page.url contains item.path %} active{% endif %}"
+                   aria-current="{% if page.url contains item.path %}page{% endif %}">
+                    {{ item.title }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- Chapters -->
+    {% if site.data.navigation.chapters %}
+    <div class="nav-section">
+        <h3 class="nav-section-title">章</h3>
+        <ul class="nav-list">
+            {% for chapter in site.data.navigation.chapters %}
+            <li class="nav-item">
+                <a href="{{ site.baseurl }}{{ chapter.path }}" 
+                   class="nav-link{% if page.url contains chapter.path %} active{% endif %}"
+                   aria-current="{% if page.url contains chapter.path %}page{% endif %}">
+                    <span class="nav-number">{{ forloop.index }}</span>
+                    <span class="nav-title">{{ chapter.title }}</span>
+                </a>
+                
+                <!-- Sub-sections if available -->
+                {% if chapter.sections %}
+                <ul class="nav-subsections">
+                    {% for section in chapter.sections %}
+                    <li class="nav-subsection">
+                        <a href="{{ site.baseurl }}{{ section.path }}" 
+                           class="nav-sublink{% if page.url == section.path %} active{% endif %}"
+                           aria-current="{% if page.url == section.path %}page{% endif %}">
+                            {{ section.title }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <!-- Appendices -->
+    {% if site.data.navigation.appendices %}
+    <div class="nav-section">
+        <h3 class="nav-section-title">付録</h3>
+        <ul class="nav-list">
+            {% for appendix in site.data.navigation.appendices %}
+            <li class="nav-item">
+                <a href="{{ site.baseurl }}{{ appendix.path }}" 
+                   class="nav-link{% if page.url contains appendix.path %} active{% endif %}"
+                   aria-current="{% if page.url contains appendix.path %}page{% endif %}">
+                    <span class="nav-number">{{ appendix.title | slice: 2, 1 }}</span>
+                    <span class="nav-title">{{ appendix.title }}</span>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <!-- Afterword -->
+    {% if site.data.navigation.afterword %}
+    <div class="nav-section">
+        {% if site.data.navigation.afterword.size == 1 %}
+        <!-- Single afterword - display as direct link -->
+        {% for afterword in site.data.navigation.afterword %}
+        <a href="{{ site.baseurl }}{{ afterword.path }}" 
+           class="nav-link nav-single-item{% if page.url contains afterword.path %} active{% endif %}"
+           aria-current="{% if page.url contains afterword.path %}page{% endif %}">
+            {{ afterword.title }}
+        </a>
+        {% endfor %}
+        {% else %}
+        <!-- Multiple afterword items - display with section header -->
+        <h3 class="nav-section-title">あとがき</h3>
+        <ul class="nav-list">
+            {% for afterword in site.data.navigation.afterword %}
+            <li class="nav-item">
+                <a href="{{ site.baseurl }}{{ afterword.path }}" 
+                   class="nav-link{% if page.url contains afterword.path %} active{% endif %}"
+                   aria-current="{% if page.url contains afterword.path %}page{% endif %}">
+                    {{ afterword.title }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+<!-- Progress Indicator -->
+{% assign total_pages = site.data.navigation.chapters.size %}
+{% if site.data.navigation.appendices %}
+{% assign total_pages = total_pages | plus: site.data.navigation.appendices.size %}
+{% endif %}
+
+{% assign current_index = 0 %}
+{% for chapter in site.data.navigation.chapters %}
+    {% if page.url contains chapter.path %}
+        {% assign current_index = forloop.index %}
+        {% break %}
+    {% endif %}
+{% endfor %}
+
+{% if current_index == 0 %}
+    {% for appendix in site.data.navigation.appendices %}
+        {% if page.url contains appendix.path %}
+            {% assign current_index = site.data.navigation.chapters.size | plus: forloop.index %}
+            {% break %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+{% if current_index > 0 %}
+<div class="progress-container">
+    <div class="progress-label">進捗: {{ current_index }} / {{ total_pages }}</div>
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: {{ current_index | times: 100 | divided_by: total_pages }}%"></div>
+    </div>
+</div>
+{% endif %}
+
+<style>
+/* Sidebar Styles */
+.sidebar-header {
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.sidebar-title {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-2);
+}
+
+.sidebar-description {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-normal);
+}
+
+.sidebar-content {
+    padding: var(--space-4) 0;
+}
+
+.nav-section {
+    margin-bottom: var(--space-6);
+}
+
+.nav-section-title {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 var(--space-4) var(--space-3);
+}
+
+.nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    margin-bottom: var(--space-1);
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: var(--space-2) var(--space-4);
+    color: var(--color-text-primary);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    border-left: 3px solid transparent;
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-normal);
+}
+
+.nav-link:hover {
+    background-color: var(--color-bg-tertiary);
+    color: var(--color-primary);
+}
+
+.nav-link.active {
+    background-color: var(--color-primary);
+    color: white;
+    border-left-color: var(--color-primary-hover);
+    font-weight: 500;
+}
+
+.nav-single-item {
+    margin-bottom: var(--space-4);
+    font-weight: 500;
+}
+
+.nav-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background-color: var(--color-bg-tertiary);
+    color: var(--color-text-secondary);
+    border-radius: 50%;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    margin-right: var(--space-3);
+    flex-shrink: 0;
+}
+
+.nav-link.active .nav-number {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.nav-title {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nav-subsections {
+    list-style: none;
+    margin: var(--space-2) 0 0;
+    padding: 0;
+    background-color: var(--color-bg-secondary);
+}
+
+.nav-subsection {
+    margin-bottom: 0;
+}
+
+.nav-sublink {
+    display: block;
+    padding: var(--space-2) var(--space-4) var(--space-2) var(--space-12);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: var(--font-size-xs);
+    transition: all var(--transition-fast);
+    border-left: 3px solid transparent;
+}
+
+.nav-sublink:hover {
+    background-color: var(--color-bg-tertiary);
+    color: var(--color-primary);
+}
+
+.nav-sublink.active {
+    background-color: var(--color-primary);
+    color: white;
+    border-left-color: var(--color-primary-hover);
+}
+
+/* Progress Indicator */
+.progress-container {
+    margin: var(--space-6) var(--space-4) var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border);
+}
+
+.progress-label {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-2);
+    text-align: center;
+}
+
+.progress-bar {
+    height: 4px;
+    background-color: var(--color-bg-tertiary);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: var(--color-primary);
+    transition: width var(--transition-base);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .sidebar-header {
+        padding: var(--space-3);
+    }
+    
+    .nav-link {
+        padding: var(--space-3) var(--space-3);
+    }
+    
+    .nav-sublink {
+        padding: var(--space-2) var(--space-3) var(--space-2) var(--space-8);
+    }
+    
+    .nav-number {
+        width: 20px;
+        height: 20px;
+        margin-right: var(--space-2);
+    }
+    
+    .progress-container {
+        margin: var(--space-4) var(--space-3) var(--space-3);
+    }
+}
+</style>

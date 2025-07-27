@@ -1,0 +1,360 @@
+<!-- Page Navigation (Previous/Next) -->
+{% assign navigation = site.data.navigation %}
+
+<!-- Build complete page sequence -->
+{% assign all_pages = '' | split: '' %}
+
+<!-- Add introduction -->
+{% if navigation.introduction %}
+    {% for item in navigation.introduction %}
+        {% assign all_pages = all_pages | push: item %}
+    {% endfor %}
+{% endif %}
+
+<!-- Add chapters -->
+{% if navigation.chapters %}
+    {% for item in navigation.chapters %}
+        {% assign all_pages = all_pages | push: item %}
+    {% endfor %}
+{% endif %}
+
+<!-- Add appendices -->
+{% if navigation.appendices %}
+    {% for item in navigation.appendices %}
+        {% assign all_pages = all_pages | push: item %}
+    {% endfor %}
+{% endif %}
+
+<!-- Add afterword -->
+{% if navigation.afterword %}
+    {% for item in navigation.afterword %}
+        {% assign all_pages = all_pages | push: item %}
+    {% endfor %}
+{% endif %}
+
+<!-- Find current page and set prev/next -->
+{% assign current_found = false %}
+{% assign prev_item = nil %}
+{% assign next_item = nil %}
+{% assign current_index = nil %}
+
+{% for item in all_pages %}
+    <!-- Normalize URLs for comparison -->
+    {% assign normalized_item_path = item.path | remove_first: "/" | append: "/" %}
+    {% assign normalized_page_url = page.url | remove_first: "/" | append: "/" %}
+    
+    {% if normalized_page_url == normalized_item_path %}
+        {% assign current_index = forloop.index0 %}
+        {% break %}
+    {% endif %}
+{% endfor %}
+
+{% if current_index %}
+    {% assign prev_index = current_index | minus: 1 %}
+    {% assign next_index = current_index | plus: 1 %}
+    
+    {% if prev_index >= 0 %}
+        {% assign prev_item = all_pages[prev_index] %}
+    {% endif %}
+    
+    {% if next_index < all_pages.size %}
+        {% assign next_item = all_pages[next_index] %}
+    {% endif %}
+{% endif %}
+
+<!-- Navigation Container -->
+<nav class="page-nav" aria-label="Page navigation">
+    <div class="page-nav-container">
+        <!-- Previous Page -->
+        <div class="page-nav-item page-nav-prev">
+            {% if prev_item %}
+            <a href="{{ site.baseurl }}{{ prev_item.path }}" class="page-nav-link" rel="prev">
+                <div class="page-nav-direction">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="page-nav-arrow">
+                        <polyline points="15,18 9,12 15,6"></polyline>
+                    </svg>
+                    <span class="page-nav-label">前へ</span>
+                </div>
+                <div class="page-nav-title">{{ prev_item.title | truncate: 50 }}</div>
+            </a>
+            {% else %}
+            <div class="page-nav-link page-nav-disabled">
+                <div class="page-nav-direction">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="page-nav-arrow">
+                        <polyline points="15,18 9,12 15,6"></polyline>
+                    </svg>
+                    <span class="page-nav-label">前へ</span>
+                </div>
+                <div class="page-nav-title">最初のページです</div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Table of Contents -->
+        <div class="page-nav-item page-nav-toc">
+            <a href="{{ '/' | relative_url }}" class="page-nav-link page-nav-home">
+                <div class="page-nav-direction">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="page-nav-home-icon">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9,22 9,12 15,12 15,22"></polyline>
+                    </svg>
+                    <span class="page-nav-label">目次</span>
+                </div>
+            </a>
+        </div>
+
+        <!-- Next Page -->
+        <div class="page-nav-item page-nav-next">
+            {% if next_item %}
+            <a href="{{ site.baseurl }}{{ next_item.path }}" class="page-nav-link" rel="next">
+                <div class="page-nav-direction">
+                    <span class="page-nav-label">次へ</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="page-nav-arrow">
+                        <polyline points="9,18 15,12 9,6"></polyline>
+                    </svg>
+                </div>
+                <div class="page-nav-title">{{ next_item.title | truncate: 50 }}</div>
+            </a>
+            {% else %}
+            <div class="page-nav-link page-nav-disabled">
+                <div class="page-nav-direction">
+                    <span class="page-nav-label">次へ</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="page-nav-arrow">
+                        <polyline points="9,18 15,12 9,6"></polyline>
+                    </svg>
+                </div>
+                <div class="page-nav-title">最後のページです</div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+<style>
+/* Page Navigation Styles */
+.page-nav {
+    margin: var(--space-12) 0 var(--space-8);
+    padding: var(--space-6) 0;
+    border-top: 1px solid var(--color-border);
+}
+
+.page-nav-container {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: var(--space-4);
+    align-items: stretch;
+    max-width: 100%;
+}
+
+.page-nav-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.page-nav-prev {
+    justify-content: flex-start;
+}
+
+.page-nav-next {
+    justify-content: flex-end;
+    text-align: right;
+}
+
+.page-nav-toc {
+    justify-content: center;
+    align-items: center;
+}
+
+.page-nav-link {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-4);
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    color: var(--color-text-primary);
+    transition: all var(--transition-base);
+    min-height: 80px;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-nav-link:hover:not(.page-nav-disabled) {
+    background-color: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.page-nav-link:focus:not(.page-nav-disabled) {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+.page-nav-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: var(--color-bg-tertiary);
+}
+
+.page-nav-home {
+    min-height: 60px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    min-width: 120px;
+}
+
+.page-nav-direction {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--space-2);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-text-secondary);
+}
+
+.page-nav-home .page-nav-direction {
+    margin-bottom: 0;
+}
+
+.page-nav-next .page-nav-direction {
+    justify-content: flex-end;
+}
+
+.page-nav-arrow {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+.page-nav-prev .page-nav-arrow {
+    margin-right: var(--space-2);
+}
+
+.page-nav-next .page-nav-arrow {
+    margin-left: var(--space-2);
+}
+
+.page-nav-home-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: var(--space-2);
+    flex-shrink: 0;
+}
+
+.page-nav-label {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.page-nav-title {
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    line-height: var(--line-height-normal);
+    color: var(--color-text-primary);
+}
+
+.page-nav-link:hover:not(.page-nav-disabled) .page-nav-direction,
+.page-nav-link:hover:not(.page-nav-disabled) .page-nav-title {
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .page-nav-container {
+        grid-template-columns: 1fr;
+        gap: var(--space-3);
+    }
+    
+    .page-nav-toc {
+        order: -1;
+    }
+    
+    .page-nav-next {
+        text-align: left;
+    }
+    
+    .page-nav-next .page-nav-direction {
+        justify-content: flex-start;
+    }
+    
+    .page-nav-next .page-nav-arrow {
+        margin-left: 0;
+        margin-right: var(--space-2);
+        order: -1;
+    }
+    
+    .page-nav-link {
+        min-height: 70px;
+        padding: var(--space-3);
+    }
+    
+    .page-nav-home {
+        min-height: 50px;
+    }
+    
+    .page-nav-title {
+        font-size: var(--font-size-sm);
+    }
+}
+
+@media (max-width: 480px) {
+    .page-nav {
+        margin: var(--space-8) 0 var(--space-6);
+        padding: var(--space-4) 0;
+    }
+    
+    .page-nav-container {
+        gap: var(--space-2);
+    }
+    
+    .page-nav-link {
+        padding: var(--space-3);
+        min-height: 60px;
+    }
+    
+    .page-nav-home {
+        min-height: 45px;
+    }
+    
+    .page-nav-direction {
+        margin-bottom: var(--space-1);
+    }
+    
+    .page-nav-title {
+        font-size: var(--font-size-sm);
+    }
+    
+    .page-nav-label {
+        font-size: var(--font-size-xs);
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .page-nav-link {
+        border-width: 2px;
+    }
+    
+    .page-nav-link:hover:not(.page-nav-disabled) {
+        border-width: 3px;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .page-nav-link {
+        transition: none;
+    }
+    
+    .page-nav-link:hover:not(.page-nav-disabled) {
+        transform: none;
+    }
+}
+</style>

@@ -4,6 +4,7 @@ author: "太田和彦（株式会社アイティードゥ）"
 organization: "株式会社アイティードゥ"
 version: "1.0.0"
 lang: "ja"
+permalink: pretty
 
 # Jekyll設定
 markdown: kramdown

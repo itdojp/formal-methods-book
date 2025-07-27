@@ -1,0 +1,355 @@
+/**
+ * Syntax Highlighting for Code Blocks
+ * GitHub-style syntax highlighting with theme support
+ */
+
+/* Light Theme Syntax Colors */
+:root {
+  --syntax-comment: #6a737d;
+  --syntax-constant: #005cc5;
+  --syntax-entity: #6f42c1;
+  --syntax-keyword: #d73a49;
+  --syntax-storage: #d73a49;
+  --syntax-string: #032f62;
+  --syntax-support: #e36209;
+  --syntax-variable: #e36209;
+  --syntax-invalid: #f85149;
+  --syntax-deprecated: #d1242f;
+  --syntax-diff-deleted: #ffeef0;
+  --syntax-diff-inserted: #e6ffed;
+  --syntax-diff-changed: #fff5b1;
+}
+
+/* Dark Theme Syntax Colors */
+[data-theme="dark"] {
+  --syntax-comment: #8b949e;
+  --syntax-constant: #79c0ff;
+  --syntax-entity: #d2a8ff;
+  --syntax-keyword: #ff7b72;
+  --syntax-storage: #ff7b72;
+  --syntax-string: #a5d6ff;
+  --syntax-support: #ffa657;
+  --syntax-variable: #ffa657;
+  --syntax-invalid: #f85149;
+  --syntax-deprecated: #ffa198;
+  --syntax-diff-deleted: #67060c;
+  --syntax-diff-inserted: #033a16;
+  --syntax-diff-changed: #7d4e00;
+}
+
+/* Rouge Syntax Highlighting Classes */
+
+/* Comments */
+.highlight .c,    /* Comment */
+.highlight .cm,   /* Comment.Multiline */
+.highlight .cp,   /* Comment.Preproc */
+.highlight .c1,   /* Comment.Single */
+.highlight .cs {  /* Comment.Special */
+  color: var(--syntax-comment);
+  font-style: italic;
+}
+
+/* Constants and Numbers */
+.highlight .m,    /* Literal.Number */
+.highlight .mf,   /* Literal.Number.Float */
+.highlight .mh,   /* Literal.Number.Hex */
+.highlight .mi,   /* Literal.Number.Integer */
+.highlight .mo,   /* Literal.Number.Oct */
+.highlight .il,   /* Literal.Number.Integer.Long */
+.highlight .mb {  /* Literal.Number.Bin */
+  color: var(--syntax-constant);
+}
+
+/* Keywords */
+.highlight .k,    /* Keyword */
+.highlight .kc,   /* Keyword.Constant */
+.highlight .kd,   /* Keyword.Declaration */
+.highlight .kn,   /* Keyword.Namespace */
+.highlight .kp,   /* Keyword.Pseudo */
+.highlight .kr,   /* Keyword.Reserved */
+.highlight .kt {  /* Keyword.Type */
+  color: var(--syntax-keyword);
+  font-weight: 600;
+}
+
+/* Strings */
+.highlight .s,    /* Literal.String */
+.highlight .sb,   /* Literal.String.Backtick */
+.highlight .sc,   /* Literal.String.Char */
+.highlight .sd,   /* Literal.String.Doc */
+.highlight .s2,   /* Literal.String.Double */
+.highlight .se,   /* Literal.String.Escape */
+.highlight .sh,   /* Literal.String.Heredoc */
+.highlight .si,   /* Literal.String.Interpol */
+.highlight .sx,   /* Literal.String.Other */
+.highlight .sr,   /* Literal.String.Regex */
+.highlight .s1,   /* Literal.String.Single */
+.highlight .ss {  /* Literal.String.Symbol */
+  color: var(--syntax-string);
+}
+
+/* Names and Variables */
+.highlight .n,    /* Name */
+.highlight .na,   /* Name.Attribute */
+.highlight .nb,   /* Name.Builtin */
+.highlight .nc,   /* Name.Class */
+.highlight .no,   /* Name.Constant */
+.highlight .nd,   /* Name.Decorator */
+.highlight .ni,   /* Name.Entity */
+.highlight .ne,   /* Name.Exception */
+.highlight .nf,   /* Name.Function */
+.highlight .nl,   /* Name.Label */
+.highlight .nn,   /* Name.Namespace */
+.highlight .nx,   /* Name.Other */
+.highlight .py,   /* Name.Property */
+.highlight .nt,   /* Name.Tag */
+.highlight .nv,   /* Name.Variable */
+.highlight .vc,   /* Name.Variable.Class */
+.highlight .vg,   /* Name.Variable.Global */
+.highlight .vi {  /* Name.Variable.Instance */
+  color: var(--color-text-primary);
+}
+
+/* Function names */
+.highlight .nf {
+  color: var(--syntax-entity);
+  font-weight: 600;
+}
+
+/* Class names */
+.highlight .nc {
+  color: var(--syntax-support);
+  font-weight: 600;
+}
+
+/* Built-in functions and types */
+.highlight .nb,
+.highlight .bp {
+  color: var(--syntax-support);
+}
+
+/* Operators */
+.highlight .o,    /* Operator */
+.highlight .ow {  /* Operator.Word */
+  color: var(--syntax-keyword);
+}
+
+/* Punctuation */
+.highlight .p {   /* Punctuation */
+  color: var(--color-text-primary);
+}
+
+/* Generic */
+.highlight .gd {  /* Generic.Deleted */
+  background-color: var(--syntax-diff-deleted);
+  color: var(--syntax-deprecated);
+}
+
+.highlight .gi {  /* Generic.Inserted */
+  background-color: var(--syntax-diff-inserted);
+  color: var(--syntax-string);
+}
+
+.highlight .gc {  /* Generic.Changed */
+  background-color: var(--syntax-diff-changed);
+}
+
+.highlight .ge {  /* Generic.Emph */
+  font-style: italic;
+}
+
+.highlight .gs {  /* Generic.Strong */
+  font-weight: bold;
+}
+
+.highlight .gh {  /* Generic.Heading */
+  color: var(--color-text-primary);
+  font-weight: bold;
+}
+
+.highlight .go {  /* Generic.Output */
+  color: var(--syntax-comment);
+}
+
+.highlight .gp {  /* Generic.Prompt */
+  color: var(--syntax-comment);
+  font-weight: bold;
+}
+
+.highlight .gr {  /* Generic.Error */
+  color: var(--syntax-invalid);
+}
+
+.highlight .gt {  /* Generic.Traceback */
+  color: var(--syntax-invalid);
+}
+
+/* Errors */
+.highlight .err {
+  color: var(--syntax-invalid);
+  background-color: rgba(248, 81, 73, 0.1);
+}
+
+/* Language-specific enhancements */
+
+/* JavaScript/TypeScript */
+.highlight .language-javascript .k,
+.highlight .language-js .k,
+.highlight .language-typescript .k,
+.highlight .language-ts .k {
+  color: var(--syntax-keyword);
+}
+
+.highlight .language-javascript .nx,
+.highlight .language-js .nx,
+.highlight .language-typescript .nx,
+.highlight .language-ts .nx {
+  color: var(--color-text-primary);
+}
+
+/* Python */
+.highlight .language-python .bp {
+  color: var(--syntax-support);
+}
+
+.highlight .language-python .k {
+  color: var(--syntax-keyword);
+}
+
+/* CSS */
+.highlight .language-css .nc {
+  color: var(--syntax-entity);
+}
+
+.highlight .language-css .nt {
+  color: var(--syntax-keyword);
+}
+
+.highlight .language-css .nf {
+  color: var(--syntax-entity);
+}
+
+/* HTML */
+.highlight .language-html .nt {
+  color: var(--syntax-keyword);
+}
+
+.highlight .language-html .na {
+  color: var(--syntax-support);
+}
+
+/* Shell/Bash */
+.highlight .language-bash .nb,
+.highlight .language-shell .nb,
+.highlight .language-sh .nb {
+  color: var(--syntax-support);
+}
+
+/* JSON */
+.highlight .language-json .nt {
+  color: var(--syntax-entity);
+}
+
+/* YAML */
+.highlight .language-yaml .nt,
+.highlight .language-yml .nt {
+  color: var(--syntax-entity);
+}
+
+/* Markdown */
+.highlight .language-markdown .gh {
+  color: var(--syntax-keyword);
+  font-weight: bold;
+}
+
+.highlight .language-markdown .ge {
+  color: var(--syntax-string);
+  font-style: italic;
+}
+
+.highlight .language-markdown .gs {
+  font-weight: bold;
+}
+
+/* Code block enhancements */
+.highlight {
+  background: var(--color-code-bg);
+  border-radius: var(--radius-md);
+  padding: 0;
+  overflow: auto;
+}
+
+.highlight pre {
+  background: transparent;
+  border: none;
+  margin: 0;
+  padding: var(--space-4);
+  overflow: auto;
+}
+
+.highlight code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+}
+
+/* Line numbers */
+.highlight .lineno {
+  color: var(--syntax-comment);
+  user-select: none;
+  padding-right: var(--space-3);
+  margin-right: var(--space-3);
+  border-right: 1px solid var(--color-border);
+}
+
+/* Highlighted lines */
+.highlight .hll {
+  background-color: rgba(255, 235, 59, 0.2);
+  display: block;
+  margin: 0 calc(-1 * var(--space-4));
+  padding: 0 var(--space-4);
+}
+
+[data-theme="dark"] .highlight .hll {
+  background-color: rgba(255, 235, 59, 0.1);
+}
+
+/* Print styles */
+@media print {
+  .highlight {
+    background: white !important;
+    color: black !important;
+    border: 1px solid #ccc;
+  }
+  
+  .highlight * {
+    color: black !important;
+    background: transparent !important;
+  }
+  
+  .highlight .c,
+  .highlight .cm,
+  .highlight .cp,
+  .highlight .c1,
+  .highlight .cs {
+    color: #666 !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .highlight {
+    border: 2px solid var(--color-border);
+  }
+  
+  .highlight .k,
+  .highlight .kd,
+  .highlight .kn,
+  .highlight .kp,
+  .highlight .kr,
+  .highlight .kt {
+    font-weight: bold;
+  }
+}
