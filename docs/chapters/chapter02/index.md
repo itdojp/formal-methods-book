@@ -8,7 +8,7 @@
 
 本章では、プログラミングの基本概念と数学的概念の対応関係を明らかにし、第3章以降で学ぶ形式仕様記述への自然な橋渡しを行います。特に、第4章のAlloyモデリング、第5章のZ記法、第6章のCSP、第7章のTLA+で使用する数学的基盤を、既知のプログラミング概念から導入していきます。
 
-![図2-1: プログラミング概念と数学概念の対応関係](../../docs/assets/images/diagrams/programming-math-correspondence.svg)
+![図2-1: プログラミング概念と数学概念の対応関係](../../assets/images/diagrams/programming-math-correspondence.svg)
 
 ### 変数という名前の数学的対象
 
@@ -355,7 +355,7 @@ P → Q, Q → R
 
 遷移関数 δ: S × I → S は、現在の状態 s ∈ S と入力 i ∈ I を受け取り、新しい状態 s' ∈ S を返します。ここで、I は可能な入力の集合です。
 
-![図2-2: 状態遷移モデル（銀行口座システムの例）](../../docs/assets/images/diagrams/state-transition-model.svg)
+![図2-2: 状態遷移モデル（銀行口座システムの例）](../../assets/images/diagrams/state-transition-model.svg)
 
 例えば、単純なカウンターを考えてみましょう：
 ```
