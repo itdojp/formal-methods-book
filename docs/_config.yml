@@ -1,0 +1,40 @@
+title: "形式的手法の基礎と応用"
+description: "仕様記述、模型検査、定理証明の統合的理解"
+author: "株式会社アイティードゥ"
+version: "1.0.0"
+lang: "ja"
+
+# Jekyll設定
+markdown: kramdown
+highlighter: rouge
+theme: minima
+
+# プラグイン
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+  - jekyll-remote-theme
+
+# 除外ファイル
+exclude:
+  - node_modules/
+  - package.json
+  - package-lock.json
+  - scripts/
+  - tests/
+  - "README.md"
+  - vendor/
+  - .bundle/
+  - Gemfile
+  - Gemfile.lock
+
+# 日本語対応
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  
+# GitHub Pages設定
+url: "https://itdojp.github.io"
+baseurl: "/formal-methods-book"
+repository: "itdojp/formal-methods-book"

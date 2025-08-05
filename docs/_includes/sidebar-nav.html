@@ -1,0 +1,189 @@
+<!-- Sidebar Navigation - Formal Methods Guide -->
+<div class="sidebar-content">
+    <!-- Book Info -->
+    <div class="book-info">
+        <h2 class="book-title">📚 形式的手法の基礎と応用</h2>
+        
+        <p class="book-subtitle">仕様記述、模型検査、定理証明の統合的理解</p>
+        
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="toc">
+        <h3 class="toc-title">目次</h3>
+        
+        <!-- Introduction -->
+        <div class="toc-section">
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="{{ '/' | relative_url }}" class="toc-link {% if page.url == '/' %}active{% endif %}">
+                        🏠 はじめに
+                    </a>
+                </li>
+                <li class="toc-item">
+                    <a href="{{ '/introduction/' | relative_url }}" class="toc-link {% if page.url contains 'introduction' %}active{% endif %}">
+                        📖 イントロダクション
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Part I: 基礎編 -->
+        <div class="toc-section">
+            <h3 class="toc-section-title">📖 第1部：基礎編</h3>
+            <ul class="toc-list">
+                <li class="toc-item toc-chapter">
+                    <a href="{{ '/chapters/chapter01/' | relative_url }}" class="toc-link {% if page.url contains 'chapter01' %}active{% endif %}">
+                        <span class="chapter-number">1.</span>なぜ形式的手法が必要なのか
+                    </a>
+                </li>
+                <li class="toc-item toc-chapter">
+                    <a href="{{ '/chapters/chapter02/' | relative_url }}" class="toc-link {% if page.url contains 'chapter02' %}active{% endif %}">
+                        <span class="chapter-number">2.</span>数学とプログラムの橋渡し
+                    </a>
+                </li>
+                <li class="toc-item toc-chapter">
+                    <a href="{{ '/chapters/chapter03/' | relative_url }}" class="toc-link {% if page.url contains 'chapter03' %}active{% endif %}">
+                        <span class="chapter-number">3.</span>仕様記述の基本
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Part II: 手法編 -->
+        <div class="toc-section">
+            <h3 class="toc-section-title">🔧 第2部：手法編</h3>
+            <ul class="toc-list">
+                <li class="toc-item toc-chapter">
+                    <a href="{{ '/chapters/chapter04/' | relative_url }}" class="toc-link {% if page.url contains 'chapter04' %}active{% endif %}">
+                        <span class="chapter-number">4.</span>Alloyで始める仕様記述
+                    </a>
+                </li>
+                <li class="toc-item toc-chapter">
+                    <a href="{{ '/chapters/chapter05/' | relative_url }}" class="toc-link {% if page.url contains 'chapter05' %}active{% endif %}">
+                        <span class="chapter-number">5.</span>Z記法の基礎
+                    </a>
+                </li>
+                <li class="toc-item toc-chapter">
+                    <a href="{{ '/chapters/chapter06/' | relative_url }}" class="toc-link {% if page.url contains 'chapter06' %}active{% endif %}">
+                        <span class="chapter-number">6.</span>CSPによる並行システム
+                    </a>
+                </li>
+                <li class="toc-item toc-chapter">
+                    <a href="{{ '/chapters/chapter07/' | relative_url }}" class="toc-link {% if page.url contains 'chapter07' %}active{% endif %}">
+                        <span class="chapter-number">7.</span>TLA+入門
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Part III: 検証編 -->
+        <div class="toc-section">
+            <h3 class="toc-section-title">✅ 第3部：検証編</h3>
+            <ul class="toc-list">
+                <li class="toc-item toc-chapter">
+                    <a href="{{ '/chapters/chapter08/' | relative_url }}" class="toc-link {% if page.url contains 'chapter08' %}active{% endif %}">
+                        <span class="chapter-number">8.</span>模型検査入門
+                    </a>
+                </li>
+                <li class="toc-item toc-chapter">
+                    <a href="{{ '/chapters/chapter09/' | relative_url }}" class="toc-link {% if page.url contains 'chapter09' %}active{% endif %}">
+                        <span class="chapter-number">9.</span>定理証明の基礎
+                    </a>
+                </li>
+                <li class="toc-item toc-chapter">
+                    <a href="{{ '/chapters/chapter10/' | relative_url }}" class="toc-link {% if page.url contains 'chapter10' %}active{% endif %}">
+                        <span class="chapter-number">10.</span>プログラム検証
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Part IV: 実践編 -->
+        <div class="toc-section">
+            <h3 class="toc-section-title">⚡ 第4部：実践編</h3>
+            <ul class="toc-list">
+                <li class="toc-item toc-chapter">
+                    <a href="{{ '/chapters/chapter11/' | relative_url }}" class="toc-link {% if page.url contains 'chapter11' %}active{% endif %}">
+                        <span class="chapter-number">11.</span>開発プロセスとの統合
+                    </a>
+                </li>
+                <li class="toc-item toc-chapter">
+                    <a href="{{ '/chapters/chapter12/' | relative_url }}" class="toc-link {% if page.url contains 'chapter12' %}active{% endif %}">
+                        <span class="chapter-number">12.</span>ツールと自動化
+                    </a>
+                </li>
+                <li class="toc-item toc-chapter">
+                    <a href="{{ '/chapters/chapter13/' | relative_url }}" class="toc-link {% if page.url contains 'chapter13' %}active{% endif %}">
+                        <span class="chapter-number">13.</span>事例研究
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Appendices -->
+        <div class="toc-section">
+            <h3 class="toc-section-title">📋 付録</h3>
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="{{ '/appendices/appendix-a/' | relative_url }}" class="toc-link {% if page.url contains 'appendix-a' %}active{% endif %}">
+                        付録A: 数学的基礎の復習
+                    </a>
+                </li>
+                <li class="toc-item">
+                    <a href="{{ '/appendices/appendix-b/' | relative_url }}" class="toc-link {% if page.url contains 'appendix-b' %}active{% endif %}">
+                        付録B: ツールインストールガイド
+                    </a>
+                </li>
+                <li class="toc-item">
+                    <a href="{{ '/appendices/appendix-c/' | relative_url }}" class="toc-link {% if page.url contains 'appendix-c' %}active{% endif %}">
+                        付録C: 記法対照表
+                    </a>
+                </li>
+                <li class="toc-item">
+                    <a href="{{ '/appendices/appendix-d/' | relative_url }}" class="toc-link {% if page.url contains 'appendix-d' %}active{% endif %}">
+                        付録D: 演習問題解答
+                    </a>
+                </li>
+                <li class="toc-item">
+                    <a href="{{ '/appendices/appendix-e/' | relative_url }}" class="toc-link {% if page.url contains 'appendix-e' %}active{% endif %}">
+                        付録E: 参考文献とWebリソース
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Afterword -->
+        <div class="toc-section">
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="{{ '/afterword/' | relative_url }}" class="toc-link {% if page.url contains 'afterword' %}active{% endif %}">
+                        📝 あとがき
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Additional Resources -->
+        <div class="toc-section">
+            <h3 class="toc-section-title">📚 リソース</h3>
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="https://github.com/itdojp/formal-methods-book" class="toc-link" target="_blank" rel="noopener">
+                        💾 GitHubリポジトリ
+                    </a>
+                </li>
+                <li class="toc-item">
+                    <a href="https://itdojp.github.io/it-engineer-knowledge-architecture/" class="toc-link" target="_blank" rel="noopener">
+                        📚 書籍一覧
+                    </a>
+                </li>
+                <li class="toc-item">
+                    <a href="https://itdo.jp" class="toc-link" target="_blank" rel="noopener">
+                        🏢 株式会社アイティードゥ
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

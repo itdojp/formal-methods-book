@@ -1,0 +1,158 @@
+<!-- Page Navigation (Previous/Next) -->
+{% assign current_index = nil %}
+{% assign all_pages = site.pages | where: "layout", "book" | where_exp: "page", "page.order" | sort: 'order' %}
+
+<!-- Find current page index -->
+{% for p in all_pages %}
+    {% if p.url == page.url %}
+        {% assign current_index = forloop.index0 %}
+        {% break %}
+    {% endif %}
+{% endfor %}
+
+<!-- Calculate previous and next indices -->
+{% if current_index %}
+    {% assign prev_index = current_index | minus: 1 %}
+    {% assign next_index = current_index | plus: 1 %}
+    
+    {% if prev_index >= 0 %}
+        {% assign previous_page = all_pages[prev_index] %}
+    {% endif %}
+    
+    {% if next_index < all_pages.size %}
+        {% assign next_page = all_pages[next_index] %}
+    {% endif %}
+{% endif %}
+
+<div class="page-nav">
+    <!-- Previous Page -->
+    <div class="page-nav-item page-nav-prev">
+        {% if previous_page %}
+        <a href="{{ previous_page.url | relative_url }}" class="page-nav-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            <div class="page-nav-content">
+                <span class="page-nav-label">前のページ</span>
+                <span class="page-nav-title">{{ previous_page.title }}</span>
+            </div>
+        </a>
+        {% endif %}
+    </div>
+
+    <!-- Next Page -->
+    <div class="page-nav-item page-nav-next">
+        {% if next_page %}
+        <a href="{{ next_page.url | relative_url }}" class="page-nav-link">
+            <div class="page-nav-content">
+                <span class="page-nav-label">次のページ</span>
+                <span class="page-nav-title">{{ next_page.title }}</span>
+            </div>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+.page-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.page-nav-item {
+    flex: 1;
+    max-width: 45%;
+}
+
+.page-nav-prev {
+    text-align: left;
+}
+
+.page-nav-next {
+    text-align: right;
+    margin-left: auto;
+}
+
+.page-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    background: var(--bg-primary);
+}
+
+.page-nav-link:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.page-nav-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.page-nav-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.page-nav-title {
+    font-size: 1rem;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] .page-nav-link {
+    background: var(--bg-secondary);
+}
+
+[data-theme="dark"] .page-nav-link:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .page-nav {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .page-nav-item {
+        max-width: 100%;
+        width: 100%;
+    }
+    
+    .page-nav-next {
+        margin-left: 0;
+    }
+    
+    .page-nav-link {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .page-nav-prev .page-nav-link {
+        flex-direction: row;
+    }
+    
+    .page-nav-next .page-nav-link {
+        flex-direction: row-reverse;
+    }
+}
+</style>
