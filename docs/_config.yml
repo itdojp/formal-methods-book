@@ -4,7 +4,6 @@ author: "太田和彦（株式会社アイティードゥ）"
 organization: "株式会社アイティードゥ"
 version: "1.0.0"
 lang: "ja"
-permalink: /:title/
 
 # Jekyll設定
 markdown: kramdown
@@ -34,8 +33,7 @@ kramdown:
 # GitHub Pages設定
 url: "https://itdojp.github.io"
 baseurl: "/formal-methods-book"
-repository: 
-  github: "https://github.com/itdojp/formal-methods-book"
+repository: "itdojp/formal-methods-book"
 
 # Book structure (from book-config.json)
 structure:
