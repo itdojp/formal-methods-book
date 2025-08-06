@@ -811,15 +811,15 @@ Proof.
 Qed.
 ```
 
-**omega（算術の自動証明）**：
+**lia（算術の自動証明）**：
 ```coq
-Require Import Omega.
+Require Import Lia.
 
 Theorem arithmetic_example : forall n m : nat, 
   n <= m -> n <= m + 1.
 Proof.
   intros n m H.
-  omega.
+  lia.
 Qed.
 ```
 
@@ -874,7 +874,7 @@ Proof.
   - split; simpl; auto with arith.
   - destruct n' as [| n''].
     + split; simpl; auto with arith.
-    + split; simpl in *; omega.
+    + split; simpl in *; lia.
 Qed.
 
 (* この証明から、実際に使用可能な除算アルゴリズムが抽出される *)
