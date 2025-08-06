@@ -29,10 +29,15 @@ class SidebarManager {
         
         if (this.isMobile) {
             this.sidebar?.classList.remove('is-open');
+            this.overlay?.classList.remove('is-active');
             this.isOpen = false;
+            document.body.style.overflow = '';
         } else {
-            this.sidebar?.classList.add('is-open');
+            // On desktop, sidebar is always visible
+            this.sidebar?.classList.remove('is-open');
+            this.overlay?.classList.remove('is-active');
             this.isOpen = true;
+            document.body.style.overflow = '';
         }
         
         this.updateToggleButton();
@@ -144,6 +149,8 @@ class SidebarManager {
     }
 
     toggle() {
+        if (!this.isMobile) return; // Only allow toggle on mobile
+        
         if (this.isOpen) {
             this.close();
         } else {
@@ -152,32 +159,30 @@ class SidebarManager {
     }
 
     open() {
+        if (!this.isMobile) return; // Only allow toggle on mobile
+        
         this.isOpen = true;
         this.sidebar?.classList.add('is-open');
-        this.overlay?.classList.add('is-visible');
+        this.overlay?.classList.add('is-active');
         
-        if (this.isMobile) {
-            document.body.style.overflow = 'hidden';
-        }
-        
+        document.body.style.overflow = 'hidden';
         this.updateToggleButton();
         
         // Focus first navigation item for accessibility
         const firstNavLink = this.sidebar?.querySelector('.nav-link');
-        if (firstNavLink && this.isMobile) {
+        if (firstNavLink) {
             setTimeout(() => firstNavLink.focus(), 100);
         }
     }
 
     close() {
+        if (!this.isMobile) return; // Only allow toggle on mobile
+        
         this.isOpen = false;
         this.sidebar?.classList.remove('is-open');
-        this.overlay?.classList.remove('is-visible');
+        this.overlay?.classList.remove('is-active');
         
-        if (this.isMobile) {
-            document.body.style.overflow = '';
-        }
-        
+        document.body.style.overflow = '';
         this.updateToggleButton();
     }
 
@@ -217,7 +222,7 @@ class SidebarManager {
 const overlayStyles = `
     .sidebar-overlay {
         position: fixed;
-        top: 0;
+        top: var(--header-height, 60px);
         left: 0;
         right: 0;
         bottom: 0;
@@ -228,14 +233,14 @@ const overlayStyles = `
         transition: opacity 0.25s ease-out, visibility 0.25s ease-out;
     }
     
-    .sidebar-overlay.is-visible {
+    .sidebar-overlay.is-active {
         opacity: 1;
         visibility: visible;
     }
     
     @media (min-width: 769px) {
         .sidebar-overlay {
-            display: none;
+            display: none !important;
         }
     }
 `;
