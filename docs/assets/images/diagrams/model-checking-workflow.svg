@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font-family: 'Noto Sans JP', sans-serif; font-size: 20px; font-weight: bold; fill: #2c3e50; }
+      .process-title { font-family: 'Noto Sans JP', sans-serif; font-size: 12px; font-weight: bold; fill: #fff; }
+      .text-content { font-family: 'Noto Sans JP', sans-serif; font-size: 10px; fill: #2c3e50; }
+      .small-text { font-family: 'Noto Sans JP', sans-serif; font-size: 9px; fill: #7f8c8d; }
+      .input-box { fill: #3498db; stroke: #2980b9; stroke-width: 2; }
+      .process-box { fill: #e74c3c; stroke: #c0392b; stroke-width: 2; }
+      .output-box { fill: #2ecc71; stroke: #27ae60; stroke-width: 2; }
+      .decision-box { fill: #f39c12; stroke: #e67e22; stroke-width: 2; }
+      .component { fill: #fff; stroke: #95a5a6; stroke-width: 1; }
+      .flow-arrow { stroke: #34495e; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .yes-arrow { stroke: #27ae60; stroke-width: 2; fill: none; marker-end: url(#arrowhead-green); }
+      .no-arrow { stroke: #e74c3c; stroke-width: 2; fill: none; marker-end: url(#arrowhead-red); }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#34495e"/>
+    </marker>
+    <marker id="arrowhead-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#27ae60"/>
+    </marker>
+    <marker id="arrowhead-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#e74c3c"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="400" y="30" class="title" text-anchor="middle">モデル検査ワークフロー</text>
+
+  <!-- System Specification -->
+  <rect x="300" y="60" width="200" height="60" class="input-box" rx="5"/>
+  <text x="400" y="85" class="process-title" text-anchor="middle">システム仕様</text>
+  <text x="400" y="105" class="text-content" text-anchor="middle">要求・設計文書</text>
+
+  <!-- Model Creation -->
+  <rect x="300" y="150" width="200" height="60" class="process-box" rx="5"/>
+  <text x="400" y="175" class="process-title" text-anchor="middle">モデル作成</text>
+  <text x="400" y="195" class="text-content" text-anchor="middle">Promela, SMV, TLA+</text>
+
+  <!-- Property Specification -->
+  <rect x="50" y="240" width="180" height="60" class="input-box" rx="5"/>
+  <text x="140" y="265" class="process-title" text-anchor="middle">性質の記述</text>
+  <text x="140" y="285" class="text-content" text-anchor="middle">LTL/CTL式</text>
+
+  <!-- Model Checking Engine -->
+  <rect x="300" y="240" width="200" height="60" class="process-box" rx="5"/>
+  <text x="400" y="265" class="process-title" text-anchor="middle">モデル検査エンジン</text>
+  <text x="400" y="285" class="text-content" text-anchor="middle">状態空間探索</text>
+
+  <!-- Decision: Property Satisfied? -->
+  <polygon points="400,330 480,370 400,410 320,370" class="decision-box"/>
+  <text x="400" y="370" class="process-title" text-anchor="middle">性質</text>
+  <text x="400" y="385" class="process-title" text-anchor="middle">満足？</text>
+
+  <!-- Counterexample -->
+  <rect x="100" y="420" width="180" height="60" class="output-box" rx="5"/>
+  <text x="190" y="445" class="process-title" text-anchor="middle">反例生成</text>
+  <text x="190" y="465" class="text-content" text-anchor="middle">エラートレース</text>
+
+  <!-- Verification Result -->
+  <rect x="520" y="420" width="180" height="60" class="output-box" rx="5"/>
+  <text x="610" y="445" class="process-title" text-anchor="middle">検証成功</text>
+  <text x="610" y="465" class="text-content" text-anchor="middle">性質が成立</text>
+
+  <!-- Model Refinement -->
+  <rect x="100" y="340" width="150" height="50" class="process-box" rx="5"/>
+  <text x="175" y="360" class="process-title" text-anchor="middle">モデル修正</text>
+  <text x="175" y="375" class="text-content" text-anchor="middle">バグ修正</text>
+
+  <!-- Flow Arrows -->
+  <path d="M 400 120 L 400 150" class="flow-arrow"/>
+  <path d="M 400 210 L 400 240" class="flow-arrow"/>
+  <path d="M 230 270 L 300 270" class="flow-arrow"/>
+  <path d="M 400 300 L 400 330" class="flow-arrow"/>
+  
+  <!-- Decision Arrows -->
+  <path d="M 320 370 L 280 420" class="no-arrow"/>
+  <text x="290" y="395" class="small-text">No</text>
+  
+  <path d="M 480 370 L 520 420" class="yes-arrow"/>
+  <text x="500" y="395" class="small-text">Yes</text>
+  
+  <!-- Refinement Loop -->
+  <path d="M 190 420 L 190 365" class="flow-arrow"/>
+  <path d="M 190 365 L 175 365" class="flow-arrow"/>
+  <path d="M 175 340 L 175 180 L 300 180" class="flow-arrow"/>
+
+  <!-- State Space Explosion -->
+  <g id="state-explosion">
+    <rect x="550" y="220" width="200" height="100" fill="#fff3cd" stroke="#ffc107" stroke-width="2" rx="5"/>
+    <text x="650" y="245" class="text-content" text-anchor="middle" font-weight="bold">状態空間爆発への対処</text>
+    <text x="560" y="265" class="small-text">• 抽象化</text>
+    <text x="560" y="280" class="small-text">• 対称性削減</text>
+    <text x="560" y="295" class="small-text">• 部分順序削減</text>
+    <text x="560" y="310" class="small-text">• 限定モデル検査</text>
+  </g>
+
+  <!-- Tools Examples -->
+  <g id="tools">
+    <rect x="50" y="520" width="700" height="60" fill="#f8f9fa" stroke="#dee2e6" stroke-width="1" rx="5"/>
+    <text x="400" y="540" class="text-content" text-anchor="middle" font-weight="bold">代表的なモデル検査ツール</text>
+    <text x="150" y="560" class="small-text">SPIN (Promela)</text>
+    <text x="300" y="560" class="small-text">NuSMV (SMV)</text>
+    <text x="450" y="560" class="small-text">TLA+ (TLC)</text>
+    <text x="600" y="560" class="small-text">UPPAAL (時間オートマトン)</text>
+  </g>
+</svg>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font-family: 'Noto Sans JP', sans-serif; font-size: 20px; font-weight: bold; fill: #2c3e50; }
+      .level-title { font-family: 'Noto Sans JP', sans-serif; font-size: 14px; font-weight: bold; fill: #fff; }
+      .method-text { font-family: 'Noto Sans JP', sans-serif; font-size: 11px; fill: #2c3e50; }
+      .small-text { font-family: 'Noto Sans JP', sans-serif; font-size: 10px; fill: #7f8c8d; }
+      .informal-level { fill: #95a5a6; stroke: #7f8c8d; stroke-width: 2; }
+      .semi-formal-level { fill: #3498db; stroke: #2980b9; stroke-width: 2; }
+      .formal-level { fill: #e74c3c; stroke: #c0392b; stroke-width: 2; }
+      .rigorous-level { fill: #9b59b6; stroke: #8e44ad; stroke-width: 2; }
+      .component { fill: #fff; stroke: #95a5a6; stroke-width: 1; }
+      .arrow { stroke: #34495e; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#34495e"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="400" y="30" class="title" text-anchor="middle">形式的仕様記述の階層</text>
+
+  <!-- Level 0: Informal -->
+  <g id="informal">
+    <rect x="100" y="70" width="600" height="80" class="informal-level" rx="5"/>
+    <text x="400" y="95" class="level-title" text-anchor="middle">レベル0: 非形式的記述</text>
+    
+    <rect x="120" y="105" width="130" height="35" class="component" rx="3"/>
+    <text x="185" y="127" class="method-text" text-anchor="middle">自然言語</text>
+    
+    <rect x="270" y="105" width="130" height="35" class="component" rx="3"/>
+    <text x="335" y="127" class="method-text" text-anchor="middle">図表・UML</text>
+    
+    <rect x="420" y="105" width="130" height="35" class="component" rx="3"/>
+    <text x="485" y="127" class="method-text" text-anchor="middle">ユースケース</text>
+    
+    <rect x="570" y="105" width="110" height="35" class="component" rx="3"/>
+    <text x="625" y="127" class="method-text" text-anchor="middle">例示</text>
+  </g>
+
+  <!-- Level 1: Semi-formal -->
+  <g id="semi-formal">
+    <rect x="150" y="180" width="500" height="80" class="semi-formal-level" rx="5"/>
+    <text x="400" y="205" class="level-title" text-anchor="middle">レベル1: 準形式的記述</text>
+    
+    <rect x="170" y="215" width="130" height="35" class="component" rx="3"/>
+    <text x="235" y="237" class="method-text" text-anchor="middle">構造化手法</text>
+    
+    <rect x="320" y="215" width="130" height="35" class="component" rx="3"/>
+    <text x="385" y="237" class="method-text" text-anchor="middle">データフロー図</text>
+    
+    <rect x="470" y="215" width="160" height="35" class="component" rx="3"/>
+    <text x="550" y="237" class="method-text" text-anchor="middle">状態遷移図</text>
+  </g>
+
+  <!-- Level 2: Formal -->
+  <g id="formal">
+    <rect x="200" y="290" width="400" height="80" class="formal-level" rx="5"/>
+    <text x="400" y="315" class="level-title" text-anchor="middle">レベル2: 形式的記述</text>
+    
+    <rect x="220" y="325" width="110" height="35" class="component" rx="3"/>
+    <text x="275" y="347" class="method-text" text-anchor="middle">Z記法</text>
+    
+    <rect x="345" y="325" width="110" height="35" class="component" rx="3"/>
+    <text x="400" y="347" class="method-text" text-anchor="middle">VDM</text>
+    
+    <rect x="470" y="325" width="110" height="35" class="component" rx="3"/>
+    <text x="525" y="347" class="method-text" text-anchor="middle">B-Method</text>
+  </g>
+
+  <!-- Level 3: Rigorous -->
+  <g id="rigorous">
+    <rect x="250" y="400" width="300" height="80" class="rigorous-level" rx="5"/>
+    <text x="400" y="425" class="level-title" text-anchor="middle">レベル3: 厳密な形式手法</text>
+    
+    <rect x="270" y="435" width="120" height="35" class="component" rx="3"/>
+    <text x="330" y="457" class="method-text" text-anchor="middle">定理証明</text>
+    
+    <rect x="410" y="435" width="120" height="35" class="component" rx="3"/>
+    <text x="470" y="457" class="method-text" text-anchor="middle">モデル検査</text>
+  </g>
+
+  <!-- Arrows showing progression -->
+  <path d="M 400 150 L 400 180" class="arrow"/>
+  <path d="M 400 260 L 400 290" class="arrow"/>
+  <path d="M 400 370 L 400 400" class="arrow"/>
+
+  <!-- Characteristics -->
+  <g id="characteristics">
+    <rect x="50" y="510" width="700" height="70" fill="#f8f9fa" stroke="#dee2e6" stroke-width="1" rx="5"/>
+    <text x="400" y="530" class="method-text" text-anchor="middle" font-weight="bold">各レベルの特徴</text>
+    
+    <text x="100" y="550" class="small-text">形式度: 低</text>
+    <text x="100" y="565" class="small-text">学習コスト: 低</text>
+    
+    <text x="300" y="550" class="small-text">曖昧性: 高</text>
+    <text x="300" y="565" class="small-text">自動化: 困難</text>
+    
+    <text x="500" y="550" class="small-text">形式度: 高</text>
+    <text x="500" y="565" class="small-text">学習コスト: 高</text>
+    
+    <text x="650" y="550" class="small-text">曖昧性: 低</text>
+    <text x="650" y="565" class="small-text">自動化: 可能</text>
+  </g>
+
+  <!-- Gradient Arrow -->
+  <g id="gradient">
+    <path d="M 70 70 L 70 480" stroke="#34495e" stroke-width="3" fill="none"/>
+    <text x="50" y="275" class="small-text" text-anchor="middle" transform="rotate(-90, 50, 275)">形式度・厳密性</text>
+    <polygon points="70,60 65,70 75,70" fill="#34495e"/>
+  </g>
+</svg>
