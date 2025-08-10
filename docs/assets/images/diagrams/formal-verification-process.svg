@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="700" viewBox="0 0 900 700" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font-family: 'Noto Sans JP', sans-serif; font-size: 20px; font-weight: bold; fill: #2c3e50; }
+      .stage-title { font-family: 'Noto Sans JP', sans-serif; font-size: 14px; font-weight: bold; fill: #fff; }
+      .method-text { font-family: 'Noto Sans JP', sans-serif; font-size: 11px; fill: #2c3e50; }
+      .small-text { font-family: 'Noto Sans JP', sans-serif; font-size: 10px; fill: #7f8c8d; }
+      .spec-box { fill: #3498db; stroke: #2980b9; stroke-width: 2; }
+      .model-box { fill: #e74c3c; stroke: #c0392b; stroke-width: 2; }
+      .verify-box { fill: #2ecc71; stroke: #27ae60; stroke-width: 2; }
+      .proof-box { fill: #9b59b6; stroke: #8e44ad; stroke-width: 2; }
+      .component { fill: #fff; stroke: #95a5a6; stroke-width: 1; }
+      .flow-arrow { stroke: #34495e; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .feedback-arrow { stroke: #e74c3c; stroke-width: 2; stroke-dasharray: 5,3; fill: none; marker-end: url(#arrowhead-red); }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#34495e"/>
+    </marker>
+    <marker id="arrowhead-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#e74c3c"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="450" y="30" class="title" text-anchor="middle">形式的検証プロセス</text>
+
+  <!-- Requirements/Specification -->
+  <g id="specification">
+    <rect x="50" y="80" width="200" height="120" class="spec-box" rx="10"/>
+    <text x="150" y="105" class="stage-title" text-anchor="middle">要求・仕様定義</text>
+    
+    <rect x="65" y="120" width="170" height="30" class="component" rx="3"/>
+    <text x="150" y="140" class="method-text" text-anchor="middle">自然言語仕様</text>
+    
+    <rect x="65" y="155" width="170" height="30" class="component" rx="3"/>
+    <text x="150" y="175" class="method-text" text-anchor="middle">形式的仕様記述</text>
+    
+    <text x="150" y="195" class="small-text" text-anchor="middle">Z記法, VDM, Alloy</text>
+  </g>
+
+  <!-- Formal Model -->
+  <g id="model">
+    <rect x="300" y="80" width="200" height="120" class="model-box" rx="10"/>
+    <text x="400" y="105" class="stage-title" text-anchor="middle">形式モデル構築</text>
+    
+    <rect x="315" y="120" width="170" height="30" class="component" rx="3"/>
+    <text x="400" y="140" class="method-text" text-anchor="middle">状態遷移モデル</text>
+    
+    <rect x="315" y="155" width="170" height="30" class="component" rx="3"/>
+    <text x="400" y="175" class="method-text" text-anchor="middle">数学的モデル</text>
+    
+    <text x="400" y="195" class="small-text" text-anchor="middle">FSM, Petri Net, CSP</text>
+  </g>
+
+  <!-- Verification -->
+  <g id="verification">
+    <rect x="550" y="80" width="200" height="120" class="verify-box" rx="10"/>
+    <text x="650" y="105" class="stage-title" text-anchor="middle">検証実行</text>
+    
+    <rect x="565" y="120" width="170" height="30" class="component" rx="3"/>
+    <text x="650" y="140" class="method-text" text-anchor="middle">モデル検査</text>
+    
+    <rect x="565" y="155" width="170" height="30" class="component" rx="3"/>
+    <text x="650" y="175" class="method-text" text-anchor="middle">定理証明</text>
+    
+    <text x="650" y="195" class="small-text" text-anchor="middle">SPIN, TLA+, Coq, Isabelle</text>
+  </g>
+
+  <!-- Property Specification -->
+  <g id="properties">
+    <rect x="300" y="250" width="300" height="100" class="proof-box" rx="10"/>
+    <text x="450" y="275" class="stage-title" text-anchor="middle">検証性質の定義</text>
+    
+    <rect x="320" y="290" width="120" height="25" class="component" rx="3"/>
+    <text x="380" y="307" class="method-text" text-anchor="middle">安全性 (Safety)</text>
+    
+    <rect x="460" y="290" width="120" height="25" class="component" rx="3"/>
+    <text x="520" y="307" class="method-text" text-anchor="middle">活性 (Liveness)</text>
+    
+    <text x="450" y="335" class="small-text" text-anchor="middle">時相論理: LTL, CTL, CTL*</text>
+  </g>
+
+  <!-- Verification Techniques -->
+  <g id="techniques">
+    <text x="450" y="390" class="stage-title" text-anchor="middle" fill="#2c3e50">検証技術</text>
+    
+    <!-- Model Checking -->
+    <rect x="50" y="410" width="250" height="120" fill="#e6f3ff" stroke="#3498db" stroke-width="2" rx="5"/>
+    <text x="175" y="435" class="method-text" text-anchor="middle" font-weight="bold">モデル検査</text>
+    <text x="60" y="455" class="small-text">• 有限状態の網羅的探索</text>
+    <text x="60" y="470" class="small-text">• 自動化可能</text>
+    <text x="60" y="485" class="small-text">• 反例の生成</text>
+    <text x="60" y="500" class="small-text">• 状態爆発問題</text>
+    <text x="60" y="515" class="small-text">ツール: SPIN, NuSMV, UPPAAL</text>
+    
+    <!-- Theorem Proving -->
+    <rect x="325" y="410" width="250" height="120" fill="#ffe6e6" stroke="#e74c3c" stroke-width="2" rx="5"/>
+    <text x="450" y="435" class="method-text" text-anchor="middle" font-weight="bold">定理証明</text>
+    <text x="335" y="455" class="small-text">• 数学的証明</text>
+    <text x="335" y="470" class="small-text">• 無限状態対応</text>
+    <text x="335" y="485" class="small-text">• 人間の介入必要</text>
+    <text x="335" y="500" class="small-text">• 高い信頼性</text>
+    <text x="335" y="515" class="small-text">ツール: Coq, Isabelle/HOL, Lean</text>
+    
+    <!-- Static Analysis -->
+    <rect x="600" y="410" width="250" height="120" fill="#e6ffe6" stroke="#2ecc71" stroke-width="2" rx="5"/>
+    <text x="725" y="435" class="method-text" text-anchor="middle" font-weight="bold">静的解析</text>
+    <text x="610" y="455" class="small-text">• ソースコード解析</text>
+    <text x="610" y="470" class="small-text">• 抽象解釈</text>
+    <text x="610" y="485" class="small-text">• データフロー解析</text>
+    <text x="610" y="500" class="small-text">• 型システム</text>
+    <text x="610" y="515" class="small-text">ツール: Coverity, Polyspace</text>
+  </g>
+
+  <!-- Process Flow -->
+  <path d="M 250 140 L 300 140" class="flow-arrow"/>
+  <path d="M 500 140 L 550 140" class="flow-arrow"/>
+  <path d="M 400 200 L 450 250" class="flow-arrow"/>
+  <path d="M 650 200 L 500 250" class="flow-arrow"/>
+  
+  <!-- Feedback Loop -->
+  <path d="M 450 350 Q 450 400 150 400 Q 150 200 150 200" class="feedback-arrow"/>
+  <text x="300" y="380" class="small-text" text-anchor="middle">反例・エラーフィードバック</text>
+
+  <!-- Application Areas -->
+  <g id="applications">
+    <rect x="50" y="550" width="800" height="120" fill="#f8f9fa" stroke="#dee2e6" stroke-width="1" rx="5"/>
+    <text x="450" y="575" class="method-text" text-anchor="middle" font-weight="bold">適用分野</text>
+    
+    <text x="150" y="600" class="small-text" font-weight="bold">ハードウェア</text>
+    <text x="150" y="615" class="small-text">• CPU設計</text>
+    <text x="150" y="630" class="small-text">• 回路検証</text>
+    <text x="150" y="645" class="small-text">• FPGA</text>
+    
+    <text x="350" y="600" class="small-text" font-weight="bold">ソフトウェア</text>
+    <text x="350" y="615" class="small-text">• OS/カーネル</text>
+    <text x="350" y="630" class="small-text">• 並行システム</text>
+    <text x="350" y="645" class="small-text">• プロトコル</text>
+    
+    <text x="550" y="600" class="small-text" font-weight="bold">セーフティクリティカル</text>
+    <text x="550" y="615" class="small-text">• 航空宇宙</text>
+    <text x="550" y="630" class="small-text">• 医療機器</text>
+    <text x="550" y="645" class="small-text">• 自動車制御</text>
+    
+    <text x="750" y="600" class="small-text" font-weight="bold">セキュリティ</text>
+    <text x="750" y="615" class="small-text">• 暗号プロトコル</text>
+    <text x="750" y="630" class="small-text">• アクセス制御</text>
+    <text x="750" y="645" class="small-text">• 情報流制御</text>
+  </g>
+</svg>
