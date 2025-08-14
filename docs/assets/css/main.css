@@ -33,9 +33,11 @@
   --color-syntax-number: #005cc5;
   
   /* Typography */
-  --font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
-  --font-family-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-  --font-family-heading: var(--font-family-base);
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "source-code-pro", monospace;
+  --font-family-base: var(--font-sans);
+  --font-family-mono: var(--font-mono);
+  --font-family-heading: var(--font-sans);
   
   /* Font Sizes - Responsive */
   --font-size-xs: 0.75rem;   /* 12px */
