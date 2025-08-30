@@ -1,0 +1,119 @@
+/* ============================================
+   CSS-only Responsive Sidebar Implementation
+   Based on mobile-responsive-implementation-guide.md
+   ============================================ */
+
+/* Hidden checkbox for state management */
+.sidebar-toggle-checkbox {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+}
+
+/* Prevent page jumping and unwanted focus */
+.sidebar-toggle:focus {
+  outline: none;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+/* Mobile/Tablet Implementation (≤1024px) */
+@media (max-width: 1024px) {
+  /* Full-width content layout */
+  .book-layout .book-main {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+  
+  .book-layout .book-main .book-content {
+    margin: 0 !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  
+  /* Show hamburger menu */
+  .sidebar-toggle {
+    display: flex !important;
+  }
+  
+  /* Overlay sidebar */
+  .book-sidebar {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    width: 280px;
+    height: calc(100vh - var(--header-height));
+    background: var(--bg-primary);
+    border-right: 1px solid var(--border-color);
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  /* Show sidebar when toggled */
+  .sidebar-toggle-checkbox:checked ~ .book-layout .book-sidebar {
+    transform: translateX(0) !important;
+  }
+  
+  /* Ensure sidebar content is interactive */
+  .sidebar-toggle-checkbox:checked ~ .book-layout .book-sidebar .toc-link {
+    color: var(--text-secondary) !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+  }
+  
+  .sidebar-toggle-checkbox:checked ~ .book-layout .book-sidebar .toc-link:hover {
+    background: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+  }
+  
+  .sidebar-toggle-checkbox:checked ~ .book-layout .book-sidebar .toc-link.active {
+    background: var(--bg-tertiary) !important;
+    color: var(--primary-color) !important;
+  }
+  
+  /* Background overlay */
+  .book-sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 950;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .sidebar-toggle-checkbox:checked ~ .book-sidebar-overlay {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+}
+
+/* Desktop view - keep default main.css sidebar behavior */
+@media (min-width: 1025px) {
+  .sidebar-toggle {
+    display: none !important;
+  }
+}
+
+/* Progressive margin reduction for medium desktop screens */
+@media (min-width: 1025px) and (max-width: 1600px) {
+  .book-main {
+    margin-left: calc(var(--sidebar-width) * 0.8);
+  }
+  
+  .book-content {
+    padding-left: 2rem;
+  }
+}
+
+@media (min-width: 1600px) and (max-width: 1900px) {
+  .book-main {
+    margin-left: calc(var(--sidebar-width) * 0.9);
+  }
+}
