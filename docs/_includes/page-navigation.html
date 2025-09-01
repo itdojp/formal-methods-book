@@ -1,26 +1,64 @@
 <!-- Page Navigation (Previous/Next) -->
-{% assign current_index = nil %}
-{% assign all_pages = site.pages | where: "layout", "book" | where_exp: "page", "page.order" | sort: 'order' %}
+{% assign navigation = site.data.navigation %}
 
-<!-- Find current page index -->
-{% for p in all_pages %}
-    {% if p.url == page.url %}
+<!-- Build complete page sequence -->
+{% assign all_pages = '' | split: '' %}
+
+<!-- Add introduction -->
+{% if navigation.introduction %}
+    {% for item in navigation.introduction %}
+        {% assign all_pages = all_pages | push: item %}
+    {% endfor %}
+{% endif %}
+
+<!-- Add chapters -->
+{% if navigation.chapters %}
+    {% for item in navigation.chapters %}
+        {% assign all_pages = all_pages | push: item %}
+    {% endfor %}
+{% endif %}
+
+<!-- Add appendices -->
+{% if navigation.appendices %}
+    {% for item in navigation.appendices %}
+        {% assign all_pages = all_pages | push: item %}
+    {% endfor %}
+{% endif %}
+
+<!-- Add afterword -->
+{% if navigation.afterword %}
+    {% for item in navigation.afterword %}
+        {% assign all_pages = all_pages | push: item %}
+    {% endfor %}
+{% endif %}
+
+<!-- Find current page and set prev/next -->
+{% assign current_found = false %}
+{% assign prev_item = nil %}
+{% assign next_item = nil %}
+{% assign current_index = nil %}
+
+{% for item in all_pages %}
+    <!-- Normalize URLs for comparison -->
+    {% assign normalized_item_path = item.path | remove_first: "/" | append: "/" %}
+    {% assign normalized_page_url = page.url | remove_first: "/" | append: "/" %}
+    
+    {% if normalized_page_url == normalized_item_path %}
         {% assign current_index = forloop.index0 %}
         {% break %}
     {% endif %}
 {% endfor %}
 
-<!-- Calculate previous and next indices -->
 {% if current_index %}
     {% assign prev_index = current_index | minus: 1 %}
     {% assign next_index = current_index | plus: 1 %}
     
     {% if prev_index >= 0 %}
-        {% assign previous_page = all_pages[prev_index] %}
+        {% assign prev_item = all_pages[prev_index] %}
     {% endif %}
     
     {% if next_index < all_pages.size %}
-        {% assign next_page = all_pages[next_index] %}
+        {% assign next_item = all_pages[next_index] %}
     {% endif %}
 {% endif %}
 
@@ -29,15 +67,15 @@
     <div class="page-nav-container">
         <!-- Previous Page -->
         <div class="page-nav-item page-nav-prev">
-            {% if previous_page %}
-            <a href="{{ previous_page.url | relative_url }}" class="page-nav-link" rel="prev">
+            {% if prev_item %}
+            <a href="{{ site.baseurl }}{{ prev_item.path }}" class="page-nav-link" rel="prev">
                 <div class="page-nav-direction">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="page-nav-arrow">
                         <polyline points="15,18 9,12 15,6"></polyline>
                     </svg>
                     <span class="page-nav-label">前へ</span>
                 </div>
-                <div class="page-nav-title">{{ previous_page.title | truncate: 50 }}</div>
+                <div class="page-nav-title">{{ prev_item.title | truncate: 50 }}</div>
             </a>
             {% else %}
             <div class="page-nav-link page-nav-disabled">
@@ -67,15 +105,15 @@
 
         <!-- Next Page -->
         <div class="page-nav-item page-nav-next">
-            {% if next_page %}
-            <a href="{{ next_page.url | relative_url }}" class="page-nav-link" rel="next">
+            {% if next_item %}
+            <a href="{{ site.baseurl }}{{ next_item.path }}" class="page-nav-link" rel="next">
                 <div class="page-nav-direction">
                     <span class="page-nav-label">次へ</span>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="page-nav-arrow">
                         <polyline points="9,18 15,12 9,6"></polyline>
                     </svg>
                 </div>
-                <div class="page-nav-title">{{ next_page.title | truncate: 50 }}</div>
+                <div class="page-nav-title">{{ next_item.title | truncate: 50 }}</div>
             </a>
             {% else %}
             <div class="page-nav-link page-nav-disabled">
