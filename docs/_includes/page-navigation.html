@@ -3,6 +3,10 @@
 {% assign current_path = page.url | remove: '.html' | remove_first: '/' %}
 {% assign previous_page = nil %}
 {% assign next_page = nil %}
+{% assign prev_url = nil %}
+{% assign prev_title = nil %}
+{% assign next_url = nil %}
+{% assign next_title = nil %}
 
 {%- comment -%}
 Try BookGenerator-style per-page navigation first: site.data.navigation[<path>]
@@ -51,17 +55,45 @@ If previous/next not resolved, derive from list-based navigation
   {% endif %}
 {% endif %}
 
+{%- comment -%}
+Final fallback: derive by ordering pages with layout: book and 'order'
+{%- endcomment -%}
+{% if previous_page == nil and next_page == nil %}
+  {% assign book_pages = site.pages | where: 'layout', 'book' | sort: 'order' %}
+  {% assign current_index = -1 %}
+  {% for p in book_pages %}
+    {% if page.url == p.url or page.url contains p.url %}
+      {% assign current_index = forloop.index0 %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+  {% if current_index != -1 %}
+    {% assign prev_index = current_index | minus: 1 %}
+    {% assign next_index = current_index | plus: 1 %}
+    {% if prev_index >= 0 %}
+      {% assign prev_page = book_pages[prev_index] %}
+      {% assign prev_url = prev_page.url %}
+      {% assign prev_title = prev_page.title %}
+    {% endif %}
+    {% if next_index < book_pages.size %}
+      {% assign next_page_o = book_pages[next_index] %}
+      {% assign next_url = next_page_o.url %}
+      {% assign next_title = next_page_o.title %}
+    {% endif %}
+  {% endif %}
+{% endif %}
+
 <div class="page-nav">
     <!-- Previous Page -->
     <div class="page-nav-item page-nav-prev">
-        {% if previous_page %}
-        <a href="{{ previous_page.path | relative_url }}" class="page-nav-link">
+        {% if previous_page or prev_url %}
+        <a href="{{ previous_page.path | default: prev_url | relative_url }}" class="page-nav-link">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
             <div class="page-nav-content">
                 <span class="page-nav-label">前のページ</span>
-                <span class="page-nav-title">{{ previous_page.title }}</span>
+                <span class="page-nav-title">{{ previous_page.title | default: prev_title }}</span>
             </div>
         </a>
         {% endif %}
@@ -69,11 +101,11 @@ If previous/next not resolved, derive from list-based navigation
 
     <!-- Next Page -->
     <div class="page-nav-item page-nav-next">
-        {% if next_page %}
-        <a href="{{ next_page.path | relative_url }}" class="page-nav-link">
+        {% if next_page or next_url %}
+        <a href="{{ next_page.path | default: next_url | relative_url }}" class="page-nav-link">
             <div class="page-nav-content">
                 <span class="page-nav-label">次のページ</span>
-                <span class="page-nav-title">{{ next_page.title }}</span>
+                <span class="page-nav-title">{{ next_page.title | default: next_title }}</span>
             </div>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="9 18 15 12 9 6"></polyline>
