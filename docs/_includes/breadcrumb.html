@@ -27,21 +27,70 @@
             <span property="name">章</span>
             <meta property="position" content="2">
         </li>
+        
+        <!-- Specific Chapter -->
+        {% for chapter in site.data.navigation.chapters %}
+            {% if page.url contains chapter.path %}
+                <li property="itemListElement" typeof="ListItem">
+                    <span class="breadcrumb-separator" aria-hidden="true">›</span>
+                    <a property="item" typeof="WebPage" href="{{ site.baseurl }}{{ chapter.path }}">
+                        <span property="name">{{ chapter.title }}</span>
+                    </a>
+                    <meta property="position" content="3">
+                </li>
+                {% break %}
+            {% endif %}
+        {% endfor %}
     {% elsif page.url contains '/appendices/' %}
         <li property="itemListElement" typeof="ListItem">
             <span class="breadcrumb-separator" aria-hidden="true">›</span>
             <span property="name">付録</span>
             <meta property="position" content="2">
         </li>
+        
+        <!-- Specific Appendix -->
+        {% for appendix in site.data.navigation.appendices %}
+            {% if page.url contains appendix.path %}
+                <li property="itemListElement" typeof="ListItem">
+                    <span class="breadcrumb-separator" aria-hidden="true">›</span>
+                    <a property="item" typeof="WebPage" href="{{ site.baseurl }}{{ appendix.path }}">
+                        <span property="name">{{ appendix.title }}</span>
+                    </a>
+                    <meta property="position" content="3">
+                </li>
+                {% break %}
+            {% endif %}
+        {% endfor %}
     {% endif %}
     
-    <!-- Current Page (if not home) -->
+    <!-- Current Page (if different from section) -->
     {% unless page.url == '/' %}
+        {% assign is_section_page = false %}
+        {% if page.url contains '/chapters/' %}
+            {% for chapter in site.data.navigation.chapters %}
+                {% if page.url == chapter.path %}
+                    {% assign is_section_page = true %}
+                    {% break %}
+                {% endif %}
+            {% endfor %}
+        {% elsif page.url contains '/appendices/' %}
+            {% for appendix in site.data.navigation.appendices %}
+                {% if page.url == appendix.path %}
+                    {% assign is_section_page = true %}
+                    {% break %}
+                {% endif %}
+            {% endfor %}
+        {% elsif page.url contains '/introduction/' %}
+            {% assign is_section_page = true %}
+        {% endif %}
+        
+        {% unless is_section_page %}
         <li property="itemListElement" typeof="ListItem">
             <span class="breadcrumb-separator" aria-hidden="true">›</span>
             <span property="name" class="breadcrumb-current">{{ page.title | default: "現在のページ" }}</span>
-            <meta property="position" content="3">
+            <meta property="position" content="4">
         </li>
+        {% endunless %}
     {% endunless %}
 </ol>
 

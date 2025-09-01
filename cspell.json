@@ -1,0 +1,47 @@
+{
+  "version": "0.2",
+  "language": "ja",
+  "words": [
+    "アイティードゥ",
+    "ITDO",
+    "knowledge",
+    "itdo",
+    "itdojp",
+    "jp",
+    "GitHub",
+    "Markdown",
+    "markdown",
+    "リポジトリ",
+    "コンテンツ",
+    "ビルド",
+    "デプロイ",
+    "プレビュー",
+    "インクリメンタル",
+    "フロントマター",
+    "メタデータ",
+    "textlint",
+    "markdownlint",
+    "cspell",
+    "npm",
+    "Node.js",
+    "JavaScript",
+    "JSON",
+    "YAML",
+    "HTML",
+    "CSS",
+    "CI",
+    "CD",
+    "TOC",
+    "API",
+    "INSTRUCTOR"
+  ],
+  "dictionaries": [
+    "japanese"
+  ],
+  "ignorePaths": [
+    "node_modules/**",
+    "public/**",
+    ".git/**",
+    "validation-reports/**"
+  ]
+}

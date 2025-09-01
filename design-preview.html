@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Book Publishing Template v3.0 - デザインプレビュー</title>
+    <style>
+        /* CSS Variables for Theme System */
+        :root {
+          /* Colors - Light Theme */
+          --color-bg-primary: #ffffff;
+          --color-bg-secondary: #f8f9fa;
+          --color-bg-tertiary: #e9ecef;
+          --color-text-primary: #212529;
+          --color-text-secondary: #6c757d;
+          --color-text-muted: #adb5bd;
+          --color-border: #dee2e6;
+          --color-border-light: #f1f3f4;
+          
+          /* Brand Colors */
+          --color-primary: #0366d6;
+          --color-primary-hover: #0256cc;
+          --color-success: #28a745;
+          --color-warning: #ffc107;
+          --color-danger: #dc3545;
+          --color-info: #17a2b8;
+          
+          /* Code Colors */
+          --color-code-bg: #f6f8fa;
+          --color-code-border: #e1e4e8;
+          --color-code-text: #24292e;
+          
+          /* Typography */
+          --font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+          --font-family-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+          
+          /* Font Sizes */
+          --font-size-xs: 0.75rem;
+          --font-size-sm: 0.875rem;
+          --font-size-base: 1rem;
+          --font-size-lg: 1.125rem;
+          --font-size-xl: 1.25rem;
+          --font-size-2xl: 1.5rem;
+          --font-size-3xl: 1.875rem;
+          --font-size-4xl: 2.25rem;
+          
+          /* Spacing */
+          --space-1: 0.25rem;
+          --space-2: 0.5rem;
+          --space-3: 0.75rem;
+          --space-4: 1rem;
+          --space-5: 1.25rem;
+          --space-6: 1.5rem;
+          --space-8: 2rem;
+          --space-10: 2.5rem;
+          --space-12: 3rem;
+          
+          /* Layout */
+          --sidebar-width: 280px;
+          --header-height: 60px;
+          
+          /* Shadows */
+          --shadow-sm: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+          --shadow-md: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+          
+          /* Transitions */
+          --transition-fast: 0.15s ease-out;
+          --transition-base: 0.25s ease-out;
+          
+          /* Border Radius */
+          --radius-sm: 0.25rem;
+          --radius-md: 0.375rem;
+          --radius-lg: 0.5rem;
+        }
+
+        /* Dark Theme */
+        [data-theme="dark"] {
+          --color-bg-primary: #0d1117;
+          --color-bg-secondary: #161b22;
+          --color-bg-tertiary: #21262d;
+          --color-text-primary: #f0f6fc;
+          --color-text-secondary: #8b949e;
+          --color-text-muted: #6e7681;
+          --color-border: #30363d;
+          --color-border-light: #21262d;
+          
+          --color-primary: #58a6ff;
+          --color-primary-hover: #4493f8;
+          
+          --color-code-bg: #161b22;
+          --color-code-border: #30363d;
+          --color-code-text: #e6edf3;
+        }
+
+        * {
+          box-sizing: border-box;
+        }
+
+        body {
+          font-family: var(--font-family-base);
+          font-size: var(--font-size-base);
+          line-height: 1.5;
+          color: var(--color-text-primary);
+          background-color: var(--color-bg-primary);
+          margin: 0;
+          padding: 0;
+        }
+
+        .preview-container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: var(--space-8);
+        }
+
+        .preview-section {
+          margin-bottom: var(--space-12);
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-lg);
+          overflow: hidden;
+          background: var(--color-bg-primary);
+          box-shadow: var(--shadow-md);
+        }
+
+        .preview-header {
+          padding: var(--space-4);
+          background: var(--color-bg-secondary);
+          border-bottom: 1px solid var(--color-border);
+        }
+
+        .preview-title {
+          margin: 0;
+          font-size: var(--font-size-xl);
+          font-weight: 600;
+          color: var(--color-text-primary);
+        }
+
+        .preview-description {
+          margin: var(--space-2) 0 0;
+          color: var(--color-text-secondary);
+          font-size: var(--font-size-sm);
+        }
+
+        .preview-content {
+          padding: var(--space-6);
+        }
+
+        /* Layout Preview */
+        .layout-preview {
+          height: 400px;
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-md);
+          overflow: hidden;
+          background: var(--color-bg-primary);
+          display: flex;
+          position: relative;
+        }
+
+        .layout-header {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 50px;
+          background: var(--color-bg-secondary);
+          border-bottom: 1px solid var(--color-border);
+          display: flex;
+          align-items: center;
+          padding: 0 var(--space-4);
+          z-index: 10;
+        }
+
+        .layout-sidebar {
+          width: 200px;
+          background: var(--color-bg-secondary);
+          border-right: 1px solid var(--color-border);
+          margin-top: 50px;
+          padding: var(--space-4);
+        }
+
+        .layout-main {
+          flex: 1;
+          padding: var(--space-6);
+          margin-top: 50px;
+          background: var(--color-bg-primary);
+        }
+
+        .nav-item {
+          padding: var(--space-2);
+          margin-bottom: var(--space-1);
+          border-radius: var(--radius-sm);
+          font-size: var(--font-size-sm);
+          background: var(--color-bg-primary);
+          border: 1px solid var(--color-border);
+        }
+
+        .nav-item.active {
+          background: var(--color-primary);
+          color: white;
+        }
+
+        /* Typography Preview */
+        .typography-preview h1 {
+          font-size: var(--font-size-4xl);
+          margin: 0 0 var(--space-4);
+          border-bottom: 1px solid var(--color-border);
+          padding-bottom: var(--space-4);
+        }
+
+        .typography-preview h2 {
+          font-size: var(--font-size-3xl);
+          margin: var(--space-8) 0 var(--space-4);
+        }
+
+        .typography-preview h3 {
+          font-size: var(--font-size-2xl);
+          margin: var(--space-6) 0 var(--space-3);
+        }
+
+        .typography-preview p {
+          margin-bottom: var(--space-4);
+          max-width: 75ch;
+        }
+
+        /* Code Preview */
+        .code-preview pre {
+          background: var(--color-code-bg);
+          border: 1px solid var(--color-code-border);
+          border-radius: var(--radius-md);
+          padding: var(--space-4);
+          overflow-x: auto;
+          position: relative;
+          font-family: var(--font-family-mono);
+          font-size: var(--font-size-sm);
+        }
+
+        .copy-button {
+          position: absolute;
+          top: var(--space-2);
+          right: var(--space-2);
+          background: var(--color-bg-secondary);
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-sm);
+          padding: var(--space-2);
+          font-size: var(--font-size-xs);
+          cursor: pointer;
+        }
+
+        /* Navigation Preview */
+        .breadcrumb {
+          display: flex;
+          align-items: center;
+          padding: var(--space-3) 0;
+          font-size: var(--font-size-sm);
+          color: var(--color-text-secondary);
+          border-bottom: 1px solid var(--color-border-light);
+          margin-bottom: var(--space-6);
+        }
+
+        .breadcrumb-separator {
+          margin: 0 var(--space-2);
+        }
+
+        .page-nav {
+          display: grid;
+          grid-template-columns: 1fr auto 1fr;
+          gap: var(--space-4);
+          margin-top: var(--space-8);
+          padding: var(--space-6) 0;
+          border-top: 1px solid var(--color-border);
+        }
+
+        .nav-card {
+          padding: var(--space-4);
+          background: var(--color-bg-secondary);
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-lg);
+          text-decoration: none;
+          color: var(--color-text-primary);
+          transition: all var(--transition-base);
+        }
+
+        .nav-card:hover {
+          background: var(--color-primary);
+          color: white;
+          transform: translateY(-2px);
+          box-shadow: var(--shadow-md);
+        }
+
+        .nav-direction {
+          font-size: var(--font-size-sm);
+          font-weight: 600;
+          margin-bottom: var(--space-2);
+        }
+
+        .nav-title {
+          font-size: var(--font-size-base);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+          position: fixed;
+          top: var(--space-4);
+          right: var(--space-4);
+          background: var(--color-primary);
+          color: white;
+          border: none;
+          border-radius: var(--radius-md);
+          padding: var(--space-3);
+          cursor: pointer;
+          box-shadow: var(--shadow-md);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+          .layout-sidebar {
+            display: none;
+          }
+          
+          .page-nav {
+            grid-template-columns: 1fr;
+            gap: var(--space-3);
+          }
+          
+          .preview-container {
+            padding: var(--space-4);
+          }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙/☀️</button>
+    
+    <div class="preview-container">
+        <header style="text-align: center; margin-bottom: var(--space-12);">
+            <h1 style="font-size: var(--font-size-4xl); margin-bottom: var(--space-4);">Book Publishing Template v3.0</h1>
+            <p style="font-size: var(--font-size-lg); color: var(--color-text-secondary); max-width: 600px; margin: 0 auto;">現代的な技術書籍サイトのためのデザインシステム</p>
+        </header>
+
+        <!-- レイアウト構造 -->
+        <div class="preview-section">
+            <div class="preview-header">
+                <h2 class="preview-title">📐 レイアウト構造</h2>
+                <p class="preview-description">サイドバーナビゲーション + 固定ヘッダー + レスポンシブデザイン</p>
+            </div>
+            <div class="preview-content">
+                <div class="layout-preview">
+                    <div class="layout-header">
+                        <div style="display: flex; align-items: center; gap: var(--space-4);">
+                            <span>☰</span>
+                            <strong>書籍タイトル</strong>
+                            <div style="margin-left: auto; display: flex; gap: var(--space-2);">
+                                <input type="search" placeholder="検索..." style="padding: var(--space-2); border: 1px solid var(--color-border); border-radius: var(--radius-sm);">
+                                <button>🌙</button>
+                                <button>📖</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layout-sidebar">
+                        <div style="margin-bottom: var(--space-4); font-weight: 600; color: var(--color-text-secondary); font-size: var(--font-size-sm);">目次</div>
+                        <div class="nav-item">はじめに</div>
+                        <div class="nav-item active">第1章: 基本概念</div>
+                        <div class="nav-item">第2章: 実践編</div>
+                        <div class="nav-item">第3章: 応用</div>
+                        <div style="margin-top: var(--space-4); font-weight: 600; color: var(--color-text-secondary); font-size: var(--font-size-sm);">付録</div>
+                        <div class="nav-item">付録A: 用語集</div>
+                        <div style="margin-top: var(--space-4); padding: var(--space-2); background: var(--color-bg-tertiary); border-radius: var(--radius-sm); font-size: var(--font-size-xs);">
+                            進捗: 2 / 5
+                            <div style="height: 4px; background: var(--color-border); border-radius: 2px; margin-top: var(--space-1);">
+                                <div style="width: 40%; height: 100%; background: var(--color-primary); border-radius: 2px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layout-main">
+                        <div style="background: var(--color-bg-secondary); padding: var(--space-3); border-radius: var(--radius-sm); margin-bottom: var(--space-4); font-size: var(--font-size-sm);">
+                            ホーム › 章 › 第1章: 基本概念
+                        </div>
+                        <h1 style="margin: 0 0 var(--space-4);">第1章: 基本概念</h1>
+                        <p>ここにコンテンツが表示されます。読みやすいタイポグラフィと適切な余白で構成されています。</p>
+                        <div style="background: var(--color-code-bg); padding: var(--space-3); border-radius: var(--radius-sm); font-family: var(--font-family-mono); font-size: var(--font-size-sm); margin: var(--space-4) 0;">
+                            console.log('Hello, World!');
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- タイポグラフィ -->
+        <div class="preview-section">
+            <div class="preview-header">
+                <h2 class="preview-title">📝 タイポグラフィシステム</h2>
+                <p class="preview-description">読みやすさを重視した階層的なフォントサイズとスペーシング</p>
+            </div>
+            <div class="preview-content">
+                <div class="typography-preview">
+                    <h1>メインタイトル (36px)</h1>
+                    <h2>セクションタイトル (30px)</h2>
+                    <h3>サブセクション (24px)</h3>
+                    <p><strong>本文テキスト (16px)</strong>：このように読みやすい行間と文字間隔で設計されています。最大75文字幅で最適な読書体験を提供します。</p>
+                    <p><small>小さなテキスト (14px)</small>：キャプションや補足情報用</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- コードブロック -->
+        <div class="preview-section">
+            <div class="preview-header">
+                <h2 class="preview-title">💻 コードブロック</h2>
+                <p class="preview-description">シンタックスハイライト + コピー機能 + 言語ラベル</p>
+            </div>
+            <div class="preview-content">
+                <div class="code-preview">
+                    <pre><button class="copy-button">Copy</button><span style="position: absolute; top: var(--space-2); left: var(--space-2); background: var(--color-text-muted); color: white; padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm); font-size: var(--font-size-xs);">JAVASCRIPT</span><code style="color: var(--color-code-text);">// AI協働開発の例
+<span style="color: #d73a49;">const</span> <span style="color: #6f42c1;">aiAssistant</span> = <span style="color: #d73a49;">new</span> <span style="color: #6f42c1;">GitHubCopilot</span>();
+
+<span style="color: #d73a49;">async</span> <span style="color: #d73a49;">function</span> <span style="color: #6f42c1;">generateCode</span>(<span style="color: #e36209;">prompt</span>) {
+  <span style="color: #d73a49;">const</span> <span style="color: #e36209;">result</span> = <span style="color: #d73a49;">await</span> <span style="color: #6f42c1;">aiAssistant</span>.<span style="color: #6f42c1;">complete</span>(<span style="color: #e36209;">prompt</span>);
+  <span style="color: #d73a49;">return</span> <span style="color: #e36209;">result</span>.<span style="color: #6f42c1;">code</span>;
+}</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- ナビゲーション -->
+        <div class="preview-section">
+            <div class="preview-header">
+                <h2 class="preview-title">🧭 ナビゲーションシステム</h2>
+                <p class="preview-description">パンくずリスト + ページ間ナビゲーション + 進捗表示</p>
+            </div>
+            <div class="preview-content">
+                <!-- パンくずリスト -->
+                <div class="breadcrumb">
+                    <span>🏠 ホーム</span>
+                    <span class="breadcrumb-separator">›</span>
+                    <span>章</span>
+                    <span class="breadcrumb-separator">›</span>
+                    <span style="color: var(--color-text-primary); font-weight: 500;">第1章: 基本概念</span>
+                </div>
+
+                <!-- ページナビゲーション -->
+                <div class="page-nav">
+                    <a href="#" class="nav-card">
+                        <div class="nav-direction">← 前へ</div>
+                        <div class="nav-title">はじめに</div>
+                    </a>
+                    <a href="#" class="nav-card" style="text-align: center;">
+                        <div class="nav-direction">📚 目次</div>
+                    </a>
+                    <a href="#" class="nav-card" style="text-align: right;">
+                        <div class="nav-direction">次へ →</div>
+                        <div class="nav-title">第2章: 実践編</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- カラーシステム -->
+        <div class="preview-section">
+            <div class="preview-header">
+                <h2 class="preview-title">🎨 カラーシステム</h2>
+                <p class="preview-description">ライト/ダークテーマ対応 + アクセシビリティ配慮</p>
+            </div>
+            <div class="preview-content">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: var(--space-4);">
+                    <div style="text-align: center;">
+                        <div style="width: 60px; height: 60px; background: var(--color-primary); border-radius: 50%; margin: 0 auto var(--space-2);"></div>
+                        <div style="font-size: var(--font-size-sm);">Primary</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="width: 60px; height: 60px; background: var(--color-success); border-radius: 50%; margin: 0 auto var(--space-2);"></div>
+                        <div style="font-size: var(--font-size-sm);">Success</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="width: 60px; height: 60px; background: var(--color-warning); border-radius: 50%; margin: 0 auto var(--space-2);"></div>
+                        <div style="font-size: var(--font-size-sm);">Warning</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="width: 60px; height: 60px; background: var(--color-danger); border-radius: 50%; margin: 0 auto var(--space-2);"></div>
+                        <div style="font-size: var(--font-size-sm);">Danger</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- レスポンシブ -->
+        <div class="preview-section">
+            <div class="preview-header">
+                <h2 class="preview-title">📱 レスポンシブデザイン</h2>
+                <p class="preview-description">モバイルファースト + タッチ最適化 + アクセシビリティ</p>
+            </div>
+            <div class="preview-content">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); align-items: start;">
+                    <div>
+                        <h4 style="margin-top: 0;">デスクトップ (1024px+)</h4>
+                        <ul style="font-size: var(--font-size-sm); color: var(--color-text-secondary);">
+                            <li>サイドバー常時表示</li>
+                            <li>3カラムレイアウト</li>
+                            <li>ホバーエフェクト</li>
+                            <li>キーボードナビゲーション</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="margin-top: 0;">モバイル (768px以下)</h4>
+                        <ul style="font-size: var(--font-size-sm); color: var(--color-text-secondary);">
+                            <li>ハンバーガーメニュー</li>
+                            <li>1カラムレイアウト</li>
+                            <li>タッチジェスチャー</li>
+                            <li>大きなタップターゲット</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+        }
+    </script>
+</body>
+</html>
