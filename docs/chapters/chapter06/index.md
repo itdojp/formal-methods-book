@@ -1,3 +1,10 @@
+---
+layout: book
+title: "第6章：プロセス中心の記述 - CSPによる並行システム"
+chapter: chapter06
+order: 6
+---
+
 # 第6章　プロセス中心の記述 - CSPによる並行システム
 
 ## 6.1 並行性の本質：なぜ難しいのか
@@ -29,7 +36,7 @@
 
 しかし、非決定性は必ずしも悪いものではありません。システムの柔軟性や効率性を提供することもあります。重要なのは、非決定性を制御し、システムの安全性と活性を保証することです。
 
-![図6-1：CSPによる並行システムの基本概念と通信モデル](../../docs/assets/images/diagrams/csp-concurrency-concepts.svg)
+![図6-1：CSPによる並行システムの基本概念と通信モデル](../../assets/images/diagrams/csp-concurrency-concepts.svg)
 
 ### 時間と因果関係の複雑化
 

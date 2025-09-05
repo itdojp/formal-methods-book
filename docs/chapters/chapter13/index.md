@@ -1,3 +1,10 @@
+---
+layout: book
+title: "第13章：事例研究"
+chapter: chapter13
+order: 13
+---
+
 # 第13章　事例研究
 
 ## 13.1 事例研究の方法論：成功と失敗から学ぶ

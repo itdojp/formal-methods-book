@@ -15,8 +15,8 @@
 
 - 依存（任意）: Node.js 18+
 - ビルド: `npm run build`
-  - `src/chapters/*` と `src/appendices/*` を `docs/chapters/<id>/index.md`、`docs/appendices/<id>/index.md` にコピーします。
-  - 既存の `docs/index.md` はナビゲーションのために残します。
+  - `src/appendices/*` を `docs/appendices/<id>/index.md` にコピーします。
+  - 章（`docs/chapters/*`）は Jekyll フロントマターを含むため本ビルダーでは変更しません。
 - リンク・整形チェック（任意）:
   - Lint: `npm run lint`
   - リンク: `npm run check-links`

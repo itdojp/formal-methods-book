@@ -1,3 +1,9 @@
+---
+layout: book
+title: "第4章：軽量形式的手法入門 - Alloyで始める仕様記述"
+nav_order: 4
+---
+
 # 第4章　軽量形式的手法入門 - Alloyで始める仕様記述
 
 ## 4.1 Alloyの哲学：軽量だが強力なアプローチ
@@ -46,7 +52,7 @@ Amazonでは、分散システムの設計にAlloyを活用しています。複
 
 Microsoft、ABB、Alcatel-Lucentなどの企業でも、システム設計の品質向上にAlloyが貢献しています。これらの成功事例は、「軽量」アプローチの実用性を実証しています。
 
-![図4-1：Alloyによる軽量形式的手法の全体像](../../docs/assets/images/diagrams/alloy-modeling-approach.svg)
+![図4-1：Alloyによる軽量形式的手法の全体像](../../assets/images/diagrams/alloy-modeling-approach.svg)
 
 ## 4.2 Alloyの世界観：関係中心のモデリング
 

@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 /*
   Simple builder: copies src markdown into docs structure that matches docs/index.md links.
-  - src/chapters/chapterXX.md -> docs/chapters/chapterXX/index.md
   - src/appendices/appendix-[id].md -> docs/appendices/appendix-[id]/index.md
-  Leaves docs/index.md as-is.
+  Note: chapters are maintained under docs/ with Jekyll frontmatter; this builder does NOT touch chapters.
 */
 const fs = require('fs');
 const path = require('path');
@@ -31,18 +30,7 @@ function cleanSubdir(dir) {
   }
 }
 
-function buildChapters() {
-  const chaptersSrc = path.join(src, 'chapters');
-  const chaptersDst = path.join(docs, 'chapters');
-  ensureDir(chaptersDst);
-  cleanSubdir(chaptersDst);
-  const files = fs.existsSync(chaptersSrc) ? fs.readdirSync(chaptersSrc) : [];
-  for (const f of files) {
-    if (!f.endsWith('.md')) continue;
-    const id = path.basename(f, '.md');
-    copyToDirAsIndex(path.join(chaptersSrc, f), path.join(chaptersDst, id));
-  }
-}
+// No chapter build here: docs/chapters includes Jekyll frontmatter and layout.
 
 function buildAppendices() {
   const appSrc = path.join(src, 'appendices');
@@ -60,7 +48,6 @@ function buildAppendices() {
 
 function main() {
   ensureDir(docs);
-  buildChapters();
   buildAppendices();
   console.log('Built docs structure from src/.');
 }
