@@ -1,0 +1,72 @@
+name: Nav + Pages Link Check
+
+on:
+  schedule:
+    - cron: '13 3 * * 1'
+  workflow_dispatch: {}
+
+jobs:
+  nav-link-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build URL list
+        id: build
+        run: |
+          python3 - << 'PY'
+          import os, yaml, re
+          from pathlib import Path
+          repo = os.environ.get('GITHUB_REPOSITORY','').split('/')[-1]
+          cfg = Path('docs/_config.yml') if Path('docs/_config.yml').exists() else Path('_config.yml')
+          baseurl = f'/{repo}'
+          if cfg.exists():
+              for line in cfg.read_text(encoding='utf-8').splitlines():
+                  if line.strip().startswith('baseurl:'):
+                      baseurl = line.split(':',1)[1].strip()
+                      break
+          def read_nav():
+              y = Path('docs/_data/navigation.yml')
+              if not y.exists():
+                  return []
+              data = yaml.safe_load(y.read_text(encoding='utf-8')) or {}
+              paths = []
+              for key in ['introduction','chapters','additional','resources','appendices','afterword']:
+                  for item in (data.get(key) or []):
+                      p = item.get('path') or ''
+                      if p: paths.append(p)
+              return paths
+          def discover():
+              paths=[]
+              for seg in ['introduction','chapters','appendices','afterword']:
+                  d = Path('docs')/seg
+                  if d.is_dir():
+                      for child in sorted(d.iterdir()):
+                          if child.is_dir():
+                              paths.append(f'/{seg}/{child.name}/')
+              return paths
+          paths = read_nav() or discover() or ['/']
+          # Always include index
+          if '/' not in paths: paths.insert(0,'/')
+          base = f'https://itdojp.github.io{baseurl}'
+          urls = [ (p, f"{base}{p}") for p in paths ]
+          out = '\n'.join([f"{p}\t{u}" for p,u in urls])
+          Path('urls.txt').write_text(out, encoding='utf-8')
+          print(out)
+          PY
+          echo "list=urls.txt" >> $GITHUB_OUTPUT
+
+      - name: Probe URLs
+        run: |
+          failures=0
+          while IFS=$'\t' read -r path url; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" -L "$url")
+            echo "$code $url"
+            if [ "$code" != "200" ]; then failures=$((failures+1)); fi
+          done < urls.txt
+          if [ $failures -gt 0 ]; then
+            echo "Found $failures non-200 URLs" >&2
+            exit 1
+          fi
+
