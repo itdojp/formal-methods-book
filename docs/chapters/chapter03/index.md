@@ -1,10 +1,3 @@
----
-layout: book
-title: "第3章：仕様記述の基本"
-chapter: chapter03
-order: 3
----
-
 # 第3章　仕様記述の基本
 
 ## 3.1 仕様とは何か：理想と現実の架け橋
@@ -101,7 +94,7 @@ order: 3
 
 興味深いことに、仕様書の曖昧性は定量的に測定できます。語学学における曖昧性解析の技術を応用すると、文書内の曖昧な表現の密度を計算できます。
 
-![図3-1: 仕様記述の曖昧性階層と形式化による改善](../../assets/images/diagrams/specification-ambiguity-hierarchy.svg)
+![図3-1: 仕様記述の曖昧性階層と形式化による改善](../../docs/assets/images/diagrams/specification-ambiguity-hierarchy.svg)
 
 研究によると、典型的なソフトウェア要求仕様書では：
 - 1ページあたり平均15-20個の曖昧な表現が存在
@@ -110,7 +103,7 @@ order: 3
 
 これらの数字は、自然言語による仕様記述の構造的な限界を示しています。
 
-![図3-2: 仕様記述の精密度レベルと認知負荷軽減効果](../../assets/images/diagrams/specification-precision-levels.svg)
+![図3-2: 仕様記述の精密度レベルと認知負荷軽減効果](../../docs/assets/images/diagrams/specification-precision-levels.svg)
 
 ### 曖昧性解決の従来手法とその限界
 

@@ -1,10 +1,3 @@
----
-layout: book
-title: "第9章：定理証明の基礎"
-chapter: chapter09
-order: 9
----
-
 # 第9章　定理証明の基礎
 
 ## 9.1 証明の機械化：数学者とコンピュータの協調
@@ -811,15 +804,15 @@ Proof.
 Qed.
 ```
 
-**lia（算術の自動証明）**：
+**omega（算術の自動証明）**：
 ```coq
-Require Import Lia.
+Require Import Omega.
 
 Theorem arithmetic_example : forall n m : nat, 
   n <= m -> n <= m + 1.
 Proof.
   intros n m H.
-  lia.
+  omega.
 Qed.
 ```
 
@@ -874,7 +867,7 @@ Proof.
   - split; simpl; auto with arith.
   - destruct n' as [| n''].
     + split; simpl; auto with arith.
-    + split; simpl in *; lia.
+    + split; simpl in *; omega.
 Qed.
 
 (* この証明から、実際に使用可能な除算アルゴリズムが抽出される *)

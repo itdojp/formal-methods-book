@@ -1,10 +1,3 @@
----
-layout: book
-title: "第8章：模型検査入門"
-chapter: chapter08
-order: 8
----
-
 # 第8章　模型検査入門
 
 ## 8.1 自動検証の夢：コンピュータによる証明
@@ -55,7 +48,7 @@ order: 8
 
 模型検査による早期の問題発見は、この修正コストの増大を防ぐ効果的な手段です。
 
-![図8-1：模型検査による自動検証のプロセス](../../assets/images/diagrams/model-checking-process.svg)
+![図8-1：模型検査による自動検証のプロセス](../../docs/assets/images/diagrams/model-checking-process.svg)
 
 ### 限界の正しい理解
 
