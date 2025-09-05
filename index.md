@@ -71,19 +71,19 @@ version: "1.0.0"
 
 ## 付録
 
-- [付録A：数学的基礎の復習](src/appendices/appendices_draft.md)  
+- [付録A：数学的基礎の復習](src/appendices/appendix-a.md)  
   集合論、論理、関数といった数学的基礎の簡潔な復習資料
   
-- [付録B：ツールインストールガイド](src/appendices/appendices_draft.md)  
+- [付録B：ツールインストールガイド](src/appendices/appendix-b.md)  
   Alloy Analyzer、TLC、SPIN、Coq等のインストール手順とトラブルシューティング
   
-- [付録C：記法対照表](src/appendices/appendices_draft.md)  
+- [付録C：記法対照表](src/appendices/appendix-c.md)  
   Z記法、Alloy、TLA+等の記号や構文の一覧表
   
-- [付録D：演習問題解答](src/appendices/appendices_draft.md)  
+- [付録D：演習問題解答](src/appendices/appendix-d.md)  
   すべての演習問題の詳細な解答例と解説
   
-- [付録E：参考文献とWebリソース](src/appendices/appendices_draft.md)  
+- [付録E：参考文献とWebリソース](src/appendices/appendix-e.md)  
   レベル別推薦図書リストと最新情報へのリンク
 
 ---
