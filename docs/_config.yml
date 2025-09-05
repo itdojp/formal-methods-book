@@ -37,3 +37,12 @@ kramdown:
 url: "https://itdojp.github.io"
 baseurl: "/formal-methods-book"
 repository: "itdojp/formal-methods-book"
+# Defaults: use custom book layout as default
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "book"
+
+permalink: pretty
