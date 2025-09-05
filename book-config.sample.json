@@ -1,0 +1,110 @@
+{
+  "book": {
+    "title": "Your Book Title",
+    "subtitle": "Optional Subtitle", 
+    "description": "Your book description",
+    "author": {
+      "name": "Author Name",
+      "email": "author@example.com",
+      "github": "your-github-username"
+    },
+    "repository": {
+      "public": "https://github.com/your-username/your-book-public",
+      "zenn": "https://zenn.dev/your-username/books/your-book"
+    }
+  },
+  "deployment": {
+    "publicRepoUrl": "git@github.com:username/your-book-public.git",
+    "publicRepoDir": "/tmp/your-book-public",
+    "branch": "gh-pages",
+    "siteUrl": "https://username.github.io/your-book-public/",
+    "actionsUrl": "https://github.com/username/your-book-public/actions"
+  },
+  "contentSections": [
+    {
+      "name": "introduction",
+      "title": "Introduction",
+      "directory": "introduction",
+      "enabled": true,
+      "order": 1
+    },
+    {
+      "name": "chapters",
+      "title": "Chapters",
+      "directory": "chapters",
+      "enabled": true,
+      "order": 2,
+      "numbering": true
+    },
+    {
+      "name": "appendices",
+      "title": "Appendices",
+      "directory": "appendices",
+      "enabled": true,
+      "order": 3,
+      "numbering": true,
+      "numberingPrefix": "Appendix"
+    },
+    {
+      "name": "exercises",
+      "title": "Exercises",
+      "directory": "exercises",
+      "enabled": true,
+      "order": 4
+    },
+    {
+      "name": "afterword",
+      "title": "Afterword",
+      "directory": "afterword",
+      "enabled": true,
+      "order": 5
+    }
+  ],
+  "tableOfContents": {
+    "enabled": true,
+    "outputFile": "table-of-contents.md",
+    "title": "Table of Contents",
+    "maxDepth": 3,
+    "includeNumbers": true,
+    "autoLink": true,
+    "autoNumberChapters": true,
+    "detectExistingNumbers": true
+  },
+  "excludePatterns": [
+    "draft.md",
+    "notes.md",
+    "solutions.md",
+    "instructor.md",
+    "private.md",
+    "private-to-public-deployment-guide.md",
+    "*.tmp"
+  ],
+  "contentExcludePatterns": [
+    "<!-- TODO:",
+    "<!-- FIXME:",
+    "<!-- PRIVATE:",
+    "<!-- INSTRUCTOR:"
+  ],
+  "publicFiles": [
+    "index.md",
+    "README.md"
+  ],
+  "pdf": {
+    "engine": "pandoc",
+    "paperSize": "A4",
+    "margin": "2cm",
+    "fontSize": "11pt",
+    "fontFamily": "DejaVu Sans",
+    "includeTableOfContents": true,
+    "includeCoverPage": true
+  },
+  "epub": {
+    "engine": "pandoc",
+    "coverImage": null,
+    "includeTableOfContents": true,
+    "chapterLevel": 1,
+    "language": "en",
+    "publisher": "",
+    "rights": ""
+  }
+}

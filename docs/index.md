@@ -1,86 +1,85 @@
 ---
 layout: book
-order: 1
 title: "形式的手法の基礎と応用"
-author: "株式会社アイティードゥ"
+description: "仕様記述、模型検査、定理証明の統合的理解 - ソフトウェアの数学的設計入門"
+author: "太田和彦（株式会社アイティードゥ）"
+organization: "株式会社アイティードゥ"
 version: "1.0.0"
-permalink: /
 ---
 
 # 形式的手法の基礎と応用
 
-仕様記述、模型検査、定理証明の統合的理解
-
-## 書籍について
-
-この書籍は、ソフトウェア開発における形式的手法を、理論から実践まで統合的に学習できる技術書です。数学的な厳密性を通じて、複雑なソフトウェアシステムの信頼性を保証する手法を体系的に解説しています。
-
-### 対象読者
-
-- コンピュータサイエンス・情報工学の学部生・大学院生
-- より信頼性の高いソフトウェア開発を目指すエンジニア
-- 安全性・セキュリティが重要なシステムに関わる技術者
-- 形式的手法の研究に興味を持つ研究者
+仕様記述、模型検査、定理証明の統合的理解 - ソフトウェアの数学的設計入門
 
 ## 目次
 
-### 第1部：基礎編（動機と基本概念）
+- [はじめに]({{ '/introduction/' | relative_url }})
 
-- [第1章：なぜ形式的手法が必要なのか](chapters/chapter01/)  
-  ソフトウェアの複雑化と信頼性への挑戦、重大事故から学ぶ教訓
-  
-- [第2章：数学とプログラムの橋渡し](chapters/chapter02/)  
-  数学的思考とプログラミングの関係、状態と変化の数学的モデル化
-  
-- [第3章：仕様記述の基本](chapters/chapter03/)  
-  自然言語の曖昧性と数学的仕様記述、事前・事後条件と不変条件
+### 第I部　基礎編：形式的手法の基盤
 
-### 第2部：手法編（主要な形式的手法の理解）
+- [第1章 なぜ形式的手法が必要なのか]({{ '/chapters/chapter01/' | relative_url }})
 
-- [第4章：軽量形式的手法入門 - Alloyで始める仕様記述](chapters/chapter04/)  
-  Alloyの世界観、関係中心のモデリングと検証の実践
-  
-- [第5章：状態ベース仕様記述 - Z記法の基礎](chapters/chapter05/)  
-  Z記法による状態とスキーマ、数学的記法による厳密な仕様化
-  
-- [第6章：プロセス中心の記述 - CSPによる並行システム](chapters/chapter06/)  
-  並行性の本質、プロセス間コミュニケーションとデッドロック分析
-  
-- [第7章：時間を扱う仕様記述 - TLA+入門](chapters/chapter07/)  
-  分散システムの複雑さ、時相論理による動的性質の表現
+- [第2章 数学とプログラムの橋渡し]({{ '/chapters/chapter02/' | relative_url }})
 
-### 第3部：検証編（システムの正しさの確認）
+- [第3章 仕様記述の基本]({{ '/chapters/chapter03/' | relative_url }})
 
-- [第8章：模型検査入門](chapters/chapter08/)  
-  自動検証の威力と限界、状態空間探索と反例の活用
-  
-- [第9章：定理証明の基礎](chapters/chapter09/)  
-  証明の機械化、型理論とCoqによる証明支援系の実践
-  
-- [第10章：プログラム検証](chapters/chapter10/)  
-  Hoare論理によるプログラムの正しさ、ループ不変条件と配列操作の検証
+### 第II部　手法編：主要な形式的手法の理解
 
-### 第4部：実践編（現実のプロジェクトへの適用）
+- [第4章 軽量形式的手法入門 - Alloyで始める仕様記述]({{ '/chapters/chapter04/' | relative_url }})
 
-- [第11章：開発プロセスとの統合](chapters/chapter11/)  
-  現実との調和、段階的導入戦略と組織文化の変革
-  
-- [第12章：ツールと自動化](chapters/chapter12/)  
-  ツールエコシステム、継続的インテグレーションとの統合
-  
-- [第13章：事例研究](chapters/chapter13/)  
-  パリ地下鉄14号線、Amazon s2n、マイクロソフトTLA+適用事例の詳細分析
+- [第5章 状態ベース仕様記述 - Z記法の基礎]({{ '/chapters/chapter05/' | relative_url }})
+
+- [第6章 プロセス中心の記述 - CSPによる並行システム]({{ '/chapters/chapter06/' | relative_url }})
+
+- [第7章 時間を扱う仕様記述 - TLA+入門]({{ '/chapters/chapter07/' | relative_url }})
+
+### 第III部　検証編：システムの正しさの確認
+
+- [第8章 模型検査入門]({{ '/chapters/chapter08/' | relative_url }})
+
+- [第9章 定理証明の基礎]({{ '/chapters/chapter09/' | relative_url }})
+
+- [第10章 プログラム検証]({{ '/chapters/chapter10/' | relative_url }})
+
+### 第IV部　実践編：実際のプロジェクトでの活用
+
+- [第11章 開発プロセスとの統合]({{ '/chapters/chapter11/' | relative_url }})
+
+- [第12章 ツールと自動化]({{ '/chapters/chapter12/' | relative_url }})
+
+- [第13章 事例研究]({{ '/chapters/chapter13/' | relative_url }})
+
+
+
 
 ## 付録
 
-- [付録A：数学的基礎の復習](appendices/appendix-a/)
-- [付録B：ツールインストールガイド](appendices/appendix-b/)
-- [付録C：記法対照表](appendices/appendix-c/)
-- [付録D：演習問題解答](appendices/appendix-d/)
-- [付録E：参考文献とWebリソース](appendices/appendix-e/)
+- [付録A: 数学的基礎の復習]({{ '/appendices/appendix01/' | relative_url }})
+
+- [付録B: ツールインストールガイド]({{ '/appendices/appendix02/' | relative_url }})
+
+- [付録C: 記法対照表]({{ '/appendices/appendix03/' | relative_url }})
+
+- [付録D: 演習問題解答]({{ '/appendices/appendix04/' | relative_url }})
+
+- [付録E: 参考文献とWebリソース]({{ '/appendices/appendix05/' | relative_url }})
+
+- [あとがき]({{ '/afterword/' | relative_url }})
+
+## 📄 ライセンス
+
+本書は **Creative Commons BY-NC-SA 4.0** ライセンスで公開されています。  
+**🔓 教育・研究・個人学習での利用は自由** ですが、**💼 商用利用には事前許諾** が必要です。
+
+📋 [詳細なライセンス条件](https://github.com/itdojp/it-engineer-knowledge-architecture/blob/main/LICENSE.md)
+
+**お問い合わせ**  
+株式会社アイティードゥ（ITDO Inc.）  
+Email: [knowledge@itdo.jp](mailto:knowledge@itdo.jp)
 
 ---
 
 **著者:** 太田和彦（株式会社アイティードゥ）  
 **バージョン:** 1.0.0  
-**最終更新:** 2025-01-27
+**最終更新:** 2025-07-28  
+**GitHub Pages:** 自動デプロイ対応
