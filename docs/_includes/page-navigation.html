@@ -1,217 +1,129 @@
-<!-- Page Navigation (Previous/Next) -->
-<!-- Fallbacks to list-based navigation if per-page nav_data is unavailable -->
-{% assign current_path = page.url | remove: '.html' | remove_first: '/' %}
-{% assign previous_page = nil %}
-{% assign next_page = nil %}
-{% assign prev_url = nil %}
-{% assign prev_title = nil %}
-{% assign next_url = nil %}
-{% assign next_title = nil %}
+<!-- Canonical Page Navigation (Previous/Next) for book-formatter v3 -->
+{% comment %}
+Order resolution strategy (first match wins):
+1) site.data.navigation (keys: introduction, chapters, additional, appendices, afterword)
+2) site.pages where layout: book and order exists, sorted by order
+3) Fallback by URL groups sorted by url: /introduction/, /chapters/, /additional/ or /resources/, /appendices/, /afterword/
+{% endcomment %}
 
-{%- comment -%}
-Try BookGenerator-style per-page navigation first: site.data.navigation[<path>]
-{%- endcomment -%}
-{% assign nav_data = site.data.navigation[current_path] %}
-{% if nav_data %}
-  {% if nav_data.previous %}{% assign previous_page = nav_data.previous %}{% endif %}
-  {% if nav_data.next %}{% assign next_page = nav_data.next %}{% endif %}
+{% assign nav_items = nil %}
+{% assign navigation = site.data.navigation %}
+
+{% if navigation %}
+  {%- assign seq = "" | split: "|" -%}
+  {%- if navigation.introduction -%}
+    {%- assign seq = seq | concat: navigation.introduction -%}
+  {%- endif -%}
+  {%- if navigation.chapters -%}
+    {%- assign seq = seq | concat: navigation.chapters -%}
+  {%- endif -%}
+  {%- if navigation.additional -%}
+    {%- assign seq = seq | concat: navigation.additional -%}
+  {%- endif -%}
+  {%- if navigation.resources -%}
+    {%- assign seq = seq | concat: navigation.resources -%}
+  {%- endif -%}
+  {%- if navigation.appendices -%}
+    {%- assign seq = seq | concat: navigation.appendices -%}
+  {%- endif -%}
+  {%- if navigation.afterword -%}
+    {%- assign seq = seq | concat: navigation.afterword -%}
+  {%- endif -%}
+  {% assign nav_items = seq %}
 {% endif %}
 
-{%- comment -%}
-If previous/next not resolved, derive from list-based navigation
-{%- endcomment -%}
-{% if previous_page == nil and next_page == nil %}
-  {% assign items = "" | split: "" %}
-  {% if site.data.navigation.introduction %}
-    {% assign items = items | concat: site.data.navigation.introduction %}
-  {% endif %}
-  {% if site.data.navigation.chapters %}
-    {% assign items = items | concat: site.data.navigation.chapters %}
-  {% endif %}
-  {% if site.data.navigation.appendices %}
-    {% assign items = items | concat: site.data.navigation.appendices %}
-  {% endif %}
-  {% if site.data.navigation.afterword %}
-    {% assign items = items | concat: site.data.navigation.afterword %}
-  {% endif %}
-
-  {% assign current_index = -1 %}
-  {% for it in items %}
-    {% if page.url == it.path or page.url contains it.path %}
-      {% assign current_index = forloop.index0 %}
-      {% break %}
-    {% endif %}
-  {% endfor %}
-
-  {% if current_index != -1 %}
-    {% assign prev_index = current_index | minus: 1 %}
-    {% assign next_index = current_index | plus: 1 %}
-    {% if prev_index >= 0 %}
-      {% assign previous_page = items[prev_index] %}
-    {% endif %}
-    {% if next_index < items.size %}
-      {% assign next_page = items[next_index] %}
-    {% endif %}
+{% if nav_items == nil or nav_items.size == 0 %}
+  {%- assign ordered_pages = site.pages | where: "layout", "book" | where_exp: "p", "p.order" | sort: "order" -%}
+  {% if ordered_pages and ordered_pages.size > 0 %}
+    {% assign nav_items = ordered_pages %}
   {% endif %}
 {% endif %}
 
-{%- comment -%}
-Final fallback: derive by ordering pages with layout: book and 'order'
-{%- endcomment -%}
-{% if previous_page == nil and next_page == nil %}
-  {% assign book_pages = site.pages | where: 'layout', 'book' | sort: 'order' %}
-  {% assign current_index = -1 %}
-  {% for p in book_pages %}
-    {% if page.url == p.url or page.url contains p.url %}
-      {% assign current_index = forloop.index0 %}
-      {% break %}
-    {% endif %}
-  {% endfor %}
-  {% if current_index != -1 %}
-    {% assign prev_index = current_index | minus: 1 %}
-    {% assign next_index = current_index | plus: 1 %}
-    {% if prev_index >= 0 %}
-      {% assign prev_page = book_pages[prev_index] %}
-      {% assign prev_url = prev_page.url %}
-      {% assign prev_title = prev_page.title %}
-    {% endif %}
-    {% if next_index < book_pages.size %}
-      {% assign next_page_o = book_pages[next_index] %}
-      {% assign next_url = next_page_o.url %}
-      {% assign next_title = next_page_o.title %}
-    {% endif %}
-  {% endif %}
+{% if nav_items == nil or nav_items.size == 0 %}
+  {%- assign intro = site.pages | where: "layout", "book" | where_exp: "p", "p.url contains '/introduction/'" | sort: "url" -%}
+  {%- assign chaps = site.pages | where: "layout", "book" | where_exp: "p", "p.url contains '/chapters/'" | sort: "url" -%}
+  {%- assign addtn = site.pages | where: "layout", "book" | where_exp: "p", "p.url contains '/additional/' or p.url contains '/resources/'" | sort: "url" -%}
+  {%- assign appdx = site.pages | where: "layout", "book" | where_exp: "p", "p.url contains '/appendices/'" | sort: "url" -%}
+  {%- assign aftwd = site.pages | where: "layout", "book" | where_exp: "p", "p.url contains '/afterword/'" | sort: "url" -%}
+  {%- assign seq = intro | concat: chaps | concat: addtn | concat: appdx | concat: aftwd -%}
+  {% assign nav_items = seq %}
 {% endif %}
 
-<div class="page-nav">
-    <!-- Previous Page -->
-    <div class="page-nav-item page-nav-prev">
-        {% if previous_page or prev_url %}
-        <a href="{{ previous_page.path | default: prev_url | relative_url }}" class="page-nav-link">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-            <div class="page-nav-content">
-                <span class="page-nav-label">前のページ</span>
-                <span class="page-nav-title">{{ previous_page.title | default: prev_title }}</span>
-            </div>
-        </a>
-        {% endif %}
-    </div>
+{%- assign current_index = nil -%}
+{%- if nav_items and nav_items.size > 0 -%}
+  {%- for item in nav_items -%}
+    {%- if item.path and item.path != '' -%}
+      {%- assign item_url = item.path -%}
+    {%- else -%}
+      {%- assign item_url = item.url -%}
+    {%- endif -%}
+    {%- if item_url == page.url or page.url contains item_url -%}
+      {%- assign current_index = forloop.index0 -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
 
-    <!-- Next Page -->
-    <div class="page-nav-item page-nav-next">
-        {% if next_page or next_url %}
-        <a href="{{ next_page.path | default: next_url | relative_url }}" class="page-nav-link">
-            <div class="page-nav-content">
-                <span class="page-nav-label">次のページ</span>
-                <span class="page-nav-title">{{ next_page.title | default: next_title }}</span>
-            </div>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-        </a>
-        {% endif %}
-    </div>
-</div>
+{%- assign previous_item = nil -%}
+{%- assign next_item = nil -%}
+{%- if current_index != nil -%}
+  {%- assign prev_index = current_index | minus: 1 -%}
+  {%- assign next_index = current_index | plus: 1 -%}
+  {%- if prev_index >= 0 -%}
+    {%- assign previous_item = nav_items[prev_index] -%}
+  {%- endif -%}
+  {%- if next_index < nav_items.size -%}
+    {%- assign next_item = nav_items[next_index] -%}
+  {%- endif -%}
+{%- endif -%}
+
+<nav class="book-navigation" aria-label="Chapter navigation">
+  <div class="chapter-nav">
+    {% if previous_item %}
+      {%- assign prev_url = previous_item.path | default: previous_item.url -%}
+      <a href="{{ prev_url | relative_url }}" class="nav-prev" rel="prev">
+        <span class="arrow">←</span>
+        <span class="label">前へ</span>
+        <span class="title">{{ previous_item.title | default: previous_item.name | default: "前のページ" }}</span>
+      </a>
+    {% else %}
+      <span class="nav-disabled nav-prev">
+        <span class="arrow">←</span>
+        <span class="label">前へ</span>
+      </span>
+    {% endif %}
+
+    <a href="{{ '/' | relative_url }}" class="nav-home">
+      <span class="icon">📚</span>
+      <span class="label">目次へ</span>
+    </a>
+
+    {% if next_item %}
+      {%- assign next_url = next_item.path | default: next_item.url -%}
+      <a href="{{ next_url | relative_url }}" class="nav-next" rel="next">
+        <span class="label">次へ</span>
+        <span class="title">{{ next_item.title | default: next_item.name | default: "次のページ" }}</span>
+        <span class="arrow">→</span>
+      </a>
+    {% else %}
+      <span class="nav-disabled nav-next">
+        <span class="label">次へ</span>
+        <span class="arrow">→</span>
+      </span>
+    {% endif %}
+  </div>
+</nav>
 
 <style>
-.page-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--border-color);
-}
-
-.page-nav-item {
-    flex: 1;
-    max-width: 45%;
-}
-
-.page-nav-prev {
-    text-align: left;
-}
-
-.page-nav-next {
-    text-align: right;
-    margin-left: auto;
-}
-
-.page-nav-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 1rem 1.5rem;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    text-decoration: none;
-    transition: all 0.2s ease;
-    background: var(--bg-primary);
-}
-
-.page-nav-link:hover {
-    border-color: var(--primary-color);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.page-nav-content {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-}
-
-.page-nav-label {
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.page-nav-title {
-    font-size: 1rem;
-    color: var(--text-primary);
-    font-weight: 500;
-}
-
-/* Dark mode adjustments */
-[data-theme="dark"] .page-nav-link {
-    background: var(--bg-secondary);
-}
-
-[data-theme="dark"] .page-nav-link:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .page-nav {
-        flex-direction: column;
-        gap: 1rem;
-    }
-    
-    .page-nav-item {
-        max-width: 100%;
-        width: 100%;
-    }
-    
-    .page-nav-next {
-        margin-left: 0;
-    }
-    
-    .page-nav-link {
-        width: 100%;
-        justify-content: space-between;
-    }
-    
-    .page-nav-prev .page-nav-link {
-        flex-direction: row;
-    }
-    
-    .page-nav-next .page-nav-link {
-        flex-direction: row-reverse;
-    }
-}
+.book-navigation { margin: 2rem 0; padding: 1rem; border-top: 1px solid var(--color-border, #e5e7eb); }
+.chapter-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.nav-prev, .nav-next, .nav-home { display: flex; align-items: center; padding: 0.75rem 1.25rem; background: var(--color-surface, #fff); border: 1px solid var(--color-border, #e5e7eb); border-radius: 6px; text-decoration: none; color: inherit; }
+.nav-disabled { opacity: .5; cursor: not-allowed; background: var(--color-muted, #f9fafb); }
+.nav-prev { flex: 1; }
+.nav-next { flex: 1; justify-content: flex-end; text-align: right; }
+.nav-home { flex: 0 0 auto; }
+.label { font-weight: 600; margin: 0 .25rem; }
+.title { font-size: .9rem; opacity: .8; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 768px) { .chapter-nav { flex-wrap: wrap; } .nav-prev, .nav-next { flex: 1 1 45%; } .nav-home { flex: 1 1 100%; order: -1; justify-content: center; } .title { display: none; } }
 </style>
+
