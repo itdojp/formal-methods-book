@@ -1,15 +1,15 @@
 {
-  "name": "itインフラストラクチャ技術ガイド",
+  "name": "formal-methods-book",
   "version": "1.0.0",
-  "description": "ベンダー非依存の観点からインフラストラクチャ技術の本質的な設計原理と実装手法を体系化した技術書",
+  "description": "仕様記述・模型検査・定理証明を統合的に学ぶ技術書",
   "main": "index.md",
   "scripts": {
-    "start": "jekyll serve --livereload",
-    "build": "jekyll build",
+    "start": "npm run build && npx http-server docs -p 4321 -c-1",
+    "build": "node scripts/build.js",
     "test": "npm run lint && npm run check-links",
     "lint": "markdownlint src/**/*.md",
-    "check-links": "markdown-link-check src/**/*.md",
-    "deploy": "gh-pages -d _site"
+    "check-links": "markdown-link-check -q -p src/**/*.md",
+    "deploy": "gh-pages -d docs"
   },
   "keywords": [
     "book",
@@ -21,10 +21,11 @@
   "devDependencies": {
     "markdownlint-cli": "^0.37.0",
     "markdown-link-check": "^3.11.2",
-    "gh-pages": "^6.0.0"
+    "gh-pages": "^6.0.0",
+    "http-server": "^14.1.1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/itdojp/IT-infra-book.git"
+    "url": "https://github.com/itdojp/formal-methods-book.git"
   }
 }
