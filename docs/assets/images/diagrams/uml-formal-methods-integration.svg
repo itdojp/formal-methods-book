@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <title>UML統合図</title>
+  <desc>UMLモデルから形式仕様への変換プロセスと統合開発環境での活用方法</desc>
+  <defs>
+    <style>
+      :root {
+        --svg-bg: #ffffff;
+        --svg-text: #1a1a1a;
+        --svg-primary: #0066cc;
+        --svg-success: #16a34a;
+        --svg-warning: #ca8a04;
+        --svg-error: #dc2626;
+        --svg-neutral: #6b7280;
+      }
+      .title-text { font-family: Inter, 'Helvetica Neue', Arial, sans-serif; font-size: 16px; font-weight: 600; fill: var(--svg-text); }
+      .phase-title { font-family: Inter, 'Helvetica Neue', Arial, sans-serif; font-size: 12px; font-weight: 500; fill: var(--svg-bg); }
+      .step-text { font-family: Inter, 'Helvetica Neue', Arial, sans-serif; font-size: 12px; font-weight: 400; fill: var(--svg-text); }
+      .annotation-text { font-family: Inter, 'Helvetica Neue', Arial, sans-serif; font-size: 10px; font-weight: 400; fill: var(--svg-neutral); }
+      .uml-box { fill: var(--svg-primary); stroke: var(--svg-primary); stroke-width: 2; }
+      .transformation-box { fill: var(--svg-warning); stroke: var(--svg-warning); stroke-width: 2; }
+      .formal-box { fill: var(--svg-success); stroke: var(--svg-success); stroke-width: 2; }
+      .feedback-box { fill: var(--svg-error); stroke: var(--svg-error); stroke-width: 2; }
+      .process-flow { stroke: var(--svg-primary); stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .feedback-flow { stroke: var(--svg-error); stroke-width: 2; stroke-dasharray: 5,3; fill: none; marker-end: url(#arrowhead-red); }
+      .bidirectional-flow { stroke: var(--svg-warning); stroke-width: 3; fill: none; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="var(--svg-primary)"/>
+    </marker>
+    <marker id="arrowhead-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="var(--svg-error)"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="400" y="40" class="title-text" text-anchor="middle">UML統合図</text>
+
+  <!-- UML Models Phase -->
+  <g id="uml-models">
+    <rect x="60" y="80" width="160" height="120" class="uml-box" rx="4"/>
+    <text x="140" y="100" class="phase-title" text-anchor="middle">UMLモデル</text>
+    
+    <!-- Class Diagram -->
+    <rect x="75" y="115" width="60" height="25" fill="var(--svg-bg)" stroke="var(--svg-primary)" stroke-width="1" rx="2"/>
+    <text x="105" y="130" class="annotation-text" text-anchor="middle">クラス図</text>
+    
+    <!-- State Diagram -->
+    <rect x="145" y="115" width="60" height="25" fill="var(--svg-bg)" stroke="var(--svg-primary)" stroke-width="1" rx="2"/>
+    <text x="175" y="130" class="annotation-text" text-anchor="middle">状態図</text>
+    
+    <!-- Sequence Diagram -->
+    <rect x="75" y="150" width="60" height="25" fill="var(--svg-bg)" stroke="var(--svg-primary)" stroke-width="1" rx="2"/>
+    <text x="105" y="165" class="annotation-text" text-anchor="middle">シーケンス図</text>
+    
+    <!-- Activity Diagram -->
+    <rect x="145" y="150" width="60" height="25" fill="var(--svg-bg)" stroke="var(--svg-primary)" stroke-width="1" rx="2"/>
+    <text x="175" y="165" class="annotation-text" text-anchor="middle">アクティビティ図</text>
+    
+    <text x="70" y="190" class="annotation-text">• ビジュアル設計</text>
+    <text x="70" y="205" class="annotation-text">• ステークホルダー</text>
+    <text x="70" y="220" class="annotation-text">  コミュニケーション</text>
+  </g>
+
+  <!-- Transformation Engine -->
+  <g id="transformation">
+    <rect x="260" y="80" width="160" height="120" class="transformation-box" rx="4"/>
+    <text x="340" y="100" class="phase-title" text-anchor="middle">変換エンジン</text>
+    
+    <!-- Model Transformation -->
+    <rect x="275" y="115" width="130" height="30" fill="var(--svg-bg)" stroke="var(--svg-warning)" stroke-width="1" rx="2"/>
+    <text x="340" y="125" class="step-text" text-anchor="middle" font-weight="500">モデル変換</text>
+    <text x="340" y="140" class="annotation-text" text-anchor="middle">UML → 形式仕様</text>
+    
+    <!-- Mapping Rules -->
+    <rect x="275" y="155" width="130" height="30" fill="var(--svg-bg)" stroke="var(--svg-warning)" stroke-width="1" rx="2"/>
+    <text x="340" y="165" class="step-text" text-anchor="middle" font-weight="500">マッピングルール</text>
+    <text x="340" y="180" class="annotation-text" text-anchor="middle">構文・意味変換</text>
+    
+    <text x="270" y="200" class="annotation-text">• OCL制約処理</text>
+    <text x="270" y="215" class="annotation-text">• 不変条件抽出</text>
+  </g>
+
+  <!-- Formal Specifications -->
+  <g id="formal-specs">
+    <rect x="460" y="80" width="160" height="120" class="formal-box" rx="4"/>
+    <text x="540" y="100" class="phase-title" text-anchor="middle">形式仕様</text>
+    
+    <!-- Z Notation -->
+    <rect x="475" y="115" width="50" height="25" fill="var(--svg-bg)" stroke="var(--svg-success)" stroke-width="1" rx="2"/>
+    <text x="500" y="130" class="annotation-text" text-anchor="middle">Z記法</text>
+    
+    <!-- Alloy -->
+    <rect x="535" y="115" width="50" height="25" fill="var(--svg-bg)" stroke="var(--svg-success)" stroke-width="1" rx="2"/>
+    <text x="560" y="130" class="annotation-text" text-anchor="middle">Alloy</text>
+    
+    <!-- CSP -->
+    <rect x="475" y="150" width="50" height="25" fill="var(--svg-bg)" stroke="var(--svg-success)" stroke-width="1" rx="2"/>
+    <text x="500" y="165" class="annotation-text" text-anchor="middle">CSP</text>
+    
+    <!-- TLA+ -->
+    <rect x="535" y="150" width="50" height="25" fill="var(--svg-bg)" stroke="var(--svg-success)" stroke-width="1" rx="2"/>
+    <text x="560" y="165" class="annotation-text" text-anchor="middle">TLA+</text>
+    
+    <text x="470" y="190" class="annotation-text">• 数学的厳密性</text>
+    <text x="470" y="205" class="annotation-text">• 検証可能仕様</text>
+  </g>
+
+  <!-- Verification Tools -->
+  <g id="verification">
+    <rect x="660" y="80" width="120" height="120" fill="var(--svg-neutral)" fill-opacity="0.1" stroke="var(--svg-neutral)" stroke-width="2" rx="4"/>
+    <text x="720" y="100" class="step-text" text-anchor="middle" font-weight="500">検証ツール</text>
+    
+    <text x="670" y="125" class="annotation-text">• Alloy Analyzer</text>
+    <text x="670" y="140" class="annotation-text">• TLC Model Checker</text>
+    <text x="670" y="155" class="annotation-text">• FDR4 (CSP)</text>
+    <text x="670" y="170" class="annotation-text">• ProB (Z/B)</text>
+    
+    <text x="720" y="190" class="annotation-text" text-anchor="middle" font-weight="500">自動検証</text>
+  </g>
+
+  <!-- Integration Process -->
+  <g id="integration-process">
+    <rect x="80" y="250" width="640" height="140" fill="var(--svg-warning)" fill-opacity="0.05" stroke="var(--svg-warning)" stroke-width="2" rx="4"/>
+    <text x="400" y="270" class="step-text" text-anchor="middle" font-weight="500">統合開発プロセス</text>
+    
+    <!-- Design Phase -->
+    <rect x="100" y="290" width="120" height="60" fill="var(--svg-primary)" fill-opacity="0.1" stroke="var(--svg-primary)" stroke-width="1" rx="4"/>
+    <text x="160" y="310" class="step-text" text-anchor="middle" font-weight="500">設計フェーズ</text>
+    <text x="110" y="325" class="annotation-text">• UMLモデリング</text>
+    <text x="110" y="340" class="annotation-text">• 制約定義(OCL)</text>
+    
+    <!-- Transformation Phase -->
+    <rect x="240" y="290" width="120" height="60" fill="var(--svg-warning)" fill-opacity="0.1" stroke="var(--svg-warning)" stroke-width="1" rx="4"/>
+    <text x="300" y="310" class="step-text" text-anchor="middle" font-weight="500">変換フェーズ</text>
+    <text x="250" y="325" class="annotation-text">• 自動変換実行</text>
+    <text x="250" y="340" class="annotation-text">• 形式仕様生成</text>
+    
+    <!-- Verification Phase -->
+    <rect x="380" y="290" width="120" height="60" fill="var(--svg-success)" fill-opacity="0.1" stroke="var(--svg-success)" stroke-width="1" rx="4"/>
+    <text x="440" y="310" class="step-text" text-anchor="middle" font-weight="500">検証フェーズ</text>
+    <text x="390" y="325" class="annotation-text">• モデル検査実行</text>
+    <text x="390" y="340" class="annotation-text">• 性質検証</text>
+    
+    <!-- Refinement Phase -->
+    <rect x="520" y="290" width="120" height="60" fill="var(--svg-error)" fill-opacity="0.1" stroke="var(--svg-error)" stroke-width="1" rx="4"/>
+    <text x="580" y="310" class="step-text" text-anchor="middle" font-weight="500">精製フェーズ</text>
+    <text x="530" y="325" class="annotation-text">• 反例分析</text>
+    <text x="530" y="340" class="annotation-text">• 設計改善</text>
+  </g>
+
+  <!-- Feedback Integration -->
+  <g id="feedback-integration">
+    <rect x="100" y="410" width="600" height="120" class="feedback-box" fill-opacity="0.05" rx="4"/>
+    <text x="400" y="430" class="step-text" text-anchor="middle" font-weight="500">フィードバック統合</text>
+    
+    <!-- Verification Results -->
+    <rect x="120" y="450" width="160" height="60" fill="var(--svg-bg)" stroke="var(--svg-error)" stroke-width="1" rx="4"/>
+    <text x="200" y="470" class="step-text" text-anchor="middle" font-weight="500">検証結果</text>
+    <text x="130" y="485" class="annotation-text">• 成功/失敗ステータス</text>
+    <text x="130" y="500" class="annotation-text">• 反例・証跡情報</text>
+    
+    <!-- UML Update -->
+    <rect x="300" y="450" width="160" height="60" fill="var(--svg-bg)" stroke="var(--svg-error)" stroke-width="1" rx="4"/>
+    <text x="380" y="470" class="step-text" text-anchor="middle" font-weight="500">UML更新</text>
+    <text x="310" y="485" class="annotation-text">• 設計修正提案</text>
+    <text x="310" y="500" class="annotation-text">• 制約条件調整</text>
+    
+    <!-- Documentation -->
+    <rect x="480" y="450" width="160" height="60" fill="var(--svg-bg)" stroke="var(--svg-error)" stroke-width="1" rx="4"/>
+    <text x="560" y="470" class="step-text" text-anchor="middle" font-weight="500">文書化</text>
+    <text x="490" y="485" class="annotation-text">• 検証レポート</text>
+    <text x="490" y="500" class="annotation-text">• トレーサビリティ</text>
+  </g>
+
+  <!-- Tool Integration -->
+  <g id="tool-integration">
+    <rect x="120" y="550" width="560" height="30" fill="var(--svg-neutral)" fill-opacity="0.1" stroke="var(--svg-neutral)" stroke-width="1" rx="4"/>
+    <text x="400" y="570" class="step-text" text-anchor="middle" font-weight="500">ツール統合: Eclipse UML2 ↔ Alloy Analyzer ↔ TLA+ Toolbox</text>
+  </g>
+
+  <!-- Flow Arrows -->
+  <path d="M 220 140 L 260 140" class="process-flow"/>
+  <path d="M 420 140 L 460 140" class="process-flow"/>
+  <path d="M 620 140 L 660 140" class="process-flow"/>
+  
+  <!-- Integration Flow -->
+  <path d="M 160 250 L 160 220" class="process-flow"/>
+  <path d="M 300 250 L 300 220" class="process-flow"/>
+  <path d="M 440 250 L 440 220" class="process-flow"/>
+  <path d="M 580 250 L 580 220" class="process-flow"/>
+  
+  <!-- Process Flow -->
+  <path d="M 220 320 L 240 320" class="process-flow"/>
+  <path d="M 360 320 L 380 320" class="process-flow"/>
+  <path d="M 500 320 L 520 320" class="process-flow"/>
+  
+  <!-- Feedback Arrows -->
+  <path d="M 580 350 L 580 380 L 160 380 L 160 350" class="feedback-flow"/>
+  <path d="M 400 410 L 400 390 L 340 390 L 340 250" class="feedback-flow"/>
+  
+  <!-- Bidirectional Arrow -->
+  <path d="M 340 200 L 340 250" class="bidirectional-flow"/>
+  <polygon points="335,245 340,255 345,245" fill="var(--svg-warning)"/>
+  <polygon points="335,205 340,195 345,205" fill="var(--svg-warning)"/>
+  <text x="350" y="230" class="annotation-text">双方向</text>
+  <text x="350" y="243" class="annotation-text">連携</text>
+</svg>
