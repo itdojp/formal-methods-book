@@ -1,322 +1,129 @@
-<!-- Page Navigation (Previous/Next) -->
-{% assign current_index = nil %}
-{% assign all_pages = site.pages | where: "layout", "book" | where_exp: "page", "page.order" | sort: 'order' %}
+<!-- Canonical Page Navigation (Previous/Next) for book-formatter v3 -->
+{% comment %}
+Order resolution strategy (first match wins):
+1) site.data.navigation (keys: introduction, chapters, additional, appendices, afterword)
+2) site.pages where layout: book and order exists, sorted by order
+3) Fallback by URL groups sorted by url: /introduction/, /chapters/, /additional/ or /resources/, /appendices/, /afterword/
+{% endcomment %}
 
-<!-- Find current page index -->
-{% for p in all_pages %}
-    {% if p.url == page.url %}
-        {% assign current_index = forloop.index0 %}
-        {% break %}
-    {% endif %}
-{% endfor %}
+{% assign nav_items = nil %}
+{% assign navigation = site.data.navigation %}
 
-<!-- Calculate previous and next indices -->
-{% if current_index %}
-    {% assign prev_index = current_index | minus: 1 %}
-    {% assign next_index = current_index | plus: 1 %}
-    
-    {% if prev_index >= 0 %}
-        {% assign previous_page = all_pages[prev_index] %}
-    {% endif %}
-    
-    {% if next_index < all_pages.size %}
-        {% assign next_page = all_pages[next_index] %}
-    {% endif %}
+{% if navigation %}
+  {%- assign seq = "" | split: "|" -%}
+  {%- if navigation.introduction -%}
+    {%- assign seq = seq | concat: navigation.introduction -%}
+  {%- endif -%}
+  {%- if navigation.chapters -%}
+    {%- assign seq = seq | concat: navigation.chapters -%}
+  {%- endif -%}
+  {%- if navigation.additional -%}
+    {%- assign seq = seq | concat: navigation.additional -%}
+  {%- endif -%}
+  {%- if navigation.resources -%}
+    {%- assign seq = seq | concat: navigation.resources -%}
+  {%- endif -%}
+  {%- if navigation.appendices -%}
+    {%- assign seq = seq | concat: navigation.appendices -%}
+  {%- endif -%}
+  {%- if navigation.afterword -%}
+    {%- assign seq = seq | concat: navigation.afterword -%}
+  {%- endif -%}
+  {% assign nav_items = seq %}
 {% endif %}
 
-<!-- Navigation Container -->
-<nav class="page-nav" aria-label="Page navigation">
-    <div class="page-nav-container">
-        <!-- Previous Page -->
-        <div class="page-nav-item page-nav-prev">
-            {% if previous_page %}
-            <a href="{{ previous_page.url | relative_url }}" class="page-nav-link" rel="prev">
-                <div class="page-nav-direction">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="page-nav-arrow">
-                        <polyline points="15,18 9,12 15,6"></polyline>
-                    </svg>
-                    <span class="page-nav-label">前へ</span>
-                </div>
-                <div class="page-nav-title">{{ previous_page.title | truncate: 50 }}</div>
-            </a>
-            {% else %}
-            <div class="page-nav-link page-nav-disabled">
-                <div class="page-nav-direction">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="page-nav-arrow">
-                        <polyline points="15,18 9,12 15,6"></polyline>
-                    </svg>
-                    <span class="page-nav-label">前へ</span>
-                </div>
-                <div class="page-nav-title">最初のページです</div>
-            </div>
-            {% endif %}
-        </div>
+{% if nav_items == nil or nav_items.size == 0 %}
+  {%- assign ordered_pages = site.pages | where: "layout", "book" | where_exp: "p", "p.order" | sort: "order" -%}
+  {% if ordered_pages and ordered_pages.size > 0 %}
+    {% assign nav_items = ordered_pages %}
+  {% endif %}
+{% endif %}
 
-        <!-- Table of Contents -->
-        <div class="page-nav-item page-nav-toc">
-            <a href="{{ '/' | relative_url }}" class="page-nav-link page-nav-home">
-                <div class="page-nav-direction">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="page-nav-home-icon">
-                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                        <polyline points="9,22 9,12 15,12 15,22"></polyline>
-                    </svg>
-                    <span class="page-nav-label">目次</span>
-                </div>
-            </a>
-        </div>
+{% if nav_items == nil or nav_items.size == 0 %}
+  {%- assign intro = site.pages | where: "layout", "book" | where_exp: "p", "p.url contains '/introduction/'" | sort: "url" -%}
+  {%- assign chaps = site.pages | where: "layout", "book" | where_exp: "p", "p.url contains '/chapters/'" | sort: "url" -%}
+  {%- assign addtn = site.pages | where: "layout", "book" | where_exp: "p", "p.url contains '/additional/' or p.url contains '/resources/'" | sort: "url" -%}
+  {%- assign appdx = site.pages | where: "layout", "book" | where_exp: "p", "p.url contains '/appendices/'" | sort: "url" -%}
+  {%- assign aftwd = site.pages | where: "layout", "book" | where_exp: "p", "p.url contains '/afterword/'" | sort: "url" -%}
+  {%- assign seq = intro | concat: chaps | concat: addtn | concat: appdx | concat: aftwd -%}
+  {% assign nav_items = seq %}
+{% endif %}
 
-        <!-- Next Page -->
-        <div class="page-nav-item page-nav-next">
-            {% if next_page %}
-            <a href="{{ next_page.url | relative_url }}" class="page-nav-link" rel="next">
-                <div class="page-nav-direction">
-                    <span class="page-nav-label">次へ</span>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="page-nav-arrow">
-                        <polyline points="9,18 15,12 9,6"></polyline>
-                    </svg>
-                </div>
-                <div class="page-nav-title">{{ next_page.title | truncate: 50 }}</div>
-            </a>
-            {% else %}
-            <div class="page-nav-link page-nav-disabled">
-                <div class="page-nav-direction">
-                    <span class="page-nav-label">次へ</span>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="page-nav-arrow">
-                        <polyline points="9,18 15,12 9,6"></polyline>
-                    </svg>
-                </div>
-                <div class="page-nav-title">最後のページです</div>
-            </div>
-            {% endif %}
-        </div>
-    </div>
+{%- assign current_index = nil -%}
+{%- if nav_items and nav_items.size > 0 -%}
+  {%- for item in nav_items -%}
+    {%- if item.path and item.path != '' -%}
+      {%- assign item_url = item.path -%}
+    {%- else -%}
+      {%- assign item_url = item.url -%}
+    {%- endif -%}
+    {%- if item_url == page.url or page.url contains item_url -%}
+      {%- assign current_index = forloop.index0 -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+
+{%- assign previous_item = nil -%}
+{%- assign next_item = nil -%}
+{%- if current_index != nil -%}
+  {%- assign prev_index = current_index | minus: 1 -%}
+  {%- assign next_index = current_index | plus: 1 -%}
+  {%- if prev_index >= 0 -%}
+    {%- assign previous_item = nav_items[prev_index] -%}
+  {%- endif -%}
+  {%- if next_index < nav_items.size -%}
+    {%- assign next_item = nav_items[next_index] -%}
+  {%- endif -%}
+{%- endif -%}
+
+<nav class="book-navigation" aria-label="Chapter navigation">
+  <div class="chapter-nav">
+    {% if previous_item %}
+      {%- assign prev_url = previous_item.path | default: previous_item.url -%}
+      <a href="{{ prev_url | relative_url }}" class="nav-prev" rel="prev">
+        <span class="arrow">←</span>
+        <span class="label">前へ</span>
+        <span class="title">{{ previous_item.title | default: previous_item.name | default: "前のページ" }}</span>
+      </a>
+    {% else %}
+      <span class="nav-disabled nav-prev">
+        <span class="arrow">←</span>
+        <span class="label">前へ</span>
+      </span>
+    {% endif %}
+
+    <a href="{{ '/' | relative_url }}" class="nav-home">
+      <span class="icon">📚</span>
+      <span class="label">目次へ</span>
+    </a>
+
+    {% if next_item %}
+      {%- assign next_url = next_item.path | default: next_item.url -%}
+      <a href="{{ next_url | relative_url }}" class="nav-next" rel="next">
+        <span class="label">次へ</span>
+        <span class="title">{{ next_item.title | default: next_item.name | default: "次のページ" }}</span>
+        <span class="arrow">→</span>
+      </a>
+    {% else %}
+      <span class="nav-disabled nav-next">
+        <span class="label">次へ</span>
+        <span class="arrow">→</span>
+      </span>
+    {% endif %}
+  </div>
 </nav>
 
 <style>
-/* Page Navigation Styles */
-.page-nav {
-    margin: var(--space-12) 0 var(--space-8);
-    padding: var(--space-6) 0;
-    border-top: 1px solid var(--color-border);
-}
-
-.page-nav-container {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    gap: var(--space-4);
-    align-items: stretch;
-    max-width: 100%;
-}
-
-.page-nav-item {
-    display: flex;
-    flex-direction: column;
-}
-
-.page-nav-prev {
-    justify-content: flex-start;
-}
-
-.page-nav-next {
-    justify-content: flex-end;
-    text-align: right;
-}
-
-.page-nav-toc {
-    justify-content: center;
-    align-items: center;
-}
-
-.page-nav-link {
-    display: flex;
-    flex-direction: column;
-    padding: var(--space-4);
-    background-color: var(--color-bg-secondary);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    text-decoration: none;
-    color: var(--color-text-primary);
-    transition: all var(--transition-base);
-    min-height: 80px;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-}
-
-.page-nav-link:hover:not(.page-nav-disabled) {
-    background-color: var(--color-primary);
-    color: white;
-    border-color: var(--color-primary);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-}
-
-.page-nav-link:focus:not(.page-nav-disabled) {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-}
-
-.page-nav-disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    background-color: var(--color-bg-tertiary);
-}
-
-.page-nav-home {
-    min-height: 60px;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    min-width: 120px;
-}
-
-.page-nav-direction {
-    display: flex;
-    align-items: center;
-    margin-bottom: var(--space-2);
-    font-size: var(--font-size-sm);
-    font-weight: 600;
-    color: var(--color-text-secondary);
-}
-
-.page-nav-home .page-nav-direction {
-    margin-bottom: 0;
-}
-
-.page-nav-next .page-nav-direction {
-    justify-content: flex-end;
-}
-
-.page-nav-arrow {
-    width: 14px;
-    height: 14px;
-    flex-shrink: 0;
-}
-
-.page-nav-prev .page-nav-arrow {
-    margin-right: var(--space-2);
-}
-
-.page-nav-next .page-nav-arrow {
-    margin-left: var(--space-2);
-}
-
-.page-nav-home-icon {
-    width: 16px;
-    height: 16px;
-    margin-right: var(--space-2);
-    flex-shrink: 0;
-}
-
-.page-nav-label {
-    font-size: var(--font-size-sm);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-
-.page-nav-title {
-    font-size: var(--font-size-base);
-    font-weight: 500;
-    line-height: var(--line-height-normal);
-    color: var(--color-text-primary);
-}
-
-.page-nav-link:hover:not(.page-nav-disabled) .page-nav-direction,
-.page-nav-link:hover:not(.page-nav-disabled) .page-nav-title {
-    color: white;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .page-nav-container {
-        grid-template-columns: 1fr;
-        gap: var(--space-3);
-    }
-    
-    .page-nav-toc {
-        order: -1;
-    }
-    
-    .page-nav-next {
-        text-align: left;
-    }
-    
-    .page-nav-next .page-nav-direction {
-        justify-content: flex-start;
-    }
-    
-    .page-nav-next .page-nav-arrow {
-        margin-left: 0;
-        margin-right: var(--space-2);
-        order: -1;
-    }
-    
-    .page-nav-link {
-        min-height: 70px;
-        padding: var(--space-3);
-    }
-    
-    .page-nav-home {
-        min-height: 50px;
-    }
-    
-    .page-nav-title {
-        font-size: var(--font-size-sm);
-    }
-}
-
-@media (max-width: 480px) {
-    .page-nav {
-        margin: var(--space-8) 0 var(--space-6);
-        padding: var(--space-4) 0;
-    }
-    
-    .page-nav-container {
-        gap: var(--space-2);
-    }
-    
-    .page-nav-link {
-        padding: var(--space-3);
-        min-height: 60px;
-    }
-    
-    .page-nav-home {
-        min-height: 45px;
-    }
-    
-    .page-nav-direction {
-        margin-bottom: var(--space-1);
-    }
-    
-    .page-nav-title {
-        font-size: var(--font-size-sm);
-    }
-    
-    .page-nav-label {
-        font-size: var(--font-size-xs);
-    }
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-    .page-nav-link {
-        border-width: 2px;
-    }
-    
-    .page-nav-link:hover:not(.page-nav-disabled) {
-        border-width: 3px;
-    }
-}
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-    .page-nav-link {
-        transition: none;
-    }
-    
-    .page-nav-link:hover:not(.page-nav-disabled) {
-        transform: none;
-    }
-}
+.book-navigation { margin: 2rem 0; padding: 1rem; border-top: 1px solid var(--color-border, #e5e7eb); }
+.chapter-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.nav-prev, .nav-next, .nav-home { display: flex; align-items: center; padding: 0.75rem 1.25rem; background: var(--color-surface, #fff); border: 1px solid var(--color-border, #e5e7eb); border-radius: 6px; text-decoration: none; color: inherit; }
+.nav-disabled { opacity: .5; cursor: not-allowed; background: var(--color-muted, #f9fafb); }
+.nav-prev { flex: 1; }
+.nav-next { flex: 1; justify-content: flex-end; text-align: right; }
+.nav-home { flex: 0 0 auto; }
+.label { font-weight: 600; margin: 0 .25rem; }
+.title { font-size: .9rem; opacity: .8; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 768px) { .chapter-nav { flex-wrap: wrap; } .nav-prev, .nav-next { flex: 1 1 45%; } .nav-home { flex: 1 1 100%; order: -1; justify-content: center; } .title { display: none; } }
 </style>
+
