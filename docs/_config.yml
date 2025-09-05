@@ -35,6 +35,7 @@ url: "https://itdojp.github.io"
 baseurl: "/formal-methods-book"
 repository: "itdojp/formal-methods-book"
 
+
 # Book structure (from book-config.json)
 structure:
   chapters:
@@ -93,4 +94,16 @@ structure:
     - id: "appendix-e"
       title: "付録E：参考文献とWebリソース"
       path: "/appendices/appendix05/"
+
+
+
+# Defaults: use custom book layout as default
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "book"
+
+permalink: pretty
 
