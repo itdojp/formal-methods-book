@@ -133,6 +133,36 @@ SCADE（航空宇宙）、SPARK（安全クリティカル）、Dafny（プロ�
 - 反例から学ぶ: 失敗時に最小反例を収集し、再現スクリプトを標準化
 - 漸進的強化: 夜間→リリース前へと対象性質と探索深さを段階的に拡大
 
+簡易CI例（疑似YAML）:
+
+```yaml
+name: formal-checks
+on: [pull_request]
+jobs:
+  pr-quick:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Alloy quick check (small scope)
+        run: ./tools/alloy-check.sh --scope small --timeout 60
+      - name: TLA+ TLC (bounded)
+        run: ./tools/tlc-run.sh specs/Queue.tla --depth 100 --time-limit 60
+```
+
+反例ログ例（要約）:
+
+```
+TLC: Invariant violated: AlwaysEnqueueThenDequeue
+State trace (length=4):
+  1: Enqueue(x=1) -> Q=[1]
+  2: Enqueue(x=2) -> Q=[1,2]
+  3: Dequeue()    -> Q=[2]
+  4: Dequeue()    -> Q=[] (violates FIFO for corner case)
+Counterexample written to: traces/Queue_violation_2025-09-06.tla
+```
+
+上記のように、短時間・小スコープの検証をPRに配置し、夜間に探索深度やスコープを拡大することで、開発速度と品質保証の両立を図る。
+
 ### チーム開発での活用
 
 個人作業では効果的なツールでも、チーム開発では異なる課題が生じます。
