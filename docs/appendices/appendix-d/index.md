@@ -120,6 +120,51 @@
 - 夜間で偽陰性低減（探索深度/スコープ拡大）、リソースと並列度の管理
 - リリース前の強制/ソフトゲートの整理と例外フロー（第11章テンプレ参照）
 
+## サンプル（第11章 KPIサンプル）
+
+- 目的: 検証導入の効果を中期で可視化し、継続的改善を促進
+
+KPI例と設定
+- MTTR（Mean Time To Repair）反例修正平均時間
+  - 定義: 反例発生時刻→修正マージ時刻の平均
+  - 目標: 初期8h → 3ヶ月後4h（50%短縮）
+  - データ源: CIログの反例ID＋PRマージ時刻（自動集計）
+- 反例再現率（Local/CI）
+  - 定義: 反例をローカル/CIで再現できた比率
+  - 目標: 初期70% → 3ヶ月後90%
+  - 手段: seed固定・再現スクリプト自動出力・環境テンプレ
+- 検出密度（変更行数あたり検出数）
+  - 定義: ΔLOCあたりの検出件数（PR/夜間/リリース前別）
+  - 目標: PRで早期検出比率を高め、リリース前検出を減少
+  - 注意: 単純増加は良指標とは限らない（偽陽性/重複を排除）
+
+チェックポイント
+- KPIは達成可能で具体的（S.M.A.R.T.）か
+- 測定方法とデータ源が自動化されているか
+- 反例再現性の向上施策（seed/スクリプト/環境）がKPIと連動しているか
+
+### KPI収集スクリプト（疑似）
+
+```bash
+# 反例イベント抽出（CIログ→JSON）
+gh run view $RUN_ID --log | \
+  rg "Counterexample|Violation|Invariant" -n | \
+  awk '{print $1,$0}' | jq -R '{ts: now|todate, line: .}' > ci-counterexamples.json
+
+# 反例IDとPRマージ時刻からMTTRを算出（疑似）
+jq -r '.ts' ci-counterexamples.json | while read ts; do 
+  pr=$(gh pr list --search "created:>$ts" -L 1 --json number,mergedAt | jq -r '.[0]');
+  echo $pr >> mttr-source.json; 
+done
+jq -s 'map(select(.mergedAt != null)) | map((.mergedAt | fromdate) - (now - 86400)) | add/length' mttr-source.json > mttr.txt
+```
+
+ダッシュボード例（項目）
+- 反例件数（PR/夜間/リリース前別の時系列）
+- MTTR（移動平均）
+- 反例再現率（Local/CI）
+- 検出密度（ΔLOCあたり、偽陽性を除外）
+
 ## サンプル（第10章 問2）
 
 - ループ不変の例: 「配列の先頭からi未満は昇順」
