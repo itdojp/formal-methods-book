@@ -1,0 +1,13 @@
+# CODEOWNERS template for book repos (replace ownership handles as appropriate)
+
+# Bottom navigation include and related data
+docs/_includes/page-navigation.html   @itdojp/maintainers
+docs/_data/navigation.yml             @itdojp/maintainers
+
+# Jekyll config impacting layout/permalinks
+docs/_config.yml                      @itdojp/maintainers
+_config.yml                           @itdojp/maintainers
+
+# Nav/Pages link check workflow
+.github/workflows/nav-link-check.yml  @itdojp/maintainers
+
