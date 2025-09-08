@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <title>形式的手法比較マトリックス</title>
+  <desc>各形式的手法（モデル検査、定理証明、抽象解釈）の特徴比較と適用領域の可視化</desc>
+  <defs>
+    <style>
+      :root {
+        --svg-bg: #ffffff;
+        --svg-text: #1a1a1a;
+        --svg-primary: #0066cc;
+        --svg-success: #16a34a;
+        --svg-warning: #ca8a04;
+        --svg-error: #dc2626;
+        --svg-neutral: #6b7280;
+      }
+      .title-text { font-family: Inter, 'Helvetica Neue', Arial, sans-serif; font-size: 16px; font-weight: 600; fill: var(--svg-text); }
+      .method-title { font-family: Inter, 'Helvetica Neue', Arial, sans-serif; font-size: 12px; font-weight: 500; fill: var(--svg-bg); }
+      .feature-title { font-family: Inter, 'Helvetica Neue', Arial, sans-serif; font-size: 12px; font-weight: 500; fill: var(--svg-text); }
+      .rating-text { font-family: Inter, 'Helvetica Neue', Arial, sans-serif; font-size: 12px; font-weight: 400; fill: var(--svg-text); }
+      .annotation-text { font-family: Inter, 'Helvetica Neue', Arial, sans-serif; font-size: 10px; font-weight: 400; fill: var(--svg-neutral); }
+      .model-checking-box { fill: var(--svg-primary); stroke: var(--svg-primary); stroke-width: 2; }
+      .theorem-proving-box { fill: var(--svg-success); stroke: var(--svg-success); stroke-width: 2; }
+      .abstract-interpretation-box { fill: var(--svg-warning); stroke: var(--svg-warning); stroke-width: 2; }
+      .comparison-cell { fill: var(--svg-bg); stroke: var(--svg-neutral); stroke-width: 1; }
+      .high-rating { fill: var(--svg-success); fill-opacity: 0.8; }
+      .medium-rating { fill: var(--svg-warning); fill-opacity: 0.8; }
+      .low-rating { fill: var(--svg-error); fill-opacity: 0.8; }
+    </style>
+  </defs>
+
+  <!-- Title -->
+  <text x="400" y="40" class="title-text" text-anchor="middle">形式的手法比較マトリックス</text>
+
+  <!-- Method Headers -->
+  <g id="method-headers">
+    <!-- Model Checking -->
+    <rect x="200" y="70" width="150" height="40" class="model-checking-box" rx="4"/>
+    <text x="275" y="85" class="method-title" text-anchor="middle">モデル検査</text>
+    <text x="275" y="100" class="method-title" text-anchor="middle">Model Checking</text>
+
+    <!-- Theorem Proving -->
+    <rect x="375" y="70" width="150" height="40" class="theorem-proving-box" rx="4"/>
+    <text x="450" y="85" class="method-title" text-anchor="middle">定理証明</text>
+    <text x="450" y="100" class="method-title" text-anchor="middle">Theorem Proving</text>
+
+    <!-- Abstract Interpretation -->
+    <rect x="550" y="70" width="150" height="40" class="abstract-interpretation-box" rx="4"/>
+    <text x="625" y="85" class="method-title" text-anchor="middle">抽象解釈</text>
+    <text x="625" y="100" class="method-title" text-anchor="middle">Abstract Interpretation</text>
+  </g>
+
+  <!-- Comparison Matrix -->
+  <g id="comparison-matrix">
+    <!-- Feature Labels -->
+    <rect x="50" y="130" width="140" height="25" fill="var(--svg-neutral)" fill-opacity="0.1" stroke="var(--svg-neutral)" stroke-width="1" rx="4"/>
+    <text x="120" y="147" class="feature-title" text-anchor="middle">自動化度</text>
+
+    <rect x="50" y="160" width="140" height="25" fill="var(--svg-neutral)" fill-opacity="0.1" stroke="var(--svg-neutral)" stroke-width="1" rx="4"/>
+    <text x="120" y="177" class="feature-title" text-anchor="middle">完全性</text>
+
+    <rect x="50" y="190" width="140" height="25" fill="var(--svg-neutral)" fill-opacity="0.1" stroke="var(--svg-neutral)" stroke-width="1" rx="4"/>
+    <text x="120" y="207" class="feature-title" text-anchor="middle">スケーラビリティ</text>
+
+    <rect x="50" y="220" width="140" height="25" fill="var(--svg-neutral)" fill-opacity="0.1" stroke="var(--svg-neutral)" stroke-width="1" rx="4"/>
+    <text x="120" y="237" class="feature-title" text-anchor="middle">学習コスト</text>
+
+    <rect x="50" y="250" width="140" height="25" fill="var(--svg-neutral)" fill-opacity="0.1" stroke="var(--svg-neutral)" stroke-width="1" rx="4"/>
+    <text x="120" y="267" class="feature-title" text-anchor="middle">表現力</text>
+
+    <rect x="50" y="280" width="140" height="25" fill="var(--svg-neutral)" fill-opacity="0.1" stroke="var(--svg-neutral)" stroke-width="1" rx="4"/>
+    <text x="120" y="297" class="feature-title" text-anchor="middle">反例生成</text>
+
+    <!-- Model Checking Column -->
+    <rect x="200" y="130" width="150" height="25" class="comparison-cell" rx="4"/>
+    <rect x="210" y="135" width="130" height="15" class="high-rating" rx="2"/>
+    <text x="275" y="147" class="rating-text" text-anchor="middle">高 (完全自動)</text>
+
+    <rect x="200" y="160" width="150" height="25" class="comparison-cell" rx="4"/>
+    <rect x="210" y="165" width="90" height="15" class="medium-rating" rx="2"/>
+    <text x="275" y="177" class="rating-text" text-anchor="middle">中 (有限状態)</text>
+
+    <rect x="200" y="190" width="150" height="25" class="comparison-cell" rx="4"/>
+    <rect x="210" y="195" width="65" height="15" class="low-rating" rx="2"/>
+    <text x="275" y="207" class="rating-text" text-anchor="middle">低 (状態爆発)</text>
+
+    <rect x="200" y="220" width="150" height="25" class="comparison-cell" rx="4"/>
+    <rect x="210" y="225" width="90" height="15" class="medium-rating" rx="2"/>
+    <text x="275" y="237" class="rating-text" text-anchor="middle">中 (モデル化)</text>
+
+    <rect x="200" y="250" width="150" height="25" class="comparison-cell" rx="4"/>
+    <rect x="210" y="255" width="90" height="15" class="medium-rating" rx="2"/>
+    <text x="275" y="267" class="rating-text" text-anchor="middle">中 (時相論理)</text>
+
+    <rect x="200" y="280" width="150" height="25" class="comparison-cell" rx="4"/>
+    <rect x="210" y="285" width="130" height="15" class="high-rating" rx="2"/>
+    <text x="275" y="297" class="rating-text" text-anchor="middle">高 (自動生成)</text>
+
+    <!-- Theorem Proving Column -->
+    <rect x="375" y="130" width="150" height="25" class="comparison-cell" rx="4"/>
+    <rect x="385" y="135" width="65" height="15" class="low-rating" rx="2"/>
+    <text x="450" y="147" class="rating-text" text-anchor="middle">低 (対話的)</text>
+
+    <rect x="375" y="160" width="150" height="25" class="comparison-cell" rx="4"/>
+    <rect x="385" y="165" width="130" height="15" class="high-rating" rx="2"/>
+    <text x="450" y="177" class="rating-text" text-anchor="middle">高 (数学的厳密)</text>
+
+    <rect x="375" y="190" width="150" height="25" class="comparison-cell" rx="4"/>
+    <rect x="385" y="195" width="130" height="15" class="high-rating" rx="2"/>
+    <text x="450" y="207" class="rating-text" text-anchor="middle">高 (無限状態)</text>
+
+    <rect x="375" y="220" width="150" height="25" class="comparison-cell" rx="4"/>
+    <rect x="385" y="225" width="130" height="15" class="high-rating" rx="2"/>
+    <text x="450" y="237" class="rating-text" text-anchor="middle">高 (論理学習)</text>
+
+    <rect x="375" y="250" width="150" height="25" class="comparison-cell" rx="4"/>
+    <rect x="385" y="255" width="130" height="15" class="high-rating" rx="2"/>
+    <text x="450" y="267" class="rating-text" text-anchor="middle">高 (高階論理)</text>
+
+    <rect x="375" y="280" width="150" height="25" class="comparison-cell" rx="4"/>
+    <rect x="385" y="285" width="65" height="15" class="low-rating" rx="2"/>
+    <text x="450" y="297" class="rating-text" text-anchor="middle">低 (証明のみ)</text>
+
+    <!-- Abstract Interpretation Column -->
+    <rect x="550" y="130" width="150" height="25" class="comparison-cell" rx="4"/>
+    <rect x="560" y="135" width="130" height="15" class="high-rating" rx="2"/>
+    <text x="625" y="147" class="rating-text" text-anchor="middle">高 (静的解析)</text>
+
+    <rect x="550" y="160" width="150" height="25" class="comparison-cell" rx="4"/>
+    <rect x="560" y="165" width="90" height="15" class="medium-rating" rx="2"/>
+    <text x="625" y="177" class="rating-text" text-anchor="middle">中 (近似的)</text>
+
+    <rect x="550" y="190" width="150" height="25" class="comparison-cell" rx="4"/>
+    <rect x="560" y="195" width="130" height="15" class="high-rating" rx="2"/>
+    <text x="625" y="207" class="rating-text" text-anchor="middle">高 (抽象化)</text>
+
+    <rect x="550" y="220" width="150" height="25" class="comparison-cell" rx="4"/>
+    <rect x="560" y="225" width="90" height="15" class="medium-rating" rx="2"/>
+    <text x="625" y="237" class="rating-text" text-anchor="middle">中 (数学理論)</text>
+
+    <rect x="550" y="250" width="150" height="25" class="comparison-cell" rx="4"/>
+    <rect x="560" y="255" width="90" height="15" class="medium-rating" rx="2"/>
+    <text x="625" y="267" class="rating-text" text-anchor="middle">中 (抽象領域)</text>
+
+    <rect x="550" y="280" width="150" height="25" class="comparison-cell" rx="4"/>
+    <rect x="560" y="285" width="90" height="15" class="medium-rating" rx="2"/>
+    <text x="625" y="297" class="rating-text" text-anchor="middle">中 (警告情報)</text>
+  </g>
+
+  <!-- Application Domains -->
+  <g id="application-domains">
+    <rect x="80" y="330" width="640" height="120" fill="var(--svg-neutral)" fill-opacity="0.05" stroke="var(--svg-text)" stroke-width="2" rx="4"/>
+    <text x="400" y="350" class="feature-title" text-anchor="middle">適用領域と制限事項</text>
+
+    <!-- Model Checking Applications -->
+    <rect x="100" y="370" width="180" height="70" fill="var(--svg-primary)" fill-opacity="0.1" stroke="var(--svg-primary)" stroke-width="1" rx="4"/>
+    <text x="190" y="385" class="rating-text" text-anchor="middle" font-weight="500">モデル検査</text>
+    <text x="110" y="400" class="annotation-text" font-weight="500">適用領域:</text>
+    <text x="115" y="413" class="annotation-text">• 通信プロトコル</text>
+    <text x="115" y="426" class="annotation-text">• 並行システム</text>
+    <text x="110" y="440" class="annotation-text" font-weight="500">制限:</text>
+    <text x="115" y="453" class="annotation-text">• 状態爆発問題</text>
+
+    <!-- Theorem Proving Applications -->
+    <rect x="310" y="370" width="180" height="70" fill="var(--svg-success)" fill-opacity="0.1" stroke="var(--svg-success)" stroke-width="1" rx="4"/>
+    <text x="400" y="385" class="rating-text" text-anchor="middle" font-weight="500">定理証明</text>
+    <text x="320" y="400" class="annotation-text" font-weight="500">適用領域:</text>
+    <text x="325" y="413" class="annotation-text">• クリティカルシステム</text>
+    <text x="325" y="426" class="annotation-text">• アルゴリズム正当性</text>
+    <text x="320" y="440" class="annotation-text" font-weight="500">制限:</text>
+    <text x="325" y="453" class="annotation-text">• 高い専門知識要求</text>
+
+    <!-- Abstract Interpretation Applications -->
+    <rect x="520" y="370" width="180" height="70" fill="var(--svg-warning)" fill-opacity="0.1" stroke="var(--svg-warning)" stroke-width="1" rx="4"/>
+    <text x="610" y="385" class="rating-text" text-anchor="middle" font-weight="500">抽象解釈</text>
+    <text x="530" y="400" class="annotation-text" font-weight="500">適用領域:</text>
+    <text x="535" y="413" class="annotation-text">• 静的解析ツール</text>
+    <text x="535" y="426" class="annotation-text">• コンパイラ最適化</text>
+    <text x="530" y="440" class="annotation-text" font-weight="500">制限:</text>
+    <text x="535" y="453" class="annotation-text">• 偽陽性の存在</text>
+  </g>
+
+  <!-- Tool Selection Guide -->
+  <g id="tool-selection">
+    <rect x="100" y="470" width="600" height="100" fill="var(--svg-success)" fill-opacity="0.05" stroke="var(--svg-success)" stroke-width="2" rx="4"/>
+    <text x="400" y="490" class="feature-title" text-anchor="middle">ツール選択ガイド</text>
+
+    <!-- Decision Tree -->
+    <text x="120" y="510" class="rating-text" font-weight="500">システムの特性に基づく選択:</text>
+
+    <text x="130" y="525" class="annotation-text">• 有限状態システム + 自動検証 → </text>
+    <text x="350" y="525" class="annotation-text" fill="var(--svg-primary)" font-weight="500">モデル検査 (SPIN, TLC, NuSMV)</text>
+
+    <text x="130" y="540" class="annotation-text">• 数学的厳密性 + 無限状態 → </text>
+    <text x="350" y="540" class="annotation-text" fill="var(--svg-success)" font-weight="500">定理証明 (Coq, Isabelle, Lean)</text>
+
+    <text x="130" y="555" class="annotation-text">• 大規模ソフトウェア + 実用性 → </text>
+    <text x="350" y="555" class="annotation-text" fill="var(--svg-warning)" font-weight="500">抽象解釈 (ASTRÉE, Polyspace)</text>
+  </g>
+</svg>

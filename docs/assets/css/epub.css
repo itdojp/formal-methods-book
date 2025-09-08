@@ -1,0 +1,181 @@
+/* ePub-specific styles */
+
+body {
+  font-family: "Noto Serif JP", "Times New Roman", serif;
+  font-size: 1em;
+  line-height: 1.6;
+  color: #000;
+  background: white;
+  margin: 0;
+  padding: 1em;
+}
+
+/* Headings */
+h1 {
+  font-size: 1.8em;
+  font-weight: bold;
+  margin: 1.5em 0 1em 0;
+  text-align: center;
+  page-break-before: always;
+}
+
+h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 1.2em 0 0.8em 0;
+  border-bottom: 1px solid #333;
+  padding-bottom: 0.3em;
+}
+
+h3 {
+  font-size: 1.3em;
+  font-weight: bold;
+  margin: 1em 0 0.6em 0;
+}
+
+h4, h5, h6 {
+  font-size: 1.1em;
+  font-weight: bold;
+  margin: 0.8em 0 0.4em 0;
+}
+
+/* Paragraphs */
+p {
+  margin: 0 0 0.8em 0;
+  text-align: justify;
+  text-indent: 1em;
+}
+
+/* Lists */
+ul, ol {
+  margin: 0.8em 0;
+  padding-left: 2em;
+}
+
+li {
+  margin-bottom: 0.3em;
+}
+
+/* Code blocks */
+pre {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  padding: 0.8em;
+  margin: 0.8em 0;
+  font-family: "Courier New", monospace;
+  font-size: 0.9em;
+  line-height: 1.4;
+  overflow-x: auto;
+}
+
+code {
+  font-family: "Courier New", monospace;
+  font-size: 0.9em;
+  background: #f1f3f4;
+  padding: 0.1em 0.3em;
+  border-radius: 2px;
+}
+
+/* Tables */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0.8em 0;
+  font-size: 0.9em;
+}
+
+th, td {
+  border: 1px solid #000;
+  padding: 0.5em;
+  text-align: left;
+}
+
+th {
+  background: #f0f0f0;
+  font-weight: bold;
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0.8em auto;
+}
+
+/* Links */
+a {
+  color: #0066cc;
+  text-decoration: underline;
+}
+
+a:visited {
+  color: #800080;
+}
+
+/* Blockquotes */
+blockquote {
+  margin: 1em 2em;
+  padding: 0.5em 1em;
+  border-left: 3px solid #ccc;
+  background: #f9f9f9;
+  font-style: italic;
+}
+
+/* Table of contents */
+.toc {
+  margin-bottom: 2em;
+}
+
+.toc h1 {
+  text-align: center;
+  margin-bottom: 1.5em;
+}
+
+.toc ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.toc > ul > li {
+  margin-bottom: 0.5em;
+  font-weight: bold;
+}
+
+.toc ul ul {
+  padding-left: 1.5em;
+  font-weight: normal;
+}
+
+.toc a {
+  text-decoration: none;
+  color: #000;
+}
+
+/* Chapter numbering */
+.chapter-number {
+  font-weight: bold;
+  margin-right: 0.5em;
+}
+
+/* Footnotes */
+.footnote {
+  font-size: 0.8em;
+  margin-top: 1em;
+  border-top: 1px solid #ccc;
+  padding-top: 0.5em;
+}
+
+/* Math formulas - basic styling for MathML */
+math {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+/* Remove web-specific elements */
+.navigation,
+.footer,
+.no-epub {
+  display: none;
+}

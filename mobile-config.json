@@ -1,0 +1,25 @@
+{
+  "performance": {
+    "lazyLoading": true,
+    "prefetch": true,
+    "compression": true
+  },
+  "navigation": {
+    "swipeGestures": true,
+    "hamburgerMenu": true,
+    "stickyHeader": true
+  },
+  "typography": {
+    "scaleFactor": 1,
+    "lineHeight": 1.6,
+    "fontSize": "16px"
+  },
+  "layout": {
+    "sidebar": "overlay",
+    "breakpoints": {
+      "mobile": "768px",
+      "tablet": "1024px",
+      "desktop": "1200px"
+    }
+  }
+}

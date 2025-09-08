@@ -1,0 +1,138 @@
+{
+  "title": "ITインフラストラクチャ技術ガイド",
+  "subtitle": "ネットワークとサーバーシステムの設計と実装",
+  "description": "ベンダー非依存の観点からインフラストラクチャ技術の本質的な設計原理と実装手法を体系化した技術書",
+  "author": "太田和彦（株式会社アイティードゥ）",
+  "version": "1.0.0",
+  "language": "ja",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/itdojp/IT-infra-book.git",
+    "branch": "main"
+  },
+  "outputDirectory": "docs",
+  "structure": {
+    "introduction": {
+      "id": "introduction",
+      "title": "はじめに",
+      "description": "本書の目的と対象読者"
+    },
+    "chapters": [
+      {
+        "id": "chapter01",
+        "title": "プロトコルスタックの設計思想",
+        "description": "ネットワークプロトコルの階層化アーキテクチャ",
+        "part": "I",
+        "partTitle": "ネットワークアーキテクチャと実装"
+      },
+      {
+        "id": "chapter02",
+        "title": "L2ネットワークの実装詳細",
+        "description": "データリンク層の技術と実装",
+        "part": "I"
+      },
+      {
+        "id": "chapter03",
+        "title": "L3ルーティングアーキテクチャ",
+        "description": "ネットワーク層のルーティング技術",
+        "part": "I"
+      },
+      {
+        "id": "chapter04",
+        "title": "トランスポート層の最適化",
+        "description": "TCPとUDPの内部実装と最適化",
+        "part": "I"
+      },
+      {
+        "id": "chapter05",
+        "title": "アプリケーション層プロトコルの実装",
+        "description": "HTTP/2, gRPC等のモダンプロトコル",
+        "part": "I"
+      },
+      {
+        "id": "chapter06",
+        "title": "オペレーティングシステムの内部構造",
+        "description": "カーネル空間とユーザー空間の実装原理",
+        "part": "II",
+        "partTitle": "サーバーシステムの設計と実装"
+      },
+      {
+        "id": "chapter07",
+        "title": "仮想化技術の内部メカニズム",
+        "description": "ハイパーバイザーと仮想化の実装詳細",
+        "part": "II"
+      },
+      {
+        "id": "chapter08",
+        "title": "コンテナ技術の実装原理",
+        "description": "Namespaces, cgroups, およびオーケストレーション",
+        "part": "II"
+      },
+      {
+        "id": "chapter09",
+        "title": "システム運用の自動化",
+        "description": "Infrastructure as Codeと自動化フレームワーク",
+        "part": "II"
+      },
+      {
+        "id": "chapter10",
+        "title": "分散ストレージアーキテクチャ",
+        "description": "分散ファイルシステムとオブジェクトストレージ",
+        "part": "III",
+        "partTitle": "信頼性とセキュリティの実装"
+      },
+      {
+        "id": "chapter11",
+        "title": "高可用性システムの設計",
+        "description": "冗長化パターンとフェイルオーバーメカニズム",
+        "part": "III"
+      },
+      {
+        "id": "chapter12",
+        "title": "クラウドネイティブアーキテクチャ",
+        "description": "マイクロサービスとサーバーレスの実装",
+        "part": "IV",
+        "partTitle": "統合アーキテクチャ"
+      },
+      {
+        "id": "chapter13",
+        "title": "技術選択のフレームワーク",
+        "description": "システム統合における技術選択と最適化",
+        "part": "IV"
+      }
+    ],
+    "appendices": [
+      {
+        "id": "appendix01",
+        "title": "リファレンスアーキテクチャ集",
+        "description": "実践的なシステム構成例"
+      },
+      {
+        "id": "appendix02",
+        "title": "パフォーマンスチューニングガイド",
+        "description": "システム最適化の実践手法"
+      }
+    ],
+    "afterword": {
+      "id": "afterword",
+      "title": "あとがき",
+      "description": "今後の展望と謝辞"
+    }
+  },
+  "buildOptions": {
+    "enableTOC": true,
+    "enableSearch": true,
+    "enablePDF": false,
+    "enableEPUB": false,
+    "enableSyntaxHighlighting": true,
+    "enableMermaid": true,
+    "enableKatex": false
+  },
+  "metadata": {
+    "publisher": "株式会社アイティードゥ",
+    "publishDate": "2025-01-01",
+    "isbn": "",
+    "keywords": ["ITインフラ", "ネットワーク", "サーバー", "クラウド", "仮想化", "コンテナ"],
+    "category": "技術書"
+  }
+}
