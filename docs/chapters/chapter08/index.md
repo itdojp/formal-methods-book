@@ -496,15 +496,19 @@ COMPASSION enabled_a executed_a  -- enabled_a が無限回真なら executed_a �
 
 実際の模型検査ツールでは、標準的な時相論理に加えて、実用的な拡張が提供されることがあります。
 
-**SPIN（Promela）での例（進捗・無飢餓の性質）**：
+**SPIN（Promela）での例（進捗・無飢餓の性質）［LTL例］**：
 ```promela
 ltl no_starvation_i { []( try_i -> <> crit_i ) }
 ltl mutual_exclusion { [](!(cs1 && cs2)) }
 ```
 
-**NuSMV（SMV）での例**：
+**NuSMV（SMV）での例（LTL/CTLの両方）**：
+LTL例：
 ```smv
 LTLSPEC G(request -> F(response))
+```
+CTL例：
+```smv
 CTLSPEC AG(critical1 -> !critical2)
 ```
 
