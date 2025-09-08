@@ -485,6 +485,31 @@ COMPASSION enabled_a executed_a  -- enabled_a が無限回真なら executed_a �
 
 公平性の概念・TLA+での厳密な定義は、[第7章の公平性の時相的表現]({{ '/chapters/chapter07/#公平性の時相的表現' | relative_url }})も参照してください。
 
+最小例（NuSMV/nuXmv の FAIRNESS 使用）:
+```smv
+MODULE main
+VAR state : {idle, run};
+ASSIGN
+  init(state) := idle;
+  next(state) := case
+    state = idle : {idle, run};
+    TRUE : run;
+  esac;
+
+FAIRNESS state = run
+
+-- LTL: G(request -> F(response)) のような性質と併用する際、
+-- 公平性がないと run に到達しない分岐が許されるため、活性が偽になる場合がある。
+-- FAIRNESS により「run 状態へ遷移し（やがて）定常的に run が続く実行（run が無限回現れる）」を選び、
+-- 活性の評価を現実的にする。
+```
+
+最小例（COMPASSION の概念）:
+```smv
+-- COMPASSION p q : p が無限回成り立つなら q も無限回成り立つパスのみを公平とみなす
+COMPASSION enabled_a executed_a
+```
+
 ### 性質記述の実践的ガイドライン
 
 効果的な性質記述のためのガイドライン：
