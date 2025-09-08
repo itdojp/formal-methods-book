@@ -19,10 +19,11 @@ jobs:
         id: build
         run: |
           python3 - << 'PY'
-          import os, yaml, re
+          import os, yaml
           from pathlib import Path
-          import yaml
-          repo = os.environ.get('GITHUB_REPOSITORY','').split('/')[-1]
+          repo_full = os.environ.get('GITHUB_REPOSITORY','')
+          parts = repo_full.split('/') if '/' in repo_full else ['', repo_full]
+          owner, repo = parts[0], parts[-1]
           cfg = Path('docs/_config.yml') if Path('docs/_config.yml').exists() else Path('_config.yml')
           baseurl = f'/{repo}'
           if cfg.exists():
@@ -36,7 +37,8 @@ jobs:
                   for line in cfg.read_text(encoding='utf-8').splitlines():
                       if line.strip().startswith('baseurl:'):
                           val = line.split(':',1)[1].strip()
-                          baseurl = val.strip('"\'\' ')
+                          # strip space, single-quote, double-quote
+                          baseurl = val.strip(" '\"")
                           break
           # Ensure baseurl starts with '/'
           if not baseurl.startswith('/'):
@@ -64,7 +66,10 @@ jobs:
           paths = read_nav() or discover() or ['/']
           # Always include index
           if '/' not in paths: paths.insert(0,'/')
-          base = f'https://itdojp.github.io{baseurl}'
+
+          # Derive pages host from owner; allow override via PAGES_HOST env
+          host = os.environ.get('PAGES_HOST') or (f'{owner}.github.io' if owner else 'itdojp.github.io')
+          base = f'https://{host}{baseurl}'
           urls = [ (p, f"{base}{p}") for p in paths ]
           out = '\n'.join([f"{p}\t{u}" for p,u in urls])
           Path('urls.txt').write_text(out, encoding='utf-8')

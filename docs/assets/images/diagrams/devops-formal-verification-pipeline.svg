@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <title>DevOps形式検証パイプライン</title>
+  <desc>CI/CDパイプラインに統合された形式検証ワークフローと自動化プロセス</desc>
+  <defs>
+    <style>
+      :root {
+        --svg-bg: #ffffff;
+        --svg-text: #1a1a1a;
+        --svg-primary: #0066cc;
+        --svg-success: #16a34a;
+        --svg-warning: #ca8a04;
+        --svg-error: #dc2626;
+        --svg-neutral: #6b7280;
+      }
+      .title-text { font-family: Inter, 'Helvetica Neue', Arial, sans-serif; font-size: 16px; font-weight: 600; fill: var(--svg-text); }
+      .pipeline-title { font-family: Inter, 'Helvetica Neue', Arial, sans-serif; font-size: 12px; font-weight: 500; fill: var(--svg-bg); }
+      .step-text { font-family: Inter, 'Helvetica Neue', Arial, sans-serif; font-size: 12px; font-weight: 400; fill: var(--svg-text); }
+      .annotation-text { font-family: Inter, 'Helvetica Neue', Arial, sans-serif; font-size: 10px; font-weight: 400; fill: var(--svg-neutral); }
+      .code-text { font-family: 'Courier New', monospace; font-size: 9px; fill: var(--svg-text); }
+      .dev-box { fill: var(--svg-primary); stroke: var(--svg-primary); stroke-width: 2; }
+      .ci-box { fill: var(--svg-warning); stroke: var(--svg-warning); stroke-width: 2; }
+      .verification-box { fill: var(--svg-success); stroke: var(--svg-success); stroke-width: 2; }
+      .deployment-box { fill: var(--svg-error); stroke: var(--svg-error); stroke-width: 2; }
+      .pipeline-flow { stroke: var(--svg-primary); stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .success-flow { stroke: var(--svg-success); stroke-width: 2; fill: none; marker-end: url(#arrowhead-green); }
+      .failure-flow { stroke: var(--svg-error); stroke-width: 2; stroke-dasharray: 5,3; fill: none; marker-end: url(#arrowhead-red); }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="var(--svg-primary)"/>
+    </marker>
+    <marker id="arrowhead-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="var(--svg-success)"/>
+    </marker>
+    <marker id="arrowhead-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="var(--svg-error)"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="400" y="40" class="title-text" text-anchor="middle">DevOps形式検証パイプライン</text>
+
+  <!-- Development Phase -->
+  <g id="development">
+    <rect x="60" y="80" width="140" height="80" class="dev-box" rx="4"/>
+    <text x="130" y="100" class="pipeline-title" text-anchor="middle">開発フェーズ</text>
+    <text x="70" y="120" class="annotation-text">• 仕様作成 (Alloy/TLA+)</text>
+    <text x="70" y="135" class="annotation-text">• コード実装</text>
+    <text x="70" y="150" class="annotation-text">• ローカルテスト</text>
+  </g>
+
+  <!-- CI/CD Trigger -->
+  <g id="ci-trigger">
+    <rect x="220" y="80" width="140" height="80" class="ci-box" rx="4"/>
+    <text x="290" y="100" class="pipeline-title" text-anchor="middle">CI/CD トリガー</text>
+    <text x="230" y="120" class="annotation-text">• Git Push/PR作成</text>
+    <text x="230" y="135" class="annotation-text">• GitHub Actions起動</text>
+    <text x="230" y="150" class="annotation-text">• パイプライン開始</text>
+  </g>
+
+  <!-- Formal Verification -->
+  <g id="verification">
+    <rect x="380" y="80" width="140" height="80" class="verification-box" rx="4"/>
+    <text x="450" y="100" class="pipeline-title" text-anchor="middle">形式検証</text>
+    <text x="390" y="120" class="annotation-text">• モデル検査実行</text>
+    <text x="390" y="135" class="annotation-text">• 性質検証</text>
+    <text x="390" y="150" class="annotation-text">• 反例分析</text>
+  </g>
+
+  <!-- Deployment -->
+  <g id="deployment">
+    <rect x="540" y="80" width="140" height="80" class="deployment-box" rx="4"/>
+    <text x="610" y="100" class="pipeline-title" text-anchor="middle">デプロイメント</text>
+    <text x="550" y="120" class="annotation-text">• 検証成功時</text>
+    <text x="550" y="135" class="annotation-text">• 自動デプロイ</text>
+    <text x="550" y="150" class="annotation-text">• 本番リリース</text>
+  </g>
+
+  <!-- GitHub Actions Workflow -->
+  <g id="github-actions">
+    <rect x="80" y="200" width="640" height="180" fill="var(--svg-neutral)" fill-opacity="0.05" stroke="var(--svg-text)" stroke-width="2" rx="4"/>
+    <text x="400" y="220" class="step-text" text-anchor="middle" font-weight="500">GitHub Actions ワークフロー例</text>
+    
+    <!-- YAML Configuration -->
+    <rect x="100" y="235" width="600" height="135" fill="var(--svg-bg)" stroke="var(--svg-neutral)" stroke-width="1" rx="4"/>
+    
+    <text x="110" y="250" class="code-text">name: Formal Verification</text>
+    <text x="110" y="265" class="code-text">on: [push, pull_request]</text>
+    <text x="110" y="280" class="code-text">jobs:</text>
+    <text x="110" y="295" class="code-text">  verify:</text>
+    <text x="110" y="310" class="code-text">    runs-on: ubuntu-latest</text>
+    <text x="110" y="325" class="code-text">    steps:</text>
+    <text x="120" y="340" class="code-text">    - uses: actions/checkout@v3</text>
+    <text x="120" y="355" class="code-text">    - name: Run Alloy Analysis</text>
+    <text x="130" y="370" class="code-text">      run: java -jar alloy.jar model.als</text>
+  </g>
+
+  <!-- Verification Tools Integration -->
+  <g id="tools-integration">
+    <rect x="100" y="400" width="600" height="120" fill="var(--svg-success)" fill-opacity="0.05" stroke="var(--svg-success)" stroke-width="2" rx="4"/>
+    <text x="400" y="420" class="step-text" text-anchor="middle" font-weight="500">検証ツール統合</text>
+    
+    <!-- Alloy Analyzer -->
+    <rect x="120" y="440" width="120" height="60" fill="var(--svg-bg)" stroke="var(--svg-success)" stroke-width="1" rx="4"/>
+    <text x="180" y="460" class="step-text" text-anchor="middle" font-weight="500">Alloy Analyzer</text>
+    <text x="130" y="475" class="annotation-text">• 構造分析</text>
+    <text x="130" y="490" class="annotation-text">• 不変条件検証</text>
+    
+    <!-- TLA+ TLC -->
+    <rect x="260" y="440" width="120" height="60" fill="var(--svg-bg)" stroke="var(--svg-success)" stroke-width="1" rx="4"/>
+    <text x="320" y="460" class="step-text" text-anchor="middle" font-weight="500">TLA+ TLC</text>
+    <text x="270" y="475" class="annotation-text">• 時相論理検証</text>
+    <text x="270" y="490" class="annotation-text">• 並行性チェック</text>
+    
+    <!-- SPIN -->
+    <rect x="400" y="440" width="120" height="60" fill="var(--svg-bg)" stroke="var(--svg-success)" stroke-width="1" rx="4"/>
+    <text x="460" y="460" class="step-text" text-anchor="middle" font-weight="500">SPIN</text>
+    <text x="410" y="475" class="annotation-text">• Promela検証</text>
+    <text x="410" y="490" class="annotation-text">• プロトコル検査</text>
+    
+    <!-- Custom Scripts -->
+    <rect x="540" y="440" width="120" height="60" fill="var(--svg-bg)" stroke="var(--svg-success)" stroke-width="1" rx="4"/>
+    <text x="600" y="460" class="step-text" text-anchor="middle" font-weight="500">カスタム検証</text>
+    <text x="550" y="475" class="annotation-text">• 独自ツール</text>
+    <text x="550" y="490" class="annotation-text">• スクリプト統合</text>
+  </g>
+
+  <!-- Results and Reporting -->
+  <g id="results">
+    <rect x="120" y="540" width="560" height="40" fill="var(--svg-warning)" fill-opacity="0.1" stroke="var(--svg-warning)" stroke-width="2" rx="4"/>
+    <text x="400" y="565" class="step-text" text-anchor="middle" font-weight="500">検証結果レポート: JUnit XML形式 + GitHub PR コメント + Slack通知</text>
+  </g>
+
+  <!-- Flow Arrows -->
+  <path d="M 200 120 L 220 120" class="pipeline-flow"/>
+  <path d="M 360 120 L 380 120" class="pipeline-flow"/>
+  
+  <!-- Success/Failure Paths -->
+  <path d="M 520 120 L 540 120" class="success-flow"/>
+  <text x="530" y="115" class="annotation-text" text-anchor="middle" fill="var(--svg-success)">成功</text>
+  
+  <!-- Failure Feedback -->
+  <path d="M 450 160 L 450 200" class="failure-flow"/>
+  <path d="M 450 200 L 290 200" class="failure-flow"/>
+  <path d="M 290 200 L 290 160" class="failure-flow"/>
+  <text x="370" y="195" class="annotation-text" fill="var(--svg-error)">検証失敗時のフィードバック</text>
+
+  <!-- Integration Arrows -->
+  <path d="M 400 380 L 400 400" class="pipeline-flow"/>
+  <path d="M 400 520 L 400 540" class="pipeline-flow"/>
+
+  <!-- Tool Integration Lines -->
+  <path d="M 180 500 L 180 520 L 320 520 L 320 500" stroke="var(--svg-success)" stroke-width="1" fill="none"/>
+  <path d="M 460 500 L 460 520 L 600 520 L 600 500" stroke="var(--svg-success)" stroke-width="1" fill="none"/>
+</svg>
