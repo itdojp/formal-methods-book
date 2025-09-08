@@ -64,7 +64,7 @@ order: 8
 ![図8-1：模型検査による自動検証のプロセス](../../assets/images/diagrams/model-checking-process.svg)
 （読み取りポイント：モデル・性質・探索・反例の学習ループ）
 
-読み取りポイント（図8-1参照）:
+（読み取りポイント：図8-1参照）
 - モデル→性質→探索: 仕様（モデル）と確認したい性質を分離
 - 反例活用: 反例トレースから設計/仕様/仮定の見直しへ
 - スケール戦略: 抽象化/切り詰め/境界づけで段階的に拡大
@@ -452,16 +452,20 @@ AG(request → AF≤n(response))
 
 現実的なシステムでは、「公平性」の仮定が重要です。理論的には可能でも実際には起こりにくい実行を除外することで、より現実的な検証ができます。
 
-**弱公平性**：
-```ctl
-AG(AF(enabled(action)) → AF(executed(action)))
-「継続的に実行可能な行動は最終的に実行される」
+**弱公平性（概念）**：継続的に実行可能な行動は、いつか実行される。
+（ツールでは FAIRNESS/justice 制約として与えることが多い）
+
+例（NuSMV/nuXmv の公平性制約）:
+```smv
+FAIRNESS running_i   -- i が無限回実行機会を得る場合、パスは公平とみなす
 ```
 
-**強公平性**：
-```ctl
-AG(AF(enabled(action)) → AF(executed(action)))
-「無限に何度も実行可能になる行動は最終的に実行される」
+**強公平性（概念）**：無限に何度も実行可能になる行動は、いつか実行される。
+（SMV系では COMPASSION 制約で表現可能）
+
+例（NuSMV/nuXmv の強公平性制約）:
+```smv
+COMPASSION enabled_a executed_a  -- enabled_a が無限回真なら executed_a も無限回真
 ```
 
 ### 性質記述の実践的ガイドライン
@@ -477,9 +481,9 @@ AG(AF(enabled(action)) → AF(executed(action)))
 
 実際の模型検査ツールでは、標準的な時相論理に加えて、実用的な拡張が提供されることがあります。
 
-**SPIN（Promela）での例**：
+**SPIN（Promela）での例（進捗・無飢餓の性質）**：
 ```promela
-ltl fairness { []<>(critical_section) }
+ltl no_starvation_i { []( try_i -> <> crit_i ) }
 ltl mutual_exclusion { [](!(cs1 && cs2)) }
 ```
 
