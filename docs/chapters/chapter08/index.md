@@ -514,6 +514,23 @@ CTLSPEC AG(critical1 -> !critical2)
 
 これらの拡張により、理論的な時相論理を実用的な検証に適用できます。
 
+### ミニまとめ：LTL / CTL / 公平性の使い分け
+
+- LTL（線形時相）
+  - 単一実行（パス）沿いの性質を表現（G, F, X, U）
+  - 例: G(¬bad), G(req -> F resp), 無飢餓: []( waiting -> <> served )
+  - 使いどころ: 安全性・活性の基本、SPINのLTL、NuSMVのLTLSPEC
+
+- CTL（分岐時相）
+  - 量化子 A/E + 演算子 G/F/X/U で木状の実行分岐を表現
+  - 例: AG(safe), EF(¬goal), 否定の等価性: ¬AG(safe) ≡ EF(¬safe)
+  - 使いどころ: 到達性/不変性の分岐探索、NuSMVのCTLSPEC
+
+- 公平性（Fairness）
+  - 概念: 弱公平（継続的に可能ならいつか実行）、強公平（無限回可能ならいつか実行）
+  - ツール表現: NuSMV/nuXmv の FAIRNESS/COMPASSION、SPIN はLTLで no_starvation 等を記述
+  - 相互参照: 第7章（TLA+での WF/SF 定義）と本章（ツール制約）を参照
+
 ## 8.4 状態爆発問題：現実との妥協
 
 ### 組み合わせ爆発の数学的現実
