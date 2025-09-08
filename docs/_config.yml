@@ -1,6 +1,7 @@
 title: "形式的手法の基礎と応用"
-description: "仕様記述、模型検査、定理証明の統合的理解"
-author: "株式会社アイティードゥ"
+description: "仕様記述、模型検査、定理証明の統合的理解 - ソフトウェアの数学的設計入門"
+author: "太田和彦（株式会社アイティードゥ）"
+organization: "株式会社アイティードゥ"
 version: "1.0.0"
 lang: "ja"
 
@@ -13,7 +14,6 @@ plugins:
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-seo-tag
-  - jekyll-remote-theme
 
 # 除外ファイル
 exclude:
@@ -23,10 +23,7 @@ exclude:
   - scripts/
   - tests/
   - "README.md"
-  - vendor/
-  - .bundle/
-  - Gemfile
-  - Gemfile.lock
+  - src/
 
 # 日本語対応
 kramdown:
@@ -37,3 +34,75 @@ kramdown:
 url: "https://itdojp.github.io"
 baseurl: "/formal-methods-book"
 repository: "itdojp/formal-methods-book"
+
+
+# Book structure (from book-config.json)
+structure:
+  chapters:
+    - id: "chapter01"
+      title: "第1章：なぜ形式的手法が必要なのか"
+      path: "/chapters/chapter01/"
+    - id: "chapter02"
+      title: "第2章：数学とプログラムの橋渡し"
+      path: "/chapters/chapter02/"
+    - id: "chapter03"
+      title: "第3章：仕様記述の基本"
+      path: "/chapters/chapter03/"
+    - id: "chapter04"
+      title: "第4章：軽量形式的手法入門 - Alloyで始める仕様記述"
+      path: "/chapters/chapter04/"
+    - id: "chapter05"
+      title: "第5章：状態ベース仕様記述 - Z記法の基礎"
+      path: "/chapters/chapter05/"
+    - id: "chapter06"
+      title: "第6章：プロセス中心の記述 - CSPによる並行システム"
+      path: "/chapters/chapter06/"
+    - id: "chapter07"
+      title: "第7章：時間を扱う仕様記述 - TLA+入門"
+      path: "/chapters/chapter07/"
+    - id: "chapter08"
+      title: "第8章：模型検査入門"
+      path: "/chapters/chapter08/"
+    - id: "chapter09"
+      title: "第9章：定理証明の基礎"
+      path: "/chapters/chapter09/"
+    - id: "chapter10"
+      title: "第10章：プログラム検証"
+      path: "/chapters/chapter10/"
+    - id: "chapter11"
+      title: "第11章：開発プロセスとの統合"
+      path: "/chapters/chapter11/"
+    - id: "chapter12"
+      title: "第12章：ツールと自動化"
+      path: "/chapters/chapter12/"
+    - id: "chapter13"
+      title: "第13章：事例研究"
+      path: "/chapters/chapter13/"
+  appendices:
+    - id: "appendix-a"
+      title: "付録A：数学的基礎の復習"
+      path: "/appendices/appendix-a/"
+    - id: "appendix-b"
+      title: "付録B：ツールインストールガイド"
+      path: "/appendices/appendix-b/"
+    - id: "appendix-c"
+      title: "付録C：記法対照表"
+      path: "/appendices/appendix-c/"
+    - id: "appendix-d"
+      title: "付録D：演習問題解答"
+      path: "/appendices/appendix-d/"
+    - id: "appendix-e"
+      title: "付録E：参考文献とWebリソース"
+      path: "/appendices/appendix-e/"
+
+
+
+# Defaults: use custom book layout as default
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "book"
+
+permalink: pretty

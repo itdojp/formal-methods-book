@@ -1,0 +1,12 @@
+{
+  "API": "Application Programming Interface - A set of rules and protocols for building software applications",
+  "REST": "Representational State Transfer - An architectural style for distributed hypermedia systems",
+  "JSON": "JavaScript Object Notation - A lightweight data interchange format",
+  "Markdown": "A lightweight markup language for creating formatted text",
+  "YAML": "YAML Ain't Markup Language - A human-readable data serialization language",
+  "Git": "A distributed version control system for tracking changes in source code",
+  "CI/CD": "Continuous Integration/Continuous Deployment - Software development practices",
+  "npm": "Node Package Manager - The package manager for JavaScript",
+  "Jekyll": "A static site generator written in Ruby",
+  "GitHub Pages": "A static site hosting service from GitHub"
+}
