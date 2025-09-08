@@ -81,19 +81,19 @@ structure:
   appendices:
     - id: "appendix-a"
       title: "付録A：数学的基礎の復習"
-      path: "/appendices/appendix01/"
+      path: "/appendices/appendix-a/"
     - id: "appendix-b"
       title: "付録B：ツールインストールガイド"
-      path: "/appendices/appendix02/"
+      path: "/appendices/appendix-b/"
     - id: "appendix-c"
       title: "付録C：記法対照表"
-      path: "/appendices/appendix03/"
+      path: "/appendices/appendix-c/"
     - id: "appendix-d"
       title: "付録D：演習問題解答"
-      path: "/appendices/appendix04/"
+      path: "/appendices/appendix-d/"
     - id: "appendix-e"
       title: "付録E：参考文献とWebリソース"
-      path: "/appendices/appendix05/"
+      path: "/appendices/appendix-e/"
 
 
 
@@ -106,4 +106,3 @@ defaults:
       layout: "book"
 
 permalink: pretty
-

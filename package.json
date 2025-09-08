@@ -7,8 +7,8 @@
     "start": "npm run build && npx http-server docs -p 4321 -c-1",
     "build": "node scripts/build.js",
     "test": "npm run lint && npm run check-links",
-    "lint": "markdownlint src/**/*.md",
-    "check-links": "markdown-link-check -q -p src/**/*.md",
+    "lint": "markdownlint 'src/**/*.md' --ignore src/appendices/appendices_draft.md",
+    "check-links": "markdown-link-check -q -p src/chapters/*.md && markdown-link-check -q -p src/appendices/appendix-*.md && markdown-link-check -q -p src/introduction/index.md && markdown-link-check -q -p src/afterword/index.md",
     "deploy": "gh-pages -d docs"
   },
   "keywords": [
