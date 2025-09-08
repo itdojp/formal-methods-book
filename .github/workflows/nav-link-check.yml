@@ -12,20 +12,40 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Install PyYAML
+        run: python3 -m pip install --user pyyaml
+
       - name: Build URL list
         id: build
         run: |
           python3 - << 'PY'
           import os, yaml, re
           from pathlib import Path
-          repo = os.environ.get('GITHUB_REPOSITORY','').split('/')[-1]
+
+          repo_full = os.environ.get('GITHUB_REPOSITORY','')
+          parts = repo_full.split('/') if '/' in repo_full else ['', repo_full]
+          owner, repo = parts[0], parts[-1]
+
           cfg = Path('docs/_config.yml') if Path('docs/_config.yml').exists() else Path('_config.yml')
           baseurl = f'/{repo}'
           if cfg.exists():
-              for line in cfg.read_text(encoding='utf-8').splitlines():
-                  if line.strip().startswith('baseurl:'):
-                      baseurl = line.split(':',1)[1].strip()
-                      break
+              try:
+                  data = yaml.safe_load(cfg.read_text(encoding='utf-8')) or {}
+                  bu = data.get('baseurl')
+                  if isinstance(bu,str) and bu.strip():
+                      baseurl = bu.strip()
+              except Exception:
+                  # Fallback to naive parse but strip quotes
+                  for line in cfg.read_text(encoding='utf-8').splitlines():
+                      if line.strip().startswith('baseurl:'):
+                          val = line.split(':',1)[1].strip()
+                          # strip space, single-quote, double-quote
+                          baseurl = val.strip(" '\"")
+                          break
+          # Ensure baseurl starts with '/'
+          if not baseurl.startswith('/'):
+              baseurl = '/' + baseurl
+
           def read_nav():
               y = Path('docs/_data/navigation.yml')
               if not y.exists():
@@ -37,6 +57,7 @@ jobs:
                       p = item.get('path') or ''
                       if p: paths.append(p)
               return paths
+
           def discover():
               paths=[]
               for seg in ['introduction','chapters','appendices','afterword']:
@@ -46,10 +67,15 @@ jobs:
                           if child.is_dir():
                               paths.append(f'/{seg}/{child.name}/')
               return paths
+
           paths = read_nav() or discover() or ['/']
           # Always include index
           if '/' not in paths: paths.insert(0,'/')
-          base = f'https://itdojp.github.io{baseurl}'
+
+          # Derive pages host from owner; allow override via PAGES_HOST env
+          host = os.environ.get('PAGES_HOST') or (f'{owner}.github.io' if owner else 'itdojp.github.io')
+          base = f'https://{host}{baseurl}'
+
           urls = [ (p, f"{base}{p}") for p in paths ]
           out = '\n'.join([f"{p}\t{u}" for p,u in urls])
           Path('urls.txt').write_text(out, encoding='utf-8')
@@ -69,4 +95,3 @@ jobs:
             echo "Found $failures non-200 URLs" >&2
             exit 1
           fi
-
