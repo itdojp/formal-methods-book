@@ -64,7 +64,7 @@ order: 8
 ![図8-1：模型検査による自動検証のプロセス](../../assets/images/diagrams/model-checking-process.svg)
 （読み取りポイント：モデル・性質・探索・反例の学習ループ）
 
-読み取りポイント（図8-1参照）:
+（読み取りポイント：図8-1参照）
 - モデル→性質→探索: 仕様（モデル）と確認したい性質を分離
 - 反例活用: 反例トレースから設計/仕様/仮定の見直しへ
 - スケール戦略: 抽象化/切り詰め/境界づけで段階的に拡大
@@ -436,7 +436,22 @@ AG(request → AF≤n(response))
 「要求に対する応答は最大n時間以内」
 ```
 
-### 性質の否定と反例
+注記：上の `AF≤n` は時間制約付きの拡張記法です（標準CTLの外）。ツールや拡張ロジックでサポートされる場合に使用します。
+
+### LTLの基本例（安全性・活性）{: #ltl-basic-examples }
+
+まず、LTL（線形時相論理）でよく用いる基本性質の例を確認します。
+
+```ltl
+G(¬bad)            -- 安全性：常に bad が起きない
+G(request -> F response)  -- 活性：要求があればいつか応答する
+```
+
+LTL は「単一の実行（パス）」に沿って性質を評価します。安全性/活性の直観に馴染みやすく、ツールのLTLモードと対応します。
+
+### CTLでの性質の否定と反例
+
+この節では CTL（分岐時相論理）表記を用いて、性質の否定と反例を説明します。
 
 模型検査では、性質が満たされない場合の反例も重要です。
 
@@ -452,16 +467,47 @@ AG(request → AF≤n(response))
 
 現実的なシステムでは、「公平性」の仮定が重要です。理論的には可能でも実際には起こりにくい実行を除外することで、より現実的な検証ができます。
 
-**弱公平性**：
-```ctl
-AG(AF(enabled(action)) → AF(executed(action)))
-「継続的に実行可能な行動は最終的に実行される」
+**弱公平性（概念）**：継続的に実行可能な行動は、いつか実行される。
+（ツールでは FAIRNESS/justice 制約として与えることが多い）
+
+例（NuSMV/nuXmv の公平性制約）:
+```smv
+FAIRNESS running_i   -- i が無限回実行機会を得る場合、パスは公平とみなす
 ```
 
-**強公平性**：
-```ctl
-AG(AF(enabled(action)) → AF(executed(action)))
-「無限に何度も実行可能になる行動は最終的に実行される」
+**強公平性（概念）**：無限に何度も実行可能になる行動は、いつか実行される。
+（SMV系では COMPASSION 制約で表現可能）
+
+例（NuSMV/nuXmv の強公平性制約）:
+```smv
+COMPASSION enabled_a executed_a  -- enabled_a が無限回真なら executed_a も無限回真
+```
+
+公平性の概念・TLA+での厳密な定義は、[第7章の公平性の時相的表現]({{ '/chapters/chapter07/#公平性の時相的表現' | relative_url }})も参照してください。
+
+最小例（NuSMV/nuXmv の FAIRNESS 使用）:
+```smv
+MODULE main
+VAR state : {idle, run};
+ASSIGN
+  init(state) := idle;
+  next(state) := case
+    state = idle : {idle, run};
+    TRUE : run;
+  esac;
+
+FAIRNESS state = run
+
+-- LTL: G(request -> F(response)) のような性質と併用する際、
+-- 公平性がないと run に到達しない分岐が許されるため、活性が偽になる場合がある。
+-- FAIRNESS により「run 状態へ遷移し（やがて）定常的に run が続く実行（run が無限回現れる）」を選び、
+-- 活性の評価を現実的にする。
+```
+
+最小例（COMPASSION の概念）:
+```smv
+-- COMPASSION p q : p が無限回成り立つなら q も無限回成り立つパスのみを公平とみなす
+COMPASSION enabled_a executed_a
 ```
 
 ### 性質記述の実践的ガイドライン
@@ -477,19 +523,40 @@ AG(AF(enabled(action)) → AF(executed(action)))
 
 実際の模型検査ツールでは、標準的な時相論理に加えて、実用的な拡張が提供されることがあります。
 
-**SPIN（Promela）での例**：
+**SPIN（Promela）での例（進捗・無飢餓の性質）［LTL例］**：
 ```promela
-ltl fairness { []<>(critical_section) }
+ltl no_starvation_i { []( try_i -> <> crit_i ) }
 ltl mutual_exclusion { [](!(cs1 && cs2)) }
 ```
 
-**NuSMV（SMV）での例**：
+**NuSMV（SMV）での例（LTL/CTLの両方）**：
+LTL例：
 ```smv
 LTLSPEC G(request -> F(response))
+```
+CTL例：
+```smv
 CTLSPEC AG(critical1 -> !critical2)
 ```
 
 これらの拡張により、理論的な時相論理を実用的な検証に適用できます。
+
+### ミニまとめ：LTL / CTL / 公平性の使い分け
+
+- LTL（線形時相）
+  - 単一実行（パス）沿いの性質を表現（G, F, X, U）
+  - 例: G(¬bad), G(req -> F resp), 無飢餓: []( waiting -> <> served )
+  - 使いどころ: 安全性・活性の基本、SPINのLTL、NuSMVのLTLSPEC
+
+- CTL（分岐時相）
+  - 量化子 A/E + 演算子 G/F/X/U で木状の実行分岐を表現
+  - 例: AG(safe), EF(¬goal), 否定の等価性: ¬AG(safe) ≡ EF(¬safe)
+  - 使いどころ: 到達性/不変性の分岐探索、NuSMVのCTLSPEC
+
+- 公平性（Fairness）
+  - 概念: 弱公平（継続的に可能ならいつか実行）、強公平（無限回可能ならいつか実行）
+  - ツール表現: NuSMV/nuXmv の FAIRNESS/COMPASSION、SPIN はLTLで no_starvation 等を記述
+  - 相互参照: 第7章（TLA+での WF/SF 定義）と本章（ツール制約）を参照
 
 ## 8.4 状態爆発問題：現実との妥協
 
@@ -589,7 +656,7 @@ n個のプロセスがあり、各プロセスがk個の状態を持つ場合：
 **削減効果**：
 - n個の独立な行動がある場合
 - 通常の探索：n! 通りの順序
-- 部分順序簡約：1 通りの代表的順序
+- 部分順序簡約：依存関係に応じて順序数が削減される（すべて独立なら1通り、依存があれば複数の代表順序が残る）
 
 ### シンボリック模型検査の技術
 

@@ -9,6 +9,32 @@ Order resolution strategy (first match wins):
 {% assign nav_items = nil %}
 {% assign navigation = site.data.navigation %}
 
+{%- comment -%}
+Build a flattened list from navigation data for title lookup, so we can
+display ToC titles even when order falls back to site.pages.
+{%- endcomment -%}
+{%- assign data_items = "" | split: "|" -%}
+{%- if navigation -%}
+  {%- if navigation.introduction -%}
+    {%- assign data_items = data_items | concat: navigation.introduction -%}
+  {%- endif -%}
+  {%- if navigation.chapters -%}
+    {%- assign data_items = data_items | concat: navigation.chapters -%}
+  {%- endif -%}
+  {%- if navigation.additional -%}
+    {%- assign data_items = data_items | concat: navigation.additional -%}
+  {%- endif -%}
+  {%- if navigation.resources -%}
+    {%- assign data_items = data_items | concat: navigation.resources -%}
+  {%- endif -%}
+  {%- if navigation.appendices -%}
+    {%- assign data_items = data_items | concat: navigation.appendices -%}
+  {%- endif -%}
+  {%- if navigation.afterword -%}
+    {%- assign data_items = data_items | concat: navigation.afterword -%}
+  {%- endif -%}
+{%- endif -%}
+
 {% if navigation %}
   {%- assign seq = "" | split: "|" -%}
   {%- if navigation.introduction -%}
@@ -81,10 +107,23 @@ Order resolution strategy (first match wins):
   <div class="chapter-nav">
     {% if previous_item %}
       {%- assign prev_url = previous_item.path | default: previous_item.url -%}
+      {%- assign _baseurl = site.baseurl | default: '' -%}
+      {%- assign prev_url_n = prev_url -%}
+      {%- if _baseurl and _baseurl != '' -%}
+        {%- assign prev_url_n = prev_url | remove_first: _baseurl -%}
+      {%- endif -%}
+      {%- assign prev_data = nil -%}
+      {%- if data_items and data_items.size > 0 -%}
+        {%- assign prev_data = data_items | where: "path", prev_url_n | first -%}
+        {%- if prev_data == nil or prev_data == empty -%}
+          {%- assign prev_data = data_items | where: "url", prev_url_n | first -%}
+        {%- endif -%}
+      {%- endif -%}
+      {%- assign prev_page = site.pages | where: "url", prev_url_n | first -%}
       <a href="{{ prev_url | relative_url }}" class="nav-prev" rel="prev">
         <span class="arrow">←</span>
         <span class="label">前へ</span>
-        <span class="title">{{ previous_item.title | default: previous_item.name | default: "前のページ" }}</span>
+        <span class="title">{{ prev_page.title | default: prev_data.title | default: prev_data.label | default: previous_item.title | default: previous_item.name | default: "前のページ" }}</span>
       </a>
     {% else %}
       <span class="nav-disabled nav-prev">
@@ -100,9 +139,22 @@ Order resolution strategy (first match wins):
 
     {% if next_item %}
       {%- assign next_url = next_item.path | default: next_item.url -%}
+      {%- assign _baseurl = site.baseurl | default: '' -%}
+      {%- assign next_url_n = next_url -%}
+      {%- if _baseurl and _baseurl != '' -%}
+        {%- assign next_url_n = next_url | remove_first: _baseurl -%}
+      {%- endif -%}
+      {%- assign next_data = nil -%}
+      {%- if data_items and data_items.size > 0 -%}
+        {%- assign next_data = data_items | where: "path", next_url_n | first -%}
+        {%- if next_data == nil or next_data == empty -%}
+          {%- assign next_data = data_items | where: "url", next_url_n | first -%}
+        {%- endif -%}
+      {%- endif -%}
+      {%- assign next_page = site.pages | where: "url", next_url_n | first -%}
       <a href="{{ next_url | relative_url }}" class="nav-next" rel="next">
         <span class="label">次へ</span>
-        <span class="title">{{ next_item.title | default: next_item.name | default: "次のページ" }}</span>
+        <span class="title">{{ next_page.title | default: next_data.title | default: next_data.label | default: next_item.title | default: next_item.name | default: "次のページ" }}</span>
         <span class="arrow">→</span>
       </a>
     {% else %}
@@ -126,4 +178,3 @@ Order resolution strategy (first match wins):
 .title { font-size: .9rem; opacity: .8; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 @media (max-width: 768px) { .chapter-nav { flex-wrap: wrap; } .nav-prev, .nav-next { flex: 1 1 45%; } .nav-home { flex: 1 1 100%; order: -1; justify-content: center; } .title { display: none; } }
 </style>
-
