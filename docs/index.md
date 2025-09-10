@@ -99,3 +99,5 @@ Email: [knowledge@itdo.jp](mailto:knowledge@itdo.jp)
 **バージョン:** 1.0.0  
 **最終更新:** 2025-07-28  
 **GitHub Pages:** 自動デプロイ対応
+
+{% include page-navigation.html %}
