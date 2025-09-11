@@ -10,6 +10,21 @@ Order resolution strategy (first match wins):
 {% assign navigation = site.data.navigation %}
 
 {%- comment -%}
+Detect if current page is the top page (root). For project Pages, the
+root is "/<repo>/"; we normalize by stripping site.baseurl. If root,
+we suppress rendering of bottom navigation to unify top-page behavior.
+{%- endcomment -%}
+{%- assign _baseurl = site.baseurl | default: '' -%}
+{%- assign _page_url_n = page.url -%}
+{%- if _baseurl and _baseurl != '' -%}
+  {%- assign _page_url_n = _page_url_n | remove_first: _baseurl -%}
+{%- endif -%}
+{%- assign _is_root = false -%}
+{%- if _page_url_n == '/' or _page_url_n == '' -%}
+  {%- assign _is_root = true -%}
+{%- endif -%}
+
+{%- comment -%}
 Build a flattened list from navigation data for title lookup, so we can
 display ToC titles even when order falls back to site.pages.
 {%- endcomment -%}
@@ -103,6 +118,7 @@ display ToC titles even when order falls back to site.pages.
   {%- endif -%}
 {%- endif -%}
 
+{% unless _is_root %}
 <nav class="book-navigation" aria-label="Chapter navigation">
   <div class="chapter-nav">
     {% if previous_item %}
@@ -165,6 +181,7 @@ display ToC titles even when order falls back to site.pages.
     {% endif %}
   </div>
 </nav>
+{% endunless %}
 
 <style>
 .book-navigation { margin: 2rem 0; padding: 1rem; border-top: 1px solid var(--color-border, #e5e7eb); }
