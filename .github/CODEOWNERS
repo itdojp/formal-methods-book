@@ -1,13 +1,7 @@
-# CODEOWNERS template for book repos (replace ownership handles as appropriate)
+# CODEOWNERS (standardized for book repos)
+# 共同フォーマッタ資産・下部ナビ共通インクルード
+/book-formatter-contrib/**            @itdojp/book-formatter
+/docs/_includes/page-navigation.html  @itdojp/book-formatter
 
-# Bottom navigation include and related data
-docs/_includes/page-navigation.html   @itdojp/maintainers
-docs/_data/navigation.yml             @itdojp/maintainers
-
-# Jekyll config impacting layout/permalinks
-docs/_config.yml                      @itdojp/maintainers
-_config.yml                           @itdojp/maintainers
-
-# Nav/Pages link check workflow
-.github/workflows/nav-link-check.yml  @itdojp/maintainers
-
+# 上記以外（コンテンツ/設定/CI含む全般）
+*                                     @itdojp/book-editors
