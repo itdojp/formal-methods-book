@@ -1,6 +1,6 @@
 ---
 layout: book
-title: "第5章：状態ベース仕様記述 - Z記法の基礎"
+title: "第5章　状態ベース仕様記述 - Z記法の基礎"
 chapter: chapter05
 order: 5
 ---

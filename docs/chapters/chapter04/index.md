@@ -1,6 +1,6 @@
 ---
 layout: book
-title: "第4章：軽量形式的手法入門 - Alloyで始める仕様記述"
+title: "第4章　軽量形式的手法入門 - Alloyで始める仕様記述"
 nav_order: 4
 ---
 
