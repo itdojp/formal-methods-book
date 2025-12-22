@@ -1,6 +1,6 @@
 ---
 layout: book
-title: "第13章：事例研究"
+title: "第13章　事例研究"
 chapter: chapter13
 order: 13
 ---
