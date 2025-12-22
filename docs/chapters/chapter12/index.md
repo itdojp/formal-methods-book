@@ -1,6 +1,6 @@
 ---
 layout: book
-title: "第12章：ツールと自動化"
+title: "第12章　ツールと自動化"
 chapter: chapter12
 order: 12
 ---
