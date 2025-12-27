@@ -1,6 +1,6 @@
 ---
 layout: book
-title: "第1章：なぜ形式的手法が必要なのか"
+title: "第1章　なぜ形式的手法が必要なのか"
 nav_order: 1
 ---
 

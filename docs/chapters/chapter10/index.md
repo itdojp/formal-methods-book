@@ -1,6 +1,6 @@
 ---
 layout: book
-title: "第10章：プログラム検証"
+title: "第10章　プログラム検証"
 chapter: chapter10
 order: 10
 ---

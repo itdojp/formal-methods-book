@@ -1,6 +1,6 @@
 ---
 layout: book
-title: "第8章：模型検査入門"
+title: "第8章　模型検査入門"
 chapter: chapter08
 order: 8
 ---

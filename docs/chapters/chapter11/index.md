@@ -1,6 +1,6 @@
 ---
 layout: book
-title: "第11章：開発プロセスとの統合"
+title: "第11章　開発プロセスとの統合"
 chapter: chapter11
 order: 11
 ---

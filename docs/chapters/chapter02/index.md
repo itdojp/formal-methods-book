@@ -1,6 +1,6 @@
 ---
 layout: book
-title: "第2章：数学とプログラムの橋渡し"
+title: "第2章　数学とプログラムの橋渡し"
 nav_order: 2
 ---
 

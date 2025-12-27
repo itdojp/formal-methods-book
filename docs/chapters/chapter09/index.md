@@ -1,6 +1,6 @@
 ---
 layout: book
-title: "第9章：定理証明の基礎"
+title: "第9章　定理証明の基礎"
 chapter: chapter09
 order: 9
 ---
