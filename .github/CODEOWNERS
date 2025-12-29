@@ -1,5 +1,6 @@
 # CODEOWNERS (standardized for book repos)
 # 共同フォーマッタ資産・下部ナビ共通インクルード
+/book-formatter-contrib/**            @itdojp/book-formatter
 /docs/_includes/page-navigation.html  @itdojp/book-formatter
 
 # 上記以外（コンテンツ/設定/CI含む全般）
