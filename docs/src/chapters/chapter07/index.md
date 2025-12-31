@@ -229,7 +229,7 @@ RAID（Redundant Array of Independent Disks）は、複数の物理ディスク�
    - 暗号化・圧縮の専用ハードウェア
 
 2. 高速なキャッシュ：
-   - 専用のWrite-Backキャッシュ（512MB-8GB）
+   - 専用のWrite-Backキャッシュ（512MB〜8GB）
    - バッテリーバックアップ付き（停電時データ保護）
    - Read-Aheadキャッシュによる先読み
 
