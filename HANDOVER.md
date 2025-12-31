@@ -109,7 +109,7 @@ node easy-setup.js
 
 ## 🎯 優先作業項目
 
-### High Priority（1-2週間）
+### High Priority（1〜2週間）
 
 #### 1. 既存テンプレートREADME更新
 ```markdown
@@ -331,12 +331,12 @@ gh repo view itdojp/book-publishing-template2
 
 ## 🎯 引き継ぎ担当者への期待
 
-### 短期（1-2週間）
+### 短期（1〜2週間）
 - 現状把握と環境セットアップ
 - 初期フィードバック対応
 - 緊急Issue対応
 
-### 中期（1-3ヶ月）
+### 中期（1〜3ヶ月）
 - 機能拡張・改善実装
 - コミュニティ構築
 - フィードバック活用

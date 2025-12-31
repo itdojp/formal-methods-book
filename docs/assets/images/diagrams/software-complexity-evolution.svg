@@ -171,7 +171,7 @@
     <text x="25" y="30" class="detail-text">1996年 アリアン5号墜落</text>
     
     <circle cx="10" cy="45" r="4" fill="var(--error-red)"/>
-    <text x="25" y="50" class="detail-text">1985-87年 テラック25医療事故</text>
+    <text x="25" y="50" class="detail-text">1985〜87年 テラック25医療事故</text>
     
     <circle cx="10" cy="65" r="4" fill="var(--error-red)"/>
     <text x="25" y="70" class="detail-text">2003年 北米大停電</text>

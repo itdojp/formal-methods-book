@@ -25,7 +25,7 @@ https://github.com/itdojp/book-publishing-template
 # 段階的にv2.0へ案内・統合予定
 ```
 
-## 🚀 最優先タスク（1-2週間）
+## 🚀 最優先タスク（1〜2週間）
 
 1. **既存テンプレートにv2.0案内追加**
    ```markdown
