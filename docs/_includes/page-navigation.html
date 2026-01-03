@@ -15,9 +15,14 @@ root is "/<repo>/"; we normalize by stripping site.baseurl. If root,
 we suppress rendering of bottom navigation to unify top-page behavior.
 {%- endcomment -%}
 {%- assign _baseurl = site.baseurl | default: '' -%}
+{%- assign _baseurl_len = _baseurl | size -%}
 {%- assign _page_url_n = page.url -%}
-{%- if _baseurl and _baseurl != '' -%}
-  {%- assign _page_url_n = _page_url_n | remove_first: _baseurl -%}
+{%- if _baseurl_len > 0 -%}
+  {%- assign _page_url_len = _page_url_n | size -%}
+  {%- assign _page_url_prefix = _page_url_n | slice: 0, _baseurl_len -%}
+  {%- if _page_url_prefix == _baseurl -%}
+    {%- assign _page_url_n = _page_url_n | slice: _baseurl_len, _page_url_len -%}
+  {%- endif -%}
 {%- endif -%}
 {%- assign _is_root = false -%}
 {%- if _page_url_n == '/' or _page_url_n == '' -%}
