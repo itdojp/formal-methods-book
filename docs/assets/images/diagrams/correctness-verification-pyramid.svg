@@ -97,13 +97,13 @@
   <text x="690" y="105" class="description-text">99.9%+ 数学的保証</text>
   
   <line x1="620" y1="150" x2="670" y2="150" class="confidence-bar conf-high"/>
-  <text x="680" y="155" class="description-text">95-99% 自動検証</text>
+  <text x="680" y="155" class="description-text">95〜99% 自動検証</text>
   
   <line x1="620" y1="220" x2="650" y2="220" class="confidence-bar conf-medium"/>
-  <text x="660" y="225" class="description-text">80-95% 部分的保証</text>
+  <text x="660" y="225" class="description-text">80〜95% 部分的保証</text>
   
   <line x1="620" y1="300" x2="630" y2="300" class="confidence-bar conf-low"/>
-  <text x="640" y="305" class="description-text">60-80% 経験的保証</text>
+  <text x="640" y="305" class="description-text">60〜80% 経験的保証</text>
 
   <!-- Cost and Coverage (Left side) -->
   <text x="50" y="70" class="diagram-text" font-weight="600">コスト・複雑度</text>

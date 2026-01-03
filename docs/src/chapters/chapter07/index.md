@@ -73,7 +73,7 @@ fio --name=stripe_test --rw=read --bs=64k --size=1G \
 
 # 期待される効果：
 # 単一デバイス：500MB/s
-# 2-way stripe：900-1000MB/s（理論値の90-95%）
+# 2-way stripe：900〜1000MB/s（理論値の90〜95%）
 ```
 
 **スナップショット機能**
@@ -229,7 +229,7 @@ RAID（Redundant Array of Independent Disks）は、複数の物理ディスク�
    - 暗号化・圧縮の専用ハードウェア
 
 2. 高速なキャッシュ：
-   - 専用のWrite-Backキャッシュ（512MB-8GB）
+   - 専用のWrite-Backキャッシュ（512MB〜8GB）
    - バッテリーバックアップ付き（停電時データ保護）
    - Read-Aheadキャッシュによる先読み
 
@@ -333,8 +333,8 @@ fio --name=raid0_test --filename=/dev/md0 --rw=read --bs=1M \
     --iodepth=1 --size=4G
 
 # 期待値：
-# 4台構成：単一ディスクの約3.5-3.8倍の性能
-# 理論値に対する効率：85-95%
+# 4台構成：単一ディスクの約3.5〜3.8倍の性能
+# 理論値に対する効率：85〜95%
 ```
 
 **RAID1（ミラーリング）**
@@ -362,7 +362,7 @@ mdadm /dev/md0 --remove /dev/sdb1
 mdadm /dev/md0 --add /dev/sdf1     # 新しいディスクを追加
 
 # 自動リビルド開始
-# リビルド中の性能影響：通常の60-80%
+# リビルド中の性能影響：通常の60〜80%
 ```
 
 **RAID5（分散パリティ）**
@@ -991,7 +991,7 @@ MegaCli -LDMakeSnapshot -L0 -aALL
 # 制約：
 # - ベンダーロックイン
 # - 管理の複雑性
-# - 容量制限（一般的に元ボリュームの10-20%）
+# - 容量制限（一般的に元ボリュームの10〜20%）
 ```
 
 ### RPO/RTOを満たすバックアップ戦略
@@ -1124,7 +1124,7 @@ tar czf - /data | aws s3 cp - s3://company-dr-backups/monthly/$(date +%Y%m).tar.
     --storage-class DEEP_ARCHIVE
 
 # 復旧時間の計算：
-# - Deep Archive からの取り出し：12-48時間
+# - Deep Archive からの取り出し：12〜48時間
 # - ダウンロード時間：1TBで約3時間（100Mbps接続時）
 # - 展開・復旧時間：約2時間
 # 総RTO：最大53時間
