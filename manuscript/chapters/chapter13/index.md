@@ -970,7 +970,7 @@ graph LR
     ROLL3 --> PROD1
     
     subgraph "各フェーズの期間"
-        TIME[PoC: 2-4週<br/>パイロット: 2-3ヶ月<br/>展開: 3-6ヶ月<br/>本番: 継続]
+        TIME[PoC: 2〜4週<br/>パイロット: 2〜3ヶ月<br/>展開: 3〜6ヶ月<br/>本番: 継続]
     end
 ```
 
@@ -984,7 +984,7 @@ graph LR
 - 既存システムとの統合可能性
 
 制約：
-- 期間：2-4週間
+- 期間：2〜4週間
 - 環境：開発/検証環境のみ
 - データ：テストデータのみ使用
 - 規模：単一機能に限定
@@ -1632,10 +1632,10 @@ class TechnologyRoadmap:
     def __init__(self, organization):
         self.organization = organization
         self.time_horizons = {
-            'immediate': (0, 6),  # 0-6ヶ月
-            'short_term': (6, 18),  # 6-18ヶ月
-            'medium_term': (18, 36),  # 18-36ヶ月
-            'long_term': (36, 60)  # 3-5年
+            'immediate': (0, 6),  # 0〜6ヶ月
+            'short_term': (6, 18),  # 6〜18ヶ月
+            'medium_term': (18, 36),  # 18〜36ヶ月
+            'long_term': (36, 60)  # 3〜5年
         }
     
     def create_roadmap(self):
