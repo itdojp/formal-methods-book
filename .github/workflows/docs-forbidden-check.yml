@@ -1,0 +1,30 @@
+name: Docs Forbidden Check
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  docs-forbidden:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Check forbidden items in docs
+        shell: bash
+        run: |
+          set -euo pipefail
+          forbidden=(
+            "docs/project-management"
+            "docs/src"
+            "docs/package.json"
+            "docs/node_modules"
+          )
+          for path in "${forbidden[@]}"; do
+            if [ -e "$path" ]; then
+              echo "Forbidden path exists: $path"
+              exit 1
+            fi
+          done
+          echo "docs forbidden items: OK"
