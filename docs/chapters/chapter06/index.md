@@ -1,6 +1,6 @@
 ---
 layout: book
-title: "第6章：プロセス中心の記述 - CSPによる並行システム"
+title: "第6章　プロセス中心の記述 - CSPによる並行システム"
 chapter: chapter06
 order: 6
 ---

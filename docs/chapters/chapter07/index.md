@@ -1,6 +1,6 @@
 ---
 layout: book
-title: "第7章：時間を扱う仕様記述 - TLA+入門"
+title: "第7章　時間を扱う仕様記述 - TLA+入門"
 chapter: chapter07
 order: 7
 ---

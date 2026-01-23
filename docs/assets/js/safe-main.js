@@ -6,18 +6,7 @@
     error: function () { if (window && window.console) console.error.apply(console, arguments); },
     safeExecute: function (fn, fallback) {
       if (typeof fn !== 'function') return;
-      try {
-        return fn();
-      } catch (e) {
-        Safe.error('Error in', fn.name || 'anonymous', e);
-        if (typeof fallback === 'function') {
-          try {
-            fallback(e);
-          } catch (_) {
-            // Suppress fallback errors
-          }
-        }
-      }
+      try { return fn(); } catch (e) { Safe.error('Error in', fn.name || 'anonymous', e); if (typeof fallback === 'function') try { fallback(e); } catch(_){} }
     }
   };
 

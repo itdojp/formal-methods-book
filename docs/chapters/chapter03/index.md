@@ -1,6 +1,6 @@
 ---
 layout: book
-title: "第3章：仕様記述の基本"
+title: "第3章　仕様記述の基本"
 chapter: chapter03
 order: 3
 ---
