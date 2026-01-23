@@ -54,8 +54,8 @@
    ```bash
    mkdir ~/alloy
    cd ~/alloy
-   wget <Alloy公式サイトの配布URL>
-   java -jar alloy-x.x.x.jar
+   wget https://github.com/AlloyTools/org.alloytools.alloy/releases/download/v6.0.0/org.alloytools.alloy.dist.jar
+   java -jar org.alloytools.alloy.dist.jar
    ```
    **期待結果**: Alloy AnalyzerのGUIが起動すること。
 
@@ -209,6 +209,31 @@ coqc test.v
 
 ## B.5 統合開発環境の設定
 
+## B.5.1 手動インストール不要の代替（Docker/Devcontainer）
+
+手元の環境差異を減らしたい場合は、コンテナ経由の実行を推奨します。
+
+**Docker（例）**
+```bash
+# 例: 公式/サードパーティのイメージは更新されるため、最新の配布URL/タグは公式を参照
+docker run --rm -it -v "$PWD:/work" --workdir /work ghcr.io/<org>/<image>:<tag> <tool-command>
+```
+
+**Devcontainer（VS Code）**
+1. `.devcontainer/devcontainer.json` を作成
+2. 必要なツールを `Dockerfile` もしくは `features` で導入
+3. VS Codeで「Reopen in Container」を実行
+
+最小構成の例（概念サンプル）:
+```json
+{
+  "name": "formal-methods",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {},
+  "postCreateCommand": "apt-get update && apt-get install -y openjdk-11-jre"
+}
+```
+
 ### VS Code環境設定
 
 **必要な拡張機能**
@@ -244,6 +269,15 @@ coqc test.v
 
 ## B.6 共通的なトラブルシューティング
 
+### CI上でのheadless実行
+
+GUI前提のツールは、CIではCLIモードやheadless実行が必要です。
+例:
+- Alloy: コマンドライン実行 + 出力のログ化（GUIを前提にしない）
+- TLC: `-dump` などのCLIオプションを活用
+
+CIでは「短時間・小スコープ」での検証を優先し、実行時間と再現性の両立を図ってください。
+
 ### メモリ関連問題
 
 **Java OutOfMemoryエラー**
@@ -274,8 +308,13 @@ export JAVA_HOME="/path/to/java"
 # 実行権限の付与
 chmod +x tool-binary
 
-# sudoでのインストール権限
-sudo chown -R $USER:$USER /usr/local/bin/
+# ユーザ専用ディレクトリへのインストール例（推奨）
+mkdir -p "$HOME/.local/bin"
+mv tool-binary "$HOME/.local/bin/"
+
+# どうしてもsudoが必要な場合は、特定のツール用ディレクトリに限定して権限を変更する
+# ※ /usr/local/bin 全体を chown しないこと！
+sudo chown "$USER":"$USER" /usr/local/lib/mytool/tool-binary
 ```
 
 ### ネットワーク・ファイアウォール問題
