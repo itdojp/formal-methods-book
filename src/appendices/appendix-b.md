@@ -32,16 +32,16 @@
 1. Homebrewを使用したJavaインストール（推奨）
    ```bash
    brew install openjdk@11
-   echo 'export PATH="/opt/homebrew/opt/openjdk@11/bin:$PATH"' >> ~/.zshrc
+   echo "export PATH=\"$(brew --prefix openjdk@11)/bin:$PATH\"" >> ~/.zshrc
    ```
 
 2. Alloyの配置と実行
    ```bash
-   wget https://github.com/AlloyTools/org.alloytools.alloy/releases/download/v6.0.0/org.alloytools.alloy.dist.jar
-   chmod +x org.alloytools.alloy.dist.jar
+   curl -L -o org.alloytools.alloy.dist.jar https://github.com/AlloyTools/org.alloytools.alloy/releases/latest/download/org.alloytools.alloy.dist.jar
    java -jar org.alloytools.alloy.dist.jar
    ```
    **期待結果**: Alloy AnalyzerのGUIが起動すること。
+   （上記URLは最新版を取得します。URL構成が変更された場合はリリースページで確認してください。）
 
 **Linux環境**（Ubuntu/Debian例）
 1. Javaのインストール
@@ -54,10 +54,11 @@
    ```bash
    mkdir ~/alloy
    cd ~/alloy
-   wget https://github.com/AlloyTools/org.alloytools.alloy/releases/download/v6.0.0/org.alloytools.alloy.dist.jar
+   curl -L -o org.alloytools.alloy.dist.jar https://github.com/AlloyTools/org.alloytools.alloy/releases/latest/download/org.alloytools.alloy.dist.jar
    java -jar org.alloytools.alloy.dist.jar
    ```
    **期待結果**: Alloy AnalyzerのGUIが起動すること。
+   （上記URLは最新版を取得します。URL構成が変更された場合はリリースページで確認してください。）
 
 ### トラブルシューティング
 
@@ -95,7 +96,7 @@
 **tlaps（証明システム）**
 1. 依存関係のインストール（Linux例）
    ```bash
-   sudo apt install ocaml-interp opam
+   sudo apt install ocaml opam   # または環境に応じて ocaml-nox 等（ディストリビューションにより名称が異なります）
    opam init
    eval $(opam env)
    ```
@@ -119,9 +120,11 @@
 **Linux/macOS**
 1. ソースコードのダウンロード
    ```bash
-   wget http://spinroot.com/spin/Src/spin654.tar.gz
-   tar -xzf spin654.tar.gz
-   cd Spin/Src6.5.4
+   # 最新版のバージョン番号は https://spinroot.com/ で確認
+   SPIN_VERSION=6.5.4
+   wget "https://spinroot.com/spin/Src/spin${SPIN_VERSION//./}.tar.gz"
+   tar -xzf "spin${SPIN_VERSION//./}.tar.gz"
+   cd "Spin/Src${SPIN_VERSION}"
    ```
 
 2. ビルドとインストール

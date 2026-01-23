@@ -99,8 +99,8 @@
 ### 公式サイト・ドキュメント
 
 **Alloy**
-- 公式サイト: http://alloytools.org/ （配布・概要・最新情報）
-- チュートリアル: http://alloytools.org/tutorials/ （基礎チュートリアル）
+- 公式サイト: https://alloytools.org/ （配布・概要・最新情報）
+- チュートリアル: https://alloytools.org/tutorials/ （基礎チュートリアル）
 - コミュニティフォーラム: https://groups.google.com/g/alloytools （Q&Aと議論）
 
 **TLA+**
@@ -109,9 +109,9 @@
 - TLA+例題集: https://github.com/tlaplus/Examples （公式サンプル）
 
 **SPIN**
-- 公式サイト: http://spinroot.com/ （配布・更新情報）
-- Promela言語リファレンス: http://spinroot.com/spin/Man/promela.html （言語仕様）
-- SPINワークショップ: http://spinroot.com/spin/Workshops/ （研究/実践コミュニティ）
+- 公式サイト: https://spinroot.com/ （配布・更新情報）
+- Promela言語リファレンス: https://spinroot.com/spin/Man/promela.html （言語仕様）
+- SPINワークショップ: https://spinroot.com/spin/Workshops/ （研究/実践コミュニティ）
 
 **Coq**
 - 公式サイト: https://coq.inria.fr/ （配布・公式ドキュメント）
@@ -139,10 +139,10 @@
 ### 無料・オープンソースツール
 
 **仕様記述・検証**
-- Alloy Analyzer: http://alloytools.org/download.html （軽量モデル検査）
+- Alloy Analyzer: https://alloytools.org/download.html （軽量モデル検査）
 - TLA+ Toolbox: https://github.com/tlaplus/tlaplus （TLA+公式実装）
-- SPIN: http://spinroot.com/spin/Src/ （Promela/モデル検査）
-- NuSMV: http://nusmv.fbk.eu/ （状態遷移系のモデル検査）
+- SPIN: https://spinroot.com/spin/Src/ （Promela/モデル検査）
+- NuSMV: https://nusmv.fbk.eu/ （状態遷移系のモデル検査）
 
 **定理証明器**
 - Coq: https://coq.inria.fr/download （証明支援系）
@@ -151,7 +151,7 @@
 
 **プログラム検証**
 - Dafny: https://github.com/dafny-lang/dafny （契約ベース検証）
-- CBMC: http://www.cprover.org/cbmc/ （Cプログラムのモデル検査）
+- CBMC: https://www.cprover.org/cbmc/ （Cプログラムのモデル検査）
 - Frama-C: https://frama-c.com/ （静的解析/検証）
 
 ### 商用ツール
