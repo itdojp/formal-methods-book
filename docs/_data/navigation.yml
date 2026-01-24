@@ -63,9 +63,12 @@ appendices:
   - title: "付録E: 参考文献とWebリソース"
     path: "/appendices/appendix-e/"
     order: 18
+  - title: "付録F: AI支援の実践ガイド"
+    path: "/appendices/appendix-f/"
+    order: 19
 
 # あとがき (Afterword)
 afterword:
   - title: "あとがき"
     path: "/afterword/"
-    order: 19
+    order: 20
