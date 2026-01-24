@@ -103,6 +103,11 @@
         "id": "appendix-e",
         "title": "付録E：参考文献とWebリソース",
         "description": "レベル別推薦図書リストと最新情報へのリンク"
+      },
+      {
+        "id": "appendix-f",
+        "title": "付録F：AI支援の実践ガイド",
+        "description": "AI支援で仕様作成・検証を回すための実践テンプレート"
       }
     ]
   },
