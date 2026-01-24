@@ -2,7 +2,7 @@ name: Formal checks
 
 on:
   pull_request:
-    branches: ["diagram-enhancement-phase6"]
+    branches: ["diagram-enhancement-phase6", "main"]
   workflow_dispatch: {}
 
 permissions:
