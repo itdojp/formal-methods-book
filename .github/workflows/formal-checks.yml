@@ -1,0 +1,17 @@
+name: Formal checks
+
+on:
+  pull_request:
+    branches: ["diagram-enhancement-phase6", "main"]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  pr-quick:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Minimal formal checks
+        run: bash examples/ci/pr-quick-check.sh
