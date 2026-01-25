@@ -430,22 +430,25 @@ TLA+は、分散システムの時間的性質（temporal properties）を自然
 
 Service Fabricは、Azureの基盤となる分散実行基盤です。数千のノードで構成される大規模クラスタにおいて、サービスの配置、負荷分散、故障回復を管理します。
 
-TLA+による仕様記述により、複雑なクラスタ管理アルゴリズムの正しさを検証しました。特に、ノード故障時のサービス移行プロセスにおいて、データ損失やサービス停止を防ぐアルゴリズムを設計・検証しました。
+MicrosoftではService Fabricを含む分散システムの設計でTLA+を活用していると報告されています。仕様（状態・遷移・不変条件）を明文化し、設計段階で反例探索と性質の検討を行うことで、実装前に設計上の不整合を潰し込みます。
 
 **Cosmos DB**：
 
 Cosmos DBは、グローバル分散型のデータベースサービスです。地理的に分散した複数のリージョンにおいて、一貫性、可用性、分断耐性のバランスを取りながらデータを管理します。
 
-TLA+により、複雑なレプリケーションプロトコルの正しさを検証しました。特に、ネットワーク分断が発生した場合の一貫性レベルの調整アルゴリズムについて、詳細な分析を行いました。
+Cosmos DBの分散実装や整合性モデルは公式ドキュメントで解説されており、関連する高レベルTLA+仕様も公開されています。読者はそれらを参照し、同様の抽象化と反例駆動の設計レビューを再現できます。
 
 **Xbox Liveマッチメイキング**：
 
 Xbox Liveのマッチメイキングサービスは、数百万の同時ユーザーに対してリアルタイムでゲームマッチングを提供します。公平性、効率性、拡張性を同時に実現する必要があります。
 
-TLA+により、マッチメイキングアルゴリズムの公平性と効率性を同時に保証する設計を検証しました。特に、高負荷時における性能劣化を防ぐアルゴリズムの正しさを証明しました。
+Xbox Liveを含むサービスでもTLA+による設計検討が行われていると報告されています。大規模な状態空間を前提に、抽象度を調整しながら安全/活性の性質を確認します。
 
 参考（一次・準一次情報）：
 - <https://lamport.azurewebsites.net/tla/industrial-use.html>
+- <https://learn.microsoft.com/en-us/azure/cosmos-db/global-dist-under-the-hood>
+- <https://github.com/Azure/azure-cosmos-tla>
+- <https://www.microsoft.com/en-us/research/video/tla-specifications-of-the-consistency-guarantees-provided-by-cosmos-db/>
 - <https://fhackett.com/files/icse-seip-23-inconsistency.pdf>
 
 ### 設計検証のアプローチ
