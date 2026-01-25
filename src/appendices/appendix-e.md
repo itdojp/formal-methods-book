@@ -1,239 +1,194 @@
-# 付録E：参考文献とWebリソース
+# 付録E：参考文献とWebリソース（一次情報への導線）
 
-本付録は、公式ドキュメントを優先しつつ、学習段階や目的に応じた参照先を整理したものです。各セクションに本書の関連章を記載しています。
+本付録は、本文で扱った形式的手法・ツールについて、**一次情報（公式サイト/公式リポジトリ/公式ドキュメント/公式リリース）**へ到達するための索引である。  
+2026-01 時点で、名称変更・主流ツールの更新（例：Coq→Rocq、CVC4→cvc5、Alloy 6 系、TLA+の Apalache 等）を反映している。
 
-## E.1 教科書・参考書
+## 数値の出典ポリシー（本書共通）
 
-関連章: 第1〜3章（全体像・基礎整理）
+- **報告値（実測/事例）**：一次・準一次情報（論文/公式ブログ/公式レポート等）への出典URLを必須とする。
+- **例示（仮）**：例示であることを明記し、読者が「一般に成立する値」と誤認しない表現にする。
+- **不確実な推定**：推定値は避け、必要なら「不確実である」旨と前提条件（スコープ、計測条件）を併記する。
 
-### 入門レベル
+## 1) 仕様記述（Alloy / TLA+ / Z / CSP）
 
-**日本語文献**
-1. 荒木啓二郎『形式仕様記述技法Z』（共立出版、1996）
-   - Z記法の標準的教科書。基礎から応用まで段階的に学習可能。
+### Alloy（Alloy 6.x）
 
-2. 青木利晃『ソフトウェア検証』（共立出版、2014）
-   - 模型検査と定理証明の基礎を日本語で整理。
+- 用途：関係モデルの記述と、有限スコープでの反例探索（モデル発見）
+- 推奨読者：第4章（Alloy）、第8章（模型検査の考え方）
+- 一次情報：
+  - 公式サイト：<https://alloytools.org/>
+  - リリース（Alloy 6.x）：<https://github.com/AlloyTools/org.alloytools.alloy/releases>
 
-**英語文献**
-3. Jackson, Daniel. *Software Abstractions: Logic, Language, and Analysis*. MIT Press, 2012.
-   - Alloyの作者による軽量形式手法の決定版。
+### TLA+（TLC）
 
-4. Wing, Jeannette M. *A Specifier's Introduction to Formal Methods*. Computer, 1990.
-   - 形式的手法の全体像と適用観点を俯瞰。
+- 用途：分散システム/並行システムの状態遷移仕様と、探索による検証（TLC）
+- 推奨読者：第7章（TLA+）、第8章（模型検査）
+- 一次情報：
+  - TLA+公式（Lamportサイト）：<https://lamport.azurewebsites.net/tla/tla.html>
+  - tlaplus/tlaplus リリース（tla2tools.jar）：<https://github.com/tlaplus/tlaplus/releases>
 
-### 中級レベル
+### Z（Z記法）
 
-5. Lamport, Leslie. *Specifying Systems*. Addison-Wesley, 2002.
-   - TLA+の包括的解説。分散システムの仕様と検証を学べる。
+- 用途：状態ベース仕様（集合/関係/写像）を厳密に記述し、レビューや検証の基盤にする
+- 推奨読者：第5章（Z記法）
+- 一次情報（実装・ツール）：
+  - Community Z Tools (CZT)：<https://czt.sourceforge.net/>
+  - SourceForge（CZTプロジェクト）：<https://sourceforge.net/projects/czt/>
 
-6. Roscoe, A.W. *Understanding Concurrent Systems*. Springer, 2010.
-   - CSPの理論と実践。並行システムの検証に有用。
+### CSP
 
-7. Hoare, C.A.R. and He, Jifeng. *Unifying Theories of Programming*. Prentice Hall, 1998.
-   - プログラミング理論の統一的視点を提供。
+- 用途：並行プロセスの通信・同期・デッドロック等の性質を扱う
+- 推奨読者：第6章（CSP）
+- 一次情報（ツール例）：
+  - FDR（CSPモデル検査ツール情報）：<https://www.cs.ox.ac.uk/projects/fdr/>
 
-### 上級レベル
+## 2) 模型検査（TLC / Apalache / SPIN / NuSMV）
 
-8. Pierce, Benjamin C. *Types and Programming Languages*. MIT Press, 2002.
-   - 型理論の基盤理解に必須。
+### Apalache（TLA+の追加検査：SMTベース）
 
-9. Nipkow, Tobias, et al. *Isabelle/HOL: A Proof Assistant for Higher-Order Logic*. Springer, 2002.
-   - 高階論理の証明支援系の実践。
+- 用途：TLA+仕様に対して、SMTベースの探索/制約解決で性質検査を行う（TLCと棲み分け）
+- 推奨読者：第7章（TLA+）、第8章（模型検査）、第12章（ツールと自動化）
+- 一次情報：
+  - 公式サイト：<https://apalache-mc.org/>
+  - GitHub（リリース/配布物）：<https://github.com/apalache-mc/apalache/releases>
 
-## E.2 分野別専門書
+### SPIN（Promela）
 
-関連章: 第11〜12章（産業適用・運用設計）
+- 用途：並行システムのモデル検査（Promela）と反例トレース
+- 推奨読者：第6章（並行性の落とし穴）、第8章（模型検査）
+- 一次情報：
+  - 公式（spinroot）：<https://spinroot.com/spin/whatispin.html>
 
-### 安全クリティカルシステム
+### NuSMV
 
-10. Storey, Neil. *Safety Critical Computer Systems*. Addison-Wesley, 1996.
-    - 安全性分析と標準対応の基礎。
+- 用途：状態遷移モデルに対するモデル検査（CTL/LTL等）
+- 推奨読者：第8章（模型検査の俯瞰）
+- 一次情報：
+  - 公式サイト：<https://nusmv.fbk.eu/>
 
-11. Knight, John C. *Fundamentals of Dependable Computing for Software Engineers*. CRC Press, 2012.
-    - 形式手法の産業適用と信頼性評価。
+## 3) 定理証明（Rocq / Lean / Isabelle / Agda）
 
-### セキュリティ
+### Rocq（旧称：Coq）
 
-12. Anderson, Ross. *Security Engineering*. Wiley, 2020.
-    - セキュリティ設計の体系とプロトコル分析。
+- 用途：証明支援（型理論/カーネルによるチェック）と、証明とプログラムの統合的開発
+- 推奨読者：第9章（定理証明の基礎）
+- 一次情報：
+  - 公式サイト：<https://rocq-prover.org/>
+  - リリース（例：9.0.0）：<https://rocq-prover.org/releases/9.0.0>
 
-13. Meadows, Catherine. *Formal Methods for Cryptographic Protocol Analysis*. Journal of Computer Security, 2003.
-    - 暗号プロトコル検証の基礎。
+### Lean（Lean 4）
 
-### ソフトウェア工学との統合
+- 用途：定理証明支援、数学ライブラリ活用、証明の自動化（tactic）
+- 推奨読者：第9章（定理証明の基礎）
+- 一次情報：
+  - 公式サイト：<https://lean-lang.org/>
+  - GitHub（Lean 4）：<https://github.com/leanprover/lean4>
 
-14. Ghezzi, Carlo, et al. *Fundamentals of Software Engineering*. Prentice Hall, 2002.
-    - 開発プロセスと形式手法の接続に有用。
+### Isabelle
 
-## E.3 重要な論文
+- 用途：定理証明支援（Isabelle/HOL 等）、証明文書化、ツール統合
+- 推奨読者：第9章（定理証明の基礎）
+- 一次情報：
+  - GitHub（ミラー）：<https://github.com/isabelle-prover/mirror-isabelle>
 
-関連章: 第8〜10章（模型検査・定理証明・プログラム検証）
+### Agda
 
-### 基礎理論
+- 用途：依存型に基づく定理証明・プログラム記述
+- 推奨読者：第9章（型理論の補助線として）
+- 一次情報：
+  - ドキュメント：<https://agda.readthedocs.io/en/latest/>
 
-15. Floyd, R.W. "Assigning Meanings to Programs." *Proceedings of Symposia in Applied Mathematics*, 1967.
-    - プログラム検証の理論的出発点。
+## 4) プログラム検証（Dafny / Frama-C / CBMC / VeriFast / SPARK）
 
-16. Dijkstra, E.W. "Guarded Commands, Nondeterminacy and Formal Derivation of Programs." *CACM*, 1975.
-    - 最弱事前条件と導出の基礎。
+### Dafny
 
-17. Milner, Robin. "A Calculus of Communicating Systems." *Springer*, 1980.
-    - プロセス代数の基礎。
+- 用途：仕様（契約）と検証を統合し、SMTと組み合わせて自動検証を行う
+- 推奨読者：第10章（プログラム検証）、第12章（自動化）
+- 一次情報：
+  - 公式サイト：<https://dafny.org/>
+  - GitHub：<https://github.com/dafny-lang/dafny>
 
-### 実用化研究
+### Frama-C
 
-18. Abrial, J.-R. "Formal Methods in Industry: Achievements, Problems, Future." *ICSE*, 2006.
-    - 産業適用の成功/失敗要因を整理。
+- 用途：C言語向けの静的解析/検証（アノテーション、プラグイン）
+- 推奨読者：第10章（プログラム検証）
+- 一次情報：
+  - GitHub（配布/スナップショット）：<https://github.com/Frama-C/Frama-C-snapshot>
 
-19. Newcombe, Chris, et al. "How Amazon Web Services Uses Formal Methods." *CACM*, 2015.
-    - 大規模システムでのTLA+活用事例。
+### CBMC
 
-20. Klein, Gerwin, et al. "seL4: Formal Verification of an OS Kernel." *SOSP*, 2009.
-    - OSカーネルの完全検証の代表例。
+- 用途：C/C++の境界付きモデル検査（バグ/安全性/アサーション）
+- 推奨読者：第8章（模型検査の考え方）、第10章（プログラム検証）
+- 一次情報：
+  - 公式サイト：<https://www.cprover.org/cbmc/>
 
-## E.4 Webリソース
+### VeriFast
 
-関連章: 第4〜9章（各手法の実装・検証）
+- 用途：分離論理に基づく検証（C/Java等）
+- 推奨読者：第10章（プログラム検証）
+- 一次情報：
+  - GitHub：<https://github.com/verifast/verifast>
 
-### 公式サイト・ドキュメント
+### SPARK（Ada）
 
-**Alloy**
-- 公式サイト: http://alloytools.org/ （配布・概要・最新情報）
-- チュートリアル: http://alloytools.org/tutorials/ （基礎チュートリアル）
-- コミュニティフォーラム: https://groups.google.com/g/alloytools （Q&Aと議論）
+- 用途：高信頼Ada開発向けの契約/静的解析/証明（安全クリティカル）
+- 推奨読者：第11章（導入戦略）、第12章（ツール統合）
+- 一次情報：
+  - 公式サイト：<https://www.adacore.com/sparkpro>
 
-**TLA+**
-- 公式サイト: https://lamport.azurewebsites.net/tla/ （公式ドキュメントとダウンロード）
-- Learn TLA+: https://learntla.com/ （学習ロードマップ）
-- TLA+例題集: https://github.com/tlaplus/Examples （公式サンプル）
+## 5) SMTソルバー（Z3 / cvc5）
 
-**SPIN**
-- 公式サイト: http://spinroot.com/ （配布・更新情報）
-- Promela言語リファレンス: http://spinroot.com/spin/Man/promela.html （言語仕様）
-- SPINワークショップ: http://spinroot.com/spin/Workshops/ （研究/実践コミュニティ）
+### Z3
 
-**Coq**
-- 公式サイト: https://coq.inria.fr/ （配布・公式ドキュメント）
-- Software Foundations: https://softwarefoundations.cis.upenn.edu/ （公式教材）
-- Coq'Art: https://www.labri.fr/perso/casteran/CoqArt/ （参考書）
+- 用途：制約充足/定理証明の基盤（多くの検証器のバックエンド）
+- 推奨読者：第10章（プログラム検証）、第12章（ツールと自動化）
+- 一次情報：
+  - GitHub（リリース）：<https://github.com/Z3Prover/z3/releases>
 
-### AI支援開発と形式手法
+### cvc5（CVC系列の後継。旧：CVC4）
 
-関連章: 第11〜12章（運用・ガードレール設計）
+- 用途：SMTソルバー（検証器バックエンドとして利用されることが多い）
+- 推奨読者：第10章（プログラム検証）、第12章（ツールと自動化）
+- 一次情報：
+  - GitHub：<https://github.com/cvc5/cvc5>
+  - GitHub（リリース）：<https://github.com/cvc5/cvc5/releases>
+  - Python bindings（必要時）：<https://pypi.org/project/cvc5/>
 
-- Coding Agent（Copilot）概要: https://docs.github.com/en/copilot/concepts/agents/coding-agent/about-coding-agent （エージェントの概念と運用前提）
-- Code Review（Copilot）概念: https://docs.github.com/en/copilot/concepts/agents/code-review （レビュー自動化の位置づけ）
-- リポジトリ指示ファイル: https://docs.github.com/en/copilot/how-tos/configure-custom-instructions/add-repository-instructions （検証ルールの強制に活用）
-- GitHub公式ブログ: https://github.blog/news-insights/company-news/welcome-home-agents/ （エージェント運用の背景）
+## 6) 産業事例（一次・準一次情報）
 
-### オンライン学習リソース
+### パリ地下鉄14号線（B-method）
 
-- Logic and Proof: https://leanprover.github.io/logic_and_proof/ （論理と証明の基礎学習）
-- Natural Number Game: https://www.ma.imperial.ac.uk/~buzzard/xena/natural_number_game/ （対話型証明入門）
+- 推奨読者：第13章（事例研究）
+- 一次・準一次情報：
+  - Clearsy（Line 14 / B-method）：<https://www.clearsy.com/en/the-tools/extension-of-line-14-of-the-paris-metro-over-25-years-of-reliability-thanks-to-the-b-formal-method/>
+  - Butler ほか（FMICS 2020、DOI）：<https://doi.org/10.1007/978-3-030-58298-2_8>
 
-## E.5 ツールとソフトウェア
+### Amazon s2n（暗号実装の検証）
 
-関連章: 第4〜10章、付録B
+- 推奨読者：第13章（事例研究）
+- 一次・準一次情報：
+  - AWS Security Blog：<https://aws.amazon.com/blogs/security/automated-reasoning-and-amazon-s2n/>
+  - Galois（SAWでの検証例）：<https://www.galois.com/articles/verifying-s2n-hmac-with-saw>
+  - s2n-tls（GitHub）：<https://github.com/aws/s2n-tls>
 
-### 無料・オープンソースツール
+### 産業界におけるTLA+活用
 
-**仕様記述・検証**
-- Alloy Analyzer: http://alloytools.org/download.html （軽量モデル検査）
-- TLA+ Toolbox: https://github.com/tlaplus/tlaplus （TLA+公式実装）
-- SPIN: http://spinroot.com/spin/Src/ （Promela/モデル検査）
-- NuSMV: http://nusmv.fbk.eu/ （状態遷移系のモデル検査）
+- 推奨読者：第7章（TLA+）、第13章（事例研究）
+- 一次・準一次情報：
+  - Lamport（Industrial use of TLA+）：<https://lamport.azurewebsites.net/tla/industrial-use.html>
+  - Hackett（ICSE SEIP 2023、PDF）：<https://fhackett.com/files/icse-seip-23-inconsistency.pdf>
 
-**定理証明器**
-- Coq: https://coq.inria.fr/download （証明支援系）
-- Lean: https://leanprover.github.io/ （定理証明・形式化）
-- Agda: https://wiki.portal.chalmers.se/agda/ （依存型言語）
+## 7) AI×形式手法（LLM支援：位置づけと注意点）
 
-**プログラム検証**
-- Dafny: https://github.com/dafny-lang/dafny （契約ベース検証）
-- CBMC: http://www.cprover.org/cbmc/ （Cプログラムのモデル検査）
-- Frama-C: https://frama-c.com/ （静的解析/検証）
+LLMは、仕様/証明/反例解釈の「草案生成」や「探索支援」に有用である一方、**最終保証の根拠にはならない**。  
+本書では、LLM出力を「未信頼入力」として扱い、必ず機械検証（模型検査/型チェック/SMT等）で閉じる運用を推奨する。
 
-### 商用ツール
+- 代表的実装・評価基盤：
+  - Lean Copilot：<https://github.com/lean-dojo/LeanCopilot>
+  - ProofGym（NeurIPS 2025）：<https://neurips.cc/virtual/2025/131121>
+  - APOLLO（arXiv）：<https://arxiv.org/html/2505.05758v5>
+  - 自然言語→形式言語（例：EMNLP 2025、PDF）：<https://aclanthology.org/2025.emnlp-main.1586v2.pdf>
 
-**産業用ツール**
-- SCADE Suite (Ansys): https://www.ansys.com/products/embedded-software/ansys-scade-suite （安全クリティカル向け）
-- SPARK (AdaCore): https://www.adacore.com/about-spark （Ada向け形式検証）
-- Atelier B: https://www.atelierb.eu/ （B手法ツール）
+<!-- markdown-link-check-disable-next-line -->
+- 参考（準一次情報）：How Amazon Web Services Uses Formal Methods (CACM) <https://cacm.acm.org/research/how-amazon-web-services-uses-formal-methods/>
 
-**統合開発環境**
-- UPPAAL: https://uppaal.org/ （実時間システムのモデル検査）
-- Kind 2: https://kind2-mc.github.io/kind2/ （モデル検査/証明）
-- ASTRÉE: https://www.absint.com/astree/ （静的解析）
-
-## E.6 コミュニティとイベント
-
-関連章: 全章（継続学習・実務適用）
-
-### 国際会議
-
-- FM (Formal Methods)：形式手法の国際会議
-- CAV (Computer-Aided Verification)：計算機支援検証会議
-- ICSE (International Conference on Software Engineering)：ソフトウェア工学国際会議
-- POPL (Principles of Programming Languages)：プログラミング言語原理会議
-
-### ワークショップ
-
-- ABZ：ASM, Alloy, B, TLA, VDM, Zの統合会議
-- SEFM：Software Engineering and Formal Methods
-- FMICS：Formal Methods for Industrial Critical Systems
-
-### 専門組織
-
-- ACM SIGSOFT：ソフトウェア工学特別興味グループ
-- IEEE Computer Society：計算機学会
-- Formal Methods Europe：欧州形式手法協会
-
-### 日本国内
-
-- 情報処理学会ソフトウェア工学研究会
-- 日本ソフトウェア科学会
-- 電子情報通信学会
-
-### オンラインコミュニティ
-
-- Stack Overflow（formal-methods タグ）
-- Reddit（r/compsci, r/ProgrammingLanguages）
-- Zulip Chat（Lean Community）
-- coq-club@inria.fr（Coqメーリングリスト）
-- tlaplus@googlegroups.com（TLA+メーリングリスト）
-
-## E.7 継続学習のパス
-
-関連章: 第1章（導入）、付録D（演習）
-
-### レベル別学習計画
-
-**初級者（6ヶ月）**
-1. Jackson "Software Abstractions" でAlloy学習
-2. 本書の演習問題を解答
-3. 小規模プロジェクトでの実践適用
-
-**中級者（1年）**
-1. Lamport "Specifying Systems" でTLA+習得
-2. Coqチュートリアル完了
-3. オープンソースプロジェクトへの貢献
-
-**上級者（継続的）**
-1. 国際会議での論文発表
-2. 新しいツール・手法の調査研究
-3. 産業界での知見共有
-
-### 実践的な学習方法
-
-**プロジェクトベース学習**
-- GitHubでの形式手法プロジェクト参加
-- ハッカソンでの形式手法アプローチ
-- オープンソースツールの機能拡張
-
-**コミュニティ参加**
-- 地域の形式手法勉強会
-- 国際会議への参加・発表
-- オンライン議論への積極的参加
-
-本付録を起点に、理論の学習と実践的適用のバランスを保ちながら、自分の関心領域で継続的に深化させてください。

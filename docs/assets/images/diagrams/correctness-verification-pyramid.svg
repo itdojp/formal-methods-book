@@ -126,7 +126,7 @@
   <!-- Formal Verification Example -->
   <rect x="50" y="400" width="170" height="80" class="example-box"/>
   <text x="60" y="415" class="diagram-text" font-weight="600">形式的検証</text>
-  <text x="60" y="430" class="description-text">• Coq/Isabelle による証明</text>
+  <text x="60" y="430" class="description-text">• Rocq/Isabelle による証明</text>
   <text x="60" y="443" class="description-text">• 暗号アルゴリズム</text>
   <text x="60" y="456" class="description-text">• 安全クリティカル</text>
   <text x="60" y="469" class="math-text">∀x∈D. P(x) → Q(f(x))</text>

@@ -1,17 +1,30 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Minimal checks for PR: ensure example specs exist and include basic sections.
+# Minimal executable checks for PR:
+# - Alloy: parse+execute a tiny model (should be SAT)
+# - TLC: model check a bounded TLA+ spec (should find no error)
+# - Apalache: bounded check a tiny TLA+ spec (should find no error)
+# - Dafny: verify a tiny Dafny file (should have 0 errors)
 
-if ! command -v rg >/dev/null 2>&1; then
-  echo "rg not found; falling back to grep" >&2
-  grep -q "^sig" examples/alloy/collection.als
-  grep -q "^Init" examples/tla/Queue.tla
-  grep -q "^Next" examples/tla/Queue.tla
-else
-  rg -n "^sig" examples/alloy/collection.als >/dev/null
-  rg -n "^Init" examples/tla/Queue.tla >/dev/null
-  rg -n "^Next" examples/tla/Queue.tla >/dev/null
-fi
+bash tools/bootstrap.sh
 
-echo "OK: minimal formal examples present"
+bash tools/alloy-check.sh examples/alloy/collection.als
+
+bash tools/tlc-run.sh \
+  --config examples/tla/QueueBounded.cfg \
+  --time-limit 60 \
+  examples/tla/QueueBounded.tla
+
+bash tools/apalache-check.sh \
+  --config examples/apalache/Counter.cfg \
+  --length 10 \
+  --init Init \
+  --next Next \
+  --inv Inv \
+  examples/apalache/Counter.tla
+
+bash tools/dafny-verify.sh examples/dafny/Abs.dfy
+
+echo "OK: formal checks passed"
+

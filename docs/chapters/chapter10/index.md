@@ -1082,7 +1082,7 @@ procedure Binary_Search (A : Integer_Array; Key : Integer; Found : out Boolean; 
 
 **定理証明器**は、最も高い保証レベルを提供しますが、学習コストと適用コストも最も高くなります：
 
-- **Coq**：構成の計算に基づく証明支援系
+- **Rocq（旧称Coq）**：構成の計算に基づく証明支援系
 - **Isabelle/HOL**：高階論理による証明支援系
 - **Lean**：現代的な証明支援系
 
@@ -1185,7 +1185,7 @@ SMT（Satisfiability Modulo Theories）ソルバーは、現代のプログラ�
 **主要なSMTソルバー**：
 
 - **Z3**：マイクロソフトが開発、多くのツールで使用
-- **CVC4/CVC5**：スタンフォード大学で開発
+- **cvc5（旧CVC4）**：CVC系列の後継として広く利用される
 - **Yices**：SRIインターナショナルで開発
 
 ### 検証プロセスの実践的ワークフロー

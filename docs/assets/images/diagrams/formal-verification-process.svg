@@ -64,7 +64,7 @@
     <rect x="565" y="155" width="170" height="30" class="component" rx="3"/>
     <text x="650" y="175" class="method-text" text-anchor="middle">定理証明</text>
     
-    <text x="650" y="195" class="small-text" text-anchor="middle">SPIN, TLA+, Coq, Isabelle</text>
+    <text x="650" y="195" class="small-text" text-anchor="middle">SPIN, TLA+, Rocq, Isabelle</text>
   </g>
 
   <!-- Property Specification -->
@@ -101,7 +101,7 @@
     <text x="335" y="470" class="small-text">• 無限状態対応</text>
     <text x="335" y="485" class="small-text">• 人間の介入必要</text>
     <text x="335" y="500" class="small-text">• 高い信頼性</text>
-    <text x="335" y="515" class="small-text">ツール: Coq, Isabelle/HOL, Lean</text>
+    <text x="335" y="515" class="small-text">ツール: Rocq, Isabelle/HOL, Lean</text>
     
     <!-- Static Analysis -->
     <rect x="600" y="410" width="250" height="120" fill="#e6ffe6" stroke="#2ecc71" stroke-width="2" rx="5"/>

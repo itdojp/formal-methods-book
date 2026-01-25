@@ -113,7 +113,7 @@ Email: [knowledge@itdo.jp](mailto:knowledge@itdo.jp)
 
 **著者:** 太田和彦（株式会社アイティードゥ）  
 **バージョン:** 1.0.0  
-**最終更新:** 2025-07-28  
+**最終更新:** 2026-01-25  
 **GitHub Pages:** 自動デプロイ対応
 
 {% include page-navigation.html %}

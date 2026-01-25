@@ -191,7 +191,7 @@
     <text x="350" y="525" class="annotation-text" fill="var(--svg-primary)" font-weight="500">モデル検査 (SPIN, TLC, NuSMV)</text>
 
     <text x="130" y="540" class="annotation-text">• 数学的厳密性 + 無限状態 → </text>
-    <text x="350" y="540" class="annotation-text" fill="var(--svg-success)" font-weight="500">定理証明 (Coq, Isabelle, Lean)</text>
+    <text x="350" y="540" class="annotation-text" fill="var(--svg-success)" font-weight="500">定理証明 (Rocq, Isabelle, Lean)</text>
 
     <text x="130" y="555" class="annotation-text">• 大規模ソフトウェア + 実用性 → </text>
     <text x="350" y="555" class="annotation-text" fill="var(--svg-warning)" font-weight="500">抽象解釈 (ASTRÉE, Polyspace)</text>
