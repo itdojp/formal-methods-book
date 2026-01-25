@@ -1,4 +1,10 @@
 # TLA+ example
 
-最小構成のTLA+仕様例です。CIではファイル存在と基本セクション（Init/Next等）の存在確認のみを行います。
-実際の検証にはTLCの導入が必要です。
+最小構成のTLA+仕様例です。`QueueBounded.tla` は有限状態になるように作ってあり、TLC/Apalacheで再現できます。
+
+## 実行（TLC）
+
+```bash
+bash tools/bootstrap.sh
+bash tools/tlc-run.sh --config examples/tla/QueueBounded.cfg examples/tla/QueueBounded.tla
+```

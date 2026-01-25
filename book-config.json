@@ -55,7 +55,7 @@
       {
         "id": "chapter09",
         "title": "第9章：定理証明の基礎",
-        "description": "証明の機械化、型理論とCoqによる証明支援系の実践"
+        "description": "証明の機械化、型理論とRocq（旧称Coq）による証明支援系の実践"
       },
       {
         "id": "chapter10",
@@ -87,7 +87,7 @@
       {
         "id": "appendix-b",
         "title": "付録B：ツールインストールガイド",
-        "description": "Alloy Analyzer、TLC、SPIN、Coq等のインストール手順とトラブルシューティング"
+        "description": "Alloy Analyzer、TLC、SPIN、Rocq（旧称Coq）等のインストール手順とトラブルシューティング"
       },
       {
         "id": "appendix-c",

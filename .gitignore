@@ -1,0 +1,13 @@
+# Tool caches and build artifacts
+tools/.cache/
+tools/.tmp/
+.artifacts/
+_apalache-out/
+node_modules/
+
+# Generated docs for drafts (built from src/appendices/appendices_draft.md)
+docs/appendices/appendices_draft/
+
+# OS/editor noise
+.DS_Store
+.vscode/

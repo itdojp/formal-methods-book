@@ -1,0 +1,15 @@
+{
+  "name": "formal-methods-book",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "postCreateCommand": "bash tools/bootstrap.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "tamasfe.even-better-toml",
+        "ms-vscode.makefile-tools"
+      ]
+    }
+  }
+}

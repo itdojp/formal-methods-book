@@ -163,7 +163,7 @@
     <text x="245" y="55" text-anchor="middle" class="detail-text">定理証明</text>
     <text x="245" y="70" text-anchor="middle" class="detail-text">証明支援系</text>
     <text x="245" y="85" text-anchor="middle" class="detail-text">数学的証明</text>
-    <text x="245" y="100" text-anchor="middle" class="detail-text">Coq</text>
+    <text x="245" y="100" text-anchor="middle" class="detail-text">Rocq</text>
     
     <rect x="340" y="20" width="150" height="100" class="verification-box"/>
     <text x="415" y="40" text-anchor="middle" class="label-text">第10章</text>

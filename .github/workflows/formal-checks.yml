@@ -3,6 +3,8 @@ name: Formal checks
 on:
   pull_request:
     branches: ["diagram-enhancement-phase6", "main"]
+  schedule:
+    - cron: "0 2 * * *"
   workflow_dispatch: {}
 
 permissions:
@@ -13,5 +15,55 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Cache formal tools
+        uses: actions/cache@v4
+        with:
+          path: tools/.cache
+          key: formal-tools-${{ runner.os }}-alloy6.2.0-tla1.7.4-apalache0.52.1-dafny4.11.0
       - name: Minimal formal checks
         run: bash examples/ci/pr-quick-check.sh
+      - name: Upload artifacts (counterexamples, logs)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: formal-artifacts-pr
+          path: .artifacts
+
+  nightly-deep:
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Cache formal tools
+        uses: actions/cache@v4
+        with:
+          path: tools/.cache
+          key: formal-tools-${{ runner.os }}-alloy6.2.0-tla1.7.4-apalache0.52.1-dafny4.11.0
+      - name: Bootstrap toolchain
+        run: bash tools/bootstrap.sh
+      - name: Deep Alloy checks (more solutions)
+        run: |
+          bash tools/alloy-check.sh --repeat 10 examples/alloy/collection.als
+      - name: Deep TLC checks (higher depth)
+        run: |
+          bash tools/tlc-run.sh --config examples/tla/QueueBounded.cfg --depth 50 --time-limit 300 examples/tla/QueueBounded.tla
+      - name: Apalache checks (bounded length)
+        run: |
+          bash tools/apalache-check.sh --config examples/apalache/Counter.cfg --length 50 --init Init --next Next --inv Inv examples/apalache/Counter.tla
+      - name: Dafny verification
+        run: |
+          bash tools/dafny-verify.sh examples/dafny/Abs.dfy
+      - name: Upload artifacts (counterexamples, logs)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: formal-artifacts-nightly
+          path: .artifacts
