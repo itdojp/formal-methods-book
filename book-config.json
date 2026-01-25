@@ -87,7 +87,7 @@
       {
         "id": "appendix-b",
         "title": "付録B：ツールインストールガイド",
-        "description": "Alloy Analyzer、TLC、SPIN、Rocq（旧称Coq）等のインストール手順とトラブルシューティング"
+        "description": "Alloy Analyzer、TLC、Apalache、Dafnyなど最小セットのツールについて、再現可能な実行環境構築手順とトラブルシューティングをまとめる（SPINやRocq（旧称Coq）等は付録E参照）"
       },
       {
         "id": "appendix-c",

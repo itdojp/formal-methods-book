@@ -19,7 +19,7 @@ Dequeue ==
   /\ q # << >>
   /\ q' = Tail(q)
 
-Next == \E x \in Values: Enqueue(x) \/ Dequeue
+Next == (\E x \in Values: Enqueue(x)) \/ Dequeue
 
 Spec == Init /\ [][Next]_<<q>>
 

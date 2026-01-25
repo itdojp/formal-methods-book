@@ -29,5 +29,11 @@ if [[ ! -f "$file" ]]; then
   exit 2
 fi
 
+if [[ ! -x "$DAFNY_BIN" ]]; then
+  echo "DafnyDriver not found or not executable: $DAFNY_BIN" >&2
+  echo "Hint: run 'bash tools/bootstrap.sh' (Linux/WSL/devcontainer). On macOS, use the official Dafny distribution or dotnet tool." >&2
+  exit 2
+fi
+
 echo "Dafny verify: $file"
 "$DAFNY_BIN" verify "$file"

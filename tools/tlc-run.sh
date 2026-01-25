@@ -89,13 +89,20 @@ cmd+=("$spec")
 echo "TLC: $spec"
 echo "Log: $log"
 
+# Prefer `timeout` (Linux/CI). On macOS with coreutils, `gtimeout` is common.
+timeout_cmd=""
+if command -v timeout >/dev/null 2>&1; then
+  timeout_cmd="timeout"
+elif command -v gtimeout >/dev/null 2>&1; then
+  timeout_cmd="gtimeout"
+fi
+
 if [[ -n "$time_limit" ]]; then
-  # Prefer `timeout` when available (Linux/CI). If missing, run without limit.
-  if command -v timeout >/dev/null 2>&1; then
-    timeout "$time_limit" "${cmd[@]}" | tee "$log"
+  if [[ -n "$timeout_cmd" ]]; then
+    "$timeout_cmd" "$time_limit" "${cmd[@]}" 2>&1 | tee "$log"
   else
-    "${cmd[@]}" | tee "$log"
+    "${cmd[@]}" 2>&1 | tee "$log"
   fi
 else
-  "${cmd[@]}" | tee "$log"
+  "${cmd[@]}" 2>&1 | tee "$log"
 fi
