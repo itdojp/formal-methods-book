@@ -3,7 +3,9 @@
 本書のツール実行は、**再現性（環境差の最小化）**を優先し、次の2系統で提供する。
 
 1. **コンテナ（推奨）**：devcontainer で統一環境を用意する  
-2. **ローカル**：最小依存（Java/zip/curl）で実行する
+2. **ローカル**：最小依存（Java/curl/unzip）で実行する
+
+コマンドは代表例であり、配布形式や前提は変更される可能性がある。必要に応じて付録E（一次情報）も参照する。
 
 本付録の手順により、少なくとも **1つのモデルチェック**（Alloy/TLC/Apalache）と、**1つのプログラム検証**（Dafny）を再現できる。
 
@@ -67,8 +69,8 @@ bash tools/dafny-verify.sh examples/dafny/Abs.dfy
   - **WSL2での実行を推奨**（ツール配布物・シェルスクリプトの前提が揃う）
   - WSL側に Java を導入する（Windows側のJavaではなく）
 - macOS：
-  - `timeout` が標準でないため、`tools/tlc-run.sh --time-limit` は未対応になりやすい（必要なら `coreutils` の `gtimeout` を使用）
-  - Dafnyは macOS向け配布物（公式リリース）か `dotnet tool` を利用する
+  - `timeout` が標準でないため、`tools/tlc-run.sh --time-limit` を利用するには `gtimeout` 等の提供が必要（例：Homebrewで `coreutils` を導入）。`tools/tlc-run.sh` は `timeout`/`gtimeout` を自動検出する。
+  - `tools/bootstrap.sh` が取得するDafnyはLinux向け配布物のため、macOSでは公式配布物（macOS向け）か `dotnet tool` を利用する
 - Linux：
   - ディストリ依存でJavaパッケージ名が異なる（例：Ubuntu/Debianは `openjdk-17-jre`）
 
@@ -76,3 +78,4 @@ bash tools/dafny-verify.sh examples/dafny/Abs.dfy
 
 GitHub Actions では `.github/workflows/formal-checks.yml` で、PR向け（軽量）と夜間向け（深い探索）のジョブを提供している。  
 ローカルで同等の実行をしたい場合は、`bash examples/ci/pr-quick-check.sh` を実行する。
+

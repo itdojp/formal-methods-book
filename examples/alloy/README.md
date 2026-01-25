@@ -8,3 +8,4 @@
 bash tools/bootstrap.sh
 bash tools/alloy-check.sh examples/alloy/collection.als
 ```
+

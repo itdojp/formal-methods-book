@@ -10,3 +10,4 @@ bash examples/ci/pr-quick-check.sh
 
 `.github/workflows/formal-checks.yml` に、`schedule`（夜間）ジョブの例を含めています。  
 探索深度・反例保存・artifact化の運用は、対象モデルに合わせて調整してください。
+

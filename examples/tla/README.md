@@ -8,3 +8,4 @@
 bash tools/bootstrap.sh
 bash tools/tlc-run.sh --config examples/tla/QueueBounded.cfg examples/tla/QueueBounded.tla
 ```
+

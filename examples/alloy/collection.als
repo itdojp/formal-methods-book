@@ -11,3 +11,4 @@ pred NonEmpty(c: Collection) {
 }
 
 run { some c: Collection | NonEmpty[c] } for 3
+

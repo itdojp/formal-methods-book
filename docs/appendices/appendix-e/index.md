@@ -191,3 +191,4 @@ LLMは、仕様/証明/反例解釈の「草案生成」や「探索支援」に
 
 <!-- markdown-link-check-disable-next-line -->
 - 参考（準一次情報）：How Amazon Web Services Uses Formal Methods (CACM) <https://cacm.acm.org/research/how-amazon-web-services-uses-formal-methods/>
+
