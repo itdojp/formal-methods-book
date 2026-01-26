@@ -148,7 +148,7 @@ Qed.
 現在、数学の主要な分野で大規模な形式化プロジェクトが進行中です：
 
 - **mathlib**（Lean）：現代数学の広範囲な形式化
-- **Mathematical Components**（Coq/Rocq系）：代数的構造の体系的形式化
+- **Mathematical Components**（Rocq（旧称Coq）系）：代数的構造の体系的形式化
 - **Archive of Formal Proofs**（Isabelle/HOL）：様々な分野の定理の集積
 
 これらのライブラリにより、複雑な数学的結果も、既存の証明を組み合わせて比較的容易に証明できるようになりつつあります。
