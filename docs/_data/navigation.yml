@@ -46,29 +46,35 @@ chapters:
     path: "/chapters/chapter13/"
     order: 13
 
+# 追加（Additional）
+additional:
+  - title: "用語集（Glossary）"
+    path: "/glossary/"
+    order: 14
+
 # 付録 (Appendices)
 appendices:
   - title: "付録A: 数学的基礎の復習"
     path: "/appendices/appendix-a/"
-    order: 14
+    order: 15
   - title: "付録B: ツールインストールガイド"
     path: "/appendices/appendix-b/"
-    order: 15
+    order: 16
   - title: "付録C: 記法対照表"
     path: "/appendices/appendix-c/"
-    order: 16
+    order: 17
   - title: "付録D: 演習問題解答"
     path: "/appendices/appendix-d/"
-    order: 17
+    order: 18
   - title: "付録E: 参考文献とWebリソース"
     path: "/appendices/appendix-e/"
-    order: 18
+    order: 19
   - title: "付録F: AI支援の実践ガイド"
     path: "/appendices/appendix-f/"
-    order: 19
+    order: 20
 
 # あとがき (Afterword)
 afterword:
   - title: "あとがき"
     path: "/afterword/"
-    order: 20
+    order: 21

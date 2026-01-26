@@ -71,6 +71,24 @@
     </div>
     {% endif %}
 
+    <!-- Additional -->
+    {% if site.data.navigation.additional %}
+    <div class="nav-section">
+        <h3 class="nav-section-title">補助</h3>
+        <ul class="nav-list">
+            {% for item in site.data.navigation.additional %}
+            <li class="nav-item">
+                <a href="{{ site.baseurl }}{{ item.path }}"
+                   class="nav-link{% if page.url contains item.path %} active{% endif %}"
+                   aria-current="{% if page.url contains item.path %}page{% endif %}">
+                    {{ item.title }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
     <!-- Appendices -->
     {% if site.data.navigation.appendices %}
     <div class="nav-section">
