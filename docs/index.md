@@ -28,6 +28,7 @@ version: "1.0.0"
 ## 目次
 
 - [はじめに]({{ '/introduction/' | relative_url }})
+- [用語集（Glossary）]({{ '/glossary/' | relative_url }})
 
 ### 第I部　基礎編：形式的手法の基盤
 
