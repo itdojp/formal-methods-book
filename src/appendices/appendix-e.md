@@ -162,6 +162,7 @@
 - 一次・準一次情報：
   - Clearsy（Line 14 / B-method）：<https://www.clearsy.com/en/the-tools/extension-of-line-14-of-the-paris-metro-over-25-years-of-reliability-thanks-to-the-b-formal-method/>
   - Butler ほか（FMICS 2020、DOI）：<https://doi.org/10.1007/978-3-030-58298-2_8>
+  - Butler ほか（FMICS 2020、PDF）：<https://www.krin.gs/publication/butler-history-of-b-fmics20/butler-history-of-b-fmics20.pdf>
 
 ### Amazon s2n（暗号実装の検証）
 
@@ -169,6 +170,7 @@
 - 一次・準一次情報：
   - AWS Security Blog：<https://aws.amazon.com/blogs/security/automated-reasoning-and-amazon-s2n/>
   - Galois（SAWでの検証例）：<https://www.galois.com/articles/verifying-s2n-hmac-with-saw>
+  - CAV 2018（s2n/SAWの報告、PDF）：<http://www0.cs.ucl.ac.uk/staff/b.cook/CAV18_s2n.pdf>
   - s2n-tls（GitHub）：<https://github.com/aws/s2n-tls>
 
 ### 産業界におけるTLA+活用
