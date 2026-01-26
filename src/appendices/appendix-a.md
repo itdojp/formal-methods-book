@@ -66,8 +66,11 @@ TLA+では関数集合を `f \in [X -> Y]` のように表します。更新は 
 
 ## A.6 本書内の参照（章リンク）
 
+- 数学的基盤とプログラムの対応（集合・論理・写像）：第2章 <https://itdojp.github.io/formal-methods-book/chapters/chapter02/>
+- 仕様の厳密化（契約/不変条件）：第3章 <https://itdojp.github.io/formal-methods-book/chapters/chapter03/>
 - 関係中心モデリング（Alloy）：第4章 <https://itdojp.github.io/formal-methods-book/chapters/chapter04/>
 - 状態/操作の厳密化（Z記法）：第5章 <https://itdojp.github.io/formal-methods-book/chapters/chapter05/>
+- 並行システムの記述と検証観点（CSP/デッドロック）：第6章 <https://itdojp.github.io/formal-methods-book/chapters/chapter06/>
 - 集合・関数・状態遷移（TLA+）：第7章 <https://itdojp.github.io/formal-methods-book/chapters/chapter07/>
 - 模型検査（状態空間・反例）：第8章 <https://itdojp.github.io/formal-methods-book/chapters/chapter08/>
 - 定理証明と帰納（証明の再現性）：第9章 <https://itdojp.github.io/formal-methods-book/chapters/chapter09/>
