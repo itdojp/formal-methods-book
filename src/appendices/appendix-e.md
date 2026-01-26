@@ -176,6 +176,9 @@
 - 推奨読者：第7章（TLA+）、第13章（事例研究）
 - 一次・準一次情報：
   - Lamport（Industrial use of TLA+）：<https://lamport.azurewebsites.net/tla/industrial-use.html>
+  - Microsoft Learn（Cosmos DBの分散実装と整合性、TLA+仕様への導線）：<https://learn.microsoft.com/en-us/azure/cosmos-db/global-dist-under-the-hood>
+  - Azure Cosmos DB（TLA+高レベル仕様）：<https://github.com/Azure/azure-cosmos-tla>
+  - Microsoft Research（Cosmos DBの整合性保証に関するTLA+仕様、動画）：<https://www.microsoft.com/en-us/research/video/tla-specifications-of-the-consistency-guarantees-provided-by-cosmos-db/>
   - Hackett（ICSE SEIP 2023、PDF）：<https://fhackett.com/files/icse-seip-23-inconsistency.pdf>
 
 ## 7) AI×形式手法（LLM支援：位置づけと注意点）
@@ -191,4 +194,3 @@ LLMは、仕様/証明/反例解釈の「草案生成」や「探索支援」に
 
 <!-- markdown-link-check-disable-next-line -->
 - 参考（準一次情報）：How Amazon Web Services Uses Formal Methods (CACM) <https://cacm.acm.org/research/how-amazon-web-services-uses-formal-methods/>
-

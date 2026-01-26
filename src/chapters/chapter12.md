@@ -539,6 +539,8 @@ AIエージェントを導入すると、PRの作成速度が上がる一方で�
 - 夜間：探索深度とスコープを拡大し、偽陰性を低減
 - リリース前：クリティカル性質の再検証と承認フローを強化
 
+本リポジトリの実動例として、`.github/workflows/formal-checks.yml` と `examples/ci/pr-quick-check.sh` を同梱している（Alloy/TLC/Apalache/Dafnyを最小実行し、ログ/反例は `.artifacts/` に保存する）。
+
 ### 12.7.4 例外フロー
 
 

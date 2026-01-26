@@ -140,32 +140,34 @@ SCADE（航空宇宙）、SPARK（安全クリティカル）、Dafny（プロ�
 - 反例から学ぶ: 失敗時に最小反例を収集し、再現スクリプトを標準化
 - 漸進的強化: 夜間→リリース前へと対象性質と探索深さを段階的に拡大
 
-簡易CI例（疑似YAML）:
+CI実装例（GitHub Actions）:
+
+本リポジトリでは、実動する例として `.github/workflows/formal-checks.yml` を同梱している。  
+PR段階は `bash examples/ci/pr-quick-check.sh` を実行し、夜間/手動では探索深度や反復を拡大し、`.artifacts/` 配下をartifactとして保存する。
+
+例（抜粋）：
 
 ```yaml
-name: formal-checks
-on: [pull_request]
 jobs:
   pr-quick:
-    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Alloy quick check (small scope)
-        run: ./tools/alloy-check.sh --scope small --timeout 60
-      - name: TLA+ TLC (bounded)
-        run: ./tools/tlc-run.sh specs/Queue.tla --depth 100 --time-limit 60
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Minimal formal checks
+        run: bash examples/ci/pr-quick-check.sh
 ```
 
-反例ログ例（要約）:
+失敗時ログ例（要約）:
 
 ```text
-TLC: Invariant violated: AlwaysEnqueueThenDequeue
-State trace (length=4):
-  1: Enqueue(x=1) -> Q=[1]
-  2: Enqueue(x=2) -> Q=[1,2]
-  3: Dequeue()    -> Q=[2]
-  4: Dequeue()    -> Q=[] (violates FIFO for corner case)
-Counterexample written to: traces/Queue_violation_2025-09-06.tla
+TLC: Invariant violated: Inv
+State trace:
+  1: ...
+  2: ...
+  ...
+See: .artifacts/tlc/<model>/tlc.log
 ```
 
 上記のように、短時間・小スコープの検証をPRに配置し、夜間に探索深度やスコープを拡大することで、開発速度と品質保証の両立を図る。
