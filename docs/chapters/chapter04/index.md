@@ -1153,6 +1153,10 @@ pred stutter {
   Trash' = Trash
 }
 
+fact init {
+  no Trash
+}
+
 fact transitions {
   always (stutter or some f: File | delete[f] or restore[f])
 }
