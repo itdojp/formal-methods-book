@@ -9,7 +9,7 @@ title: "用語集（Glossary）"
 
 ## 0) 略語（Acronyms）
 
-- **SAT**：命題充足可能性問題（SATisfiability）。Alloy等が内部で利用することがある。
+- **SAT**：命題充足可能性問題（Satisfiability）。Alloy等が内部で利用することがある。
 - **SMT**：充足可能性の判定を、等式/算術/配列などの理論と統合して扱う枠組み（Satisfiability Modulo Theories）。
 - **LTL / CTL**：時相論理（Linear Temporal Logic / Computation Tree Logic）。模型検査で性質を記述する。
 - **CI**：継続的インテグレーション（Continuous Integration）。PR/夜間/リリース前の検証ゲートに利用する。
