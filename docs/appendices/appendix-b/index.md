@@ -34,7 +34,7 @@
 bash tools/bootstrap.sh
 
 # Alloy（SATを確認）
-bash tools/alloy-check.sh examples/alloy/collection.als
+bash tools/alloy-check.sh --verbose examples/alloy/collection.als
 
 # TLC（No errorを確認）
 bash tools/tlc-run.sh --config examples/tla/QueueBounded.cfg examples/tla/QueueBounded.tla
@@ -78,4 +78,3 @@ bash tools/dafny-verify.sh examples/dafny/Abs.dfy
 
 GitHub Actions では `.github/workflows/formal-checks.yml` で、PR向け（軽量）と夜間向け（深い探索）のジョブを提供している。  
 ローカルで同等の実行をしたい場合は、`bash examples/ci/pr-quick-check.sh` を実行する。
-

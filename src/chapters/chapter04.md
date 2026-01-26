@@ -1084,7 +1084,72 @@ check NoUnauthorizedAccess for 4
 
 この反復プロセスにより、段階的にモデルの品質を向上できます。
 
-## 4.6 反例から学ぶ：設計の改善サイクル
+## 4.6 Alloy 6の拡張：可変状態（mutable state）と時間（temporal logic）
+
+Alloyは伝統的に「静的構造（関係）」の整合性確認に強い一方、**Alloy 6**では`var`とtemporal operatorにより、状態遷移（トレース）を直接扱えます。これにより、Alloy 4で一般的だった「Stateシグネチャ+ordering」による時間エンコードを省略し、モデルと反例トレースをより近い形で扱えます。
+
+本書の実行環境（付録B）は`tools/bootstrap.sh`でAlloy 6.2.0を固定しており、読者は同一のコマンドで再現できます（環境変数`ALLOY_VERSION`で上書き可能）。
+
+### 基本構文（Alloy 6）
+
+- `var`：シグネチャ/フィールドを「状態によって変化するもの」として宣言する
+- `'`（prime）：次状態の値を参照する（例：`Trash' = Trash + f`）
+- temporal operator：`always`（常に）、`eventually`（いつか）、`once`（過去に一度でも）、`after`（次状態）など
+- `n steps`：探索するトレース長（上限）。スコープとstepsを増やすほど探索コストは増える
+
+### 例：ゴミ箱（Trash）モデル（状態遷移の最小例）
+
+`examples/alloy/trash-temporal.als`は、ファイル集合`File`と、可変なゴミ箱集合`Trash`を持つ最小モデルです。削除（delete）/復元（restore）を遷移として定義し、簡単な安全性性質を検査します。
+
+```alloy
+var sig Trash in File {}
+
+pred delete[f: File] {
+  f not in Trash
+  Trash' = Trash + f
+}
+
+pred restore[f: File] {
+  f in Trash
+  Trash' = Trash - f
+}
+
+pred stutter {
+  Trash' = Trash
+}
+
+fact init {
+  no Trash
+}
+
+fact transitions {
+  always (stutter or some f: File | delete[f] or restore[f])
+}
+
+example: run { eventually (some Trash and after no Trash) } for 3 but 6 steps
+
+assert restoreAfterDelete {
+  always (all f: File | restore[f] implies once delete[f])
+}
+check restoreAfterDelete for 3 but 6 steps
+```
+
+実行（CLI）：
+
+```bash
+bash tools/bootstrap.sh
+bash tools/alloy-check.sh --verbose examples/alloy/trash-temporal.als
+```
+
+結果の読み方：
+- `run`はトレースの存在確認であり、`SAT`は「条件を満たすトレースが存在」を意味します。
+- `check`は反例探索であり、`UNSAT`は「与えたスコープ/steps内では反例が見つからない（性質が保持される）」を意味します（`SAT`なら反例が見つかっています）。
+
+生成物（再現性のための保存先）：
+- `.artifacts/alloy/trash-temporal/example-solution-0.md` にトレース（state 0,1,...）が出力されます。
+- GUIで可視化したい場合は `java -jar tools/.cache/alloy-6.2.0.jar gui` で起動し、モデルを開いてstateを遷移しながら確認できます。
+
+## 4.7 反例から学ぶ：設計の改善サイクル
 
 ### 反例の教育的価値
 
@@ -1414,7 +1479,7 @@ fact FamilyRules {
 
 ### 発展演習：動的振る舞いのモデル化
 
-時間の概念を導入して、以下のシステムの動的な振る舞いをモデル化してください：
+Alloy 6の`var`とtemporal operatorを用い、以下のシステムの動的な振る舞いをモデル化してください（4.6参照）：
 
 **ATMシステム**：
 - 口座には残高がある
@@ -1423,10 +1488,12 @@ fact FamilyRules {
 - 残高不足では引き出しできない
 - 取引履歴が記録される
 
-1. 時間を表現するシグネチャを定義
-2. 各操作を述語として定義
-3. システムの不変条件を記述
-4. 操作シーケンスの妥当性を検証
+1. 状態（口座残高、取引履歴など）を`var`で宣言
+2. 各操作を「現状態→次状態」の述語として定義（`x' = ...`）
+3. 不変条件/禁止事項を`always`で記述し、`check`で反例探索
+4. `for ... but ... steps`で探索スコープとトレース長を調整し、反例→修正→再検証を回す
+
+補足：Alloy 4系のスタイルとして、`State`シグネチャと`util/ordering`で時間を明示的にエンコードする方法もありますが、本書ではAlloy 6の記法を基本とします。
 
 **検証すべき性質**：
 - 残高は非負を保つ

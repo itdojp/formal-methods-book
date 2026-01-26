@@ -6,6 +6,11 @@
 
 ```bash
 bash tools/bootstrap.sh
-bash tools/alloy-check.sh examples/alloy/collection.als
+bash tools/alloy-check.sh --verbose examples/alloy/collection.als
 ```
 
+状態遷移（Alloy 6 の `var` + temporal）例：
+
+```bash
+bash tools/alloy-check.sh --verbose examples/alloy/trash-temporal.als
+```
