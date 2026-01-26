@@ -628,6 +628,57 @@ concurrency specification:
 
 このスタックの仕様化により、実装者は明確な指針を得られ、テスト担当者は網羅的なテストケースを作成でき、利用者は正確な使用方法を理解できます。
 
+## 3.6 AI支援による形式化：ミニケース（草案→検証→修正）
+
+LLMは要求の言い換えや初期仕様の下書きに有用ですが、出力は「未信頼入力」です。本節では、要求→形式化草案→模型検査→要求/仕様修正、の最小サイクルを示します。
+
+### 要求（自然言語）
+
+- 値集合`Values`（例：`{0, 1}`）を扱うキュー
+- 最大長`MaxLen`（例：`2`）を超えてenqueueできない
+- dequeueは空のとき実行できない
+- 不変条件：`Len(q) <= MaxLen`
+
+### 形式化草案（欠落例：満杯制約の反映漏れ）
+
+以下は「満杯制約をEnqueueに反映し忘れる」典型例です（草案なのでこのまま信頼しない）。
+
+```tla
+Enqueue(x) ==
+  /\ x \in Values
+  /\ q' = Append(q, x)
+
+Inv == Len(q) <= MaxLen
+```
+
+このままTLCで検査すると、`Inv`違反の反例（例：`q`が長さ3になるトレース）が得られます。
+
+### 修正（検証結果に基づく要求/仕様の具体化）
+
+反例から「満杯時はenqueueを拒否する」ことを仕様に落とし込み、事前条件を追加します。
+
+```tla
+Enqueue(x) ==
+  /\ x \in Values
+  /\ Len(q) < MaxLen
+  /\ q' = Append(q, x)
+```
+
+本リポジトリの再現用最小例は`examples/tla/QueueBounded.tla` / `examples/tla/QueueBounded.cfg`にあり、付録Bの手順で実行できます。
+
+```bash
+bash tools/bootstrap.sh
+bash tools/tlc-run.sh --config examples/tla/QueueBounded.cfg examples/tla/QueueBounded.tla
+```
+
+### 重要な運用ポイント
+
+- LLMの役割は「草案生成」と「観点の列挙」に限定し、合否判定は検証器（TLC/Alloy/Apalache等）で閉じる。
+- 反例が出たら、事実（ログ/トレース）と仮説（原因候補）を分離して記録する（付録F.8）。
+- スコープ（`Values`/`MaxLen`/steps）を小さく固定し、短サイクルで反例→修正→再検証を回す。
+
+研究動向（自然言語→形式言語）は付録E「AI×形式手法」節を参照してください。
+
 ---
 
 ## 章末課題
