@@ -306,7 +306,6 @@ IoTや分散システムなどの現代的な技術課題に対しても、14号
 参考（一次・準一次情報）：
 - https://www.clearsy.com/en/the-tools/extension-of-line-14-of-the-paris-metro-over-25-years-of-reliability-thanks-to-the-b-formal-method/
 - Butler ほか（FMICS 2020、DOI）：https://doi.org/10.1007/978-3-030-58298-2_8
-- Butler ほか（FMICS 2020、PDF）：https://www.krin.gs/publication/butler-history-of-b-fmics20/butler-history-of-b-fmics20.pdf
 
 ## 13.7 クラウドサービス：Amazonのs2n暗号ライブラリ
 

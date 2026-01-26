@@ -162,7 +162,6 @@
 - 一次・準一次情報：
   - Clearsy（Line 14 / B-method）：<https://www.clearsy.com/en/the-tools/extension-of-line-14-of-the-paris-metro-over-25-years-of-reliability-thanks-to-the-b-formal-method/>
   - Butler ほか（FMICS 2020、DOI）：<https://doi.org/10.1007/978-3-030-58298-2_8>
-  - Butler ほか（FMICS 2020、PDF）：<https://www.krin.gs/publication/butler-history-of-b-fmics20/butler-history-of-b-fmics20.pdf>
 
 ### Amazon s2n（暗号実装の検証）
 
