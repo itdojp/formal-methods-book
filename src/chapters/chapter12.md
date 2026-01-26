@@ -541,6 +541,8 @@ AIエージェントを導入すると、PRの作成速度が上がる一方で�
 
 本リポジトリの実動例として、`.github/workflows/formal-checks.yml` と `examples/ci/pr-quick-check.sh` を同梱している（Alloy/TLC/Apalache/Dafnyを最小実行し、ログ/反例は `.artifacts/` に保存する）。
 
+AI生成物（仕様草案/証明スクリプト/CI設定）のレビュー観点が属人化しないよう、付録F.9「AI生成物の品質保証チェックリスト（仕様/証明/CI）」をPRテンプレとして利用する。
+
 ### 12.7.4 例外フロー
 
 
