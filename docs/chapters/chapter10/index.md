@@ -11,6 +11,7 @@ order: 10
 - Hoare論理で部分/全正しさを保証
 - 仕様↔実装の整合を担保
 - 図10-1・第11/12章で層/CIを設計
+- 戻り先: [付録A（数学的基礎）]({{ '/appendices/appendix-a/' | relative_url }}) / [付録C（記法対照）]({{ '/appendices/appendix-c/' | relative_url }})
 - 用語の確認: [用語集]({{ '/glossary/' | relative_url }})
 
 ## 10.1 プログラムの正しさ：理論と実践の結節点

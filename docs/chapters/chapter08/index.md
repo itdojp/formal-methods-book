@@ -11,6 +11,7 @@ order: 8
 - 仕様と性質を分離し自動探索・反例学習
 - 境界づけ/抽象化でスケール
 - 図8-1・第12章に沿って段階別に深度UP
+- 戻り先: [付録A（数学的基礎）]({{ '/appendices/appendix-a/' | relative_url }}) / [付録C（記法対照）]({{ '/appendices/appendix-c/' | relative_url }})
 - 用語の確認: [用語集]({{ '/glossary/' | relative_url }})
 
 ## 8.1 自動検証の夢：コンピュータによる証明

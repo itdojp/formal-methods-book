@@ -11,6 +11,7 @@ order: 7
 - 時相論理で安全性/活性・公正性を記述
 - 仕様→反例→改善のループを確立
 - 第6/11/12章と連携して分散に適用
+- 戻り先: [付録A（数学的基礎）]({{ '/appendices/appendix-a/' | relative_url }}) / [付録C（記法対照）]({{ '/appendices/appendix-c/' | relative_url }})
 - 用語の確認: [用語集]({{ '/glossary/' | relative_url }})
 
 ## 7.1 分散システムの挑戦：時間と状態の複雑さ

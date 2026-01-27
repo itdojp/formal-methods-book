@@ -11,6 +11,7 @@ order: 3
 - 自然言語の曖昧性を克服する
 - 仕様の階層性/多面性を整理
 - UML↔形式仕様の往復（図3-3）で精度/速度両立
+- 戻り先: [付録A（数学的基礎）]({{ '/appendices/appendix-a/' | relative_url }}) / [付録C（記法対照）]({{ '/appendices/appendix-c/' | relative_url }})
 - 用語の確認: [用語集]({{ '/glossary/' | relative_url }})
 
 ## 3.1 仕様とは何か：理想と現実の架け橋

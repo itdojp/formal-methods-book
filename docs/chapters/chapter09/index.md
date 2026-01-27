@@ -11,6 +11,7 @@ order: 9
 - 型理論に基づく証明支援で厳密性を確保
 - 反例の補題化・一般化で保証を強化
 - 第8/10/12章と往復して実務に適用
+- 戻り先: [付録A（数学的基礎）]({{ '/appendices/appendix-a/' | relative_url }}) / [付録C（記法対照）]({{ '/appendices/appendix-c/' | relative_url }})
 - 用語の確認: [用語集]({{ '/glossary/' | relative_url }})
 
 ## 9.1 証明の機械化：数学者とコンピュータの協調

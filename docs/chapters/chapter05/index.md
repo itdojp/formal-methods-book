@@ -11,6 +11,7 @@ order: 5
 - 状態/操作スキーマで事前/事後と不変を統合
 - 合成で性質を保全し実装整合を図る
 - 図5-1と第10章の往復で検証可能性を設計
+- 戻り先: [付録A（数学的基礎）]({{ '/appendices/appendix-a/' | relative_url }}) / [付録C（記法対照）]({{ '/appendices/appendix-c/' | relative_url }})
 - 用語の確認: [用語集]({{ '/glossary/' | relative_url }})
 
 ## 5.1 Z記法の世界：状態とスキーマの思想
