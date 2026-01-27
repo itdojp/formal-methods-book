@@ -35,7 +35,7 @@ AIによる生成や改修が高速化するほど、最終判断は検証器に
 
 - 付録E（参考文献とWebリソース）：https://itdojp.github.io/formal-methods-book/appendices/appendix-e/
 - 第12章（ツールと自動化）：https://itdojp.github.io/formal-methods-book/chapters/chapter12/
-- Issue（誤植/改善提案）：https://github.com/itdojp/formal-methods-book/issues
+- フィードバック（誤植/改善提案）：knowledge@itdo.jp
 
 本書が、実務における検証文化の土台づくりに役立つことを願っています。
 
