@@ -11,6 +11,7 @@ order: 6
 - プロセス代数・チャネルで並行/同期を表現
 - 図6-1の観点でデッドロック/進行性を分析
 - 図11-1/図10-1と連携しDevOps/検証層へ展開
+- 戻り先: [付録A（数学的基礎）]({{ '/appendices/appendix-a/' | relative_url }}) / [付録C（記法対照）]({{ '/appendices/appendix-c/' | relative_url }})
 - 用語の確認: [用語集]({{ '/glossary/' | relative_url }})
 
 ## 6.1 並行性の本質：なぜ難しいのか

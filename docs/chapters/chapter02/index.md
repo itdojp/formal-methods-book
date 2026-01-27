@@ -10,6 +10,7 @@ nav_order: 2
 - プログラミングに潜む数学構造の明示化
 - 仕様記述（第4–7章）への橋渡し
 - 図2-3で主要手法の比較観点を把握
+- 戻り先: [付録A（数学的基礎）]({{ '/appendices/appendix-a/' | relative_url }}) / [付録C（記法対照）]({{ '/appendices/appendix-c/' | relative_url }})
 - 用語の確認: [用語集]({{ '/glossary/' | relative_url }})
 
 ## 2.1 プログラミングに潜む数学的構造

@@ -11,6 +11,7 @@ order: 12
 - 検証をツールチェーン/CIへ統合
 - 反例最小化・分割/再実行で運用安定
 - 段階別深度とメトリクス（図11-1/10-1）
+- 戻り先: [付録A（数学的基礎）]({{ '/appendices/appendix-a/' | relative_url }}) / [付録C（記法対照）]({{ '/appendices/appendix-c/' | relative_url }})
 - 用語の確認: [用語集]({{ '/glossary/' | relative_url }})
 
 ## 12.1 ツールエコシステムの全体像

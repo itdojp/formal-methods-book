@@ -10,6 +10,7 @@ nav_order: 1
 - 複雑性の爆発と創発的振る舞いの課題
 - 数学的モデル化・検証で信頼性を高める
 - 安全/セキュリティ/規制に応える基盤を整える
+- 戻り先: [付録A（数学的基礎）]({{ '/appendices/appendix-a/' | relative_url }}) / [付録C（記法対照）]({{ '/appendices/appendix-c/' | relative_url }})
 - 用語の確認: [用語集]({{ '/glossary/' | relative_url }})
 
 ## 1.1 ソフトウェアの複雑化と信頼性への挑戦
