@@ -8,7 +8,7 @@
     "build": "node scripts/build.js",
     "test": "npm run lint && npm run check-links",
     "lint": "markdownlint 'src/**/*.md' --ignore src/appendices/appendices_draft.md",
-    "check-links": "markdown-link-check -q -p src/chapters/*.md && markdown-link-check -q -p src/appendices/appendix-*.md && markdown-link-check -q -p src/introduction/index.md && markdown-link-check -q -p src/afterword/index.md",
+    "check-links": "markdown-link-check -q -p src/chapters/*.md && markdown-link-check -q -p src/appendices/appendix-*.md && markdown-link-check -q -p src/introduction/index.md && markdown-link-check -q -p src/afterword/index.md && markdown-link-check -q -p docs/afterword/index.md",
     "deploy": "gh-pages -d docs"
   },
   "keywords": [
@@ -17,7 +17,7 @@
     "ja"
   ],
   "author": "太田和彦（株式会社アイティードゥ）",
-  "license": "MIT",
+  "license": "CC-BY-NC-SA-4.0",
   "devDependencies": {
     "markdownlint-cli": "^0.37.0",
     "markdown-link-check": "^3.11.2",

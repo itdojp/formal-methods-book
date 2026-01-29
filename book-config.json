@@ -5,7 +5,7 @@
   "author": "太田和彦（株式会社アイティードゥ）",
   "version": "1.0.0",
   "language": "ja",
-  "license": "MIT",
+  "license": "CC-BY-NC-SA-4.0",
   "repository": {
     "url": "https://github.com/itdojp/formal-methods-book.git",
     "branch": "main"
@@ -55,7 +55,7 @@
       {
         "id": "chapter09",
         "title": "第9章：定理証明の基礎",
-        "description": "証明の機械化、型理論とRocq（旧称Coq）による証明支援系の実践"
+        "description": "証明の機械化、型理論とCoqによる証明支援系の実践"
       },
       {
         "id": "chapter10",
@@ -87,7 +87,7 @@
       {
         "id": "appendix-b",
         "title": "付録B：ツールインストールガイド",
-        "description": "Alloy Analyzer、TLC、Apalache、Dafnyなど最小セットのツールについて、再現可能な実行環境構築手順とトラブルシューティングをまとめる（SPINやRocq（旧称Coq）等は付録E参照）"
+        "description": "Alloy Analyzer、TLC、SPIN、Coq等のインストール手順とトラブルシューティング"
       },
       {
         "id": "appendix-c",
@@ -103,11 +103,6 @@
         "id": "appendix-e",
         "title": "付録E：参考文献とWebリソース",
         "description": "レベル別推薦図書リストと最新情報へのリンク"
-      },
-      {
-        "id": "appendix-f",
-        "title": "付録F：AI支援の実践ガイド",
-        "description": "AI支援で仕様作成・検証を回すための実践テンプレート"
       }
     ]
   },
