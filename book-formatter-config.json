@@ -1,11 +1,11 @@
 {
-  "title": "IT\u30a4\u30f3\u30d5\u30e9\u30b9\u30c8\u30e9\u30af\u30c1\u30e3\u6280\u8853\u30ac\u30a4\u30c9",
-  "subtitle": "\u30cd\u30c3\u30c8\u30ef\u30fc\u30af\u3068\u30b5\u30fc\u30d0\u30fc\u30b7\u30b9\u30c6\u30e0\u306e\u8a2d\u8a08\u3068\u5b9f\u88c5",
-  "description": "\u30d9\u30f3\u30c0\u30fc\u975e\u4f9d\u5b58\u306e\u89b3\u70b9\u304b\u3089\u30a4\u30f3\u30d5\u30e9\u30b9\u30c8\u30e9\u30af\u30c1\u30e3\u6280\u8853\u306e\u672c\u8cea\u7684\u306a\u8a2d\u8a08\u539f\u7406\u3068\u5b9f\u88c5\u624b\u6cd5\u3092\u4f53\u7cfb\u5316\u3057\u305f\u6280\u8853\u66f8",
-  "author": "\u592a\u7530\u548c\u5f66\uff08\u682a\u5f0f\u4f1a\u793e\u30a2\u30a4\u30c6\u30a3\u30fc\u30c9\u30a5\uff09",
+  "title": "ITインフラストラクチャ技術ガイド",
+  "subtitle": "ネットワークとサーバーシステムの設計と実装",
+  "description": "ベンダー非依存の観点からインフラストラクチャ技術の本質的な設計原理と実装手法を体系化した技術書",
+  "author": "太田和彦（株式会社アイティードゥ）",
   "version": "1.0.0",
   "language": "ja",
-  "license": "CC BY-NC-SA 4.0",
+  "license": "CC-BY-NC-SA-4.0",
   "repository": {
     "url": "https://github.com/itdojp/IT-infra-book.git",
     "branch": "main"
@@ -14,109 +14,109 @@
   "structure": {
     "introduction": {
       "id": "introduction",
-      "title": "\u306f\u3058\u3081\u306b",
-      "description": "\u672c\u66f8\u306e\u76ee\u7684\u3068\u5bfe\u8c61\u8aad\u8005"
+      "title": "はじめに",
+      "description": "本書の目的と対象読者"
     },
     "chapters": [
       {
         "id": "chapter01",
-        "title": "\u30d7\u30ed\u30c8\u30b3\u30eb\u30b9\u30bf\u30c3\u30af\u306e\u8a2d\u8a08\u601d\u60f3",
-        "description": "\u30cd\u30c3\u30c8\u30ef\u30fc\u30af\u30d7\u30ed\u30c8\u30b3\u30eb\u306e\u968e\u5c64\u5316\u30a2\u30fc\u30ad\u30c6\u30af\u30c1\u30e3",
+        "title": "プロトコルスタックの設計思想",
+        "description": "ネットワークプロトコルの階層化アーキテクチャ",
         "part": "I",
-        "partTitle": "\u30cd\u30c3\u30c8\u30ef\u30fc\u30af\u30a2\u30fc\u30ad\u30c6\u30af\u30c1\u30e3\u3068\u5b9f\u88c5"
+        "partTitle": "ネットワークアーキテクチャと実装"
       },
       {
         "id": "chapter02",
-        "title": "L2\u30cd\u30c3\u30c8\u30ef\u30fc\u30af\u306e\u5b9f\u88c5\u8a73\u7d30",
-        "description": "\u30c7\u30fc\u30bf\u30ea\u30f3\u30af\u5c64\u306e\u6280\u8853\u3068\u5b9f\u88c5",
+        "title": "L2ネットワークの実装詳細",
+        "description": "データリンク層の技術と実装",
         "part": "I"
       },
       {
         "id": "chapter03",
-        "title": "L3\u30eb\u30fc\u30c6\u30a3\u30f3\u30b0\u30a2\u30fc\u30ad\u30c6\u30af\u30c1\u30e3",
-        "description": "\u30cd\u30c3\u30c8\u30ef\u30fc\u30af\u5c64\u306e\u30eb\u30fc\u30c6\u30a3\u30f3\u30b0\u6280\u8853",
+        "title": "L3ルーティングアーキテクチャ",
+        "description": "ネットワーク層のルーティング技術",
         "part": "I"
       },
       {
         "id": "chapter04",
-        "title": "\u30c8\u30e9\u30f3\u30b9\u30dd\u30fc\u30c8\u5c64\u306e\u6700\u9069\u5316",
-        "description": "TCP\u3068UDP\u306e\u5185\u90e8\u5b9f\u88c5\u3068\u6700\u9069\u5316",
+        "title": "トランスポート層の最適化",
+        "description": "TCPとUDPの内部実装と最適化",
         "part": "I"
       },
       {
         "id": "chapter05",
-        "title": "\u30a2\u30d7\u30ea\u30b1\u30fc\u30b7\u30e7\u30f3\u5c64\u30d7\u30ed\u30c8\u30b3\u30eb\u306e\u5b9f\u88c5",
-        "description": "HTTP/2, gRPC\u7b49\u306e\u30e2\u30c0\u30f3\u30d7\u30ed\u30c8\u30b3\u30eb",
+        "title": "アプリケーション層プロトコルの実装",
+        "description": "HTTP/2, gRPC等のモダンプロトコル",
         "part": "I"
       },
       {
         "id": "chapter06",
-        "title": "\u30aa\u30da\u30ec\u30fc\u30c6\u30a3\u30f3\u30b0\u30b7\u30b9\u30c6\u30e0\u306e\u5185\u90e8\u69cb\u9020",
-        "description": "\u30ab\u30fc\u30cd\u30eb\u7a7a\u9593\u3068\u30e6\u30fc\u30b6\u30fc\u7a7a\u9593\u306e\u5b9f\u88c5\u539f\u7406",
+        "title": "オペレーティングシステムの内部構造",
+        "description": "カーネル空間とユーザー空間の実装原理",
         "part": "II",
-        "partTitle": "\u30b5\u30fc\u30d0\u30fc\u30b7\u30b9\u30c6\u30e0\u306e\u8a2d\u8a08\u3068\u5b9f\u88c5"
+        "partTitle": "サーバーシステムの設計と実装"
       },
       {
         "id": "chapter07",
-        "title": "\u4eee\u60f3\u5316\u6280\u8853\u306e\u5185\u90e8\u30e1\u30ab\u30cb\u30ba\u30e0",
-        "description": "\u30cf\u30a4\u30d1\u30fc\u30d0\u30a4\u30b6\u30fc\u3068\u4eee\u60f3\u5316\u306e\u5b9f\u88c5\u8a73\u7d30",
+        "title": "仮想化技術の内部メカニズム",
+        "description": "ハイパーバイザーと仮想化の実装詳細",
         "part": "II"
       },
       {
         "id": "chapter08",
-        "title": "\u30b3\u30f3\u30c6\u30ca\u6280\u8853\u306e\u5b9f\u88c5\u539f\u7406",
-        "description": "Namespaces, cgroups, \u304a\u3088\u3073\u30aa\u30fc\u30b1\u30b9\u30c8\u30ec\u30fc\u30b7\u30e7\u30f3",
+        "title": "コンテナ技術の実装原理",
+        "description": "Namespaces, cgroups, およびオーケストレーション",
         "part": "II"
       },
       {
         "id": "chapter09",
-        "title": "\u30b7\u30b9\u30c6\u30e0\u904b\u7528\u306e\u81ea\u52d5\u5316",
-        "description": "Infrastructure as Code\u3068\u81ea\u52d5\u5316\u30d5\u30ec\u30fc\u30e0\u30ef\u30fc\u30af",
+        "title": "システム運用の自動化",
+        "description": "Infrastructure as Codeと自動化フレームワーク",
         "part": "II"
       },
       {
         "id": "chapter10",
-        "title": "\u5206\u6563\u30b9\u30c8\u30ec\u30fc\u30b8\u30a2\u30fc\u30ad\u30c6\u30af\u30c1\u30e3",
-        "description": "\u5206\u6563\u30d5\u30a1\u30a4\u30eb\u30b7\u30b9\u30c6\u30e0\u3068\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u30b9\u30c8\u30ec\u30fc\u30b8",
+        "title": "分散ストレージアーキテクチャ",
+        "description": "分散ファイルシステムとオブジェクトストレージ",
         "part": "III",
-        "partTitle": "\u4fe1\u983c\u6027\u3068\u30bb\u30ad\u30e5\u30ea\u30c6\u30a3\u306e\u5b9f\u88c5"
+        "partTitle": "信頼性とセキュリティの実装"
       },
       {
         "id": "chapter11",
-        "title": "\u9ad8\u53ef\u7528\u6027\u30b7\u30b9\u30c6\u30e0\u306e\u8a2d\u8a08",
-        "description": "\u5197\u9577\u5316\u30d1\u30bf\u30fc\u30f3\u3068\u30d5\u30a7\u30a4\u30eb\u30aa\u30fc\u30d0\u30fc\u30e1\u30ab\u30cb\u30ba\u30e0",
+        "title": "高可用性システムの設計",
+        "description": "冗長化パターンとフェイルオーバーメカニズム",
         "part": "III"
       },
       {
         "id": "chapter12",
-        "title": "\u30af\u30e9\u30a6\u30c9\u30cd\u30a4\u30c6\u30a3\u30d6\u30a2\u30fc\u30ad\u30c6\u30af\u30c1\u30e3",
-        "description": "\u30de\u30a4\u30af\u30ed\u30b5\u30fc\u30d3\u30b9\u3068\u30b5\u30fc\u30d0\u30fc\u30ec\u30b9\u306e\u5b9f\u88c5",
+        "title": "クラウドネイティブアーキテクチャ",
+        "description": "マイクロサービスとサーバーレスの実装",
         "part": "IV",
-        "partTitle": "\u7d71\u5408\u30a2\u30fc\u30ad\u30c6\u30af\u30c1\u30e3"
+        "partTitle": "統合アーキテクチャ"
       },
       {
         "id": "chapter13",
-        "title": "\u6280\u8853\u9078\u629e\u306e\u30d5\u30ec\u30fc\u30e0\u30ef\u30fc\u30af",
-        "description": "\u30b7\u30b9\u30c6\u30e0\u7d71\u5408\u306b\u304a\u3051\u308b\u6280\u8853\u9078\u629e\u3068\u6700\u9069\u5316",
+        "title": "技術選択のフレームワーク",
+        "description": "システム統合における技術選択と最適化",
         "part": "IV"
       }
     ],
     "appendices": [
       {
         "id": "appendix01",
-        "title": "\u30ea\u30d5\u30a1\u30ec\u30f3\u30b9\u30a2\u30fc\u30ad\u30c6\u30af\u30c1\u30e3\u96c6",
-        "description": "\u5b9f\u8df5\u7684\u306a\u30b7\u30b9\u30c6\u30e0\u69cb\u6210\u4f8b"
+        "title": "リファレンスアーキテクチャ集",
+        "description": "実践的なシステム構成例"
       },
       {
         "id": "appendix02",
-        "title": "\u30d1\u30d5\u30a9\u30fc\u30de\u30f3\u30b9\u30c1\u30e5\u30fc\u30cb\u30f3\u30b0\u30ac\u30a4\u30c9",
-        "description": "\u30b7\u30b9\u30c6\u30e0\u6700\u9069\u5316\u306e\u5b9f\u8df5\u624b\u6cd5"
+        "title": "パフォーマンスチューニングガイド",
+        "description": "システム最適化の実践手法"
       }
     ],
     "afterword": {
       "id": "afterword",
-      "title": "\u3042\u3068\u304c\u304d",
-      "description": "\u4eca\u5f8c\u306e\u5c55\u671b\u3068\u8b1d\u8f9e"
+      "title": "あとがき",
+      "description": "今後の展望と謝辞"
     }
   },
   "buildOptions": {
@@ -129,17 +129,10 @@
     "enableKatex": false
   },
   "metadata": {
-    "publisher": "\u682a\u5f0f\u4f1a\u793e\u30a2\u30a4\u30c6\u30a3\u30fc\u30c9\u30a5",
+    "publisher": "株式会社アイティードゥ",
     "publishDate": "2025-01-01",
     "isbn": "",
-    "keywords": [
-      "IT\u30a4\u30f3\u30d5\u30e9",
-      "\u30cd\u30c3\u30c8\u30ef\u30fc\u30af",
-      "\u30b5\u30fc\u30d0\u30fc",
-      "\u30af\u30e9\u30a6\u30c9",
-      "\u4eee\u60f3\u5316",
-      "\u30b3\u30f3\u30c6\u30ca"
-    ],
-    "category": "\u6280\u8853\u66f8"
+    "keywords": ["ITインフラ", "ネットワーク", "サーバー", "クラウド", "仮想化", "コンテナ"],
+    "category": "技術書"
   }
 }

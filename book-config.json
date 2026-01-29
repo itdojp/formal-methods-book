@@ -1,11 +1,11 @@
 {
-  "title": "\u5f62\u5f0f\u7684\u624b\u6cd5\u306e\u57fa\u790e\u3068\u5fdc\u7528",
-  "subtitle": "\u4ed5\u69d8\u8a18\u8ff0\u3001\u6a21\u578b\u691c\u67fb\u3001\u5b9a\u7406\u8a3c\u660e\u306e\u7d71\u5408\u7684\u7406\u89e3",
-  "description": "\u30bd\u30d5\u30c8\u30a6\u30a7\u30a2\u306e\u6570\u5b66\u7684\u8a2d\u8a08\u5165\u9580 - \u5f62\u5f0f\u7684\u624b\u6cd5\u3067\u5b66\u3076\u78ba\u5b9f\u306a\u30b7\u30b9\u30c6\u30e0\u958b\u767a\u306e\u7406\u8ad6\u304b\u3089\u5b9f\u8df5\u307e\u3067",
-  "author": "\u592a\u7530\u548c\u5f66\uff08\u682a\u5f0f\u4f1a\u793e\u30a2\u30a4\u30c6\u30a3\u30fc\u30c9\u30a5\uff09",
+  "title": "形式的手法の基礎と応用",
+  "subtitle": "仕様記述、模型検査、定理証明の統合的理解",
+  "description": "ソフトウェアの数学的設計入門 - 形式的手法で学ぶ確実なシステム開発の理論から実践まで",
+  "author": "太田和彦（株式会社アイティードゥ）",
   "version": "1.0.0",
   "language": "ja",
-  "license": "CC BY-NC-SA 4.0",
+  "license": "CC-BY-NC-SA-4.0",
   "repository": {
     "url": "https://github.com/itdojp/formal-methods-book.git",
     "branch": "main"
@@ -14,100 +14,95 @@
     "chapters": [
       {
         "id": "chapter01",
-        "title": "\u7b2c1\u7ae0\uff1a\u306a\u305c\u5f62\u5f0f\u7684\u624b\u6cd5\u304c\u5fc5\u8981\u306a\u306e\u304b",
-        "description": "\u30bd\u30d5\u30c8\u30a6\u30a7\u30a2\u306e\u8907\u96d1\u5316\u3068\u4fe1\u983c\u6027\u3078\u306e\u6311\u6226\u3001\u91cd\u5927\u4e8b\u6545\u304b\u3089\u5b66\u3076\u6559\u8a13"
+        "title": "第1章：なぜ形式的手法が必要なのか",
+        "description": "ソフトウェアの複雑化と信頼性への挑戦、重大事故から学ぶ教訓"
       },
       {
         "id": "chapter02",
-        "title": "\u7b2c2\u7ae0\uff1a\u6570\u5b66\u3068\u30d7\u30ed\u30b0\u30e9\u30e0\u306e\u6a4b\u6e21\u3057",
-        "description": "\u6570\u5b66\u7684\u601d\u8003\u3068\u30d7\u30ed\u30b0\u30e9\u30df\u30f3\u30b0\u306e\u95a2\u4fc2\u3001\u72b6\u614b\u3068\u5909\u5316\u306e\u6570\u5b66\u7684\u30e2\u30c7\u30eb\u5316"
+        "title": "第2章：数学とプログラムの橋渡し",
+        "description": "数学的思考とプログラミングの関係、状態と変化の数学的モデル化"
       },
       {
         "id": "chapter03",
-        "title": "\u7b2c3\u7ae0\uff1a\u4ed5\u69d8\u8a18\u8ff0\u306e\u57fa\u672c",
-        "description": "\u81ea\u7136\u8a00\u8a9e\u306e\u66d6\u6627\u6027\u3068\u6570\u5b66\u7684\u4ed5\u69d8\u8a18\u8ff0\u3001\u4e8b\u524d\u30fb\u4e8b\u5f8c\u6761\u4ef6\u3068\u4e0d\u5909\u6761\u4ef6"
+        "title": "第3章：仕様記述の基本",
+        "description": "自然言語の曖昧性と数学的仕様記述、事前・事後条件と不変条件"
       },
       {
         "id": "chapter04",
-        "title": "\u7b2c4\u7ae0\uff1a\u8efd\u91cf\u5f62\u5f0f\u7684\u624b\u6cd5\u5165\u9580 - Alloy\u3067\u59cb\u3081\u308b\u4ed5\u69d8\u8a18\u8ff0",
-        "description": "Alloy\u306e\u4e16\u754c\u89b3\u3001\u95a2\u4fc2\u4e2d\u5fc3\u306e\u30e2\u30c7\u30ea\u30f3\u30b0\u3068\u691c\u8a3c\u306e\u5b9f\u8df5"
+        "title": "第4章：軽量形式的手法入門 - Alloyで始める仕様記述",
+        "description": "Alloyの世界観、関係中心のモデリングと検証の実践"
       },
       {
         "id": "chapter05",
-        "title": "\u7b2c5\u7ae0\uff1a\u72b6\u614b\u30d9\u30fc\u30b9\u4ed5\u69d8\u8a18\u8ff0 - Z\u8a18\u6cd5\u306e\u57fa\u790e",
-        "description": "Z\u8a18\u6cd5\u306b\u3088\u308b\u72b6\u614b\u3068\u30b9\u30ad\u30fc\u30de\u3001\u6570\u5b66\u7684\u8a18\u6cd5\u306b\u3088\u308b\u53b3\u5bc6\u306a\u4ed5\u69d8\u5316"
+        "title": "第5章：状態ベース仕様記述 - Z記法の基礎",
+        "description": "Z記法による状態とスキーマ、数学的記法による厳密な仕様化"
       },
       {
         "id": "chapter06",
-        "title": "\u7b2c6\u7ae0\uff1a\u30d7\u30ed\u30bb\u30b9\u4e2d\u5fc3\u306e\u8a18\u8ff0 - CSP\u306b\u3088\u308b\u4e26\u884c\u30b7\u30b9\u30c6\u30e0",
-        "description": "\u4e26\u884c\u6027\u306e\u672c\u8cea\u3001\u30d7\u30ed\u30bb\u30b9\u9593\u30b3\u30df\u30e5\u30cb\u30b1\u30fc\u30b7\u30e7\u30f3\u3068\u30c7\u30c3\u30c9\u30ed\u30c3\u30af\u5206\u6790"
+        "title": "第6章：プロセス中心の記述 - CSPによる並行システム",
+        "description": "並行性の本質、プロセス間コミュニケーションとデッドロック分析"
       },
       {
         "id": "chapter07",
-        "title": "\u7b2c7\u7ae0\uff1a\u6642\u9593\u3092\u6271\u3046\u4ed5\u69d8\u8a18\u8ff0 - TLA+\u5165\u9580",
-        "description": "\u5206\u6563\u30b7\u30b9\u30c6\u30e0\u306e\u8907\u96d1\u3055\u3001\u6642\u76f8\u8ad6\u7406\u306b\u3088\u308b\u52d5\u7684\u6027\u8cea\u306e\u8868\u73fe"
+        "title": "第7章：時間を扱う仕様記述 - TLA+入門",
+        "description": "分散システムの複雑さ、時相論理による動的性質の表現"
       },
       {
         "id": "chapter08",
-        "title": "\u7b2c8\u7ae0\uff1a\u6a21\u578b\u691c\u67fb\u5165\u9580",
-        "description": "\u81ea\u52d5\u691c\u8a3c\u306e\u5a01\u529b\u3068\u9650\u754c\u3001\u72b6\u614b\u7a7a\u9593\u63a2\u7d22\u3068\u53cd\u4f8b\u306e\u6d3b\u7528"
+        "title": "第8章：模型検査入門",
+        "description": "自動検証の威力と限界、状態空間探索と反例の活用"
       },
       {
         "id": "chapter09",
-        "title": "\u7b2c9\u7ae0\uff1a\u5b9a\u7406\u8a3c\u660e\u306e\u57fa\u790e",
-        "description": "\u8a3c\u660e\u306e\u6a5f\u68b0\u5316\u3001\u578b\u7406\u8ad6\u3068Rocq\uff08\u65e7\u79f0Coq\uff09\u306b\u3088\u308b\u8a3c\u660e\u652f\u63f4\u7cfb\u306e\u5b9f\u8df5"
+        "title": "第9章：定理証明の基礎",
+        "description": "証明の機械化、型理論とCoqによる証明支援系の実践"
       },
       {
         "id": "chapter10",
-        "title": "\u7b2c10\u7ae0\uff1a\u30d7\u30ed\u30b0\u30e9\u30e0\u691c\u8a3c",
-        "description": "Hoare\u8ad6\u7406\u306b\u3088\u308b\u30d7\u30ed\u30b0\u30e9\u30e0\u306e\u6b63\u3057\u3055\u3001\u30eb\u30fc\u30d7\u4e0d\u5909\u6761\u4ef6\u3068\u914d\u5217\u64cd\u4f5c\u306e\u691c\u8a3c"
+        "title": "第10章：プログラム検証",
+        "description": "Hoare論理によるプログラムの正しさ、ループ不変条件と配列操作の検証"
       },
       {
         "id": "chapter11",
-        "title": "\u7b2c11\u7ae0\uff1a\u958b\u767a\u30d7\u30ed\u30bb\u30b9\u3068\u306e\u7d71\u5408",
-        "description": "\u73fe\u5b9f\u3068\u306e\u8abf\u548c\u3001\u6bb5\u968e\u7684\u5c0e\u5165\u6226\u7565\u3068\u7d44\u7e54\u6587\u5316\u306e\u5909\u9769"
+        "title": "第11章：開発プロセスとの統合",
+        "description": "現実との調和、段階的導入戦略と組織文化の変革"
       },
       {
         "id": "chapter12",
-        "title": "\u7b2c12\u7ae0\uff1a\u30c4\u30fc\u30eb\u3068\u81ea\u52d5\u5316",
-        "description": "\u30c4\u30fc\u30eb\u30a8\u30b3\u30b7\u30b9\u30c6\u30e0\u3001\u7d99\u7d9a\u7684\u30a4\u30f3\u30c6\u30b0\u30ec\u30fc\u30b7\u30e7\u30f3\u3068\u306e\u7d71\u5408"
+        "title": "第12章：ツールと自動化",
+        "description": "ツールエコシステム、継続的インテグレーションとの統合"
       },
       {
         "id": "chapter13",
-        "title": "\u7b2c13\u7ae0\uff1a\u4e8b\u4f8b\u7814\u7a76",
-        "description": "\u30d1\u30ea\u5730\u4e0b\u924414\u53f7\u7dda\u3001Amazon s2n\u3001\u30de\u30a4\u30af\u30ed\u30bd\u30d5\u30c8TLA+\u9069\u7528\u4e8b\u4f8b\u306e\u8a73\u7d30\u5206\u6790"
+        "title": "第13章：事例研究",
+        "description": "パリ地下鉄14号線、Amazon s2n、マイクロソフトTLA+適用事例の詳細分析"
       }
     ],
     "appendices": [
       {
         "id": "appendix-a",
-        "title": "\u4ed8\u9332A\uff1a\u6570\u5b66\u7684\u57fa\u790e\u306e\u5fa9\u7fd2",
-        "description": "\u96c6\u5408\u8ad6\u3001\u8ad6\u7406\u3001\u95a2\u6570\u3068\u3044\u3063\u305f\u6570\u5b66\u7684\u57fa\u790e\u306e\u7c21\u6f54\u306a\u5fa9\u7fd2\u8cc7\u6599"
+        "title": "付録A：数学的基礎の復習",
+        "description": "集合論、論理、関数といった数学的基礎の簡潔な復習資料"
       },
       {
         "id": "appendix-b",
-        "title": "\u4ed8\u9332B\uff1a\u30c4\u30fc\u30eb\u30a4\u30f3\u30b9\u30c8\u30fc\u30eb\u30ac\u30a4\u30c9",
-        "description": "Alloy Analyzer\u3001TLC\u3001Apalache\u3001Dafny\u306a\u3069\u6700\u5c0f\u30bb\u30c3\u30c8\u306e\u30c4\u30fc\u30eb\u306b\u3064\u3044\u3066\u3001\u518d\u73fe\u53ef\u80fd\u306a\u5b9f\u884c\u74b0\u5883\u69cb\u7bc9\u624b\u9806\u3068\u30c8\u30e9\u30d6\u30eb\u30b7\u30e5\u30fc\u30c6\u30a3\u30f3\u30b0\u3092\u307e\u3068\u3081\u308b\uff08SPIN\u3084Rocq\uff08\u65e7\u79f0Coq\uff09\u7b49\u306f\u4ed8\u9332E\u53c2\u7167\uff09"
+        "title": "付録B：ツールインストールガイド",
+        "description": "Alloy Analyzer、TLC、SPIN、Coq等のインストール手順とトラブルシューティング"
       },
       {
         "id": "appendix-c",
-        "title": "\u4ed8\u9332C\uff1a\u8a18\u6cd5\u5bfe\u7167\u8868",
-        "description": "Z\u8a18\u6cd5\u3001Alloy\u3001TLA+\u7b49\u306e\u8a18\u53f7\u3084\u69cb\u6587\u306e\u4e00\u89a7\u8868"
+        "title": "付録C：記法対照表",
+        "description": "Z記法、Alloy、TLA+等の記号や構文の一覧表"
       },
       {
         "id": "appendix-d",
-        "title": "\u4ed8\u9332D\uff1a\u6f14\u7fd2\u554f\u984c\u89e3\u7b54",
-        "description": "\u3059\u3079\u3066\u306e\u6f14\u7fd2\u554f\u984c\u306e\u8a73\u7d30\u306a\u89e3\u7b54\u4f8b\u3068\u89e3\u8aac"
+        "title": "付録D：演習問題解答",
+        "description": "すべての演習問題の詳細な解答例と解説"
       },
       {
         "id": "appendix-e",
-        "title": "\u4ed8\u9332E\uff1a\u53c2\u8003\u6587\u732e\u3068Web\u30ea\u30bd\u30fc\u30b9",
-        "description": "\u30ec\u30d9\u30eb\u5225\u63a8\u85a6\u56f3\u66f8\u30ea\u30b9\u30c8\u3068\u6700\u65b0\u60c5\u5831\u3078\u306e\u30ea\u30f3\u30af"
-      },
-      {
-        "id": "appendix-f",
-        "title": "\u4ed8\u9332F\uff1aAI\u652f\u63f4\u306e\u5b9f\u8df5\u30ac\u30a4\u30c9",
-        "description": "AI\u652f\u63f4\u3067\u4ed5\u69d8\u4f5c\u6210\u30fb\u691c\u8a3c\u3092\u56de\u3059\u305f\u3081\u306e\u5b9f\u8df5\u30c6\u30f3\u30d7\u30ec\u30fc\u30c8"
+        "title": "付録E：参考文献とWebリソース",
+        "description": "レベル別推薦図書リストと最新情報へのリンク"
       }
     ]
   },
