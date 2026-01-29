@@ -1,7 +1,7 @@
 {
   "name": "formal-methods-book",
   "version": "1.0.0",
-  "description": "仕様記述・模型検査・定理証明を統合的に学ぶ技術書",
+  "description": "\u4ed5\u69d8\u8a18\u8ff0\u30fb\u6a21\u578b\u691c\u67fb\u30fb\u5b9a\u7406\u8a3c\u660e\u3092\u7d71\u5408\u7684\u306b\u5b66\u3076\u6280\u8853\u66f8",
   "main": "index.md",
   "scripts": {
     "start": "npm run build && npx http-server docs -p 4321 -c-1",
@@ -16,8 +16,8 @@
     "documentation",
     "ja"
   ],
-  "author": "太田和彦（株式会社アイティードゥ）",
-  "license": "MIT",
+  "author": "\u592a\u7530\u548c\u5f66\uff08\u682a\u5f0f\u4f1a\u793e\u30a2\u30a4\u30c6\u30a3\u30fc\u30c9\u30a5\uff09",
+  "license": "CC-BY-NC-SA-4.0",
   "devDependencies": {
     "markdownlint-cli": "^0.37.0",
     "markdown-link-check": "^3.11.2",
