@@ -17,8 +17,8 @@
     <link rel="stylesheet" href="{{ '/assets/css/syntax-highlighting.css' | relative_url }}">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ '/assets/favicon.ico' | relative_url }}">
-    <link rel="apple-touch-icon" href="{{ '/assets/apple-touch-icon.png' | relative_url }}">
+    <link rel="icon" type="image/png" sizes="48x48" href="{{ '/assets/images/itdo_logo_48x48_blue.png' | relative_url }}">
+    <link rel="apple-touch-icon" sizes="48x48" href="{{ '/assets/images/itdo_logo_48x48_blue.png' | relative_url }}">
     
     <!-- Open Graph -->
     <meta property="og:title" content="{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}">
@@ -174,10 +174,25 @@
     <script defer src="{{ '/assets/js/theme.js' | relative_url }}"></script>
     <script defer src="{{ '/assets/js/search.js' | relative_url }}"></script>
     <script>
-        // Reset sidebar checkbox on page load to prevent stuck open state
+        // Reset sidebar checkbox and ensure keyboard toggle works for label
         document.addEventListener('DOMContentLoaded', function() {
             var cb = document.getElementById('sidebar-toggle-checkbox');
+            var toggle = document.querySelector('.sidebar-toggle');
             if (cb) cb.checked = false;
+            if (cb && toggle) {
+                var sync = function() {
+                    toggle.setAttribute('aria-expanded', cb.checked ? 'true' : 'false');
+                };
+                sync();
+                cb.addEventListener('change', sync);
+                toggle.addEventListener('keydown', function(e) {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        cb.checked = !cb.checked;
+                        cb.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                });
+            }
         });
     </script>
 </body>
