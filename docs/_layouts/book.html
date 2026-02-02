@@ -18,8 +18,7 @@
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="48x48" href="{{ '/assets/images/itdo_logo_48x48_blue.png' | relative_url }}">
-    <link rel="shortcut icon" type="image/png" href="{{ '/assets/images/itdo_logo_48x48_blue.png' | relative_url }}">
-    <link rel="apple-touch-icon" href="{{ '/assets/images/itdo_logo_48x48_blue.png' | relative_url }}">
+    <link rel="apple-touch-icon" sizes="48x48" href="{{ '/assets/images/itdo_logo_48x48_blue.png' | relative_url }}">
     
     <!-- Open Graph -->
     <meta property="og:title" content="{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}">
@@ -32,28 +31,40 @@
     <meta name="twitter:title" content="{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}">
     <meta name="twitter:description" content="{{ page.description | default: site.description | escape }}">
     
-    <!-- Theme Detection Script -->
+    <!-- Theme detection before paint (used by shared/assets/js/theme.js) -->
     <script>
-        // Detect system theme preference and apply immediately to prevent flash
         (function() {
-            const theme = localStorage.getItem('theme') || 
-                         (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-            document.documentElement.setAttribute('data-theme', theme);
+            try {
+                const k = 'book-theme';
+                const t = localStorage.getItem(k) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (_) {}
         })();
     </script>
 </head>
 <body>
+    {% assign repo_url = site.github.repository_url | default: site.repository_url | default: site.repository.github | default: site.repository %}
+    {% if repo_url and repo_url != '' %}
+        {% unless repo_url contains 'http' %}
+            {% assign repo_url = 'https://github.com/' | append: repo_url %}
+        {% endunless %}
+    {% endif %}
+    {% assign repo_branch = site.repository_branch | default: 'main' %}
+
+    <!-- CSS-only sidebar toggle (hidden checkbox for state management) -->
+    <input type="checkbox" id="sidebar-toggle-checkbox" class="sidebar-toggle-checkbox" aria-hidden="true">
+    
     <div class="book-layout">
         <!-- Header -->
         <header class="book-header">
             <div class="header-left">
-                <button class="sidebar-toggle" aria-label="Toggle sidebar" aria-expanded="false">
+                <label for="sidebar-toggle-checkbox" class="sidebar-toggle" aria-label="Toggle sidebar" role="button" tabindex="0">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <line x1="3" y1="6" x2="21" y2="6"></line>
                         <line x1="3" y1="12" x2="21" y2="12"></line>
                         <line x1="3" y1="18" x2="21" y2="18"></line>
                     </svg>
-                </button>
+                </label>
                 <a href="{{ '/' | relative_url }}" class="header-title">
                     <h1>{{ site.title | escape }}</h1>
                 </a>
@@ -113,6 +124,7 @@
         <!-- Main Content -->
         <main class="book-main" id="main">
             <div class="book-content">
+
                 <!-- Page Content -->
                 <article class="page-content">
                     {{ content }}
@@ -140,12 +152,29 @@
                     </a>
                 </div>
                 {% endif %}
+
+                <!-- Footer -->
+                <footer class="book-footer" role="contentinfo">
+                    <div class="book-footer-inner">
+                        <div class="book-footer-license">
+                            {{ site.license_text | default: "Content licensed under CC BY-NC-SA 4.0 (commercial use requires a separate agreement)." }}
+                        </div>
+                        <div class="book-footer-links">
+                            {% if repo_url %}
+                                <a href="{{ repo_url }}" target="_blank" rel="noopener">GitHub</a>
+                            {% endif %}
+                            {% if site.contact.email %}
+                                <a href="mailto:{{ site.contact.email | escape }}">Contact</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </footer>
             </div>
         </main>
     </div>
 
-    <!-- Overlay for mobile sidebar -->
-    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    <!-- Overlay for mobile sidebar (CSS-only close trigger) -->
+    <label for="sidebar-toggle-checkbox" class="book-sidebar-overlay" id="sidebar-overlay" aria-label="Close sidebar"></label>
 
     <!-- Scripts -->
     <script src="{{ '/assets/js/theme.js' | relative_url }}"></script>
