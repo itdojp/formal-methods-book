@@ -1,7 +1,7 @@
-<!-- Canonical Page Navigation (Previous/Next) for book-formatter v3 -->
+<!-- Canonical Page Navigation (Previous/Next) -->
 {% comment %}
 Order resolution strategy (first match wins):
-1) site.data.navigation (keys: introduction, chapters, additional, appendices, afterword)
+1) site.data.navigation (keys: introduction, chapters, additional, resources, appendices, afterword)
 2) site.pages where layout: book and order exists, sorted by order
 3) Fallback by URL groups sorted by url: /introduction/, /chapters/, /additional/ or /resources/, /appendices/, /afterword/
 {% endcomment %}
@@ -11,18 +11,15 @@ Order resolution strategy (first match wins):
 
 {%- comment -%}
 Detect if current page is the top page (root). For project Pages, the
-root is "/<repo>/"; we normalize by stripping site.baseurl. If root,
-we suppress rendering of bottom navigation to unify top-page behavior.
+root is "/<repo>/"; we normalize by stripping site.baseurl. Depending on
+the environment, page.url can be exactly site.baseurl (without trailing
+slash), which becomes an empty string after normalization. If root, we
+suppress rendering of bottom navigation to unify top-page behavior.
 {%- endcomment -%}
 {%- assign _baseurl = site.baseurl | default: '' -%}
-{%- assign _baseurl_len = _baseurl | size -%}
 {%- assign _page_url_n = page.url -%}
-{%- if _baseurl_len > 0 -%}
-  {%- assign _page_url_len = _page_url_n | size -%}
-  {%- assign _page_url_prefix = _page_url_n | slice: 0, _baseurl_len -%}
-  {%- if _page_url_prefix == _baseurl -%}
-    {%- assign _page_url_n = _page_url_n | slice: _baseurl_len, _page_url_len -%}
-  {%- endif -%}
+{%- if _baseurl and _baseurl != '' -%}
+  {%- assign _page_url_n = _page_url_n | replace: _baseurl, '' -%}
 {%- endif -%}
 {%- assign _is_root = false -%}
 {%- if _page_url_n == '/' or _page_url_n == '' -%}
@@ -142,19 +139,18 @@ display ToC titles even when order falls back to site.pages.
       {%- endif -%}
       {%- assign prev_page = site.pages | where: "url", prev_url_n | first -%}
       <a href="{{ prev_url | relative_url }}" class="nav-prev" rel="prev">
-        <span class="arrow">←</span>
+        <span class="arrow" aria-hidden="true">←</span>
         <span class="label">前へ</span>
         <span class="title">{{ prev_page.title | default: prev_data.title | default: prev_data.label | default: previous_item.title | default: previous_item.name | default: "前のページ" }}</span>
       </a>
     {% else %}
       <span class="nav-disabled nav-prev">
-        <span class="arrow">←</span>
+        <span class="arrow" aria-hidden="true">←</span>
         <span class="label">前へ</span>
       </span>
     {% endif %}
 
     <a href="{{ '/' | relative_url }}" class="nav-home">
-      <span class="icon">📚</span>
       <span class="label">目次へ</span>
     </a>
 
@@ -176,12 +172,12 @@ display ToC titles even when order falls back to site.pages.
       <a href="{{ next_url | relative_url }}" class="nav-next" rel="next">
         <span class="label">次へ</span>
         <span class="title">{{ next_page.title | default: next_data.title | default: next_data.label | default: next_item.title | default: next_item.name | default: "次のページ" }}</span>
-        <span class="arrow">→</span>
+        <span class="arrow" aria-hidden="true">→</span>
       </a>
     {% else %}
       <span class="nav-disabled nav-next">
         <span class="label">次へ</span>
-        <span class="arrow">→</span>
+        <span class="arrow" aria-hidden="true">→</span>
       </span>
     {% endif %}
   </div>
@@ -189,14 +185,15 @@ display ToC titles even when order falls back to site.pages.
 {% endunless %}
 
 <style>
-.book-navigation { margin: 2rem 0; padding: 1rem; border-top: 1px solid var(--color-border, #e5e7eb); }
+.book-navigation { margin: 2rem 0; padding: 1rem; border-top: 1px solid var(--border-color, #e5e7eb); }
 .chapter-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
-.nav-prev, .nav-next, .nav-home { display: flex; align-items: center; padding: 0.75rem 1.25rem; background: var(--color-surface, #fff); border: 1px solid var(--color-border, #e5e7eb); border-radius: 6px; text-decoration: none; color: inherit; }
-.nav-disabled { opacity: .5; cursor: not-allowed; background: var(--color-muted, #f9fafb); }
+.nav-prev, .nav-next, .nav-home { display: flex; align-items: center; padding: 0.75rem 1.25rem; background: var(--bg-primary, #fff); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; text-decoration: none; color: inherit; }
+.nav-disabled { opacity: .5; cursor: not-allowed; background: var(--bg-tertiary, #f9fafb); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; padding: 0.75rem 1.25rem; display: flex; align-items: center; }
 .nav-prev { flex: 1; }
 .nav-next { flex: 1; justify-content: flex-end; text-align: right; }
-.nav-home { flex: 0 0 auto; }
+.nav-home { flex: 0 0 auto; justify-content: center; }
 .label { font-weight: 600; margin: 0 .25rem; }
 .title { font-size: .9rem; opacity: .8; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-@media (max-width: 768px) { .chapter-nav { flex-wrap: wrap; } .nav-prev, .nav-next { flex: 1 1 45%; } .nav-home { flex: 1 1 100%; order: -1; justify-content: center; } .title { display: none; } }
+@media (max-width: 768px) { .chapter-nav { flex-wrap: wrap; } .nav-prev, .nav-next { flex: 1 1 45%; } .nav-home { flex: 1 1 100%; order: -1; } .title { display: none; } }
 </style>
+

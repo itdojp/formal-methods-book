@@ -112,5 +112,22 @@
     "enableNavigation": true,
     "enableSyntaxHighlighting": true,
     "enableMobileOptimization": true
+  },
+  "ux": {
+    "profile": "C",
+    "modules": {
+      "quickStart": false,
+      "readingGuide": true,
+      "checklistPack": false,
+      "troubleshootingFlow": false,
+      "conceptMap": true,
+      "figureIndex": true,
+      "legalNotice": false,
+      "glossary": true
+    }
+  },
+  "shared": {
+    "version": "3.2.0",
+    "lastSync": "2026-02-02T09:13:01.581Z"
   }
 }
