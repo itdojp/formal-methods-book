@@ -32,6 +32,10 @@ code {
 }
 
 .highlight pre {
+    padding-left: 1rem;
+}
+
+.highlight:has(.lineno) pre {
     padding-left: 3.5rem;
 }
 
@@ -196,7 +200,11 @@ pre[data-lang]::before {
     opacity: 0;
 }
 
-.code-block-wrapper:hover .copy-button {
+.code-block-wrapper:hover .copy-button,
+.code-block-wrapper:focus-within .copy-button,
+pre:hover .copy-button,
+pre:focus-within .copy-button,
+.copy-button:focus-visible {
     opacity: 1;
 }
 
