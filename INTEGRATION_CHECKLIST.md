@@ -78,12 +78,12 @@ Your book description here.
 
 ## Quick Start
 
-Follow the [setup guide](setup-guide.md) to begin writing.
+Follow the [README](README.md) to begin writing.
 ```
 
 ## 📚 Documentation References
 
-- [Setup Guide](setup-guide.md) - Complete installation and configuration
-- [Template Structure](template-structure.md) - Project organization  
-- [Troubleshooting Guide](TROUBLESHOOTING.md) - Common deployment issues
+- [README](README.md) - Project overview and build instructions
+- [Template Guide](book-template-guide.md) - Complete template guide (features, structure, workflows, and checklists)
+- [Handover](HANDOVER.md) - Operational notes and troubleshooting
 - [Changelog](CHANGELOG.md) - Template updates and integration tracking

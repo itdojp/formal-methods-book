@@ -99,8 +99,8 @@ gh pr create
 ## 📚 必読ドキュメント
 
 1. **[HANDOVER.md](HANDOVER.md)** - 完全な引き継ぎ情報
-2. **[TECHNICAL-CONTEXT.md](TECHNICAL-CONTEXT.md)** - 技術詳細
-3. **[QUICK-START.md](QUICK-START.md)** - ユーザー向けガイド
+2. **[README.md](README.md)** - プロジェクト概要・ビルド手順
+3. **[CLAUDE.md](CLAUDE.md)** - 開発フロー・主要コマンド
 4. **[MIGRATION-PLAN.md](MIGRATION-PLAN.md)** - 移行戦略
 5. **[COMPARISON.md](COMPARISON.md)** - 既存版との比較
 
