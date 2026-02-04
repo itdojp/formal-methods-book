@@ -1,6 +1,6 @@
 # 📋 引き継ぎサマリー - 他のClaude Code向け
 
-> 簡潔な引き継ぎ情報 - 詳細は HANDOVER.md と TECHNICAL-CONTEXT.md を参照
+> 簡潔な引き継ぎ情報 - 詳細は [HANDOVER.md](HANDOVER.md) / [README.md](README.md) / [CLAUDE.md](CLAUDE.md) を参照
 
 ## 🎯 プロジェクト状況（2024/06/29完了）
 
