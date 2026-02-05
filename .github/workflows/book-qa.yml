@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      pages: read
 
     steps:
       - name: Checkout book
@@ -53,6 +54,9 @@ jobs:
         run: node book-formatter/scripts/check-links.js "${{ steps.scan.outputs.dir }}"
 
 
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
       - name: Build (Jekyll; GitHub Pages compatible)
         uses: actions/jekyll-build-pages@v1
         with:
@@ -94,18 +98,33 @@ jobs:
             nav = scan_dir / "_data" / "navigation.yml"
             if not nav.exists():
               return []
-            data = yaml.safe_load(nav.read_text(encoding="utf-8")) or {}
+            try:
+              raw = nav.read_text(encoding="utf-8")
+              data = yaml.safe_load(raw) or {}
+            except yaml.YAMLError as e:
+              nav_display = nav
+              try:
+                nav_display = nav.relative_to(Path.cwd())
+              except ValueError:
+                pass
+              print(f"::error file={nav_display}::Failed to parse navigation YAML: {e}")
+              sys.exit(1)
             paths = []
+            # Keep this segment list broad to support different book structures.
             for key in ["introduction", "chapters", "additional", "resources", "appendices", "afterword"]:
               for item in (data.get(key) or []):
-                if isinstance(item, dict) and isinstance(item.get("items"), list):
-                  for sub in (item.get("items") or []):
-                    if not isinstance(sub, dict):
-                      continue
-                    p = normalize_path(sub.get("path"))
-                    if p:
-                      paths.append(p)
-                  continue
+                if isinstance(item, dict):
+                  nested = item.get("items")
+                  if not isinstance(nested, list):
+                    nested = item.get("children")
+                  if isinstance(nested, list):
+                    for sub in (nested or []):
+                      if not isinstance(sub, dict):
+                        continue
+                      p = normalize_path(sub.get("path"))
+                      if p:
+                        paths.append(p)
+                    continue
                 if not isinstance(item, dict):
                   continue
                 p = normalize_path(item.get("path"))
@@ -151,6 +170,7 @@ jobs:
             if lower.endswith((".html", ".htm", ".pdf", ".txt")):
               return [site_dir / rel]
             if lower.endswith(".md"):
+              # Jekyll usually converts Markdown to HTML, but Markdown without front matter may be copied as-is.
               html_rel = rel[:-3] + ".html"
               return [site_dir / rel, site_dir / html_rel]
             # Directory-like (pretty permalink)
@@ -173,7 +193,15 @@ jobs:
             "assets/js/search.js",
             "assets/js/code-copy-lightweight.js",
           ]
-          missing_assets = [a for a in required_assets if not (site_dir / a).exists()]
+          missing_assets = [
+            a
+            for a in required_assets
+            if not (
+              (site_dir / a).exists()
+              and (site_dir / a).is_file()
+              and (site_dir / a).stat().st_size > 0
+            )
+          ]
 
           if missing or missing_assets:
             if missing:
