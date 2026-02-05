@@ -1,0 +1,50 @@
+name: Book QA (Unicode + Links)
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout book
+        uses: actions/checkout@v4
+
+      - name: Checkout book-formatter (pinned)
+        uses: actions/checkout@v4
+        with:
+          repository: itdojp/book-formatter
+          ref: e0fb33d224f368d7ce1830401e88e7e29053fb8e
+          path: book-formatter
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: book-formatter/package-lock.json
+
+      - name: Install dependencies (book-formatter)
+        working-directory: book-formatter
+        run: npm ci
+
+      - name: Determine scan directory
+        id: scan
+        shell: bash
+        run: |
+          if [ -d docs ]; then
+            echo "dir=docs" >> "$GITHUB_OUTPUT"
+          else
+            echo "dir=." >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Unicode check (fail on warnings)
+        run: node book-formatter/scripts/check-unicode.js "${{ steps.scan.outputs.dir }}" --fail-on warn
+
+      - name: Link check (internal + anchors)
+        run: node book-formatter/scripts/check-links.js "${{ steps.scan.outputs.dir }}"
