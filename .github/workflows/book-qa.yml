@@ -51,3 +51,140 @@ jobs:
 
       - name: Link check (internal + anchors)
         run: node book-formatter/scripts/check-links.js "${{ steps.scan.outputs.dir }}"
+
+
+      - name: Build (Jekyll; GitHub Pages compatible)
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./${{ steps.scan.outputs.dir }}
+          destination: ./_site
+
+      - name: Smoke check built site (top + navigation + assets)
+        shell: bash
+        run: |
+          python3 -m pip install --user pyyaml
+          python3 - << 'PY'
+          import sys
+          from pathlib import Path
+          import yaml
+
+          scan_dir = Path("${{ steps.scan.outputs.dir }}").resolve()
+          site_dir = Path("_site").resolve()
+
+          if not site_dir.exists():
+            print(f"::error::Built site directory not found: {site_dir}")
+            sys.exit(1)
+
+          def normalize_path(p):
+            if not isinstance(p, str):
+              return None
+            p = p.strip()
+            if not p:
+              return None
+            if p.startswith(("http://", "https://", "mailto:")):
+              return None
+            if not p.startswith("/"):
+              p = "/" + p
+            lower = p.lower()
+            if lower.endswith((".md", ".html", ".htm", ".pdf", ".txt")):
+              return p
+            return p if p.endswith("/") else p + "/"
+
+          def read_nav_paths():
+            nav = scan_dir / "_data" / "navigation.yml"
+            if not nav.exists():
+              return []
+            data = yaml.safe_load(nav.read_text(encoding="utf-8")) or {}
+            paths = []
+            for key in ["introduction", "chapters", "additional", "resources", "appendices", "afterword"]:
+              for item in (data.get(key) or []):
+                if isinstance(item, dict) and isinstance(item.get("items"), list):
+                  for sub in (item.get("items") or []):
+                    if not isinstance(sub, dict):
+                      continue
+                    p = normalize_path(sub.get("path"))
+                    if p:
+                      paths.append(p)
+                  continue
+                if not isinstance(item, dict):
+                  continue
+                p = normalize_path(item.get("path"))
+                if p:
+                  paths.append(p)
+            return paths
+
+          def discover_paths():
+            paths = []
+            for seg in ["introduction", "chapters", "additional", "resources", "appendices", "afterword"]:
+              d = scan_dir / seg
+              if d.is_dir():
+                for child in sorted(d.iterdir()):
+                  if child.is_dir():
+                    paths.append(f"/{seg}/{child.name}/")
+            return paths
+
+          paths = read_nav_paths() or discover_paths() or ["/"]
+          if "/" not in paths:
+            paths.insert(0, "/")
+
+          # De-dup while keeping order
+          seen = set()
+          uniq = []
+          for p in paths:
+            if p in seen:
+              continue
+            seen.add(p)
+            uniq.append(p)
+          paths = uniq
+
+          def exists_any(candidates):
+            for c in candidates:
+              if c.exists() and c.is_file() and c.stat().st_size > 0:
+                return True
+            return False
+
+          def candidates_for(path_str):
+            if path_str == "/":
+              return [site_dir / "index.html"]
+            rel = path_str.lstrip("/")
+            lower = path_str.lower()
+            if lower.endswith((".html", ".htm", ".pdf", ".txt")):
+              return [site_dir / rel]
+            if lower.endswith(".md"):
+              html_rel = rel[:-3] + ".html"
+              return [site_dir / rel, site_dir / html_rel]
+            # Directory-like (pretty permalink)
+            rel_dir = rel
+            if not rel_dir.endswith("/"):
+              rel_dir += "/"
+            # Both `/<dir>/index.html` and `/<dir>.html` are accepted.
+            return [site_dir / rel_dir / "index.html", site_dir / (rel_dir[:-1] + ".html")]
+
+          missing = []
+          for p in paths:
+            if not exists_any(candidates_for(p)):
+              missing.append(p)
+
+          # Ensure core assets exist in the built output.
+          required_assets = [
+            "assets/css/main.css",
+            "assets/css/syntax-highlighting.css",
+            "assets/js/theme.js",
+            "assets/js/search.js",
+            "assets/js/code-copy-lightweight.js",
+          ]
+          missing_assets = [a for a in required_assets if not (site_dir / a).exists()]
+
+          if missing or missing_assets:
+            if missing:
+              print("::error::Missing pages in built site:")
+              for p in missing:
+                print(f"  - {p}")
+            if missing_assets:
+              print("::error::Missing assets in built site:")
+              for a in missing_assets:
+                print(f"  - {a}")
+            sys.exit(1)
+
+          print(f"OK: built site smoke check passed ({len(paths)} paths, {len(required_assets)} assets)")
+          PY
