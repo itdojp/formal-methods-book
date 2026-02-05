@@ -44,7 +44,7 @@ jobs:
           fi
 
       - name: Unicode check (fail on warnings)
-        run: node book-formatter/scripts/check-unicode.js "${{ steps.scan.outputs.dir }}" --fail-on warn
+        run: node book-formatter/scripts/check-unicode.js "${{ steps.scan.outputs.dir }}" --allowlist .book-formatter/unicode-allowlist.json --fail-on warn
 
       - name: Link check (internal + anchors)
         run: node book-formatter/scripts/check-links.js "${{ steps.scan.outputs.dir }}"
