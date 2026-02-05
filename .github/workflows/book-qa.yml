@@ -46,8 +46,8 @@ jobs:
       - name: Unicode check (fail on warnings)
         run: node book-formatter/scripts/check-unicode.js "${{ steps.scan.outputs.dir }}" --allowlist .book-formatter/unicode-allowlist.json --fail-on warn
 
-      - name: Textlint (PRH dictionary; non-blocking by default)
-        run: node book-formatter/scripts/check-textlint.js "${{ steps.scan.outputs.dir }}" --fail-on none
+      - name: Textlint (PRH dictionary; fail on errors)
+        run: node book-formatter/scripts/check-textlint.js "${{ steps.scan.outputs.dir }}" --fail-on error
 
       - name: Link check (internal + anchors)
         run: node book-formatter/scripts/check-links.js "${{ steps.scan.outputs.dir }}"
