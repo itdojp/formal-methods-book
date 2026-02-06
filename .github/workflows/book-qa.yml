@@ -1,4 +1,4 @@
-name: Book QA (Unicode + Links + Textlint)
+name: Book QA (Unicode + Links + Textlint + Layout Risk)
 
 on:
   pull_request:
@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: itdojp/book-formatter
-          ref: b4719a526043ee27554bc59ca18e4fec1d709812
+          ref: a46df0a21ef5ab57442e8aac835dc44f06058fb2
           path: book-formatter
 
       - name: Setup Node.js
@@ -53,7 +53,16 @@ jobs:
       - name: Link check (internal + anchors)
         run: node book-formatter/scripts/check-links.js "${{ steps.scan.outputs.dir }}"
 
+      - name: Layout risk scan (long lines / tables / images)
+        run: node book-formatter/scripts/check-layout-risk.js "${{ steps.scan.outputs.dir }}" --fail-on error --output "${{ runner.temp }}/layout-risk-report.json"
 
+      - name: Upload layout risk report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: layout-risk-report
+          path: ${{ runner.temp }}/layout-risk-report.json
+          if-no-files-found: ignore
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
