@@ -1224,7 +1224,7 @@ docker exec nginx-2 cat /etc/nginx/nginx.conf
 # レイヤー数を最小化するDockerfile例
 
 # 悪い例（レイヤー数が多い）
-FROM ubuntu:20.04
+FROM ubuntu:24.04
 RUN apt-get update
 RUN apt-get install -y nginx
 RUN apt-get install -y curl
@@ -1232,7 +1232,7 @@ RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/*
 
 # 良い例（レイヤー数を最小化）
-FROM ubuntu:20.04
+FROM ubuntu:24.04
 RUN apt-get update && \
     apt-get install -y nginx curl && \
     apt-get clean && \
