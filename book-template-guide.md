@@ -39,7 +39,7 @@
 
 1. テンプレートをクローン。
 2. `node easy-setup.js` を実行。
-3. GitHub Pagesを有効化（Settings > Pages > main/docs）。
+3. GitHub Pagesを有効化（Settings > Pages > Source: GitHub Actions）。
 
 ### デプロイ方法
 
@@ -53,39 +53,59 @@ git commit -m "Update content"
 git push origin main
 ```
 
+```yaml
+name: Build and Deploy (GitHub Pages)
+
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: '20'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Build project
+      - name: Build
         run: npm run build
 
+      # 出力先は書籍の構成に合わせて調整（例: Jekyllなら docs/_site）
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./docs/_site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-          git add .
-          git commit -m "Deploy to GitHub Pages"
-          git push origin gh-pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 ```
 
 ## 4. テンプレート構造
