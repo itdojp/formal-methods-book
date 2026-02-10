@@ -1,0 +1,11 @@
+# Local tool outputs and caches
+.artifacts/
+_apalache-out/
+tools/.cache/
+tools/.tmp/
+
+# Common local dependencies
+node_modules/
+
+# OS/editor noise
+.DS_Store
