@@ -13,7 +13,7 @@
 
 ## セットアップとビルド
 
-- 依存（任意）: Node.js 18+
+- 依存（任意）: Node.js 20+
 - ビルド: `npm run build`
   - `src/appendices/*` を `docs/appendices/<id>/index.md` にコピーします。
   - 章（`docs/chapters/*`）は Jekyll フロントマターを含むため本ビルダーでは変更しません。
