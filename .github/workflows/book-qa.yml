@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: itdojp/book-formatter
-          ref: b7e85c4af4f4c5580b00fc103c2a6603acdb0798
+          ref: 2a0180954286b731cb0d91545aa77e9ee478570d
           path: book-formatter
 
       - name: Setup Node.js
@@ -55,6 +55,17 @@ jobs:
 
       - name: Layout risk scan (long lines / tables / images)
         run: node book-formatter/scripts/check-layout-risk.js "${{ steps.scan.outputs.dir }}" --fail-on error --output "${{ runner.temp }}/layout-risk-report.json"
+
+      - name: Markdown structure check (front matter / headings / fences)
+        run: node book-formatter/scripts/check-markdown-structure.js "${{ steps.scan.outputs.dir }}" --fail-on error --output "${{ runner.temp }}/markdown-structure-report.json"
+
+      - name: Upload markdown structure report
+        if: always()
+        uses: actions/upload-artifact
+        with:
+          name: markdown-structure-report
+          path: ${{ runner.temp }}/markdown-structure-report.json
+          if-no-files-found: ignore
 
       - name: Upload layout risk report
         if: always()
