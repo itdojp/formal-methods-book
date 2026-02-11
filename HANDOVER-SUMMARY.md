@@ -53,7 +53,7 @@ https://github.com/itdojp/book-publishing-template
 }
 
 // 開発環境
-Node.js 18+, GitHub CLI認証済み
+Node.js 20+, GitHub CLI認証済み
 権限: itdojp organization maintain
 ```
 

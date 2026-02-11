@@ -169,7 +169,7 @@ v2.0テンプレートの使用を強く推奨します
 ### 前提条件
 ```bash
 # 必要なツール
-- Node.js 18+
+- Node.js 20+
 - Git
 - GitHub CLI (gh)
 - 適切なGitHub権限（itdojp organizationのmaintain権限）
@@ -238,7 +238,7 @@ gh pr create --title "Add new feature" --body "Description"
 #### 1. セットアップエラー
 ```bash
 # 症状: easy-setup.js実行時のエラー
-# 解決: Node.js 18以上の確認、権限確認
+# 解決: Node.js 20以上の確認、権限確認
 
 # デバッグコマンド
 node --version
