@@ -249,7 +249,7 @@ array.some(x => x > 10)  // ∃x ∈ array. x > 10
 #### TLA+ Toolboxのインストール
 
 **全プラットフォーム共通**：
-1. TLA+公式サイト（lamport.azurewebsites.net/tla）からTLA+ Toolboxをダウンロード
+1. [TLA+公式サイト](https://lamport.azurewebsites.net/tla/tla.html) から TLA+ Toolbox をダウンロード
 2. プラットフォーム別のインストーラーを実行
 
 **追加設定**：
@@ -289,9 +289,8 @@ array.some(x => x > 10)  // ∃x ∈ array. x > 10
 **Linux/macOS**：
 1. ソースコードのダウンロード
    ```bash
-   wget http://spinroot.com/spin/Src/spin654.tar.gz
-   tar -xzf spin654.tar.gz
-   cd Spin/Src6.5.4
+   git clone https://github.com/nimble-code/Spin.git
+   cd Spin/Src
    ```
 
 2. ビルドとインストール
@@ -1143,19 +1142,19 @@ Invariant ≡ display ∈ ℝ ∧ memory ∈ ℝ ∧ operand ∈ ℝ ∧
 #### 公式サイト・ドキュメント
 
 **Alloy**：
-- 公式サイト：http://alloytools.org/
-- チュートリアル：http://alloytools.org/tutorials/
+- 公式サイト：https://alloytools.org/
+- チュートリアル：https://alloytools.org/quickguide/
 - コミュニティフォーラム：https://groups.google.com/g/alloytools
 
 **TLA+**：
-- 公式サイト：https://lamport.azurewebsites.net/tla/
+- 公式サイト：https://lamport.azurewebsites.net/tla/tla.html
 - Learn TLA+：https://learntla.com/
 - TLA+例題集：https://github.com/tlaplus/Examples
 
 **SPIN**：
-- 公式サイト：http://spinroot.com/
-- Promela言語リファレンス：http://spinroot.com/spin/Man/promela.html
-- SPINワークショップ：http://spinroot.com/spin/Workshops/
+- 公式サイト：https://spinroot.com/
+- Promela言語リファレンス：https://spinroot.com/spin/Man/promela.html
+- SPINワークショップ：https://spinroot.com/spin/Workshops/
 
 **Coq**：
 - 公式サイト：https://coq.inria.fr/
@@ -1170,19 +1169,19 @@ Invariant ≡ display ∈ ℝ ∧ memory ∈ ℝ ∧ operand ∈ ℝ ∧
 - "Formal Software Verification" (edX)
 
 **インタラクティブ学習**：
-- Logic and Proof：https://leanprover.github.io/logic_and_proof/
+- Logic and Proof：https://leanprover-community.github.io/logic_and_proof/
 - Natural Number Game：https://www.ma.imperial.ac.uk/~buzzard/xena/natural_number_game/
 
 #### 研究機関・プロジェクト
 
 **学術機関**：
 - Software Engineering Institute (CMU)：https://www.sei.cmu.edu/
-- Formal Methods Europe：http://www.fmeurope.org/
+- Formal Methods Europe：https://www.fmeurope.org/
 - 日本ソフトウェア科学会形式手法研究会：https://jssst-fm.org/
 
 **産業界の取り組み**：
 - AWS Formal Methods：https://aws.amazon.com/security/provable-security/
-- Microsoft Research：https://www.microsoft.com/en-us/research/group/programming-languages-and-tools/
+- Microsoft Research：https://www.microsoft.com/en-us/research/research-area/programming-languages-software-engineering/
 - Galois Inc.：https://galois.com/
 
 ### E.5 ツールとソフトウェア
@@ -1190,10 +1189,10 @@ Invariant ≡ display ∈ ℝ ∧ memory ∈ ℝ ∧ operand ∈ ℝ ∧
 #### 無料・オープンソースツール
 
 **仕様記述・検証**：
-- Alloy Analyzer：http://alloytools.org/download.html
+- Alloy Analyzer：https://alloytools.org/download.html
 - TLA+ Toolbox：https://github.com/tlaplus/tlaplus
-- SPIN：http://spinroot.com/spin/Src/
-- NuSMV：http://nusmv.fbk.eu/
+- SPIN：https://spinroot.com/spin/Src/
+- NuSMV：https://nusmv.fbk.eu/
 
 **定理証明器**：
 - Coq：https://coq.inria.fr/download
