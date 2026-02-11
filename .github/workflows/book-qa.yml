@@ -61,7 +61,7 @@ jobs:
 
       - name: Upload markdown structure report
         if: always()
-        uses: actions/upload-artifact
+        uses: actions/upload-artifact@v4
         with:
           name: markdown-structure-report
           path: ${{ runner.temp }}/markdown-structure-report.json
