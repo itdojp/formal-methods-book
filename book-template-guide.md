@@ -53,6 +53,7 @@ git commit -m "Update content"
 git push origin main
 ```
 
+```yaml
 on:
   push:
     branches:
@@ -67,9 +68,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '16'
+          node-version: '20'
 
       - name: Install dependencies
         run: npm install
