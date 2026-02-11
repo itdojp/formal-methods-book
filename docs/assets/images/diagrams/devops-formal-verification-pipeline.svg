@@ -90,7 +90,7 @@
     <text x="110" y="295" class="code-text">  verify:</text>
     <text x="110" y="310" class="code-text">    runs-on: ubuntu-latest</text>
     <text x="110" y="325" class="code-text">    steps:</text>
-    <text x="120" y="340" class="code-text">    - uses: actions/checkout@v3</text>
+    <text x="120" y="340" class="code-text">    - uses: actions/checkout@v4</text>
     <text x="120" y="355" class="code-text">    - name: Run Alloy Analysis</text>
     <text x="130" y="370" class="code-text">      run: java -jar alloy.jar model.als</text>
   </g>
