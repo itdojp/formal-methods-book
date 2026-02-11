@@ -290,7 +290,10 @@ array.some(x => x > 10)  // ∃x ∈ array. x > 10
 1. ソースコードのダウンロード
    ```bash
    git clone https://github.com/nimble-code/Spin.git
-   cd Spin/Src
+   cd Spin
+   # 再現性確保のため 6.5.1 タグで固定
+   git checkout v6.5.1
+   cd Src
    ```
 
 2. ビルドとインストール
@@ -1149,7 +1152,7 @@ Invariant ≡ display ∈ ℝ ∧ memory ∈ ℝ ∧ operand ∈ ℝ ∧
 **TLA+**：
 - 公式サイト：https://lamport.azurewebsites.net/tla/tla.html
 - Learn TLA+：https://learntla.com/
-- TLA+例題集：https://github.com/tlaplus/Examples
+- TLA+例題集：https://github.com/tlaplus/Examples/
 
 **SPIN**：
 - 公式サイト：https://spinroot.com/
