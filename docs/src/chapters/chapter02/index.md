@@ -29,7 +29,7 @@ Ethernetの成功は、CSMA/CD（Carrier Sense Multiple Access with Collision De
 ### 他のL2技術が消えた理由
 
 **Token Ring（IEEE 802.5）**
-```
+```text
 特徴：
 - 決定論的なアクセス（トークン巡回）
 - 最大遅延時間の保証
@@ -41,7 +41,7 @@ Ethernetの成功は、CSMA/CD（Carrier Sense Multiple Access with Collision De
 ```
 
 **FDDI（Fiber Distributed Data Interface）**
-```
+```text
 特徴：
 - 100Mbpsの高速通信
 - 二重リング構造による冗長性
@@ -57,7 +57,7 @@ Ethernetの成功は、CSMA/CD（Carrier Sense Multiple Access with Collision De
 Ethernetは時代の要求に応じて進化を続けた：
 
 **速度の向上**
-```
+```text
 10BASE-T (1990)    : 10 Mbps
 100BASE-TX (1995)  : 100 Mbps
 1000BASE-T (1999)  : 1 Gbps
@@ -133,7 +133,7 @@ class CAMTable:
 ```
 
 **メモリ制約と実装上の考慮点**
-```
+```text
 一般的なスイッチのCAMテーブルサイズ：
 - 小規模スイッチ: 8K エントリ
 - 中規模スイッチ: 32K エントリ  
@@ -193,7 +193,7 @@ class SecurePort:
 大規模なL2ネットワークでは、ブロードキャストトラフィックが問題となる。VLANはこの問題を解決する。
 
 **ブロードキャストの影響**
-```
+```text
 ネットワーク規模別のブロードキャスト負荷：
 - 100ノード: 約1%の帯域使用
 - 500ノード: 約5%の帯域使用
@@ -246,7 +246,7 @@ graph TB
 **設計パターンの分類**
 
 1. **機能別VLAN**
-```
+```text
 VLAN 10: 営業部門
 VLAN 20: 開発部門
 VLAN 30: 管理部門
@@ -262,7 +262,7 @@ VLAN 99: 管理用
 ```
 
 2. **サービス別VLAN**
-```
+```text
 VLAN 100: ユーザーデータ
 VLAN 200: VoIP
 VLAN 300: ビデオ会議
@@ -282,7 +282,7 @@ VLAN 400: ゲストアクセス
 標準的なVLANは12ビットのIDを使用し、最大4094個のVLANしか作成できない。
 
 **VLAN IDの制限**
-```
+```text
 総数: 4096個（0-4095）
 使用可能: 4094個（0と4095は予約）
 
@@ -295,7 +295,7 @@ VLAN 400: ゲストアクセス
 ```
 
 **VXLANによる拡張**
-```
+```text
 VXLANの特徴：
 - 24ビットのVNI（VXLAN Network Identifier）
 - 約1600万の論理ネットワーク
@@ -314,7 +314,7 @@ VXLANの特徴：
 L2ネットワークでループが発生すると、ブロードキャストストームにより瞬時にネットワークが停止する。
 
 **ブロードキャストストームの仕組み**
-```
+```text
 1. ブロードキャストフレーム送信
 2. スイッチAが全ポートに転送
 3. スイッチBも全ポートに転送
@@ -350,7 +350,7 @@ stateDiagram-v2
 ### 収束時間とネットワーク規模の関係
 
 **STPの収束時間**
-```
+```text
 標準STP（802.1D）:
 - 初期収束: 30〜50秒
 - トポロジ変更: 30〜50秒
@@ -369,7 +369,7 @@ RSTP（802.1w）:
 ### 代替技術の比較
 
 **TRILL（Transparent Interconnection of Lots of Links）**
-```
+```text
 特徴:
 - IS-ISルーティングプロトコル使用
 - 最短パス転送
@@ -381,7 +381,7 @@ RSTP（802.1w）:
 ```
 
 **SPB（Shortest Path Bridging）**
-```
+```text
 特徴:
 - IEEE 802.1aq標準
 - IS-ISベース
@@ -393,7 +393,7 @@ RSTP（802.1w）:
 ```
 
 **EVPN（Ethernet VPN）**
-```
+```text
 特徴:
 - BGPによる制御プレーン
 - VXLANと組み合わせて使用
@@ -439,7 +439,7 @@ class LinkAggregation:
 ### 負荷分散の偏り問題
 
 **偏りの原因**
-```
+```text
 1. 少数のフローが帯域を占有
    - 大容量ファイル転送
    - ビデオストリーミング
@@ -486,7 +486,7 @@ class LAGMonitor:
 LACP（Link Aggregation Control Protocol）は動的なリンクアグリゲーションを実現する。
 
 **LACP設定パラメータ**
-```
+```text
 主要パラメータ:
 - System Priority: 32768（デフォルト）
 - Port Priority: 32768（デフォルト）

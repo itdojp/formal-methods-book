@@ -14,7 +14,7 @@ Unixにおけるプロセス管理の歴史は、システムの複雑化とと�
 
 従来の init システムは、シンプルさを重視した設計であった：
 
-```
+```text
 System V init の特徴：
 1. シーケンシャルな起動プロセス
    - /etc/rc.d/rc0.d から rc6.d までの段階的実行
@@ -50,7 +50,7 @@ tail /var/log/httpd/error_log
 
 systemd は、現代システムの要求に応える包括的なソリューションを提供する：
 
-```
+```text
 systemd の特徴：
 
 1. 並列起動による高速化
@@ -97,7 +97,7 @@ WantedBy=multi-user.target
 
 systemd の依存関係管理は、複雑なシステムでの確実な起動順序を保証する：
 
-```
+```text
 依存関係の種類：
 
 Requires=：必須依存
@@ -142,7 +142,7 @@ Control Groups（cgroup）は、Linuxカーネルが提供するリソース制�
 
 **cgroup の階層構造**
 
-```
+```text
 cgroup v2 の階層例：
 /sys/fs/cgroup/
 ├── system.slice/          # システムサービス
@@ -271,7 +271,7 @@ systemd-journald は、従来のテキストベースログファイルから、
 
 **従来のログ管理の限界**
 
-```
+```text
 syslog の課題：
 1. 非構造化データ
    - テキスト解析による情報抽出の困難性
@@ -293,7 +293,7 @@ syslog の課題：
 
 journald は、これらの課題を根本的に解決する：
 
-```
+```text
 journald の特徴：
 
 1. 構造化ログエントリ
@@ -406,7 +406,7 @@ EOF
 
 **ログ量の実態**
 
-```
+```text
 典型的なログ生成量（中規模Webサイト）：
 - Webサーバー：100〜500MB/日
 - アプリケーション：50〜200MB/日  
@@ -534,7 +534,7 @@ Prometheus は、現代のメトリクス収集において de facto standard �
 
 **Prometheus の設計原理**
 
-```
+```text
 Prometheus の特徴：
 1. Pull モデル
    - 中央サーバーがメトリクスを能動的に収集
@@ -964,7 +964,7 @@ Infrastructure as Code（IaC）は、インフラストラクチャの構成を�
 
 **IaC の実装階層**
 
-```
+```text
 IaC 実装の階層構造：
 
 1. インフラストラクチャ層（Terraform/CloudFormation）

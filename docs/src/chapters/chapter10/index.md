@@ -12,7 +12,7 @@
 
 **従来のセグメンテーションの限界**
 
-```
+```text
 従来の3層セグメンテーション：
 DMZ（非武装地帯）：Webサーバー
 └─ ファイアウォール
@@ -30,7 +30,7 @@ DMZ（非武装地帯）：Webサーバー
 
 マイクロセグメンテーションは、各ワークロード間に個別のセキュリティ境界を設ける：
 
-```
+```text
 ワークロード単位でのセグメンテーション：
 ┌─────────────────┐   ┌─────────────────┐
 │ Web Server 1    │   │ Web Server 2    │
@@ -164,7 +164,7 @@ awk '$1 == "0" {print NR, $0}' < <(iptables -L -n -v --line-numbers)
 
 **ゼロトラストの基本原則**
 
-```
+```text
 従来モデル：
 信頼境界内＝安全、境界外＝危険
 
@@ -302,7 +302,7 @@ wrk -t12 -c400 -d30s --cert client.crt --key client.key https://api.internal.com
 
 **移行判断のフレームワーク**
 
-```
+```text
 ゼロトラスト移行の判断基準：
 
 技術的準備度：
@@ -331,7 +331,7 @@ wrk -t12 -c400 -d30s --cert client.crt --key client.key https://api.internal.com
 
 **ステートフル検査の動作原理**
 
-```
+```text
 ステートフル検査の処理フロー：
 
 1. パケット受信
@@ -582,7 +582,7 @@ Pluggable Authentication Modules（PAM）は、Unix系システムにおいて�
 
 **PAMの基本アーキテクチャ**
 
-```
+```text
 PAMの4つの管理グループ：
 
 1. auth（認証）：ユーザーの身元確認

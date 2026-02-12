@@ -101,7 +101,7 @@ echo "primary_conninfo = 'host=active-server port=5432 user=replication'" >> /va
 - 同期遅延の管理が必要
 
 **実装における考慮点**：
-```
+```text
 同期方式の選択：
 - 非同期レプリケーション：パフォーマンス優先、データロスの可能性
 - 同期レプリケーション：データ整合性優先、パフォーマンスへの影響
@@ -131,7 +131,7 @@ echo "primary_conninfo = 'host=active-server port=5432 user=replication'" >> /va
 複数のノードで同時に書き込みが発生する場合、一貫性の維持が最大の課題となる。
 
 **書き込み競合の例**：
-```
+```text
 ノードA: UPDATE users SET balance = balance - 100 WHERE id = 1;
 ノードB: UPDATE users SET balance = balance - 50 WHERE id = 1;
 
@@ -146,7 +146,7 @@ echo "primary_conninfo = 'host=active-server port=5432 user=replication'" >> /va
 
 データを論理的に分割し、各ノードが異なるパーティションを担当する。
 
-```
+```text
 ノードA: ユーザーID 1-1000000を担当
 ノードB: ユーザーID 1000001-2000000を担当
 
@@ -158,7 +158,7 @@ echo "primary_conninfo = 'host=active-server port=5432 user=replication'" >> /va
 
 動的にマスターノードを選出し、書き込みはマスター経由で行う。
 
-```
+```text
 実装例（Redis Sentinelによるマスター選出）：
 1. Sentinelがマスターを監視
 2. マスター障害を検知（過半数の合意）
@@ -170,7 +170,7 @@ echo "primary_conninfo = 'host=active-server port=5432 user=replication'" >> /va
 
 Raft、Paxosなどのアルゴリズムを使用して、分散環境での合意形成を行う。
 
-```
+```text
 Raftアルゴリズムの基本フロー：
 1. リーダー選出
 2. ログレプリケーション
@@ -183,7 +183,7 @@ Raftアルゴリズムの基本フロー：
 N+M構成は、N個のアクティブノードに対してM個の予備ノードを用意する構成である。
 
 **設計の考慮点**：
-```
+```text
 必要な予備ノード数の計算：
 - 単一障害を許容: M = 1
 - 同時2障害を許容: M = 2
@@ -205,7 +205,7 @@ N+M構成は、N個のアクティブノードに対してM個の予備ノード
 
 ハートビート間隔は、障害検知時間とネットワーク負荷のトレードオフである。
 
-```
+```text
 推奨設定値：
 - LAN環境：1〜5秒
 - WAN環境：5〜30秒
@@ -287,7 +287,7 @@ graph TB
 
 過半数の合意を必要とすることで、スプリットブレインを防ぐ。
 
-```
+```text
 3ノードクラスタの例：
 - 正常時：3ノードすべてが通信可能
 - ネットワーク分断：2ノード + 1ノードに分離
@@ -329,7 +329,7 @@ sg_persist --out --reserve --param-rk=0x123456 --prout-type=3 /dev/sdb
 #### セッション維持の戦略
 
 **1. セッション複製**
-```
+```text
 利点：透過的なフェイルオーバー
 欠点：パフォーマンスオーバーヘッド、複雑性
 
@@ -342,7 +342,7 @@ sg_persist --out --reserve --param-rk=0x123456 --prout-type=3 /dev/sdb
 ```
 
 **2. セッション永続化**
-```
+```text
 利点：スケーラビリティ、シンプル
 欠点：永続化ストレージへの依存、レイテンシ
 
@@ -356,7 +356,7 @@ session_store = RedisStore(
 ```
 
 **3. ステートレス設計**
-```
+```text
 利点：最高のスケーラビリティ、シンプル
 欠点：アプリケーション設計の制約
 
@@ -379,7 +379,7 @@ CAP定理は、分散システムにおいて一貫性（Consistency）、可用
 #### 一貫性モデルの分類
 
 **強一貫性（Linearizability）**
-```
+```text
 特徴：
 - すべての操作が瞬時に反映されたように見える
 - 最も直感的だが、最もコストが高い
@@ -391,7 +391,7 @@ CAP定理は、分散システムにおいて一貫性（Consistency）、可用
 ```
 
 **結果整合性（Eventual Consistency）**
-```
+```text
 特徴：
 - 最終的にすべてのノードが同じ状態に収束
 - 高い可用性とパフォーマンス
@@ -403,7 +403,7 @@ CAP定理は、分散システムにおいて一貫性（Consistency）、可用
 ```
 
 **因果一貫性（Causal Consistency）**
-```
+```text
 特徴：
 - 因果関係のある操作の順序を保証
 - 強一貫性と結果整合性の中間
@@ -560,7 +560,7 @@ class TwoPhaseCommit:
 
 2PCの問題を部分的に解決するが、より複雑になる。
 
-```
+```text
 フェーズ構成：
 1. CanCommit: 参加者の準備状態を確認
 2. PreCommit: 参加者にプリコミットを指示
@@ -617,7 +617,7 @@ graph LR
 
 #### 同期レプリケーション
 
-```
+```text
 特徴：
 - 書き込み完了前にすべてのレプリカへの反映を待つ
 - データロスがゼロ
@@ -635,7 +635,7 @@ synchronous_standby_names = 'standby1, standby2'
 
 #### 非同期レプリケーション
 
-```
+```text
 特徴：
 - 書き込み完了後、バックグラウンドでレプリカに反映
 - 高いパフォーマンス
