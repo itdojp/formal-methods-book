@@ -1,4 +1,4 @@
-name: Book QA (Unicode + Links + Textlint + Layout Risk)
+name: Book QA (Unicode + Links + Textlint + Layout Risk + Markdown + Jekyll)
 
 on:
   pull_request:
