@@ -1612,19 +1612,27 @@ reference-config-file: /etc/suricata/reference.config
 # 高精度検知ルールの例
 
 # SQL インジェクション検知（偽陽性を減らす）
-alert http $EXTERNAL_NET any -> $HTTP_SERVERS $HTTP_PORTS (msg:"SQL Injection Attack"; content:"union"; nocase; content:"select"; nocase; distance:0; within:20; pcre:"/union\s+.*select/i"; classtype:web-application-attack; sid:1000001; rev:1;)
+alert http $EXTERNAL_NET any -> $HTTP_SERVERS $HTTP_PORTS \
+(msg:"SQL Injection Attack"; content:"union"; nocase; content:"select"; nocase; \
+distance:0; within:20; pcre:"/union\s+.*select/i"; classtype:web-application-attack; sid:1000001; rev:1;)
 
 # 異常なファイルアップロード検知
-alert http $EXTERNAL_NET any -> $HTTP_SERVERS $HTTP_PORTS (msg:"Suspicious File Upload"; content:"Content-Type|3a| multipart/form-data"; http_header; content:".php"; http_client_body; pcre:"/\.(php|jsp|asp|py)\x22/i"; classtype:web-application-attack; sid:1000002; rev:1;)
+alert http $EXTERNAL_NET any -> $HTTP_SERVERS $HTTP_PORTS \
+(msg:"Suspicious File Upload"; content:"Content-Type|3a| multipart/form-data"; \
+http_header; content:".php"; http_client_body; pcre:"/\.(php|jsp|asp|py)\x22/i"; classtype:web-application-attack; sid:1000002; rev:1;)
 
 # ブルートフォース攻撃検知（時間窓を使用）
-alert tcp $EXTERNAL_NET any -> $SSH_SERVERS $SSH_PORTS (msg:"SSH Brute Force Attack"; flags:S; threshold:type threshold, track by_src, count 5, seconds 60; classtype:attempted-recon; sid:1000003; rev:1;)
+alert tcp $EXTERNAL_NET any -> $SSH_SERVERS $SSH_PORTS \
+(msg:"SSH Brute Force Attack"; flags:S; threshold:type threshold, track by_src, \
+count 5, seconds 60; classtype:attempted-recon; sid:1000003; rev:1;)
 
 # 異常なDNSクエリ検知
 alert dns $HOME_NET any -> any any (msg:"DNS Tunneling Attempt"; dns_query; content:"|00|"; depth:50; pcre:"/^[A-Za-z0-9+\/]{50,}/"; classtype:trojan-activity; sid:1000004; rev:1;)
 
 # 内部からの異常な外部通信
-alert tcp $HOME_NET any -> $EXTERNAL_NET ![80,443,22,25,53] (msg:"Unusual Outbound Connection"; flags:S; threshold:type threshold, track by_src, count 10, seconds 300; classtype:policy-violation; sid:1000005; rev:1;)
+alert tcp $HOME_NET any -> $EXTERNAL_NET ![80,443,22,25,53] \
+(msg:"Unusual Outbound Connection"; flags:S; threshold:type threshold, track by_src, \
+count 10, seconds 300; classtype:policy-violation; sid:1000005; rev:1;)
 ```
 
 **誤検知削減のためのチューニング**
