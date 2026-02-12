@@ -14,7 +14,7 @@
 3. 右上の🌙/☀️ボタンでテーマ切り替えを試す
 
 ### オプション2: ローカルファイル
-1. [design-preview.html](./design-preview.html) を右クリック
+1. [design-preview.html](./design-preview.html?raw=1) を右クリック
 2. "名前を付けてリンク先を保存" を選択
 3. ダウンロードしたHTMLファイルをブラウザで開く
 
