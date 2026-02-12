@@ -33,7 +33,7 @@
 集合論の概念は、プログラミングの多くの構造と対応しています：
 
 **データ型としての集合**：
-```
+```text
 // Javaでのセット操作の例
 Set<Integer> A = {1, 2, 3, 4};
 Set<Integer> B = {3, 4, 5, 6};
@@ -52,7 +52,7 @@ Set<Integer> intersection = A.intersect(B); // {3, 4}
 `A × B = {(a, b) | a ∈ A かつ b ∈ B}`
 
 プログラミングでは、構造体やタプルに対応：
-```
+```text
 // 型の直積の例
 type Person = {name: String, age: Number}
 // Person型は String × Number の部分集合
@@ -74,7 +74,7 @@ type Person = {name: String, age: Number}
 
 **真理表による意味定義**：
 含意 `P → Q` の理解が重要です：
-```
+```text
 P | Q | P → Q
 T | T |   T
 T | F |   F
@@ -254,7 +254,7 @@ array.some(x => x > 10)  // ∃x ∈ array. x > 10
 
 **追加設定**：
 1. TLCチェッカーのメモリ設定調整
-   ```
+   ```text
    -Xmx4g -Xms1g
    ```
 
@@ -866,7 +866,7 @@ c?x:S → P(x)                   // 集合Sからの制限された入力
 **例：電卓プログラム**
 
 **状態の定義**：
-```
+```text
 State = {
   display: ℝ,           // 表示値
   memory: ℝ,            // メモリ値  
@@ -876,14 +876,14 @@ State = {
 ```
 
 **初期状態**：
-```
+```text
 Init ≡ display = 0 ∧ memory = 0 ∧ operation = ε ∧ operand = 0
 ```
 
 **操作の仕様**：
 
 **数字入力操作**：
-```
+```text
 NumberInput(n: ℕ): State → State
 事前条件: 0 ≤ n ≤ 9
 事後条件: display' = display × 10 + n ∧ 
@@ -893,7 +893,7 @@ NumberInput(n: ℕ): State → State
 ```
 
 **演算子入力操作**：
-```
+```text
 OperatorInput(op: {+, -, ×, ÷}): State → State
 事前条件: true
 事後条件: operation ≠ ε ⇒ (
@@ -906,14 +906,14 @@ OperatorInput(op: {+, -, ×, ÷}): State → State
 ```
 
 **等号操作**：
-```
+```text
 EqualsInput: State → State
 事前条件: operation ≠ ε
 事後条件: 同様の計算実行後、operation' = ε
 ```
 
 **不変条件**：
-```
+```text
 Invariant ≡ display ∈ ℝ ∧ memory ∈ ℝ ∧ operand ∈ ℝ ∧
            operation ∈ {+, -, ×, ÷, =, ε}
 ```

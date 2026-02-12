@@ -11,7 +11,7 @@
 ## 📁 重要リポジトリ
 
 ### メイン（v2.0）
-```
+```text
 https://github.com/itdojp/book-publishing-template2
 ├── easy-setup.js          # 1コマンドセットアップ
 ├── scripts/build-simple.js # 軽量ビルド
@@ -20,7 +20,7 @@ https://github.com/itdojp/book-publishing-template2
 ```
 
 ### 既存版（移行対象）
-```
+```text
 https://github.com/itdojp/book-publishing-template
 # 段階的にv2.0へ案内・統合予定
 ```
