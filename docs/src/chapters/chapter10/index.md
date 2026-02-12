@@ -1610,6 +1610,8 @@ reference-config-file: /etc/suricata/reference.config
 ```bash
 # /etc/suricata/rules/local.rules
 # 高精度検知ルールの例
+# NOTE: 以下のルールは可読性のために行継続記号「\」で改行しています。
+# 実運用で local.rules に適用する際は、各ルールを1行に戻してください。
 
 # SQL インジェクション検知（偽陽性を減らす）
 alert http $EXTERNAL_NET any -> $HTTP_SERVERS $HTTP_PORTS \
