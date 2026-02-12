@@ -199,7 +199,7 @@ UMLの構造・振る舞い図は、関係者間の合意形成や設計の共�
 
 例えば、配列から要素を取得する操作を考えてみましょう：
 
-```
+```text
 operation get_element(array, index)
 precondition: 
   - array is not null
@@ -221,7 +221,7 @@ precondition:
 
 先ほどの配列要素取得操作の続き：
 
-```
+```text
 operation get_element(array, index) → result
 precondition: 
   - array is not null
@@ -241,7 +241,7 @@ postcondition:
 
 例えば、銀行口座から引き出しを行う操作：
 
-```
+```text
 operation withdraw(account, amount)
 precondition:
   - account.balance ≥ amount
@@ -261,7 +261,7 @@ postcondition:
 
 これらの状況も、事後条件として記述できます：
 
-```
+```text
 operation transfer_money(from_account, to_account, amount)
 precondition:
   - from_account.balance ≥ amount
@@ -318,20 +318,20 @@ def withdraw(account, amount):
 最も基本的な不変条件は、データ構造レベルでの制約です。
 
 **配列の不変条件**：
-```
+```text
 invariant: 0 ≤ length ≤ capacity
 invariant: ∀i ∈ [0, length). elements[i] is valid
 ```
 
 **連結リストの不変条件**：
-```
+```text
 invariant: head = null ⇒ size = 0
 invariant: head ≠ null ⇒ reachable_nodes(head) = size
 invariant: ∀node. node.next ≠ null ⇒ node ≠ node.next (no self-loops)
 ```
 
 **二分探索木の不変条件**：
-```
+```text
 invariant: ∀node. 
   (node.left ≠ null ⇒ node.left.value < node.value) ∧
   (node.right ≠ null ⇒ node.value < node.right.value)
@@ -344,21 +344,21 @@ invariant: ∀node.
 より高いレベルでは、ビジネスルールを反映した不変条件があります。
 
 **在庫管理システム**：
-```
+```text
 invariant: ∀product. product.stock_count ≥ 0
 invariant: ∀product. product.reserved_count ≤ product.stock_count
 invariant: sum(all_orders.quantities) = sum(all_products.reserved_count)
 ```
 
 **銀行システム**：
-```
+```text
 invariant: ∀account. account.balance ≥ account.minimum_balance
 invariant: sum(all_accounts.balance) = total_deposits - total_withdrawals
 invariant: ∀transaction. transaction.from_amount = transaction.to_amount
 ```
 
 **ユーザー管理システム**：
-```
+```text
 invariant: ∀user. user.email ≠ null ∧ is_valid_email(user.email)
 invariant: ∀user. count(users_with_email(user.email)) = 1
 invariant: ∀session. session.user ≠ null ⇒ user.is_active
@@ -369,20 +369,20 @@ invariant: ∀session. session.user ≠ null ⇒ user.is_active
 システム全体のレベルでも、重要な不変条件があります。
 
 **リソース管理**：
-```
+```text
 invariant: allocated_memory ≤ total_memory
 invariant: active_connections ≤ max_connections
 invariant: cpu_usage ≤ 100%
 ```
 
 **セキュリティ**：
-```
+```text
 invariant: ∀operation. requires_authentication(operation) ⇒ current_user.is_authenticated
 invariant: ∀data. data.classification = "secret" ⇒ current_user.clearance_level ≥ SECRET
 ```
 
 **一貫性**：
-```
+```text
 invariant: ∀replica. replica.data = master.data (eventually)
 invariant: ∀cache_entry. cache_entry.timestamp ≤ current_time
 ```
@@ -391,7 +391,7 @@ invariant: ∀cache_entry. cache_entry.timestamp ≤ current_time
 
 複雑なシステムでは、不変条件も階層的に構成されます。低レベルの不変条件を基礎として、より高レベルの不変条件が成り立ちます。
 
-```
+```text
 レベル1（データ構造）: 配列の境界チェック
 レベル2（オブジェクト）: 口座の残高非負
 レベル3（ビジネス）: 総残高の保存
@@ -454,7 +454,7 @@ invariant: ∀cache_entry. cache_entry.timestamp ≤ current_time
 
 まず、スタックの状態を数学的に表現します：
 
-```
+```text
 Stack[T] = ⟨items: Sequence[T], capacity: ℕ⟩
 
 where:
@@ -464,14 +464,14 @@ where:
 ```
 
 不変条件：
-```
+```text
 invariant: |items| ≤ capacity
 invariant: capacity > 0
 ```
 
 ### create操作の仕様
 
-```
+```text
 operation create(cap: ℕ) → Stack[T]
 precondition:
   cap > 0
@@ -484,7 +484,7 @@ postcondition:
 
 ### push操作の仕様
 
-```
+```text
 operation push(stack: Stack[T], item: T) → Stack[T]
 precondition:
   |stack.items| < stack.capacity
@@ -498,7 +498,7 @@ postcondition:
 
 ### pop操作の仕様
 
-```
+```text
 operation pop(stack: Stack[T]) → (Stack[T], T)
 precondition:
   |stack.items| > 0  (スタックが空でない)
@@ -513,7 +513,7 @@ postcondition:
 
 ### top操作の仕様
 
-```
+```text
 operation top(stack: Stack[T]) → T
 precondition:
   |stack.items| > 0
@@ -526,7 +526,7 @@ top操作はスタックを変更しないため、フレーム条件として�
 
 ### isEmpty操作の仕様
 
-```
+```text
 operation isEmpty(stack: Stack[T]) → Boolean
 precondition:
   true  (常に呼び出し可能)
@@ -537,7 +537,7 @@ postcondition:
 
 ### size操作の仕様
 
-```
+```text
 operation size(stack: Stack[T]) → ℕ
 precondition:
   true
@@ -551,21 +551,21 @@ postcondition:
 個々の操作の仕様だけでなく、操作間の関係も重要です：
 
 **push-pop関係**：
-```
+```text
 ∀s: Stack[T], x: T.
   |s.items| < s.capacity ⇒
   pop(push(s, x)) = (s, x)
 ```
 
 **push-top関係**：
-```
+```text
 ∀s: Stack[T], x: T.
   |s.items| < s.capacity ⇒
   top(push(s, x)) = x
 ```
 
 **isEmpty-size関係**：
-```
+```text
 ∀s: Stack[T].
   isEmpty(s) ⟺ (size(s) = 0)
 ```
@@ -574,7 +574,7 @@ postcondition:
 
 実際のシステムでは、事前条件違反の場合のエラー処理も必要です：
 
-```
+```text
 operation pop_safe(stack: Stack[T]) → (Stack[T], Option[T])
 precondition:
   true  (常に呼び出し可能)
@@ -589,7 +589,7 @@ postcondition:
 
 形式的仕様には、性能特性も含めることができます：
 
-```
+```text
 performance characteristics:
   push: O(1) time, O(1) space
   pop: O(1) time, O(1) space  
@@ -602,7 +602,7 @@ performance characteristics:
 
 マルチスレッド環境では、並行アクセスに関する仕様も必要です：
 
-```
+```text
 concurrency specification:
   - 複数のスレッドからの同時read操作（top, isEmpty, size）は安全
   - write操作（push, pop）は相互排斥が必要

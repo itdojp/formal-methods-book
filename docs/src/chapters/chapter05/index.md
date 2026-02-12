@@ -14,7 +14,7 @@ TCP と UDP の選択は、アプリケーションの特性を深く理解す�
 
 TCP は信頼性のあるバイトストリームを提供する。この特性により以下が実現される：
 
-```
+```text
 TCP の保証内容：
 1. データの到達保証（再送制御）
 2. 順序の保証（シーケンス番号）
@@ -45,7 +45,7 @@ TCP の保証内容：
 
 UDP は最小限のオーバーヘッドで、データグラム配送を提供する：
 
-```
+```text
 UDP の特徴：
 1. コネクションレス（接続確立不要）
 2. 信頼性の保証なし（ベストエフォート）
@@ -73,7 +73,7 @@ UDP の特徴：
 
 **性能特性の定量的比較**
 
-```
+```text
 接続確立時間：
 TCP：3-way handshake（1.5 RTT）
 UDP：即座（0 RTT）
@@ -101,7 +101,7 @@ QUIC（Quick UDP Internet Connections）は、TCPとUDPの課題を解決する�
 **TCP の根本的課題**
 
 1. **ヘッドオブライン ブロッキング**
-   ```
+   ```text
    TCP ストリーム：
    [パケット1][パケット2][パケット3][パケット4]
    
@@ -113,7 +113,7 @@ QUIC（Quick UDP Internet Connections）は、TCPとUDPの課題を解決する�
    ```
 
 2. **接続確立の遅延**
-   ```
+   ```text
    HTTPS over TCP の接続確立：
    1. TCP 3-way handshake（1.5 RTT）
    2. TLS handshake（1-2 RTT）
@@ -128,7 +128,7 @@ QUIC（Quick UDP Internet Connections）は、TCPとUDPの課題を解決する�
 **QUIC による解決アプローチ**
 
 1. **ストリーム多重化**
-   ```
+   ```text
    QUIC 接続内の複数ストリーム：
    ストリーム1：[パケット1A][パケット1B][パケット1C]
    ストリーム2：[パケット2A][   Lost   ][パケット2C]
@@ -139,7 +139,7 @@ QUIC（Quick UDP Internet Connections）は、TCPとUDPの課題を解決する�
    ```
 
 2. **0-RTT 接続再開**
-   ```
+   ```text
    初回接続：1-RTT（設定交換）
    再接続：0-RTT（前回の設定を再利用）
    
@@ -149,7 +149,7 @@ QUIC（Quick UDP Internet Connections）は、TCPとUDPの課題を解決する�
    ```
 
 3. **組み込み暗号化**
-   ```
+   ```text
    QUIC パケット構成：
    [共通ヘッダー][暗号化ペイロード]
    
@@ -159,7 +159,7 @@ QUIC（Quick UDP Internet Connections）は、TCPとUDPの課題を解決する�
 
 **実装状況と課題**
 
-```
+```text
 対応状況（2024年）：
 - Chrome、Firefox、Safari：対応済み
 - Apache、Nginx：対応済み  
@@ -175,7 +175,7 @@ QUIC（Quick UDP Internet Connections）は、TCPとUDPの課題を解決する�
 
 **導入判断の基準**
 
-```
+```text
 QUIC 導入が有効な場面：
 - モバイル通信（高いパケット損失率）
 - 地理的に分散したユーザー
@@ -197,7 +197,7 @@ TCP の輻輳制御は、ネットワークの公平性と効率性を両立さ�
 
 **古典的アルゴリズム：Reno**
 
-```
+```text
 Reno の動作フロー：
 1. Slow Start：指数的にウィンドウサイズを増加
 2. Congestion Avoidance：線形増加
@@ -211,7 +211,7 @@ Reno の動作フロー：
 
 **高速ネットワーク対応：CUBIC**
 
-```
+```text
 CUBIC の特徴：
 - ウィンドウサイズの立方関数的変化
 - RTT に依存しない公平性
@@ -225,7 +225,7 @@ CUBIC の特徴：
 
 **低遅延最適化：BBR（Bottleneck Bandwidth and RTT）**
 
-```
+```text
 BBR の革新的アプローチ：
 従来：パケット損失を輻輳の指標とする
 BBR：帯域幅と RTT を直接測定
@@ -258,7 +258,7 @@ TCP のパフォーマンスは、適切なバッファサイズ設定に大き�
 
 **帯域遅延積（BDP）の計算**
 
-```
+```text
 BDP = 帯域幅 × RTT
 
 例：
@@ -270,7 +270,7 @@ BDP = 1,000,000,000 bps × 0.1秒 = 100,000,000 bit = 12.5MB
 
 **ウィンドウスケーリングの必要性**
 
-```
+```text
 TCP ヘッダーのウィンドウサイズフィールド：16ビット
 最大値：65,535バイト = 64KB
 
@@ -354,7 +354,7 @@ tcp ESTAB 0 0 192.168.1.10:54321 192.168.1.100:80
 
 **L4ロードバランサーの特性**
 
-```
+```text
 動作レベル：トランスポート層（TCP/UDP）
 判断材料：
 - 送信元IPアドレス
@@ -382,7 +382,7 @@ tcp ESTAB 0 0 192.168.1.10:54321 192.168.1.100:80
 
 **L7ロードバランサーの特性**
 
-```
+```text
 動作レベル：アプリケーション層（HTTP/HTTPS）
 判断材料：
 - URL パス
@@ -412,7 +412,7 @@ tcp ESTAB 0 0 192.168.1.10:54321 192.168.1.100:80
 
 **性能比較**
 
-```
+```text
 L4ロードバランサー：
 - スループット：10-100Gbps
 - 同時接続数：100万-1000万
@@ -443,7 +443,7 @@ Webアプリケーションでは、ユーザーセッションの継続性確�
 
 **1. IPアドレスベース親和性（Source IP Affinity）**
 
-```
+```text
 動作原理：
 ハッシュ値 = hash(クライアントIP) % サーバー数
 常に同一IPからのリクエストを同一サーバーへ
@@ -465,7 +465,7 @@ hash-type consistent
 
 **2. Cookieベース親和性**
 
-```
+```text
 動作原理：
 1. 初回アクセス時にサーバーIDをCookieに設定
 2. 以降のリクエストでCookieを確認
@@ -492,7 +492,7 @@ server web2 192.168.1.102:80 cookie server2
 
 **3. セッション複製（Session Replication）**
 
-```
+```text
 動作原理：
 1. セッションデータを全サーバーで共有
 2. どのサーバーでもリクエスト処理可能
@@ -518,7 +518,7 @@ server web2 192.168.1.102:80 cookie server2
 
 **4. 外部セッションストア**
 
-```
+```text
 動作原理：
 1. セッションデータを外部ストア（Redis、Memcached）に保存
 2. アプリケーションサーバーはステートレス
@@ -546,7 +546,7 @@ ini_set('session.save_path', 'tcp://redis-cluster:6379');
 
 **選択の指針**
 
-```
+```text
 小規模環境（<10サーバー）：
 - IPアドレス親和性またはCookieベース
 - 実装の簡単さを重視
@@ -568,7 +568,7 @@ ini_set('session.save_path', 'tcp://redis-cluster:6379');
 
 **フォワードプロキシ**
 
-```
+```text
 配置：クライアント側
 目的：クライアントの代理でサーバーアクセス
 
@@ -585,7 +585,7 @@ ini_set('session.save_path', 'tcp://redis-cluster:6379');
 **実装上の課題**：
 
 1. **透明プロキシ vs 明示プロキシ**
-   ```
+   ```text
    透明プロキシ：
    - クライアント設定不要
    - ネットワークレベルでのトラフィック横取り
@@ -598,7 +598,7 @@ ini_set('session.save_path', 'tcp://redis-cluster:6379');
    ```
 
 2. **HTTPS トラフィックの処理**
-   ```
+   ```text
    問題：暗号化により内容確認不可
    
    解決策1：CONNECT メソッドによるトンネリング
@@ -611,7 +611,7 @@ ini_set('session.save_path', 'tcp://redis-cluster:6379');
 
 **リバースプロキシ**
 
-```
+```text
 配置：サーバー側
 目的：サーバーの代理でクライアント応答
 
@@ -628,7 +628,7 @@ ini_set('session.save_path', 'tcp://redis-cluster:6379');
 **実装上の考慮事項**：
 
 1. **バックエンド接続管理**
-   ```
+   ```text
    接続プール：
    upstream backend {
        server 192.168.1.101:8080 max_conns=100;
@@ -641,7 +641,7 @@ ini_set('session.save_path', 'tcp://redis-cluster:6379');
    ```
 
 2. **ヘッダー情報の調整**
-   ```
+   ```text
    nginx 設定例：
    proxy_set_header X-Real-IP $remote_addr;
    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -664,7 +664,7 @@ ini_set('session.save_path', 'tcp://redis-cluster:6379');
 
 **キャッシュ可能性の判定**
 
-```
+```text
 HTTP キャッシュヘッダーの評価：
 
 Cache-Control: max-age=3600  # 1時間キャッシュ可能
@@ -716,7 +716,7 @@ server {
 **ヒット率最適化戦略**
 
 1. **キャッシュキーの最適化**
-   ```
+   ```text
    不適切な例：
    キー = $request_uri
    /api/data?timestamp=1234567890  # 常に異なるキー
@@ -731,7 +731,7 @@ server {
    ```
 
 2. **階層キャッシュ構成**
-   ```
+   ```text
    レベル1：ブラウザキャッシュ（ローカル）
    レベル2：CDN エッジキャッシュ（地理的分散）
    レベル3：アプリケーションプロキシキャッシュ
@@ -763,7 +763,7 @@ server {
 
 **キャッシュ性能の監視**
 
-```
+```text
 重要な指標：
 
 ヒット率 = キャッシュヒット数 / 総リクエスト数
@@ -791,7 +791,7 @@ TLS/SSL実装において、セキュリティと性能のバランスを取る�
 
 **現代的な暗号スイート推奨構成**
 
-```
+```text
 優先順位順の推奨設定（2024年基準）：
 
 # AEAD暗号（推奨）
@@ -943,7 +943,7 @@ for site in sites:
 
 **証明書の集中管理**
 
-```
+```text
 証明書管理システムの構成要素：
 
 1. 証明書ストア

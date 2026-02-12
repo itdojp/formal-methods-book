@@ -12,7 +12,7 @@ Linux のブロックデバイス管理において、デバイスマッパー�
 
 **デバイスマッパーの基本構造**
 
-```
+```text
 アプリケーション
     ↓
 ファイルシステム（ext4, XFS等）
@@ -219,7 +219,7 @@ RAID（Redundant Array of Independent Disks）は、複数の物理ディスク�
 
 **ハードウェアRAIDの特徴**
 
-```
+```text
 専用RAIDコントローラーによる実装：
 
 利点：
@@ -1000,7 +1000,7 @@ Recovery Point Objective（RPO）とRecovery Time Objective（RTO）は、バッ
 
 **RPO/RTO要件の分析**
 
-```
+```text
 RPO（目標復旧時点）：データ損失の許容範囲
 - RPO = 0：一切のデータ損失を許容しない（同期レプリケーション）
 - RPO = 1時間：最大1時間分のデータ損失を許容
