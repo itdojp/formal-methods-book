@@ -273,7 +273,7 @@
 3. **形式的仕様**：数学的記法による厳密な記述
 
 例：オンライン書店システムの要求
-```
+```text
 自然言語：「ユーザーは本を検索して購入できる」
 
 構造化自然言語：
@@ -310,7 +310,7 @@
 
 システムの全体構造を形式的に記述することで、コンポーネント間の相互作用や制約を明確にします：
 
-```
+```text
 component UserInterface {
   provides: UserInteraction
   requires: AuthenticationService, BookCatalogService
@@ -335,7 +335,7 @@ component AuthenticationService {
 
 よく使われる設計パターンを形式的に記述することで、その正しい適用を保証できます：
 
-```
+```text
 pattern Observer {
   participants: Subject, Observer
   contracts:
@@ -368,7 +368,7 @@ public boolean withdraw(int amount) {
 
 高レベルの仕様から段階的に詳細な実装を導出し、各段階で正しさを保証します：
 
-```
+```text
 レベル1: sort(array) ⇒ sorted(result) ∧ permutation(array, result)
 レベル2: quicksort(array, low, high) ⇒ sorted(array[low..high])
 レベル3: partition(array, low, high) ⇒ pivot_invariant(array, pivot)
@@ -497,7 +497,7 @@ public boolean withdraw(int amount) {
 
 大きな仕様を階層的に分解し、各レベルを異なるメンバーが担当：
 
-```
+```text
 レベル1（アーキテクト）: システム全体の抽象仕様
   ↓
 レベル2（サブシステムリーダー）: サブシステムの詳細仕様
@@ -517,7 +517,7 @@ public boolean withdraw(int amount) {
 
 形式仕様特有のレビュー観点を整理し、効率的なレビューを実現：
 
-```
+```text
 論理的正確性レビュー：
 - 数学的記法の正しさ
 - 推論ステップの妥当性
@@ -542,7 +542,7 @@ public boolean withdraw(int amount) {
 
 チームメンバーのバックグラウンドに応じた学習プログラムを設計：
 
-```
+```text
 初級レベル（全員対象）：
 - 形式的手法の基本概念
 - 契約ベースプログラミングの実践
@@ -574,7 +574,7 @@ public boolean withdraw(int amount) {
 
 議論の焦点を仕様に集中することで、建設的な対話を促進：
 
-```
+```text
 問題のあるパターン：
 「この実装は複雑すぎる」
 「このアルゴリズムは理解しにくい」
@@ -622,7 +622,7 @@ public boolean withdraw(int amount) {
 
 **コンサルティング活用のパターン**：
 
-```
+```text
 短期集中型：
 - 初期導入時の集中指導
 - 困難な問題の解決支援
@@ -725,7 +725,7 @@ public boolean withdraw(int amount) {
 実用的なROI（投資収益率）計算モデルを以下に示します：
 
 **単年度ROI**：
-```
+```text
 ROI = (年間ベネフィット - 年間コスト) / 年間コスト × 100
 
 年間ベネフィット = 
@@ -743,7 +743,7 @@ ROI = (年間ベネフィット - 年間コスト) / 年間コスト × 100
 
 **累積ROI**：
 初期投資の回収期間と長期的な収益性を評価：
-```
+```text
 累積ROI(n年) = Σ(年間ネットベネフィット) / 初期投資
 
 初期投資 = 
@@ -800,7 +800,7 @@ ROI = (年間ベネフィット - 年間コスト) / 年間コスト × 100
 形式的手法導入の投資決定には、以下のフレームワークが有効です：
 
 **段階的投資判断**：
-```
+```text
 Stage 1: 概念実証（投資額：小、期間：短、リスク：低）
   → 成功時にStage 2へ進行
 
@@ -1042,7 +1042,7 @@ Stage 3: 全面展開（投資額：大、期間：長、リスク：低）
 - 品質問題：過去1年で重大なセキュリティインシデント2件
 
 **提案された導入計画**：
-```
+```text
 Phase 1（3ヶ月）：全開発者を対象とした形式的手法研修
 Phase 2（6ヶ月）：新規プロジェクト全てで形式的手法を必須化
 Phase 3（12ヶ月）：既存システムの形式仕様を作成

@@ -107,7 +107,7 @@ check NoUnauthorizedAccess for 5 User, 5 Email, 3 Role
 
 状態空間の構造は、通常、状態遷移グラフ（State Transition Graph）として視覚化されます。このグラフでは、ノードが状態を、エッジが状態間の遷移を表します。
 
-```
+```text
 初期状態 → 状態1 → 状態2 → 状態3
     ↓        ↓       ↓       ↓
   状態A → 状態B → 状態C → 状態D
@@ -146,7 +146,7 @@ check NoUnauthorizedAccess for 5 User, 5 Email, 3 Role
 
 **到達可能性の計算アルゴリズム**：
 
-```
+```text
 Reachable ← {InitialStates}
 Frontier ← {InitialStates}
 while Frontier ≠ ∅ do
@@ -182,7 +182,7 @@ while Frontier ≠ ∅ do
 膨大な状態を効率的に表現し、管理することが、実用的な模型検査には不可欠です。
 
 **ビットベクトル表現**：
-```
+```text
 状態 = [a:1, b:0, c:1, counter:5] 
 → ビットベクトル = 10100101
 ```
@@ -208,7 +208,7 @@ while Frontier ≠ ∅ do
 従来の明示的模型検査では、各状態を個別に表現していました。シンボリック模型検査では、状態集合を論理式（特にBDD: Binary Decision Diagram）で表現します。
 
 **BDDによる状態表現**：
-```
+```text
 状態集合 {(a=1,b=0), (a=1,b=1), (a=0,b=1)} 
 → BDD表現: (a ∧ ¬b) ∨ (a ∧ b) ∨ (¬a ∧ b)
 → 簡約: a ∨ (¬a ∧ b) = a ∨ b
@@ -220,7 +220,7 @@ while Frontier ≠ ∅ do
 
 メモリ制約と完全性のバランスを取るため、反復深化探索（Iterative Deepening）が使われることがあります。
 
-```
+```text
 for depth = 1 to MaxDepth do
     result = DepthLimitedSearch(depth)
     if result = "property violation" then
@@ -236,7 +236,7 @@ for depth = 1 to MaxDepth do
 現代の多核プロセッサや分散環境を活用し、状態空間探索を並列化することで、検証性能を大幅に向上できます。
 
 **Work-stealing アルゴリズム**：
-```
+```text
 各スレッドが独立したスタックを持ち、
 作業がなくなったスレッドは他のスレッドから作業を「盗む」
 ```
@@ -258,7 +258,7 @@ for depth = 1 to MaxDepth do
 
 CTL（Computation Tree Logic）は、模型検査で最も広く使われる時相論理の一つです。CTLでは、システムの実行を「計算木」として捉えます。各ノードが状態を、各エッジが状態遷移を表し、初期状態から始まる木構造として実行の可能性を表現します。
 
-```
+```text
         初期状態
        /    |    \
    状態1   状態2   状態3
@@ -491,14 +491,14 @@ n個のプロセスがあり、各プロセスがk個の状態を持つ場合：
 状態爆発が起こる主な原因を理解することで、効果的な対策を立てられます。
 
 **並行性による爆発**：
-```
+```text
 2つのプロセス、各10状態 → 100状態
 3つのプロセス、各10状態 → 1,000状態  
 10つのプロセス、各10状態 → 10^10状態
 ```
 
 **データ値による爆発**：
-```
+```text
 32ビット整数変数1個 → 2^32 = 約43億の可能性
 64ビット整数変数1個 → 2^64 = 約1.8×10^19の可能性
 ```
@@ -511,13 +511,13 @@ n個のプロセスがあり、各プロセスがk個の状態を持つ場合：
 状態爆発問題に対する最も基本的な対策は「抽象化」です。システムの本質的でない詳細を省略し、検証したい性質に関連する情報のみを保持します。
 
 **データ抽象化の例**：
-```
+```text
 具体値: balance = 1247 → 抽象値: balance ∈ {zero, positive, negative}
 具体値: array[100] → 抽象値: array_size ∈ {empty, small, large}
 ```
 
 **制御抽象化の例**：
-```
+```text
 具体的制御フロー: 複雑なアルゴリズム
 → 抽象的制御フロー: 成功/失敗の2択
 ```
@@ -545,7 +545,7 @@ n個のプロセスがあり、各プロセスがk個の状態を持つ場合：
 並行システムでは、多くの状態遷移の順序が結果に影響しません。部分順序簡約は、この冗長性を利用して状態数を削減します。
 
 **独立な行動の例**：
-```
+```text
 プロセス1: x := x + 1
 プロセス2: y := y + 1
 ```
@@ -562,7 +562,7 @@ n個のプロセスがあり、各プロセスがk個の状態を持つ場合：
 シンボリック模型検査では、状態集合を論理式で表現し、集合演算を論理演算として実行します。
 
 **BDD（Binary Decision Diagram）の活用**：
-```
+```text
 状態集合 S = {(x=0,y=0), (x=0,y=1), (x=1,y=1)}
 → BDD表現: (¬x ∧ ¬y) ∨ (¬x ∧ y) ∨ (x ∧ y)
 → 簡約: ¬x ∨ (x ∧ y)
@@ -578,7 +578,7 @@ BDDが効果的な場合、指数的に大きな状態集合も多項式サイ�
 大規模システムを小さな部分に分解し、各部分を独立に検証してから、全体の性質を推論する手法です。
 
 **仮定保証推論**：
-```
+```text
 コンポーネント A: 仮定 PA のもとで保証 QA
 コンポーネント B: 仮定 PB のもとで保証 QB
 システム全体: (PA ∧ PB) → (QA ∧ QB)
@@ -590,7 +590,7 @@ BDDが効果的な場合、指数的に大きな状態集合も多項式サイ�
 
 抽象化が粗すぎて偽の反例が見つかった場合、段階的に詳細化を行う手法です。
 
-```
+```text
 1. 粗い抽象化で検証
 2. 反例が見つかったら、それが真の反例かを確認
 3. 偽の反例なら、抽象化を詳細化
@@ -658,7 +658,7 @@ BDDが効果的な場合、指数的に大きな状態集合も多項式サイ�
 **4. 時刻情報**: 各ステップでの論理的時刻
 
 **具体例**：相互排除違反の反例
-```
+```text
 State 0: (Initial)
   process1_state = "thinking"
   process2_state = "thinking"  
@@ -709,7 +709,7 @@ State 3: (Both enter critical section - VIOLATION!)
 デッドロックの反例は、特に教育的価値が高い例です。
 
 **デッドロック反例の例**：
-```
+```text
 State N: (Deadlock detected)
   Process A: waiting for Resource 2, holding Resource 1
   Process B: waiting for Resource 1, holding Resource 2
@@ -727,7 +727,7 @@ State N: (Deadlock detected)
 時相的性質の違反は、より複雑な分析が必要です。
 
 **活性違反の例**：「要求があれば最終的に応答する」が満たされない
-```
+```text
 反例: 無限ループで応答が生成されない実行パス
 State 0 → State 1 → State 2 → State 1 → State 2 → ...
 ```
@@ -761,7 +761,7 @@ State 0 → State 1 → State 2 → State 1 → State 2 → ...
 - **状態投影**: 関連する変数のみに注目して簡約
 
 **最小化の例**：
-```
+```text
 元の反例: 50ステップ
 最小化後: 8ステップ（本質的な遷移のみ）
 ```
@@ -771,7 +771,7 @@ State 0 → State 1 → State 2 → State 1 → State 2 → ...
 複雑な反例を理解するには、適切な視覚化が重要です。
 
 **状態遷移図**：
-```
+```text
 [State0] --action1--> [State1] --action2--> [State2]
     |                    |                    |
   var1=0              var1=1              var1=2
@@ -779,14 +779,14 @@ State 0 → State 1 → State 2 → State 1 → State 2 → ...
 ```
 
 **タイムライン図**：
-```
+```text
 Process A: |----thinking----|--trying--|--critical--|
 Process B: |----thinking----|----trying----|--critical--|
 Time:      0              5           10           15
 ```
 
 **メッセージシーケンス図**：
-```
+```text
 Client    Server    Database
   |         |          |
   |--req--->|          |
@@ -1021,7 +1021,7 @@ UPPAALは、リアルタイムシステムの検証に特化したツールで�
 - **最適化**: 最短時間や最小コストの経路発見
 
 **時間オートマトン例**：
-```
+```text
 // リアルタイムタスクの記述
 process Task {
     clock t;
@@ -1143,7 +1143,7 @@ process Task {
 以下の並行システムの状態空間を分析してください：
 
 **2つのプロセスによる共有カウンタシステム**：
-```
+```text
 プロセス1: 
   loop: read counter → increment → write counter
 

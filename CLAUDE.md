@@ -10,7 +10,7 @@ This is a Japanese-language technical book project about "形式的手法の基�
 
 This project uses the **book-formatter** system:
 
-```
+```text
 formal-methods-book/
 ├── docs/                    # Generated output (GitHub Pages)
 ├── src/                     # Source content

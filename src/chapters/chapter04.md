@@ -58,7 +58,7 @@ Alloyは、異なる世界観を提示します。「関係中心」の世界観
 
 例えば、大学の履修システムを考えてみましょう。オブジェクト指向では、「学生オブジェクト」「科目オブジェクト」を作り、学生オブジェクトが「履修リスト」を属性として持つかもしれません。しかしAlloyでは、「学生」「科目」という集合と、「履修関係」という関係で表現します。
 
-```
+```text
 sig Student {}
 sig Course {}
 relation enrollment: Student -> Course
@@ -82,7 +82,7 @@ relation enrollment: Student -> Course
 
 Alloyの基本的な構成要素は「アトム（atom）」です。アトムは、分割できない基本的な要素で、システムの登場人物や物体を表します。アトムは「シグネチャ（signature）」によってグループ化されます。
 
-```
+```text
 sig Person {
     age: Int,
     friends: set Person
@@ -105,7 +105,7 @@ sig Teacher extends Person {
 
 この関係表現により、複雑な構造を簡潔に記述できます：
 
-```
+```text
 sig File {
     parent: lone Directory,  // 最大1つのディレクトリが親
     contents: set Byte       // 複数のバイトを含む
@@ -120,7 +120,7 @@ sig Directory {
 
 Alloyでは、システムが満たすべき制約を「ファクト（fact）」として記述します。ファクトは、すべての有効なモデルで成り立つべき性質です。
 
-```
+```text
 fact NoSelfLoop {
     // 人は自分自身の友達にはなれない
     no p: Person | p in p.friends
@@ -146,7 +146,7 @@ Alloyの関係には「多重度（multiplicity）」を指定できます。こ
 - `some`: 最低1つ
 - `set`: 任意個数（0以上）
 
-```
+```text
 sig Car {
     owner: one Person,       // 車には必ず1人の所有者
     driver: lone Person,     // 運転者は0人または1人
@@ -164,7 +164,7 @@ Alloyでは、関係に対する豊富な演算が提供されています：
 **推移閉包**: `*r` - 関係rの反射推移閉包
 
 例：
-```
+```text
 // すべての祖先
 person.^parent
 
@@ -179,7 +179,7 @@ directory.*children
 
 関係中心の表現により、複雑な制約も自然に表現できます：
 
-```
+```text
 // セキュリティポリシー
 fact AccessControl {
     // ファイルにアクセスできるのは所有者または権限を持つユーザー
@@ -558,7 +558,7 @@ check HighestIdWins for 5 Node, 10 Message, 8 Time
 これらの実例は、第8章の模型検査や第11章の開発プロセス統合で再び参照され、Alloyモデルの実用的価値を具体的に示しています。
     all x: Contact | x.friends.t' = x.friends.t
 }
-```
+```text
 
 ### 複数のシグネチャ間の関係
 
@@ -964,7 +964,7 @@ check NoFileSharing for 3
 
 この例では、`NoFileSharing`アサーションが失敗します。Analyzerは以下のような反例を生成するかもしれません：
 
-```
+```text
 User0: files = {File0}, groups = {Group0}
 User1: files = {File0}, groups = {Group0}  
 Group0: members = {User0, User1}, sharedFiles = {File0}
@@ -1120,7 +1120,7 @@ check SecureAccess for 3
 ```
 
 **反例の発見**：
-```
+```text
 User0: owns = {File0}, canRead = {File0, File1}
 User1: owns = {File1}, canRead = {File1}
 File0: owner = User0

@@ -165,7 +165,7 @@ DEBUG=* npm run generate:epub
 
 ## ファイル構成
 
-```
+```text
 book-publishing-template/
 ├── assets/css/
 │   ├── print.css          # PDF用スタイル

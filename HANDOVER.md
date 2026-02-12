@@ -24,7 +24,7 @@
 ### 📁 主要リポジトリ
 
 #### 1. v2.0テンプレート（メイン）
-```
+```text
 https://github.com/itdojp/book-publishing-template2
 ```
 - **説明**: 改善版テンプレート
@@ -32,7 +32,7 @@ https://github.com/itdojp/book-publishing-template2
 - **用途**: 新規プロジェクト推奨
 
 #### 2. 既存テンプレート
-```
+```text
 https://github.com/itdojp/book-publishing-template
 ```
 - **説明**: 現行版テンプレート
@@ -40,7 +40,7 @@ https://github.com/itdojp/book-publishing-template
 - **用途**: 既存プロジェクト継続
 
 ### 📂 ローカル作業環境
-```
+```text
 /mnt/c/work/ClaudeCode/books/
 ├── test-template/           # v2.0開発環境（GitHubと同期済み）
 ├── improved-template/       # 改善作業用コピー
@@ -278,7 +278,7 @@ gh repo view itdojp/book-publishing-template2
 - [Keep a Changelog](https://keepachangelog.com/)
 
 ### 関連ドキュメント
-```
+```text
 プロジェクト内:
 - README.md
 - QUICK-START.md
