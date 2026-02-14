@@ -592,9 +592,6 @@ check HighestIdWins for 5 Node, 10 Message, 8 Time
 ```
 
 これらの実例は、第8章の模型検査や第11章の開発プロセス統合で再び参照され、Alloyモデルの実用的価値を具体的に示しています。
-    all x: Contact | x.friends.t' = x.friends.t
-}
-```
 
 ### 複数のシグネチャ間の関係
 
