@@ -81,7 +81,7 @@ This file documents the images that should be created for the README.md GitHub c
 
 ## File Naming Convention
 
-```
+```text
 assets/images/github-[action]-[detail].png
 ```
 
