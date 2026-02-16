@@ -13,11 +13,11 @@
         --svg-error: #dc2626;
         --svg-neutral: #6b7280;
       }
-      .title-text { font-family: Inter, 'Helvetica Neue', Arial, sans-serif; font-size: 16px; font-weight: 600; fill: var(--svg-text); }
-      .pipeline-title { font-family: Inter, 'Helvetica Neue', Arial, sans-serif; font-size: 12px; font-weight: 500; fill: var(--svg-bg); }
-      .step-text { font-family: Inter, 'Helvetica Neue', Arial, sans-serif; font-size: 12px; font-weight: 400; fill: var(--svg-text); }
-      .annotation-text { font-family: Inter, 'Helvetica Neue', Arial, sans-serif; font-size: 10px; font-weight: 400; fill: var(--svg-neutral); }
-      .code-text { font-family: 'Courier New', monospace; font-size: 9px; fill: var(--svg-text); }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 16px; font-weight: 600; fill: var(--svg-text); }
+      .pipeline-title { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 12px; font-weight: 500; fill: var(--svg-bg); }
+      .step-text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 12px; font-weight: 400; fill: var(--svg-text); }
+      .annotation-text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 10px; font-weight: 400; fill: var(--svg-neutral); }
+      .code-text { font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace; font-size: 9px; fill: var(--svg-text); }
       .dev-box { fill: var(--svg-primary); stroke: var(--svg-primary); stroke-width: 2; }
       .ci-box { fill: var(--svg-warning); stroke: var(--svg-warning); stroke-width: 2; }
       .verification-box { fill: var(--svg-success); stroke: var(--svg-success); stroke-width: 2; }
