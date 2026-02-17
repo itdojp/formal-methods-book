@@ -304,10 +304,17 @@
                     scheduleEnsure();
                 });
 
-                // If the drawer is already open (bfcache/restore), ensure once.
+                // If the drawer is already open on initial load, ensure once.
                 if (cb.checked) {
                     scheduleEnsure();
                 }
+
+                // BFCache restore: DOMContentLoaded won't re-fire, and there may be no `change` event.
+                window.addEventListener('pageshow', function(e) {
+                    if (!e || !e.persisted) return;
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
             }
 
             if (document.readyState === 'loading') {
