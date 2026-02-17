@@ -184,7 +184,7 @@
     <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
     <script src="{{ '/assets/js/safe-main.js' | relative_url }}"></script>
 
-        <script>
+            <script>
         // Auto-scroll active TOC into view when opening the drawer.
         (function() {
             function initTocAutoScroll() {
@@ -206,7 +206,9 @@
                         if (typeof window.matchMedia === 'function') {
                             return window.matchMedia('(max-width: 1024px)').matches;
                         }
-                    } catch (_) {}
+                    } catch (_) {
+                        // Ignore matchMedia failures and fall back to window.innerWidth.
+                    }
                     return typeof window.innerWidth === 'number' ? window.innerWidth <= 1024 : true;
                 }
 
@@ -257,7 +259,9 @@
                                     if (!isNaN(pb)) marginBottom = pb;
                                 }
                             }
-                        } catch (_) {}
+                        } catch (_) {
+                            // Ignore style parsing issues; keep fallback margins.
+                        }
 
                         var top = sidebarRect.top + marginTop;
                         var bottom = sidebarRect.bottom - marginBottom;
@@ -272,7 +276,9 @@
                                 active.scrollIntoView();
                             }
                         }
-                    } catch (_) {}
+                    } catch (_) {
+                        // Best-effort UX: ignore measurement errors.
+                    }
                 }
 
                 function scheduleEnsure() {
@@ -299,6 +305,7 @@
             }
         })();
     </script>
+
 
 
 </body>
