@@ -40,11 +40,13 @@ Alloyは、MITのSoftware Design Groupで開発されました。Daniel Jackson�
 
 ### 産業界での受容と成功事例
 
-Alloyは学術的なツールとして始まりましたが、産業界でも広く採用されています。特に、システムの設計段階での問題発見において大きな成果を上げています。
+Alloyは学術的なツールとして始まりましたが、設計段階での**反例探索（bounded checking）**により、仕様の穴や整合性違反を早期に発見する目的で実務でも利用されています。
 
-Amazonでは、分散システムの設計にAlloyを活用しています。複雑な分散アルゴリズムの設計で、微妙な競合状態やデッドロックの可能性を事前に発見することで、本番環境での障害を予防しています。
+Alloy Analyzerが提供するのは「スコープで有界な探索」であり、得られる保証は「そのスコープ内で反例が存在しない」ことです。スコープ外の一般性を主張する場合は、抽象化の妥当性（小スコープ仮説など）を別途説明する必要があります。
 
-Microsoft、ABB、Alcatel-Lucentなどの企業でも、システム設計の品質向上にAlloyが貢献しています。これらの成功事例は、「軽量」アプローチの実用性を実証しています。
+参考（一次・公式情報）：
+- Alloy Tools（公式）: <https://alloytools.org/>
+- Daniel Jackson, “Alloy: A lightweight object modelling notation” (2002): <https://people.csail.mit.edu/dnj/publications/alloy-journal.pdf>
 
 ![図4-1：Alloyによる軽量形式的手法の全体像](../../docs/assets/images/diagrams/alloy-modeling-approach.svg)
 
@@ -58,13 +60,15 @@ Alloyは、異なる世界観を提示します。「関係中心」の世界観
 
 例えば、大学の履修システムを考えてみましょう。オブジェクト指向では、「学生オブジェクト」「科目オブジェクト」を作り、学生オブジェクトが「履修リスト」を属性として持つかもしれません。しかしAlloyでは、「学生」「科目」という集合と、「履修関係」という関係で表現します。
 
-```text
-sig Student {}
+```alloy
+sig Student {
+    enrollment: set Course
+}
+
 sig Course {}
-relation enrollment: Student -> Course
 ```
 
-この表現により、「どの学生がどの科目を履修しているか」という関係性が明確になり、様々な制約や性質を自然に表現できます。
+この表現により、`enrollment` は `Student -> Course` 型の関係（フィールド）として扱われ、`s.enrollment` で学生 `s` が履修する科目集合を参照できます。関係性が明確になり、様々な制約や性質を自然に表現できます。
 
 ### 関係としての世界の構造
 
@@ -82,7 +86,7 @@ relation enrollment: Student -> Course
 
 Alloyの基本的な構成要素は「アトム（atom）」です。アトムは、分割できない基本的な要素で、システムの登場人物や物体を表します。アトムは「シグネチャ（signature）」によってグループ化されます。
 
-```text
+```
 sig Person {
     age: Int,
     friends: set Person
@@ -105,7 +109,7 @@ sig Teacher extends Person {
 
 この関係表現により、複雑な構造を簡潔に記述できます：
 
-```text
+```
 sig File {
     parent: lone Directory,  // 最大1つのディレクトリが親
     contents: set Byte       // 複数のバイトを含む
@@ -120,7 +124,7 @@ sig Directory {
 
 Alloyでは、システムが満たすべき制約を「ファクト（fact）」として記述します。ファクトは、すべての有効なモデルで成り立つべき性質です。
 
-```text
+```
 fact NoSelfLoop {
     // 人は自分自身の友達にはなれない
     no p: Person | p in p.friends
@@ -146,7 +150,7 @@ Alloyの関係には「多重度（multiplicity）」を指定できます。こ
 - `some`: 最低1つ
 - `set`: 任意個数（0以上）
 
-```text
+```
 sig Car {
     owner: one Person,       // 車には必ず1人の所有者
     driver: lone Person,     // 運転者は0人または1人
@@ -164,7 +168,7 @@ Alloyでは、関係に対する豊富な演算が提供されています：
 **推移閉包**: `*r` - 関係rの反射推移閉包
 
 例：
-```text
+```
 // すべての祖先
 person.^parent
 
@@ -179,7 +183,7 @@ directory.*children
 
 関係中心の表現により、複雑な制約も自然に表現できます：
 
-```text
+```
 // セキュリティポリシー
 fact AccessControl {
     // ファイルにアクセスできるのは所有者または権限を持つユーザー
@@ -629,21 +633,39 @@ pred securityViolation {
 
 **第1段階**：基本的な要素とその関係
 ```alloy
-sig User {}
 sig File {}
-sig owns[User, File] {}
+
+sig User {
+    owns: set File
+}
 ```
 
 **第2段階**：制約の追加
 ```alloy
-fact { all f: File | one f.owner }
+sig File {}
+
+sig User {
+    owns: set File
+}
+
+// 各ファイルはちょうど1人のユーザーに所有される
+fact UniqueOwner {
+    all f: File | one u: User | f in u.owns
+}
 ```
 
 **第3段階**：複雑な関係の導入
 ```alloy
-sig Group {}
-relation membership: User -> Group
-relation groupFiles: Group -> File
+sig File {}
+
+sig Group {
+    groupFiles: set File
+}
+
+sig User {
+    owns: set File,
+    groups: set Group
+}
 ```
 
 **第4段階**：ポリシーと制約の詳細化
@@ -873,11 +895,11 @@ fact PerformanceConstraints {
 
 ## 4.5 Alloy Analyzerによる検証の実践
 
-### モデル検査の基本概念
+### 模型検査の基本概念
 
-Alloy Analyzerは、作成したモデルを実際に検査するためのツールです。「モデル検査（Model Checking）」という技術を使って、指定された範囲内ですべての可能な状況を探索し、制約違反や予期しない振る舞いを発見します。
+Alloy Analyzerは、作成したモデルを実際に検査するためのツールです。「模型検査（Model Checking）」という技術を使って、指定された範囲内ですべての可能な状況を探索し、制約違反や予期しない振る舞いを発見します。
 
-モデル検査の基本的な流れ：
+模型検査の基本的な流れ：
 1. **モデル生成**: 制約を満たすインスタンスを生成
 2. **性質検証**: 特定の性質が成り立つかを確認
 3. **反例発見**: 問題があれば具体的な反例を提示
@@ -961,7 +983,7 @@ check NoFileSharing for 3
 
 この例では、`NoFileSharing`アサーションが失敗します。Analyzerは以下のような反例を生成するかもしれません：
 
-```text
+```
 User0: files = {File0}, groups = {Group0}
 User1: files = {File0}, groups = {Group0}  
 Group0: members = {User0, User1}, sharedFiles = {File0}
@@ -1005,8 +1027,9 @@ pred initialState {
 }
 
 // ファイル作成操作
-pred createFile[u: User, f: File] {
-    f not in User.files  // 事前条件
+pred createFile[u: one User, f: one File] {
+    f not in u.files  // 事前条件（作成者uの所有集合に未登録）
+    no other: User - u | f in other.files  // 他ユーザーにも未登録（重複作成の排除）
     // 事後条件は実装依存
 }
 
@@ -1019,7 +1042,7 @@ pred securityBreach {
 
 // 段階的な検証
 run initialState for 3
-run { initialState and some f: File | createFile[User, f] } for 3
+run { initialState and some u: User, f: File | createFile[u, f] } for 3
 check { not securityBreach } for 4
 ```
 
@@ -1081,7 +1104,72 @@ check NoUnauthorizedAccess for 4
 
 この反復プロセスにより、段階的にモデルの品質を向上できます。
 
-## 4.6 反例から学ぶ：設計の改善サイクル
+## 4.6 Alloy 6の拡張：可変状態（mutable state）と時間（temporal logic）
+
+Alloyは伝統的に「静的構造（関係）」の整合性確認に強い一方、**Alloy 6**では`var`とtemporal operatorにより、状態遷移（トレース）を直接扱えます。これにより、Alloy 4で一般的だった「Stateシグネチャ+ordering」による時間エンコードを省略し、モデルと反例トレースをより近い形で扱えます。
+
+本書の実行環境（付録B）は`tools/bootstrap.sh`でAlloy 6.2.0を固定しており、読者は同一のコマンドで再現できます（環境変数`ALLOY_VERSION`で上書き可能）。
+
+### 基本構文（Alloy 6）
+
+- `var`：シグネチャ/フィールドを「状態によって変化するもの」として宣言する
+- `'`（prime）：次状態の値を参照する（例：`Trash' = Trash + f`）
+- temporal operator：`always`（常に）、`eventually`（いつか）、`once`（過去に一度でも）、`after`（次状態）など
+- `n steps`：探索するトレース長（上限）。スコープとstepsを増やすほど探索コストは増える
+
+### 例：ゴミ箱（Trash）モデル（状態遷移の最小例）
+
+`examples/alloy/trash-temporal.als`は、ファイル集合`File`と、可変なゴミ箱集合`Trash`を持つ最小モデルです。削除（delete）/復元（restore）を遷移として定義し、簡単な安全性性質を検査します。
+
+```alloy
+var sig Trash in File {}
+
+pred delete[f: File] {
+  f not in Trash
+  Trash' = Trash + f
+}
+
+pred restore[f: File] {
+  f in Trash
+  Trash' = Trash - f
+}
+
+pred stutter {
+  Trash' = Trash
+}
+
+fact init {
+  no Trash
+}
+
+fact transitions {
+  always (stutter or some f: File | delete[f] or restore[f])
+}
+
+example: run { eventually (some Trash and after no Trash) } for 3 but 6 steps
+
+assert restoreAfterDelete {
+  always (all f: File | restore[f] implies once delete[f])
+}
+check restoreAfterDelete for 3 but 6 steps
+```
+
+実行（CLI）：
+
+```bash
+bash tools/bootstrap.sh
+bash tools/alloy-check.sh --verbose examples/alloy/trash-temporal.als
+```
+
+結果の読み方：
+- `run`はトレースの存在確認であり、`SAT`は「条件を満たすトレースが存在」を意味します。
+- `check`は反例探索であり、`UNSAT`は「与えたスコープ/steps内では反例が見つからない（性質が保持される）」を意味します（`SAT`なら反例が見つかっています）。
+
+生成物（再現性のための保存先）：
+- `.artifacts/alloy/trash-temporal/example-solution-0.md` にトレース（state 0,1,...）が出力されます。
+- GUIで可視化したい場合は `java -jar tools/.cache/alloy-6.2.0.jar gui` で起動し、モデルを開いてstateを遷移しながら確認できます。
+
+## 4.7 反例から学ぶ：設計の改善サイクル
 
 ### 反例の教育的価値
 
@@ -1117,7 +1205,7 @@ check SecureAccess for 3
 ```
 
 **反例の発見**：
-```text
+```
 User0: owns = {File0}, canRead = {File0, File1}
 User1: owns = {File1}, canRead = {File1}
 File0: owner = User0
@@ -1327,6 +1415,12 @@ run PerformanceBottleneck for 3
 
 ## 章末課題
 
+**AI利用時の提出ルール（共通）**
+- AIの出力は提案として扱い、合否は検証器で判定する
+- 提出物: 使用プロンプト / 生成仕様・不変条件 / 検証コマンドとログ（seed/深さ/スコープ） / 反例が出た場合の修正履歴
+- 詳細なテンプレは付録D・付録Fを参照する
+
+
 ### 基礎演習1：Alloyモデルの読解
 
 以下のAlloyモデルを読んで、表現されているシステムの構造と制約を説明してください：
@@ -1393,7 +1487,7 @@ fact FamilyRules {
 3. セキュリティ性質をassertとして記述
 4. check コマンドで検証
 
-### 実践演習2：モデル検査と改善
+### 実践演習2：模型検査と改善
 
 前の演習で作成したモデルについて：
 
@@ -1405,7 +1499,7 @@ fact FamilyRules {
 
 ### 発展演習：動的振る舞いのモデル化
 
-時間の概念を導入して、以下のシステムの動的な振る舞いをモデル化してください：
+Alloy 6の`var`とtemporal operatorを用い、以下のシステムの動的な振る舞いをモデル化してください（4.6参照）：
 
 **ATMシステム**：
 - 口座には残高がある
@@ -1414,10 +1508,12 @@ fact FamilyRules {
 - 残高不足では引き出しできない
 - 取引履歴が記録される
 
-1. 時間を表現するシグネチャを定義
-2. 各操作を述語として定義
-3. システムの不変条件を記述
-4. 操作シーケンスの妥当性を検証
+1. 状態（口座残高、取引履歴など）を`var`で宣言
+2. 各操作を「現状態→次状態」の述語として定義（`x' = ...`）
+3. 不変条件/禁止事項を`always`で記述し、`check`で反例探索
+4. `for ... but ... steps`で探索スコープとトレース長を調整し、反例→修正→再検証を回す
+
+補足：Alloy 4系のスタイルとして、`State`シグネチャと`util/ordering`で時間を明示的にエンコードする方法もありますが、本書ではAlloy 6の記法を基本とします。
 
 **検証すべき性質**：
 - 残高は非負を保つ

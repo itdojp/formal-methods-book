@@ -127,21 +127,19 @@ popularBooks == {b: allBooks | #borrowers(b) > threshold}
 
 Z記法では、関係と関数を明確に区別し、それぞれの特性に応じた記法を提供します。
 
-**関係の種類：**
-- ↔ (relation): 一般的な関係
-- → (function): 部分関数
-- ⤖ (partial function): 明示的な部分関数
-- ↣ (total function): 全関数  
-- ⤏ (injection): 単射
-- ↠ (surjection): 全射
-- ⤖ (bijection): 全単射
+**関係/関数の基本記号（本章で使用）**
+- `X ↔ Y`（relation）: 一般の二項関係（多対多を含む）
+- `X ⇸ Y`（partial function）: 部分関数（各入力に高々1つの出力）
+- `X → Y`（total function）: 全関数（各入力にちょうど1つの出力）
+- `X ↣ Y`（injection）: 単射（全関数かつ異なる入力は異なる出力）
+- `x ↦ y`（maplet）: 対応（ペア）
 
 **実用例：学生の履修管理**
 ```z
-enrollment: Student ↔ Course           // 多対多の関係
-advisor: Student ⤏ Teacher             // 各学生に最大1人の指導教員
-teaches: Teacher ↣ ℙ Course           // 各教師は複数科目を担当
-studentID: Student ⤖ StudentNumber    // 学生IDは一意
+enrollment: Student ↔ Course            // 多対多の関係
+advisor: Student ⇸ Teacher              // 各学生に最大1人の指導教員（部分関数）
+teaches: Teacher → ℙ Course             // 各教師は担当科目集合を持つ（全関数）
+studentID: Student ↣ StudentNumber      // 学生IDは一意（単射）
 ```
 
 ### 述語論理の実践的応用
@@ -174,12 +172,13 @@ Z記法の真価は、これらの数学的概念をスキーマ内で統合す�
 LibrarySystem
 ├─ books: ℙ Book
 ├─ members: ℙ Member  
-├─ loans: Member ⤏ ℙ Book
-├─ dueDate: Book ⤏ Date
+├─ loans: Member ↔ Book
+├─ dueDate: Book ⇸ Date
 ├─────────────────────────
 ├─ dom loans ⊆ members
 ├─ ran loans ⊆ books
-├─ ∀ m: Member • #(loans(m)) ≤ maxLoans
+├─ ran loans ⊆ dom dueDate
+├─ ∀ m: Member • #(loans[{m}]) ≤ maxLoans
 └─ ∀ b: ran loans • dueDate(b) > today
 ```
 
@@ -232,14 +231,14 @@ Z記法のスキーマは、宣言部と制約部から構成されます。宣�
 ┌─ Library ─────────────────────────┐
 │ books: ℙ Book                     │
 │ members: ℙ Member                 │
-│ catalogue: Book ⤖ BookInfo        │
-│ loans: Member ⇀ ℙ Book            │
-│ reservations: Member ⇀ ℙ Book     │
+│ catalogue: Book → BookInfo        │
+│ loans: Member ↔ Book              │
+│ reservations: Member ↔ Book       │
 ├───────────────────────────────────┤
 │ dom catalogue = books             │
 │ dom loans ⊆ members               │
 │ ran loans ⊆ books                 │
-│ ∀ m: Member • #(loans(m)) ≤ 5     │
+│ ∀ m: Member • #(loans[{m}]) ≤ 5   │
 │ loans ∩ reservations = ∅          │
 └───────────────────────────────────┘
 ```
@@ -419,7 +418,7 @@ Z記法では、操作を記述するための特別な記法が用意されて�
 │ member? ∈ members                │
 │ book? ∈ books                    │
 │ book? ∉ ran loans               │
-│ #(loans(member?)) < maxLoans     │
+│ #(loans[{member?}]) < maxLoans   │
 │                                  │
 │ // 事後条件                      │
 │ loans' = loans ∪ {member? ↦ book?}│
@@ -445,7 +444,7 @@ Z記法では、操作を記述するための特別な記法が用意されて�
 │ member? ∉ members ∨              │
 │ book? ∉ books ∨                 │
 │ book? ∈ ran loans ∨             │
-│ #(loans(member?)) ≥ maxLoans     │
+│ #(loans[{member?}]) ≥ maxLoans   │
 │                                  │
 │ result! ∈ {memberNotFound,       │
 │            bookNotFound,          │
