@@ -121,10 +121,12 @@ CSPでは、プロセス間の相互作用を「事象（event）」として抽
 
 ```csp
 CUSTOMER = arrive → order → pay → leave → CUSTOMER
-CASHIER = greet → take_order → accept_payment → CASHIER
+CASHIER = greet → order → pay → CASHIER
+
+SYSTEM = CUSTOMER [| {order, pay} |] CASHIER
 ```
 
-このシステムでは、`order`事象と`take_order`事象が同期し、`pay`事象と`accept_payment`事象が同期します。
+この例では、`order` と `pay` が両プロセスで同名のため、同期集合 `{order, pay}` に含めた事象はランデブー同期（待ち合わせ）として発生します。異なる名前の事象が自動的に同期するわけではなく、必要ならイベント名を揃えるか、renaming（リネーム）で同期条件を明示します。
 
 ### チャネルによる構造化
 
@@ -135,7 +137,7 @@ PRODUCER = produce → out!data → PRODUCER
 CONSUMER = in?x → consume.x → CONSUMER
 BUFFER = in?x → out!x → BUFFER
 
-SYSTEM = PRODUCER |[{out, in}]| BUFFER |[{out, in}]| CONSUMER
+SYSTEM = PRODUCER [| {out, in} |] BUFFER [| {out, in} |] CONSUMER
 ```
 
 この例では、`out`と`in`チャネルにより、プロデューサーとコンシューマーがバッファーを介して通信します。
@@ -147,7 +149,7 @@ CSPの強力な特徴の一つは、小さなプロセスから大きなシス�
 ```csp
 CELL = left?x → right!x → CELL
 PIPE(n) = if n = 0 then CELL 
-          else CELL |[{right, left}]| PIPE(n-1)
+          else CELL [| {right, left} |] PIPE(n-1)
 ```
 
 この再帰的定義により、任意の長さのパイプラインを構築できます。
@@ -267,9 +269,9 @@ SYSTEM = PRINTER ||| SCANNER ||| KEYBOARD
 
 プロセス間に相互作用はなく、完全に並行して動作します。
 
-**同期並行（||）**: 指定された事象での同期
+**同期並行（[| X |]）**: 指定された事象での同期
 ```csp
-SYSTEM = CUSTOMER |[{order, pay}]| CASHIER
+SYSTEM = CUSTOMER [| {order, pay} |] CASHIER
 ```
 
 `order`と`pay`事象で同期し、他の事象は独立して実行されます。
@@ -293,8 +295,8 @@ PROCESSOR = in?x → process.x → out!process(x) → PROCESSOR
 CONSUMER = in?x → consume.x → CONSUMER
 
 PIPELINE = PRODUCER 
-          |[{out, in}]| PROCESSOR 
-          |[{out, in}]| CONSUMER
+          [| {out, in} |] PROCESSOR 
+          [| {out, in} |] CONSUMER
 ```
 
 この構成により、データが生産者から消費者まで段階的に処理されます。
@@ -388,10 +390,10 @@ RECEIVER = channel?x → process.x → RECEIVER
 
 **同期通信**: 送信と受信が同時に発生
 ```csp
-COMMUNICATION = SENDER |[{channel}]| RECEIVER
+COMMUNICATION = SENDER [| {channel} |] RECEIVER
 ```
 
-この仕組みにより、プロセス間での確実なメッセージ交換が保証されます。
+この抽象では、送信と受信が同一の事象として同時に発生する（= 片方だけが進まない）ため、送受の整合性条件を仕様として明示できます。一方で、実システムにおける通信路の信頼性（損失・遅延・再送・バッファリング等）は別途モデル化が必要です。
 
 ### バッファリングの概念
 
@@ -434,9 +436,9 @@ PRIORITY_HANDLER =
 BROADCASTER = message?x → (out1!x || out2!x || out3!x) → BROADCASTER
 
 MULTICAST_SYSTEM = BROADCASTER 
-                 |[{out1}]| RECEIVER1
-                 |[{out2}]| RECEIVER2  
-                 |[{out3}]| RECEIVER3
+                 [| {out1} |] RECEIVER1
+                 [| {out2} |] RECEIVER2  
+                 [| {out3} |] RECEIVER3
 ```
 
 ### 選択的通信
@@ -560,7 +562,7 @@ CSPでは、デッドロックを形式的に定義できます。すべての�
 
 ```csp
 DEADLOCK_EXAMPLE = 
-  (a → b → STOP) |[{a, b}]| (b → a → STOP)
+  (a → b → STOP) [| {a, b} |] (b → a → STOP)
 ```
 
 この例では、左のプロセスが事象`a`の発生を待ち、右のプロセスが事象`b`の発生を待っているため、どちらも進行できません。
@@ -585,7 +587,7 @@ PROCESS = resource1.acquire → resource2.acquire →
           work → resource2.release → resource1.release → PROCESS
 
 // 循環待機：プロセス間の循環依存
-SYSTEM = (P1 |[{r1,r2}]| P2) \ {r1,r2}
+SYSTEM = (P1 [| {r1,r2} |] P2) \ {r1,r2}
 where P1 = r1.acquire → r2.acquire → work → r2.release → r1.release → P1
       P2 = r2.acquire → r1.acquire → work → r1.release → r2.release → P2
 ```
@@ -627,7 +629,7 @@ BANKER =
 
 ```csp
 LIVELOCK_EXAMPLE = 
-  P1 |[{move}]| P2
+  P1 [| {move} |] P2
 where P1 = move.left → detect_collision → move.right → P1
       P2 = move.right → detect_collision → move.left → P2
 ```
@@ -731,7 +733,7 @@ ADAPTIVE_SYSTEM =
 CSPモデルのデッドロック検証には専用ツールが利用できます：
 
 - **FDR (Failures-Divergences Refinement)**: 厳密な検証
-- **ProB**: モデル検査とアニメーション  
+- **ProB**: 模型検査とアニメーション  
 - **PAT**: 確率的検証
 
 これらのツールにより、設計段階でデッドロックの可能性を発見し、修正できます。
@@ -966,11 +968,11 @@ EVACUATION_PROTOCOL =
 ```csp
 RESTAURANT_SYSTEM = 
   (CUSTOMER_MANAGEMENT 
-   |[{arrive, seat, order, pay, leave}]| 
+   [| {arrive, seat, order, pay, leave} |] 
    STAFF_COORDINATION)
-  |[{order, food_ready, payment}]|
+  [| {order, food_ready, payment} |]
   (KITCHEN_OPERATIONS 
-   |[{ingredients, equipment}]| 
+   [| {ingredients, equipment} |] 
    RESOURCE_MANAGEMENT)
   \ {internal_communications}
 
@@ -1044,7 +1046,7 @@ PRODUCER = produce → buffer!item → PRODUCER
 CONSUMER = buffer?x → consume.x → CONSUMER  
 BUFFER = in?x → out!x → BUFFER
 
-SYSTEM = PRODUCER |[{buffer}]| BUFFER[buffer/in, buffer/out] |[{buffer}]| CONSUMER
+SYSTEM = PRODUCER [| {buffer} |] BUFFER[buffer/in, buffer/out] [| {buffer} |] CONSUMER
 ```
 
 説明すべき内容：
@@ -1064,8 +1066,8 @@ PROCESS_A = resource1.acquire → resource2.acquire →
 PROCESS_B = resource2.acquire → resource1.acquire → 
            work → resource1.release → resource2.release → PROCESS_B
 
-SYSTEM = PROCESS_A |[{resource1.acquire, resource1.release, 
-                     resource2.acquire, resource2.release}]| PROCESS_B
+SYSTEM = PROCESS_A [| {resource1.acquire, resource1.release, 
+                     resource2.acquire, resource2.release} |] PROCESS_B
 ```
 
 分析内容：

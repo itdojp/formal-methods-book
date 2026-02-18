@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
   <title>形式的手法比較マトリックス</title>
-  <desc>各形式的手法（モデル検査、定理証明、抽象解釈）の特徴比較と適用領域の可視化</desc>
+  <desc>各形式的手法（模型検査、定理証明、抽象解釈）の特徴比較と適用領域の可視化</desc>
   <defs>
     <style>
       :root {
@@ -35,7 +35,7 @@
   <g id="method-headers">
     <!-- Model Checking -->
     <rect x="200" y="70" width="150" height="40" class="model-checking-box" rx="4"/>
-    <text x="275" y="85" class="method-title" text-anchor="middle">モデル検査</text>
+    <text x="275" y="85" class="method-title" text-anchor="middle">模型検査</text>
     <text x="275" y="100" class="method-title" text-anchor="middle">Model Checking</text>
 
     <!-- Theorem Proving -->
@@ -153,7 +153,7 @@
 
     <!-- Model Checking Applications -->
     <rect x="100" y="370" width="180" height="70" fill="var(--svg-primary)" fill-opacity="0.1" stroke="var(--svg-primary)" stroke-width="1" rx="4"/>
-    <text x="190" y="385" class="rating-text" text-anchor="middle" font-weight="500">モデル検査</text>
+    <text x="190" y="385" class="rating-text" text-anchor="middle" font-weight="500">模型検査</text>
     <text x="110" y="400" class="annotation-text" font-weight="500">適用領域:</text>
     <text x="115" y="413" class="annotation-text">• 通信プロトコル</text>
     <text x="115" y="426" class="annotation-text">• 並行システム</text>
@@ -188,7 +188,7 @@
     <text x="120" y="510" class="rating-text" font-weight="500">システムの特性に基づく選択:</text>
 
     <text x="130" y="525" class="annotation-text">• 有限状態システム + 自動検証 → </text>
-    <text x="350" y="525" class="annotation-text" fill="var(--svg-primary)" font-weight="500">モデル検査 (SPIN, TLC, NuSMV)</text>
+    <text x="350" y="525" class="annotation-text" fill="var(--svg-primary)" font-weight="500">模型検査 (SPIN, TLC, NuSMV)</text>
 
     <text x="130" y="540" class="annotation-text">• 数学的厳密性 + 無限状態 → </text>
     <text x="350" y="540" class="annotation-text" fill="var(--svg-success)" font-weight="500">定理証明 (Rocq, Isabelle, Lean)</text>

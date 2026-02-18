@@ -53,11 +53,13 @@ Alloyは、MITのSoftware Design Groupで開発されました。Daniel Jackson�
 
 ### 産業界での受容と成功事例
 
-Alloyは学術的なツールとして始まりましたが、産業界でも広く採用されています。特に、システムの設計段階での問題発見において大きな成果を上げています。
+Alloyは学術的なツールとして始まりましたが、設計段階での**反例探索（bounded checking）**により、仕様の穴や整合性違反を早期に発見する目的で実務でも利用されています。
 
-Amazonでは、分散システムの設計にAlloyを活用しています。複雑な分散アルゴリズムの設計で、微妙な競合状態やデッドロックの可能性を事前に発見することで、本番環境での障害を予防しています。
+Alloy Analyzerが提供するのは「スコープで有界な探索」であり、得られる保証は「そのスコープ内で反例が存在しない」ことです。スコープ外の一般性を主張する場合は、抽象化の妥当性（小スコープ仮説など）を別途説明する必要があります。
 
-Microsoft、ABB、Alcatel-Lucentなどの企業でも、システム設計の品質向上にAlloyが貢献しています。これらの成功事例は、「軽量」アプローチの実用性を実証しています。
+参考（一次・公式情報）：
+- Alloy Tools（公式）: <https://alloytools.org/>
+- Daniel Jackson, “Alloy: A lightweight object modelling notation” (2002): <https://people.csail.mit.edu/dnj/publications/alloy-journal.pdf>
 
 ![図4-1：Alloyによる軽量形式的手法の全体像](../../assets/images/diagrams/alloy-modeling-approach.svg)
 （読み取りポイント：関係中心・小さなスコープ・反例駆動）
@@ -94,13 +96,15 @@ Alloyは、異なる世界観を提示します。「関係中心」の世界観
 
 例えば、大学の履修システムを考えてみましょう。オブジェクト指向では、「学生オブジェクト」「科目オブジェクト」を作り、学生オブジェクトが「履修リスト」を属性として持つかもしれません。しかしAlloyでは、「学生」「科目」という集合と、「履修関係」という関係で表現します。
 
-```text
-sig Student {}
+```alloy
+sig Student {
+    enrollment: set Course
+}
+
 sig Course {}
-relation enrollment: Student -> Course
 ```
 
-この表現により、「どの学生がどの科目を履修しているか」という関係性が明確になり、様々な制約や性質を自然に表現できます。
+この表現により、`enrollment` は `Student -> Course` 型の関係（フィールド）として扱われ、`s.enrollment` で学生 `s` が履修する科目集合を参照できます。関係性が明確になり、様々な制約や性質を自然に表現できます。
 
 ### 関係としての世界の構造
 
@@ -665,21 +669,39 @@ pred securityViolation {
 
 **第1段階**：基本的な要素とその関係
 ```alloy
-sig User {}
 sig File {}
-sig owns[User, File] {}
+
+sig User {
+    owns: set File
+}
 ```
 
 **第2段階**：制約の追加
 ```alloy
-fact { all f: File | one f.owner }
+sig File {}
+
+sig User {
+    owns: set File
+}
+
+// 各ファイルはちょうど1人のユーザーに所有される
+fact UniqueOwner {
+    all f: File | one u: User | f in u.owns
+}
 ```
 
 **第3段階**：複雑な関係の導入
 ```alloy
-sig Group {}
-relation membership: User -> Group
-relation groupFiles: Group -> File
+sig File {}
+
+sig Group {
+    groupFiles: set File
+}
+
+sig User {
+    owns: set File,
+    groups: set Group
+}
 ```
 
 **第4段階**：ポリシーと制約の詳細化
@@ -909,11 +931,11 @@ fact PerformanceConstraints {
 
 ## 4.5 Alloy Analyzerによる検証の実践
 
-### モデル検査の基本概念
+### 模型検査の基本概念
 
-Alloy Analyzerは、作成したモデルを実際に検査するためのツールです。「モデル検査（Model Checking）」という技術を使って、指定された範囲内ですべての可能な状況を探索し、制約違反や予期しない振る舞いを発見します。
+Alloy Analyzerは、作成したモデルを実際に検査するためのツールです。「模型検査（Model Checking）」という技術を使って、指定された範囲内ですべての可能な状況を探索し、制約違反や予期しない振る舞いを発見します。
 
-モデル検査の基本的な流れ：
+模型検査の基本的な流れ：
 1. **モデル生成**: 制約を満たすインスタンスを生成
 2. **性質検証**: 特定の性質が成り立つかを確認
 3. **反例発見**: 問題があれば具体的な反例を提示
@@ -1041,8 +1063,9 @@ pred initialState {
 }
 
 // ファイル作成操作
-pred createFile[u: User, f: File] {
-    f not in User.files  // 事前条件
+pred createFile[u: one User, f: one File] {
+    f not in u.files  // 事前条件（作成者uの所有集合に未登録）
+    no other: User - u | f in other.files  // 他ユーザーにも未登録（重複作成の排除）
     // 事後条件は実装依存
 }
 
@@ -1055,7 +1078,7 @@ pred securityBreach {
 
 // 段階的な検証
 run initialState for 3
-run { initialState and some f: File | createFile[User, f] } for 3
+run { initialState and some u: User, f: File | createFile[u, f] } for 3
 check { not securityBreach } for 4
 ```
 
@@ -1494,7 +1517,7 @@ fact FamilyRules {
 3. セキュリティ性質をassertとして記述
 4. check コマンドで検証
 
-### 実践演習2：モデル検査と改善
+### 実践演習2：模型検査と改善
 
 前の演習で作成したモデルについて：
 

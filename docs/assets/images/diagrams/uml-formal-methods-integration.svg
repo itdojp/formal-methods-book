@@ -139,7 +139,7 @@
     <!-- Verification Phase -->
     <rect x="380" y="290" width="120" height="60" fill="var(--svg-success)" fill-opacity="0.1" stroke="var(--svg-success)" stroke-width="1" rx="4"/>
     <text x="440" y="310" class="step-text" text-anchor="middle" font-weight="500">検証フェーズ</text>
-    <text x="390" y="325" class="annotation-text">• モデル検査実行</text>
+    <text x="390" y="325" class="annotation-text">• 模型検査実行</text>
     <text x="390" y="340" class="annotation-text">• 性質検証</text>
     
     <!-- Refinement Phase -->
