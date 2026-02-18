@@ -4,6 +4,7 @@
 実運用ではツール導入や検証パラメータの調整が必要です。
 
 - `examples/alloy/`: Alloyの最小モデル
+- `examples/ch04/`: 第4章（Alloy）の例題ファイル
 - `examples/tla/`: TLA+の最小モデル
 - `examples/ci/`: PR向けの軽量チェック例
 

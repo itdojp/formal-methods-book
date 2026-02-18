@@ -78,7 +78,7 @@
     <text x="330" y="457" class="method-text" text-anchor="middle">定理証明</text>
     
     <rect x="410" y="435" width="120" height="35" class="component" rx="3"/>
-    <text x="470" y="457" class="method-text" text-anchor="middle">モデル検査</text>
+    <text x="470" y="457" class="method-text" text-anchor="middle">模型検査</text>
   </g>
 
   <!-- Arrows showing progression -->

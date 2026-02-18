@@ -10,6 +10,7 @@ set -euo pipefail
 bash tools/bootstrap.sh
 
 bash tools/alloy-check.sh examples/alloy/collection.als
+bash tools/alloy-check.sh examples/ch04/university-enrollment.als
 
 bash tools/tlc-run.sh \
   --config examples/tla/QueueBounded.cfg \
@@ -27,4 +28,3 @@ bash tools/apalache-check.sh \
 bash tools/dafny-verify.sh examples/dafny/Abs.dfy
 
 echo "OK: formal checks passed"
-

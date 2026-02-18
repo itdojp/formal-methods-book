@@ -40,7 +40,7 @@
 - 用途：並行プロセスの通信・同期・デッドロック等の性質を扱う
 - 推奨読者：第6章（CSP）
 - 一次情報（ツール例）：
-  - FDR（CSPモデル検査ツール情報）：<https://www.cs.ox.ac.uk/projects/fdr/>
+  - FDR（CSP模型検査ツール情報）：<https://www.cs.ox.ac.uk/projects/fdr/>
 
 ## 2) 模型検査（TLC / Apalache / SPIN / NuSMV）
 
@@ -54,14 +54,14 @@
 
 ### SPIN（Promela）
 
-- 用途：並行システムのモデル検査（Promela）と反例トレース
+- 用途：並行システムの模型検査（Promela）と反例トレース
 - 推奨読者：第6章（並行性の落とし穴）、第8章（模型検査）
 - 一次情報：
   - 公式（spinroot）：<https://spinroot.com/spin/whatispin.html>
 
 ### NuSMV
 
-- 用途：状態遷移モデルに対するモデル検査（CTL/LTL等）
+- 用途：状態遷移モデルに対する模型検査（CTL/LTL等）
 - 推奨読者：第8章（模型検査の俯瞰）
 - 一次情報：
   - 公式サイト：<https://nusmv.fbk.eu/>
@@ -117,7 +117,7 @@
 
 ### CBMC
 
-- 用途：C/C++の境界付きモデル検査（バグ/安全性/アサーション）
+- 用途：C/C++の境界付き模型検査（バグ/安全性/アサーション）
 - 推奨読者：第8章（模型検査の考え方）、第10章（プログラム検証）
 - 一次情報：
   - 公式サイト：<https://www.cprover.org/cbmc/>

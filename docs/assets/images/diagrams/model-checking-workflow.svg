@@ -27,7 +27,7 @@
   </defs>
 
   <!-- Title -->
-  <text x="400" y="30" class="title" text-anchor="middle">モデル検査ワークフロー</text>
+  <text x="400" y="30" class="title" text-anchor="middle">模型検査ワークフロー</text>
 
   <!-- System Specification -->
   <rect x="300" y="60" width="200" height="60" class="input-box" rx="5"/>
@@ -46,7 +46,7 @@
 
   <!-- Model Checking Engine -->
   <rect x="300" y="240" width="200" height="60" class="process-box" rx="5"/>
-  <text x="400" y="265" class="process-title" text-anchor="middle">モデル検査エンジン</text>
+  <text x="400" y="265" class="process-title" text-anchor="middle">模型検査エンジン</text>
   <text x="400" y="285" class="text-content" text-anchor="middle">状態空間探索</text>
 
   <!-- Decision: Property Satisfied? -->
@@ -94,13 +94,13 @@
     <text x="560" y="265" class="small-text">• 抽象化</text>
     <text x="560" y="280" class="small-text">• 対称性削減</text>
     <text x="560" y="295" class="small-text">• 部分順序削減</text>
-    <text x="560" y="310" class="small-text">• 限定モデル検査</text>
+    <text x="560" y="310" class="small-text">• 限定模型検査</text>
   </g>
 
   <!-- Tools Examples -->
   <g id="tools">
     <rect x="50" y="520" width="700" height="60" fill="#f8f9fa" stroke="#dee2e6" stroke-width="1" rx="5"/>
-    <text x="400" y="540" class="text-content" text-anchor="middle" font-weight="bold">代表的なモデル検査ツール</text>
+    <text x="400" y="540" class="text-content" text-anchor="middle" font-weight="bold">代表的な模型検査ツール</text>
     <text x="150" y="560" class="small-text">SPIN (Promela)</text>
     <text x="300" y="560" class="small-text">NuSMV (SMV)</text>
     <text x="450" y="560" class="small-text">TLA+ (TLC)</text>
