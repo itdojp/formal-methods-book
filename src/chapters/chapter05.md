@@ -57,6 +57,7 @@ Z記法は、この数学記号の力を活用しながら、ソフトウェア�
 Z記法では、まず基本的な型を定義し、それらを組み合わせてより複雑な型を構成します。
 
 **基本型の例：**
+【ツール準拠（そのまま動く）】
 ```z
 [Person, BookID, Date]
 ```
@@ -64,6 +65,7 @@ Z記法では、まず基本的な型を定義し、それらを組み合わせ�
 角括弧で囲まれた名前は「基本型」を表します。これは、それ以上分解しない基本的な要素の集合を表現します。
 
 **構成型の例：**
+【ツール準拠（そのまま動く）】
 ```z
 Name == seq Char
 Status ::= available | borrowed | reserved
@@ -85,6 +87,7 @@ Address == [street: seq Char; city: seq Char; zipcode: Nat]
 - ℙ (power set): 冪集合
 
 **実用例：図書館の蔵書管理**
+【ツール準拠（そのまま動く）】
 ```z
 availableBooks == allBooks \ borrowedBooks
 overdueBooks == {b: borrowedBooks | dueDate(b) < today}
@@ -105,6 +108,7 @@ Z記法では、関係と関数を明確に区別し、それぞれの特性に�
 - `x ↦ y`（maplet）: 対応（ペア）
 
 **実用例：学生の履修管理**
+【擬似記法】
 ```z
 enrollment: Student ↔ Course            // 多対多の関係
 advisor: Student ⇸ Teacher              // 各学生に最大1人の指導教員（部分関数）
@@ -117,6 +121,7 @@ studentID: Student ↣ StudentNumber      // 学生IDは一意（単射）
 述語論理の量詞（∀, ∃）は、ソフトウェアの仕様記述において非常に重要な役割を果たします。
 
 **全称量詞の活用：**
+【擬似記法】
 ```z
 ∀ s: Student • #(s.courses) ≤ maxCourses
 // すべての学生の履修科目数は上限以下
@@ -126,6 +131,7 @@ studentID: Student ↣ StudentNumber      // 学生IDは一意（単射）
 ```
 
 **存在量詞の活用：**
+【擬似記法】
 ```z
 ∃ a: Admin • a.isActive = true
 // 少なくとも1人のアクティブな管理者が存在
@@ -138,6 +144,7 @@ studentID: Student ↣ StudentNumber      // 学生IDは一意（単射）
 
 Z記法の真価は、これらの数学的概念をスキーマ内で統合することで発揮されます。
 
+【擬似記法】
 ```z
 LibrarySystem
 ├─ books: ℙ Book
@@ -179,6 +186,7 @@ Z記法を実践で活用するには、記号を正しく読める必要があ�
 
 Z記法のスキーマは、宣言部と制約部から構成されます。宣言部では状態変数とその型を定義し、制約部では変数間の関係と制約を記述します。
 
+【擬似記法】
 ```z
 ┌─ BankAccount ─────────────────────┐
 │ accountNumber: AccountID          │
@@ -197,6 +205,7 @@ Z記法のスキーマは、宣言部と制約部から構成されます。宣�
 
 実際のシステムでは、複数のエンティティが相互に関連する複合的な状態を扱います。Z記法では、これを自然に表現できます。
 
+【擬似記法】
 ```z
 ┌─ Library ─────────────────────────┐
 │ books: ℙ Book                     │
@@ -219,6 +228,7 @@ Z記法のスキーマは、宣言部と制約部から構成されます。宣�
 
 大規模システムでは、スキーマを階層的に組織化することが重要です。下位レベルのスキーマを組み合わせて、上位レベルのスキーマを構築します。
 
+【擬似記法】
 ```z
 ┌─ PersonalInfo ───────────────────┐
 │ name: Name                       │
@@ -252,6 +262,7 @@ Z記法のスキーマは、宣言部と制約部から構成されます。宣�
 
 状態不変条件は、システムの整合性を保証する最も重要な要素です。Z記法では、これを数学的に厳密に表現できます。
 
+【擬似記法】
 ```z
 ┌─ OnlineStore ────────────────────┐
 │ products: ℙ Product              │
@@ -275,6 +286,7 @@ Z記法のスキーマは、宣言部と制約部から構成されます。宣�
 
 システムの状態は、しばしば条件に依存します。Z記法では、条件付きの制約を自然に表現できます。
 
+【擬似記法】
 ```z
 ┌─ FlightBookingSystem ────────────┐
 │ flights: ℙ Flight                │
@@ -298,6 +310,7 @@ Z記法のスキーマは、宣言部と制約部から構成されます。宣�
 
 動的システムでは、時間の経過により状態が変化します。Z記法では、これを明示的にモデル化できます。
 
+【擬似記法】
 ```z
 ┌─ TimedSystem ────────────────────┐
 │ currentTime: Time                │
@@ -324,6 +337,7 @@ Z記法のスキーマは、宣言部と制約部から構成されます。宣�
 3. **意味のある変数名を使用する**
 4. **複雑な制約は複数行に分割する**
 
+【擬似記法】
 ```z
 ┌─ WebServer ──────────────────────┐
 │ // 接続管理                      │
@@ -360,6 +374,7 @@ Z記法において、操作は「状態変換」として理解されます。�
 Z記法では、操作を記述するための特別な記法が用意されています。
 
 **Delta記法（Δ）**: 状態が変化する操作
+【擬似記法】
 ```z
 ΔLibrary
 ≙ Library ∧ Library'
@@ -367,6 +382,7 @@ Z記法では、操作を記述するための特別な記法が用意されて�
 これは、操作前の状態（Library）と操作後の状態（Library'）の両方を含むことを意味します。
 
 **Xi記法（Ξ）**: 状態が変化しない操作（問い合わせ操作）
+【擬似記法】
 ```z
 ΞLibrary
 ≙ ΔLibrary ∧ θLibrary = θLibrary'
@@ -377,6 +393,7 @@ Z記法では、操作を記述するための特別な記法が用意されて�
 
 図書館システムの本の貸出操作を例に、操作スキーマの構造を理解しましょう。
 
+【擬似記法】
 ```z
 ┌─ BorrowBook ─────────────────────┐
 │ ΔLibrary                         │
@@ -404,6 +421,7 @@ Z記法では、操作を記述するための特別な記法が用意されて�
 
 実際のシステムでは、エラー処理が重要です。Z記法では、正常ケースとエラーケースを同じ枠組みで記述できます。
 
+【擬似記法】
 ```z
 ┌─ BorrowBookError ────────────────┐
 │ ΞLibrary                         │
@@ -429,6 +447,7 @@ Z記法では、操作を記述するための特別な記法が用意されて�
 
 完全な操作は、正常ケースとエラーケースを統合したものです。
 
+【擬似記法】
 ```z
 CompleteBorrowBook ≙ BorrowBook ∨ BorrowBookError
 ```
@@ -439,6 +458,7 @@ CompleteBorrowBook ≙ BorrowBook ∨ BorrowBookError
 
 より複雑な操作では、段階的な記述が有効です。
 
+【擬似記法】
 ```z
 ┌─ ProcessPurchase ────────────────┐
 │ ΔOnlineStore                     │
@@ -472,6 +492,7 @@ CompleteBorrowBook ≙ BorrowBook ∨ BorrowBookError
 
 操作スキーマでは、操作前後の状態の関係を明確に記述します。これにより、操作の影響範囲と副作用を正確に把握できます。
 
+【擬似記法】
 ```z
 ┌─ TransferFunds ──────────────────┐
 │ ΔBankingSystem                   │
@@ -507,6 +528,7 @@ CompleteBorrowBook ≙ BorrowBook ∨ BorrowBookError
 
 複数の操作を組み合わせる場合、その順序と依存関係を明確にする必要があります。
 
+【ツール準拠（そのまま動く）】
 ```z
 BookReservationProcess ≙ 
   CheckAvailability ⨾ 
@@ -521,6 +543,7 @@ BookReservationProcess ≙
 
 状況に応じて異なる処理を行う操作も記述できます。
 
+【擬似記法】
 ```z
 ┌─ ProcessReturn ──────────────────┐
 │ ΔLibrary                         │
@@ -558,6 +581,7 @@ Z記法の真の力は、基本的な操作を組み合わせて複雑な操作�
 最も基本的なスキーマ演算は「合成」です。複数のスキーマを論理演算子で組み合わせることで、新しいスキーマを作成できます。
 
 **論理積（∧）による合成：**
+【擬似記法】
 ```z
 AuthenticatedOperation ≙ 
   UserAuthentication ∧ 
@@ -567,6 +591,7 @@ AuthenticatedOperation ≙
 これは、ユーザー認証とシステム操作の両方の制約を満たす操作を定義します。
 
 **論理和（∨）による合成：**
+【擬似記法】
 ```z
 FlexiblePayment ≙ 
   CreditCardPayment ∨ 
@@ -580,6 +605,7 @@ FlexiblePayment ≙
 
 実世界の多くの操作は、複数の段階に分かれています。Z記法では、これを順次合成（⨾）により表現できます。
 
+【ツール準拠（そのまま動く）】
 ```z
 CompleteBooking ≙ 
   ValidateRequest ⨾ 
@@ -595,6 +621,7 @@ CompleteBooking ≙
 
 操作における条件分岐は、条件付きスキーマ演算により表現できます。
 
+【擬似記法】
 ```z
 ProcessOrder ≙ 
   (InStock ∧ ImmediateDelivery) ∨
@@ -608,6 +635,7 @@ ProcessOrder ≙
 
 実用的なシステムでは、各操作にエラー処理が必要です。スキーマ演算により、正常処理とエラー処理を統合できます。
 
+【擬似記法】
 ```z
 RobustOperation ≙ 
   (Preconditions ∧ NormalProcessing) ∨
@@ -615,6 +643,7 @@ RobustOperation ≙
 ```
 
 より具体的な例：
+【擬似記法】
 ```z
 ┌─ SafeWithdrawal ─────────────────┐
 │ (ValidAccount ∧ SufficientFunds  │
@@ -632,6 +661,7 @@ RobustOperation ≙
 
 並行実行される操作も、スキーマ演算により表現できます。
 
+【ツール準拠（そのまま動く）】
 ```z
 ParallelProcessing ≙ 
   DatabaseUpdate ∥ 
@@ -646,6 +676,7 @@ ParallelProcessing ≙
 スキーマ演算により、抽象的な操作から具体的な操作への段階的な詳細化も可能です。
 
 **抽象レベル：**
+【ツール準拠（そのまま動く）】
 ```z
 PaymentProcess ≙ 
   ValidatePayment ⨾ 
@@ -654,6 +685,7 @@ PaymentProcess ≙
 ```
 
 **具体化レベル：**
+【擬似記法】
 ```z
 CreditCardPayment ≙ 
   (ValidateCreditCard ∧ CheckCreditLimit) ⨾
@@ -665,6 +697,7 @@ CreditCardPayment ≙
 
 フレーム問題への対処として、「変更する部分」と「変更しない部分」を明確に分離できます。
 
+【擬似記法】
 ```z
 ┌─ MinimalUpdate ──────────────────┐
 │ ΔSystemState                     │
@@ -684,6 +717,7 @@ CreditCardPayment ≙
 
 一部の操作では、逆操作（undo）が重要です。スキーマ演算により、操作とその逆操作の関係を表現できます。
 
+【擬似記法】
 ```z
 UndoableOperation ≙ 
   (DoAction ∧ SaveUndoInfo) ∨
@@ -699,6 +733,7 @@ FileManagement ≙
 
 セキュリティ要求の多いシステムでは、すべての操作に権限制御が必要です。
 
+【擬似記法】
 ```z
 SecureOperation[X] ≙ 
   AuthorizeUser ∧ 
@@ -709,6 +744,7 @@ SecureOperation[X] ≙
 
 この汎用パターンにより、任意の操作Xに対してセキュリティ制御を追加できます。
 
+【ツール準拠（そのまま動く）】
 ```z
 SecureFileAccess ≙ SecureOperation[ReadFile]
 SecureDataModification ≙ SecureOperation[UpdateDatabase]
@@ -718,6 +754,7 @@ SecureDataModification ≙ SecureOperation[UpdateDatabase]
 
 スキーマ演算は、操作の性能特性の分析にも活用できます。
 
+【擬似記法】
 ```z
 EfficientOperation ≙ 
   (SmallDataSet ∧ LinearSearch) ∨
@@ -759,6 +796,7 @@ OptimizedQuery ≙
 エレベーターシステムの状態を段階的にモデル化していきます。
 
 **基本型の定義：**
+【ツール準拠（そのまま動く）】
 ```z
 [FloorNumber, PassengerID, Time]
 
@@ -768,6 +806,7 @@ ElevatorState ::= moving | stopped | maintenance
 ```
 
 **基本状態スキーマ：**
+【擬似記法】
 ```z
 ┌─ ElevatorStatus ─────────────────┐
 │ currentFloor: FloorNumber        │
@@ -789,6 +828,7 @@ ElevatorState ::= moving | stopped | maintenance
 
 エレベーターの呼び出し管理は、システムの中核的な機能です。
 
+【擬似記法】
 ```z
 ┌─ CallSystem ─────────────────────┐
 │ upCalls: ℙ FloorNumber           │
@@ -808,6 +848,7 @@ ElevatorState ::= moving | stopped | maintenance
 
 個別のコンポーネントを統合して、完全なシステム状態を定義します。
 
+【擬似記法】
 ```z
 ┌─ ElevatorSystem ─────────────────┐
 │ ElevatorStatus                   │
@@ -827,6 +868,7 @@ ElevatorState ::= moving | stopped | maintenance
 
 外部からの呼び出しを登録する操作を定義します。
 
+【擬似記法】
 ```z
 ┌─ RegisterUpCall ─────────────────┐
 │ ΔElevatorSystem                  │
@@ -851,6 +893,7 @@ ElevatorState ::= moving | stopped | maintenance
 
 エレベーターの移動先を決定するスケジューリング操作は、システムの知的な部分です。
 
+【擬似記法】
 ```z
 ┌─ DetermineNextFloor ─────────────┐
 │ ΞElevatorSystem                  │
@@ -885,6 +928,7 @@ ElevatorState ::= moving | stopped | maintenance
 
 ドアの開閉は、安全性に直接関わる重要な操作です。
 
+【擬似記法】
 ```z
 ┌─ OpenDoor ───────────────────────┐
 │ ΔElevatorSystem                  │
@@ -918,6 +962,7 @@ ElevatorState ::= moving | stopped | maintenance
 
 安全クリティカルなシステムでは、緊急時の操作も重要です。
 
+【擬似記法】
 ```z
 ┌─ EmergencyStop ──────────────────┐
 │ ΔElevatorSystem                  │
@@ -950,6 +995,7 @@ ElevatorState ::= moving | stopped | maintenance
 完成したモデルに対して、重要な性質を検証します。
 
 **安全性の性質：**
+【擬似記法】
 ```z
 SafetyInvariant ≙ 
   ∀ ElevatorSystem •
@@ -959,6 +1005,7 @@ SafetyInvariant ≙
 ```
 
 **活性の性質：**
+【擬似記法】
 ```z
 LivenessProperty ≙ 
   ∀ ElevatorSystem •
@@ -974,6 +1021,7 @@ LivenessProperty ≙
 
 形式的手法は、機能性だけでなく性能特性も記述できます。
 
+【擬似記法】
 ```z
 ┌─ PerformanceMetrics ─────────────┐
 │ averageWaitTime: ℝ               │
@@ -998,6 +1046,7 @@ LivenessProperty ≙
 
 以下のZ記法スキーマを読んで、表現されているシステムの構造と制約を説明してください：
 
+【擬似記法】
 ```z
 ┌─ UniversityDatabase ─────────────┐
 │ students: ℙ Student              │

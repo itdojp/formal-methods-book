@@ -60,6 +60,7 @@ Alloyは、異なる世界観を提示します。「関係中心」の世界観
 
 例えば、大学の履修システムを考えてみましょう。オブジェクト指向では、「学生オブジェクト」「科目オブジェクト」を作り、学生オブジェクトが「履修リスト」を属性として持つかもしれません。しかしAlloyでは、「学生」「科目」という集合と、「履修関係」という関係で表現します。
 
+【ツール準拠（そのまま動く）】
 ```alloy
 sig Student {
     enrollment: set Course
@@ -86,6 +87,7 @@ sig Course {}
 
 Alloyの基本的な構成要素は「アトム（atom）」です。アトムは、分割できない基本的な要素で、システムの登場人物や物体を表します。アトムは「シグネチャ（signature）」によってグループ化されます。
 
+【擬似記法】
 ```
 sig Person {
     age: Int,
@@ -109,6 +111,7 @@ sig Teacher extends Person {
 
 この関係表現により、複雑な構造を簡潔に記述できます：
 
+【擬似記法】
 ```
 sig File {
     parent: lone Directory,  // 最大1つのディレクトリが親
@@ -124,6 +127,7 @@ sig Directory {
 
 Alloyでは、システムが満たすべき制約を「ファクト（fact）」として記述します。ファクトは、すべての有効なモデルで成り立つべき性質です。
 
+【擬似記法】
 ```
 fact NoSelfLoop {
     // 人は自分自身の友達にはなれない
@@ -150,6 +154,7 @@ Alloyの関係には「多重度（multiplicity）」を指定できます。こ
 - `some`: 最低1つ
 - `set`: 任意個数（0以上）
 
+【擬似記法】
 ```
 sig Car {
     owner: one Person,       // 車には必ず1人の所有者
@@ -168,6 +173,7 @@ Alloyでは、関係に対する豊富な演算が提供されています：
 **推移閉包**: `*r` - 関係rの反射推移閉包
 
 例：
+【擬似記法】
 ```
 // すべての祖先
 person.^parent
@@ -183,6 +189,7 @@ directory.*children
 
 関係中心の表現により、複雑な制約も自然に表現できます：
 
+【擬似記法】
 ```
 // セキュリティポリシー
 fact AccessControl {
@@ -207,6 +214,7 @@ fact DatabaseConsistency {
 
 Alloyでのモデリングを学ぶために、身近な例である住所録システムを作ってみましょう。この例を通じて、Alloyの基本的な構文と考え方を理解できます。
 
+【ツール準拠（そのまま動く）】
 ```alloy
 module AddressBook
 
@@ -231,6 +239,7 @@ sig Contact {
 
 より複雑な構造を表現するために、シグネチャの継承を使えます：
 
+【ツール準拠（そのまま動く）】
 ```alloy
 abstract sig Contact {
     name: one Name,
@@ -258,6 +267,7 @@ sig Company {
 
 基本的な構造だけでは不十分です。現実的な制約を追加することで、より正確なモデルになります：
 
+【ツール準拠（そのまま動く）】
 ```alloy
 fact ConsistentEmployment {
     // 会社の従業員リストと個人の勤務先は一致する
@@ -282,6 +292,7 @@ fact ReasonableRelatives {
 
 Alloyは静的構造だけでなく、動的な振る舞いも表現できます。「時間」の概念を導入することで、状態の変化をモデル化できます：
 
+【ツール準拠（そのまま動く）】
 ```alloy
 sig Time {}
 
@@ -309,6 +320,7 @@ pred moveAddress[c: Contact, newAddr: Address, t, t': Time] {
 
 より実践的な例として、電子メールシステムのアクセス制御をモデル化してみましょう：
 
+【ツール準拠（そのまま動く）】
 ```alloy
 module EmailSecurity
 
@@ -367,6 +379,7 @@ check NoUnauthorizedAccess for 5 User, 5 Email, 3 Role
 
 複雑なビジネスロジックを含む例として、オンライン書店システムをモデル化します：
 
+【ツール準拠（そのまま動く）】
 ```alloy
 module OnlineBookstore
 
@@ -459,6 +472,7 @@ check OrderConsistency for 5 Book, 5 Order, 10 Time
 
 より高度な例として、分散システムにおけるリーダー選出アルゴリズムをモデル化します：
 
+【ツール準拠（そのまま動く）】
 ```alloy
 module LeaderElection
 
@@ -565,6 +579,7 @@ check HighestIdWins for 5 Node, 10 Message, 8 Time
 
 実世界のシステムでは、複数の種類の要素が複雑に関連します：
 
+【ツール準拠（そのまま動く）】
 ```alloy
 sig User {
     owns: set File,
@@ -607,6 +622,7 @@ fact AccessControl {
 
 複雑なモデルでは、再利用可能な述語を定義することで可読性が向上します：
 
+【ツール準拠（そのまま動く）】
 ```alloy
 // ユーザーがファイルにアクセス可能かを判定
 pred canAccess[u: User, f: File] {
@@ -632,6 +648,7 @@ pred securityViolation {
 大きなモデルは、段階的に構築することが重要です：
 
 **第1段階**：基本的な要素とその関係
+【ツール準拠（そのまま動く）】
 ```alloy
 sig File {}
 
@@ -641,6 +658,7 @@ sig User {
 ```
 
 **第2段階**：制約の追加
+【ツール準拠（そのまま動く）】
 ```alloy
 sig File {}
 
@@ -655,6 +673,7 @@ fact UniqueOwner {
 ```
 
 **第3段階**：複雑な関係の導入
+【ツール準拠（そのまま動く）】
 ```alloy
 sig File {}
 
@@ -669,6 +688,7 @@ sig User {
 ```
 
 **第4段階**：ポリシーと制約の詳細化
+【ツール準拠（そのまま動く）】
 ```alloy
 fact AccessPolicy { ... }
 fact ConsistencyRules { ... }
@@ -690,6 +710,7 @@ Alloyの真価は、複雑な制約を論理式で表現できることにあり
 - `iff` または `<=>`: 同値
 
 例：大学の履修システムの制約
+【ツール準拠（そのまま動く）】
 ```alloy
 fact EnrollmentRules {
     // 学生は最大5科目まで履修可能
@@ -715,6 +736,7 @@ fact EnrollmentRules {
 - `lone x: Set | formula`: 最大1つのxについて式が成り立つ
 
 実例：ファイルシステムの制約
+【ツール準拠（そのまま動く）】
 ```alloy
 fact FileSystemInvariants {
     // すべてのファイルは最大1つの親ディレクトリを持つ
@@ -742,6 +764,7 @@ Alloyでは、集合演算を使って複雑な関係を表現できます：
 - `#s`: 集合のサイズ
 
 銀行システムの例：
+【ツール準拠（そのまま動く）】
 ```alloy
 sig Account {
     owner: one Customer,
@@ -773,6 +796,7 @@ fact BankingRules {
 
 システムの動的な振る舞いや時間的制約も表現できます：
 
+【ツール準拠（そのまま動く）】
 ```alloy
 sig State {
     next: lone State,
@@ -809,6 +833,7 @@ fact SessionLifecycle {
 
 Alloyは、セキュリティポリシーの記述に特に適しています：
 
+【ツール準拠（そのまま動く）】
 ```alloy
 sig Subject {
     roles: set Role,
@@ -852,6 +877,7 @@ pred canWrite[s: Subject, o: Object] {
 
 複雑なシステムでは、制約を階層化して管理することが重要です：
 
+【ツール準拠（そのまま動く）】
 ```alloy
 // レベル1: 基本的なデータ整合性
 fact BasicConsistency {
@@ -909,6 +935,7 @@ Alloy Analyzerは、作成したモデルを実際に検査するためのツー
 
 まず、作成したモデルが意味のあるインスタンスを生成できるかを確認しましょう。住所録システムの例：
 
+【ツール準拠（そのまま動く）】
 ```alloy
 // 基本的なインスタンス生成
 run {} for 3
@@ -931,6 +958,7 @@ run {
 
 `assert`文を使って、モデルが期待する性質を満たすかを検証できます：
 
+【ツール準拠（そのまま動く）】
 ```alloy
 // 友人関係の対称性をテスト
 assert FriendshipSymmetry {
@@ -955,6 +983,7 @@ check NoOrphanedFiles for 4 User, 6 File
 
 反例が見つかった場合の分析例：
 
+【ツール準拠（そのまま動く）】
 ```alloy
 sig User {
     files: set File,
@@ -983,6 +1012,7 @@ check NoFileSharing for 3
 
 この例では、`NoFileSharing`アサーションが失敗します。Analyzerは以下のような反例を生成するかもしれません：
 
+【擬似記法】
 ```
 User0: files = {File0}, groups = {Group0}
 User1: files = {File0}, groups = {Group0}  
@@ -996,6 +1026,7 @@ File0: (ファイル)
 
 検証の範囲（スコープ）の設定は、検証の効果と性能に大きく影響します：
 
+【ツール準拠（そのまま動く）】
 ```alloy
 // 小さなスコープでの高速検証
 check BasicProperty for 2
@@ -1019,6 +1050,7 @@ check ConditionalProperty for 4 but exactly 2 Admin
 
 複雑なシナリオは、述語を使って段階的に検証できます：
 
+【ツール準拠（そのまま動く）】
 ```alloy
 // 基本的な状態
 pred initialState {
@@ -1051,6 +1083,7 @@ check { not securityBreach } for 4
 実際の検証では、以下のような反復プロセスを行います：
 
 1. **初期モデル作成**
+【ツール準拠（そのまま動く）】
 ```alloy
 sig Document {
     owner: one User,
@@ -1065,6 +1098,7 @@ fact BasicSecurity {
 ```
 
 2. **基本的な検証**
+【ツール準拠（そのまま動く）】
 ```alloy
 run {} for 3  // インスタンス生成確認
 assert OwnerCanRead { all d: Document | d.owner in d.readers }
@@ -1072,6 +1106,7 @@ check OwnerCanRead for 3
 ```
 
 3. **問題発見と修正**
+【ツール準拠（そのまま動く）】
 ```alloy
 // 反例により新しい要求を発見
 pred collaborativeDocument {
@@ -1082,6 +1117,7 @@ run collaborativeDocument for 3
 ```
 
 4. **制約の追加**
+【ツール準拠（そのまま動く）】
 ```alloy
 fact SharePolicy {
     // 共同作業者は明示的に承認される
@@ -1092,6 +1128,7 @@ fact SharePolicy {
 ```
 
 5. **再検証**
+【ツール準拠（そのまま動く）】
 ```alloy
 assert NoUnauthorizedAccess {
     all d: Document, u: User |
@@ -1121,6 +1158,7 @@ Alloyは伝統的に「静的構造（関係）」の整合性確認に強い一
 
 `examples/alloy/trash-temporal.als`は、ファイル集合`File`と、可変なゴミ箱集合`Trash`を持つ最小モデルです。削除（delete）/復元（restore）を遷移として定義し、簡単な安全性性質を検査します。
 
+【ツール準拠（そのまま動く）】
 ```alloy
 var sig Trash in File {}
 
@@ -1156,6 +1194,7 @@ check restoreAfterDelete for 3 but 6 steps
 
 実行（CLI）：
 
+【ツール準拠（そのまま動く）】
 ```bash
 bash tools/bootstrap.sh
 bash tools/alloy-check.sh --verbose examples/alloy/trash-temporal.als
@@ -1182,6 +1221,7 @@ Alloy Analyzerが提供する反例は、単なるエラー報告ではありま
 具体的な例として、ファイルアクセス制御システムの設計改善プロセスを追ってみましょう。
 
 **初期設計**：
+【ツール準拠（そのまま動く）】
 ```alloy
 sig User {
     owns: set File,
@@ -1205,6 +1245,7 @@ check SecureAccess for 3
 ```
 
 **反例の発見**：
+【擬似記法】
 ```
 User0: owns = {File0}, canRead = {File0, File1}
 User1: owns = {File1}, canRead = {File1}
@@ -1221,6 +1262,7 @@ File1: owner = User1
 3. 所有者以外の読み取り権限はどう管理するか？
 
 **改善された設計**：
+【ツール準拠（そのまま動く）】
 ```alloy
 sig User {
     owns: set File
@@ -1256,6 +1298,7 @@ check AuthorizedAccessOnly for 4
 
 単純な共有モデルでも新たな反例が見つかるかもしれません。例えば：
 
+【ツール準拠（そのまま動く）】
 ```alloy
 pred LargeSharedFile {
     some f: File | #f.sharedWith > 2
@@ -1267,6 +1310,7 @@ run LargeSharedFile for 5
 この探索により、「多数のユーザーとファイルを共有する」シナリオが可能であることがわかります。これが問題かどうかは要求次第ですが、管理上の課題があるかもしれません。
 
 **グループベースモデルへの改善**：
+【ツール準拠（そのまま動く）】
 ```alloy
 sig User {
     memberOf: set Group
@@ -1309,6 +1353,7 @@ check GroupAccessControl for 4
 
 より複雑な反例として、時間的な問題があります：
 
+【ツール準拠（そのまま動く）】
 ```alloy
 sig Time {}
 
@@ -1345,6 +1390,7 @@ run ConcurrentSessions for 3 User, 4 Session, 5 Time
 
 Alloyは、パフォーマンス上の問題も予測できます：
 
+【ツール準拠（そのまま動く）】
 ```alloy
 sig Database {
     tables: set Table,
@@ -1425,6 +1471,7 @@ run PerformanceBottleneck for 3
 
 以下のAlloyモデルを読んで、表現されているシステムの構造と制約を説明してください：
 
+【ツール準拠（そのまま動く）】
 ```alloy
 sig Person {
     spouse: lone Person,

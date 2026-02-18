@@ -28,6 +28,7 @@ order: 6
 
 例えば、2つのプロセスが同じリソースにアクセスしようとする場合を考えてみましょう。各プロセス単体では完全に正しく動作しますが、同時実行により「競合状態」が発生し、予期しない結果が生じることがあります。
 
+【擬似記法】
 ```text
 プロセス A: リソースを読む → 値を更新 → リソースに書く
 プロセス B: リソースを読む → 値を更新 → リソースに書く
@@ -99,6 +100,7 @@ CSPにおける「プロセス」は、逐次的に実行される操作の列�
 
 この分離により、「プロセス内部の正しさ」と「プロセス間の相互作用の正しさ」を独立して考えることができます。これは、複雑性の管理において重要な原理です。
 
+【擬似記法】
 ```csp
 VENDING_MACHINE = coin → (tea → VENDING_MACHINE | coffee → VENDING_MACHINE)
 ```
@@ -111,6 +113,7 @@ CSPでは、プロセス間の相互作用を「事象（event）」として抽
 
 事象の重要な特徴は「同期性」です。事象は、関与するすべてのプロセスが準備できたときにのみ発生します。これにより、プロセス間の協調を自然に表現できます。
 
+【擬似記法】
 ```csp
 CUSTOMER = arrive → order → pay → leave → CUSTOMER
 CASHIER = greet → order → pay → CASHIER
@@ -124,6 +127,7 @@ SYSTEM = CUSTOMER [| {order, pay} |] CASHIER
 
 実用的なシステムでは、多数のプロセスが相互作用します。CSPでは、「チャネル」という概念により、この複雑性を管理します。チャネルは、特定のプロセス間での通信経路を表現します。
 
+【擬似記法】
 ```csp
 PRODUCER = produce → out!data → PRODUCER
 CONSUMER = in?x → consume.x → CONSUMER
@@ -138,6 +142,7 @@ SYSTEM = PRODUCER [| {out, in} |] BUFFER [| {out, in} |] CONSUMER
 
 CSPの強力な特徴の一つは、小さなプロセスから大きなシステムを階層的に構築できることです。この構成可能性により、複雑なシステムも理解可能な部分に分解できます。
 
+【擬似記法】
 ```csp
 CELL = left?x → right!x → CELL
 PIPE(n) = if n = 0 then CELL 
@@ -151,16 +156,19 @@ PIPE(n) = if n = 0 then CELL
 CSPでは、「選択」と「並行」を統一的な枠組みで扱います。これにより、複雑な制御構造も自然に表現できます。
 
 **外部選択（□）**: 環境からの入力により選択が決まる
+【擬似記法】
 ```csp
 ATM = card_insert → (pin_correct → transaction □ pin_incorrect → reject)
 ```
 
 **内部選択（⊓）**: プロセス内部の非決定的選択
+【擬似記法】
 ```csp
 RANDOM = heads → SUCCESS ⊓ tails → FAILURE
 ```
 
 **並行合成（||）**: 複数のプロセスの並行実行
+【ツール準拠（そのまま動く）】
 ```csp
 SYSTEM = PROCESS1 || PROCESS2 || PROCESS3
 ```
@@ -175,6 +183,7 @@ CSPでは、具体的な実行時間を抽象化し、事象の順序関係の�
 
 CSPでは、正常な動作だけでなく、故障や例外的状況も自然に表現できます。故障も一種の事象として扱うことで、故障処理を通常の制御構造と統一的に記述できます。
 
+【擬似記法】
 ```csp
 RELIABLE_SERVICE = 
   request → (
@@ -195,16 +204,19 @@ RELIABLE_SERVICE =
 CSPのすべての複雑なシステムは、少数の基本的なプロセスから構築されます。これらのプリミティブプロセスを理解することが、CSP全体の理解の基礎となります。
 
 **STOP**: 何もしないプロセス（デッドロック）
+【ツール準拠（そのまま動く）】
 ```csp
 STOP
 ```
 
 **SKIP**: 正常終了するプロセス
+【ツール準拠（そのまま動く）】
 ```csp
 SKIP
 ```
 
 **単純な事象プロセス**:
+【擬似記法】
 ```csp
 a → STOP          // 事象aの後に停止
 a → b → STOP      // 事象a、bの順次実行
@@ -216,6 +228,7 @@ a → b → STOP      // 事象a、bの順次実行
 
 前置演算子は、CSPの最も基本的な構成要素です。「事象が発生した後に、特定の振る舞いを行う」ことを表現します。
 
+【擬似記法】
 ```csp
 coin → (tea → STOP | coffee → STOP)
 ```
@@ -229,6 +242,7 @@ coin → (tea → STOP | coffee → STOP)
 CSPには、複数種類の選択演算子があります。それぞれ異なる意味を持ち、適切な場面で使い分けることが重要です。
 
 **外部選択（□）**: 環境の選択
+【擬似記法】
 ```csp
 ATM = card_insert → pin_entry □ admin_key → maintenance_mode
 ```
@@ -236,6 +250,7 @@ ATM = card_insert → pin_entry □ admin_key → maintenance_mode
 顧客がカードを挿入するか、管理者がキーを使うかは、環境（利用者）が決定します。
 
 **内部選択（⊓）**: プロセスの選択
+【擬似記法】
 ```csp
 COIN_FLIP = heads → WIN ⊓ tails → LOSE
 ```
@@ -243,6 +258,7 @@ COIN_FLIP = heads → WIN ⊓ tails → LOSE
 どちらが選ばれるかは、プロセス内部の非決定性によります。
 
 **ガード付き選択**:
+【擬似記法】
 ```csp
 BUFFER = size < MAX & input?x → add.x → BUFFER
         □ size > 0 & output!first → remove → BUFFER
@@ -255,6 +271,7 @@ BUFFER = size < MAX & input?x → add.x → BUFFER
 複数のプロセスを並行実行させるための演算子群は、CSPの核心的な機能です。
 
 **独立並行（|||）**: 完全に独立した並行実行
+【ツール準拠（そのまま動く）】
 ```csp
 SYSTEM = PRINTER ||| SCANNER ||| KEYBOARD
 ```
@@ -262,6 +279,7 @@ SYSTEM = PRINTER ||| SCANNER ||| KEYBOARD
 プロセス間に相互作用はなく、完全に並行して動作します。
 
 **同期並行（[| X |]）**: 指定された事象での同期
+【ツール準拠（そのまま動く）】
 ```csp
 SYSTEM = CUSTOMER [| {order, pay} |] CASHIER
 ```
@@ -269,6 +287,7 @@ SYSTEM = CUSTOMER [| {order, pay} |] CASHIER
 `order`と`pay`事象で同期し、他の事象は独立して実行されます。
 
 **インターリーブ（|||）**: 事象の交互実行
+【擬似記法】
 ```csp
 AB_SEQUENCE = A ||| B
 where A = a → b → A
@@ -281,6 +300,7 @@ AとBの事象が任意の順序で交互に実行されます。
 
 プロセス間でのデータ フローを表現するため、パイプライン構成がよく使われます。
 
+【擬似記法】
 ```csp
 PRODUCER = produce.data → out!data → PRODUCER
 PROCESSOR = in?x → process.x → out!process(x) → PROCESSOR  
@@ -298,11 +318,13 @@ PIPELINE = PRODUCER
 多くの実用システムは、継続的に動作する必要があります。CSPでは、再帰により無限に動作するプロセスを自然に表現できます。
 
 **単純な再帰**:
+【擬似記法】
 ```csp
 CLOCK = tick → CLOCK
 ```
 
 **状態を持つ再帰**:
+【擬似記法】
 ```csp
 COUNTER(n) = up → COUNTER(n+1) 
            □ down → COUNTER(n-1)
@@ -310,6 +332,7 @@ COUNTER(n) = up → COUNTER(n+1)
 ```
 
 **相互再帰**:
+【擬似記法】
 ```csp
 PING = ping → PONG
 PONG = pong → PING
@@ -319,6 +342,7 @@ PONG = pong → PING
 
 類似したプロセスの集合を扱うため、プロセス ファミリーという概念があります。
 
+【擬似記法】
 ```csp
 WORKER(id) = task?t → process.id.t → result!process(t) → WORKER(id)
 WORKERS = ||| i:{1..N} @ WORKER(i)
@@ -330,6 +354,7 @@ N個のワーカープロセスが並行して動作します。
 
 内部的な事象を外部から見えなくするため、隠蔽演算子（\）を使います。
 
+【ツール準拠（そのまま動く）】
 ```csp
 PUBLIC_INTERFACE = (INTERNAL_PROCESS \ {internal_event1, internal_event2})
 ```
@@ -340,6 +365,7 @@ PUBLIC_INTERFACE = (INTERNAL_PROCESS \ {internal_event1, internal_event2})
 
 プロセスの再利用のため、事象名を変更する演算子があります。
 
+【擬似記法】
 ```csp
 GENERIC_BUFFER = in?x → out!x → GENERIC_BUFFER
 SPECIFIC_BUFFER = GENERIC_BUFFER[input/in, output/out]
@@ -371,16 +397,19 @@ CSPの同期は「ランデブー同期」と呼ばれます。事象が発生�
 CSPでは、プロセス間の通信を「チャネル」という抽象的な通信経路で表現します。チャネルは、電話回線や郵便配達のように、メッセージを運ぶ媒体として機能します。
 
 **出力（!）**: メッセージの送信
+【擬似記法】
 ```csp
 SENDER = channel!message → SENDER
 ```
 
 **入力（?）**: メッセージの受信
+【擬似記法】
 ```csp
 RECEIVER = channel?x → process.x → RECEIVER
 ```
 
 **同期通信**: 送信と受信が同時に発生
+【ツール準拠（そのまま動く）】
 ```csp
 COMMUNICATION = SENDER [| {channel} |] RECEIVER
 ```
@@ -392,17 +421,20 @@ COMMUNICATION = SENDER [| {channel} |] RECEIVER
 実世界の通信では、しばしばバッファリングが必要になります。CSPでは、バッファーも一つのプロセスとして表現できます。
 
 **単一要素バッファー**:
+【擬似記法】
 ```csp
 BUFFER1 = in?x → out!x → BUFFER1
 ```
 
 **容量Nのバッファー**:
+【擬似記法】
 ```csp
 BUFFER(n) = (n > 0) & out!front → BUFFER(n-1)
           □ (n < MAX) & in?x → BUFFER(n+1)
 ```
 
 **先入先出（FIFO）バッファー**:
+【擬似記法】
 ```csp
 FIFO_BUFFER(queue) = 
   (queue ≠ ⟨⟩) & out!head(queue) → FIFO_BUFFER(tail(queue))
@@ -413,6 +445,7 @@ FIFO_BUFFER(queue) =
 
 システムによっては、メッセージに優先度が必要な場合があります。
 
+【擬似記法】
 ```csp
 PRIORITY_HANDLER = 
   urgent?x → handle_urgent.x → PRIORITY_HANDLER
@@ -424,6 +457,7 @@ PRIORITY_HANDLER =
 
 一つのメッセージを複数の受信者に送信する場合：
 
+【擬似記法】
 ```csp
 BROADCASTER = message?x → (out1!x || out2!x || out3!x) → BROADCASTER
 
@@ -437,6 +471,7 @@ MULTICAST_SYSTEM = BROADCASTER
 
 状況に応じて通信相手を選択する場合：
 
+【擬似記法】
 ```csp
 ROUTER = 
   input?msg → (
@@ -450,6 +485,7 @@ ROUTER =
 
 実際のシステムでは、通信の失敗や遅延を考慮する必要があります。
 
+【擬似記法】
 ```csp
 RELIABLE_SENDER = 
   send!message → (
@@ -462,6 +498,7 @@ RELIABLE_SENDER =
 
 複雑な通信では、複数段階のハンドシェイクが必要になることがあります。
 
+【擬似記法】
 ```csp
 CLIENT = request!req → response?res → CLIENT
 SERVER = request?req → process.req → response!result → SERVER
@@ -480,6 +517,7 @@ CSPで表現できる同期パターンを分類すると：
 **多対多通信**: 複雑なネットワーク通信
 
 **バリア同期**: 全プロセスが特定の地点で待機
+【擬似記法】
 ```csp
 BARRIER(n) = 
   (n > 1) & arrive → BARRIER(n-1)
@@ -490,6 +528,7 @@ BARRIER(n) =
 
 階層的な制御構造での通信：
 
+【擬似記法】
 ```csp
 LEADER = 
   decision!cmd → (
@@ -504,6 +543,7 @@ FOLLOWER(id) =
 
 分散システムでの合意形成：
 
+【擬似記法】
 ```csp
 VOTER(id) = vote_request?proposal → 
            (approve!id → VOTER(id) □ reject!id → VOTER(id))
@@ -520,11 +560,13 @@ COORDINATOR =
 現実的なシステムでは、通信の失敗を考慮する必要があります：
 
 **メッセージ損失の処理**:
+【擬似記法】
 ```csp
 LOSSY_CHANNEL = msg?x → (deliver!x □ lose → SKIP) → LOSSY_CHANNEL
 ```
 
 **重複除去**:
+【擬似記法】
 ```csp
 DEDUP_RECEIVER = 
   msg?x → (
@@ -534,6 +576,7 @@ DEDUP_RECEIVER =
 ```
 
 **順序保証**:
+【擬似記法】
 ```csp
 ORDERED_DELIVERY = 
   in?⟨seq, msg⟩ → (
@@ -552,6 +595,7 @@ ORDERED_DELIVERY =
 
 CSPでは、デッドロックを形式的に定義できます。すべての参加プロセスが、他のプロセスからの事象を待機している状態がデッドロックです。
 
+【擬似記法】
 ```csp
 DEADLOCK_EXAMPLE = 
   (a → b → STOP) [| {a, b} |] (b → a → STOP)
@@ -570,6 +614,7 @@ DEADLOCK_EXAMPLE =
 
 CSPでこれらの条件を表現すると：
 
+【擬似記法】
 ```csp
 // 相互排除：リソースの排他制御
 RESOURCE = acquire → use → release → RESOURCE
@@ -589,6 +634,7 @@ where P1 = r1.acquire → r2.acquire → work → r2.release → r1.release → 
 デッドロックを回避するには、4つの条件のうち少なくとも一つを破る必要があります。
 
 **資源順序付け（Resource Ordering）**:
+【擬似記法】
 ```csp
 ORDERED_PROCESS = 
   (id(r1) < id(r2)) & r1.acquire → r2.acquire → work →
@@ -598,6 +644,7 @@ ORDERED_PROCESS =
 すべてのプロセスが同じ順序でリソースを取得することで、循環待機を防ぎます。
 
 **タイムアウト機構**:
+【擬似記法】
 ```csp
 TIMEOUT_PROCESS = 
   r1.acquire → (
@@ -607,6 +654,7 @@ TIMEOUT_PROCESS =
 ```
 
 **銀行家アルゴリズム**:
+【擬似記法】
 ```csp
 BANKER = 
   request?⟨pid, resource⟩ → (
@@ -619,6 +667,7 @@ BANKER =
 
 ライブロック（livelock）は、プロセスが動作しているにもかかわらず、実質的な進歩がない状態です。狭い廊下で二人が出会い、互いに避けようとして同じ方向に動き続ける状況に似ています。
 
+【擬似記法】
 ```csp
 LIVELOCK_EXAMPLE = 
   P1 [| {move} |] P2
@@ -631,12 +680,14 @@ where P1 = move.left → detect_collision → move.right → P1
 活性とは、「良いことがいつかは起こる」という性質です。CSPでは、活性を複数の観点から分析できます。
 
 **無飢餓性（Starvation Freedom）**: すべてのプロセスが最終的に進歩する
+【擬似記法】
 ```csp
 FAIR_SCHEDULER = 
   schedule!p1 → schedule!p2 → schedule!p3 → FAIR_SCHEDULER
 ```
 
 **公平性（Fairness）**: 継続的に機会があるプロセスは最終的に実行される
+【擬似記法】
 ```csp
 FAIR_ACCESS = 
   (request.p1 → grant.p1 → FAIR_ACCESS) |||
@@ -649,11 +700,13 @@ FAIR_ACCESS =
 システムの進歩を保証するための条件を形式化できます：
 
 **最小進歩保証**:
+【擬似記法】
 ```csp
 PROGRESS = □◊(progress_event)  // 「常に最終的に進歩事象が発生」
 ```
 
 **有界待機**:
+【擬似記法】
 ```csp
 BOUNDED_WAIT = request → ◊≤n(grant)  // 「要求から最大n時間以内に許可」
 ```
@@ -663,6 +716,7 @@ BOUNDED_WAIT = request → ◊≤n(grant)  // 「要求から最大n時間以内
 デッドロックの検出と回復も重要な技術です：
 
 **デッドロック検出器**:
+【擬似記法】
 ```csp
 DETECTOR = 
   monitor_state → (
@@ -672,6 +726,7 @@ DETECTOR =
 ```
 
 **回復戦略**:
+【擬似記法】
 ```csp
 RECOVERY = 
   abort_victim → rollback → restart → RECOVERY
@@ -682,6 +737,7 @@ RECOVERY =
 
 デッドロックの古典的な例である「哲学者の食事問題」をCSPで分析しましょう：
 
+【擬似記法】
 ```csp
 // 問題のある実装（デッドロック発生可能）
 PHILOSOPHER(i) = 
@@ -714,6 +770,7 @@ WAITER =
 **楽観的戦略**: 効率的だが回復コストが高い
 **適応的戦略**: 状況に応じて戦略を変更
 
+【擬似記法】
 ```csp
 ADAPTIVE_SYSTEM = 
   low_contention & OPTIMISTIC_PROTOCOL
@@ -759,6 +816,7 @@ CSPモデルのデッドロック検証には専用ツールが利用できま�
 
 まず、各役割の基本的な振る舞いをCSPで定義しましょう：
 
+【擬似記法】
 ```csp
 // 顧客の行動パターン
 CUSTOMER(id) = 
@@ -790,6 +848,7 @@ CASHIER =
 
 レストランの座席管理は重要なサブシステムです。限られた座席を効率的に割り当て、デッドロックを回避する必要があります。
 
+【擬似記法】
 ```csp
 // テーブル管理プロセス
 TABLE_MANAGER = 
@@ -816,6 +875,7 @@ RESTAURANT_TABLES =
 
 注文から配膳までの複雑なワークフローを並行プロセスとして設計します：
 
+【擬似記法】
 ```csp
 // 注文受付プロセス
 ORDER_TAKING = 
@@ -855,6 +915,7 @@ FOOD_SERVICE =
 
 厨房設備（コンロ、オーブン、調理台）の排他制御を実装します：
 
+【擬似記法】
 ```csp
 // 設備管理プロセス
 EQUIPMENT_MANAGER = 
@@ -886,6 +947,7 @@ KITCHEN_EQUIPMENT =
 
 食材の在庫管理と発注プロセスを組み込みます：
 
+【擬似記法】
 ```csp
 // 在庫管理プロセス
 INVENTORY_MANAGER = 
@@ -912,6 +974,7 @@ AUTO_ORDERING =
 
 複数の支払い方法に対応した決済システム：
 
+【擬似記法】
 ```csp
 // 決済プロセス
 PAYMENT_PROCESSING = 
@@ -937,6 +1000,7 @@ ACCOUNTING_SYSTEM =
 
 食品安全や火災などの緊急事態への対応も設計に含めます：
 
+【擬似記法】
 ```csp
 // 緊急事態管理
 EMERGENCY_SYSTEM = 
@@ -957,6 +1021,7 @@ EVACUATION_PROTOCOL =
 
 個々のサブシステムを統合して、完全なレストランシステムを構築します：
 
+【ツール準拠（そのまま動く）】
 ```csp
 RESTAURANT_SYSTEM = 
   (CUSTOMER_MANAGEMENT 
@@ -987,6 +1052,7 @@ where
 
 実用的なシステムでは、性能最適化も重要です：
 
+【擬似記法】
 ```csp
 // 負荷バランシング
 LOAD_BALANCER = 
@@ -1033,6 +1099,7 @@ PEAK_TIME_MANAGEMENT =
 
 以下のCSPプロセス定義を読んで、システムの振る舞いを説明してください：
 
+【擬似記法】
 ```csp
 PRODUCER = produce → buffer!item → PRODUCER
 CONSUMER = buffer?x → consume.x → CONSUMER  
@@ -1051,6 +1118,7 @@ SYSTEM = PRODUCER [| {buffer} |] BUFFER[buffer/in, buffer/out] [| {buffer} |] CO
 
 以下のシステムでデッドロックが発生する可能性を分析してください：
 
+【擬似記法】
 ```csp
 PROCESS_A = resource1.acquire → resource2.acquire → 
            work → resource2.release → resource1.release → PROCESS_A
