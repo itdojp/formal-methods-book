@@ -231,7 +231,7 @@ SYSTEM = PRINTER ||| SCANNER ||| KEYBOARD
 
 プロセス間に相互作用はなく、完全に並行して動作します。
 
-**同期並行（||）**: 指定された事象での同期
+**同期並行（[| X |]）**: 指定された事象での同期
 ```csp
 SYSTEM = CUSTOMER [| {order, pay} |] CASHIER
 ```
