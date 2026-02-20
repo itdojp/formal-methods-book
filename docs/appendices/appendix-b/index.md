@@ -16,7 +16,9 @@
 - Apalache（TLA+向け、SMTベース）
 - Dafny（検証器）
 
-補足：定理証明器（Rocq/Lean/Isabelle 等）は依存が大きいため、本付録では「一次情報リンク（付録E）」を主とし、実行環境の提供は別途扱う。
+補足：
+- Rocq/Isabelle等の定理証明器は依存が大きいため、本付録では一次情報リンク（付録E）を主とする。
+- Lean 4 は、本書の導線として **最小構成のみ**を本付録末尾に示す（Optional）。
 
 ## 推奨：devcontainer（コンテナ手順）
 
@@ -73,6 +75,38 @@ bash tools/dafny-verify.sh examples/dafny/Abs.dfy
   - `tools/bootstrap.sh` が取得するDafnyはLinux向け配布物のため、macOSでは公式配布物（macOS向け）か `dotnet tool` を利用する
 - Linux：
   - ディストリ依存でJavaパッケージ名が異なる（例：Ubuntu/Debianは `openjdk-17-jre`）
+
+## Lean 4 環境構築（最小構成 / Optional）
+
+Lean 4 は、本書では「定理証明を資産化し、運用可能にする」選択肢として位置づける（第9章参照）。ここでは **最短・最小構成**として、起動までの導線のみを示す（詳細は一次情報を参照）。
+
+### 事前に理解しておくこと（最小）
+
+- **elan**：Lean toolchain（Lean本体・コンパイラ等）を管理するためのツール
+- **Lake**：Lean 4 のビルド/依存管理ツール（プロジェクト作成・ビルドに使用）
+- **VS Code拡張**：型チェック結果やゴール表示など、対話的な開発体験を提供
+
+### 手順（代表例）
+
+1. elan を導入する（一次情報）
+2. VS Code + Lean 4 拡張を導入する（一次情報）
+3. Lean 4 の最小プロジェクトを作成して起動確認する（代表例）
+
+```bash
+mkdir -p lean-sandbox && cd lean-sandbox
+lake init hello
+lake build
+```
+
+確認：
+- VS Code で `lean-sandbox/` を開き、生成された `.lean` ファイルを開く
+- エラーが出ないこと（ツールチェーンが有効であること）を確認する
+
+一次情報（公式/代表）：
+- Lean 公式: <https://lean-lang.org/>
+- Lean 4（GitHub）: <https://github.com/leanprover/lean4>
+- elan: <https://github.com/leanprover/elan>
+- VS Code Lean 4 拡張: <https://github.com/leanprover/vscode-lean4>
 
 ## CI（自動実行）
 
