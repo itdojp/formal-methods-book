@@ -29,4 +29,4 @@
 
 ## ライセンス
 
-MIT License.
+本作品は Creative Commons BY-NC-SA 4.0（CC BY-NC-SA 4.0）で提供します（商用利用は別途契約が必要）。詳細は `LICENSE` を参照してください。
