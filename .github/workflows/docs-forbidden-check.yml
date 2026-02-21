@@ -2,9 +2,9 @@ name: Docs Forbidden Check
 
 on:
   push:
-    branches: ["main"]
+    branches: ["diagram-enhancement-phase6", "main"]
   pull_request:
-    branches: ["main"]
+    branches: ["diagram-enhancement-phase6", "main"]
   workflow_dispatch: {}
 
 permissions:
