@@ -1123,7 +1123,8 @@ check { not securityBreach } for 4
 ```alloy
 sig Document {
     owner: one User,
-    readers: set User
+    readers: set User,
+    authorized: set User
 }
 
 sig User {}
@@ -1268,13 +1269,18 @@ sig File {
     owner: one User
 }
 
+fact OwnershipConsistent {
+    all f: File | f in f.owner.owns
+    all u: User, f: u.owns | f.owner = u
+}
+
 fact OwnerCanRead {
-    all f: File | f.owner in f.canRead
+    all u: User | u.owns in u.canRead
 }
 
 assert SecureAccess {
-    // ファイルを読める人は所有者のみ
-    all f: File | f.canRead = f.owner
+    // ファイルを読めるユーザーは所有者のみ（共有を許可しない）
+    all u: User | u.canRead = u.owns
 }
 
 check SecureAccess for 3
@@ -1315,16 +1321,14 @@ fun canRead: User -> File {
 }
 
 fact SharePolicy {
-    // 所有者のみがファイルを共有できる
-    all f: File, u: User |
-        u in f.sharedWith implies some owner: f.owner | 
-        // (実際の共有は別の操作で制御される)
+    // 共有先は所有者以外（共有操作は別途モデル化）
+    all f: File | f.sharedWith in User - f.owner
 }
 
 assert AuthorizedAccessOnly {
     // 読めるファイルは所有または共有されたもののみ
     all u: User, f: File |
-        f in u.canRead iff (f in u.owns or u in f.sharedWith)
+        f in canRead[u] iff (f in u.owns or u in f.sharedWith)
 }
 
 check AuthorizedAccessOnly for 4

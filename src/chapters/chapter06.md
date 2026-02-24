@@ -1,5 +1,10 @@
 # 第6章　プロセス中心の記述 - CSPによる並行システム
 
+本章では、コード例を次の2種類で表記します。
+
+- 【ツール準拠（そのまま動く）】CSPM（FDR）として文法的に成立し、そのまま貼り付けて解析できる例（ASCII記法：`->`, `[]`, `|||`, `[| X |]`, `P[[a <- b]]` など）
+- 【擬似記法】説明用の簡略表記。Unicode記号（`→`, `□`, `⊓` など）や一部のガード/where/イベントパラメータはCSPMと一致しないため、そのままではツール投入できません
+
 ## 6.1 並行性の本質：なぜ難しいのか
 
 ### 逐次的思考の限界
@@ -97,16 +102,18 @@ SYSTEM = CUSTOMER [| {order, pay} |] CASHIER
 
 実用的なシステムでは、多数のプロセスが相互作用します。CSPでは、「チャネル」という概念により、この複雑性を管理します。チャネルは、特定のプロセス間での通信経路を表現します。
 
-【擬似記法】
+【ツール準拠（そのまま動く）】
 ```csp
-PRODUCER = produce → out!data → PRODUCER
-CONSUMER = in?x → consume.x → CONSUMER
-BUFFER = in?x → out!x → BUFFER
+channel in, out : {0..1}
 
-SYSTEM = PRODUCER [| {out, in} |] BUFFER [| {out, in} |] CONSUMER
+PRODUCER = in!0 -> PRODUCER
+BUFFER = in?x -> out!x -> BUFFER
+CONSUMER = out?x -> CONSUMER
+
+SYSTEM = (PRODUCER [| {|in|} |] BUFFER) [| {|out|} |] CONSUMER
 ```
 
-この例では、`out`と`in`チャネルにより、プロデューサーとコンシューマーがバッファーを介して通信します。
+この例では、`in` と `out` の2つのチャネルで段階的に同期します。`PRODUCER` と `BUFFER` は `in` の事象で同期し、`BUFFER` と `CONSUMER` は `out` の事象で同期します。
 
 ### 階層的システム構築
 
@@ -140,6 +147,10 @@ RANDOM = heads → SUCCESS ⊓ tails → FAILURE
 **並行合成（||）**: 複数のプロセスの並行実行
 【ツール準拠（そのまま動く）】
 ```csp
+PROCESS1 = a -> PROCESS1
+PROCESS2 = b -> PROCESS2
+PROCESS3 = c -> PROCESS3
+
 SYSTEM = PROCESS1 || PROCESS2 || PROCESS3
 ```
 
@@ -243,6 +254,10 @@ BUFFER = size < MAX & input?x → add.x → BUFFER
 **独立並行（|||）**: 完全に独立した並行実行
 【ツール準拠（そのまま動く）】
 ```csp
+PRINTER = print_job -> PRINTER
+SCANNER = scan_doc -> SCANNER
+KEYBOARD = key_press -> KEYBOARD
+
 SYSTEM = PRINTER ||| SCANNER ||| KEYBOARD
 ```
 
@@ -251,6 +266,9 @@ SYSTEM = PRINTER ||| SCANNER ||| KEYBOARD
 **同期並行（[| X |]）**: 指定された事象での同期
 【ツール準拠（そのまま動く）】
 ```csp
+CUSTOMER = arrive -> order -> pay -> leave -> CUSTOMER
+CASHIER = greet -> order -> pay -> CASHIER
+
 SYSTEM = CUSTOMER [| {order, pay} |] CASHIER
 ```
 
@@ -272,13 +290,12 @@ AとBの事象が任意の順序で交互に実行されます。
 
 【擬似記法】
 ```csp
-PRODUCER = produce.data → out!data → PRODUCER
-PROCESSOR = in?x → process.x → out!process(x) → PROCESSOR  
-CONSUMER = in?x → consume.x → CONSUMER
+PRODUCER = produce.data → c12!data → PRODUCER
+PROCESSOR = c12?x → process.x → c23!process(x) → PROCESSOR  
+CONSUMER = c23?x → consume.x → CONSUMER
 
-PIPELINE = PRODUCER 
-          [| {out, in} |] PROCESSOR 
-          [| {out, in} |] CONSUMER
+PIPELINE = (PRODUCER [| {c12} |] PROCESSOR)
+           [| {c23} |] CONSUMER
 ```
 
 この構成により、データが生産者から消費者まで段階的に処理されます。
@@ -326,7 +343,8 @@ N個のワーカープロセスが並行して動作します。
 
 【ツール準拠（そのまま動く）】
 ```csp
-PUBLIC_INTERFACE = (INTERNAL_PROCESS \ {internal_event1, internal_event2})
+INTERNAL_PROCESS = internal_event1 -> internal_event2 -> external_event -> INTERNAL_PROCESS
+PUBLIC_INTERFACE = INTERNAL_PROCESS \ {internal_event1, internal_event2}
 ```
 
 これにより、システムの内部構造を隠し、外部インターフェースのみを公開できます。
@@ -335,10 +353,13 @@ PUBLIC_INTERFACE = (INTERNAL_PROCESS \ {internal_event1, internal_event2})
 
 プロセスの再利用のため、事象名を変更する演算子があります。
 
-【擬似記法】
+【ツール準拠（そのまま動く）】
 ```csp
-GENERIC_BUFFER = in?x → out!x → GENERIC_BUFFER
-SPECIFIC_BUFFER = GENERIC_BUFFER[input/in, output/out]
+channel in, out : {0..1}
+channel input, output : {0..1}
+
+GENERIC_BUFFER = in?x -> out!x -> GENERIC_BUFFER
+SPECIFIC_BUFFER = GENERIC_BUFFER[[in <- input, out <- output]]
 ```
 
 これにより、汎用的なプロセス定義を特定の文脈で再利用できます。
@@ -369,19 +390,24 @@ CSPでは、プロセス間の通信を「チャネル」という抽象的な�
 **出力（!）**: メッセージの送信
 【擬似記法】
 ```csp
-SENDER = channel!message → SENDER
+SENDER = ch!message → SENDER
 ```
 
 **入力（?）**: メッセージの受信
 【擬似記法】
 ```csp
-RECEIVER = channel?x → process.x → RECEIVER
+RECEIVER = ch?x → process.x → RECEIVER
 ```
 
 **同期通信**: 送信と受信が同時に発生
 【ツール準拠（そのまま動く）】
 ```csp
-COMMUNICATION = SENDER [| {channel} |] RECEIVER
+channel ch : {0..1}
+
+SENDER = ch!0 -> SENDER
+RECEIVER = ch?x -> RECEIVER
+
+COMMUNICATION = SENDER [| {|ch|} |] RECEIVER
 ```
 
 この抽象では、送信と受信が同一の事象として同時に発生する（= 片方だけが進まない）ため、送受の整合性条件を仕様として明示できます。一方で、実システムにおける通信路の信頼性（損失・遅延・再送・バッファリング等）は別途モデル化が必要です。
@@ -991,7 +1017,8 @@ EVACUATION_PROTOCOL =
 
 個々のサブシステムを統合して、完全なレストランシステムを構築します：
 
-【ツール準拠（そのまま動く）】
+【擬似記法】
+（以下は構成の概念例であり、プロセス定義の省略があるためCSPMとしてはそのまま実行できません）
 ```csp
 RESTAURANT_SYSTEM = 
   (CUSTOMER_MANAGEMENT 

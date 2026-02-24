@@ -56,6 +56,7 @@ version: "1.0.0"
 ## 目次
 
 - [はじめに]({{ '/introduction/' | relative_url }})
+- [用語集（Glossary）]({{ '/glossary/' | relative_url }})
 
 ### 第I部　基礎編：形式的手法の基盤
 
@@ -122,6 +123,8 @@ version: "1.0.0"
 
 - [付録E: 参考文献とWebリソース]({{ '/appendices/appendix-e/' | relative_url }})
 
+- [付録F: AI支援の実践ガイド]({{ '/appendices/appendix-f/' | relative_url }})
+
 - [あとがき]({{ '/afterword/' | relative_url }})
 
 ## ライセンス
@@ -138,7 +141,7 @@ Email: [knowledge@itdo.jp](mailto:knowledge@itdo.jp)
 
 **著者:** 太田和彦（株式会社アイティードゥ）  
 **バージョン:** 1.0.0  
-**最終更新:** 2025-07-28  
+**最終更新:** {{ site.time | date: '%Y-%m-%d' }}  
 **GitHub Pages:** 自動デプロイ対応
 
 {% include page-navigation.html %}
