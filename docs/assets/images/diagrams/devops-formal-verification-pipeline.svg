@@ -62,7 +62,7 @@
   <g id="verification">
     <rect x="380" y="80" width="140" height="80" class="verification-box" rx="4"/>
     <text x="450" y="100" class="pipeline-title" text-anchor="middle">形式検証</text>
-    <text x="390" y="120" class="annotation-text">• モデル検査実行</text>
+    <text x="390" y="120" class="annotation-text">• 模型検査実行</text>
     <text x="390" y="135" class="annotation-text">• 性質検証</text>
     <text x="390" y="150" class="annotation-text">• 反例分析</text>
   </g>

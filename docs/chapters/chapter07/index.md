@@ -30,6 +30,7 @@ order: 7
 
 分散システムでは、事象間の因果関係が複雑になります。Aという事象がBという事象の「原因」となるためには、Aに関する情報がBに到達している必要があります。しかし、ネットワーク遅延により、この情報伝播には時間がかかります。
 
+【擬似記法】
 ```text
 ノード1: 事象A発生 → メッセージ送信
          |
@@ -118,6 +119,7 @@ TLA+の開発者であるLeslie Lamportは、分散システム理論の発展�
 
 TLA+では、あらゆるシステムを「状態遷移システム」として捉えます。システムは、初期状態から開始し、一連の状態変化（遷移）を経て、様々な状態に到達します。
 
+【擬似記法】
 ```text
 初期状態 → 状態1 → 状態2 → 状態3 → ...
 ```
@@ -129,6 +131,7 @@ TLA+では、あらゆるシステムを「状態遷移システム」として�
 TLA+の「行動（Action）」は、状態変化を抽象化する概念です。行動は、「現在の状態」から「次の状態」への変換を記述します。これは、数学的には述語として表現されます。
 
 例えば、変数xの値を1増加させる行動は、以下のように記述できます：
+【擬似記法】
 ```tla
 Increment ≜ x' = x + 1
 ```
@@ -140,21 +143,25 @@ Increment ≜ x' = x + 1
 TLA+の時相論理は、システムの動的な性質を表現するための強力な言語を提供します。主要な時相演算子は以下の通りです：
 
 **□ (Box, "常に")**: 性質が常に成り立つ
+【擬似記法】
 ```tla
 □(x ≥ 0)  ← xは常に非負
 ```
 
 **◇ (Diamond, "いつか")**: 性質がいつか成り立つ
+【擬似記法】
 ```tla
 ◇(x = 10)  ← xはいつか10になる
 ```
 
 **○ (Next, "次に")**: 次の状態で性質が成り立つ
+【擬似記法】
 ```tla
 ○(x > y)  ← 次の状態でx > y
 ```
 
 これらの演算子を組み合わせることで、複雑な動的性質を表現できます：
+【擬似記法】
 ```tla
 □◇(process = "ready")  ← プロセスは無限に何度も準備状態になる
 ◇□(system = "stable")  ← システムはいつか安定し、その後ずっと安定
@@ -173,6 +180,7 @@ TLA+の時相論理は、システムの動的な性質を表現するための�
 
 TLA+の「プライム記法」（変数名に'を付ける）は、現在の状態と次の状態を区別する簡潔で強力な方法です。この記法により、状態変化を自然に表現できます。
 
+【擬似記法】
 ```tla
 Transfer ≜ 
   ∧ amount > 0
@@ -185,24 +193,26 @@ Transfer ≜
 
 ### 公平性（Fairness）の概念
 
-現実のシステムでは、理論的には可能でも実際には起こりにくい事象があります。TLA+の公平性仮定は、この現実的な制約を表現します。
+並行/分散システムでは、仕様上は「いつでも実行できる」行動が、スケジューラや環境の偏りで永遠に選ばれない実行（飢餓）が理論上は存在します。公平性（fairness）は、その種の**非現実的な実行を仮定として除外**するための条件です（公平性を入れたから実装が自動的に公平になる、という意味ではありません）。
 
-**弱公平性（WF）**: 継続的に可能な行動はいつか実行される
+ここで「可能（`ENABLED`）」は、現在状態からその行動を満たす次状態が存在することを指します。
+
+- **弱公平性（WF）**: ある時点以降ずっと行動が可能なら、その行動は無限回実行される  
+  → 「ずっと可能なのに永遠に無視される」実行を除外
+- **強公平性（SF）**: 行動が無限回可能になるなら、その行動は無限回実行される  
+  → 「可能になるたびに回避され続ける」実行を除外
+
+【ツール準拠（そのまま動く）】
 ```tla
 WF_vars(Action)
-```
-
-**強公平性（SF）**: 無限に何度も可能になる行動はいつか実行される
-```tla
 SF_vars(Action)
 ```
-
-公平性仮定により、現実的なシステムの振る舞いをより正確にモデル化できます。
 
 ### 構成可能性（Compositionality）
 
 TLA+では、小さなシステムから大きなシステムを構成できます。これは、複雑性の管理において重要な特徴です。
 
+【擬似記法】
 ```tla
 System ≜ Process1 ∧ Process2 ∧ Process3
 ```
@@ -213,6 +223,7 @@ System ≜ Process1 ∧ Process2 ∧ Process3
 
 TLA+では、抽象的な仕様から具体的な実装への段階的な詳細化を支援します。これにより、高レベルの性質を保ちながら、実装に向けた詳細化を進められます。
 
+【ツール準拠（そのまま動く）】
 ```tla
 抽象仕様 ⊨ 具体仕様
 ```
@@ -223,6 +234,7 @@ TLA+では、抽象的な仕様から具体的な実装への段階的な詳細�
 
 TLA+は、システムの非決定性を問題として扱うのではなく、モデリングの重要な要素として積極的に活用します。非決定性により、実装の自由度を保ちながら、安全性を保証できます。
 
+【擬似記法】
 ```tla
 Next ≜ Action1 ∨ Action2 ∨ Action3
 ```
@@ -247,6 +259,7 @@ TLA+において、「状態」はシステムの完全な情報を表現しま�
 
 状態を数学的に表現すると、変数から値への関数として理解できます。例えば、銀行システムの状態は以下のようになります：
 
+【擬似記法】
 ```tla
 State ≜ [
   accounts: [AccountID → Nat],
@@ -262,6 +275,7 @@ State ≜ [
 
 TLA+では、システムの状態を構成する変数を明示的に宣言します。各変数は、取りうる値の集合（型）を持ちます。
 
+【擬似記法】
 ```tla
 VARIABLES 
   balance,      \* 口座残高のマッピング
@@ -282,6 +296,7 @@ TypeInvariant ≜
 
 システムの動作は、初期状態の指定から始まります。初期状態は、システムが満たすべき最初の条件を記述します。
 
+【擬似記法】
 ```tla
 Init ≜
   ∧ balance = [a ∈ AccountID ↦ InitialBalance[a]]
@@ -297,6 +312,7 @@ Init ≜
 TLA+の行動は、状態変化のパターンを記述します。行動は、現在の状態（プライムなし変数）と次の状態（プライム付き変数）の関係を述語として表現します。
 
 **預金操作の例**：
+【擬似記法】
 ```tla
 Deposit(account, amount) ≜
   ∧ amount > 0
@@ -313,6 +329,7 @@ Deposit(account, amount) ≜
 
 より複雑な操作として、口座間送金を考えてみましょう。この操作では、複数の変数が協調して変化する必要があります。
 
+【擬似記法】
 ```tla
 Transfer(from, to, amount) ≜
   ∧ amount > 0
@@ -331,6 +348,7 @@ Transfer(from, to, amount) ≜
 
 実際のシステムでは、特定の条件下でのみ実行される行動があります。TLA+では、これを自然に表現できます。
 
+【擬似記法】
 ```tla
 ProcessPendingTransaction ≜
   ∧ pending ≠ {}
@@ -345,6 +363,7 @@ ProcessPendingTransaction ≜
 
 TLA+では、複数の行動の中から非決定的に選択することを表現できます。これは、実装の自由度を保ちながら、安全性を保証するために重要です。
 
+【擬似記法】
 ```tla
 Next ≜
   ∨ ∃ account ∈ AccountID, amount ∈ Nat : Deposit(account, amount)
@@ -359,6 +378,7 @@ Next ≜
 
 行動を記述する際、「変更されない変数」を明示することが重要です。これは「フレーム条件」と呼ばれ、意図しない副作用を防ぎます。
 
+【擬似記法】
 ```tla
 ReadBalance(account) ≜
   ∧ account ∈ DOMAIN balance
@@ -371,6 +391,7 @@ ReadBalance(account) ≜
 
 複数の変更を原子的（不可分）に実行する必要がある場合、TLA+では一つの行動内で記述します。
 
+【擬似記法】
 ```tla
 AtomicSwap(account1, account2) ≜
   ∧ account1 ≠ account2
@@ -387,6 +408,7 @@ AtomicSwap(account1, account2) ≜
 
 多くのシステムでは、明示的な時間の進行をモデル化する必要があります。
 
+【擬似記法】
 ```tla
 TickClock ≜
   ∧ clock' = clock + 1
@@ -404,6 +426,7 @@ ProcessTimeouts ≜
 
 システムは、外部環境との相互作用も行います。これも行動として表現できます。
 
+【擬似記法】
 ```tla
 ReceiveExternalRequest(request) ≜
   ∧ ValidRequest(request)
@@ -417,6 +440,7 @@ ReceiveExternalRequest(request) ≜
 
 実際のシステムでは、様々な故障が発生します。TLA+では、これらも行動として明示的にモデル化できます。
 
+【擬似記法】
 ```tla
 NetworkFailure ≜
   ∧ network_status = "operational"
@@ -434,6 +458,7 @@ Recovery ≜
 
 システムが満たすべき性質を、状態述語として表現できます。
 
+【擬似記法】
 ```tla
 SafetyInvariant ≜
   ∧ TypeInvariant
@@ -458,22 +483,26 @@ TotalMoney ≜ Sum({balance[a] : a ∈ DOMAIN balance})
 TLA+の時相論理は、いくつかの基本的な演算子から構成されています。
 
 **□ (Always, "常に")**：
+【擬似記法】
 ```tla
 □P  ← 性質Pが常に成り立つ
 ```
 
 例：
+【擬似記法】
 ```tla
 □(balance ≥ 0)  ← 残高は常に非負
 □(mutex ⟹ ¬(process1_critical ∧ process2_critical))  ← 相互排除
 ```
 
 **◇ (Eventually, "いつか")**：
+【擬似記法】
 ```tla
 ◇P  ← 性質Pがいつか成り立つ
 ```
 
 例：
+【擬似記法】
 ```tla
 ◇(task_completed)  ← タスクはいつか完了する
 ◇(system_stable)  ← システムはいつか安定する
@@ -484,22 +513,26 @@ TLA+の時相論理は、いくつかの基本的な演算子から構成され�
 時相演算子を組み合わせることで、より複雑な時間的性質を表現できます。
 
 **□◇ (Infinitely Often, "無限に何度も")**：
+【擬似記法】
 ```tla
 □◇P  ← 性質Pが無限に何度も成り立つ
 ```
 
 例：
+【擬似記法】
 ```tla
 □◇(process_scheduled)  ← プロセスは無限に何度もスケジュールされる
 □◇(garbage_collected)  ← ガベージコレクションが無限に何度も実行される
 ```
 
 **◇□ (Eventually Always, "いつかずっと")**：
+【擬似記法】
 ```tla
 ◇□P  ← 性質Pがいつかずっと成り立つ
 ```
 
 例：
+【擬似記法】
 ```tla
 ◇□(leader_elected)  ← いつかリーダーが選出され、その後ずっと存在する
 ◇□(consensus_reached)  ← いつか合意に達し、その後変更されない
@@ -509,11 +542,13 @@ TLA+の時相論理は、いくつかの基本的な演算子から構成され�
 
 「AならばいつかB」という関係は、分散システムで重要な性質です。
 
+【擬似記法】
 ```tla
 A ~> B ≜ □(A ⟹ ◇B)
 ```
 
 例：
+【擬似記法】
 ```tla
 request_sent ~> response_received  ← 要求を送ればいつか応答を受ける
 failure_detected ~> recovery_initiated  ← 故障を検出すればいつか回復を開始
@@ -524,22 +559,26 @@ failure_detected ~> recovery_initiated  ← 故障を検出すればいつか回
 システムの性質は、大きく「安全性」と「活性」に分類できます。
 
 **安全性（Safety）**：「悪いことは決して起こらない」
+【擬似記法】
 ```tla
 Safety ≜ □¬BadThing
 ```
 
 例：
+【擬似記法】
 ```tla
 □¬(balance < 0)  ← 残高が負になることはない
 □¬(deadlock)  ← デッドロックは発生しない
 ```
 
 **活性（Liveness）**：「良いことがいつか起こる」
+【擬似記法】
 ```tla
 Liveness ≜ ◇GoodThing
 ```
 
 例：
+【擬似記法】
 ```tla
 ◇(all_processes_terminate)  ← すべてのプロセスがいつか終了する
 □(request ⟹ ◇response)  ← 要求があればいつか応答する
@@ -550,20 +589,22 @@ Liveness ≜ ◇GoodThing
 現実的なシステムでは、公平性の仮定が重要です。TLA+では、これを時相論理で厳密に表現できます。
 
 **弱公平性（Weak Fairness）**：
+【擬似記法】
 ```tla
-WF_vars(A) ≜ ◇□ENABLED A ⟹ □◇A
+WF_vars(A) ≜ ◇□ENABLED ⟨A⟩_vars ⟹ □◇⟨A⟩_vars
 ```
 
 「行動Aが最終的にずっと可能であれば、Aは無限に何度も実行される」
 
 **強公平性（Strong Fairness）**：
+【擬似記法】
 ```tla
-SF_vars(A) ≜ □◇ENABLED A ⟹ □◇A
+SF_vars(A) ≜ □◇ENABLED ⟨A⟩_vars ⟹ □◇⟨A⟩_vars
 ```
 
 「行動Aが無限に何度も可能になれば、Aは無限に何度も実行される」
 
-注記：上の表記は直観的な要約です。TLA+での厳密なWF/SFの定義（変数ベクトル・アクション・整合条件）は、TLA+言語仕様や TLC のドキュメントも参照してください。
+注記：`⟨A⟩_vars` は「アクションAが起き、`vars` が変化する（スタッタリングを除外）」ことを表します。WF/SFの厳密な定義（変数ベクトル・アクション・整合条件）は、TLA+言語仕様と TLC のドキュメントを参照してください。
 
 ツール（模型検査器）における公平性制約の与え方（FAIRNESS/COMPASSION 等）については、[第8章 公平性制約の重要性]({{ '/chapters/chapter08/#公平性制約の重要性' | relative_url }})も参照してください。
 
@@ -571,6 +612,7 @@ SF_vars(A) ≜ □◇ENABLED A ⟹ □◇A
 
 相互排除プロトコルを例に、時相的性質を詳しく見てみましょう。
 
+【擬似記法】
 ```tla
 MutualExclusion ≜
   ∀ i, j ∈ Processes : i ≠ j ⟹ □¬(pc[i] = "critical" ∧ pc[j] = "critical")
@@ -587,16 +629,19 @@ Progress ≜
 分散合意アルゴリズムでは、以下の時相的性質が重要です：
 
 **合意（Agreement）**：
+【擬似記法】
 ```tla
 Agreement ≜ □(decided ⟹ ∀ i, j ∈ Nodes : decision[i] = decision[j])
 ```
 
 **妥当性（Validity）**：
+【擬似記法】
 ```tla
 Validity ≜ □(decided ⟹ ∃ i ∈ Nodes : decision[i] ∈ proposed_values)
 ```
 
 **終了性（Termination）**：
+【擬似記法】
 ```tla
 Termination ≜ ◇decided
 ```
@@ -605,6 +650,7 @@ Termination ≜ ◇decided
 
 分散システムでは、事象間の因果関係が重要です。
 
+【擬似記法】
 ```tla
 CausalOrder ≜ 
   ∀ e1, e2 ∈ Events : 
@@ -619,6 +665,7 @@ EventualConsistency ≜
 
 実用的なシステムでは、時間制限も重要な要求です。
 
+【擬似記法】
 ```tla
 ResponseTime ≜
   ∀ req ∈ Requests : 
@@ -632,6 +679,7 @@ PeriodicMaintenance ≜
 
 システムの故障と回復も時相論理で表現できます。
 
+【擬似記法】
 ```tla
 FailureRecovery ≜
   □(failure_detected ~> recovery_initiated)
@@ -647,6 +695,7 @@ BoundedDowntime ≜
 
 実際のシステムでは、複数の時相的性質が組み合わさります。
 
+【擬似記法】
 ```tla
 SystemSpec ≜
   ∧ Safety_Properties
@@ -708,6 +757,7 @@ TLCの最大の価値は、理論的な仕様を「実行可能」にするこ�
 TLA+仕様をTLCで検査するには、仕様が「実行可能」である必要があります。これは、抽象的な数学的記述を、有限の計算で扱える形に制限することを意味します。
 
 **有限化の例**：
+【擬似記法】
 ```tla
 CONSTANTS
   Processes,     \* 有限集合として定義
@@ -724,6 +774,7 @@ ASSUME
 
 TLCの動作は、設定ファイル（.cfg）で制御されます。このファイルで、定数値、初期述語、次状態述語、検証する性質などを指定します。
 
+【ツール準拠（そのまま動く）】
 ```text
 \* BankingSystem.cfg
 CONSTANTS
@@ -746,6 +797,7 @@ PROPERTIES
 複雑なシステムの検証では、段階的なアプローチが効果的です。
 
 **第1段階：基本的な型安全性**
+【擬似記法】
 ```tla
 TypeInvariant ≜
   ∧ balance ∈ [Accounts → Nat]
@@ -754,6 +806,7 @@ TypeInvariant ≜
 ```
 
 **第2段階：安全性不変条件**
+【擬似記法】
 ```tla
 SafetyInvariant ≜
   ∧ ∀ a ∈ Accounts : balance[a] ≤ MaxBalance
@@ -762,6 +815,7 @@ SafetyInvariant ≜
 ```
 
 **第3段階：活性性質**
+【擬似記法】
 ```tla
 Progress ≜ □(pending ≠ {} ⟹ ◇(pending = {}))
 ```
@@ -771,6 +825,7 @@ Progress ≜ □(pending ≠ {} ⟹ ◇(pending = {}))
 TLCの性能と実用性は、状態空間のサイズに大きく依存します。効果的な制御方法を学ぶことが重要です。
 
 **対称性の活用**：
+【ツール準拠（そのまま動く）】
 ```tla
 SYMMETRY Permutations(Accounts)
 ```
@@ -778,6 +833,7 @@ SYMMETRY Permutations(Accounts)
 プロセスや口座など、同等な要素の順序を無視することで、状態空間を大幅に削減できます。
 
 **状態制約の導入**：
+【擬似記法】
 ```tla
 StateConstraint ≜
   ∧ clock ≤ MaxTime
@@ -790,6 +846,7 @@ StateConstraint ≜
 TLCが不変条件違反を発見すると、問題が発生するまでの実行トレースを出力します。このトレースの分析は、問題の根本原因を理解するために重要です。
 
 **典型的な出力例**：
+【ツール準拠（そのまま動く）】
 ```text
 Error: Invariant SafetyInvariant is violated.
 
@@ -813,6 +870,7 @@ clock = 2
 
 TLCは、デッドロック（すべてのプロセスが停止する状態）を自動的に検出します。
 
+【擬似記法】
 ```tla
 \* デッドロックが発生する可能性のある仕様
 BadMutex ≜
@@ -828,6 +886,7 @@ BadMutex ≜
 
 活性性質の検証は、安全性よりも計算コストが高くなります。TLCは、強連結成分の分析により、活性性質を効率的に検証します。
 
+【擬似記法】
 ```tla
 EventualProgress ≜ 
   ∀ i ∈ Processes : □(pc[i] = "trying" ⟹ ◇(pc[i] = "critical"))
@@ -841,6 +900,7 @@ EventualProgress ≜
 
 大きな状態空間を持つシステムでは、完全な検証が困難な場合があります。TLCは、ランダムサンプリングによる確率的検証もサポートします。
 
+【ツール準拠（そのまま動く）】
 ```text
 \* 設定ファイルでの指定
 CONSTRAINT StateConstraint
@@ -854,16 +914,19 @@ COVERAGE 80
 TLCの性能を向上させるための技術：
 
 **並列実行**：
+【ツール準拠（そのまま動く）】
 ```bash
 tlc -workers 8 BankingSystem.tla
 ```
 
 **メモリ最適化**：
+【ツール準拠（そのまま動く）】
 ```bash
 tlc -Xmx8g -XX:+UseG1GC BankingSystem.tla
 ```
 
 **チェックポイント**：
+【ツール準拠（そのまま動く）】
 ```bash
 tlc -checkpoint 60 BankingSystem.tla
 ```
@@ -917,6 +980,7 @@ TLCには限界があることを理解し、適切に活用することが重�
 
 これらの性質をTLA+で表現すると：
 
+【擬似記法】
 ```tla
 VARIABLES
   proposed,    \* 各ノードが提案した値
@@ -949,6 +1013,7 @@ Raftは、理解しやすさを重視して設計された分散合意アルゴ�
 
 Raftアルゴリズムの状態を TLA+ で記述してみましょう：
 
+【ツール準拠（そのまま動く）】
 ```tla
 VARIABLES
   \* 永続状態（すべてのサーバー）
@@ -974,6 +1039,7 @@ VARIABLES
 
 システムの初期状態では、すべてのノードがフォロワーとして開始します：
 
+【擬似記法】
 ```tla
 Init ≜
   ∧ currentTerm = [s ∈ Servers ↦ 0]
@@ -993,6 +1059,7 @@ Init ≜
 Raftのリーダー選出は、以下の段階で行われます：
 
 **1. 選出タイムアウト**：
+【擬似記法】
 ```tla
 ElectionTimeout(s) ≜
   ∧ state[s] = Follower
@@ -1006,6 +1073,7 @@ ElectionTimeout(s) ≜
 ```
 
 **2. 投票要求の送信**：
+【擬似記法】
 ```tla
 SendRequestVoteRequests(s) ≜
   messages' = messages ∪ 
@@ -1018,6 +1086,7 @@ SendRequestVoteRequests(s) ≜
 ```
 
 **3. 投票応答の処理**：
+【擬似記法】
 ```tla
 ReceiveRequestVoteResponse(s) ≜
   ∃ m ∈ messages :
@@ -1040,6 +1109,7 @@ ReceiveRequestVoteResponse(s) ≜
 リーダーは、クライアントからの要求を受け取り、それをログエントリとして他のサーバーに複製します：
 
 **1. エントリの追加**：
+【擬似記法】
 ```tla
 AppendEntry(s, entry) ≜
   ∧ state[s] = Leader
@@ -1049,6 +1119,7 @@ AppendEntry(s, entry) ≜
 ```
 
 **2. AppendEntriesの送信**：
+【擬似記法】
 ```tla
 SendAppendEntries(s) ≜
   messages' = messages ∪ 
@@ -1065,6 +1136,7 @@ SendAppendEntries(s) ≜
 ```
 
 **3. 応答の処理と コミット**：
+【擬似記法】
 ```tla
 ProcessAppendEntriesResponse(s) ≜
   ∃ m ∈ messages :
@@ -1085,6 +1157,7 @@ ProcessAppendEntriesResponse(s) ≜
 
 Raftアルゴリズムが満たすべき安全性不変条件：
 
+【擬似記法】
 ```tla
 \* ログの一致性
 LogMatching ≜
@@ -1109,6 +1182,7 @@ CommittedEntriesNeverChange ≜
 現実的なシステムでは、様々な故障が発生します：
 
 **1. ノード故障**：
+【擬似記法】
 ```tla
 NodeFailure(s) ≜
   ∧ state[s] ≠ Failed
@@ -1118,6 +1192,7 @@ NodeFailure(s) ≜
 ```
 
 **2. ネットワーク分断**：
+【擬似記法】
 ```tla
 NetworkPartition ≜
   ∃ partition ⊆ Servers :
@@ -1130,6 +1205,7 @@ NetworkPartition ≜
 ```
 
 **3. メッセージ損失**：
+【擬似記法】
 ```tla
 MessageLoss ≜
   ∃ m ∈ messages :
@@ -1142,6 +1218,7 @@ MessageLoss ≜
 
 Raftアルゴリズムの活性性質：
 
+【擬似記法】
 ```tla
 \* 最終的にリーダーが選出される
 EventualLeaderElection ≜
@@ -1162,6 +1239,7 @@ Fairness ≜
 
 実際にTLCでRaftアルゴリズムを検証する際の設定：
 
+【擬似記法】
 ```text
 \* Raft.cfg
 CONSTANTS

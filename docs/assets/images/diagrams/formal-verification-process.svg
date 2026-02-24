@@ -59,7 +59,7 @@
     <text x="650" y="105" class="stage-title" text-anchor="middle">検証実行</text>
     
     <rect x="565" y="120" width="170" height="30" class="component" rx="3"/>
-    <text x="650" y="140" class="method-text" text-anchor="middle">モデル検査</text>
+    <text x="650" y="140" class="method-text" text-anchor="middle">模型検査</text>
     
     <rect x="565" y="155" width="170" height="30" class="component" rx="3"/>
     <text x="650" y="175" class="method-text" text-anchor="middle">定理証明</text>
@@ -87,7 +87,7 @@
     
     <!-- Model Checking -->
     <rect x="50" y="410" width="250" height="120" fill="#e6f3ff" stroke="#3498db" stroke-width="2" rx="5"/>
-    <text x="175" y="435" class="method-text" text-anchor="middle" font-weight="bold">モデル検査</text>
+    <text x="175" y="435" class="method-text" text-anchor="middle" font-weight="bold">模型検査</text>
     <text x="60" y="455" class="small-text">• 有限状態の網羅的探索</text>
     <text x="60" y="470" class="small-text">• 自動化可能</text>
     <text x="60" y="485" class="small-text">• 反例の生成</text>
