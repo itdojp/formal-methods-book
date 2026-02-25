@@ -38,7 +38,7 @@ order: 10
 - 模型検査の適用指針・LTL/CTL・公平性: [第8章 模型検査入門]({{ '/chapters/chapter08/' | relative_url }})
 - 定理証明の基礎・型理論・証明支援系: [第9章 定理証明の基礎]({{ '/chapters/chapter09/' | relative_url }})
 
-### 章末課題（抜粋）
+### 課題（抜粋）
 
 解答の骨子・採点観点は[付録D]({{ '/appendices/appendix-d/' | relative_url }})を参照。
 
