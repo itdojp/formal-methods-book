@@ -8,7 +8,20 @@ const TOOL_LABEL = '【ツール準拠（そのまま動く）】';
 const ELLIPSIS_PATTERNS = ['...', '…'];
 
 function getTrackedMarkdownFiles() {
-  const out = execSync('git ls-files', { encoding: 'utf8' });
+  let out;
+  try {
+    out = execSync('git ls-files', { encoding: 'utf8' });
+  } catch (err) {
+    console.error(
+      'Failed to list tracked files using "git ls-files". ' +
+        'Make sure this script is run from within a git repository and that "git" is installed.'
+    );
+    if (err && err.message) {
+      console.error(String(err.message));
+    }
+    process.exitCode = 1;
+    return [];
+  }
   return out
     .split(/\r?\n/)
     .filter(Boolean)
