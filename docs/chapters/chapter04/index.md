@@ -724,7 +724,7 @@ sig User {
 ```
 
 **第4段階**：ポリシーと制約の詳細化
-【ツール準拠（そのまま動く）】
+【擬似記法】（省略を含むため、そのままツールへ投入できません）
 ```alloy
 fact AccessPolicy { ... }
 fact ConsistencyRules { ... }
@@ -1116,9 +1116,9 @@ check { not securityBreach } for 4
 
 ### モデルの反復改善プロセス
 
-実際の検証では、以下のような反復プロセスを行います：
+実際の検証では、以下のような反復プロセスを行います。
 
-1. **初期モデル作成**
+**1. 初期モデル作成**
 【ツール準拠（そのまま動く）】
 ```alloy
 sig Document {
@@ -1134,7 +1134,7 @@ fact BasicSecurity {
 }
 ```
 
-2. **基本的な検証**
+**2. 基本的な検証**
 【ツール準拠（そのまま動く）】
 ```alloy
 run {} for 3  // インスタンス生成確認
@@ -1142,7 +1142,7 @@ assert OwnerCanRead { all d: Document | d.owner in d.readers }
 check OwnerCanRead for 3
 ```
 
-3. **問題発見と修正**
+**3. 問題発見と修正**
 【ツール準拠（そのまま動く）】
 ```alloy
 // 反例により新しい要求を発見
@@ -1153,7 +1153,7 @@ pred collaborativeDocument {
 run collaborativeDocument for 3
 ```
 
-4. **制約の追加**
+**4. 制約の追加**
 【ツール準拠（そのまま動く）】
 ```alloy
 fact SharePolicy {
@@ -1164,7 +1164,7 @@ fact SharePolicy {
 }
 ```
 
-5. **再検証**
+**5. 再検証**
 【ツール準拠（そのまま動く）】
 ```alloy
 assert NoUnauthorizedAccess {
