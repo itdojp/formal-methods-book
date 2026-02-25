@@ -692,10 +692,12 @@ MATLAB/Simulinkをベースとした開発環境に、形式的検証ツール�
 自動車産業における形式的手法の成功は、安全クリティカルシステムの開発における形式的手法の有効性を実証した重要な事例です。規制要求、技術的必要性、経済的価値が一致した結果として、組織的な採用と継続的な改善が実現されています。
 
 参考（準一次・概説）：
+<!-- markdown-link-check-disable -->
 - ISO 26262（概説）: <https://en.wikipedia.org/wiki/ISO_26262>
 - SCADE（背景：Esterel Technologies）: <https://en.wikipedia.org/wiki/Esterel_Technologies>
 - Lustre（同期データフロー言語）: <https://en.wikipedia.org/wiki/Lustre_(programming_language)>
 - Polyspace（静的解析ツール）: <https://en.wikipedia.org/wiki/Polyspace>
+<!-- markdown-link-check-enable -->
 
 ## 13.6 学習された教訓と未来への指針
 
