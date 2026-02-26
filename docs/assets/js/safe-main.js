@@ -1,9 +1,12 @@
 (function () {
   'use strict';
 
+  var hasWindow = (typeof window !== 'undefined');
+  var hasDocument = (typeof document !== 'undefined');
+
   var Safe = {
-    log: function () { if (window && window.console) console.log.apply(console, arguments); },
-    error: function () { if (window && window.console) console.error.apply(console, arguments); },
+    log: function () { if (hasWindow && window.console) console.log.apply(console, arguments); },
+    error: function () { if (hasWindow && window.console) console.error.apply(console, arguments); },
     safeExecute: function (fn, fallback) {
       if (typeof fn !== 'function') return;
       try {
@@ -51,7 +54,7 @@
 
   function handleExternalLinks() {
     var as = document.querySelectorAll('a[href^="http"]:not([target])');
-    for (var i = 0; i < as.length; i++) { as[i].setAttribute('target', '_blank'); as[i].setAttribute('rel', 'noopener'); }
+    for (var i = 0; i < as.length; i++) { as[i].setAttribute('target', '_blank'); as[i].setAttribute('rel', 'noopener noreferrer'); }
   }
 
   function enhanceImages() {
@@ -83,12 +86,14 @@
     }, 100);
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function () { Safe.safeExecute(init); });
-  } else {
-    Safe.safeExecute(init);
+  if (hasDocument) {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function () { Safe.safeExecute(init); });
+    } else {
+      Safe.safeExecute(init);
+    }
   }
 
   // expose minimal API for extensions
-  window.BookFormatterSafe = Safe;
+  if (hasWindow) window.BookFormatterSafe = Safe;
 })();
