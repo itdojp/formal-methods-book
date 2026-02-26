@@ -16,6 +16,7 @@ jobs:
           node-version: '20'
       - run: npm ci || npm i
       - run: node scripts/check-tool-blocks.js
+      - run: node scripts/check-manuscript-guardrails.js docs
       - run: npx markdownlint-cli 'src/**/*.md' --ignore src/appendices/appendices_draft.md
       - run: npx markdown-link-check -q -p src/chapters/*.md
       - run: npx markdown-link-check -q -p src/appendices/appendix-*.md
