@@ -17,6 +17,12 @@ const FORBIDDEN_MARKER_RULES = [
 
 const FIGURE_LABEL_PATTERN = /図\s*(\d+)\s*[-‐‑‒–—―−]\s*(\d+)/g;
 const MARKDOWN_IMAGE_PATTERN = /!\[([^\]]*?)\]\([^)]+\)/g;
+const MINI_SUMMARY_HEADING = 'ミニ要約：';
+const REFERENCE_SECTION_KEYWORD = '図・章参照';
+const LIST_ITEM_PATTERN = /^\s*[-*]\s+/;
+const LEVEL2_HEADING_PATTERN = /^##\s+/;
+const MINI_SUMMARY_BARE_FIGURE_SUFFIX_PATTERN =
+  /[\/／,，、・]\s*(\d{1,2})\s*[-‐‑‒–—―−]\s*(\d{1,2})/g;
 
 function escapeRegExp(input) {
   return String(input).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -242,6 +248,141 @@ function checkFigureReferences(markdownFiles, definedFigures) {
   return errors;
 }
 
+function findMiniSummaryRange(lines) {
+  let headingIndex = -1;
+  for (let i = 0; i < lines.length; i++) {
+    if (lines[i].trim() === MINI_SUMMARY_HEADING) {
+      headingIndex = i;
+      break;
+    }
+  }
+  if (headingIndex === -1) return null;
+
+  let startIndex = headingIndex + 1;
+  while (startIndex < lines.length && lines[startIndex].trim() === '') {
+    startIndex++;
+  }
+
+  let endIndex = startIndex;
+  while (endIndex < lines.length && LIST_ITEM_PATTERN.test(lines[endIndex])) {
+    endIndex++;
+  }
+
+  if (endIndex === startIndex) return null;
+
+  return {
+    headingLine: headingIndex + 1,
+    startIndex,
+    endIndex,
+  };
+}
+
+function findLevel2SectionRange(lines, keyword) {
+  let headingIndex = -1;
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!LEVEL2_HEADING_PATTERN.test(line)) continue;
+    if (!line.includes(keyword)) continue;
+    headingIndex = i;
+    break;
+  }
+  if (headingIndex === -1) return null;
+
+  let endIndex = lines.length;
+  for (let i = headingIndex + 1; i < lines.length; i++) {
+    if (!LEVEL2_HEADING_PATTERN.test(lines[i].trim())) continue;
+    endIndex = i;
+    break;
+  }
+
+  return {
+    headingLine: headingIndex + 1,
+    startIndex: headingIndex + 1,
+    endIndex,
+  };
+}
+
+function collectFigureReferencesInRange(lines, startIndex, endIndex) {
+  const refs = new Map();
+  for (let i = startIndex; i < endIndex; i++) {
+    const line = lines[i];
+    for (const match of line.matchAll(new RegExp(FIGURE_LABEL_PATTERN))) {
+      const label = `図${parseInt(match[1], 10)}-${parseInt(match[2], 10)}`;
+      if (!refs.has(label)) refs.set(label, []);
+      refs.get(label).push(i + 1);
+    }
+  }
+  return refs;
+}
+
+function hasFigureReference(line) {
+  for (const _ of line.matchAll(new RegExp(FIGURE_LABEL_PATTERN))) {
+    return true;
+  }
+  return false;
+}
+
+function checkMiniSummaryFigureConsistency(chapterFiles) {
+  const errors = [];
+
+  for (const filePath of chapterFiles) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    const lines = content.split(/\r?\n/);
+
+    const mini = findMiniSummaryRange(lines);
+    if (!mini) continue;
+
+    const references = findLevel2SectionRange(lines, REFERENCE_SECTION_KEYWORD);
+    if (!references) continue;
+
+    for (let i = mini.startIndex; i < mini.endIndex; i++) {
+      const line = lines[i];
+      if (!hasFigureReference(line)) continue;
+
+      for (const match of line.matchAll(new RegExp(MINI_SUMMARY_BARE_FIGURE_SUFFIX_PATTERN))) {
+        const label = `図${parseInt(match[1], 10)}-${parseInt(match[2], 10)}`;
+        errors.push({
+          filePath,
+          line: i + 1,
+          message: `ミニ要約内の図番号は「図」を省略せず記載してください: ${label}`,
+        });
+      }
+    }
+
+    const miniRefs = collectFigureReferencesInRange(lines, mini.startIndex, mini.endIndex);
+    const refRefs = collectFigureReferencesInRange(
+      lines,
+      references.startIndex,
+      references.endIndex
+    );
+
+    const miniSet = new Set(miniRefs.keys());
+    const refSet = new Set(refRefs.keys());
+
+    for (const label of miniSet) {
+      if (refSet.has(label)) continue;
+      const firstLine = miniRefs.get(label)[0] || mini.headingLine;
+      errors.push({
+        filePath,
+        line: firstLine,
+        message: `ミニ要約の図参照が「${REFERENCE_SECTION_KEYWORD}」節にありません: ${label}（節: L${references.headingLine}）`,
+      });
+    }
+
+    for (const label of refSet) {
+      if (miniSet.has(label)) continue;
+      const firstLine = refRefs.get(label)[0] || references.headingLine;
+      errors.push({
+        filePath,
+        line: firstLine,
+        message: `「${REFERENCE_SECTION_KEYWORD}」節の図参照がミニ要約にありません: ${label}（ミニ要約: L${mini.headingLine}）`,
+      });
+    }
+  }
+
+  return errors;
+}
+
 function main() {
   const scanDir = normalizeScanDir(process.argv[2]);
   const prefix = scanDir === '.' ? '' : `${scanDir}/`;
@@ -261,11 +402,12 @@ function main() {
     ...checkChapterEndings(chapterFiles),
     ...checkChapterNumbering(chapterFiles),
     ...checkFigureReferences(markdownFiles, definedFigures),
+    ...checkMiniSummaryFigureConsistency(chapterFiles),
   ];
 
   if (allErrors.length === 0) {
     console.log(
-      'OK: manuscript guardrails passed (chapter endings + forbidden markers + numbering + figure refs).'
+      'OK: manuscript guardrails passed (chapter endings + forbidden markers + numbering + figure refs + mini summary refs).'
     );
     return;
   }
