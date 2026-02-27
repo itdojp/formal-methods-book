@@ -110,12 +110,17 @@ order: 8
 
 第4章で学習したAlloyモデリングは、模型検査の優れた入門となります。Alloyの`check`コマンドは、本質的に小規模な模型検査を実行しています：
 
-【ツール準拠（そのまま動く）】
+【擬似記法】（第4章のモデル定義を省略しているため、そのまま実行できません）
 ```alloy
 // 第4章の電子メールシステム例の再検討
 assert NoUnauthorizedAccess {
     all u: User, e: Email |
-        canReadEmail[u, e] or not (u can access e)
+        some e.confidential and
+        u != e.sender and u not in e.recipients and
+        u != e.confidential and
+        AdminAccess not in u.roles.permissions
+        implies
+        not canReadEmail[u, e]
 }
 check NoUnauthorizedAccess for 5 User, 5 Email, 3 Role
 ```
