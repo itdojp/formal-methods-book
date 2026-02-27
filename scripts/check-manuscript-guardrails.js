@@ -3,7 +3,6 @@
 
 const { execSync } = require('child_process');
 const fs = require('fs');
-const path = require('path');
 
 const DEFAULT_SCAN_DIR = 'docs';
 
@@ -15,6 +14,9 @@ const FORBIDDEN_MARKER_RULES = [
   { label: '準備中', re: /準備中/ },
   { label: '未作成', re: /未作成/ },
 ];
+
+const FIGURE_LABEL_PATTERN = /図\s*(\d+)\s*[-‐‑‒–—―−]\s*(\d+)/g;
+const MARKDOWN_IMAGE_PATTERN = /!\[([^\]]*?)\]\([^)]+\)/g;
 
 function escapeRegExp(input) {
   return String(input).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -116,6 +118,130 @@ function checkChapterEndings(chapterFiles) {
   return errors;
 }
 
+function checkChapterNumbering(chapterFiles) {
+  const errors = [];
+  const chapterNumberFromPathRe = /chapter(\d+)\//;
+  const numberedSectionHeadingRe = /^##\s+(\d+)\.(\d+)\b/;
+
+  for (const filePath of chapterFiles) {
+    const chapterMatch = filePath.match(chapterNumberFromPathRe);
+    const expectedChapterNumber = chapterMatch ? parseInt(chapterMatch[1], 10) : null;
+
+    const content = fs.readFileSync(filePath, 'utf8');
+    const lines = content.split(/\r?\n/);
+
+    const seen = new Map();
+    let prevMinor = null;
+    let firstMinor = null;
+
+    for (let i = 0; i < lines.length; i++) {
+      const match = lines[i].match(numberedSectionHeadingRe);
+      if (!match) continue;
+
+      const major = parseInt(match[1], 10);
+      const minor = parseInt(match[2], 10);
+
+      if (expectedChapterNumber !== null && major !== expectedChapterNumber) {
+        errors.push({
+          filePath,
+          line: i + 1,
+          message: `見出し番号の章番号がファイル名と一致しません（期待: ${expectedChapterNumber}.x / 実際: ${major}.${minor}）`,
+        });
+      }
+
+      const key = `${major}.${minor}`;
+      if (seen.has(key)) {
+        errors.push({
+          filePath,
+          line: i + 1,
+          message: `見出し番号が重複しています: ${key}（前回: L${seen.get(key)}）`,
+        });
+      } else {
+        seen.set(key, i + 1);
+      }
+
+      if (firstMinor === null) {
+        firstMinor = minor;
+      }
+
+      if (prevMinor !== null) {
+        if (minor < prevMinor) {
+          errors.push({
+            filePath,
+            line: i + 1,
+            message: `見出し番号が逆行しています: ${major}.${prevMinor} → ${key}`,
+          });
+        } else if (minor > prevMinor + 1) {
+          errors.push({
+            filePath,
+            line: i + 1,
+            message: `見出し番号が飛んでいます: ${major}.${prevMinor} → ${key}`,
+          });
+        }
+      }
+
+      prevMinor = minor;
+    }
+
+    if (firstMinor !== null && firstMinor !== 1) {
+      errors.push({
+        filePath,
+        line: 1,
+        message: `最初の節番号が 1 ではありません（期待: ${expectedChapterNumber || '章番号'}.1 / 実際: ${expectedChapterNumber || '章番号'}.${firstMinor}）`,
+      });
+    }
+  }
+
+  return errors;
+}
+
+function collectDefinedFigures(markdownFiles) {
+  const defined = new Map();
+
+  for (const filePath of markdownFiles) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    const lines = content.split(/\r?\n/);
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      for (const imageMatch of line.matchAll(new RegExp(MARKDOWN_IMAGE_PATTERN))) {
+        const alt = imageMatch[1] || '';
+        for (const figureMatch of alt.matchAll(new RegExp(FIGURE_LABEL_PATTERN))) {
+          const label = `図${parseInt(figureMatch[1], 10)}-${parseInt(figureMatch[2], 10)}`;
+          if (defined.has(label)) continue;
+          defined.set(label, { filePath, line: i + 1 });
+        }
+      }
+    }
+  }
+
+  return defined;
+}
+
+function checkFigureReferences(markdownFiles, definedFigures) {
+  const errors = [];
+
+  for (const filePath of markdownFiles) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    const lines = content.split(/\r?\n/);
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      for (const match of line.matchAll(new RegExp(FIGURE_LABEL_PATTERN))) {
+        const label = `図${parseInt(match[1], 10)}-${parseInt(match[2], 10)}`;
+        if (definedFigures.has(label)) continue;
+        errors.push({
+          filePath,
+          line: i + 1,
+          message: `図参照が定義されていません: ${label}（画像キャプション等の定義を確認してください）`,
+        });
+      }
+    }
+  }
+
+  return errors;
+}
+
 function main() {
   const scanDir = normalizeScanDir(process.argv[2]);
   const prefix = scanDir === '.' ? '' : `${scanDir}/`;
@@ -128,13 +254,19 @@ function main() {
   );
   const chapterFiles = markdownFiles.filter((f) => chaptersPattern.test(f));
 
+  const definedFigures = collectDefinedFigures(markdownFiles);
+
   const allErrors = [
     ...checkForbiddenMarkers(markdownFiles),
     ...checkChapterEndings(chapterFiles),
+    ...checkChapterNumbering(chapterFiles),
+    ...checkFigureReferences(markdownFiles, definedFigures),
   ];
 
   if (allErrors.length === 0) {
-    console.log('OK: manuscript guardrails passed (chapter endings + forbidden markers).');
+    console.log(
+      'OK: manuscript guardrails passed (chapter endings + forbidden markers + numbering + figure refs).'
+    );
     return;
   }
 
@@ -147,4 +279,3 @@ function main() {
 }
 
 main();
-
