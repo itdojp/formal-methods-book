@@ -330,6 +330,7 @@ Alloyは静的構造だけでなく、動的な振る舞いも表現できます
 【ツール準拠（そのまま動く）】
 ```alloy
 sig Time {}
+open util/ordering[Time]
 
 sig Contact {
     name: one Name,
