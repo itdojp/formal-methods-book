@@ -6,6 +6,9 @@ const fs = require('fs');
 
 const TOOL_LABEL = '【ツール準拠（そのまま動く）】';
 const ELLIPSIS_PATTERNS = ['...', '…'];
+const ALLOY_ENGLISH_INFIX_PATTERN = /\b\w+\s+can\s+(access|read)\s+\w+\b/;
+const ALLOY_ORDERING_OPEN_PATTERN = /\bopen\s+util\/ordering\s*\[/;
+const ALLOY_NEXT_DEFINITION_PATTERN = /\bnext\s*[:=]/;
 
 function getTrackedMarkdownFiles() {
   let out;
@@ -63,19 +66,46 @@ function checkFile(filePath) {
       continue;
     }
 
+    const fenceHeader = lines[fenceStartLine].trim();
+    const fenceLang = fenceHeader.slice(3).trim().toLowerCase();
+
     let fenceEndLine = fenceStartLine + 1;
     let foundEnd = false;
     let ellipsisLine = null;
+    let alloyEnglishInfixLine = null;
+    let alloyNextUsageLine = null;
+    let sawAlloyOrderingOpen = false;
+    let sawAlloyNextDefinition = false;
     for (; fenceEndLine < lines.length; fenceEndLine++) {
       if (lines[fenceEndLine].trim() === '```') {
         foundEnd = true;
         break;
       }
 
+      const line = lines[fenceEndLine];
+
       if (ellipsisLine === null) {
-        const line = lines[fenceEndLine];
         const hasEllipsis = ELLIPSIS_PATTERNS.some((p) => line.includes(p));
         if (hasEllipsis) ellipsisLine = fenceEndLine;
+      }
+
+      if (fenceLang === 'alloy') {
+        const trimmed = line.trim();
+        const isCommentLine = trimmed.startsWith('//') || trimmed.startsWith('#');
+        if (!isCommentLine) {
+          if (!sawAlloyOrderingOpen && ALLOY_ORDERING_OPEN_PATTERN.test(line)) {
+            sawAlloyOrderingOpen = true;
+          }
+          if (!sawAlloyNextDefinition && ALLOY_NEXT_DEFINITION_PATTERN.test(line)) {
+            sawAlloyNextDefinition = true;
+          }
+          if (alloyEnglishInfixLine === null && ALLOY_ENGLISH_INFIX_PATTERN.test(line)) {
+            alloyEnglishInfixLine = fenceEndLine;
+          }
+          if (alloyNextUsageLine === null && line.includes('.next')) {
+            alloyNextUsageLine = fenceEndLine;
+          }
+        }
       }
     }
 
@@ -83,6 +113,28 @@ function checkFile(filePath) {
       errors.push({
         line: ellipsisLine + 1,
         message: `${TOOL_LABEL} のコードブロック内に省略（.../…）があります。省略が必要なら【擬似記法】へ変更してください`,
+      });
+    }
+
+    if (alloyEnglishInfixLine !== null) {
+      errors.push({
+        line: alloyEnglishInfixLine + 1,
+        message:
+          `${TOOL_LABEL} のAlloyコードブロック内に英語風中置表現（例: "u can access e"）があります。` +
+          'Alloy構文として成立しないため、式を修正するか【擬似記法】へ変更してください',
+      });
+    }
+
+    if (
+      alloyNextUsageLine !== null &&
+      !sawAlloyOrderingOpen &&
+      !sawAlloyNextDefinition
+    ) {
+      errors.push({
+        line: alloyNextUsageLine + 1,
+        message:
+          `${TOOL_LABEL} のAlloyコードブロック内で ".next" を使用していますが、` +
+          '`open util/ordering[...]` も `next:` 定義も見つかりません。ブロック単体で成立するよう補ってください',
       });
     }
 

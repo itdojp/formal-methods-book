@@ -169,19 +169,19 @@ Alloyでは、関係に対する豊富な演算が提供されています：
 
 **結合（join）**: `r.s` - 関係rとsを結合
 **転置（transpose）**: `~r` - 関係rの方向を逆転
-**反射推移閉包**: `^r` - 関係rの推移閉包
-**推移閉包**: `*r` - 関係rの反射推移閉包
+**推移閉包**: `^r` - 関係rの推移閉包（1回以上）
+**反射推移閉包**: `*r` - 関係rの反射推移閉包（0回以上）
 
 例：
 【擬似記法】
 ```
-// すべての祖先
+// すべての祖先（自分自身を除く）
 person.^parent
 
 // 相互フォロー関係
 person.follows & person.~follows
 
-// 到達可能なすべてのファイル
+// 到達可能なすべての子孫（自分自身を含む）
 directory.*children
 ```
 
@@ -295,6 +295,7 @@ Alloyは静的構造だけでなく、動的な振る舞いも表現できます
 【ツール準拠（そのまま動く）】
 ```alloy
 sig Time {}
+open util/ordering[Time]
 
 sig Contact {
     name: one Name,
@@ -369,7 +370,12 @@ pred canReadEmail[u: User, e: Email] {
 // セキュリティ検証のアサーション
 assert NoUnauthorizedAccess {
     all u: User, e: Email |
-        canReadEmail[u, e] or not (u can read e)
+        some e.confidential and
+        u != e.sender and u not in e.recipients and
+        u != e.confidential and
+        AdminAccess not in u.roles.permissions
+        implies
+        not canReadEmail[u, e]
 }
 
 check NoUnauthorizedAccess for 5 User, 5 Email, 3 Role
