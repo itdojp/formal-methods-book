@@ -1366,6 +1366,7 @@ check GroupAccessControl for 4
 【ツール準拠（そのまま動く）】
 ```alloy
 sig Time {}
+open util/ordering[Time]
 
 sig User {
     active: set Time

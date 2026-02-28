@@ -9,6 +9,7 @@ const ELLIPSIS_PATTERNS = ['...', '…'];
 const ALLOY_ENGLISH_INFIX_PATTERN = /\b\w+\s+can\s+(access|read)\s+\w+\b/;
 const ALLOY_ORDERING_OPEN_PATTERN = /\bopen\s+util\/ordering\s*\[/;
 const ALLOY_NEXT_DEFINITION_PATTERN = /\bnext\s*[:=]/;
+const ALLOY_NEXT_USAGE_PATTERN = /(\.next\b|(\^|\*)(\s*~)?\s*next\b|~\s*next\b)/;
 
 function getTrackedMarkdownFiles() {
   let out;
@@ -102,7 +103,7 @@ function checkFile(filePath) {
           if (alloyEnglishInfixLine === null && ALLOY_ENGLISH_INFIX_PATTERN.test(line)) {
             alloyEnglishInfixLine = fenceEndLine;
           }
-          if (alloyNextUsageLine === null && line.includes('.next')) {
+          if (alloyNextUsageLine === null && ALLOY_NEXT_USAGE_PATTERN.test(line)) {
             alloyNextUsageLine = fenceEndLine;
           }
         }
@@ -133,7 +134,7 @@ function checkFile(filePath) {
       errors.push({
         line: alloyNextUsageLine + 1,
         message:
-          `${TOOL_LABEL} のAlloyコードブロック内で ".next" を使用していますが、` +
+          `${TOOL_LABEL} のAlloyコードブロック内で next（例: .next / ^next / *next / ~next）を使用していますが、` +
           '`open util/ordering[...]` も `next:` 定義も見つかりません。ブロック単体で成立するよう補ってください',
       });
     }
