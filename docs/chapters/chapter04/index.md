@@ -1053,7 +1053,7 @@ check NoFileSharing for 3
 
 この例では、`NoFileSharing`アサーションが失敗します。Analyzerは以下のような反例を生成するかもしれません：
 
-【ツール準拠（そのまま動く）】
+【擬似記法】
 ```text
 User0: files = {File0}, groups = {Group0}
 User1: files = {File0}, groups = {Group0}  
@@ -1292,7 +1292,7 @@ check SecureAccess for 3
 ```
 
 **反例の発見**：
-【ツール準拠（そのまま動く）】
+【擬似記法】
 ```text
 User0: owns = {File0}, canRead = {File0, File1}
 User1: owns = {File1}, canRead = {File1}
