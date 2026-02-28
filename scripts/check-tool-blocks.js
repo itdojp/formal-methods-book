@@ -44,6 +44,14 @@ function checkFile(filePath) {
   const errors = [];
 
   for (let i = 0; i < lines.length; i++) {
+    if (lines[i].includes(TOOL_LABEL) && lines[i].trim() !== TOOL_LABEL) {
+      errors.push({
+        line: i + 1,
+        message: `${TOOL_LABEL} は単独行で置くこと。行中利用は禁止`,
+      });
+      continue;
+    }
+
     if (lines[i].trim() !== TOOL_LABEL) continue;
 
     let fenceStartLine = i + 1;
@@ -165,7 +173,7 @@ function main() {
   }
 
   if (allErrors.length === 0) {
-    console.log('OK: tool-compliant blocks have no ellipsis placeholders.');
+    console.log('OK: tool-compliant blocks are well-formed and have no invalid patterns.');
     return;
   }
 
