@@ -81,6 +81,7 @@ function checkFile(filePath) {
     let fenceEndLine = fenceStartLine + 1;
     let foundEnd = false;
     let ellipsisLine = null;
+    let naturalLanguageQuoteLine = null;
     let alloyEnglishInfixLine = null;
     let alloyNextUsageLine = null;
     let sawAlloyOrderingOpen = false;
@@ -92,6 +93,13 @@ function checkFile(filePath) {
       }
 
       const line = lines[fenceEndLine];
+
+      if (
+        naturalLanguageQuoteLine === null &&
+        (line.includes('「') || line.includes('」'))
+      ) {
+        naturalLanguageQuoteLine = fenceEndLine;
+      }
 
       if (ellipsisLine === null) {
         const hasEllipsis = ELLIPSIS_PATTERNS.some((p) => line.includes(p));
@@ -122,6 +130,15 @@ function checkFile(filePath) {
       errors.push({
         line: ellipsisLine + 1,
         message: `${TOOL_LABEL} のコードブロック内に省略（.../…）があります。省略が必要なら【擬似記法】へ変更してください`,
+      });
+    }
+
+    if (naturalLanguageQuoteLine !== null) {
+      errors.push({
+        line: naturalLanguageQuoteLine + 1,
+        message:
+          `${TOOL_LABEL} のコードブロック内に自然言語の説明（「」）が含まれています。` +
+          '説明はフェンス外へ出すか、【擬似記法】へ変更してください',
       });
     }
 
