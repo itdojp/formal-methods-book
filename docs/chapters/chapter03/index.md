@@ -291,14 +291,15 @@ exceptional postcondition (insufficient_funds):
 
 ### 契約プログラミングの実践
 
-契約という概念は、実際のプログラミングでも活用できます。Eiffel言語では契約がファーストクラス機能として提供され、Java、C#、Pythonなどでもライブラリとして利用できます。
+契約という概念は、実際のプログラミングでも活用できます。Eiffel言語では契約がファーストクラス機能として提供され、JavaやC#では言語機能/ライブラリで、Pythonでもライブラリまたは `assert` による最小構成で表現できます。
 
 ```python
-@requires(lambda args: args.amount > 0)
-@requires(lambda args: args.account.balance >= args.amount)
-@ensures(lambda args, result: args.account.balance == old(args.account.balance) - args.amount)
 def withdraw(account, amount):
+    assert amount > 0
+    assert account.balance >= amount
+    old_balance = account.balance
     account.balance -= amount
+    assert account.balance == old_balance - amount
 ```
 
 このような契約の記述により、実行時に条件の違反を検出でき、デバッグやテストに役立ちます。
