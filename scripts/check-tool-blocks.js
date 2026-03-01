@@ -209,7 +209,7 @@ function checkFile(filePath) {
     errors.push({
       line: sawToolLabelInFile.line,
       message:
-        'ツール準拠ラベルが見つかりましたが、ツールブロックとして解釈できませんでした。' +
+        `ツール準拠ラベル（${sawToolLabelInFile.label}）が見つかりましたが、ツールブロックとして解釈できませんでした。` +
         'ラベルは単独行で置き、直後にコードフェンス（```）を置いてください',
     });
   }
