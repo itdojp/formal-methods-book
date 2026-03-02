@@ -950,7 +950,7 @@ p := &array[i];
 q := &array[j];
 *p := x;
 *q := y;
-{???}
+{(i = j ⇒ array[i] ↦ y) ∧ (i ≠ j ⇒ array[i] ↦ x * array[j] ↦ y)}
 ```
 
 i = j の場合、二つのポインタが同じメモリ位置を指し、最終的な値は y になります。i ≠ j の場合、array[i] = x かつ array[j] = y になります。

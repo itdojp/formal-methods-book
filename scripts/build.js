@@ -40,7 +40,7 @@ function buildAppendices() {
   if (!fs.existsSync(appSrc)) return;
   const files = fs.readdirSync(appSrc);
   for (const f of files) {
-    if (!f.endsWith('.md')) continue;
+    if (!/^appendix-.*\.md$/.test(f)) continue;
     const id = path.basename(f, '.md');
     copyToDirAsIndex(path.join(appSrc, f), path.join(appDst, id));
   }
