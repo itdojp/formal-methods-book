@@ -4,14 +4,14 @@ This file documents the images that should be created for the README.md GitHub c
 
 ## Required Images
 
-### 1. ✅ book-publishing-template-use-this.png (Available)
+### 1. book-publishing-template-use-this.png (Available)
 **Description:** Screenshot of GitHub repository page showing the "Use this template" button
 **Content:**
 - Repository header with "Use this template" button highlighted with red circle
 - Shows the green "Use this template" button clearly
 - Actual size: Optimized for web display
 
-### 2. ✅ book-publishing-template-repository-name.png (Available)
+### 2. book-publishing-template-repository-name.png (Available)
 **Description:** Screenshot of the "Create a new repository" form
 **Content:**
 - Repository template selection showing "itdojp/book-publishing-template"
