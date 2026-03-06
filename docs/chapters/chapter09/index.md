@@ -48,7 +48,24 @@ Qed.
 
 この例では、自然数の加法の交換律を証明しています。証明は、人間が理解できる形で記述されていますが、同時に機械が検証できる厳密な形式を持っています。
 
-### 第8章模型検査との相補的関係
+**最小例：定理文と証明スクリプトの対応**
+
+- 定義: 定理文は「何を示すか」を、証明スクリプトは「どの手順で示すか」を表します。
+- 背景: 初学者は `forall`、仮定、タクティックが一度に現れると、主張と手続きを混同しやすくなります。
+- 例:
+
+```coq
+Theorem zero_plus_n : forall n : nat, 0 + n = n.
+Proof.
+  intro n.
+  reflexivity.
+Qed.
+```
+
+この例では、定理文が「任意の自然数 `n` について `0 + n = n`」を宣言し、`intro` が変数を文脈に導入し、`reflexivity` が計算で成立する等式を閉じます。
+- 注意点: `0 + n = n` は計算だけで閉じますが、似た形の `n + 0 = n` は一般に帰納法が必要です。定理文の置き方が証明難度を左右します。
+
+### 第8章の模型検査との相補的関係
 
 定理証明と模型検査は、相補的な検証手法です。第8章で学んだ模型検査が「有限の範囲での完全性」を提供するのに対し、定理証明は「無限の範囲での厳密性」を提供します：
 （実務でのレベル配分は図10-1、CIへの配置は第11章/第12章参照）
@@ -204,6 +221,21 @@ F | T |  F  |  T  |  T  |  F
 F | F |  F  |  F  |  T  |  T
 ```
 
+**最小例：権限付与を命題として読む**
+
+- 定義: 命題は真偽が定まる文であり、たとえば `Admin(alice)` や `Admin(alice) -> CanDeploy(alice)` のように表せます。
+- 背景: 自然演繹では、前提から結論を導く規則を一段ずつ適用し、どこで何を使ったかを追跡します。
+- 例:
+
+```text
+前提1: Admin(alice)
+前提2: Admin(alice) → CanDeploy(alice)
+結論 : CanDeploy(alice)
+```
+
+この推論は、含意の除去規則（modus ponens）を1回適用するだけで成立します。証明支援系でも「前提を導入し、適用し、結論を得る」という流れは同じです。
+- 注意点: `alice` の所属ドメインや `Admin` の意味が曖昧だと、自然言語では通っても形式化では命題として扱えません。述語の引数と前提範囲を先に固定します。
+
 ### 自然演繹：人間的な推論の形式化
 
 自然演繹（Natural Deduction）は、人間の自然な推論過程を形式化した証明体系です。ゲルハルト・ゲンツェンにより開発されたこの体系は、現代の証明支援系の基礎となっています。
@@ -348,11 +380,17 @@ t₁ = t₂  P(t₁)
 **高階論理（Higher-Order Logic）**では、関数や述語についても量化できます：
 
 ```coq
-Definition continuous (f : ℝ → ℝ) : Prop :=
-  ∀ ε > 0, ∃ δ > 0, ∀ x y, |x - y| < δ → |f(x) - f(y)| < ε
+Definition preserves_zero (f : nat -> nat) : Prop :=
+  f 0 = 0.
 
-Theorem exists_continuous_function : ∃ f : ℝ → ℝ, continuous f.
+Theorem exists_preserving_function : exists f : nat -> nat, preserves_zero f.
+Proof.
+  exists (fun x => x).
+  reflexivity.
+Qed.
 ```
+
+ここでは、値ではなく関数 `f` 自体に量化している点が、高階論理の最小例になっています。
 
 ### 型理論：論理と計算の統一
 
@@ -360,12 +398,13 @@ Theorem exists_continuous_function : ∃ f : ℝ → ℝ, continuous f.
 
 **依存型（Dependent Types）**：
 ```coq
-Definition Vector (A : Type) (n : nat) : Type := 
-  { l : list A | length l = n }.
+Inductive vec (A : Type) : nat -> Type :=
+| vnil : vec A 0
+| vcons : forall n, A -> vec A n -> vec A (S n).
 
-Definition head {A : Type} {n : nat} (v : Vector A (S n)) : A :=
+Definition head {A : Type} {n : nat} (v : vec A (S n)) : A :=
   match v with
-  | exist _ (x :: _) _ => x
+  | vcons _ x _ => x
   end.
 ```
 
@@ -416,6 +455,21 @@ Qed.
 
 この統一により、従来は別々に扱われていた「計算」と「論理」が、統一的な枠組みで理解できるようになりました。これは、コンピュータサイエンスにおける最も美しい発見の一つです。
 
+**最小例：型が不正な入力を止める**
+
+- 定義: 型は「どの値にどの操作を適用できるか」を表す契約です。
+- 背景: 定理証明では、証明に入る前の型検査が、多くの誤りを先に除去します。
+- 例:
+
+```coq
+Definition succ (n : nat) : nat := S n.
+Check succ 2.
+Fail Check succ true.
+```
+
+`succ` は自然数を1増やす関数なので、`2` には適用できますが、`true` には適用できません。ここでは「証明が失敗する」以前に、「不正な項」が拒否されます。
+- 注意点: 型に性質を埋め込むほど保証は強くなりますが、補助定理や注釈も増えます。まずは単純な型で境界を固め、必要な箇所だけ依存型に進むのが実務的です。
+
 ### 単純型付きλ計算
 
 型理論の出発点は、単純型付きλ計算です。これは、関数を第一級の値として扱う計算体系に、型システムを追加したものです。
@@ -464,12 +518,12 @@ P → Q の除去   ↔   関数適用 f(argument)
 **長さ付きリストの例**：
 ```coq
 Inductive vec (A : Type) : nat → Type :=
-| nil : vec A 0
-| cons : ∀ n, A → vec A n → vec A (S n).
+| vnil : vec A 0
+| vcons : ∀ n, A → vec A n → vec A (S n).
 
 Definition head {A : Type} {n : nat} (v : vec A (S n)) : A :=
   match v with
-  | cons _ x _ => x
+  | vcons _ x _ => x
   end.
 ```
 
@@ -546,8 +600,8 @@ Definition vector_case {A : Type} {n : nat} (v : vec A n) :
   | S _ => A
   end :=
   match v with
-  | nil _ => tt
-  | cons _ _ x _ => x
+  | vnil => tt
+  | vcons _ x _ => x
   end.
 ```
 
@@ -1019,6 +1073,8 @@ Proof.
 Qed.
 ```
 
+この例では、`reverse_app` のような補題を先に用意しておくと帰納法の証明が整理しやすいことを示しています。後続の「補題の戦略的使用」では、この種の補題をどう切り出すかを改めて扱います。
+
 **強帰納法**：
 より小さなすべての要素についての仮定を使える帰納法です。
 
@@ -1033,6 +1089,8 @@ Proof.
   (* 強帰納法による証明 *)
 Admitted. (* 実際の証明は複雑なので省略 *)
 ```
+
+`Admitted.` を含む断片は、証明戦略を説明するための概念例です。演習やCIでは未完了マーカーを残さず、補題分割や既存ライブラリの利用で証明を閉じてください。
 
 **相互帰納法**：
 相互に定義されたデータ構造や関数に対する帰納法です。
@@ -1291,7 +1349,7 @@ Theorem compile_correctness : forall p : C_program,
 
 ### seL4：検証されたマイクロカーネル
 
-seL4は、機能的正しさが完全に証明されたマイクロカーネルです。この プロジェクトは、低レベルシステムソフトウェアの検証可能性を実証しました。
+seL4は、機能的正しさが完全に証明されたマイクロカーネルです。このプロジェクトは、低レベルシステムソフトウェアの検証可能性を実証しました。
 
 **seL4の検証内容**：
 ```isabelle
@@ -1452,7 +1510,7 @@ lemma ArithmeticProperty(x: int, y: int)
 **静的解析ツールとの連携**：
 ```c
 // PolySpaceによる実行時エラー検出と
-// ACSlによる関数契約の組み合わせ
+// ACSLによる関数契約の組み合わせ
 /*@ requires \valid(ptr);
   @ ensures \result != NULL;
   */
@@ -1468,11 +1526,7 @@ char* safe_malloc_wrapper(size_t size);
 2. **重要部分の部分検証**：主要な機能の正しさ
 3. **一般部分の軽量検証**：テストと静的解析の組み合わせ
 
-**検証コストの見積もり**：
-```text
-検証工数 ≈ 実装工数 × (2-10)
-ただし、検証の複雑さと要求水準に大きく依存
-```
+検証コストは、対象範囲、既存仕様の整備状況、自動化率、要求される保証水準に大きく左右されます。一律の倍率で見積もるのではなく、まずはパイロット対象で「仕様記述」「補題整備」「レビュー」の実測を取り、クリティカル領域から段階的に拡張する方が実務的です。
 
 ### 組織的な導入戦略
 
