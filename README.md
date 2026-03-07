@@ -17,8 +17,11 @@
 - ビルド: `npm run build`
   - `src/appendices/*` を `docs/appendices/<id>/index.md` にコピーします。
   - 章（`docs/chapters/*`）は Jekyll フロントマターを含むため本ビルダーでは変更しません。
-- リンク・整形チェック（任意）:
+- 推奨チェック: `npm test`
+  - `markdownlint`、構造lint、リンクチェックをまとめて実行します。
+- 個別実行:
   - Lint: `npm run lint`
+  - 構造lint: `npm run lint-structure`
   - リンク: `npm run check-links`
 
 ## 執筆ルール（抜粋）
@@ -29,4 +32,4 @@
 
 ## ライセンス
 
-本作品は Creative Commons BY-NC-SA 4.0（CC BY-NC-SA 4.0）で提供します（商用利用は別途契約が必要）。詳細は `LICENSE` を参照してください。
+本作品は `CC-BY-NC-SA-4.0` で提供します。法的全文は `LICENSE`、運用上の補足と商用利用に関する窓口は `LICENSE.md` を参照してください。
