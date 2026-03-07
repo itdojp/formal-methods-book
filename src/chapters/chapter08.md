@@ -452,18 +452,18 @@ AG(request → AF≤n(response))
 **弱公平性（概念）**：ある時点以降ずっと実行可能な行動を、永遠に無視する実行（飢餓）を除外する。  
 **強公平性（概念）**：無限回「実行可能になる」行動を、そのたびに回避し続ける実行を除外する。
 
-ツールでは、探索対象のパス集合を絞る制約として与えることが多く、SMV系では `FAIRNESS`（justice）や `COMPASSION p q` で表現できます：
+ツールでは、探索対象のパス集合を絞る制約として与えることが多く、SMV系では `FAIRNESS`（justice）や `COMPASSION (p, q)` で表現できます：
 
 例（NuSMV/nuXmv の公平性制約）:
-【ツール準拠（そのまま動く）】
+【擬似記法】
 ```smv
 FAIRNESS running_i
-COMPASSION enabled_a executed_a
+COMPASSION (enabled_a, executed_a)
 ```
 
 意味（要約）：
 - `FAIRNESS p`: `p` が無限回真になるパスのみを評価対象にする（`p` が一度も起きないパスを除外）
-- `COMPASSION p q`: `p` が無限回真なら `q` も無限回真となるパスのみを評価対象にする（`p` だけが無限回起きるパスを除外）
+- `COMPASSION (p, q)`: `p` が無限回真なら `q` も無限回真となるパスのみを評価対象にする（`p` だけが無限回起きるパスを除外）
 
 公平性の概念・TLA+での厳密な定義は、第7章「公平性の時相的表現」も参照してください。
 
@@ -488,7 +488,7 @@ ltl mutual_exclusion { [](!(cs1 && cs2)) }
 ```
 
 **NuSMV（SMV）での例**：
-【ツール準拠（そのまま動く）】
+【擬似記法】
 ```smv
 LTLSPEC G(request -> F(response))
 CTLSPEC AG(critical1 -> !critical2)
