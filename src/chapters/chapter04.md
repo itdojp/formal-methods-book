@@ -292,7 +292,7 @@ fact ReasonableRelatives {
 
 Alloyは静的構造だけでなく、動的な振る舞いも表現できます。「時間」の概念を導入することで、状態の変化をモデル化できます：
 
-【ツール準拠（そのまま動く）】
+【擬似記法】
 ```alloy
 sig Time {}
 
@@ -320,7 +320,7 @@ pred moveAddress[c: Contact, newAddr: Address, t, t': Time] {
 
 より実践的な例として、電子メールシステムのアクセス制御をモデル化してみましょう：
 
-【ツール準拠（そのまま動く）】
+【擬似記法】
 ```alloy
 module EmailSecurity
 
@@ -688,7 +688,7 @@ sig User {
 ```
 
 **第4段階**：ポリシーと制約の詳細化
-【ツール準拠（そのまま動く）】
+【擬似記法】
 ```alloy
 fact AccessPolicy { ... }
 fact ConsistencyRules { ... }
@@ -1353,7 +1353,7 @@ check GroupAccessControl for 4
 
 より複雑な反例として、時間的な問題があります：
 
-【ツール準拠（そのまま動く）】
+【擬似記法】
 ```alloy
 sig Time {}
 
