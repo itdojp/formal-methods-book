@@ -28,6 +28,10 @@ function escapeRegExp(input) {
   return String(input).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
+function freshRegExp(pattern) {
+  return new RegExp(pattern.source, pattern.flags);
+}
+
 function getTrackedFiles() {
   try {
     return execSync('git ls-files', { encoding: 'utf8' })
@@ -210,9 +214,9 @@ function collectDefinedFigures(markdownFiles) {
 
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
-      for (const imageMatch of line.matchAll(new RegExp(MARKDOWN_IMAGE_PATTERN))) {
+      for (const imageMatch of line.matchAll(freshRegExp(MARKDOWN_IMAGE_PATTERN))) {
         const alt = imageMatch[1] || '';
-        for (const figureMatch of alt.matchAll(new RegExp(FIGURE_LABEL_PATTERN))) {
+        for (const figureMatch of alt.matchAll(freshRegExp(FIGURE_LABEL_PATTERN))) {
           const label = `図${parseInt(figureMatch[1], 10)}-${parseInt(figureMatch[2], 10)}`;
           if (defined.has(label)) continue;
           defined.set(label, { filePath, line: i + 1 });
@@ -233,7 +237,7 @@ function checkFigureReferences(markdownFiles, definedFigures) {
 
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
-      for (const match of line.matchAll(new RegExp(FIGURE_LABEL_PATTERN))) {
+      for (const match of line.matchAll(freshRegExp(FIGURE_LABEL_PATTERN))) {
         const label = `図${parseInt(match[1], 10)}-${parseInt(match[2], 10)}`;
         if (definedFigures.has(label)) continue;
         errors.push({
@@ -306,7 +310,7 @@ function collectFigureReferencesInRange(lines, startIndex, endIndex) {
   const refs = new Map();
   for (let i = startIndex; i < endIndex; i++) {
     const line = lines[i];
-    for (const match of line.matchAll(new RegExp(FIGURE_LABEL_PATTERN))) {
+    for (const match of line.matchAll(freshRegExp(FIGURE_LABEL_PATTERN))) {
       const label = `図${parseInt(match[1], 10)}-${parseInt(match[2], 10)}`;
       if (!refs.has(label)) refs.set(label, []);
       refs.get(label).push(i + 1);
@@ -316,10 +320,7 @@ function collectFigureReferencesInRange(lines, startIndex, endIndex) {
 }
 
 function hasFigureReference(line) {
-  for (const _ of line.matchAll(new RegExp(FIGURE_LABEL_PATTERN))) {
-    return true;
-  }
-  return false;
+  return freshRegExp(FIGURE_LABEL_PATTERN).test(line);
 }
 
 function checkMiniSummaryFigureConsistency(chapterFiles) {
@@ -394,6 +395,11 @@ function main() {
     `^${escapeRegExp(prefix)}chapters\\/chapter\\d+\\/index\\.md$`
   );
   const chapterFiles = markdownFiles.filter((f) => chaptersPattern.test(f));
+  if (markdownFiles.length > 0 && chapterFiles.length === 0) {
+    console.warn(
+      `Warning: Found ${markdownFiles.length} markdown file(s) under '${prefix || '.'}', but none matched the expected chapter pattern 'chapters/chapterN/index.md'. Chapter-level checks will be skipped.`
+    );
+  }
 
   const definedFigures = collectDefinedFigures(markdownFiles);
 
