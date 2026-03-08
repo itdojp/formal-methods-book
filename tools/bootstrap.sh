@@ -107,7 +107,7 @@ download() {
   tmp="$(mktemp "$dir/$(basename "$out").part.XXXXXX")"
 
   echo "Downloading: $url"
-  if ! curl -fsSL --retry 3 --retry-delay 2 -L -o "$tmp" "$url"; then
+  if ! curl -fsSL --retry 3 --retry-delay 2 -o "$tmp" "$url"; then
     rm -f "$tmp"
     return 1
   fi

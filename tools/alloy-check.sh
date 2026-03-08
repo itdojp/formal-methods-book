@@ -21,7 +21,7 @@ EOF
 }
 
 out_dir=""
-command=""
+alloy_command=""
 repeat=""
 solver=""
 quiet=1
@@ -31,7 +31,7 @@ while [[ $# -gt 0 ]]; do
     --out-dir)
       out_dir="${2:-}"; shift 2;;
     --command)
-      command="${2:-}"; shift 2;;
+      alloy_command="${2:-}"; shift 2;;
     --repeat)
       repeat="${2:-}"; shift 2;;
     --solver)
@@ -69,8 +69,8 @@ args=(exec -f -o "$out_dir")
 if [[ "$quiet" -eq 1 ]]; then
   args+=(-q)
 fi
-if [[ -n "$command" ]]; then
-  args+=(-c "$command")
+if [[ -n "$alloy_command" ]]; then
+  args+=(-c "$alloy_command")
 fi
 if [[ -n "$repeat" ]]; then
   args+=(-r "$repeat")
