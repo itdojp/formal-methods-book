@@ -1,0 +1,22 @@
+MODULE main
+VAR
+  state : {idle, req, crit, exit};
+  input_req : boolean;
+  other_flag : boolean;
+
+ASSIGN
+  init(state) := idle;
+  init(input_req) := FALSE;
+  init(other_flag) := FALSE;
+  next(input_req) := {TRUE, FALSE};
+  next(other_flag) := {TRUE, FALSE};
+  next(state) := case
+    state = idle & input_req : req;
+    state = req & !other_flag : crit;
+    state = crit : exit;
+    state = exit : idle;
+    TRUE : state;
+  esac;
+
+LTLSPEC G(state = crit -> F(state = exit))
+CTLSPEC AG(state = crit -> !other_flag)

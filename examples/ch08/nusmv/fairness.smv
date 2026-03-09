@@ -1,0 +1,13 @@
+MODULE main
+VAR
+  enabled_a : boolean;
+  executed_a : boolean;
+
+ASSIGN
+  init(enabled_a) := FALSE;
+  init(executed_a) := FALSE;
+  next(enabled_a) := !enabled_a;
+  next(executed_a) := enabled_a;
+
+FAIRNESS enabled_a
+COMPASSION (enabled_a, executed_a)
