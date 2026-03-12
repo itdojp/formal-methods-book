@@ -467,27 +467,30 @@ COMPASSION (enabled_a, executed_a)
 
 公平性の概念・TLA+での厳密な定義は、第7章「公平性の時相的表現」も参照してください。
 
-最小例（NuSMV/nuXmv の FAIRNESS 使用）:
+最小例（NuSMV/nuXmv の FAIRNESS / COMPASSION 使用）:
 【ツール準拠（そのまま動く）】
 ```smv
 MODULE main
-VAR state : {idle, run};
-ASSIGN
-  init(state) := idle;
-  next(state) := case
-    state = idle : {idle, run};
-    TRUE : run;
-  esac;
+VAR
+  enabled_a : boolean;
+  executed_a : boolean;
 
-FAIRNESS state = run
+ASSIGN
+  init(enabled_a) := FALSE;
+  init(executed_a) := FALSE;
+  next(enabled_a) := !enabled_a;
+  next(executed_a) := enabled_a;
+
+FAIRNESS enabled_a
+COMPASSION (enabled_a, executed_a)
 ```
 自己完結したファイルとしては `examples/ch08/nusmv/fairness.smv` を参照してください。
 
 補足：
-- LTL: `G(request -> F(response))` のような性質と併用する際、公平性がないと `run` に到達しない分岐が許されるため、活性が偽になる場合がある。
-- `FAIRNESS state = run` は「`state = run` が無限回真になるパス」だけを評価対象にする。
-- このモデルでは `run` に入ると戻らないため、結果として「いずれ `run` に入る」パスが残る。
-- 一般には「無限回現れる」を要求するだけで、「以降ずっと成り立つ」を直接保証するものではない。
+- `FAIRNESS enabled_a` は、`enabled_a` が無限回真になるパスだけを評価対象にする。
+- `COMPASSION (enabled_a, executed_a)` は、`enabled_a` が無限回真なら `executed_a` も無限回真となるパスだけを評価対象にする。
+- この最小モデルでは `enabled_a` が真偽を交互に取り、`executed_a` は1ステップ遅れて `enabled_a` に追従する。
+- 一般には、公平性制約は探索対象のパスを絞るものであり、単独で活性性質そのものを表すわけではない。
 
 ### 性質記述の実践的ガイドライン
 
