@@ -129,9 +129,13 @@ version: "1.0.0"
 
 ## ライセンス
 
-本書は CC BY-NC-SA 4.0 で公開されています。商用利用は別途契約が必要です。
+本書の本文・図版・付録などの reader-facing コンテンツは `CC BY-NC-SA 4.0`、コード例・ツール・ビルド資産は `Apache-2.0` で提供します。
 
-[詳細なライセンス条件](https://github.com/itdojp/it-engineer-knowledge-architecture/blob/main/LICENSE.md)
+- [CC BY-NC-SA 4.0 の法的全文](https://github.com/itdojp/formal-methods-book/blob/main/LICENSE)
+- [ライセンス適用範囲](https://github.com/itdojp/formal-methods-book/blob/main/LICENSE-SCOPE.md)
+- [商用利用窓口](https://github.com/itdojp/formal-methods-book/blob/main/COMMERCIAL.md)
+- [商標の扱い](https://github.com/itdojp/formal-methods-book/blob/main/TRADEMARKS.md)
+- [third-party / upstream 資産](https://github.com/itdojp/formal-methods-book/blob/main/THIRD_PARTY_NOTICES.md)
 
 **お問い合わせ**  
 株式会社アイティードゥ（ITDO Inc.）  

@@ -32,4 +32,11 @@
 
 ## ライセンス
 
-本作品は `CC-BY-NC-SA-4.0` で提供します。法的全文は `LICENSE`、運用上の補足と商用利用に関する窓口は `LICENSE.md` を参照してください。
+本リポジトリは、本文系コンテンツとコード資産で既定ライセンスを分離しています。
+
+- 本文・図版・付録などの reader-facing コンテンツ: `CC BY-NC-SA 4.0`（`LICENSE`）
+- コード例・ツール・ビルド・サイト実装などの再利用可能資産: `Apache-2.0`（`LICENSES/Apache-2.0.txt`）
+- 適用範囲の詳細: `LICENSE-SCOPE.md`
+- 商用利用窓口: `COMMERCIAL.md`
+- 商標: `TRADEMARKS.md`
+- third-party / upstream 資産: `THIRD_PARTY_NOTICES.md`
