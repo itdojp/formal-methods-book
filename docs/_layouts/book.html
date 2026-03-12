@@ -157,11 +157,13 @@
                 <footer class="book-footer" role="contentinfo">
                     <div class="book-footer-inner">
                         <div class="book-footer-license">
-                            {{ site.license_text | default: "Content licensed under CC BY-NC-SA 4.0 (commercial use requires a separate agreement)." }}
+                            {{ site.license_text | default: "本文: CC BY-NC-SA 4.0 / コード資産: Apache-2.0 / 商標・第三者資産を除く" }}
                         </div>
                         <div class="book-footer-links">
                             {% if repo_url %}
                                 <a href="{{ repo_url }}" target="_blank" rel="noopener">GitHub</a>
+                                <a href="{{ repo_url }}/blob/{{ repo_branch }}/LICENSE-SCOPE.md" target="_blank" rel="noopener">License</a>
+                                <a href="{{ repo_url }}/blob/{{ repo_branch }}/COMMERCIAL.md" target="_blank" rel="noopener">Commercial</a>
                             {% endif %}
                             {% if site.contact.email %}
                                 <a href="mailto:{{ site.contact.email | escape }}">Contact</a>
