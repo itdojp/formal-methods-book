@@ -46,7 +46,7 @@
 - `docs/_layouts/**`
 - `docs/assets/css/**`
 - `docs/assets/js/**`
-- `formal-methods-book/docs/assets/**`
+- `formal-methods-book/docs/assets/**`（ネストした共有 assets subtree）
 - `examples/**`
 - `project-management/**`
 - `scripts/**`

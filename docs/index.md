@@ -131,11 +131,19 @@ version: "1.0.0"
 
 本書の本文・図版・付録などの reader-facing コンテンツは `CC BY-NC-SA 4.0`、コード例・ツール・ビルド資産は `Apache-2.0` で提供します。
 
-- [CC BY-NC-SA 4.0 の法的全文](https://github.com/itdojp/formal-methods-book/blob/main/LICENSE)
-- [ライセンス適用範囲](https://github.com/itdojp/formal-methods-book/blob/main/LICENSE-SCOPE.md)
-- [商用利用窓口](https://github.com/itdojp/formal-methods-book/blob/main/COMMERCIAL.md)
-- [商標の扱い](https://github.com/itdojp/formal-methods-book/blob/main/TRADEMARKS.md)
-- [third-party / upstream 資産](https://github.com/itdojp/formal-methods-book/blob/main/THIRD_PARTY_NOTICES.md)
+{% assign repo_url = site.github.repository_url | default: site.repository_url | default: site.repository.github | default: site.repository %}
+{% if repo_url and repo_url != '' %}
+{% unless repo_url contains 'http' %}
+{% assign repo_url = 'https://github.com/' | append: repo_url %}
+{% endunless %}
+{% endif %}
+{% assign repo_branch = site.repository_branch | default: 'main' %}
+
+- [CC BY-NC-SA 4.0 の法的全文]({{ repo_url }}/blob/{{ repo_branch }}/LICENSE)
+- [ライセンス適用範囲]({{ repo_url }}/blob/{{ repo_branch }}/LICENSE-SCOPE.md)
+- [商用利用窓口]({{ repo_url }}/blob/{{ repo_branch }}/COMMERCIAL.md)
+- [商標の扱い]({{ repo_url }}/blob/{{ repo_branch }}/TRADEMARKS.md)
+- [third-party / upstream 資産]({{ repo_url }}/blob/{{ repo_branch }}/THIRD_PARTY_NOTICES.md)
 
 **お問い合わせ**  
 株式会社アイティードゥ（ITDO Inc.）  

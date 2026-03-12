@@ -18,7 +18,7 @@
     "ja"
   ],
   "author": "太田和彦（株式会社アイティードゥ）",
-  "license": "Apache-2.0",
+  "license": "SEE LICENSE IN LICENSE-SCOPE.md",
   "devDependencies": {
     "markdownlint-cli": "^0.37.0",
     "markdown-link-check": "^3.11.2",
