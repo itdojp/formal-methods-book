@@ -5,6 +5,7 @@
 
 - `examples/alloy/`: Alloyの最小モデル
 - `examples/ch04/`: 第4章（Alloy）の例題ファイル
+- `examples/ch08/`: 第8章（SPIN / NuSMV / CBMC）の自己完結した最小例
 - `examples/tla/`: TLA+の最小モデル
 - `examples/ci/`: PR向けの軽量チェック例
 

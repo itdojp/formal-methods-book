@@ -239,7 +239,7 @@ sig Contact {
 
 より複雑な構造を表現するために、シグネチャの継承を使えます：
 
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```alloy
 abstract sig Contact {
     name: one Name,
@@ -267,7 +267,7 @@ sig Company {
 
 基本的な構造だけでは不十分です。現実的な制約を追加することで、より正確なモデルになります：
 
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```alloy
 fact ConsistentEmployment {
     // 会社の従業員リストと個人の勤務先は一致する
@@ -292,7 +292,7 @@ fact ReasonableRelatives {
 
 Alloyは静的構造だけでなく、動的な振る舞いも表現できます。「時間」の概念を導入することで、状態の変化をモデル化できます：
 
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```alloy
 sig Time {}
 open util/ordering[Time]
@@ -304,16 +304,16 @@ sig Contact {
 }
 
 // 住所変更の操作
-pred moveAddress[c: Contact, newAddr: Address, t, t': Time] {
-    // 事前条件：時間t'はtの直後
-    t' = t.next
+pred moveAddress[c: Contact, newAddr: Address, t, tNext: Time] {
+    // 事前条件：時間tNextはtの直後
+    tNext = t.next
     
     // 住所の変更
-    c.address.t' = newAddr
+    c.address.tNext = newAddr
     
     // 他の部分は変化しない
-    all other: Contact - c | other.address.t' = other.address.t
-    all contact: Contact | contact.friends.t' = contact.friends.t
+    all other: Contact - c | other.address.tNext = other.address.t
+    all contact: Contact | contact.friends.tNext = contact.friends.t
 }
 ```
 
@@ -432,18 +432,18 @@ fact OrderIntegrity {
 }
 
 // 在庫予約操作
-pred reserveStock[b: Book, qty: Int, t, t': Time] {
-    t' = t.next
+pred reserveStock[b: Book, qty: Int, t, tNext: Time] {
+    tNext = t.next
     b.stock.t >= qty  // 十分な在庫がある
-    b.stock.t' = b.stock.t - qty  // 在庫を減らす
+    b.stock.tNext = b.stock.t - qty  // 在庫を減らす
     
     // 他の本の在庫は変化しない
-    all other: Book - b | other.stock.t' = other.stock.t
+    all other: Book - b | other.stock.tNext = other.stock.t
 }
 
 // 注文処理操作
-pred processOrder[o: Order, t, t': Time] {
-    t' = t.next
+pred processOrder[o: Order, t, tNext: Time] {
+    tNext = t.next
     o.status.t = Pending
     
     // 在庫チェック
@@ -451,17 +451,17 @@ pred processOrder[o: Order, t, t': Time] {
     
     // 在庫予約
     all item: o.items | 
-        item.book.stock.t' = item.book.stock.t - item.quantity
+        item.book.stock.tNext = item.book.stock.t - item.quantity
     
     // ステータス更新
-    o.status.t' = Confirmed
+    o.status.tNext = Confirmed
 }
 
 // ビジネスルール検証
 assert NoOverselling {
     all b: Book, t: Time | 
         b.stock.t >= 0 implies 
-            (all t': Time | t'.^(~next) = t implies b.stock.t' >= 0)
+            (all tPrev: Time | tPrev.^(~next) = t implies b.stock.tPrev >= 0)
 }
 
 assert OrderConsistency {
@@ -540,8 +540,8 @@ pred respondToElection[receiver: Node, sender: Node, t: Time] {
     startElection[receiver, t]
 }
 
-pred becomeLeader[n: Node, t, t': Time] {
-    t' = t.next
+pred becomeLeader[n: Node, t, tNext: Time] {
+    tNext = t.next
     n.alive.t = True
     
     // タイムアウト内にOK応答がなかった
@@ -549,13 +549,13 @@ pred becomeLeader[n: Node, t, t': Time] {
         m.to = n and m.content = OK and m.timestamp = t
     
     // 自分をリーダーに設定
-    n.leader.t' = n
+    n.leader.tNext = n
     
     // より低いIDのノードにCoordinatorメッセージを送信
     all lower: Node | lower.id < n.id and lower.alive.t = True implies
         some m: Message |
             m.from = n and m.to = lower and
-            m.content = Coordinator and m.timestamp = t'
+            m.content = Coordinator and m.timestamp = tNext
 }
 
 // 安全性の検証
@@ -628,7 +628,7 @@ fact AccessControl {
 
 複雑なモデルでは、再利用可能な述語を定義することで可読性が向上します：
 
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```alloy
 // ユーザーがファイルにアクセス可能かを判定
 pred canAccess[u: User, f: File] {
@@ -716,7 +716,7 @@ Alloyの真価は、複雑な制約を論理式で表現できることにあり
 - `iff` または `<=>`: 同値
 
 例：大学の履修システムの制約
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```alloy
 fact EnrollmentRules {
     // 学生は最大5科目まで履修可能
@@ -730,6 +730,7 @@ fact EnrollmentRules {
         c in s.courses implies c.prerequisite in s.courses
 }
 ```
+自己完結した大学履修モデルの例は `examples/ch04/university-enrollment.als` を参照してください。
 
 ### 量詞による一般的制約
 
@@ -742,7 +743,7 @@ fact EnrollmentRules {
 - `lone x: Set | formula`: 最大1つのxについて式が成り立つ
 
 実例：ファイルシステムの制約
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```alloy
 fact FileSystemInvariants {
     // すべてのファイルは最大1つの親ディレクトリを持つ
@@ -782,6 +783,8 @@ sig Customer {
     accounts: set Account
 }
 
+sig JointAccount in Account {}
+
 fact BankingRules {
     // 口座の所有者は必ず承認ユーザーに含まれる
     all a: Account | a.owner in a.authorized
@@ -809,6 +812,8 @@ sig State {
     users: set User,
     sessions: set Session
 }
+
+sig User {}
 
 sig Session {
     user: one User,
@@ -860,6 +865,8 @@ sig SecurityLevel {
     dominates: set SecurityLevel
 }
 
+one sig ReadPermission, WritePermission extends Permission {}
+
 fact BellLaPadulaModel {
     // No Read Up: 被験者は自分のクリアランスレベル以下のオブジェクトのみ読める
     all s: Subject, o: Object |
@@ -883,7 +890,7 @@ pred canWrite[s: Subject, o: Object] {
 
 複雑なシステムでは、制約を階層化して管理することが重要です：
 
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```alloy
 // レベル1: 基本的なデータ整合性
 fact BasicConsistency {
@@ -941,7 +948,7 @@ Alloy Analyzerは、作成したモデルを実際に検査するためのツー
 
 まず、作成したモデルが意味のあるインスタンスを生成できるかを確認しましょう。住所録システムの例：
 
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```alloy
 // 基本的なインスタンス生成
 run {} for 3
@@ -964,7 +971,7 @@ run {
 
 `assert`文を使って、モデルが期待する性質を満たすかを検証できます：
 
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```alloy
 // 友人関係の対称性をテスト
 assert FriendshipSymmetry {
@@ -1032,7 +1039,7 @@ File0: (ファイル)
 
 検証の範囲（スコープ）の設定は、検証の効果と性能に大きく影響します：
 
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```alloy
 // 小さなスコープでの高速検証
 check BasicProperty for 2
@@ -1056,7 +1063,7 @@ check ConditionalProperty for 4 but exactly 2 Admin
 
 複雑なシナリオは、述語を使って段階的に検証できます：
 
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```alloy
 // 基本的な状態
 pred initialState {
@@ -1105,7 +1112,7 @@ fact BasicSecurity {
 ```
 
 **2. 基本的な検証**
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```alloy
 run {} for 3  // インスタンス生成確認
 assert OwnerCanRead { all d: Document | d.owner in d.readers }
@@ -1113,7 +1120,7 @@ check OwnerCanRead for 3
 ```
 
 **3. 問題発見と修正**
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```alloy
 // 反例により新しい要求を発見
 pred collaborativeDocument {
@@ -1124,7 +1131,7 @@ run collaborativeDocument for 3
 ```
 
 **4. 制約の追加**
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```alloy
 fact SharePolicy {
     // 共同作業者は明示的に承認される
@@ -1135,7 +1142,7 @@ fact SharePolicy {
 ```
 
 **5. 再検証**
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```alloy
 assert NoUnauthorizedAccess {
     all d: Document, u: User |
@@ -1167,6 +1174,8 @@ Alloyは伝統的に「静的構造（関係）」の整合性確認に強い一
 
 【ツール準拠（そのまま動く）】
 ```alloy
+sig File {}
+
 var sig Trash in File {}
 
 pred delete[f: File] {
@@ -1308,7 +1317,7 @@ check AuthorizedAccessOnly for 4
 
 単純な共有モデルでも新たな反例が見つかるかもしれません。例えば：
 
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```alloy
 pred LargeSharedFile {
     some f: File | #f.sharedWith > 2
@@ -1323,6 +1332,7 @@ run LargeSharedFile for 5
 【ツール準拠（そのまま動く）】
 ```alloy
 sig User {
+    owns: set File,
     memberOf: set Group
 }
 
@@ -1365,8 +1375,9 @@ check GroupAccessControl for 4
 
 【ツール準拠（そのまま動く）】
 ```alloy
-sig Time {}
 open util/ordering[Time]
+
+sig Time {}
 
 sig User {
     active: set Time
@@ -1413,6 +1424,9 @@ sig Table {
     indexes: set Index
 }
 
+sig Row {}
+sig Index {}
+
 sig Connection {
     queries: set Query
 }
@@ -1421,6 +1435,8 @@ sig Query {
     targetTable: one Table,
     filterConditions: set Condition
 }
+
+sig Condition {}
 
 fact PerformanceConstraints {
     // 大きなテーブルにはインデックスが必要

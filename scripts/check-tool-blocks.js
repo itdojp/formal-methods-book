@@ -4,29 +4,51 @@
 const { execSync } = require('child_process');
 const fs = require('fs');
 
-const TOOL_LABEL_VARIANTS = [
-  { tool: '【ツール準拠（そのまま動く）】', pseudo: '【擬似記法】' },
-  { tool: '〖ツール準拠（そのまま動く）〗', pseudo: '〖擬似記法〗' },
+const CODE_LABEL_VARIANTS = [
+  {
+    kind: 'tool',
+    label: '【ツール準拠（そのまま動く）】',
+    pseudo: '【擬似記法】',
+  },
+  {
+    kind: 'tool',
+    label: '〖ツール準拠（そのまま動く）〗',
+    pseudo: '〖擬似記法〗',
+  },
+  {
+    kind: 'context',
+    label: '【文脈依存スニペット】',
+    pseudo: '【擬似記法】',
+  },
+  {
+    kind: 'context',
+    label: '〖文脈依存スニペット〗',
+    pseudo: '〖擬似記法〗',
+  },
 ];
-const TOOL_LABELS = TOOL_LABEL_VARIANTS.map((v) => v.tool);
+const CODE_LABELS = CODE_LABEL_VARIANTS.map((v) => v.label);
 const ELLIPSIS_PATTERNS = ['...', '…'];
 const ALLOY_ENGLISH_INFIX_PATTERN = /\b\w+\s+can\s+(access|read)\s+\w+\b/;
 const ALLOY_ORDERING_OPEN_PATTERN = /\bopen\s+util\/ordering\s*\[/;
 const ALLOY_NEXT_DEFINITION_PATTERN = /\bnext\s*[:=]/;
 const ALLOY_NEXT_USAGE_PATTERN = /(\.next\b|(\^|\*)(\s*~)?\s*next\b|~\s*next\b)/;
 
-function getPseudoLabelForToolLabel(toolLabel) {
-  const variant = TOOL_LABEL_VARIANTS.find((v) => v.tool === toolLabel);
+function getLabelVariant(label) {
+  return CODE_LABEL_VARIANTS.find((v) => v.label === label) ?? null;
+}
+
+function getPseudoLabelForCodeLabel(label) {
+  const variant = getLabelVariant(label);
   return variant ? variant.pseudo : '【擬似記法】/〖擬似記法〗';
 }
 
-function getStandaloneToolLabel(line) {
+function getStandaloneCodeLabel(line) {
   const trimmed = line.trim();
-  return TOOL_LABELS.includes(trimmed) ? trimmed : null;
+  return CODE_LABELS.includes(trimmed) ? trimmed : null;
 }
 
-function findToolLabelInLine(line) {
-  return TOOL_LABELS.find((label) => line.includes(label)) ?? null;
+function findCodeLabelInLine(line) {
+  return CODE_LABELS.find((label) => line.includes(label)) ?? null;
 }
 
 function getTrackedMarkdownFiles() {
@@ -61,28 +83,30 @@ function checkFile(filePath) {
   const lines = content.split(/\r?\n/);
   const errors = [];
 
-  let sawToolLabelInFile = null;
-  let toolBlockCountInFile = 0;
+  let sawCodeLabelInFile = null;
+  let codeBlockCountInFile = 0;
   for (let i = 0; i < lines.length; i++) {
-    const toolLabelInLine = findToolLabelInLine(lines[i]);
-    if (toolLabelInLine && sawToolLabelInFile === null) {
-      sawToolLabelInFile = { line: i + 1, label: toolLabelInLine };
+    const codeLabelInLine = findCodeLabelInLine(lines[i]);
+    if (codeLabelInLine && sawCodeLabelInFile === null) {
+      sawCodeLabelInFile = { line: i + 1, label: codeLabelInLine };
     }
 
-    const standaloneToolLabel = getStandaloneToolLabel(lines[i]);
+    const standaloneCodeLabel = getStandaloneCodeLabel(lines[i]);
 
-    if (toolLabelInLine && !standaloneToolLabel) {
+    if (codeLabelInLine && !standaloneCodeLabel) {
       errors.push({
         line: i + 1,
-        message: `${toolLabelInLine} は単独行で置くこと。行中利用は禁止`,
+        message: `${codeLabelInLine} は単独行で置くこと。行中利用は禁止`,
       });
       continue;
     }
 
-    if (!standaloneToolLabel) continue;
-    toolBlockCountInFile++;
+    if (!standaloneCodeLabel) continue;
+    codeBlockCountInFile++;
 
-    const pseudoLabel = getPseudoLabelForToolLabel(standaloneToolLabel);
+    const pseudoLabel = getPseudoLabelForCodeLabel(standaloneCodeLabel);
+    const labelVariant = getLabelVariant(standaloneCodeLabel);
+    const isStrictToolLabel = labelVariant && labelVariant.kind === 'tool';
 
     let fenceStartLine = i + 1;
     while (fenceStartLine < lines.length && lines[fenceStartLine].trim() === '') {
@@ -92,7 +116,7 @@ function checkFile(filePath) {
     if (fenceStartLine >= lines.length) {
       errors.push({
         line: i + 1,
-        message: `${standaloneToolLabel} の直後にコードフェンスがありません（EOF）`,
+        message: `${standaloneCodeLabel} の直後にコードフェンスがありません（EOF）`,
       });
       continue;
     }
@@ -100,7 +124,7 @@ function checkFile(filePath) {
     if (!lines[fenceStartLine].trim().startsWith('```')) {
       errors.push({
         line: fenceStartLine + 1,
-        message: `${standaloneToolLabel} の直後はコードフェンス（\`\`\`）である必要があります`,
+        message: `${standaloneCodeLabel} の直後はコードフェンス（\`\`\`）である必要があります`,
       });
       continue;
     }
@@ -159,7 +183,7 @@ function checkFile(filePath) {
     if (ellipsisLine !== null) {
       errors.push({
         line: ellipsisLine + 1,
-        message: `${standaloneToolLabel} のコードブロック内に省略（.../…）があります。省略が必要なら${pseudoLabel}へ変更してください`,
+        message: `${standaloneCodeLabel} のコードブロック内に省略（.../…）があります。省略が必要なら${pseudoLabel}へ変更してください`,
       });
     }
 
@@ -167,7 +191,7 @@ function checkFile(filePath) {
       errors.push({
         line: naturalLanguageQuoteLine + 1,
         message:
-          `${standaloneToolLabel} のコードブロック内に自然言語の説明（「」）が含まれています。` +
+          `${standaloneCodeLabel} のコードブロック内に自然言語の説明（「」）が含まれています。` +
           `説明はフェンス外へ出すか、${pseudoLabel}へ変更してください`,
       });
     }
@@ -176,12 +200,13 @@ function checkFile(filePath) {
       errors.push({
         line: alloyEnglishInfixLine + 1,
         message:
-          `${standaloneToolLabel} のAlloyコードブロック内に英語風中置表現（例: "u can access e"）があります。` +
+          `${standaloneCodeLabel} のAlloyコードブロック内に英語風中置表現（例: "u can access e"）があります。` +
           `Alloy構文として成立しないため、式を修正するか${pseudoLabel}へ変更してください`,
       });
     }
 
     if (
+      isStrictToolLabel &&
       alloyNextUsageLine !== null &&
       !sawAlloyOrderingOpen &&
       !sawAlloyNextDefinition
@@ -189,7 +214,7 @@ function checkFile(filePath) {
       errors.push({
         line: alloyNextUsageLine + 1,
         message:
-          `${standaloneToolLabel} のAlloyコードブロック内で next（例: .next / ^next / *next / ~next）を使用していますが、` +
+          `${standaloneCodeLabel} のAlloyコードブロック内で next（例: .next / ^next / *next / ~next）を使用していますが、` +
           '`open util/ordering[...]` も `next:` 定義も見つかりません。ブロック単体で成立するよう補ってください',
       });
     }
@@ -197,7 +222,7 @@ function checkFile(filePath) {
     if (!foundEnd) {
       errors.push({
         line: fenceStartLine + 1,
-        message: `${standaloneToolLabel} のコードブロックが閉じられていません（終了フェンス \`\`\` がありません）`,
+        message: `${standaloneCodeLabel} のコードブロックが閉じられていません（終了フェンス \`\`\` がありません）`,
       });
       continue;
     }
@@ -205,11 +230,11 @@ function checkFile(filePath) {
     i = fenceEndLine;
   }
 
-  if (sawToolLabelInFile !== null && toolBlockCountInFile === 0) {
+  if (sawCodeLabelInFile !== null && codeBlockCountInFile === 0) {
     errors.push({
-      line: sawToolLabelInFile.line,
+      line: sawCodeLabelInFile.line,
       message:
-        `ツール準拠ラベル（${sawToolLabelInFile.label}）が見つかりましたが、ツールブロックとして解釈できませんでした。` +
+        `コードラベル（${sawCodeLabelInFile.label}）が見つかりましたが、コードブロックとして解釈できませんでした。` +
         'ラベルは単独行で置き、直後にコードフェンス（```）を置いてください',
     });
   }
