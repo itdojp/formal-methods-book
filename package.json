@@ -12,7 +12,7 @@
     "qa:bilingual": "node scripts/check-bilingual-integrity.js",
     "test": "npm run lint && npm run lint-structure && npm run check-links",
     "lint": "markdownlint 'src/ja/**/*.md' 'src/en/**/*.md' --ignore src/ja/appendices/appendices_draft.md --ignore src/en/appendices/appendices_draft.md",
-    "lint-structure": "node scripts/check-tool-blocks.js && node scripts/check-tool-example-links.js && node scripts/check-manuscript-guardrails.js docs/chapters && node scripts/check-manuscript-guardrails.js docs/appendices && node scripts/check-manuscript-guardrails.js docs/introduction && node scripts/check-manuscript-guardrails.js docs/afterword && node scripts/check-manuscript-guardrails.js docs/glossary && npm run qa:bilingual",
+    "lint-structure": "node scripts/check-tool-blocks.js && node scripts/check-tool-example-links.js && node scripts/check-manuscript-guardrails.js docs && npm run qa:bilingual",
     "check-links": "markdown-link-check -q -p src/ja/index.md && markdown-link-check -q -p src/ja/glossary/index.md && markdown-link-check -q -p src/ja/chapters/*.md && markdown-link-check -q -p src/ja/appendices/appendix-*.md && markdown-link-check -q -p src/ja/introduction/index.md && markdown-link-check -q -p src/ja/afterword/index.md && markdown-link-check -q -p src/en/index.md && markdown-link-check -q -p src/en/glossary/index.md && markdown-link-check -q -p src/en/chapters/*.md && markdown-link-check -q -p src/en/appendices/appendix-*.md && markdown-link-check -q -p src/en/introduction/index.md && markdown-link-check -q -p src/en/afterword/index.md && markdown-link-check -q -p docs/index.md && markdown-link-check -q -p docs/afterword/index.md && markdown-link-check -q -p docs/en/index.md && markdown-link-check -q -p docs/en/afterword/index.md",
     "deploy": "gh-pages -d docs"
   },
@@ -27,7 +27,8 @@
     "gh-pages": "^6.0.0",
     "http-server": "^14.1.1",
     "markdown-link-check": "^3.11.2",
-    "markdownlint-cli": "^0.37.0"
+    "markdownlint-cli": "^0.37.0",
+    "yaml": "^2.8.1"
   },
   "repository": {
     "type": "git",
