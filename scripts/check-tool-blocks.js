@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 
-const { execSync } = require('child_process');
+const { execFileSync } = require('child_process');
 const fs = require('fs');
 
 const CODE_LABEL_VARIANTS = [
@@ -47,6 +47,11 @@ function getPseudoLabelForCodeLabel(label) {
   return variant ? variant.pseudo : '【擬似記法】/〖擬似記法〗';
 }
 
+function getContextLabelForCodeLabel(label) {
+  if (label.startsWith('〖')) return '〖文脈依存スニペット〗';
+  return '【文脈依存スニペット】';
+}
+
 function getStandaloneCodeLabel(line) {
   const trimmed = line.trim();
   return CODE_LABELS.includes(trimmed) ? trimmed : null;
@@ -59,7 +64,7 @@ function findCodeLabelInLine(line) {
 function getTrackedMarkdownFiles() {
   let out;
   try {
-    out = execSync('git ls-files', { encoding: 'utf8' });
+    out = execFileSync('git', ['ls-files'], { encoding: 'utf8' });
   } catch (err) {
     console.error(
       'Failed to list tracked files using "git ls-files". ' +
@@ -138,12 +143,13 @@ function checkFile(filePath) {
     const fenceLang = fenceHeader.slice(3).trim().toLowerCase();
 
     if (isStrictToolLabel && STRICT_TOOL_DISALLOWED_FENCE_LANGS.has(fenceLang)) {
+      const contextLabel = getContextLabelForCodeLabel(standaloneCodeLabel);
       errors.push({
         line: fenceStartLine + 1,
         message:
           `${standaloneCodeLabel} のコードフェンス言語が ${fenceLang || '(未指定)'} です。` +
           '実行可能な入力なら実言語（alloy/smv/promela/...）を指定し、' +
-          `説明用断片なら${labelVariant && labelVariant.kind === 'context' ? labelVariant.label : '【文脈依存スニペット】'}または${pseudoLabel}へ変更してください`,
+          `説明用断片なら${contextLabel}または${pseudoLabel}へ変更してください`,
       });
     }
 
@@ -180,7 +186,7 @@ function checkFile(filePath) {
 
       if (fenceLang === 'alloy') {
         const trimmed = line.trim();
-        const isCommentLine = trimmed.startsWith('//') || trimmed.startsWith('#');
+        const isCommentLine = trimmed.startsWith('//') || trimmed.startsWith('--');
         if (!isCommentLine) {
           if (!sawAlloyOrderingOpen && ALLOY_ORDERING_OPEN_PATTERN.test(line)) {
             sawAlloyOrderingOpen = true;
