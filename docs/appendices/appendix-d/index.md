@@ -1,3 +1,10 @@
+---
+layout: book
+title: "付録D：演習問題解答（ヒント/模範解答/採点観点）"
+locale: "ja"
+lang: "ja"
+source_path: "src/ja/appendices/appendix-d.md"
+---
 # 付録D：演習問題解答（ヒント/模範解答/採点観点）
 
 本付録は、各章末課題に対して「提出物として何を作るか」を明確にするためのテンプレート集です。

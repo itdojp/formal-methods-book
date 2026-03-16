@@ -1,3 +1,10 @@
+---
+layout: book
+title: "付録A：数学的基礎の復習"
+locale: "ja"
+lang: "ja"
+source_path: "src/ja/appendices/appendix-a.md"
+---
 # 付録A：数学的基礎の復習
 
 本付録は、本書で頻出する数学記法の最小セットを「参照用」にまとめます。厳密な講義ノートではなく、本文（第4章Alloy、第5章Z、第6章CSP、第7章TLA+）の読解と仕様記述のためのチートシートです。

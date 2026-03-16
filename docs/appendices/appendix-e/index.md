@@ -1,3 +1,10 @@
+---
+layout: book
+title: "付録E：参考文献とWebリソース（一次情報への導線）"
+locale: "ja"
+lang: "ja"
+source_path: "src/ja/appendices/appendix-e.md"
+---
 # 付録E：参考文献とWebリソース（一次情報への導線）
 
 本付録は、本文で扱った形式的手法・ツールについて、**一次情報（公式サイト/公式リポジトリ/公式ドキュメント/公式リリース）**へ到達するための索引である。  

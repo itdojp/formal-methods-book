@@ -1,138 +1,148 @@
-<!-- Sidebar Navigation (data-driven) -->
-{% assign navigation = site.data.navigation %}
+{% assign default_locale = site.default_locale | default: 'ja' %}
+{% assign current_page_url = page.url | default: '/' %}
+{% assign page_locale = page.locale | default: '' %}
+{% if page_locale == '' %}
+  {% if current_page_url == '/en/' or current_page_url contains '/en/' %}
+    {% assign page_locale = 'en' %}
+  {% else %}
+    {% assign page_locale = default_locale %}
+  {% endif %}
+{% endif %}
+{% assign locale_data = site.data.locales[page_locale] | default: site.data.locales[default_locale] %}
+{% assign navigation = site.data.navigation[page_locale] | default: site.data.navigation[default_locale] %}
+{% assign locale_home = '/' %}
+{% if page_locale == 'en' %}
+  {% assign locale_home = '/en/' %}
+{% endif %}
+{% assign repo_url = site.github.repository_url | default: site.repository_url | default: site.repository.github | default: site.repository %}
+{% if repo_url and repo_url != '' %}
+  {% unless repo_url contains 'http' %}
+    {% assign repo_url = 'https://github.com/' | append: repo_url %}
+  {% endunless %}
+{% endif %}
 
 <div class="sidebar-content">
     <div class="book-info">
-        <h2 class="book-title">{{ site.title | escape }}</h2>
-        {% if site.subtitle %}
-        <p class="book-subtitle">{{ site.subtitle | escape }}</p>
-        {% elsif site.description %}
-        <p class="book-subtitle">{{ site.description | escape }}</p>
+        <h2 class="book-title"><a href="{{ locale_home | relative_url }}" class="header-title">{{ locale_data.book_title | escape }}</a></h2>
+        {% if locale_data.subtitle %}
+        <p class="book-subtitle">{{ locale_data.subtitle | escape }}</p>
+        {% elsif locale_data.description %}
+        <p class="book-subtitle">{{ locale_data.description | escape }}</p>
         {% endif %}
     </div>
 
     <div class="toc">
-        <h3 class="toc-title">目次</h3>
+        <h3 class="toc-title">{{ locale_data.labels.toc_title }}</h3>
 
         <div class="toc-section">
             <ul class="toc-list">
                 <li class="toc-item">
-                    <a href="{{ '/' | relative_url }}" class="toc-link {% if page.url == '/' %}active{% endif %}">
-                        はじめに
+                    <a href="{{ locale_home | relative_url }}" class="toc-link {% if current_page_url == locale_home %}active{% endif %}">
+                        {{ locale_data.labels.home }}
                     </a>
                 </li>
             </ul>
         </div>
 
-        {% if navigation %}
-            {% if navigation.introduction %}
-            <div class="toc-section">
-                <h4 class="toc-section-title">導入</h4>
-                <ul class="toc-list">
-                    {% for item in navigation.introduction %}
-                    <li class="toc-item">
-                        <a href="{{ item.path | relative_url }}" class="toc-link {% if page.url == item.path %}active{% endif %}">
-                            {{ item.title }}
-                        </a>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            {% endif %}
+        {% if navigation.introduction %}
+        <div class="toc-section">
+            <h4 class="toc-section-title">{{ locale_data.labels.section_introduction }}</h4>
+            <ul class="toc-list">
+                {% for item in navigation.introduction %}
+                <li class="toc-item">
+                    <a href="{{ item.path | relative_url }}" class="toc-link {% if current_page_url == item.path %}active{% endif %}">
+                        {{ item.title }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
 
-            {% if navigation.chapters %}
-            <div class="toc-section">
-                <h4 class="toc-section-title">本編</h4>
-                <ul class="toc-list">
-                    {% for chapter in navigation.chapters %}
-                    <li class="toc-item toc-chapter">
-                        <a href="{{ chapter.path | relative_url }}" class="toc-link {% if page.url == chapter.path or page.url contains chapter.path %}active{% endif %}">
-                            {{ chapter.title }}
-                        </a>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            {% endif %}
+        {% if navigation.chapters %}
+        <div class="toc-section">
+            <h4 class="toc-section-title">{{ locale_data.labels.section_chapters }}</h4>
+            <ul class="toc-list">
+                {% for item in navigation.chapters %}
+                <li class="toc-item toc-chapter">
+                    <a href="{{ item.path | relative_url }}" class="toc-link {% if current_page_url == item.path %}active{% endif %}">
+                        {{ item.title }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
 
-            {% if navigation.additional %}
-            <div class="toc-section">
-                <h4 class="toc-section-title">追加</h4>
-                <ul class="toc-list">
-                    {% for item in navigation.additional %}
-                    <li class="toc-item">
-                        <a href="{{ item.path | relative_url }}" class="toc-link {% if page.url == item.path or page.url contains item.path %}active{% endif %}">
-                            {{ item.title }}
-                        </a>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            {% endif %}
+        {% if navigation.additional %}
+        <div class="toc-section">
+            <h4 class="toc-section-title">{{ locale_data.labels.section_additional }}</h4>
+            <ul class="toc-list">
+                {% for item in navigation.additional %}
+                <li class="toc-item">
+                    <a href="{{ item.path | relative_url }}" class="toc-link {% if current_page_url == item.path %}active{% endif %}">
+                        {{ item.title }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
 
-            {% if navigation.resources %}
-            <div class="toc-section">
-                <h4 class="toc-section-title">リソース</h4>
-                <ul class="toc-list">
-                    {% for item in navigation.resources %}
-                    <li class="toc-item">
-                        <a href="{{ item.path | relative_url }}" class="toc-link {% if page.url == item.path or page.url contains item.path %}active{% endif %}">
-                            {{ item.title }}
-                        </a>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            {% endif %}
+        {% if navigation.resources %}
+        <div class="toc-section">
+            <h4 class="toc-section-title">{{ locale_data.labels.section_resources }}</h4>
+            <ul class="toc-list">
+                {% for item in navigation.resources %}
+                <li class="toc-item">
+                    <a href="{{ item.path | relative_url }}" class="toc-link {% if current_page_url == item.path %}active{% endif %}">
+                        {{ item.title }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
 
-            {% if navigation.appendices %}
-            <div class="toc-section">
-                <h4 class="toc-section-title">付録</h4>
-                <ul class="toc-list">
-                    {% for item in navigation.appendices %}
-                    <li class="toc-item">
-                        <a href="{{ item.path | relative_url }}" class="toc-link {% if page.url == item.path or page.url contains item.path %}active{% endif %}">
-                            {{ item.title }}
-                        </a>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            {% endif %}
+        {% if navigation.appendices %}
+        <div class="toc-section">
+            <h4 class="toc-section-title">{{ locale_data.labels.section_appendices }}</h4>
+            <ul class="toc-list">
+                {% for item in navigation.appendices %}
+                <li class="toc-item">
+                    <a href="{{ item.path | relative_url }}" class="toc-link {% if current_page_url == item.path %}active{% endif %}">
+                        {{ item.title }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
 
-            {% if navigation.afterword %}
-            <div class="toc-section">
-                <h4 class="toc-section-title">あとがき</h4>
-                <ul class="toc-list">
-                    {% for item in navigation.afterword %}
-                    <li class="toc-item">
-                        <a href="{{ item.path | relative_url }}" class="toc-link {% if page.url == item.path or page.url contains item.path %}active{% endif %}">
-                            {{ item.title }}
-                        </a>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            {% endif %}
+        {% if navigation.afterword %}
+        <div class="toc-section">
+            <h4 class="toc-section-title">{{ locale_data.labels.section_afterword }}</h4>
+            <ul class="toc-list">
+                {% for item in navigation.afterword %}
+                <li class="toc-item">
+                    <a href="{{ item.path | relative_url }}" class="toc-link {% if current_page_url == item.path %}active{% endif %}">
+                        {{ item.title }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
         {% endif %}
     </div>
 
     <div class="sidebar-footer">
-        {% assign repo_url = site.github.repository_url | default: site.repository_url | default: site.repository.github | default: site.repository %}
-        {% if repo_url and repo_url != '' %}
-            {% unless repo_url contains 'http' %}
-                {% assign repo_url = 'https://github.com/' | append: repo_url %}
-            {% endunless %}
-        {% endif %}
-
         <div class="external-links">
             {% if repo_url %}
-            <a href="{{ repo_url }}" target="_blank" rel="noopener" class="external-link">GitHub</a>
+            <a href="{{ repo_url }}" target="_blank" rel="noopener" class="external-link">{{ locale_data.labels.github }}</a>
             {% endif %}
             {% if site.contact.email %}
-            <a href="mailto:{{ site.contact.email | escape }}" class="external-link">Contact</a>
+            <a href="mailto:{{ site.contact.email | escape }}" class="external-link">{{ locale_data.labels.contact }}</a>
             {% endif %}
         </div>
     </div>
 </div>
-

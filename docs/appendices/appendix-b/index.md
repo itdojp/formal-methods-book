@@ -1,3 +1,10 @@
+---
+layout: book
+title: "付録B：ツールインストールガイド"
+locale: "ja"
+lang: "ja"
+source_path: "src/ja/appendices/appendix-b.md"
+---
 # 付録B：ツールインストールガイド
 
 本書のツール実行は、**再現性（環境差の最小化）**を優先し、次の2系統で提供する。

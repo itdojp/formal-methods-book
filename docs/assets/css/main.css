@@ -204,6 +204,28 @@ a:hover {
     flex-shrink: 0;
 }
 
+.language-switcher {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 0.375rem 0.75rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    line-height: 1;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.language-switcher:hover {
+    color: var(--text-primary);
+    background: var(--bg-tertiary);
+    text-decoration: none;
+}
+
 .header-title {
     text-decoration: none;
     color: var(--text-primary);
@@ -424,6 +446,23 @@ a:hover {
 
 .github-link:hover {
     color: var(--text-primary);
+}
+
+.sidebar-footer {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.external-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.external-link {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
 }
 
 /* Edit Link */

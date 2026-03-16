@@ -34,6 +34,15 @@ jobs:
         working-directory: book-formatter
         run: npm ci
 
+      - name: Install dependencies (book)
+        run: npm ci || npm i
+
+      - name: Build bilingual publish tree
+        run: npm run build:all
+
+      - name: Bilingual integrity check
+        run: npm run qa:bilingual
+
       - name: Determine scan directory
         id: scan
         shell: bash
@@ -44,7 +53,7 @@ jobs:
             echo "dir=." >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Manuscript guardrails (chapter endings + markers)
+      - name: Manuscript guardrails (publish tree)
         run: node scripts/check-manuscript-guardrails.js "${{ steps.scan.outputs.dir }}"
 
       - name: Unicode check (fail on warnings)
@@ -133,26 +142,25 @@ jobs:
               print(f"::error file={nav_display}::Failed to parse navigation YAML: {e}")
               sys.exit(1)
             paths = []
-            # Keep this segment list broad to support different book structures.
-            for key in ["introduction", "chapters", "additional", "resources", "appendices", "afterword"]:
-              for item in (data.get(key) or []):
-                if isinstance(item, dict):
-                  nested = item.get("items")
-                  if not isinstance(nested, list):
-                    nested = item.get("children")
-                  if isinstance(nested, list):
-                    for sub in (nested or []):
-                      if not isinstance(sub, dict):
-                        continue
-                      p = normalize_path(sub.get("path"))
-                      if p:
-                        paths.append(p)
+
+            def collect_items(node):
+              items = []
+              if not isinstance(node, dict):
+                return items
+              for key in ["introduction", "chapters", "additional", "resources", "appendices", "afterword"]:
+                for item in (node.get(key) or []):
+                  if not isinstance(item, dict):
                     continue
-                if not isinstance(item, dict):
-                  continue
-                p = normalize_path(item.get("path"))
-                if p:
-                  paths.append(p)
+                  p = normalize_path(item.get("path"))
+                  if p:
+                    items.append(p)
+              return items
+
+            if "ja" in data or "en" in data:
+              for locale in ["ja", "en"]:
+                paths.extend(collect_items(data.get(locale) or {}))
+            else:
+              paths.extend(collect_items(data))
             return paths
 
           def discover_paths():
@@ -163,11 +171,25 @@ jobs:
                 for child in sorted(d.iterdir()):
                   if child.is_dir():
                     paths.append(f"/{seg}/{child.name}/")
+            en_root = scan_dir / "en"
+            if en_root.is_dir():
+              paths.append("/en/")
+              for seg in ["introduction", "chapters", "additional", "resources", "appendices", "afterword", "glossary"]:
+                d = en_root / seg
+                if d.is_dir():
+                  if seg in ["introduction", "afterword", "glossary"]:
+                    paths.append(f"/en/{seg}/")
+                    continue
+                  for child in sorted(d.iterdir()):
+                    if child.is_dir():
+                      paths.append(f"/en/{seg}/{child.name}/")
             return paths
 
-          paths = read_nav_paths() or discover_paths() or ["/"]
+          paths = read_nav_paths() or discover_paths() or ["/", "/en/"]
           if "/" not in paths:
             paths.insert(0, "/")
+          if "/en/" not in paths:
+            paths.append("/en/")
 
           # De-dup while keeping order
           seen = set()

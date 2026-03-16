@@ -1,3 +1,10 @@
+---
+layout: book
+title: "付録F：AI支援で形式仕様/検証を回す実践ガイド"
+locale: "ja"
+lang: "ja"
+source_path: "src/ja/appendices/appendix-f.md"
+---
 # 付録F：AI支援で形式仕様/検証を回す実践ガイド
 
 この付録は、AI支援で仕様作成・検証を回すための実践テンプレートをまとめたものです。AIの出力は「提案」として扱い、最終判定は検証器（TLC/Alloy/Rocq（旧称：Coq）/Dafny等）に寄せる前提で運用してください。
