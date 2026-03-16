@@ -5,7 +5,7 @@ const fs = require('fs');
 
 const REQUIRED_REFERENCES = [
   {
-    chapterPath: 'src/chapters/chapter04.md',
+    chapterPath: 'src/ja/chapters/chapter04.md',
     examplePaths: [
       'examples/ch04/university-enrollment.als',
       'examples/ch04/leader-election.als',
@@ -21,7 +21,7 @@ const REQUIRED_REFERENCES = [
     ],
   },
   {
-    chapterPath: 'src/chapters/chapter08.md',
+    chapterPath: 'src/ja/chapters/chapter08.md',
     examplePaths: [
       'examples/ch08/spin/ltl-properties.pml',
       'examples/ch08/spin/producer-consumer.pml',

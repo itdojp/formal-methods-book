@@ -1,0 +1,38 @@
+{% assign default_locale = site.default_locale | default: 'ja' %}
+{% assign current_page_url = page.url | default: '/' %}
+{% assign page_locale = page.locale | default: '' %}
+{% if page_locale == '' %}
+  {% if current_page_url == '/en/' or current_page_url contains '/en/' %}
+    {% assign page_locale = 'en' %}
+  {% else %}
+    {% assign page_locale = default_locale %}
+  {% endif %}
+{% endif %}
+{% assign locale_data = site.data.locales[page_locale] | default: site.data.locales[default_locale] %}
+{% assign counterpart_locale = 'en' %}
+{% assign counterpart_url = '/en/' %}
+{% if page_locale == 'en' %}
+  {% assign counterpart_locale = 'ja' %}
+  {% assign counterpart_url = current_page_url | remove_first: '/en' %}
+  {% if counterpart_url == '' %}
+    {% assign counterpart_url = '/' %}
+  {% endif %}
+{% else %}
+  {% assign counterpart_url = '/en' | append: current_page_url %}
+{% endif %}
+{% assign counterpart_page = site.pages | where: 'url', counterpart_url | first %}
+{% assign switch_url = counterpart_url %}
+{% unless counterpart_page %}
+  {% if counterpart_locale == 'en' %}
+    {% assign switch_url = '/en/' %}
+  {% else %}
+    {% assign switch_url = '/' %}
+  {% endif %}
+{% endunless %}
+<a href="{{ switch_url | relative_url }}"
+   class="language-switcher"
+   hreflang="{{ counterpart_locale }}"
+   lang="{{ counterpart_locale }}"
+   {% unless counterpart_page %}title="{{ locale_data.labels.missing_translation }}"{% endunless %}>
+    {{ locale_data.labels.switch_to }}
+</a>

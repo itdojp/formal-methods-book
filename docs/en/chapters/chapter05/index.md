@@ -1,0 +1,23 @@
+---
+layout: book
+title: "Chapter 5: State-Based Specification: Foundations of Z Notation"
+locale: "en"
+lang: "en"
+source_path: "src/en/chapters/chapter05.md"
+---
+# Chapter 5: State-Based Specification: Foundations of Z Notation
+
+> Translation status: skeleton  
+> Japanese source of truth: `src/ja/chapters/chapter05.md`
+
+This placeholder preserves the chapter ID, ordering, and navigation target for the English edition.
+
+## Scope
+
+This chapter will be translated from the Japanese edition while keeping a one-to-one correspondence with `chapter05`.
+
+## Translation Notes
+
+- Status: skeleton
+- Source of truth: `src/ja/chapters/chapter05.md`
+- Next step: replace this placeholder with a full English draft.

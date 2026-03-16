@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 'use strict';
 
-const { execSync } = require('child_process');
 const fs = require('fs');
+const path = require('path');
 
 const DEFAULT_SCAN_DIR = 'docs';
 
@@ -28,17 +28,32 @@ function escapeRegExp(input) {
   return String(input).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-function getTrackedFiles() {
-  try {
-    return execSync('git ls-files', { encoding: 'utf8' })
-      .split(/\r?\n/)
-      .filter(Boolean);
-  } catch (err) {
-    console.error('Failed to list tracked files using "git ls-files".');
-    if (err && err.message) console.error(String(err.message));
+function getMarkdownFiles(scanDir) {
+  function collectMarkdownFiles(rootDir) {
+    const filePaths = [];
+    const entries = fs.readdirSync(rootDir, { withFileTypes: true });
+
+    for (const entry of entries) {
+      const entryPath = path.join(rootDir, entry.name);
+      if (entry.isDirectory()) {
+        filePaths.push(...collectMarkdownFiles(entryPath));
+        continue;
+      }
+      if (entry.isFile() && entryPath.endsWith('.md')) {
+        filePaths.push(path.relative(process.cwd(), entryPath).split(path.sep).join('/'));
+      }
+    }
+
+    return filePaths;
+  }
+
+  if (!fs.existsSync(scanDir)) {
+    console.error(`Scan directory does not exist: ${scanDir}`);
     process.exitCode = 1;
     return [];
   }
+
+  return collectMarkdownFiles(scanDir).sort();
 }
 
 function reportError(filePath, lineNumber, message) {
@@ -387,8 +402,7 @@ function main() {
   const scanDir = normalizeScanDir(process.argv[2]);
   const prefix = scanDir === '.' ? '' : `${scanDir}/`;
 
-  const tracked = getTrackedFiles();
-  const markdownFiles = tracked.filter((f) => f.endsWith('.md') && f.startsWith(prefix));
+  const markdownFiles = getMarkdownFiles(scanDir).filter((f) => f.startsWith(prefix));
 
   const chaptersPattern = new RegExp(
     `^${escapeRegExp(prefix)}chapters\\/chapter\\d+\\/index\\.md$`

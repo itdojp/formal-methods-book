@@ -1,0 +1,148 @@
+{
+  "title": "Formal Methods: Foundations and Applications",
+  "subtitle": "An Integrated Understanding of Specification, Model Checking, and Theorem Proving",
+  "description": "A practical introduction to mathematically rigorous software design, from specification and model checking to theorem proving and program verification.",
+  "author": "Kazuhiko Ota (ITDO Inc.)",
+  "version": "1.0.0",
+  "language": "en",
+  "license": "CC-BY-NC-SA-4.0",
+  "edition": {
+    "id": "en",
+    "label": "English edition",
+    "locale": "en-US",
+    "sourceRoot": "src/en",
+    "publishRoot": "docs/en",
+    "mobileConfig": "mobile-config.en.json",
+    "sourceOfTruth": false,
+    "translationOf": "ja"
+  },
+  "repository": {
+    "url": "https://github.com/itdojp/formal-methods-book.git",
+    "branch": "main"
+  },
+  "structure": {
+    "chapters": [
+      {
+        "id": "chapter01",
+        "title": "Chapter 1: Why Formal Methods Matter",
+        "description": "Why modern software needs mathematically grounded reasoning, with lessons from failures and safety expectations."
+      },
+      {
+        "id": "chapter02",
+        "title": "Chapter 2: Bridging Mathematics and Programs",
+        "description": "How mathematical thinking connects to programming, with models of state and change."
+      },
+      {
+        "id": "chapter03",
+        "title": "Chapter 3: Foundations of Specification",
+        "description": "From ambiguity in natural language to precise specifications with preconditions, postconditions, and invariants."
+      },
+      {
+        "id": "chapter04",
+        "title": "Chapter 4: Introduction to Lightweight Formal Methods — Specification with Alloy",
+        "description": "Alloy's modeling style and practical verification with relational reasoning."
+      },
+      {
+        "id": "chapter05",
+        "title": "Chapter 5: State-Based Specification — Fundamentals of Z Notation",
+        "description": "States, schemas, and precise specification in Z notation."
+      },
+      {
+        "id": "chapter06",
+        "title": "Chapter 6: Process-Centric Specification — Concurrency with CSP",
+        "description": "Concurrency, communication, and deadlock analysis with CSP."
+      },
+      {
+        "id": "chapter07",
+        "title": "Chapter 7: Specifying Time — Introduction to TLA+",
+        "description": "Dynamic system properties with temporal logic and TLA+."
+      },
+      {
+        "id": "chapter08",
+        "title": "Chapter 8: Introduction to Model Checking",
+        "description": "Automated verification, state-space exploration, and counterexamples."
+      },
+      {
+        "id": "chapter09",
+        "title": "Chapter 9: Fundamentals of Theorem Proving",
+        "description": "Mechanized proof, type theory, and proof assistants such as Coq."
+      },
+      {
+        "id": "chapter10",
+        "title": "Chapter 10: Program Verification",
+        "description": "Program correctness with Hoare logic, loop invariants, and verified reasoning about arrays."
+      },
+      {
+        "id": "chapter11",
+        "title": "Chapter 11: Integrating Formal Methods into Development Processes",
+        "description": "Incremental adoption strategies and organizational integration."
+      },
+      {
+        "id": "chapter12",
+        "title": "Chapter 12: Tools and Automation",
+        "description": "Tool ecosystems, CI integration, and operational automation."
+      },
+      {
+        "id": "chapter13",
+        "title": "Chapter 13: Case Studies",
+        "description": "Detailed studies of industrial adoption, including rail, security, and large-scale distributed systems."
+      }
+    ],
+    "appendices": [
+      {
+        "id": "appendix-a",
+        "title": "Appendix A: Mathematics Refresher",
+        "description": "A concise review of sets, logic, and functions."
+      },
+      {
+        "id": "appendix-b",
+        "title": "Appendix B: Tool Installation Guide",
+        "description": "Installation steps and troubleshooting for Alloy Analyzer, TLC, SPIN, Coq, and related tools."
+      },
+      {
+        "id": "appendix-c",
+        "title": "Appendix C: Notation Cross-Reference",
+        "description": "A comparison of symbols and syntax across Z, Alloy, TLA+, and related notations."
+      },
+      {
+        "id": "appendix-d",
+        "title": "Appendix D: Exercise Hints and Solutions",
+        "description": "Hints, grading perspectives, and sample solutions for the exercises."
+      },
+      {
+        "id": "appendix-e",
+        "title": "Appendix E: References and Web Resources",
+        "description": "Suggested readings and web resources for further study."
+      },
+      {
+        "id": "appendix-f",
+        "title": "Appendix F: Practical Guide to AI Assistance",
+        "description": "How to use AI assistance with formal specifications while preserving reviewability and correctness."
+      }
+    ]
+  },
+  "build": {
+    "outputDirectory": "docs/en",
+    "framework": "book-formatter",
+    "enableNavigation": true,
+    "enableSyntaxHighlighting": true,
+    "enableMobileOptimization": true
+  },
+  "ux": {
+    "profile": "C",
+    "modules": {
+      "quickStart": false,
+      "readingGuide": true,
+      "checklistPack": false,
+      "troubleshootingFlow": false,
+      "conceptMap": true,
+      "figureIndex": true,
+      "legalNotice": false,
+      "glossary": true
+    }
+  },
+  "shared": {
+    "version": "3.2.0",
+    "lastSync": "2026-02-02T09:13:01.581Z"
+  }
+}

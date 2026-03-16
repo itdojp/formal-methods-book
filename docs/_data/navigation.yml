@@ -1,80 +1,145 @@
-# Book-formatter compliant navigation structure
-introduction:
-  - title: "はじめに"
-    path: "/introduction/"
-    order: 0
+ja:
+  introduction:
+    - title: "はじめに"
+      path: "/introduction/"
+      order: 0
+  chapters:
+    - title: "第1章：なぜ形式的手法が必要なのか"
+      path: "/chapters/chapter01/"
+      order: 1
+    - title: "第2章：数学とプログラムの橋渡し"
+      path: "/chapters/chapter02/"
+      order: 2
+    - title: "第3章：仕様記述の基本"
+      path: "/chapters/chapter03/"
+      order: 3
+    - title: "第4章：軽量形式的手法入門 - Alloyで始める仕様記述"
+      path: "/chapters/chapter04/"
+      order: 4
+    - title: "第5章：状態ベース仕様記述 - Z記法の基礎"
+      path: "/chapters/chapter05/"
+      order: 5
+    - title: "第6章：プロセス中心の記述 - CSPによる並行システム"
+      path: "/chapters/chapter06/"
+      order: 6
+    - title: "第7章：時間を扱う仕様記述 - TLA+入門"
+      path: "/chapters/chapter07/"
+      order: 7
+    - title: "第8章：模型検査入門"
+      path: "/chapters/chapter08/"
+      order: 8
+    - title: "第9章：定理証明の基礎"
+      path: "/chapters/chapter09/"
+      order: 9
+    - title: "第10章：プログラム検証"
+      path: "/chapters/chapter10/"
+      order: 10
+    - title: "第11章：開発プロセスとの統合"
+      path: "/chapters/chapter11/"
+      order: 11
+    - title: "第12章：ツールと自動化"
+      path: "/chapters/chapter12/"
+      order: 12
+    - title: "第13章：事例研究"
+      path: "/chapters/chapter13/"
+      order: 13
+  additional:
+    - title: "用語集（Glossary）"
+      path: "/glossary/"
+      order: 14
+  appendices:
+    - title: "付録A: 数学的基礎の復習"
+      path: "/appendices/appendix-a/"
+      order: 15
+    - title: "付録B: ツールインストールガイド"
+      path: "/appendices/appendix-b/"
+      order: 16
+    - title: "付録C: 記法対照表"
+      path: "/appendices/appendix-c/"
+      order: 17
+    - title: "付録D: 演習問題解答"
+      path: "/appendices/appendix-d/"
+      order: 18
+    - title: "付録E: 参考文献とWebリソース"
+      path: "/appendices/appendix-e/"
+      order: 19
+    - title: "付録F: AI支援の実践ガイド"
+      path: "/appendices/appendix-f/"
+      order: 20
+  afterword:
+    - title: "あとがき"
+      path: "/afterword/"
+      order: 21
 
-# 本編 (Main chapters)
-chapters:
-  - title: "第1章：なぜ形式的手法が必要なのか"
-    path: "/chapters/chapter01/"
-    order: 1
-  - title: "第2章：数学とプログラムの橋渡し"
-    path: "/chapters/chapter02/"
-    order: 2
-  - title: "第3章：仕様記述の基本"
-    path: "/chapters/chapter03/"
-    order: 3
-  - title: "第4章：軽量形式的手法入門 - Alloyで始める仕様記述"
-    path: "/chapters/chapter04/"
-    order: 4
-  - title: "第5章：状態ベース仕様記述 - Z記法の基礎"
-    path: "/chapters/chapter05/"
-    order: 5
-  - title: "第6章：プロセス中心の記述 - CSPによる並行システム"
-    path: "/chapters/chapter06/"
-    order: 6
-  - title: "第7章：時間を扱う仕様記述 - TLA+入門"
-    path: "/chapters/chapter07/"
-    order: 7
-  - title: "第8章：模型検査入門"
-    path: "/chapters/chapter08/"
-    order: 8
-  - title: "第9章：定理証明の基礎"
-    path: "/chapters/chapter09/"
-    order: 9
-  - title: "第10章：プログラム検証"
-    path: "/chapters/chapter10/"
-    order: 10
-  - title: "第11章：開発プロセスとの統合"
-    path: "/chapters/chapter11/"
-    order: 11
-  - title: "第12章：ツールと自動化"
-    path: "/chapters/chapter12/"
-    order: 12
-  - title: "第13章：事例研究"
-    path: "/chapters/chapter13/"
-    order: 13
-
-# 追加（Additional）
-additional:
-  - title: "用語集（Glossary）"
-    path: "/glossary/"
-    order: 14
-
-# 付録 (Appendices)
-appendices:
-  - title: "付録A: 数学的基礎の復習"
-    path: "/appendices/appendix-a/"
-    order: 15
-  - title: "付録B: ツールインストールガイド"
-    path: "/appendices/appendix-b/"
-    order: 16
-  - title: "付録C: 記法対照表"
-    path: "/appendices/appendix-c/"
-    order: 17
-  - title: "付録D: 演習問題解答"
-    path: "/appendices/appendix-d/"
-    order: 18
-  - title: "付録E: 参考文献とWebリソース"
-    path: "/appendices/appendix-e/"
-    order: 19
-  - title: "付録F: AI支援の実践ガイド"
-    path: "/appendices/appendix-f/"
-    order: 20
-
-# あとがき (Afterword)
-afterword:
-  - title: "あとがき"
-    path: "/afterword/"
-    order: 21
+en:
+  introduction:
+    - title: "Introduction"
+      path: "/en/introduction/"
+      order: 0
+  chapters:
+    - title: "Chapter 1: Why Formal Methods Matter"
+      path: "/en/chapters/chapter01/"
+      order: 1
+    - title: "Chapter 2: Bridging Mathematics and Programs"
+      path: "/en/chapters/chapter02/"
+      order: 2
+    - title: "Chapter 3: Foundations of Specification"
+      path: "/en/chapters/chapter03/"
+      order: 3
+    - title: "Chapter 4: Introduction to Lightweight Formal Methods — Specification with Alloy"
+      path: "/en/chapters/chapter04/"
+      order: 4
+    - title: "Chapter 5: State-Based Specification — Fundamentals of Z Notation"
+      path: "/en/chapters/chapter05/"
+      order: 5
+    - title: "Chapter 6: Process-Centric Specification — Concurrency with CSP"
+      path: "/en/chapters/chapter06/"
+      order: 6
+    - title: "Chapter 7: Specifying Time — Introduction to TLA+"
+      path: "/en/chapters/chapter07/"
+      order: 7
+    - title: "Chapter 8: Introduction to Model Checking"
+      path: "/en/chapters/chapter08/"
+      order: 8
+    - title: "Chapter 9: Fundamentals of Theorem Proving"
+      path: "/en/chapters/chapter09/"
+      order: 9
+    - title: "Chapter 10: Program Verification"
+      path: "/en/chapters/chapter10/"
+      order: 10
+    - title: "Chapter 11: Integrating Formal Methods into Development Processes"
+      path: "/en/chapters/chapter11/"
+      order: 11
+    - title: "Chapter 12: Tools and Automation"
+      path: "/en/chapters/chapter12/"
+      order: 12
+    - title: "Chapter 13: Case Studies"
+      path: "/en/chapters/chapter13/"
+      order: 13
+  additional:
+    - title: "Glossary"
+      path: "/en/glossary/"
+      order: 14
+  appendices:
+    - title: "Appendix A: Mathematics Refresher"
+      path: "/en/appendices/appendix-a/"
+      order: 15
+    - title: "Appendix B: Tool Installation Guide"
+      path: "/en/appendices/appendix-b/"
+      order: 16
+    - title: "Appendix C: Notation Cross-Reference"
+      path: "/en/appendices/appendix-c/"
+      order: 17
+    - title: "Appendix D: Exercise Hints and Solutions"
+      path: "/en/appendices/appendix-d/"
+      order: 18
+    - title: "Appendix E: References and Web Resources"
+      path: "/en/appendices/appendix-e/"
+      order: 19
+    - title: "Appendix F: Practical Guide to AI Assistance"
+      path: "/en/appendices/appendix-f/"
+      order: 20
+  afterword:
+    - title: "Afterword"
+      path: "/en/afterword/"
+      order: 21

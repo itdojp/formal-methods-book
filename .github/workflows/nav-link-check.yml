@@ -49,10 +49,25 @@ jobs:
                   return []
               data = yaml.safe_load(y.read_text(encoding='utf-8')) or {}
               paths = []
-              for key in ['introduction','chapters','additional','resources','appendices','afterword']:
-                  for item in (data.get(key) or []):
-                      p = item.get('path') or ''
-                      if p: paths.append(p)
+
+              def collect_items(node):
+                  items = []
+                  if not isinstance(node, dict):
+                      return items
+                  for key in ['introduction','chapters','additional','resources','appendices','afterword']:
+                      for item in (node.get(key) or []):
+                          if not isinstance(item, dict):
+                              continue
+                          p = item.get('path') or ''
+                          if p:
+                              items.append(p)
+                  return items
+
+              if 'ja' in data or 'en' in data:
+                  for locale in ['ja', 'en']:
+                      paths.extend(collect_items(data.get(locale) or {}))
+              else:
+                  paths.extend(collect_items(data))
               return paths
           def discover():
               paths=[]
@@ -62,10 +77,23 @@ jobs:
                       for child in sorted(d.iterdir()):
                           if child.is_dir():
                               paths.append(f'/{seg}/{child.name}/')
+              en_root = Path('docs')/'en'
+              if en_root.is_dir():
+                  paths.append('/en/')
+                  for seg in ['introduction','chapters','appendices','afterword','glossary']:
+                      d = en_root/seg
+                      if d.is_dir():
+                          if seg in ['introduction','afterword','glossary']:
+                              paths.append(f'/en/{seg}/')
+                              continue
+                          for child in sorted(d.iterdir()):
+                              if child.is_dir():
+                                  paths.append(f'/en/{seg}/{child.name}/')
               return paths
           paths = read_nav() or discover() or ['/']
           # Always include index
           if '/' not in paths: paths.insert(0,'/')
+          if '/en/' not in paths: paths.append('/en/')
 
           # Derive pages host from owner; allow override via PAGES_HOST env
           host = os.environ.get('PAGES_HOST') or (f'{owner}.github.io' if owner else 'itdojp.github.io')

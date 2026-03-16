@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 'use strict';
 
-const { execFileSync } = require('child_process');
 const fs = require('fs');
+const path = require('path');
 
 const CODE_LABEL_VARIANTS = [
   {
@@ -62,25 +62,28 @@ function findCodeLabelInLine(line) {
 }
 
 function getTrackedMarkdownFiles() {
-  let out;
-  try {
-    out = execFileSync('git', ['ls-files'], { encoding: 'utf8' });
-  } catch (err) {
-    console.error(
-      'Failed to list tracked files using "git ls-files". ' +
-        'Make sure this script is run from within a git repository and that "git" is installed.'
-    );
-    if (err && err.message) {
-      console.error(String(err.message));
+  function collectMarkdownFiles(rootDir) {
+    const filePaths = [];
+    const entries = fs.readdirSync(rootDir, { withFileTypes: true });
+
+    for (const entry of entries) {
+      const entryPath = path.join(rootDir, entry.name);
+      if (entry.isDirectory()) {
+        filePaths.push(...collectMarkdownFiles(entryPath));
+        continue;
+      }
+      if (entry.isFile() && entryPath.endsWith('.md')) {
+        filePaths.push(path.relative(process.cwd(), entryPath).split(path.sep).join('/'));
+      }
     }
-    process.exitCode = 1;
-    return [];
+
+    return filePaths;
   }
-  return out
-    .split(/\r?\n/)
-    .filter(Boolean)
-    .filter((f) => f.endsWith('.md'))
-    .filter((f) => f.startsWith('src/') || f.startsWith('docs/'));
+
+  return ['src', 'docs']
+    .filter((rootDir) => fs.existsSync(rootDir))
+    .flatMap((rootDir) => collectMarkdownFiles(rootDir))
+    .sort();
 }
 
 function reportError(filePath, lineNumber, message) {

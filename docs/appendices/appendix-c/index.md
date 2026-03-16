@@ -1,3 +1,10 @@
+---
+layout: book
+title: "付録C：記法対照表"
+locale: "ja"
+lang: "ja"
+source_path: "src/ja/appendices/appendix-c.md"
+---
 # 付録C：記法対照表
 
 本付録では、形式的手法で頻出する用語・記号の最小セットと、AI時代のDoDチェックリストをまとめます。

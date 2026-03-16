@@ -1,8 +1,10 @@
 ---
 layout: book
 title: "用語集（Glossary）"
+locale: "ja"
+lang: "ja"
+source_path: "src/ja/glossary/index.md"
 ---
-
 # 用語集（Glossary）
 
 本書で頻出する専門用語・略語を、参照しやすい形でまとめます。定義は「本書での用法（最小）」を優先し、厳密な差分が必要な場合は付録A/付録Cや一次情報を参照してください。

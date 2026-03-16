@@ -4,6 +4,10 @@ author: "太田和彦（株式会社アイティードゥ）"
 organization: "株式会社アイティードゥ"
 version: "1.0.0"
 lang: "ja"
+default_locale: "ja"
+supported_locales:
+  - "ja"
+  - "en"
 
 # Jekyll設定
 markdown: kramdown
@@ -104,5 +108,14 @@ defaults:
       type: "pages"
     values:
       layout: "book"
+      locale: "ja"
+      lang: "ja"
+  - scope:
+      path: "en"
+      type: "pages"
+    values:
+      layout: "book"
+      locale: "en"
+      lang: "en"
 
 permalink: pretty
