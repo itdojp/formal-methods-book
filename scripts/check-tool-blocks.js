@@ -9,11 +9,25 @@ const CODE_LABEL_VARIANTS = [
     kind: 'tool',
     label: '【ツール準拠（そのまま動く）】',
     pseudo: '【擬似記法】',
+    context: '【文脈依存スニペット】',
   },
   {
     kind: 'tool',
     label: '〖ツール準拠（そのまま動く）〗',
     pseudo: '〖擬似記法〗',
+    context: '〖文脈依存スニペット〗',
+  },
+  {
+    kind: 'tool',
+    label: '【Tool-compliant (runs as-is)】',
+    pseudo: '【Pseudo notation】',
+    context: '【Context-dependent snippet】',
+  },
+  {
+    kind: 'tool',
+    label: '〖Tool-compliant (runs as-is)〗',
+    pseudo: '〖Pseudo notation〗',
+    context: '〖Context-dependent snippet〗',
   },
   {
     kind: 'context',
@@ -24,6 +38,16 @@ const CODE_LABEL_VARIANTS = [
     kind: 'context',
     label: '〖文脈依存スニペット〗',
     pseudo: '〖擬似記法〗',
+  },
+  {
+    kind: 'context',
+    label: '【Context-dependent snippet】',
+    pseudo: '【Pseudo notation】',
+  },
+  {
+    kind: 'context',
+    label: '〖Context-dependent snippet〗',
+    pseudo: '〖Pseudo notation〗',
   },
 ];
 const CODE_LABELS = CODE_LABEL_VARIANTS.map((v) => v.label);
@@ -55,6 +79,8 @@ function getPseudoLabelForCodeLabel(label) {
 }
 
 function getContextLabelForCodeLabel(label) {
+  const variant = getLabelVariant(label);
+  if (variant && variant.context) return variant.context;
   if (label.startsWith('〖')) return '〖文脈依存スニペット〗';
   return '【文脈依存スニペット】';
 }
