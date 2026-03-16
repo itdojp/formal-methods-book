@@ -53,9 +53,6 @@ further progress is possible. See Chapters 6 and 8.
 
 ## F
 
-**Invariant**: A property that must always hold. In model checking, violations
-are typically shown as counterexamples. See Chapters 3, 7, and 8.
-
 **Fairness**: An assumption about scheduling or progress used when reasoning
 about liveness. If it is too strong, a property may appear to hold only because
 of the assumption. See Chapter 7.
@@ -69,7 +66,16 @@ preconditions, commands, and postconditions. See Chapter 10.
 precondition, `S` is a program fragment, and `Q` is a postcondition. See
 Chapter 10.
 
+## I
+
+**Invariant**: A property that must always hold. In model checking, violations
+are typically shown as counterexamples. See Chapters 3, 7, and 8.
+
 ## L
+
+**Liveness**: A property stating that “something good eventually happens.”
+Liveness claims are often sensitive to assumptions such as fairness. See
+Chapter 8.
 
 **LTL (Linear Temporal Logic)**: A temporal logic for expressing properties
 along a single line of time. See Chapters 7 and 8.
@@ -86,10 +92,6 @@ automatically determines whether a property holds. See Chapter 8.
 
 **Safety**: A property stating that “something bad never happens.” Such
 properties are often expressed as invariants. See Chapter 8.
-
-**Liveness**: A property stating that “something good eventually happens.”
-Liveness claims are often sensitive to assumptions such as fairness. See
-Chapter 8.
 
 **SPIN**: A model checker for concurrent systems centered on the Promela
 language. See Chapters 6 and 8.
