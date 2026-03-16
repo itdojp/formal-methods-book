@@ -67,7 +67,7 @@ ja:
       path: "/appendices/appendix-f/"
       order: 20
   afterword:
-    - title: "あとがき"
+    - title: "おわりに"
       path: "/afterword/"
       order: 21
 

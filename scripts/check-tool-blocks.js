@@ -37,6 +37,13 @@ const ALLOY_BOOLEAN_TYPE_PATTERN = /\bBoolean\b/;
 const ALLOY_BOOLEAN_LITERAL_PATTERN = /\b(True|False)\b/;
 const ALLOY_BOOLEAN_OPEN_PATTERN = /\bopen\s+util\/boolean\b/;
 const ALLOY_BOOL_TYPE_PATTERN = /\bBool\b/;
+const IGNORED_DIR_NAMES = new Set([
+  '.git',
+  'node_modules',
+  '_site',
+  '.jekyll-cache',
+  '.sass-cache',
+]);
 
 function getLabelVariant(label) {
   return CODE_LABEL_VARIANTS.find((v) => v.label === label) ?? null;
@@ -69,6 +76,9 @@ function getTrackedMarkdownFiles() {
     for (const entry of entries) {
       const entryPath = path.join(rootDir, entry.name);
       if (entry.isDirectory()) {
+        if (IGNORED_DIR_NAMES.has(entry.name)) {
+          continue;
+        }
         filePaths.push(...collectMarkdownFiles(entryPath));
         continue;
       }

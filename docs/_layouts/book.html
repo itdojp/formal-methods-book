@@ -109,7 +109,11 @@
             {% assign edit_path = 'src/' | append: page_locale | append: '/afterword/index.md' %}
         {% elsif normalized_path contains '/chapters/' %}
             {% assign chapter_id = normalized_path | remove_first: '/chapters/' | split: '/' | first %}
-            {% assign edit_path = 'src/' | append: page_locale | append: '/chapters/' | append: chapter_id | append: '.md' %}
+            {% if page_locale == 'ja' %}
+                {% assign edit_path = 'docs/chapters/' | append: chapter_id | append: '/index.md' %}
+            {% else %}
+                {% assign edit_path = 'src/' | append: page_locale | append: '/chapters/' | append: chapter_id | append: '.md' %}
+            {% endif %}
         {% elsif normalized_path contains '/appendices/' %}
             {% assign appendix_id = normalized_path | remove_first: '/appendices/' | split: '/' | first %}
             {% assign edit_path = 'src/' | append: page_locale | append: '/appendices/' | append: appendix_id | append: '.md' %}

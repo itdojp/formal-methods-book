@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const yaml = require('yaml');
 
 const repoRoot = path.resolve(__dirname, '..');
 const japanesePattern = /[\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Han}]/u;
@@ -20,105 +21,8 @@ function readJson(relativePath) {
   return JSON.parse(readFile(relativePath));
 }
 
-function parseScalar(rawValue) {
-  const trimmed = String(rawValue).trim();
-  if (trimmed.startsWith('"') && trimmed.endsWith('"')) {
-    return trimmed.slice(1, -1);
-  }
-  if (trimmed.startsWith("'") && trimmed.endsWith("'")) {
-    return trimmed.slice(1, -1);
-  }
-  if (/^-?\d+$/.test(trimmed)) {
-    return Number(trimmed);
-  }
-  return trimmed;
-}
-
-function parseNavigationYaml(text) {
-  const result = {};
-  let currentLocale = null;
-  let currentSection = null;
-  let currentItem = null;
-
-  for (const rawLine of text.split(/\r?\n/)) {
-    const line = rawLine.replace(/\t/g, '    ');
-    if (!line.trim() || line.trim().startsWith('#')) {
-      continue;
-    }
-
-    let match = line.match(/^([a-z]{2}):\s*$/);
-    if (match) {
-      currentLocale = match[1];
-      currentSection = null;
-      currentItem = null;
-      result[currentLocale] = {};
-      continue;
-    }
-
-    match = line.match(/^  ([a-z_]+):\s*$/);
-    if (match && currentLocale) {
-      currentSection = match[1];
-      currentItem = null;
-      result[currentLocale][currentSection] = [];
-      continue;
-    }
-
-    match = line.match(/^    - ([a-z_]+):\s*(.+)\s*$/);
-    if (match && currentLocale && currentSection) {
-      currentItem = { [match[1]]: parseScalar(match[2]) };
-      result[currentLocale][currentSection].push(currentItem);
-      continue;
-    }
-
-    match = line.match(/^      ([a-z_]+):\s*(.+)\s*$/);
-    if (match && currentItem) {
-      currentItem[match[1]] = parseScalar(match[2]);
-    }
-  }
-
-  return result;
-}
-
-function parseLocalesYaml(text) {
-  const result = {};
-  let currentLocale = null;
-  let currentGroup = null;
-
-  for (const rawLine of text.split(/\r?\n/)) {
-    const line = rawLine.replace(/\t/g, '    ');
-    if (!line.trim() || line.trim().startsWith('#')) {
-      continue;
-    }
-
-    let match = line.match(/^([a-z]{2}):\s*$/);
-    if (match) {
-      currentLocale = match[1];
-      currentGroup = null;
-      result[currentLocale] = {};
-      continue;
-    }
-
-    match = line.match(/^  ([a-z_]+):\s*(.+)?\s*$/);
-    if (match && currentLocale) {
-      const key = match[1];
-      const value = match[2];
-      if (value === undefined || value === '') {
-        currentGroup = key;
-        result[currentLocale][currentGroup] = {};
-      } else {
-        currentGroup = null;
-        result[currentLocale][key] = parseScalar(value);
-      }
-      continue;
-    }
-
-    match = line.match(/^    ([a-z_]+):\s*(.+)\s*$/);
-    if (match && currentLocale && currentGroup) {
-      result[currentLocale][currentGroup][match[1]] = parseScalar(match[2]);
-    }
-  }
-
-  return result;
+function readYaml(relativePath) {
+  return yaml.parse(readFile(relativePath));
 }
 
 function collectMarkdownFiles(dir, matcher) {
@@ -203,8 +107,8 @@ function main() {
   const manifest = readJson('book-config.json');
   const jaConfig = readJson('book-config.ja.json');
   const enConfig = readJson('book-config.en.json');
-  const navigation = parseNavigationYaml(readFile('docs/_data/navigation.yml'));
-  const locales = parseLocalesYaml(readFile('docs/_data/locales.yml'));
+  const navigation = readYaml('docs/_data/navigation.yml');
+  const locales = readYaml('docs/_data/locales.yml');
 
   if (manifest.project?.defaultEdition !== 'ja') {
     errors.push('book-config.json: defaultEdition must remain "ja".');

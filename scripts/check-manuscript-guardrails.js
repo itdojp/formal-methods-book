@@ -3,6 +3,13 @@
 
 const fs = require('fs');
 const path = require('path');
+const IGNORED_DIR_NAMES = new Set([
+  '.git',
+  'node_modules',
+  '_site',
+  '.jekyll-cache',
+  '.sass-cache',
+]);
 
 const DEFAULT_SCAN_DIR = 'docs';
 
@@ -36,6 +43,9 @@ function getMarkdownFiles(scanDir) {
     for (const entry of entries) {
       const entryPath = path.join(rootDir, entry.name);
       if (entry.isDirectory()) {
+        if (IGNORED_DIR_NAMES.has(entry.name)) {
+          continue;
+        }
         filePaths.push(...collectMarkdownFiles(entryPath));
         continue;
       }

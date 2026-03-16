@@ -84,7 +84,7 @@
 - [付録D: 演習問題解答]({{ '/appendices/appendix-d/' | relative_url }})
 - [付録E: 参考文献とWebリソース]({{ '/appendices/appendix-e/' | relative_url }})
 - [付録F: AI支援の実践ガイド]({{ '/appendices/appendix-f/' | relative_url }})
-- [あとがき]({{ '/afterword/' | relative_url }})
+- [おわりに]({{ '/afterword/' | relative_url }})
 
 ## ライセンス
 
