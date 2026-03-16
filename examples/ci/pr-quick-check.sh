@@ -11,6 +11,8 @@ bash tools/bootstrap.sh
 
 bash tools/alloy-check.sh examples/alloy/collection.als
 bash tools/alloy-check.sh examples/ch04/university-enrollment.als
+bash tools/alloy-check.sh examples/ch04/leader-election.als
+bash tools/alloy-check.sh examples/alloy/trash-temporal.als
 
 bash tools/tlc-run.sh \
   --config examples/tla/QueueBounded.cfg \

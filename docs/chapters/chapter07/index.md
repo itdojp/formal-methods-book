@@ -775,7 +775,7 @@ ASSUME
 TLCの動作は、設定ファイル（.cfg）で制御されます。このファイルで、定数値、初期述語、次状態述語、検証する性質などを指定します。
 
 【ツール準拠（そのまま動く）】
-```text
+```cfg
 \* BankingSystem.cfg
 CONSTANTS
   Accounts = {"A1", "A2", "A3"}
@@ -846,7 +846,7 @@ StateConstraint ≜
 TLCが不変条件違反を発見すると、問題が発生するまでの実行トレースを出力します。このトレースの分析は、問題の根本原因を理解するために重要です。
 
 **典型的な出力例**：
-【ツール準拠（そのまま動く）】
+【擬似記法】
 ```text
 Error: Invariant SafetyInvariant is violated.
 
@@ -901,7 +901,7 @@ EventualProgress ≜
 大きな状態空間を持つシステムでは、完全な検証が困難な場合があります。TLCは、ランダムサンプリングによる確率的検証もサポートします。
 
 【ツール準拠（そのまま動く）】
-```text
+```cfg
 \* 設定ファイルでの指定
 CONSTRAINT StateConstraint
 SYMMETRY Symmetries  

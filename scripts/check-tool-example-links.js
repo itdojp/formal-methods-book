@@ -8,6 +8,7 @@ const REQUIRED_REFERENCES = [
     chapterPath: 'src/chapters/chapter04.md',
     examplePaths: [
       'examples/ch04/university-enrollment.als',
+      'examples/ch04/leader-election.als',
       'examples/alloy/trash-temporal.als',
     ],
   },
@@ -15,6 +16,7 @@ const REQUIRED_REFERENCES = [
     chapterPath: 'docs/chapters/chapter04/index.md',
     examplePaths: [
       'examples/ch04/university-enrollment.als',
+      'examples/ch04/leader-election.als',
       'examples/alloy/trash-temporal.als',
     ],
   },

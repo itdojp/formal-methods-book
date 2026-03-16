@@ -122,7 +122,7 @@ sig Course {}
 
 Alloyの基本的な構成要素は「アトム（atom）」です。アトムは、分割できない基本的な要素で、システムの登場人物や物体を表します。アトムは「シグネチャ（signature）」によってグループ化されます。
 
-【ツール準拠（そのまま動く）】
+【擬似記法】
 ```text
 sig Person {
     age: Int,
@@ -146,7 +146,7 @@ sig Teacher extends Person {
 
 この関係表現により、複雑な構造を簡潔に記述できます：
 
-【ツール準拠（そのまま動く）】
+【擬似記法】
 ```text
 sig File {
     parent: lone Directory,  // 最大1つのディレクトリが親
@@ -162,7 +162,7 @@ sig Directory {
 
 Alloyでは、システムが満たすべき制約を「ファクト（fact）」として記述します。ファクトは、すべての有効なモデルで成り立つべき性質です。
 
-【ツール準拠（そのまま動く）】
+【擬似記法】
 ```text
 fact NoSelfLoop {
     // 人は自分自身の友達にはなれない
@@ -521,7 +521,7 @@ module LeaderElection
 sig Node {
     id: one Int,
     leader: Node lone -> Time,
-    alive: Boolean one -> Time
+    alive: set Time
 }
 
 sig Message {
@@ -547,23 +547,23 @@ fact InitialState {
     some first: Time | no first.~next and
         all n: Node | 
             no n.leader.first and
-            n.alive.first = True
+            first in n.alive
 }
 
 // リーダー選出プロセス
 pred startElection[n: Node, t: Time] {
-    n.alive.t = True
+    t in n.alive
     no n.leader.t  // リーダーが決まっていない
     
     // より高いIDを持つノードに選出メッセージを送信
-    all higher: Node | higher.id > n.id and higher.alive.t = True implies
+    all higher: Node | higher.id > n.id and t in higher.alive implies
         some m: Message | 
             m.from = n and m.to = higher and 
             m.content = Election and m.timestamp = t
 }
 
 pred respondToElection[receiver: Node, sender: Node, t: Time] {
-    receiver.alive.t = True
+    t in receiver.alive
     receiver.id > sender.id  // 受信者のIDが高い
     
     // OK応答を送信
@@ -577,7 +577,7 @@ pred respondToElection[receiver: Node, sender: Node, t: Time] {
 
 pred becomeLeader[n: Node, t, tNext: Time] {
     tNext = t.next
-    n.alive.t = True
+    t in n.alive
     
     // タイムアウト内にOK応答がなかった
     no m: Message | 
@@ -587,7 +587,7 @@ pred becomeLeader[n: Node, t, tNext: Time] {
     n.leader.tNext = n
     
     // より低いIDのノードにCoordinatorメッセージを送信
-    all lower: Node | lower.id < n.id and lower.alive.t = True implies
+    all lower: Node | lower.id < n.id and t in lower.alive implies
         some m: Message |
             m.from = n and m.to = lower and
             m.content = Coordinator and m.timestamp = tNext
@@ -600,19 +600,21 @@ assert LeaderUniqueness {
 
 assert LeaderIsAlive {
     all n: Node, t: Time | 
-        n.leader.t = n implies n.alive.t = True
+        n.leader.t = n implies t in n.alive
 }
 
 assert HighestIdWins {
     all t: Time, n: Node |
         n.leader.t = n implies
-            (no higher: Node | higher.id > n.id and higher.alive.t = True)
+            (no higher: Node | higher.id > n.id and t in higher.alive)
 }
 
 check LeaderUniqueness for 5 Node, 10 Message, 8 Time
 check LeaderIsAlive for 5 Node, 10 Message, 8 Time  
 check HighestIdWins for 5 Node, 10 Message, 8 Time
 ```
+
+自己完結した実行例は `examples/ch04/leader-election.als` を参照してください。
 
 これらの実例は、第8章の模型検査や第11章の開発プロセス統合で再び参照され、Alloyモデルの実用的価値を具体的に示しています。
 
@@ -1210,6 +1212,8 @@ Alloyは伝統的に「静的構造（関係）」の整合性確認に強い一
 
 【ツール準拠（そのまま動く）】
 ```alloy
+sig File {}
+
 var sig Trash in File {}
 
 pred delete[f: File] {

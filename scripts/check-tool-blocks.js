@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 
-const { execSync } = require('child_process');
+const { execFileSync } = require('child_process');
 const fs = require('fs');
 
 const CODE_LABEL_VARIANTS = [
@@ -32,6 +32,11 @@ const ALLOY_ENGLISH_INFIX_PATTERN = /\b\w+\s+can\s+(access|read)\s+\w+\b/;
 const ALLOY_ORDERING_OPEN_PATTERN = /\bopen\s+util\/ordering\s*\[/;
 const ALLOY_NEXT_DEFINITION_PATTERN = /\bnext\s*[:=]/;
 const ALLOY_NEXT_USAGE_PATTERN = /(\.next\b|(\^|\*)(\s*~)?\s*next\b|~\s*next\b)/;
+const STRICT_TOOL_DISALLOWED_FENCE_LANGS = new Set(['', 'text', 'plaintext']);
+const ALLOY_BOOLEAN_TYPE_PATTERN = /\bBoolean\b/;
+const ALLOY_BOOLEAN_LITERAL_PATTERN = /\b(True|False)\b/;
+const ALLOY_BOOLEAN_OPEN_PATTERN = /\bopen\s+util\/boolean\b/;
+const ALLOY_BOOL_TYPE_PATTERN = /\bBool\b/;
 
 function getLabelVariant(label) {
   return CODE_LABEL_VARIANTS.find((v) => v.label === label) ?? null;
@@ -40,6 +45,11 @@ function getLabelVariant(label) {
 function getPseudoLabelForCodeLabel(label) {
   const variant = getLabelVariant(label);
   return variant ? variant.pseudo : '【擬似記法】/〖擬似記法〗';
+}
+
+function getContextLabelForCodeLabel(label) {
+  if (label.startsWith('〖')) return '〖文脈依存スニペット〗';
+  return '【文脈依存スニペット】';
 }
 
 function getStandaloneCodeLabel(line) {
@@ -54,7 +64,7 @@ function findCodeLabelInLine(line) {
 function getTrackedMarkdownFiles() {
   let out;
   try {
-    out = execSync('git ls-files', { encoding: 'utf8' });
+    out = execFileSync('git', ['ls-files'], { encoding: 'utf8' });
   } catch (err) {
     console.error(
       'Failed to list tracked files using "git ls-files". ' +
@@ -132,6 +142,17 @@ function checkFile(filePath) {
     const fenceHeader = lines[fenceStartLine].trim();
     const fenceLang = fenceHeader.slice(3).trim().toLowerCase();
 
+    if (isStrictToolLabel && STRICT_TOOL_DISALLOWED_FENCE_LANGS.has(fenceLang)) {
+      const contextLabel = getContextLabelForCodeLabel(standaloneCodeLabel);
+      errors.push({
+        line: fenceStartLine + 1,
+        message:
+          `${standaloneCodeLabel} のコードフェンス言語が ${fenceLang || '(未指定)'} です。` +
+          '実行可能な入力なら実言語（alloy/smv/promela/...）を指定し、' +
+          `説明用断片なら${contextLabel}または${pseudoLabel}へ変更してください`,
+      });
+    }
+
     let fenceEndLine = fenceStartLine + 1;
     let foundEnd = false;
     let ellipsisLine = null;
@@ -140,6 +161,9 @@ function checkFile(filePath) {
     let alloyNextUsageLine = null;
     let sawAlloyOrderingOpen = false;
     let sawAlloyNextDefinition = false;
+    let alloyBooleanMisuseLine = null;
+    let sawAlloyBooleanOpen = false;
+    let sawAlloyBoolType = false;
     for (; fenceEndLine < lines.length; fenceEndLine++) {
       if (lines[fenceEndLine].trim() === '```') {
         foundEnd = true;
@@ -162,7 +186,7 @@ function checkFile(filePath) {
 
       if (fenceLang === 'alloy') {
         const trimmed = line.trim();
-        const isCommentLine = trimmed.startsWith('//') || trimmed.startsWith('#');
+        const isCommentLine = trimmed.startsWith('//') || trimmed.startsWith('--');
         if (!isCommentLine) {
           if (!sawAlloyOrderingOpen && ALLOY_ORDERING_OPEN_PATTERN.test(line)) {
             sawAlloyOrderingOpen = true;
@@ -170,11 +194,23 @@ function checkFile(filePath) {
           if (!sawAlloyNextDefinition && ALLOY_NEXT_DEFINITION_PATTERN.test(line)) {
             sawAlloyNextDefinition = true;
           }
+          if (!sawAlloyBooleanOpen && ALLOY_BOOLEAN_OPEN_PATTERN.test(line)) {
+            sawAlloyBooleanOpen = true;
+          }
+          if (!sawAlloyBoolType && ALLOY_BOOL_TYPE_PATTERN.test(line)) {
+            sawAlloyBoolType = true;
+          }
           if (alloyEnglishInfixLine === null && ALLOY_ENGLISH_INFIX_PATTERN.test(line)) {
             alloyEnglishInfixLine = fenceEndLine;
           }
           if (alloyNextUsageLine === null && ALLOY_NEXT_USAGE_PATTERN.test(line)) {
             alloyNextUsageLine = fenceEndLine;
+          }
+          if (
+            alloyBooleanMisuseLine === null &&
+            (ALLOY_BOOLEAN_TYPE_PATTERN.test(line) || ALLOY_BOOLEAN_LITERAL_PATTERN.test(line))
+          ) {
+            alloyBooleanMisuseLine = fenceEndLine;
           }
         }
       }
@@ -216,6 +252,22 @@ function checkFile(filePath) {
         message:
           `${standaloneCodeLabel} のAlloyコードブロック内で next（例: .next / ^next / *next / ~next）を使用していますが、` +
           '`open util/ordering[...]` も `next:` 定義も見つかりません。ブロック単体で成立するよう補ってください',
+      });
+    }
+
+    if (
+      isStrictToolLabel &&
+      fenceLang === 'alloy' &&
+      alloyBooleanMisuseLine !== null &&
+      !sawAlloyBooleanOpen &&
+      !sawAlloyBoolType
+    ) {
+      errors.push({
+        line: alloyBooleanMisuseLine + 1,
+        message:
+          `${standaloneCodeLabel} のAlloyコードブロック内で Boolean / True / False を使用していますが、` +
+          '`open util/boolean` や `Bool` の利用が見つかりません。' +
+          'boolean モジュールを明示するか、`set Time` などの Alloy らしい表現へ変更してください',
       });
     }
 
