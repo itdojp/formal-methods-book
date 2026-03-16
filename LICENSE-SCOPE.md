@@ -26,12 +26,15 @@
 - `docs/introduction/**`
 - `docs/index.md`
 - `src/**`
-- `manuscript/**`
 - `glossary-terms.md`
 - `glossary.json`
 - `book-config.json`
+- `book-config.ja.json`
+- `book-config.en.json`
 - `book-config.sample.json`
 - `mobile-config.json`
+- `mobile-config.ja.json`
+- `mobile-config.en.json`
 - `docs/assets/figures/**`
 - `docs/assets/images/**`
 - `docs/assets/diagrams/**`
@@ -82,6 +85,7 @@
 `docs/_data/**` は file-by-file で確認しました。
 
 - `docs/_data/navigation.yml`: 章タイトル・付録タイトル・見出しなど reader-facing なラベルを含むため、`CC BY-NC-SA 4.0`
+- `docs/_data/locales.yml`: 言語名・UI ラベル・footer 文言など reader-facing な文字列を含むため、`CC BY-NC-SA 4.0`
 
 今後 `docs/_data/**` に新規ファイルを追加する場合は、reader-facing なラベル・説明を主とするものは `CC BY-NC-SA 4.0`、サイト生成のための純粋なメタデータは `Apache-2.0` とします。
 
@@ -91,7 +95,6 @@
 
 - `docs/**`
 - `src/**`
-- `manuscript/**`
 
 ## 除外対象
 

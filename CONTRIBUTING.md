@@ -51,7 +51,7 @@ reader-facing な本文系コンテンツの商用利用を希望する場合は
 - コントリビューション内容が `LICENSE-SCOPE.md` に記載した既定ライセンスで提供されること
 - reader-facing な本文系コンテンツへのコントリビューションは `CC BY-NC-SA 4.0` で提供されること
 - コード例・ツール・ビルド・サイト実装へのコントリビューションは `Apache-2.0` で提供されること
-- `docs/**` / `src/**` / `manuscript/**` に含まれる executable code snippets 等は、別注記がない限り `Apache-2.0` の carve-out を適用すること
+- `docs/**` / `src/**` に含まれる executable code snippets 等は、別注記がない限り `Apache-2.0` の carve-out を適用すること
 - 株式会社アイティードゥが reader-facing な本文系コンテンツに関する商用ライセンス契約において当該コントリビューション内容を利用できること
 
 ## 📞 お問い合わせ
