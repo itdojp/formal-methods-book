@@ -7,6 +7,9 @@ on:
     - cron: "0 2 * * *"
   workflow_dispatch: {}
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
 permissions:
   contents: read
 
@@ -14,13 +17,13 @@ jobs:
   pr-quick:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: "17"
       - name: Cache formal tools
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: tools/.cache
           key: formal-tools-${{ runner.os }}-alloy6.2.0-tla1.7.4-apalache0.52.1-dafny4.11.0
@@ -28,7 +31,7 @@ jobs:
         run: bash examples/ci/pr-quick-check.sh
       - name: Upload artifacts (counterexamples, logs)
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: formal-artifacts-pr
           path: .artifacts
@@ -37,13 +40,13 @@ jobs:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: "17"
       - name: Cache formal tools
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: tools/.cache
           key: formal-tools-${{ runner.os }}-alloy6.2.0-tla1.7.4-apalache0.52.1-dafny4.11.0
@@ -63,7 +66,7 @@ jobs:
           bash tools/dafny-verify.sh examples/dafny/Abs.dfy
       - name: Upload artifacts (counterexamples, logs)
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: formal-artifacts-nightly
           path: .artifacts

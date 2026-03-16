@@ -5,6 +5,9 @@ on:
   push:
     branches: [ main ]
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
 jobs:
   qa:
     runs-on: ubuntu-latest
@@ -14,10 +17,10 @@ jobs:
 
     steps:
       - name: Checkout book
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Checkout book-formatter (pinned)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: itdojp/book-formatter
           ref: 2a0180954286b731cb0d91545aa77e9ee478570d
@@ -73,7 +76,7 @@ jobs:
 
       - name: Upload markdown structure report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: markdown-structure-report
           path: ${{ runner.temp }}/markdown-structure-report.json
@@ -81,7 +84,7 @@ jobs:
 
       - name: Upload layout risk report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: layout-risk-report
           path: ${{ runner.temp }}/layout-risk-report.json
