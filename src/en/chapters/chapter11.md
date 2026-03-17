@@ -1381,9 +1381,11 @@ The plan should include:
    - concrete process-integration design
    - quality-measurement methods
 
-**Submission format**: an executive proposal of 20 to 30 pages.
+**Suggested output**: an executive proposal outline. If you want to work the
+exercise in a workplace-ready format, aim for roughly 20 to 30 pages or an
+equivalent slide deck.
 
-**Evaluation criteria**:
+**Self-review checklist**:
 
 - depth and accuracy of the analysis
 - realism and executability of the strategy

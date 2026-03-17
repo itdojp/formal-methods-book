@@ -784,6 +784,9 @@ how to use the data structure correctly.
 
 ## End-of-Chapter Exercises
 
+Treat these as specification drills. A short worked example or design note is
+enough, as long as the contract, invariants, and reasoning steps are explicit.
+
 ### Basic Exercise 1: Identifying Ambiguity
 
 Identify the ambiguous parts of the following natural-language specification and
