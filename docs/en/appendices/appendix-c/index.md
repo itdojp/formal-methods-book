@@ -43,15 +43,15 @@ Chapter 6 on CSP, and Chapter 7 on TLA+.
 
 When reading chapter examples, three block labels matter:
 
-- **Tool-compliant blocks**: notation intended to be copied into a tool or CLI
-  and run as-is, although project-specific filenames or configuration may still
-  be required
-- **Context-dependent snippets**: real tool syntax shown as a fragment; you
-  still need declarations, a model, a harness, or surrounding context from the
-  chapter
-- **Pseudo-notation blocks**: explanatory notation that may contain
-  mathematical symbols, omission, or output examples and should therefore not
-  be pasted into a tool unchanged
+- **Tool-compliant blocks** (`&#12304;Tool-compliant (runs as-is)&#12305;`): notation
+  intended to be copied into a tool or CLI and run as-is, although
+  project-specific filenames or configuration may still be required
+- **Context-dependent snippets** (`&#12304;Context-dependent snippet&#12305;`): real
+  tool syntax shown as a fragment; you still need declarations, a model, a
+  harness, or surrounding context from the chapter
+- **Pseudo-notation blocks** (`&#12304;Pseudo notation&#12305;`): explanatory notation
+  that may contain mathematical symbols, omission, or output examples and
+  should therefore not be pasted into a tool unchanged
 
 Notes:
 - Inside a tool-compliant block, include only strings that are valid as tool
