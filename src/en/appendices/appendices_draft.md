@@ -1,10 +1,13 @@
 # Appendix Drafts
 
+> Translation status: draft note  
+> Japanese source of truth: `src/ja/appendices/appendices_draft.md`
+
 This file preserves the historical draft-appendix path from the Japanese edition.
 It is not part of the published English book.
 
 The reader-facing English appendix content is maintained in the split appendix files
-below, which are the current source of truth for the English edition:
+below, which currently hold the maintained appendix content for the English edition:
 
 - `src/en/appendices/appendix-a.md`
 - `src/en/appendices/appendix-b.md`
