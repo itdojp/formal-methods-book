@@ -1618,7 +1618,7 @@ Implementation requirements:
 3. guarantee array-bound safety
 4. make the tool verification succeed automatically
 
-Suggested output:
+**Suggested output**
 
 - the full implementation
 - the verification-tool output
@@ -1648,7 +1648,7 @@ Choose part of a practical system and apply formal verification.
 - prevent deadlock
 - preserve production-consumption consistency
 
-Suggested analysis outline:
+**Suggested analysis outline**
 
 1. justify the chosen target system
 2. identify the properties to verify
@@ -1679,7 +1679,7 @@ Use the following checklist to evaluate your result.
 - effective use of tools
 - applicability to real projects
 
-**Judgment**
+**Creativity**
 
 - originality of the approach
 - quality of handling complex problems
