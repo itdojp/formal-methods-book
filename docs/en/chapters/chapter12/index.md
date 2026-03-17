@@ -625,3 +625,45 @@ Design a formal-methods toolchain for a large organization.
 - Technical domains: embedded systems, real-time control, and machine learning
 - Quality requirements: `ISO 26262` for functional safety and national autonomous-driving regulations
 - Existing tools: `MATLAB/Simulink`, `AUTOSAR`, `Git`, and `Jenkins`
+
+**Design requirements**:
+1. **Overall toolchain design**:
+   - An integrated workflow from specification through implementation and verification
+   - Methods for integrating with the existing tool stack
+   - Mechanisms that support collaboration across multiple sites
+
+2. **Staged rollout plan**:
+   - A three-year introduction roadmap
+   - Goals and success indicators for each stage
+   - Risk-mitigation measures and fallback options
+
+3. **Operating model**:
+   - Role allocation between specialist teams and general developers
+   - An education and training program
+   - Integration with the quality-assurance process
+
+4. **Technical detail**:
+   - Data-exchange formats between tools
+   - Version control and traceability
+   - Measures for performance and scalability
+
+5. **Economic evaluation**:
+   - An investment plan covering initial investment and operating cost
+   - ROI calculation and business-case framing
+   - A method for continuous benefit measurement
+
+**Suggested output**: a technical-lead proposal outline. If you want to work
+the exercise in a workplace-ready format, aim for roughly 30 to 40 pages or an
+equivalent architecture and rollout deck.
+
+**Self-review checklist**:
+
+- the workflow connects specification, implementation, and verification without
+  hand-waving
+- the rollout plan is staged and measurable
+- governance, training, and tooling assumptions fit the organization profile
+- economic justification is concrete enough for leadership review
+
+Through these exercises, aim to build practical judgment and design skill for
+tools and automation, and to make formal methods usable in real projects
+rather than only in isolated demonstrations.
