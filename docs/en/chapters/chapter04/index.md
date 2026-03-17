@@ -317,7 +317,8 @@ signatures.
 ```alloy
 abstract sig Contact {
     name: one Name,
-    address: lone Address
+    address: lone Address,
+    friends: set Contact
 }
 
 sig PersonalContact extends Contact {
@@ -494,7 +495,7 @@ fact ValidQuantities {
 
 fact OrderIntegrity {
     all o: Order | some o.items
-    all item: OrderItem | one orders.items.item
+    all item: OrderItem | one item.~items
 }
 
 pred reserveStock[b: Book, qty: Int, t, tNext: Time] {
@@ -655,7 +656,7 @@ sig Group {
 }
 
 sig File {
-    owner: one User,
+    owner: lone User,
     readers: set User,
     groups: set Group
 }
