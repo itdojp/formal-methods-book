@@ -7,9 +7,6 @@ source_path: "src/en/chapters/chapter04.md"
 ---
 # Chapter 4: Introduction to Lightweight Formal Methods: Specification with Alloy
 
-> Translation status: full draft  
-> Japanese source of truth: `src/ja/chapters/chapter04.md`
-
 ## 4.1 The Philosophy of Alloy: A Lightweight but Powerful Approach
 
 ### The Real Meaning of "Lightweight"

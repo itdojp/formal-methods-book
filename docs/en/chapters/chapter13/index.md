@@ -7,9 +7,6 @@ source_path: "src/en/chapters/chapter13.md"
 ---
 # Chapter 13: Case Studies
 
-> Translation status: full draft  
-> Japanese source of truth: `src/ja/chapters/chapter13.md`
-
 ## 13.1 Methodology for Case Studies: Learning from Success and Failure
 
 ### The Value and Significance of Case Studies

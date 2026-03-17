@@ -7,9 +7,6 @@ source_path: "src/en/appendices/appendix-d.md"
 ---
 # Appendix D: Exercise Solutions (Hints / Model Answers / Rubrics)
 
-> Translation status: full draft  
-> Japanese source of truth: `src/ja/appendices/appendix-d.md`
-
 This appendix is a collection of templates intended to clarify what should be produced as a submission for each end-of-chapter exercise.
 Because end-of-chapter exercises do not usually have a single unique answer, this appendix focuses on the **solution skeleton** (minimum structure) and the **rubric**.
 

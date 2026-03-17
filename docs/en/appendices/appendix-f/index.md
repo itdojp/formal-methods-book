@@ -7,9 +7,6 @@ source_path: "src/en/appendices/appendix-f.md"
 ---
 # Appendix F: Practical Guide to Running Formal Specification and Verification with AI Assistance
 
-> Translation status: full draft  
-> Japanese source of truth: `src/ja/appendices/appendix-f.md`
-
 This appendix collects practical templates for running specification work and verification with AI assistance. Treat AI output as a proposal, and operate on the assumption that final judgment is delegated to verifiers such as `TLC`, `Alloy`, `Rocq` (formerly `Coq`), and `Dafny`.
 
 ## F.1 Assumptions in the AI Era

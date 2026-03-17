@@ -43,6 +43,13 @@ function readMarkdownTitle(content, fallback) {
   return fallback;
 }
 
+function stripEnglishTranslationMetadata(content) {
+  return content.replace(
+    /(^# [^\r\n]+\r?\n\r?\n)> Translation status:[^\r\n]*\r?\n> Japanese source of truth:[^\r\n]*\r?\n\r?\n/,
+    '$1'
+  );
+}
+
 function wrapWithFrontMatter({ title, locale, sourcePath }, content) {
   const lines = [
     '---',
@@ -137,7 +144,10 @@ function buildEdition(locale) {
     const outputFile = mapOutputFile(locale, relativePath);
     if (!outputFile) continue;
 
-    const content = fs.readFileSync(sourceFile, 'utf8');
+    let content = fs.readFileSync(sourceFile, 'utf8');
+    if (locale === 'en') {
+      content = stripEnglishTranslationMetadata(content);
+    }
     const title = readMarkdownTitle(content, path.basename(relativePath, '.md'));
     const wrapped = wrapWithFrontMatter({
       title,

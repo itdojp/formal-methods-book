@@ -7,9 +7,6 @@ source_path: "src/en/chapters/chapter07.md"
 ---
 # Chapter 7: Specifying Time: Introduction to TLA+
 
-> Translation status: full draft  
-> Japanese source of truth: `src/ja/chapters/chapter07.md`
-
 ## 7.1 The Challenge of Distributed Systems: Time and State Become Complex
 
 ### The Fundamental Difficulty of Distribution

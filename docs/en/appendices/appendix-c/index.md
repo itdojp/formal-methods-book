@@ -7,9 +7,6 @@ source_path: "src/en/appendices/appendix-c.md"
 ---
 # Appendix C: Notation Cross-Reference
 
-> Translation status: full draft  
-> Japanese source of truth: `src/ja/appendices/appendix-c.md`
-
 This appendix collects the minimum set of frequently used terms and symbols in formal methods together with the Definition of Done checklist for the AI era.
 
 ## C.1 Glossary
