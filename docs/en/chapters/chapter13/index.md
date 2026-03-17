@@ -7,6 +7,9 @@ source_path: "src/en/chapters/chapter13.md"
 ---
 # Chapter 13: Case Studies
 
+> Translation status: full draft  
+> Japanese source of truth: `src/ja/chapters/chapter13.md`
+
 ## 13.1 Methodology for Case Studies: Learning from Success and Failure
 
 ### The Value and Significance of Case Studies
@@ -130,7 +133,7 @@ The following sections apply this analytical framework to concrete cases. Each c
 
 ### Project Overview and Background
 
-Paris Métro Line 14, the Météor line, opened in 1998 as the world’s first fully automated metro system. The project attracted international attention as a representative case in which formal methods were applied successfully to a large-scale safety-critical system.
+Paris Métro Line 14, the Météor line, opened in 1998 as one of the earliest large-scale fully automated metro lines in the world. The project attracted international attention as a representative case in which formal methods were applied successfully to a large-scale safety-critical system.
 
 **Formalization and Scope of Assurance (Summary)**
 - Formalized target: the states, operations, and safety constraints of train control, including minimum distance and speed limits
@@ -261,20 +264,20 @@ The Paris Métro Line 14 project remains a landmark case showing that formal met
 
 ### Project Background and Motivation
 
-Amazon Web Services (`AWS`) launched the `s2n` project in 2015 as a representative example of using formal verification on an implementation of the `TLS` (`Transport Layer Security`) protocol. The project emerged from the increasing importance of security in cloud services and from the limits of conventional testing.
+Amazon Web Services (AWS) launched the s2n project in 2015 as a representative example of using formal verification on an implementation of the TLS (Transport Layer Security) protocol. The project emerged from the increasing importance of security in cloud services and from the limits of conventional testing.
 
 **Formalization and Scope of Assurance (Summary)**
-- Formalized target: the correspondence between specifications and C implementations for selected components, including cryptographic primitives such as `HMAC`
-- Methods and tools: `SAW`, `Cryptol`, and related tooling for mechanical checking
+- Formalized target: the correspondence between specifications and C implementations for selected components, including cryptographic primitives such as HMAC
+- Methods and tools: SAW, Cryptol, and related tooling for mechanical checking
 - Verification targets: conformance to specification and properties related to boundary conditions such as size handling and error handling
 - Guarantees obtained: for the analyzed components, the implementation was shown to conform to the given specification under the stated assumptions, within the range of public information
-- Out of scope and assumptions: properties of the full `TLS` stack and the operational environment, including randomness, the operating system, and the network, still required separate modeling, review, and testing
+- Out of scope and assumptions: properties of the full TLS stack and the operational environment, including randomness, the operating system, and the network, still required separate modeling, review, and testing
 
 **The severity of the security risk**:
 
-`TLS` plays a central role in encrypting internet communication. If its implementation contains vulnerabilities, a large volume of communication becomes exposed to interception or tampering. Past incidents such as Heartbleed and Poodle demonstrate how important implementation correctness is in `TLS`.
+TLS plays a central role in encrypting internet communication. If its implementation contains vulnerabilities, a large volume of communication becomes exposed to interception or tampering. Past incidents such as Heartbleed and Poodle demonstrate how important implementation correctness is in TLS.
 
-In a large-scale cloud platform such as `AWS`, a vulnerability in a `TLS` implementation can affect millions of users directly. A single implementation bug can trigger a global security incident.
+In a large-scale cloud platform such as AWS, a vulnerability in a TLS implementation can affect millions of users directly. A single implementation bug can trigger a global security incident.
 
 **The limits of conventional methods**:
 
@@ -286,7 +289,7 @@ Code review also struggles to find subtle defects in cryptographic implementatio
 
 **The minimization principle**:
 
-The `s2n` library adopted a design strategy that reduced the attack surface by minimizing features. Compared with a general-purpose library such as `OpenSSL`, its functionality was narrower, but the verification boundary became much clearer.
+The s2n library adopted a design strategy that reduced the attack surface by minimizing features. Compared with a general-purpose library such as OpenSSL, its functionality was narrower, but the verification boundary became much clearer.
 
 Supported cipher suites were selected carefully, and deprecated or potentially weak legacy mechanisms were not implemented. That reduced both security risk and verification complexity.
 
@@ -298,21 +301,21 @@ Memory safety was treated as a first-class concern, and typical vulnerabilities 
 
 ### The Formal Verification Approach
 
-**Use of `SAW` (`Software Analysis Workbench`)**:
+**Use of SAW (Software Analysis Workbench)**:
 
-Amazon and Galois used `SAW` to perform formal verification of the `s2n` library. `SAW` can convert the behavior of C code into a mathematical model and verify cryptographic properties.
+Amazon and Galois used SAW to perform formal verification of the s2n library. SAW can convert the behavior of C code into a mathematical model and verify cryptographic properties.
 
-One of `SAW`’s distinguishing features is that it can analyze actual C code directly. Rather than verifying only an abstract model, it verifies the implementation itself, reducing the risk of a gap between model and implementation.
+One of SAW’s distinguishing features is that it can analyze actual C code directly. Rather than verifying only an abstract model, it verifies the implementation itself, reducing the risk of a gap between model and implementation.
 
 **A staged verification strategy**:
 
-Instead of attempting to verify the whole library at once, the team expanded the scope step by step, starting from the most important functions. They first proved the correctness of cryptographic primitives such as `AES` and `HMAC`, and then moved on to protocol logic.
+Instead of attempting to verify the whole library at once, the team expanded the scope step by step, starting from the most important functions. They first proved the correctness of cryptographic primitives such as AES and HMAC, and then moved on to protocol logic.
 
 At each function level, detailed specifications were written to define input-output relationships, memory-access patterns, and cryptographic properties mathematically.
 
 **Proof of cryptographic properties**:
 
-The team proved that the implementation of a cryptographic algorithm matched its mathematical specification. For example, they proved that the `AES` implementation produced results equivalent to the `NIST` standard for all possible inputs.
+The team proved that the implementation of a cryptographic algorithm matched its mathematical specification. For example, they proved that the AES implementation produced results equivalent to the NIST standard for all possible inputs.
 
 They also established constant-time execution properties that support resistance to timing attacks. In other words, execution time was shown not to depend on secret input data.
 
@@ -328,13 +331,13 @@ Potential vulnerabilities in memory management were also discovered and correcte
 
 The correctness of encryption and decryption was established mathematically. For every valid input, the implementation was guaranteed to produce the intended result.
 
-Memory safety was also proved. The absence of vulnerabilities such as buffer overflows, null-pointer dereferences, and use-after-free defects was demonstrated mathematically.
+For the analyzed components under the stated assumptions, memory-safety properties were also proved. The absence of vulnerabilities such as buffer overflows, null-pointer dereferences, and use-after-free defects was demonstrated mathematically for those verified parts.
 
 ### Integration with the Development Process
 
 **Continuous verification**:
 
-Formal verification was integrated into the continuous integration (`CI`) process. Whenever code changed, the related proofs were rerun automatically to reduce the risk of regressions.
+Formal verification was integrated into the continuous integration (CI) process. Whenever code changed, the related proofs were rerun automatically to reduce the risk of regressions.
 
 For critical functions, implementation changes also required updates to the corresponding formal specifications so that specification and implementation would remain synchronized.
 
@@ -350,11 +353,11 @@ Regular review meetings were used to share verification progress and discovered 
 
 The project deliberately favored verifiability over maximum performance optimization. Simpler, more provable implementations were preferred over more complex high-performance ones.
 
-At the same time, the library still had to satisfy the baseline performance requirements of `AWS`, so the design balanced practical usability against verification needs.
+At the same time, the library still had to satisfy the baseline performance requirements of AWS, so the design balanced practical usability against verification needs.
 
 **Constraints on optimization**:
 
-Common optimization techniques, such as loop unrolling or aggressive branch optimization, can make formal verification harder. `s2n` therefore used optimization only where verifiability could still be preserved.
+Common optimization techniques, such as loop unrolling or aggressive branch optimization, can make formal verification harder. s2n therefore used optimization only where verifiability could still be preserved.
 
 The requirement of constant-time execution ruled out many ordinary optimization techniques. This is a textbook example of the trade-off between security and performance.
 
@@ -362,15 +365,15 @@ The requirement of constant-time execution ruled out many ordinary optimization 
 
 **Open-source release**:
 
-The `s2n` library and the results of its formal verification were released as open source. That made it possible for other organizations to benefit from the same high-quality cryptographic implementation.
+The s2n library and the results of its formal verification were released as open source. That made it possible for other organizations to benefit from the same high-quality cryptographic implementation.
 
-The verification technique and tooling, including `SAW`, were also made public, contributing to broader adoption of formal verification technology.
+The verification technique and tooling, including SAW, were also made public, contributing to broader adoption of formal verification technology.
 
 **Influence on industry standards**:
 
-The success of `s2n` helped establish the importance of formal verification for cryptographic implementations. After that, other major cryptographic libraries also began considering formal verification.
+The success of s2n helped establish the importance of formal verification for cryptographic implementations. After that, other major cryptographic libraries also began considering formal verification.
 
-Standardization bodies such as `NIST` have also been advancing guidance related to formal verification of cryptographic implementations.
+Standardization bodies such as NIST have also been advancing guidance related to formal verification of cryptographic implementations.
 
 ### Economic Evaluation
 
@@ -380,7 +383,7 @@ Introducing formal verification increased development cost by roughly two to thr
 
 **Quantifying security value**:
 
-For a large-scale service such as `AWS`, the cost of a security incident can be enormous. A single vulnerability can plausibly lead to losses worth hundreds of millions of dollars, which makes the value of formal verification extremely high from a risk perspective.
+For a large-scale service such as AWS, the cost of a security incident can be enormous. A single vulnerability can plausibly lead to losses worth hundreds of millions of dollars, which makes the value of formal verification extremely high from a risk perspective.
 
 Formal verification also provides significant value by supporting continued customer trust.
 
@@ -388,7 +391,7 @@ Formal verification also provides significant value by supporting continued cust
 
 **Limited scope of application**:
 
-The `s2n` effort focused on selected cryptographic implementations rather than the full `TLS` protocol or the entire surrounding system. Stronger end-to-end assurance would require a broader verification scope.
+The s2n effort focused on selected cryptographic implementations rather than the full TLS protocol or the entire surrounding system. Stronger end-to-end assurance would require a broader verification scope.
 
 **Required expertise**:
 
@@ -398,13 +401,13 @@ Formal verification in this area requires a combination of expertise in cryptogr
 
 **Progress in automation**:
 
-As AI and machine learning continue to advance, more of the work that was manual in the `s2n` project may become automatable. That would reduce cost and widen practical adoption.
+As AI and machine learning continue to advance, more of the work that was manual in the s2n project may become automatable. That would reduce cost and widen practical adoption.
 
 **Expansion to other domains**:
 
-The methods established in `s2n` are also relevant to other security-critical software, including authentication systems, payment systems, and privacy-preserving systems.
+The methods established in s2n are also relevant to other security-critical software, including authentication systems, payment systems, and privacy-preserving systems.
 
-Amazon’s `s2n` project is an important example showing that formal methods can deliver practical value in large-scale systems of the cloud era. As security requirements keep rising, this kind of approach is becoming increasingly important.
+Amazon’s s2n project is an important example showing that formal methods can deliver practical value in large-scale systems of the cloud era. As security requirements keep rising, this kind of approach is becoming increasingly important.
 
 ## 13.4 Distributed Systems: Microsoft’s Use of TLA+
 
@@ -710,11 +713,11 @@ References (semi-primary and overview sources):
 
 ### Common Patterns Extracted from the Successful Cases
 
-When the cases discussed so far—Paris Métro Line 14, Amazon `s2n`, Microsoft’s use of `TLA+`, and automotive control systems—are analyzed side by side, clear common patterns emerge.
+When the cases discussed so far—Paris Métro Line 14, Amazon s2n, Microsoft’s use of TLA+, and automotive control systems—are analyzed side by side, clear common patterns emerge.
 
 **A clear problem definition and motivation**:
 
-In every successful case, formal methods were introduced to solve a concrete problem. On the Paris Metro project, the issue was fully autonomous operation. In `s2n`, it was removal of security vulnerabilities. At Microsoft, it was the design quality of distributed systems. In automotive systems, it was the need to assure safety. In each case, the triggering issue was concrete and urgent.
+In every successful case, formal methods were introduced to solve a concrete problem. On the Paris Métro project, the issue was fully autonomous operation. In s2n, it was removal of security vulnerabilities. At Microsoft, it was the design quality of distributed systems. In automotive systems, it was the need to assure safety. In each case, the triggering issue was concrete and urgent.
 
 This is a critical lesson. Formal methods do not achieve organizational success on the basis of academic interest alone. Their real power emerges when they are tied to clear business value or social value.
 
@@ -728,7 +731,7 @@ For Paris Métro Line 14, development began with basic control logic and gradual
 
 Successful cases did not choose the theoretically “best” technique in the abstract. They chose the method that best fit the situation. Practicality mattered more than perfection, and the selected technique matched both the problem domain and the organization’s maturity.
 
-The methods differed—`B-Method`, `SAW`, `TLA+`, and `SCADE`—but all were selected because they fit the target problem and the technical maturity of the organization.
+The methods differed—B-Method, SAW, TLA+, and SCADE—but all were selected because they fit the target problem and the technical maturity of the organization.
 
 ### Learning from Failure Patterns
 
