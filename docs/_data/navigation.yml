@@ -130,13 +130,13 @@ en:
     - title: "Appendix C: Notation Cross-Reference"
       path: "/en/appendices/appendix-c/"
       order: 17
-    - title: "Appendix D: Exercise Hints and Solutions"
+    - title: "Appendix D: Exercise Guides and Self-Review Frameworks"
       path: "/en/appendices/appendix-d/"
       order: 18
-    - title: "Appendix E: References and Web Resources"
+    - title: "Appendix E: References and Further Reading Paths"
       path: "/en/appendices/appendix-e/"
       order: 19
-    - title: "Appendix F: Practical Guide to AI Assistance"
+    - title: "Appendix F: Practical Playbook for AI-Assisted Formal Methods"
       path: "/en/appendices/appendix-f/"
       order: 20
   afterword:
