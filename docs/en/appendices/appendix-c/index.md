@@ -36,15 +36,17 @@ In AI-assisted development, the premise is that the correctness of outputs is ba
 The following table gives a minimum correspondence for how the same concept is expressed in each notation. Entries are limited to what is consistent with the chapter-level notation used in this book, especially Chapter 4 on Alloy, Chapter 5 on Z, Chapter 6 on CSP, and Chapter 7 on TLA+.
 
 Code-block labels:
-- **`【ツール準拠（そのまま動く）】`**: notation intended to be copied directly into a tool or CLI and executed as-is, although extra configuration may still be required depending on the environment.
-- **`【文脈依存スニペット】`**: syntax that follows a real tool, but is only a fragment and therefore requires declarations, a model, a harness, or an interactive context elsewhere.
-- **`【擬似記法】`**: notation used for explanation that may contain mathematical notation, omitted detail, or output examples and therefore is not guaranteed to be strict tool input.
+- **Tool-compliant blocks**: notation intended to be copied directly into a tool or CLI and executed as-is, although extra configuration may still be required depending on the environment.
+- **Context-dependent snippets**: syntax that follows a real tool, but is only a fragment and therefore requires declarations, a model, a harness, or an interactive context elsewhere.
+- **Pseudo-notation blocks**: notation used for explanation that may contain mathematical notation, omitted detail, or output examples and therefore is not guaranteed to be strict tool input.
+
+The actual block lines in this repository use the canonical labels enforced by the linter.
 
 Notes:
-- Inside a code fence labeled **`【ツール準拠（そのまま動く）】`**, include only strings that are valid as tool input. Do not mix in output examples, diagrams, or natural-language explanation.
-- If mandatory surrounding elements such as variable declarations, `MODULE main`, a verification harness, or an interactive context are defined elsewhere, use **`【文脈依存スニペット】`**.
-- If the surrounding mandatory elements are explicitly identified in the text or a referenced location, the fragment is treated as **`【文脈依存スニペット】`**. If references are not identified or the fragment includes mathematical notation, omission, or natural language, it is treated as **`【擬似記法】`**.
-- Diagrams, output examples, and pseudocode should use **`【擬似記法】`**.
+- Inside a tool-compliant block, include only strings that are valid as tool input. Do not mix in output examples, diagrams, or natural-language explanation.
+- If mandatory surrounding elements such as variable declarations, `MODULE main`, a verification harness, or an interactive context are defined elsewhere, use a context-dependent snippet.
+- If the surrounding mandatory elements are explicitly identified in the text or a referenced location, the fragment is treated as a context-dependent snippet. If references are not identified or the fragment includes mathematical notation, omission, or natural language, it is treated as pseudo-notation.
+- Diagrams, output examples, and pseudocode should use pseudo-notation.
 
 ### C.3.1 Concept Correspondence (Minimum Set)
 
