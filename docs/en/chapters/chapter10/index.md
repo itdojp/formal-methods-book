@@ -683,7 +683,7 @@ For loops:
 The classical rule for `while` loops is:
 
 ```text
-{I ∧ B} S {I}, {I ∧ ¬B} ⇒ {Q}
+{I ∧ B} S {I}, I ∧ ¬B ⇒ Q
 ────────────────────────────────
 {I} while B do S {Q}
 ```
