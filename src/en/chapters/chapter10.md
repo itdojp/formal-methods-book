@@ -1441,6 +1441,10 @@ discipline reinforce one another.
 
 ## End-of-Chapter Exercises
 
+Treat these as verification design drills. A worked proof sketch, verifier log,
+or short technical note is enough as long as the correctness argument is
+explicit.
+
 ### Basic Exercise 1: Foundations of Hoare Logic
 
 Construct suitable Hoare triples for the following program fragments.
@@ -1614,12 +1618,12 @@ Implementation requirements:
 3. guarantee array-bound safety
 4. make the tool verification succeed automatically
 
-Submission items:
+**Suggested output**
 
 - the full implementation
 - the verification-tool output
-- an explanation of problems found during verification and how you resolved
-  them
+- a short note explaining the proof obligations, tool findings, and how you
+  resolved the main verification issues
 
 ### Advanced Exercise: Partial Verification of a Practical System
 
@@ -1644,7 +1648,7 @@ Choose part of a practical system and apply formal verification.
 - prevent deadlock
 - preserve production-consumption consistency
 
-Verification report:
+**Suggested analysis outline**
 
 1. justify the chosen target system
 2. identify the properties to verify
@@ -1653,29 +1657,29 @@ Verification report:
 5. report problems found and proposed improvements
 6. discuss obstacles to wider practical deployment
 
-### Evaluation Criteria
+### Self-Review Checklist
 
-Evaluate the exercises from the following perspectives.
+Use the following checklist to evaluate your result.
 
-**Accuracy** (`40%`):
+**Accuracy**
 
 - correctness of the mathematical reasoning
 - suitability of the specification
 - completeness of the proof
 
-**Understanding** (`30%`):
+**Understanding**
 
 - correct understanding and use of the concepts
 - clear grasp of the essential problem structure
 - appropriate choice of method
 
-**Practicality** (`20%`):
+**Practicality**
 
 - consideration of realistic constraints
 - effective use of tools
 - applicability to real projects
 
-**Creativity** (`10%`):
+**Creativity**
 
 - originality of the approach
 - quality of handling complex problems
