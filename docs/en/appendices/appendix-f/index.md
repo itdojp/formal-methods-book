@@ -7,15 +7,25 @@ source_path: "src/en/appendices/appendix-f.md"
 ---
 # Appendix F: Practical Guide to Running Formal Specification and Verification with AI Assistance
 
-This appendix collects practical templates for running specification work and verification with AI assistance. Treat AI output as a proposal, and operate on the assumption that final judgment is delegated to verifiers such as `TLC`, `Alloy`, `Rocq` (formerly `Coq`), and `Dafny`.
+This appendix is a **reader-facing playbook** for using AI assistance without weakening formal assurance. Use it after Chapters 8–12 when you want to turn the book's main argument into a repeatable workflow: let AI draft, let tools judge, and keep the evidence needed for re-verification and review.  
+Treat AI output as a proposal, and operate on the assumption that final judgment is delegated to verifiers such as `TLC`, `Alloy`, `Rocq` (formerly `Coq`), and `Dafny`.
 
-## F.1 Assumptions in the AI Era
+## How to Use This Appendix
+
+- **If you are drafting a specification**: start with `F.3 Workflow Template`, then adapt the prompts in `F.4`.
+- **If you are handling a counterexample**: jump to `F.6 Minimal Example` and `F.8 Counterexample Triage Template`.
+- **If you are preparing a review packet for a team**: use `F.7` and `F.9` together.
+- **If you are deciding where AI can and cannot be trusted**: read `F.1` and `F.2` first, then return to Chapters 9–12.
+
+## F.1 Core Working Assumptions
 
 - Generation is fast, but mistakes are fast as well.
 - AI is good at generating specifications, invariants, and proof sketches.
 - Pass/fail judgment is handled by verifiers and CI.
 
-## F.2 Trust Boundary
+These assumptions matter because the workflow in this appendix is designed to preserve engineering judgment under acceleration, not to replace that judgment.
+
+## F.2 Trust Boundary and Operating Model
 
 - LLM / agent: **proposer (untrusted)**
 - Verifiers (`TLC` / `Alloy` / `Rocq` (formerly `Coq`) / `Dafny`): **judge (trusted)**
@@ -34,7 +44,9 @@ If this boundary is broken, errors from AI flow directly into errors in quality 
 
 In CI, stage the verification depth across pull requests, nightly runs, and pre-release runs so that verification cost remains controlled.
 
-## F.4 Prompt Templates (Copy and Paste)
+If you only adopt one pattern from this appendix, adopt this workflow and require each step to leave behind evidence that another engineer can rerun.
+
+## F.4 Prompt Templates You Can Adapt (Copy and Paste)
 
 **1) Specification extraction**
 ```
@@ -70,7 +82,7 @@ For the following change, list the verification checkpoints that are required an
 Change summary: <pull request diff summary>
 ```
 
-## F.5 Agent Operation Guide
+## F.5 Using the Templates in Team Workflows
 
 **When creating an issue**
 - Acceptance criteria, expressed in a form whose pass/fail can be judged by verification
@@ -82,6 +94,8 @@ Change summary: <pull request diff summary>
 - Check whether verification logs include the seed, depth, and scope
 - Check whether the remediation procedure remains documented when a counterexample appears
 
+These checks are most useful when AI is generating a large share of the draft text, because review otherwise collapses into trust-by-default.
+
 ## F.6 Minimal Example: Counterexample → Fix → Re-verification
 
 - Counterexample: a trace is produced that violates FIFO
@@ -89,19 +103,23 @@ Change summary: <pull request diff summary>
 - Fix: add an invariant that forbids `Dequeue` on an empty queue
 - Re-verification: rerun with the seed, depth, and scope fixed
 
-## F.7 Artifacts That Should Be Attached to a Pull Request
+Read this example together with Chapter 8 or Chapter 10 if you want a compact reminder of the book's core loop: model, check, inspect, fix, and rerun.
+
+## F.7 Review Packet for Repository-Based Work
 
 - Verification logs, including the command, seed, depth, and scope
 - Counterexample trace, including the file name and reproduction steps
 - Change intent, that is, a summary of the specification diff
 - Execution environment, including OS and tool versions
 
+If your team does not use pull requests, treat this section as the minimum review packet that should accompany any formally verified change.
+
 The templates in this appendix can be reused directly as standard operating rules inside a team.
 
 ## F.8 Counterexample Triage Template (Separate Facts from Hypotheses)
 
 When processing a counterexample, it is important not to mix facts written in the logs with guesses about the cause.  
-AI is useful for summarization and viewpoint enumeration, but the **facts section should be transcribed from logs and traces**, while hypotheses should be placed in a separate section.
+AI is useful for summarization and viewpoint enumeration, but the **facts section should be transcribed from logs and traces**, while hypotheses should be placed in a separate section. This separation makes the triage note reusable during review and postmortem analysis.
 
 Related repository template: `templates/counterexample-triage.md` (currently maintained in Japanese). The English adaptation used in this appendix is reproduced below.
 
@@ -149,7 +167,7 @@ Related repository template: `templates/counterexample-triage.md` (currently mai
 - Lesson learned (prevention for recurrence):
 ```
 
-## F.9 Quality-Assurance Checklist for AI-Generated Artifacts (Specification / Proof / CI)
+## F.9 Quality-Assurance Checklist for AI-Assisted Deliverables (Specification / Proof / CI)
 
 When a change includes AI-generated artifacts, reduce it to a verifiable deliverable from the following perspectives.
 
