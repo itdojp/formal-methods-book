@@ -1,5 +1,8 @@
 # Appendix E: References and Web Resources (Paths to Primary Sources)
 
+> Translation status: full draft  
+> Japanese source of truth: `src/ja/appendices/appendix-e.md`
+
 This appendix is an index to the **primary sources** for the formal methods and tools discussed in the main text, including official sites, official repositories, official documentation, and official releases.  
 As of January 2026, it reflects naming changes and updates in mainstream tools, such as `Coq` → `Rocq`, `CVC4` → `cvc5`, the `Alloy 6` series, and `Apalache` in the TLA+ ecosystem.
 
