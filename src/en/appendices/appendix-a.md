@@ -2,7 +2,7 @@
 
 This appendix collects the minimum set of mathematical notation that appears repeatedly in this book as a quick reference. It is not intended to be a full set of lecture notes. It is a cheat sheet for reading the main chapters and writing specifications, especially Chapter 4 on Alloy, Chapter 5 on Z, Chapter 6 on CSP, and Chapter 7 on TLA+.
 
-Notation differs across traditions and tools even when the underlying concept is the same. To avoid inconsistent notation inside this book, also refer to Appendix C, which provides a notation cross-reference.
+Notation differs across traditions and tools even when the underlying concept is the same. To avoid inconsistent notation inside this book, also refer to Appendix C, which records notation differences for the English edition and is being expanded into a fuller cross-reference.
 
 ## A.1 Sets
 
