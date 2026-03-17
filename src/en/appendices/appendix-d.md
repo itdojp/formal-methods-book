@@ -1,5 +1,8 @@
 # Appendix D: Exercise Solutions (Hints / Model Answers / Rubrics)
 
+> Translation status: full draft  
+> Japanese source of truth: `src/ja/appendices/appendix-d.md`
+
 This appendix is a collection of templates intended to clarify what should be produced as a submission for each end-of-chapter exercise.
 Because end-of-chapter exercises do not usually have a single unique answer, this appendix focuses on the **solution skeleton** (minimum structure) and the **rubric**.
 
@@ -14,7 +17,7 @@ Notes:
 - Problem setting: target, assumptions, and boundaries (`in-scope` / `out-of-scope`)
 - Specification: term definitions, preconditions, and properties such as safety, liveness, and contracts
 - Verification: execution commands, settings such as seed, depth, scope, and time limit, and result logs
-- Counterexample handling, when a counterexample appears: minimal trace, hypotheses about the cause, fix diff, and re-verification logs (see Appendix F.8)
+- Counterexample handling, when a counterexample appears: minimal trace, hypotheses about the cause, fix diff, and re-verification logs (see Appendix F)
 
 ### Common Rubric
 
