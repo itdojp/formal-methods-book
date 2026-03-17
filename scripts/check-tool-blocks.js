@@ -80,7 +80,7 @@ function getPseudoLabelForCodeLabel(label) {
 
 function getContextLabelForCodeLabel(label) {
   const variant = getLabelVariant(label);
-  if (variant && variant.context) return variant.context;
+  if (variant?.context) return variant.context;
   if (label.startsWith('〖')) return '〖文脈依存スニペット〗';
   return '【文脈依存スニペット】';
 }
