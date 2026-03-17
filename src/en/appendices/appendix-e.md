@@ -1,4 +1,4 @@
-# Appendix E: References and Web Resources (Paths to Primary Sources)
+# Appendix E: References and Further Reading Paths
 
 > Translation status: full draft  
 > Japanese source of truth: `src/ja/appendices/appendix-e.md`

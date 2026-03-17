@@ -1,11 +1,11 @@
 ---
 layout: book
-title: "Appendix F: Practical Guide to Running Formal Specification and Verification with AI Assistance"
+title: "Appendix F: Practical Playbook for AI-Assisted Formal Methods"
 locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-f.md"
 ---
-# Appendix F: Practical Guide to Running Formal Specification and Verification with AI Assistance
+# Appendix F: Practical Playbook for AI-Assisted Formal Methods
 
 This appendix is a **reader-facing playbook** for using AI assistance without weakening formal assurance. Use it after Chapters 8–12 when you want to turn the book's main argument into a repeatable workflow: let AI draft, let tools judge, and keep the evidence needed for re-verification and review.  
 Treat AI output as a proposal, and operate on the assumption that final judgment is delegated to verifiers such as `TLC`, `Alloy`, `Rocq` (formerly `Coq`), and `Dafny`.
