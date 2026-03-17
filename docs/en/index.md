@@ -123,11 +123,15 @@ concepts carefully. Advanced mathematics is not required.
 - [Chapter 12: Tools and Automation]({{ '/en/chapters/chapter12/' | relative_url }})
 - [Chapter 13: Case Studies]({{ '/en/chapters/chapter13/' | relative_url }})
 
-For hints, grading viewpoints, and sample solution structure for the
+For hints, self-review checkpoints, and sample solution structures for the
 end-of-chapter exercises, see
 [Appendix D: Exercise Hints and Solutions]({{ '/en/appendices/appendix-d/' | relative_url }}).
 
 ## Appendices
+
+On a second pass through the book, use Appendices C-F as the main reference
+set: C for notation, D for exercise scaffolding, E for primary sources, and F
+for AI-assisted working methods.
 
 - [Appendix A: Mathematics Refresher]({{ '/en/appendices/appendix-a/' | relative_url }})
 - [Appendix B: Tool Installation Guide]({{ '/en/appendices/appendix-b/' | relative_url }})
