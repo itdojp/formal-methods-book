@@ -1326,7 +1326,7 @@ Tasks:
 
 1. produce a detailed three-year cost-benefit analysis
 2. perform sensitivity analysis on key parameters
-3. recommend Go or No-Go
+3. recommend Go / No-Go
 4. propose risk-mitigation measures
 
 **Suggested output**
@@ -1370,7 +1370,7 @@ Items to design:
 - team structure and skill requirements
 - a staged rollout plan
 
-**Self-review checklist**
+**Self-review checklist**:
 
 - the process design is realistic for an agile team
 - verification work is visible in planning and review
