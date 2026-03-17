@@ -417,7 +417,7 @@ Output: PurchaseConfirmation
 Constraint: valid(PaymentInfo) ∧ stock(book) > 0
 
 Formal specification:
-∀ user, book, payment.
+∀ user, book, payment, criteria.
   RegisteredUser(user) ∧
   ValidPayment(payment, user) ∧
   InStock(book) ∧
