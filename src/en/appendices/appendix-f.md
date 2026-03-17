@@ -1,4 +1,4 @@
-# Appendix F: Practical Guide to Running Formal Specification and Verification with AI Assistance
+# Appendix F: Practical Playbook for AI-Assisted Formal Methods
 
 > Translation status: full draft  
 > Japanese source of truth: `src/ja/appendices/appendix-f.md`

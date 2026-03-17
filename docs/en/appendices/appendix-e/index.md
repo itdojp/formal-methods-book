@@ -1,11 +1,11 @@
 ---
 layout: book
-title: "Appendix E: References and Web Resources (Paths to Primary Sources)"
+title: "Appendix E: References and Further Reading Paths"
 locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-e.md"
 ---
-# Appendix E: References and Web Resources (Paths to Primary Sources)
+# Appendix E: References and Further Reading Paths
 
 This appendix is a **reader-facing guide to primary sources** for the methods, tools, and case studies introduced in the main text. Use it when you want to deepen a chapter, verify a claim against an official source, or decide which tool family to study next.  
 As of January 2026, it reflects naming changes and current mainstream references such as `Coq` → `Rocq`, `CVC4` → `cvc5`, the `Alloy 6` series, and `Apalache` in the TLA+ ecosystem.

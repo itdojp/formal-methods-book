@@ -137,8 +137,8 @@ for AI-assisted working methods.
 - [Appendix B: Tool Installation Guide]({{ '/en/appendices/appendix-b/' | relative_url }})
 - [Appendix C: Notation Cross-Reference]({{ '/en/appendices/appendix-c/' | relative_url }})
 - [Appendix D: Exercise Hints and Solutions]({{ '/en/appendices/appendix-d/' | relative_url }})
-- [Appendix E: References and Web Resources]({{ '/en/appendices/appendix-e/' | relative_url }})
-- [Appendix F: Practical Guide to AI Assistance]({{ '/en/appendices/appendix-f/' | relative_url }})
+- [Appendix E: References and Further Reading Paths]({{ '/en/appendices/appendix-e/' | relative_url }})
+- [Appendix F: Practical Playbook for AI-Assisted Formal Methods]({{ '/en/appendices/appendix-f/' | relative_url }})
 - [Afterword]({{ '/en/afterword/' | relative_url }})
 
 ## Using This Book as a Reference
