@@ -400,9 +400,10 @@ as well.
 
 *Higher-order logic* supports that style of reasoning:
 
+【擬似記法】
 ```coq
 Definition continuous (f : ℝ → ℝ) : Prop :=
-  ∀ ε > 0, ∃ δ > 0, ∀ x y, |x - y| < δ → |f(x) - f(y)| < ε
+  ∀ ε > 0, ∃ δ > 0, ∀ x y, |x - y| < δ → |f(x) - f(y)| < ε.
 
 Theorem exists_continuous_function : ∃ f : ℝ → ℝ, continuous f.
 ```
@@ -545,12 +546,12 @@ Example: vectors indexed by length
 
 ```coq
 Inductive vec (A : Type) : nat → Type :=
-| nil : vec A 0
-| cons : ∀ n, A → vec A n → vec A (S n).
+| vnil : vec A 0
+| vcons : ∀ n, A → vec A n → vec A (S n).
 
 Definition head {A : Type} {n : nat} (v : vec A (S n)) : A :=
   match v with
-  | cons _ x _ => x
+  | vcons _ x _ => x
   end.
 ```
 
@@ -689,6 +690,7 @@ This hierarchy prevents paradoxes such as Russell's paradox.
 In proof assistants based on type theory, it is often possible to extract
 actual executable algorithms from proofs.
 
+【擬似記法】
 ```coq
 Fixpoint gcd (a b : nat) {struct a} : nat :=
   match a with
@@ -1481,6 +1483,7 @@ Practical verification usually spans multiple abstraction levels.
 
 **1. Algorithm level**:
 
+【擬似記法】
 ```coq
 Fixpoint quicksort (l : list nat) : list nat :=
   match l with
@@ -1721,7 +1724,7 @@ statement matches the actual requirement still requires review."
 - listing repair candidates from failure logs and goal shapes
 
 Even here, facts and hypotheses should be kept separate, as discussed in
-Appendix F.8.
+Appendix F.
 
 ### Where LLM Assistance Should Not Be Used
 
@@ -1748,7 +1751,7 @@ should still close on the kernel or another authoritative verifier.
   dependencies, and execution steps?
 
 For primary-source guidance, see Appendix E. For a broader checklist, see
-Appendix F.9. For the process of translating natural language into theorem
+Appendix F. For the process of translating natural language into theorem
 statements and specifications, see also Chapter 3.6.
 
 ## 9.8 The Place of Lean 4: Adoption Decisions and Proof Assets
