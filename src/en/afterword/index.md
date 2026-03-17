@@ -1,59 +1,91 @@
 # Afterword
 
-You have now worked through a wide range of material, from the foundations of
-formal methods to their practical use in real projects. Before closing the
-book, I want to revisit several ideas that matter for what comes next in your
-own study and practice.
+You have now moved through the full arc of the book: why formal methods matter,
+how specifications are written, how properties are checked or proved, and how
+these techniques fit into actual development work. The final question is what
+you should do with that knowledge after closing the book.
 
-## The Real Value of Formal Methods
+## What You Should Be Able to Do Now
 
-The real value of formal methods is not limited to finding bugs. Their deeper
-value lies in providing a way of thinking about systems more precisely and more
-deliberately. Mathematical notation reduces ambiguity, exposes hidden
-assumptions in specifications, and helps maintain consistency in design.
+After working through this book, you should be able to do more than define
+formal methods in the abstract. You should be able to make concrete technical
+judgments such as the following:
 
-## Why Gradual Adoption Matters
+- when an ambiguity in requirements should be turned into an explicit
+  specification
+- when a lightweight modeling step is likely to be cheaper than debugging late
+  in implementation
+- when model checking is a better fit than theorem proving, and when the
+  reverse is true
+- how to read a counterexample, proof obligation, or invariant failure without
+  treating the tool as a black box
 
-As the case studies in this book suggest, successful adoption depends on
-strategy. It is rarely effective to try to formalize everything at once.
-Instead, start where the expected payoff is highest, learn from that initial
-use, and then expand the scope gradually.
+That shift in judgment is the real payoff of introductory study.
 
-## Keep Learning
+## Adopt Gradually, but Adopt Deliberately
 
-Formal methods remain an active and evolving field. New tools, new theories,
-and new application domains continue to appear. Use the foundations learned in
-this book as a base, then keep following the field and deepening your practice.
+One of the recurring lessons in this book is that successful adoption is
+rarely all-or-nothing. Most teams do not start by verifying an entire product.
+They start by formalizing one protocol, one concurrency-sensitive component, or
+one safety-critical workflow.
 
-## Learn with the Community
+The important point is not to keep the scope small forever. The important point
+is to choose the first target deliberately: select a part of the system where
+ambiguity is expensive, failures are costly, or concurrency makes testing
+alone unreliable.
 
-Formal methods are difficult to pursue in isolation. Progress becomes much
-easier when you participate in research and practitioner communities, share
-knowledge, discuss problems, and learn from other people's experience. Use
-conferences, workshops, and online forums to build connections with the broader
-community.
+## How to Use This Book After the First Read
 
-## Looking Ahead
+This book is intended to remain useful after an initial cover-to-cover read.
+In practice, readers often return in the following ways:
 
-In the age of AI, software systems will become even more complex. At the same
-time, demands for safety, security, privacy, and explainability will continue
-to increase. Formal methods are one of the most important tools we have for
-meeting those demands.
+- go back to Chapters 3-7 when choosing a modeling style or notation
+- return to Chapters 8-10 when interpreting a verification result or planning
+  a proof strategy
+- use Chapters 11-13 when discussing process design, tool adoption, or
+  organizational rollout
+- consult Appendix C and the glossary when terminology becomes unstable across
+  teams or documents
 
-I sincerely hope that the knowledge you gained from this book helps you build
-more dependable software systems and, through that work, contribute to society
-as a whole.
+If the book succeeds as a reference, it should help you restart thinking
+quickly rather than forcing you to reconstruct the entire field from memory.
+
+## Where to Go Next
+
+The next step depends on your goals:
+
+- if you want stronger modeling skill, deepen your work in Alloy, Z, CSP, or
+  TLA+ through repeated small exercises
+- if you want stronger assurance arguments, spend more time on model checking,
+  proof assistants, and program verification
+- if your goal is organizational change, study the case studies and then pilot
+  one narrow but high-value adoption effort in your own context
+
+Formal methods reward repeated contact. The first pass gives vocabulary and
+structure. Later passes turn that structure into engineering instinct.
+
+## Stay Close to Practice
+
+The field continues to evolve. AI-assisted development, large-scale
+distributed systems, safety regulation, and security pressure all increase the
+need for precise reasoning. At the same time, no method is valuable merely
+because it is mathematically elegant. A method becomes valuable when it helps
+teams make fewer wrong assumptions, expose defects earlier, and explain why a
+system should be trusted.
+
+That is the standard this book ultimately argues for: not formalism for its
+own sake, but rigor where rigor changes outcomes.
 
 ## Resources for Continued Study
 
-If you want to continue learning, the following kinds of resources are good
-next steps:
+If you want to continue learning, the following are practical next steps:
 
-- **International conferences**: FM, CAV, TACAS, ICSE, FSE
+- **Conferences**: FM, CAV, TACAS, ICSE, FSE
 - **Journals**: IEEE TSE, ACM TOSEM, SCP, STTT
-- **Online communities**: the TLA+ Google Group and the Alloy community
-- **Open-source projects**: tool repositories and example suites for the
-  methods introduced in this book
+- **Communities**: the TLA+ community, Alloy users, theorem-proving
+  communities, and relevant engineering groups
+- **Hands-on follow-up**: replicate one example from this book in your own
+  domain, then compare what changed in the model and in the questions you asked
 
 With that, I would like to close this book by wishing you continued growth and
 success in the field of formal methods.

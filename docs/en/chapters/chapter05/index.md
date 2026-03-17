@@ -7,9 +7,6 @@ source_path: "src/en/chapters/chapter05.md"
 ---
 # Chapter 5: State-Based Specification: Foundations of Z Notation
 
-> Translation status: full draft  
-> Japanese source of truth: `src/ja/chapters/chapter05.md`
-
 ## 5.1 The World of Z Notation: Thinking in Terms of State and Schemas
 
 ### A Culture of Precision Born in Oxford

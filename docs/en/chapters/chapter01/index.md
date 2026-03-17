@@ -7,9 +7,6 @@ source_path: "src/en/chapters/chapter01.md"
 ---
 # Chapter 1: Why Formal Methods Matter
 
-> Translation status: full draft  
-> Japanese source of truth: `src/ja/chapters/chapter01.md`
-
 ## 1.1 The Growth of Software Complexity and the Challenge of Reliability
 
 From the moment you stopped your smartphone alarm this morning to the moment

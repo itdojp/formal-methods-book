@@ -7,9 +7,6 @@ source_path: "src/en/chapters/chapter02.md"
 ---
 # Chapter 2: Bridging Mathematics and Programs
 
-> Translation status: full draft  
-> Japanese source of truth: `src/ja/chapters/chapter02.md`
-
 ## 2.1 The Mathematical Structure Hidden in Programming
 
 Many people say, "I am not good at mathematics, but I like programming." Yet

@@ -7,9 +7,6 @@ source_path: "src/en/chapters/chapter08.md"
 ---
 # Chapter 8: Introduction to Model Checking
 
-> Translation status: full draft  
-> Japanese source of truth: `src/ja/chapters/chapter08.md`
-
 ## 8.1 The Dream of Automated Verification: Letting Computers Prove Correctness
 
 ### Human Limits and Machine Capability

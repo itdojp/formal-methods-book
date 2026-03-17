@@ -7,74 +7,107 @@ source_path: "src/en/introduction/index.md"
 ---
 # Introduction
 
-This book was written to provide an integrated understanding of formal methods,
-from foundational ideas to practical application in software development.
-Modern software systems face unprecedented complexity and increasingly strict
-demands for reliability. Testing and review remain essential, but by themselves
-they are often not enough to meet that challenge.
+Many books on formal methods force readers into one of two unsatisfying
+choices. Some stay close to mathematics and never fully explain the engineering
+payoff. Others focus on a single tool and never show how that tool fits into
+the broader landscape. This book is written for readers who need a third
+option: a rigorous but practical guide to formal methods as an engineering
+discipline.
 
-## Purpose of This Book
+## What This Book Promises
 
-Formal methods use mathematical precision to reason about the correctness of
-software and systems. This book aims to help readers go beyond abstract
-definitions and become capable of using formal methods in practice. It covers
-theoretical foundations, representative tools, and realistic strategies for
-adoption in actual projects.
+This book explains how formal specification, model checking, theorem proving,
+and program verification relate to each other. It does not assume that readers
+will adopt every method. Instead, it helps readers answer practical questions:
 
-## Intended Audience
+- What problem is each method good at?
+- What kind of model or property does it require?
+- What does the output of the tool or proof attempt actually mean?
+- Where is the likely payoff in real development work?
 
-- Undergraduate and graduate students in computer science or related fields
-- Software engineers who want to build more reliable systems
-- Practitioners working on systems where safety, security, or correctness
-  matters
-- Researchers and technically curious readers who want a practical entry point
-  into formal methods
+The promise of this book is therefore not “formalize everything.” The promise
+is better technical judgment.
 
-## Prerequisites
+## Who This Book Is For
+
+This book is intended for the following readers:
+
+- software engineers and architects who want to reason more precisely about
+  behavior, constraints, and assumptions
+- quality, testing, and reliability engineers who need stronger techniques for
+  high-consequence defects
+- practitioners in safety-, security-, or correctness-critical domains
+- students and researchers who want a practical entry point into the field
+
+## What This Book Does Not Try to Be
+
+This book is not a certification handbook, a reference manual for one tool, or
+a graduate text that expects extensive mathematical maturity before the reader
+can make progress. When details matter, it gives enough structure to support
+further study, but it remains focused on usable understanding.
+
+## What You Need Before You Start
 
 This book assumes the following background:
 
 - basic programming experience in at least one language
 - familiarity with data structures and algorithms
 - high-school-level mathematics, especially sets, logic, and functions
+- basic knowledge of software requirements, design, and testing
 
-The book introduces its notation and concepts carefully, so deep mathematical
-specialization is not required.
+The notation is introduced carefully, so advanced mathematics is not required.
 
-## Structure of the Book
+## How the Book Is Organized
 
 The book is organized into four parts and thirteen chapters:
 
 **Part I: Foundations (Chapters 1-3)**  
-Why formal methods matter and what conceptual tools they rely on
+Why formal methods matter, where informal reasoning breaks down, and what it
+means to write a precise specification
 
 **Part II: Methods (Chapters 4-7)**  
-Representative approaches such as Alloy, Z notation, CSP, and TLA+
+Representative specification approaches, including Alloy, Z notation, CSP, and
+TLA+
 
 **Part III: Verification (Chapters 8-10)**  
-How to check whether a system is correct through model checking, theorem
-proving, and program verification
+How properties are checked, proved, and connected to program behavior
 
 **Part IV: Practice (Chapters 11-13)**  
-How formal methods fit into real development processes, supported by tools,
-automation, and case studies
+How formal methods fit into development processes, toolchains, and case-study
+based engineering decisions
 
-## Suggested Study Approach
+## How to Read This Book
 
-Each chapter has a clear learning objective and builds on earlier material.
-The book balances conceptual explanation with concrete exercises so that
-understanding can deepen step by step.
+If you are new to formal methods, read the book in order at least through
+Chapter 8. The later chapters assume that you understand the distinction
+between specification, state modeling, and verification properties.
 
-The appendices support self-study with mathematical refreshers, installation
-guides, notation cross-references, exercise hints and solutions, and references
-for further reading.
+If you already work with one technique, read the corresponding chapter together
+with Chapters 1-3. That combination usually gives enough context to avoid
+treating one notation as a universal solution.
+
+If your primary goal is adoption in industry, do not skip Part IV. A common
+failure mode is to understand the theory but underestimate the organizational
+constraints around introducing these methods.
+
+## How to Use the Examples and Exercises
+
+The examples in this book are intentionally small enough to inspect and modify.
+Their purpose is not to simulate full industrial systems. Their purpose is to
+make modeling decisions, counterexamples, and proof obligations visible.
+
+The exercises are part of the learning path rather than optional decoration.
+If you want lasting understanding, write down your own specifications, run the
+tools where possible, and compare your results with the hints and solution
+structure in Appendix D.
 
 ## Acknowledgements
 
-This book benefited from the support and feedback of many people: researchers
-who built the field of formal methods, engineers who pushed it into industrial
-practice, and reviewers who offered constructive comments throughout the
-writing process. I am grateful to all of them.
+This book benefited from the work of researchers who built the field,
+engineers who brought formal methods into industrial practice, and reviewers
+who identified weaknesses in both exposition and examples. Their influence is
+visible throughout the book, even where the final responsibility for errors
+remains mine.
 
 January 2025
 

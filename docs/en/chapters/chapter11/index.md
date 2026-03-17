@@ -7,9 +7,6 @@ source_path: "src/en/chapters/chapter11.md"
 ---
 # Chapter 11: Integrating Formal Methods into Development Processes
 
-> Translation status: full draft  
-> Japanese source of truth: `src/ja/chapters/chapter11.md`
-
 ## 11.1 Reconciling with Reality: Balancing Ideals and Constraints
 
 ### The Gap Between Ideals and Reality
