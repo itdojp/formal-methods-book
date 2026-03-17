@@ -6,6 +6,11 @@ const yaml = require('yaml');
 
 const repoRoot = path.resolve(__dirname, '..');
 const japanesePattern = /[\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Han}]/u;
+const allowedJapaneseLines = new Set([
+  '【ツール準拠（そのまま動く）】',
+  '【文脈依存スニペット】',
+  '【擬似記法】',
+]);
 const sourceSections = [
   'index.md',
   'glossary/index.md',
@@ -203,6 +208,9 @@ function main() {
       for (let index = 0; index < lines.length; index += 1) {
         const line = lines[index];
         if (line.includes('bilingual-qa:allow-ja')) {
+          continue;
+        }
+        if (allowedJapaneseLines.has(line.trim())) {
           continue;
         }
         if (japanesePattern.test(line)) {
