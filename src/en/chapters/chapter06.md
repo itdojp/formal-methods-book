@@ -5,10 +5,10 @@
 
 This chapter uses two kinds of code examples.
 
-- **【ツール準拠（そのまま動く）】**: examples intended to be syntactically valid
+- **Tool-compliant blocks**: examples intended to be syntactically valid
   CSPM for FDR, using ASCII notation such as `->`, `[]`, `|||`, `[| X |]`, and
   `P[[a <- b]]`
-- **【擬似記法】**: simplified explanatory notation. Unicode symbols such as
+- **Pseudo-notation blocks**: simplified explanatory notation. Unicode symbols such as
   `→`, `□`, and `⊓`, along with some guards, `where` clauses, and event
   parameter conventions, do not necessarily match CSPM exactly and should not be
   pasted into a tool unchanged
