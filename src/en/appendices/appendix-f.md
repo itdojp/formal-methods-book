@@ -1,5 +1,8 @@
 # Appendix F: Practical Guide to Running Formal Specification and Verification with AI Assistance
 
+> Translation status: full draft  
+> Japanese source of truth: `src/ja/appendices/appendix-f.md`
+
 This appendix collects practical templates for running specification work and verification with AI assistance. Treat AI output as a proposal, and operate on the assumption that final judgment is delegated to verifiers such as `TLC`, `Alloy`, `Rocq` (formerly `Coq`), and `Dafny`.
 
 ## F.1 Assumptions in the AI Era
@@ -96,7 +99,7 @@ The templates in this appendix can be reused directly as standard operating rule
 When processing a counterexample, it is important not to mix facts written in the logs with guesses about the cause.  
 AI is useful for summarization and viewpoint enumeration, but the **facts section should be transcribed from logs and traces**, while hypotheses should be placed in a separate section.
 
-Template file in the repository: `templates/counterexample-triage.md` (the same content is also reproduced below)
+Related repository template: `templates/counterexample-triage.md` (currently maintained in Japanese). The English adaptation used in this appendix is reproduced below.
 
 ### Template (Copy and Paste)
 
