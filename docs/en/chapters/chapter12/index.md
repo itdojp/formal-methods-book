@@ -537,6 +537,10 @@ By understanding these success patterns and avoiding these failure modes, an org
 
 ## End-of-Chapter Exercises
 
+Use these exercises as design drills for tool selection, rollout planning, and
+workflow integration. They work for self-study, architecture workshops, or
+retrospectives on an existing engineering process.
+
 ### Reading Check Exercise 1: Tool Selection Matrix
 
 Choose the most suitable toolset for the following hypothetical project.
@@ -553,6 +557,12 @@ Choose the most suitable toolset for the following hypothetical project.
 2. Explain the rationale from the perspectives of technical requirements, organizational constraints, and risk assessment
 3. Create a staged tool adoption plan covering the full 18-month period
 4. Summarize the difficulties you expect and the countermeasures you would prepare
+
+**Suggested output**
+
+- a tool selection matrix with evaluation criteria and trade-offs
+- a staged 18-month rollout outline
+- a short risk note covering the main expected difficulties
 
 ### Reading Check Exercise 2: Designing CI/CD Integration
 
@@ -572,6 +582,12 @@ Create a plan for integrating formal verification into an existing web applicati
 4. Propose a strategy for minimizing performance impact
 5. Assess the impact on the team and propose mitigation measures
 
+**Suggested output**
+
+- a pipeline-stage diagram or table
+- a failure-handling workflow for verification results
+- a short note on performance impact and team adoption
+
 ### Practical Exercise 1: Code Generation Strategy
 
 Design a strategy for generating code from formal specifications for the following system.
@@ -590,6 +606,12 @@ Design a strategy for generating code from formal specifications for the followi
 4. Explain how generated code and handwritten code should be integrated
 5. Define the quality assurance process, including testing, review, and verification
 6. State the design principles needed to preserve maintainability
+
+**Suggested output**
+
+- a boundary table that separates generation targets from manual implementation
+- a short architecture note on integrating generated and handwritten code
+- a quality-assurance checklist for generated artifacts
 
 ### Practical Exercise 2: Failure Analysis of a Tool Introduction
 
@@ -614,6 +636,13 @@ Analyze the following failure case and propose an improved approach.
 3. Formulate an improvement plan that would make success more likely
 4. Propose alternative approaches, including different tools or a different adoption method
 5. Create a checklist for avoiding similar failures in the future
+
+**Suggested analysis outline**
+
+1. identify the primary failure mechanism in each phase
+2. distinguish tool-choice problems from rollout-design problems
+3. propose a more realistic introduction strategy and fallback path
+4. summarize the checklist items you would reuse in future introductions
 
 ### Advanced Exercise: Designing an Integrated Toolchain
 
