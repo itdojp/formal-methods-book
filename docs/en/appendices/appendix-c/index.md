@@ -7,9 +7,14 @@ source_path: "src/en/appendices/appendix-c.md"
 ---
 # Appendix C: Notation Cross-Reference
 
-This appendix collects the minimum set of frequently used terms and symbols in formal methods together with the Definition of Done checklist for the AI era.
+This appendix is a quick lookup guide for readers who need to recover the
+meaning of a term, compare notations across methods, or check what disciplined
+AI-assisted verification work should leave behind. For fuller definitions, use
+the main [Glossary]({{ '/en/glossary/' | relative_url }}). Use this appendix
+when you need a compact reference rather than a full chapter-length
+explanation.
 
-## C.1 Glossary
+## C.1 Quick Reference Terms
 
 - **invariant**: a property that must always hold. If a counterexample appears, it indicates a breakdown in the specification or the implementation.
 - **safety**: a property stating that something bad does not happen, for example that a double withdrawal never occurs.
@@ -19,9 +24,10 @@ This appendix collects the minimum set of frequently used terms and symbols in f
 - **trace**: a sequence of state transitions. Counterexamples are presented as traces.
 - **counterexample**: a minimal execution that violates a property. It is the starting point for correcting the design.
 
-## C.2 Definition of Done Checklist for the AI Era
+## C.2 Definition of Done Checklist for AI-Assisted Work
 
-In AI-assisted development, the premise is that the correctness of outputs is backed by verifiers.
+In AI-assisted development, the key question is not whether AI was used, but
+whether the resulting claims are backed by verifiable evidence.
 
 - If there is a change in the specification, the corresponding formal specification has also been updated
 - Verification logs include the seed, depth, scope, and execution command
@@ -30,20 +36,32 @@ In AI-assisted development, the premise is that the correctness of outputs is ba
 
 ## C.3 Notation Cross-Reference (Z / Alloy / CSP / TLA+)
 
-The following table gives a minimum correspondence for how the same concept is expressed in each notation. Entries are limited to what is consistent with the chapter-level notation used in this book, especially Chapter 4 on Alloy, Chapter 5 on Z, Chapter 6 on CSP, and Chapter 7 on TLA+.
+The tables below give a minimum correspondence for how the same concept is
+expressed in each notation. They are intentionally compact and are limited to
+the notation used in this book, especially Chapter 4 on Alloy, Chapter 5 on Z,
+Chapter 6 on CSP, and Chapter 7 on TLA+.
 
-Code-block labels:
-- **Tool-compliant blocks**: notation intended to be copied directly into a tool or CLI and executed as-is, although extra configuration may still be required depending on the environment.
-- **Context-dependent snippets**: syntax that follows a real tool, but is only a fragment and therefore requires declarations, a model, a harness, or an interactive context elsewhere.
-- **Pseudo-notation blocks**: notation used for explanation that may contain mathematical notation, omitted detail, or output examples and therefore is not guaranteed to be strict tool input.
+When reading chapter examples, three block labels matter:
 
-The actual block lines in this repository use the canonical labels enforced by the linter.
+- **Tool-compliant blocks** (`&#12304;Tool-compliant (runs as-is)&#12305;`): notation
+  intended to be copied into a tool or CLI and run as-is, although
+  project-specific filenames or configuration may still be required
+- **Context-dependent snippets** (`&#12304;Context-dependent snippet&#12305;`): real
+  tool syntax shown as a fragment; you still need declarations, a model, a
+  harness, or surrounding context from the chapter
+- **Pseudo-notation blocks** (`&#12304;Pseudo notation&#12305;`): explanatory notation
+  that may contain mathematical symbols, omission, or output examples and
+  should therefore not be pasted into a tool unchanged
 
 Notes:
-- Inside a tool-compliant block, include only strings that are valid as tool input. Do not mix in output examples, diagrams, or natural-language explanation.
-- If mandatory surrounding elements such as variable declarations, `MODULE main`, a verification harness, or an interactive context are defined elsewhere, use a context-dependent snippet.
-- If the surrounding mandatory elements are explicitly identified in the text or a referenced location, the fragment is treated as a context-dependent snippet. If references are not identified or the fragment includes mathematical notation, omission, or natural language, it is treated as pseudo-notation.
-- Diagrams, output examples, and pseudocode should use pseudo-notation.
+- Inside a tool-compliant block, include only strings that are valid as tool
+  input. Do not mix in output examples, diagrams, or natural-language
+  explanation.
+- If mandatory surrounding elements such as variable declarations,
+  `MODULE main`, a verification harness, or an interactive context are defined
+  elsewhere, the example should be treated as a context-dependent snippet.
+- Diagrams, output examples, and pseudocode should be treated as
+  pseudo-notation.
 
 ### C.3.1 Concept Correspondence (Minimum Set)
 
