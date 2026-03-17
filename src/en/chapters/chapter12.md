@@ -158,7 +158,7 @@ Tools such as SPIN, NuSMV, TLA+/TLC, and Java PathFinder are strong at exhaustiv
 Tools such as Coq, Isabelle/HOL, Lean, and Agda provide the highest level of confidence through mathematically rigorous proof. They also require advanced expertise and a significant engineering investment. They are appropriate for the core of safety-critical systems and for proving the correctness of cryptographic algorithms.
 
 **Program verification tools**:  
-Tools such as Dafny, SPARK, Frama-C, CBMC, VeriFast, and Krakat provide direct verification for actual program code. They are relatively easy to integrate into the development workflow and have high practical value, but the range of properties they can express is limited.
+Tools such as Dafny, SPARK, Frama-C, CBMC, VeriFast, and Krakatoa provide direct verification for actual program code. They are relatively easy to integrate into the development workflow and have high practical value, but the range of properties they can express is limited.
 
 **Constraint solving and SMT solvers**:  
 Tools such as Z3, CVC4, Yices, and MathSAT often operate as backends for other verification tools. Teams usually benefit from them indirectly rather than using them directly.
