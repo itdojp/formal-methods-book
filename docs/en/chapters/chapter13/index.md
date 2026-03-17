@@ -842,6 +842,10 @@ The important point is not to treat formal methods as a universal solution. Thei
 
 ## End-of-Chapter Exercises
 
+Use these exercises as case-analysis drills, workshop prompts, or planning
+exercises for adoption discussions. They are designed for self-study as well
+as classroom use.
+
 ### Reading Check Exercise 1: Comparative Analysis of the Cases
 
 Compare the four cases discussed in this chapter—Paris Métro Line 14, Amazon `s2n`, Microsoft’s use of `TLA+`, and automotive control systems—from the following perspectives.
@@ -867,11 +871,12 @@ Compare the four cases discussed in this chapter—Paris Métro Line 14, Amazon 
    - The impact of the competitive environment
    - Social expectations and responsibility
 
-**Deliverables**:
-- A comparison table summarizing the characteristics of each case
-- An analysis of common success factors and important differences
-- A discussion of failure risks and ways to mitigate them
-- An evaluation of applicability in other contexts
+**Suggested output**
+
+- a comparison table summarizing the characteristics of each case
+- an analysis of common success factors and important differences
+- a discussion of failure risks and ways to mitigate them
+- an evaluation of applicability in other contexts
 
 ### Reading Check Exercise 2: Industry Applicability Analysis
 
@@ -905,6 +910,12 @@ Using the cases in this chapter as reference points, analyze the applicability o
    - Technical selection guidelines
    - Risk-mitigation measures
 
+**Suggested analysis outline**
+
+1. summarize the safety, regulatory, and technical profile of the target industry
+2. identify where formal methods could create the highest value
+3. explain the main adoption barriers and how you would sequence the rollout
+
 ### Practical Exercise 1: Detailed Case Investigation
 
 Choose one of the cases discussed in this chapter and investigate it in more detail.
@@ -936,10 +947,11 @@ Choose one of the cases discussed in this chapter and investigate it in more det
    - Long-term influence and subsequent development
    - Spillover effects into other projects
 
-**Suggested outputs**:
-- A detailed investigation report of 20 to 30 pages
-- An analysis of success factors and remaining challenges
-- A proposal for how the lessons could be applied in other organizations
+**Suggested output**
+
+- a detailed investigation report of 20 to 30 pages
+- an analysis of success factors and remaining challenges
+- a proposal for how the lessons could be applied in other organizations
 
 ### Practical Exercise 2: Designing an Adoption Plan
 
@@ -974,6 +986,12 @@ Create a concrete plan for introducing formal methods into a real or hypothetica
 
 **Suggested output**: a concise management proposal or presentation outline
 that could be used to discuss adoption with decision-makers
+
+**Self-review checklist**
+
+- the current-state analysis is tied to the organization profile
+- the rollout plan is staged and operationally realistic
+- ROI and risk arguments are concrete enough for a management discussion
 
 ### Advanced Exercise: Future-Scenario Analysis
 
@@ -1010,9 +1028,16 @@ Analyze possible development scenarios for formal methods over the next ten year
 - Implications for investment decisions
 - Recommendations for policy and education
 
-**Deliverables**:
-- A scenario-analysis report
-- A discussion of the strategic implications
-- A policy recommendation document
+**Suggested output**
+
+- a scenario-analysis report
+- a discussion of the strategic implications
+- a policy recommendation document
+
+**Self-review checklist**
+
+- the scenarios are genuinely distinct rather than minor variations
+- the strategic implications follow from the scenario assumptions
+- the recommendations remain actionable under uncertainty
 
 Through these exercises, use the knowledge gained from case studies in practical settings and develop the ability to assess and use the strategic value of formal methods. In the advanced exercise in particular, take a long-term view of the future of formal methods and aim to develop the insight needed to contribute to that future.
