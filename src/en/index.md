@@ -118,7 +118,7 @@ concepts carefully. Advanced mathematics is not required.
 
 For hints, self-review checkpoints, and sample solution structures for the
 end-of-chapter exercises, see
-[Appendix D: Exercise Hints and Solutions]({{ '/en/appendices/appendix-d/' | relative_url }}).
+[Appendix D: Exercise Guides and Self-Review Frameworks]({{ '/en/appendices/appendix-d/' | relative_url }}).
 
 ## Appendices
 
@@ -129,7 +129,7 @@ for AI-assisted working methods.
 - [Appendix A: Mathematics Refresher]({{ '/en/appendices/appendix-a/' | relative_url }})
 - [Appendix B: Tool Installation Guide]({{ '/en/appendices/appendix-b/' | relative_url }})
 - [Appendix C: Notation Cross-Reference]({{ '/en/appendices/appendix-c/' | relative_url }})
-- [Appendix D: Exercise Hints and Solutions]({{ '/en/appendices/appendix-d/' | relative_url }})
+- [Appendix D: Exercise Guides and Self-Review Frameworks]({{ '/en/appendices/appendix-d/' | relative_url }})
 - [Appendix E: References and Further Reading Paths]({{ '/en/appendices/appendix-e/' | relative_url }})
 - [Appendix F: Practical Playbook for AI-Assisted Formal Methods]({{ '/en/appendices/appendix-f/' | relative_url }})
 - [Afterword]({{ '/en/afterword/' | relative_url }})
