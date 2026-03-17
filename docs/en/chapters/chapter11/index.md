@@ -1223,6 +1223,10 @@ can make formal methods part of the organization's operating DNA.
 
 ## End-of-Chapter Exercises
 
+Use these exercises as self-study prompts, team workshop material, or planning
+drills for a realistic hypothetical organization. Unless you are taking a
+course built around this book, no formal submission format is assumed.
+
 ### Comprehension Exercise 1: Evaluating an Adoption Strategy
 
 Evaluate the following proposed introduction plan for formal methods in a
@@ -1252,6 +1256,12 @@ Tasks:
 3. create an execution plan including risk-mitigation measures
 4. define metrics for measuring investment return
 
+**Suggested analysis outline**
+
+1. state the two or three biggest risks in the proposed plan
+2. explain how your staged rollout changes sequencing and scope
+3. describe the key mitigation measures and success metrics
+
 ### Comprehension Exercise 2: Organizational-Culture Analysis
 
 Analyze your own organization, or a realistic hypothetical one, from the
@@ -1279,6 +1289,12 @@ Items to analyze:
    - staged change plan
    - resistance-reduction measures
    - actions that promote success
+
+**Suggested analysis outline**
+
+1. summarize the current culture in one or two paragraphs
+2. identify the main adoption blockers and likely enablers
+3. propose a staged cultural change strategy with concrete actions
 
 ### Practical Exercise 1: ROI Analysis
 
@@ -1314,8 +1330,14 @@ Tasks:
 
 1. produce a detailed three-year cost-benefit analysis
 2. perform sensitivity analysis on key parameters
-3. recommend Go or No-Go
+3. recommend Go / No-Go
 4. propose risk-mitigation measures
+
+**Suggested output**
+
+- a three-year cost and benefit table
+- a short note on the most sensitive assumptions
+- a Go / No-Go recommendation with justification
 
 ### Practical Exercise 2: Process-Integration Design
 
@@ -1344,13 +1366,20 @@ Items to design:
    - how retrospectives improve the approach
    - how value is explained to stakeholders
 
-Submission items:
+**Suggested output**
 
 - an integrated process-flow diagram
 - concrete activities for each phase
 - required tools and infrastructure
 - team structure and skill requirements
 - a staged rollout plan
+
+**Self-review checklist**:
+
+- the process design is realistic for an agile team
+- verification work is visible in planning and review
+- tool choices match the intended delivery constraints
+- stakeholder communication is concrete rather than abstract
 
 ### Advanced Exercise: A Comprehensive Adoption Plan
 
