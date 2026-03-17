@@ -467,10 +467,10 @@ concepts software engineers already use every day.
 
 ## Exercises
 
-**Common submission rules when using AI**
+**If you use AI while working through these exercises**
 
 - Treat AI output as a proposal; use verifiers to make the final judgment.
-- Submit the prompts you used, generated specifications and invariants,
+- Keep the prompts you used, generated specifications and invariants,
   verification commands and logs (including seed, depth, and scope), and the
   revision history when counterexamples were found.
 - See Appendix D and Appendix F for detailed templates.
@@ -490,8 +490,8 @@ following perspectives:
 4. **Assess the safety integrity level**: determine which SIL level the system
    would correspond to and evaluate whether formal methods are justified.
 
-**Submission format**: a report of no more than two A4 pages, including figures
-and tables.
+**Suggested scope**: a short memo with one diagram or table. In most cases,
+two pages or less is enough.
 
 ### Practical Exercise: Accident Analysis and Preventive Measures
 
@@ -516,8 +516,8 @@ Boeing 737 MAX) and perform the following analysis:
    - Where do you see analogous risks in your own work?
    - What concrete actions would reduce that risk?
 
-**Submission format**: an analysis report of no more than ten PowerPoint
-slides.
+**Suggested scope**: a short slide deck or structured memo that you could use
+in a design or incident-review discussion.
 
 ### Practical Exercise: Quantitative Analysis of Specification Ambiguity
 
@@ -538,9 +538,11 @@ consecutive failures are subject to a limit."
 4. **Prepare for formalization**: prioritize the elements that should be
    addressed using the specification techniques introduced in Chapter 3.
 
-**Submission format**
-- an ambiguity analysis table (Excel format)
-- a one-page A4 explanation of the calculation process
+**Suggested output**
+- an ambiguity analysis table in any format that lets you compare
+  interpretations clearly
+- a short note explaining how you estimated the number of implementation
+  variants
 
 ### Advanced Exercise: Draft an Adoption Plan for Your Own Work
 
@@ -565,7 +567,8 @@ plausible future work setting:
      your manager or peers.
    - Build a business case that explains expected return on investment.
 
-**Submission format**: presentation material suitable for a fifteen-minute talk
+**Suggested output**: a short internal proposal or presentation outline for a
+fifteen-minute discussion with peers or managers.
 
 These exercises are designed to deepen both your theoretical understanding of
 formal methods and your sense of their practical value. The advanced exercise,

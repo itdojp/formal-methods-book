@@ -707,9 +707,9 @@ Such models become important in real-time systems and physical simulation.
 
 ## Exercises
 
-**Common submission rules when using AI**
+**If you use AI while working through these exercises**
 - Treat AI output as a proposal; use verifiers to determine correctness.
-- Submit the prompts you used, generated specifications and invariants,
+- Keep the prompts you used, generated specifications and invariants,
   verification commands and logs (including seed, depth, and scope), and the
   revision history when counterexamples were found.
 - See Appendix D and Appendix F for detailed templates.
@@ -752,7 +752,7 @@ write them as program conditions:
 
 Model a simple vending machine as a state-transition system.
 
-Functions:
+Include the following actions:
 - inserting coins (100 yen and 500 yen)
 - selecting a product (cola for 150 yen, tea for 100 yen)
 - canceling a transaction and returning the inserted money
@@ -779,7 +779,7 @@ Transaction 1: A → B (300 yen)
 Transaction 2: B → A (200 yen)
 ```
 
-If both transactions execute at the same time:
+If both transactions run concurrently:
 
 1. define the state transitions for each transaction;
 2. enumerate all possible interleavings;
@@ -789,8 +789,8 @@ If both transactions execute at the same time:
 
 ### Integrated Exercise: Preparing for Formal Methods
 
-The following exercises prepare the foundations for the formal methods covered
-from Chapter 3 onward:
+The following exercises are designed as a bridge into the formal methods
+covered from Chapter 3 onward:
 
 #### Exercise 1: Preparing for Alloy Modeling
 
@@ -806,7 +806,8 @@ perspectives:
 4. **Identify invariants**: express the properties that must always hold in the
    system.
 
-**Goal**: preparation for the Alloy modeling practice in Chapter 4
+**Why this exercise matters**: it prepares the modeling mindset used in
+Chapter 4.
 
 #### Exercise 2: Preparing for Z Notation
 
@@ -821,7 +822,8 @@ Analyze the basic operations of a bank-account system as state transformations:
 4. **Operation composition**: describe compound operations built from multiple
    basic operations.
 
-**Goal**: preparation for practical work with Z notation in Chapter 5
+**Why this exercise matters**: it prepares the state-and-operation viewpoint
+used in Chapter 5.
 
 #### Exercise 3: Foundations of CSP Concurrency
 
@@ -835,7 +837,8 @@ Analyze client-server communication in a chat system:
    sending, and logout.
 4. **Deadlock analysis**: identify possible concurrency problems.
 
-**Goal**: preparation for concurrent-system design with CSP in Chapter 6
+**Why this exercise matters**: it prepares the concurrency viewpoint used in
+Chapter 6.
 
 #### Exercise 4: Foundations of TLA+ Temporal Logic
 
@@ -851,8 +854,8 @@ perspective:
 4. **Temporal constraints**: express time-dependent constraints such as update
    order and timeout behavior.
 
-**Goal**: preparation for distributed-system verification with TLA+ in
-Chapter 7
+**Why this exercise matters**: it prepares the temporal and distributed-systems
+viewpoint used in Chapter 7.
 
 Through these exercises, you can develop a firm foundation for the formal
 specification techniques introduced from Chapter 3 onward by making the
