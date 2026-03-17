@@ -24,7 +24,7 @@ rigor into software specification. Their goal, however, was not merely to write
 software documents with mathematical symbols. They wanted a practical form of
 mathematical rigor that software engineers could actually use.
 
-The result was Z notation, which is often described as \"readable mathematics.\"
+The result was Z notation, which is often described as "readable mathematics."
 Complex mathematical ideas are expressed in a structured way, making them
 usable not only by mathematicians but also by practitioners who need to design
 and review software systems.
@@ -100,7 +100,7 @@ review and communication.
 ### Symbols as a Common Language
 
 The greatest value of mathematical notation is uniqueness of interpretation.
-Natural language makes expressions such as \"large,\" \"small,\" \"many,\" or \"few\"
+Natural language makes expressions such as "large," "small," "many," or "few"
 ambiguous. Symbols such as `≤`, `≥`, `∈`, and `⊆` have stable meanings
 independent of language and region.
 
@@ -115,7 +115,7 @@ elaborate types.
 
 **Examples of basic types**:
 
-【Tool-compliant (runs as-is)】
+【ツール準拠（そのまま動く）】
 ```z
 [Person, BookID, Date]
 ```
@@ -125,7 +125,7 @@ primitive elements that we do not decompose any further.
 
 **Examples of constructed types**:
 
-【Tool-compliant (runs as-is)】
+【ツール準拠（そのまま動く）】
 ```z
 Name == seq Char
 Status ::= available | borrowed | reserved
@@ -150,7 +150,7 @@ Set-theoretic operators are natural and powerful in software specification.
 
 **Practical example: library stock management**
 
-【Tool-compliant (runs as-is)】
+【ツール準拠（そのまま動く）】
 ```z
 availableBooks == allBooks \ borrowedBooks
 overdueBooks == {b: borrowedBooks | dueDate(b) < today}
@@ -175,7 +175,7 @@ special cases of functions.
 
 **Practical example: student enrollment**
 
-【Pseudo notation】
+【擬似記法】
 ```z
 enrollment: Student ↔ Course
 advisor: Student ⇸ Teacher
@@ -194,7 +194,7 @@ Quantifiers such as `∀` and `∃` are central in specification writing.
 
 **Universal quantification**:
 
-【Pseudo notation】
+【擬似記法】
 ```z
 ∀ s: Student • #(s.courses) ≤ maxCourses
 
@@ -207,7 +207,7 @@ after its borrowing date.
 
 **Existential quantification**:
 
-【Pseudo notation】
+【擬似記法】
 ```z
 ∃ a: Admin • a.isActive = true
 
@@ -222,7 +222,7 @@ that exactly one person has the target email address.
 The real strength of Z appears when these mathematical building blocks are
 combined inside a schema.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 LibrarySystem
 ├─ books: ℙ Book
@@ -247,11 +247,11 @@ correctly. This matters for discussion and review.
 
 **Typical readings**:
 
-- `x ∈ S`: \"x belongs to S\" or \"x is in S\"
-- `A ⊆ B`: \"A is a subset of B\"
-- `f: X → Y`: \"f is a function from X to Y\"
-- `∀ x: X • P(x)`: \"for all x in X, P of x\"
-- `∃ x: X • P(x)`: \"there exists x in X such that P of x\"
+- `x ∈ S`: "x belongs to S" or "x is in S"
+- `A ⊆ B`: "A is a subset of B"
+- `f: X → Y`: "f is a function from X to Y"
+- `∀ x: X • P(x)`: "for all x in X, P of x"
+- `∃ x: X • P(x)`: "there exists x in X such that P of x"
 
 Once the team shares a consistent way of reading the notation, Z becomes much
 more practical as a communication medium.
@@ -273,7 +273,7 @@ A Z schema consists of a declaration part and a predicate part. The declaration
 part introduces state variables and their types. The predicate part states the
 relationships and constraints among them.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 ┌─ BankAccount ─────────────────────┐
 │ accountNumber: AccountID          │
@@ -294,7 +294,7 @@ must always hold.
 Real systems usually contain several interrelated collections and mappings.
 Schemas can express those compound structures naturally.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 ┌─ Library ─────────────────────────┐
 │ books: ℙ Book                     │
@@ -319,7 +319,7 @@ piece of the system's integrity policy.
 Large systems benefit from hierarchical structuring. Lower-level schemas can be
 combined into higher-level ones.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 ┌─ PersonalInfo ───────────────────┐
 │ name: Name                       │
@@ -355,7 +355,7 @@ complexity.
 State invariants are among the most important elements of a Z specification.
 They capture the consistency properties that must survive every operation.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 ┌─ OnlineStore ────────────────────┐
 │ products: ℙ Product              │
@@ -381,7 +381,7 @@ consistency and order validity.
 System constraints often depend on conditions. Z can express such conditional
 state restrictions naturally.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 ┌─ FlightBookingSystem ────────────┐
 │ flights: ℙ Flight                │
@@ -406,7 +406,7 @@ state restrictions naturally.
 In dynamic systems, state evolves over time. Z can model that dependence
 explicitly when needed.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 ┌─ TimedSystem ────────────────────┐
 │ currentTime: Time                │
@@ -434,7 +434,7 @@ Useful principles include:
 3. Use meaningful names.
 4. Split complex constraints over multiple lines.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 ┌─ WebServer ──────────────────────┐
 │ // Connection management         │
@@ -478,7 +478,7 @@ Z provides dedicated notation for operations.
 
 **Delta notation (`Δ`)**: the operation changes state.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 ΔLibrary
 ≙ Library ∧ Library'
@@ -489,7 +489,7 @@ in scope.
 
 **Xi notation (`Ξ`)**: the operation does not change state.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 ΞLibrary
 ≙ ΔLibrary ∧ θLibrary = θLibrary'
@@ -501,7 +501,7 @@ It states that all bindings in the schema are preserved across the operation.
 
 Let us examine a book-borrowing operation in a library system.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 ┌─ BorrowBook ─────────────────────┐
 │ ΔLibrary                         │
@@ -531,7 +531,7 @@ both the conditions required for normal execution and the resulting next state.
 Real systems must define error behavior as carefully as success behavior. Z can
 capture both in the same overall framework.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 ┌─ BorrowBookError ────────────────┐
 │ ΞLibrary                         │
@@ -558,7 +558,7 @@ case.
 
 A complete operation combines the normal and error cases.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 CompleteBorrowBook ≙ BorrowBook ∨ BorrowBookError
 ```
@@ -571,7 +571,7 @@ relevant input category.
 For more elaborate business logic, it is often helpful to describe the
 operation in stages.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 ┌─ ProcessPurchase ────────────────┐
 │ ΔOnlineStore                     │
@@ -606,7 +606,7 @@ operation in stages.
 Operation schemas are especially valuable because they let us state exactly how
 the pre-state and post-state are related.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 ┌─ TransferFunds ──────────────────┐
 │ ΔBankingSystem                   │
@@ -644,7 +644,7 @@ of specification.
 When multiple operations are combined, their order and dependency have to be
 made explicit.
 
-【Tool-compliant (runs as-is)】
+【ツール準拠（そのまま動く）】
 ```z
 BookReservationProcess ≙
   CheckAvailability ⨾
@@ -659,7 +659,7 @@ The operator `⨾` denotes sequential composition.
 
 Operations can also branch based on conditions.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 ┌─ ProcessReturn ──────────────────┐
 │ ΔLibrary                         │
@@ -702,7 +702,7 @@ operators.
 
 **Composition by conjunction (`∧`)**:
 
-【Pseudo notation】
+【擬似記法】
 ```z
 AuthenticatedOperation ≙
   UserAuthentication ∧
@@ -714,7 +714,7 @@ and the system-operation constraint.
 
 **Composition by disjunction (`∨`)**:
 
-【Pseudo notation】
+【擬似記法】
 ```z
 FlexiblePayment ≙
   CreditCardPayment ∨
@@ -728,7 +728,7 @@ This schema allows one of several payment mechanisms.
 
 Many real operations consist of several stages executed in sequence.
 
-【Tool-compliant (runs as-is)】
+【ツール準拠（そのまま動く）】
 ```z
 CompleteBooking ≙
   ValidateRequest ⨾
@@ -744,7 +744,7 @@ Each stage feeds into the next one, together forming a larger transaction.
 
 Conditional behavior can also be written in schema-calculus style.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 ProcessOrder ≙
   (InStock ∧ ImmediateDelivery) ∨
@@ -756,7 +756,7 @@ ProcessOrder ≙
 
 Production systems need a clean integration of success and failure behavior.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 RobustOperation ≙
   (Preconditions ∧ NormalProcessing) ∨
@@ -765,7 +765,7 @@ RobustOperation ≙
 
 A more concrete example:
 
-【Pseudo notation】
+【擬似記法】
 ```z
 ┌─ SafeWithdrawal ─────────────────┐
 │ (ValidAccount ∧ SufficientFunds  │
@@ -783,7 +783,7 @@ A more concrete example:
 
 Some operations conceptually run in parallel.
 
-【Tool-compliant (runs as-is)】
+【ツール準拠（そのまま動く）】
 ```z
 ParallelProcessing ≙
   DatabaseUpdate ∥
@@ -800,7 +800,7 @@ operations.
 
 **Abstract level**:
 
-【Tool-compliant (runs as-is)】
+【ツール準拠（そのまま動く）】
 ```z
 PaymentProcess ≙
   ValidatePayment ⨾
@@ -810,7 +810,7 @@ PaymentProcess ≙
 
 **More concrete level**:
 
-【Pseudo notation】
+【擬似記法】
 ```z
 CreditCardPayment ≙
   (ValidateCreditCard ∧ CheckCreditLimit) ⨾
@@ -823,7 +823,7 @@ CreditCardPayment ≙
 One response to the frame problem is to define the changed and unchanged parts
 of the state explicitly.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 ┌─ MinimalUpdate ──────────────────┐
 │ ΔSystemState                     │
@@ -844,7 +844,7 @@ of the state explicitly.
 In some domains, inverse operations such as undo are an essential design
 concern.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 UndoableOperation ≙
   (DoAction ∧ SaveUndoInfo) ∨
@@ -860,7 +860,7 @@ FileManagement ≙
 Systems with security requirements often need an access-control wrapper around
 all operations.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 SecureOperation[X] ≙
   AuthorizeUser ∧
@@ -871,7 +871,7 @@ SecureOperation[X] ≙
 
 This generic pattern adds security control to an arbitrary operation `X`.
 
-【Tool-compliant (runs as-is)】
+【ツール準拠（そのまま動く）】
 ```z
 SecureFileAccess ≙ SecureOperation[ReadFile]
 SecureDataModification ≙ SecureOperation[UpdateDatabase]
@@ -881,7 +881,7 @@ SecureDataModification ≙ SecureOperation[UpdateDatabase]
 
 Schema calculus can also help document performance-related design choices.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 EfficientOperation ≙
   (SmallDataSet ∧ LinearSearch) ∨
@@ -930,7 +930,7 @@ We can model the system state in stages.
 
 **Basic type definitions**:
 
-【Tool-compliant (runs as-is)】
+【ツール準拠（そのまま動く）】
 ```z
 [FloorNumber, PassengerID, Time]
 
@@ -941,7 +941,7 @@ ElevatorState ::= moving | stopped | maintenance
 
 **Basic state schema**:
 
-【Pseudo notation】
+【擬似記法】
 ```z
 ┌─ ElevatorStatus ─────────────────┐
 │ currentFloor: FloorNumber        │
@@ -963,7 +963,7 @@ ElevatorState ::= moving | stopped | maintenance
 
 Handling hall calls and cabin calls is one of the central functions.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 ┌─ CallSystem ─────────────────────┐
 │ upCalls: ℙ FloorNumber           │
@@ -984,7 +984,7 @@ Handling hall calls and cabin calls is one of the central functions.
 The overall system state includes both the elevator's physical status and the
 call-management state.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 ┌─ ElevatorSystem ─────────────────┐
 │ ElevatorStatus                   │
@@ -1004,7 +1004,7 @@ call-management state.
 
 We next define an operation that records an external call.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 ┌─ RegisterUpCall ─────────────────┐
 │ ΔElevatorSystem                  │
@@ -1030,7 +1030,7 @@ The same style can be used for downward hall calls and cabin calls.
 The scheduler is the more intelligent part of the system. It decides the next
 target floor based on current requests and current direction.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 ┌─ DetermineNextFloor ─────────────┐
 │ ΞElevatorSystem                  │
@@ -1065,7 +1065,7 @@ target floor based on current requests and current direction.
 Door control directly affects safety, so the preconditions are especially
 important.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 ┌─ OpenDoor ───────────────────────┐
 │ ΔElevatorSystem                  │
@@ -1100,7 +1100,7 @@ important.
 In a safety-critical system, emergency behavior must also be specified
 explicitly.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 ┌─ EmergencyStop ──────────────────┐
 │ ΔElevatorSystem                  │
@@ -1134,7 +1134,7 @@ Once the model is complete enough, we can state important system properties.
 
 **Safety property**:
 
-【Pseudo notation】
+【擬似記法】
 ```z
 SafetyInvariant ≙
   ∀ ElevatorSystem •
@@ -1145,7 +1145,7 @@ SafetyInvariant ≙
 
 **Liveness property**:
 
-【Pseudo notation】
+【擬似記法】
 ```z
 LivenessProperty ≙
   ∀ ElevatorSystem •
@@ -1162,7 +1162,7 @@ set of pending calls becomes smaller.
 
 Formal specification can also record performance expectations.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 ┌─ PerformanceMetrics ─────────────┐
 │ averageWaitTime: ℝ               │
@@ -1190,7 +1190,7 @@ framework.
 Read the following Z schema and explain the system structure and constraints it
 represents.
 
-【Pseudo notation】
+【擬似記法】
 ```z
 ┌─ UniversityDatabase ─────────────┐
 │ students: ℙ Student              │
