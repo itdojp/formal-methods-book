@@ -1557,12 +1557,13 @@ long-term strategy.
 
 ## End-of-Chapter Exercises
 
-**Submission rules when using AI (common to all exercises)**:
+**If you use AI while working through these exercises**
 
-- Treat AI output as a proposal; the final judgment must come from a verifier
-- Submit the prompts used, generated specifications or invariants, verification
-  commands and logs, and any repair history if counterexamples were found
-- For detailed templates, see Appendix D and Appendix F
+- Treat AI output as a proposal; use verifiers to make the final judgment.
+- Keep a record of the prompts you used, the generated specifications and
+  invariants, the verification commands and logs (including seed, depth, and
+  scope), and the revision history when counterexamples were found.
+- For detailed templates, see Appendix D and Appendix F.
 
 ### Basic Exercise 1: Practicing Temporal Logic
 
