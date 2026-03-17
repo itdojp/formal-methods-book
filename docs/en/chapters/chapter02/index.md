@@ -709,9 +709,9 @@ Such models become important in real-time systems and physical simulation.
 
 **If you use AI while working through these exercises**
 - Treat AI output as a proposal; use verifiers to determine correctness.
-- Keep the prompts you used, generated specifications and invariants,
-  verification commands and logs (including seed, depth, and scope), and the
-  revision history when counterexamples were found.
+- Keep a record of the prompts you used, the generated specifications and
+  invariants, the verification commands and logs (including seed, depth, and
+  scope), and the revision history when counterexamples were found.
 - See Appendix D and Appendix F for detailed templates.
 
 ### Exercise 1: Set-Theoretic Representation of a Data Structure

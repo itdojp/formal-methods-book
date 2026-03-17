@@ -470,9 +470,9 @@ concepts software engineers already use every day.
 **If you use AI while working through these exercises**
 
 - Treat AI output as a proposal; use verifiers to make the final judgment.
-- Keep the prompts you used, generated specifications and invariants,
-  verification commands and logs (including seed, depth, and scope), and the
-  revision history when counterexamples were found.
+- Keep a record of the prompts you used, the generated specifications and
+  invariants, the verification commands and logs (including seed, depth, and
+  scope), and the revision history when counterexamples were found.
 - See Appendix D and Appendix F for detailed templates.
 
 ### Thinking Exercise 1: Complexity Analysis
