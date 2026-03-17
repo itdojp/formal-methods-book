@@ -50,19 +50,27 @@ In practice, readers often return in the following ways:
 If the book succeeds as a reference, it should help you restart thinking
 quickly rather than forcing you to reconstruct the entire field from memory.
 
-## Where to Go Next
+## Choose Your Next Path
 
-The next step depends on your goals:
+The right second pass depends on the kind of problem you need to solve next:
 
-- if you want stronger modeling skill, deepen your work in Alloy, Z, CSP, or
-  TLA+ through repeated small exercises
-- if you want stronger assurance arguments, spend more time on model checking,
-  proof assistants, and program verification
-- if your goal is organizational change, study the case studies and then pilot
-  one narrow but high-value adoption effort in your own context
+- **Modeling path**: Revisit Chapters 3-7 together with
+  [Appendix C]({{ '/en/appendices/appendix-c/' | relative_url }}). Rework one
+  small requirement or protocol from your own domain in two different
+  notations, then compare what each notation makes visible.
+- **Verification path**: Return to Chapters 8-10. Take one property from a
+  real component, write it as a candidate invariant or temporal property, and
+  record what the first counterexample or proof obligation actually teaches
+  you.
+- **Adoption path**: Use Chapters 11-13 with
+  [Appendix D]({{ '/en/appendices/appendix-d/' | relative_url }}) and
+  [Appendix F]({{ '/en/appendices/appendix-f/' | relative_url }}). Define one
+  pilot target, one review checkpoint, and one piece of evidence your team
+  will expect before trusting the result.
 
 Formal methods reward repeated contact. The first pass gives vocabulary and
-structure. Later passes turn that structure into engineering instinct.
+structure. The second pass should connect that structure to a real engineering
+decision.
 
 ## Stay Close to Practice
 
@@ -76,19 +84,28 @@ system should be trusted.
 That is the standard this book ultimately argues for: not formalism for its
 own sake, but rigor where rigor changes outcomes.
 
-## Resources for Continued Study
+## Build a Practical Follow-Up Plan
 
-If you want to continue learning, the following are practical next steps:
+If you want this book to remain useful after the first read, keep the next
+step narrow and concrete:
 
-- **Conferences**: FM, CAV, TACAS, ICSE, FSE
-- **Journals**: IEEE TSE, ACM TOSEM, SCP, STTT
-- **Communities**: the TLA+ community, Alloy users, theorem-proving
-  communities, and relevant engineering groups
-- **Hands-on follow-up**: replicate one example from this book in your own
-  domain, then compare what changed in the model and in the questions you asked
+- **Primary sources**: Use
+  [Appendix E]({{ '/en/appendices/appendix-e/' | relative_url }}) to choose
+  one chapter-aligned paper, book, or official guide instead of collecting a
+  long unsorted reading list.
+- **Communities**: Track one active community for the method you are actually
+  using, such as the TLA+ community, Alloy users, or a proof-assistant
+  community.
+- **Hands-on repetition**: Rework one example from this book in your own
+  domain and compare what changed in the assumptions, state variables, and
+  failure modes.
+- **Reference loop**: When terminology drifts inside your team, return to
+  [the glossary]({{ '/en/glossary/' | relative_url }}) and
+  [Appendix C]({{ '/en/appendices/appendix-c/' | relative_url }}) before
+  rewriting definitions from scratch.
 
-With that, I would like to close this book by wishing you continued growth and
-success in the field of formal methods.
+I close this book with a practical expectation: use formal methods where they
+change a decision, reduce an ambiguity, or strengthen a claim that matters.
 
 January 2025
 
