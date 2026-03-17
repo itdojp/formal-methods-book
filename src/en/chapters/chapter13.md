@@ -932,7 +932,7 @@ Choose one of the cases discussed in this chapter and investigate it in more det
    - Long-term influence and subsequent development
    - Spillover effects into other projects
 
-**Deliverables**:
+**Suggested outputs**:
 - A detailed investigation report of 20 to 30 pages
 - An analysis of success factors and remaining challenges
 - A proposal for how the lessons could be applied in other organizations
@@ -968,7 +968,8 @@ Create a concrete plan for introducing formal methods into a real or hypothetica
    - Mitigation measures and a contingency plan
    - Success indicators and evaluation methods
 
-**Submission format**: a proposal document for management
+**Suggested output**: a concise management proposal or presentation outline
+that could be used to discuss adoption with decision-makers
 
 ### Advanced Exercise: Future-Scenario Analysis
 

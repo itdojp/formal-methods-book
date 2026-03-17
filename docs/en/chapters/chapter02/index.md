@@ -705,7 +705,7 @@ Such models become important in real-time systems and physical simulation.
 
 ---
 
-## Exercises
+## End-of-Chapter Exercises
 
 **If you use AI while working through these exercises**
 - Treat AI output as a proposal; use verifiers to determine correctness.

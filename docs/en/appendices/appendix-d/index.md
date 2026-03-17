@@ -1016,16 +1016,17 @@ Rubric:
 - Hypotheses and facts are separated
 - The implications are usable in practice
 
-## D.15 Submission Template for AI Use (Common)
+## D.15 Documentation Template for AI Use (Common)
 
-Treat AI output as a proposal, and let the verifier determine pass or fail. The submission should include the following.
+Treat AI output as a proposal, and let the verifier determine pass or fail. The
+working record should include the following.
 
 - The prompts used, including requirements and constraints
 - The generated specifications and invariants
 - Verification commands and logs, including seed, depth, scope, and elapsed time
 - If a counterexample appears, the fix history including the diff and the re-verification log
 
-Submission format (example):
+Example record format:
 
 ```
 ## Prompts Used

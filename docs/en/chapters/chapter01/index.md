@@ -465,7 +465,7 @@ concepts software engineers already use every day.
 
 ---
 
-## Exercises
+## End-of-Chapter Exercises
 
 **If you use AI while working through these exercises**
 
