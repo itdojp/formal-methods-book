@@ -38,7 +38,7 @@ For event A to be the cause of event B, information about A must have reached
 B. Because information propagation takes time, physical timestamps alone are not
 enough.
 
-【Pseudo notation】
+【擬似記法】
 ```text
 Node 1: event A occurs → send message
          |
@@ -146,7 +146,7 @@ can be understood in a uniform way.
 In TLA+, every system is treated as a state-transition system. The system starts
 from an initial state and evolves through a sequence of transitions.
 
-【Pseudo notation】
+【擬似記法】
 ```text
 initial state → state 1 → state 2 → state 3 → ...
 ```
@@ -163,7 +163,7 @@ variables.
 
 For example, an action that increments `x` can be written as follows.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 Increment ≜ x' = x + 1
 ```
@@ -177,7 +177,7 @@ TLA+ uses temporal logic to express dynamic properties of behavior.
 
 **`□` (always)**:
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 □(x ≥ 0)
 ```
@@ -186,7 +186,7 @@ This says that `x` is always non-negative.
 
 **`◇` (eventually)**:
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 ◇(x = 10)
 ```
@@ -197,14 +197,14 @@ This says that `x` becomes 10 at some point.
 specifications usually work directly with primed variables and action formulas
 rather than with a separate next-time operator.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 ○(x > y)
 ```
 
 These operators can be combined to describe richer behavior.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 □◇(process = "ready")
 ◇□(system = "stable")
@@ -218,7 +218,7 @@ that the system eventually reaches a stable condition and stays there.
 Prime notation is one of the cleanest ideas in TLA+. It distinguishes the
 current state from the next state concisely and directly.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 Transfer ≜
   ∧ amount > 0
@@ -246,7 +246,7 @@ satisfies action `A`.
 - **Strong fairness (`SF`)**: if an action becomes enabled infinitely often,
   then it must eventually occur.
 
-【Tool-compliant (runs as-is)】
+【ツール準拠（そのまま動く）】
 ```tla
 WF_vars(Action)
 SF_vars(Action)
@@ -257,7 +257,7 @@ SF_vars(Action)
 TLA+ supports compositionality. Larger systems can be built from smaller
 specifications.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 System ≜ Process1 ∧ Process2 ∧ Process3
 ```
@@ -271,7 +271,7 @@ TLA+ also supports refinement: a concrete specification can be shown to realize
 an abstract one. This allows development to proceed from a high-level design to
 an implementable model while preserving important guarantees.
 
-【Pseudo notation】
+【擬似記法】
 ```text
 abstract specification ⊨ concrete specification
 ```
@@ -286,7 +286,7 @@ valuable modeling tool. By allowing different actions to be chosen
 nondeterministically, the specification can preserve implementation freedom
 while still enforcing the required safety properties.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 Next ≜ Action1 ∨ Action2 ∨ Action3
 ```
@@ -319,7 +319,7 @@ other information that affects behavior.
 A state can often be understood as a function from variables to values. For
 example, a banking system might be modeled as follows.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 State ≜ [
   accounts: [AccountID → Nat],
@@ -336,7 +336,7 @@ This gives a compact description of the full situation at one moment.
 TLA+ makes the state variables explicit, and type-like invariants can restrict
 them to the values that make sense for the model.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 VARIABLES
   balance,
@@ -358,7 +358,7 @@ discipline for the model.
 
 Behavior begins from `Init`, the predicate describing the initial state.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 Init ≜
   ∧ balance = [a ∈ AccountID ↦ InitialBalance[a]]
@@ -375,7 +375,7 @@ An action describes one way the state can evolve.
 
 **Deposit example**:
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 Deposit(account, amount) ≜
   ∧ amount > 0
@@ -394,7 +394,7 @@ and advances the clock, while leaving `pending` unchanged.
 Transfers are more complex because several parts of the state must be updated
 consistently.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 Transfer(from, to, amount) ≜
   ∧ amount > 0
@@ -413,7 +413,7 @@ Transfer(from, to, amount) ≜
 
 Many actions are meaningful only under certain conditions.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 ProcessPendingTransaction ≜
   ∧ pending ≠ {}
@@ -428,7 +428,7 @@ ProcessPendingTransaction ≜
 
 A TLA+ next-state relation often combines many possible actions.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 Next ≜
   ∨ ∃ account ∈ AccountID, amount ∈ Nat : Deposit(account, amount)
@@ -445,7 +445,7 @@ constraints are satisfied.
 When an action is written, it is important to make clear which variables do
 *not* change. These frame conditions prevent unintended side effects.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 ReadBalance(account) ≜
   ∧ account ∈ DOMAIN balance
@@ -460,7 +460,7 @@ unchanged.
 When several changes must happen together, they are written in one action.
 This is how atomicity is expressed.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 AtomicSwap(account1, account2) ≜
   ∧ account1 ≠ account2
@@ -477,7 +477,7 @@ AtomicSwap(account1, account2) ≜
 
 Some systems require explicit representation of time passing.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 TickClock ≜
   ∧ clock' = clock + 1
@@ -496,7 +496,7 @@ ProcessTimeouts ≜
 A system usually interacts with clients, users, or other external components.
 That interaction can also be modeled as actions.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 ReceiveExternalRequest(request) ≜
   ∧ ValidRequest(request)
@@ -510,7 +510,7 @@ ReceiveExternalRequest(request) ≜
 
 Practical models often need explicit failure actions.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 NetworkFailure ≜
   ∧ network_status = "operational"
@@ -528,7 +528,7 @@ Recovery ≜
 
 Desired properties can also be written as state predicates and invariants.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 SafetyInvariant ≜
   ∧ TypeInvariant
@@ -559,14 +559,14 @@ TLA+ uses several foundational temporal operators.
 
 **`□` (always)**:
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 □P
 ```
 
 Example:
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 □(balance ≥ 0)
 □(mutex ⟹ ¬(process1_critical ∧ process2_critical))
@@ -574,14 +574,14 @@ Example:
 
 **`◇` (eventually)**:
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 ◇P
 ```
 
 Example:
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 ◇(task_completed)
 ◇(system_stable)
@@ -593,7 +593,7 @@ Temporal operators can be combined to express richer long-run behavior.
 
 **`□◇P`**: `P` holds infinitely often.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 □◇(process_scheduled)
 □◇(garbage_collection)
@@ -601,7 +601,7 @@ Temporal operators can be combined to express richer long-run behavior.
 
 **`◇□P`**: eventually `P` becomes permanently true.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 ◇□(leader_elected)
 ◇□(consensus_reached)
@@ -612,14 +612,14 @@ Temporal operators can be combined to express richer long-run behavior.
 A very common temporal idea is that whenever `A` happens, `B` eventually
 follows.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 A ~> B ≜ □(A ⟹ ◇B)
 ```
 
 Example:
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 request_sent ~> response_received
 failure_detected ~> recovery_initiated
@@ -631,14 +631,14 @@ Temporal properties are often divided into two main categories.
 
 **Safety**: nothing bad ever happens.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 Safety ≜ □¬BadThing
 ```
 
 Examples:
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 □¬(balance < 0)
 □¬(deadlock)
@@ -646,14 +646,14 @@ Examples:
 
 **Liveness**: something good eventually happens.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 Liveness ≜ ◇GoodThing
 ```
 
 Examples:
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 ◇(all_processes_terminate)
 □(request ⟹ ◇response)
@@ -665,7 +665,7 @@ Fairness can also be written precisely in temporal form.
 
 **Weak fairness**:
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 WF_vars(A) ≜ ◇□ENABLED ⟨A⟩_vars ⟹ □◇⟨A⟩_vars
 ```
@@ -675,7 +675,7 @@ occur infinitely often.
 
 **Strong fairness**:
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 SF_vars(A) ≜ □◇ENABLED ⟨A⟩_vars ⟹ □◇⟨A⟩_vars
 ```
@@ -690,7 +690,7 @@ that the tuple `vars` actually changes.
 
 Mutual exclusion is a standard example of temporal reasoning.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 MutualExclusion ≜
   ∀ i, j ∈ Processes : i ≠ j ⟹ □¬(pc[i] = "critical" ∧ pc[j] = "critical")
@@ -708,7 +708,7 @@ Consensus algorithms require several classic temporal properties.
 
 **Agreement**:
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 Agreement ≜
   ∀ p, q ∈ Nodes :
@@ -717,7 +717,7 @@ Agreement ≜
 
 **Validity**:
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 Validity ≜
   ∀ p ∈ Nodes :
@@ -726,7 +726,7 @@ Validity ≜
 
 **Termination**:
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 Termination ≜
   ◇(∀ p ∈ Nodes : decided[p])
@@ -736,7 +736,7 @@ Termination ≜
 
 Distributed systems also require temporal reasoning about causal dependence.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 CausalOrder ≜
   ∀ e1, e2 ∈ Events :
@@ -751,7 +751,7 @@ EventualConsistency ≜
 
 Practical systems often require bounded-response guarantees.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 ResponseTime ≜
   ∀ req ∈ Requests :
@@ -768,7 +768,7 @@ raw TLA+ syntax. They should therefore be read as pseudo notation.
 
 Failures and recoveries are also naturally expressed as temporal requirements.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 FailureRecovery ≜
   □(failure_detected ~> recovery_initiated)
@@ -784,7 +784,7 @@ BoundedDowntime ≜
 
 Real systems usually require several temporal concerns to be combined.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 SystemSpec ≜
   ∧ Safety_Properties
@@ -857,7 +857,7 @@ For TLC to analyze a specification, the model must be executable in a finite
 sense. That means restricting an abstract specification to finite sets and
 finite bounds that TLC can enumerate.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 CONSTANTS
   Processes,
@@ -875,7 +875,7 @@ ASSUME
 TLC is controlled through a configuration file (`.cfg`) that supplies concrete
 constant values, the specification to check, and the properties to verify.
 
-【Pseudo notation】
+【擬似記法】
 ```text
 \* BankingSystem.cfg
 CONSTANTS
@@ -899,7 +899,7 @@ A staged approach is effective for nontrivial systems.
 
 **Stage 1: type-style invariants**
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 TypeInvariant ≜
   ∧ balance ∈ [Accounts → Nat]
@@ -909,7 +909,7 @@ TypeInvariant ≜
 
 **Stage 2: safety invariants**
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 SafetyInvariant ≜
   ∧ ∀ a ∈ Accounts : balance[a] ≤ MaxBalance
@@ -919,7 +919,7 @@ SafetyInvariant ≜
 
 **Stage 3: liveness properties**
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 Progress ≜ □(pending ≠ {} ⟹ ◇(pending = {}))
 ```
@@ -931,7 +931,7 @@ control techniques therefore matter.
 
 **Using symmetry**:
 
-【Tool-compliant (runs as-is)】
+【ツール準拠（そのまま動く）】
 ```tla
 SYMMETRY Permutations(Accounts)
 ```
@@ -941,7 +941,7 @@ of symmetric states that TLC explores.
 
 **Adding state constraints**:
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 StateConstraint ≜
   ∧ clock ≤ MaxTime
@@ -957,7 +957,7 @@ cause.
 
 **Typical output example**:
 
-【Pseudo notation】
+【擬似記法】
 ```text
 Error: Invariant SafetyInvariant is violated.
 
@@ -982,7 +982,7 @@ clock = 2
 TLC can automatically report deadlock when the system reaches a state in which
 no enabled transition exists.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 BadMutex ≜
   ∧ pc[1] = "wait" ∧ pc[2] = "wait"
@@ -998,7 +998,7 @@ Checking liveness is generally more expensive than checking safety. TLC uses
 specialized graph analysis techniques, such as strongly connected components,
 to search for liveness violations.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 EventualProgress ≜
   ∀ i ∈ Processes : □(pc[i] = "trying" ⟹ ◇(pc[i] = "critical"))
@@ -1013,7 +1013,7 @@ For very large state spaces, exhaustive checking may be impractical. In such
 cases, bounded or sampling-oriented approaches may be used operationally, even
 though their guarantees differ from exhaustive model checking.
 
-【Pseudo notation】
+【擬似記法】
 ```text
 CONSTRAINT StateConstraint
 SYMMETRY Symmetries
@@ -1027,21 +1027,21 @@ Several practical techniques improve TLC performance.
 
 **Parallel execution**:
 
-【Tool-compliant (runs as-is)】
+【ツール準拠（そのまま動く）】
 ```bash
 tlc -workers 8 BankingSystem.tla
 ```
 
 **Memory tuning**:
 
-【Tool-compliant (runs as-is)】
+【ツール準拠（そのまま動く）】
 ```bash
 tlc -Xmx8g -XX:+UseG1GC BankingSystem.tla
 ```
 
 **Checkpointing**:
 
-【Tool-compliant (runs as-is)】
+【ツール準拠（そのまま動く）】
 ```bash
 tlc -checkpoint 60 BankingSystem.tla
 ```
@@ -1104,7 +1104,7 @@ properties.
 
 In TLA+, we can express them as follows.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 VARIABLES
   proposed,
@@ -1140,7 +1140,7 @@ Its central concepts include:
 
 A TLA+ model of Raft can make all of these pieces explicit.
 
-【Tool-compliant (runs as-is)】
+【ツール準拠（そのまま動く）】
 ```tla
 VARIABLES
   \* Persistent state on all servers
@@ -1166,7 +1166,7 @@ VARIABLES
 
 Initially, all servers begin as followers.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 Init ≜
   ∧ currentTerm = [s ∈ Servers ↦ 0]
@@ -1187,7 +1187,7 @@ Raft leader election can be written in stages.
 
 **1. Election timeout**:
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 ElectionTimeout(s) ≜
   ∧ state[s] = Follower
@@ -1202,7 +1202,7 @@ ElectionTimeout(s) ≜
 
 **2. Sending vote requests**:
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 SendRequestVoteRequests(s) ≜
   messages' = messages ∪
@@ -1216,7 +1216,7 @@ SendRequestVoteRequests(s) ≜
 
 **3. Processing vote responses**:
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 ReceiveRequestVoteResponse(s) ≜
   ∃ m ∈ messages :
@@ -1241,7 +1241,7 @@ followers as log entries.
 
 **1. Appending an entry**:
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 AppendEntry(s, entry) ≜
   ∧ state[s] = Leader
@@ -1252,7 +1252,7 @@ AppendEntry(s, entry) ≜
 
 **2. Sending `AppendEntries`**:
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 SendAppendEntries(s) ≜
   messages' = messages ∪
@@ -1270,7 +1270,7 @@ SendAppendEntries(s) ≜
 
 **3. Processing responses and committing**:
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 ProcessAppendEntriesResponse(s) ≜
   ∃ m ∈ messages :
@@ -1291,7 +1291,7 @@ ProcessAppendEntriesResponse(s) ≜
 
 Raft should satisfy several important safety invariants.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 LogMatching ≜
   ∀ s, t ∈ Servers, i ∈ DOMAIN log[s] ∩ DOMAIN log[t] :
@@ -1314,7 +1314,7 @@ A realistic distributed-system model must also include failures.
 
 **Node failure**:
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 NodeFailure(s) ≜
   ∧ state[s] ≠ Failed
@@ -1325,7 +1325,7 @@ NodeFailure(s) ≜
 
 **Network partition**:
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 NetworkPartition ≜
   ∃ partition ⊆ Servers :
@@ -1339,7 +1339,7 @@ NetworkPartition ≜
 
 **Message loss**:
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 MessageLoss ≜
   ∃ m ∈ messages :
@@ -1353,7 +1353,7 @@ MessageLoss ≜
 Raft also aims to satisfy progress properties, subject to fairness and network
 assumptions.
 
-【Pseudo notation】
+【擬似記法】
 ```tla
 EventualLeaderElection ≜
   ◇(∃ s ∈ Servers : state[s] = Leader)
@@ -1371,7 +1371,7 @@ Fairness ≜
 
 A TLC configuration for a small Raft model might look as follows.
 
-【Pseudo notation】
+【擬似記法】
 ```text
 \* Raft.cfg
 CONSTANTS
