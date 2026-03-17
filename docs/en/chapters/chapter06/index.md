@@ -12,10 +12,10 @@ source_path: "src/en/chapters/chapter06.md"
 
 This chapter uses two kinds of code examples.
 
-- **Tool-compliant (runs as-is)**: examples intended to be syntactically valid
+- **【ツール準拠（そのまま動く）】**: examples intended to be syntactically valid
   CSPM for FDR, using ASCII notation such as `->`, `[]`, `|||`, `[| X |]`, and
   `P[[a <- b]]`
-- **Pseudo notation**: simplified explanatory notation. Unicode symbols such as
+- **【擬似記法】**: simplified explanatory notation. Unicode symbols such as
   `→`, `□`, and `⊓`, along with some guards, `where` clauses, and event
   parameter conventions, do not necessarily match CSPM exactly and should not be
   pasted into a tool unchanged
@@ -50,7 +50,7 @@ Consider two processes trying to access the same resource. Each process may be
 perfectly correct in isolation, yet simultaneous execution can lead to a race
 condition and produce an unexpected result.
 
-【Pseudo notation】
+【擬似記法】
 ```text
 Process A: read the resource → update the value → write the resource
 Process B: read the resource → update the value → write the resource
@@ -136,7 +136,7 @@ That separation allows us to reason independently about the correctness of a
 single process and the correctness of process interaction. This is a crucial
 principle for managing complexity.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 VENDING_MACHINE = coin → (tea → VENDING_MACHINE | coffee → VENDING_MACHINE)
 ```
@@ -153,7 +153,7 @@ other interaction. CSP treats them in one uniform way.
 The crucial property of an event is synchrony. An event occurs only when all
 processes involved in that event are ready. That makes coordination explicit.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 CUSTOMER = arrive → order → pay → leave → CUSTOMER
 CASHIER = greet → order → pay → CASHIER
@@ -172,7 +172,7 @@ Real systems often contain many interacting processes. CSP uses *channels* to
 structure that interaction. A channel is an abstract route over which messages
 move between processes.
 
-【Tool-compliant (runs as-is)】
+【ツール準拠（そのまま動く）】
 ```csp
 channel in, out : {0..1}
 
@@ -193,7 +193,7 @@ One of the strengths of CSP is compositionality. Small processes can be
 combined to form larger systems. This hierarchical construction allows large
 systems to be decomposed into understandable pieces.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 CELL = left?x → right!x → CELL
 PIPE(n) = if n = 0 then CELL
@@ -208,21 +208,21 @@ CSP treats choice and concurrency within one unified framework.
 
 **External choice (`□`)**: the environment determines which branch is taken.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 ATM = card_insert → (pin_correct → transaction □ pin_incorrect → reject)
 ```
 
 **Internal choice (`⊓`)**: the process chooses nondeterministically.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 RANDOM = heads → SUCCESS ⊓ tails → FAILURE
 ```
 
 **Parallel composition**: multiple processes run concurrently.
 
-【Tool-compliant (runs as-is)】
+【ツール準拠（そのまま動く）】
 ```csp
 PROCESS1 = a -> PROCESS1
 PROCESS2 = b -> PROCESS2
@@ -247,7 +247,7 @@ CSP can express not only normal behavior but also faults and exceptional cases.
 A fault can be treated as just another kind of event, which means failure
 handling can be integrated into the same control structure as normal behavior.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 RELIABLE_SERVICE =
   request → (
@@ -272,21 +272,21 @@ processes. Understanding these primitives is the foundation of the notation.
 **`STOP`**: a process that does nothing and cannot proceed, representing a
 deadlock state.
 
-【Tool-compliant (runs as-is)】
+【ツール準拠（そのまま動く）】
 ```csp
 STOP
 ```
 
 **`SKIP`**: a process that terminates successfully.
 
-【Tool-compliant (runs as-is)】
+【ツール準拠（そのまま動く）】
 ```csp
 SKIP
 ```
 
 **Simple event processes**:
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 a → STOP
 
@@ -301,7 +301,7 @@ obtain rich behavior.
 The prefix operator is the most basic constructor in CSP. It means that after a
 certain event occurs, the process behaves in a specified way.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 coin → (tea → STOP | coffee → STOP)
 ```
@@ -318,7 +318,7 @@ semantics.
 
 **External choice (`□`)**: the environment chooses.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 ATM = card_insert → pin_entry □ admin_key → maintenance_mode
 ```
@@ -328,14 +328,14 @@ administrator enters maintenance mode.
 
 **Internal choice (`⊓`)**: the process chooses nondeterministically.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 COIN_FLIP = heads → WIN ⊓ tails → LOSE
 ```
 
 **Guarded choice**:
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 BUFFER = size < MAX & input?x → add.x → BUFFER
         □ size > 0 & output!first → remove → BUFFER
@@ -349,7 +349,7 @@ The family of operators for parallel composition is central to CSP.
 
 **Independent parallel (`|||`)**: processes run independently.
 
-【Tool-compliant (runs as-is)】
+【ツール準拠（そのまま動く）】
 ```csp
 PRINTER = print_job -> PRINTER
 SCANNER = scan_doc -> SCANNER
@@ -363,7 +363,7 @@ These processes do not interact and may proceed independently.
 **Synchronized parallel (`[| X |]`)**: processes synchronize on a chosen set of
 events.
 
-【Tool-compliant (runs as-is)】
+【ツール準拠（そのまま動く）】
 ```csp
 CUSTOMER = arrive -> order -> pay -> leave -> CUSTOMER
 CASHIER = greet -> order -> pay -> CASHIER
@@ -376,7 +376,7 @@ independently.
 
 **Interleaving**: the events of processes may be interwoven in any order.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 AB_SEQUENCE = A ||| B
 where A = a → b → A
@@ -387,7 +387,7 @@ where A = a → b → A
 
 Pipelines are a standard way to describe staged data flow among processes.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 PRODUCER = produce.data → c12!data → PRODUCER
 PROCESSOR = c12?x → process.x → c23!process(x) → PROCESSOR
@@ -407,14 +407,14 @@ naturally through recursion.
 
 **Simple recursion**:
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 CLOCK = tick → CLOCK
 ```
 
 **Recursion with state**:
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 COUNTER(n) = up → COUNTER(n+1)
            □ down → COUNTER(n-1)
@@ -423,7 +423,7 @@ COUNTER(n) = up → COUNTER(n+1)
 
 **Mutual recursion**:
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 PING = ping → PONG
 PONG = pong → PING
@@ -434,7 +434,7 @@ PONG = pong → PING
 When many similar processes are needed, process families offer a compact way to
 define them.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 WORKER(id) = task?t → process.id.t → result!process(t) → WORKER(id)
 WORKERS = ||| i:{1..N} @ WORKER(i)
@@ -447,7 +447,7 @@ This defines `N` worker processes running concurrently.
 To conceal internal events from the external interface, CSP provides the hiding
 operator (`\`).
 
-【Tool-compliant (runs as-is)】
+【ツール準拠（そのまま動く）】
 ```csp
 INTERNAL_PROCESS = internal_event1 -> internal_event2 -> external_event -> INTERNAL_PROCESS
 PUBLIC_INTERFACE = INTERNAL_PROCESS \ {internal_event1, internal_event2}
@@ -460,7 +460,7 @@ This exposes only the public behavior while suppressing internal details.
 CSP also supports renaming, which is useful for reusing generic processes in a
 more specific setting.
 
-【Tool-compliant (runs as-is)】
+【ツール準拠（そのまま動く）】
 ```csp
 channel in, out : {0..1}
 channel input, output : {0..1}
@@ -499,21 +499,21 @@ CSP models communication through channels.
 
 **Output (`!`)**: send a message.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 SENDER = ch!message → SENDER
 ```
 
 **Input (`?`)**: receive a message.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 RECEIVER = ch?x → process.x → RECEIVER
 ```
 
 **Synchronous communication**: send and receive occur together.
 
-【Tool-compliant (runs as-is)】
+【ツール準拠（そのまま動く）】
 ```csp
 channel ch : {0..1}
 
@@ -534,14 +534,14 @@ modeled as a process.
 
 **Single-element buffer**:
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 BUFFER1 = in?x → out!x → BUFFER1
 ```
 
 **Buffer of capacity `N`**:
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 BUFFER(n) = (n > 0) & out!front → BUFFER(n-1)
           □ (n < MAX) & in?x → BUFFER(n+1)
@@ -549,7 +549,7 @@ BUFFER(n) = (n > 0) & out!front → BUFFER(n-1)
 
 **FIFO buffer**:
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 FIFO_BUFFER(queue) =
   (queue ≠ ⟨⟩) & out!head(queue) → FIFO_BUFFER(tail(queue))
@@ -560,7 +560,7 @@ FIFO_BUFFER(queue) =
 
 Some systems need message priorities.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 PRIORITY_HANDLER =
   urgent?x → handle_urgent.x → PRIORITY_HANDLER
@@ -572,7 +572,7 @@ PRIORITY_HANDLER =
 
 Sometimes a single message must be delivered to multiple receivers.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 BROADCASTER = message?x → (out1!x || out2!x || out3!x) → BROADCASTER
 
@@ -587,7 +587,7 @@ MULTICAST_SYSTEM = BROADCASTER
 A router-like process may choose the communication partner based on the
 message's destination.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 ROUTER =
   input?msg → (
@@ -601,7 +601,7 @@ ROUTER =
 
 Real systems also need to cope with delay and failure.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 RELIABLE_SENDER =
   send!message → (
@@ -614,7 +614,7 @@ RELIABLE_SENDER =
 
 More elaborate communication often requires multi-stage handshakes.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 CLIENT = request!req → response?res → CLIENT
 SERVER = request?req → process.req → response!result → SERVER
@@ -634,7 +634,7 @@ Synchronization patterns in CSP include the following.
 
 **Barrier synchronization**:
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 BARRIER(n) =
   (n > 1) & arrive → BARRIER(n-1)
@@ -645,7 +645,7 @@ BARRIER(n) =
 
 Hierarchical control structures can also be modeled directly.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 LEADER =
   decision!cmd → (
@@ -660,7 +660,7 @@ FOLLOWER(id) =
 
 Agreement protocols in distributed systems can be captured as CSP processes.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 VOTER(id) = vote_request?proposal →
            (approve!id → VOTER(id) □ reject!id → VOTER(id))
@@ -678,14 +678,14 @@ Practical systems often require explicit handling of communication failures.
 
 **Message loss**:
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 LOSSY_CHANNEL = msg?x → (deliver!x □ lose → SKIP) → LOSSY_CHANNEL
 ```
 
 **Duplicate elimination**:
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 DEDUP_RECEIVER =
   msg?x → (
@@ -696,7 +696,7 @@ DEDUP_RECEIVER =
 
 **Ordering guarantee**:
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 ORDERED_DELIVERY =
   in?⟨seq, msg⟩ → (
@@ -721,7 +721,7 @@ In CSP, deadlock can be defined formally. The system is deadlocked when every
 participating process is waiting for an event that another waiting process would
 have to initiate.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 DEADLOCK_EXAMPLE =
   (a → b → STOP) [| {a, b} |] (b → a → STOP)
@@ -742,7 +742,7 @@ Classical results say that four conditions are jointly necessary for deadlock.
 
 CSP can describe these conditions explicitly.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 RESOURCE = acquire → use → release → RESOURCE
 
@@ -760,7 +760,7 @@ To avoid deadlock, at least one of the four conditions must be broken.
 
 **Resource ordering**:
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 ORDERED_PROCESS =
   (id(r1) < id(r2)) & r1.acquire → r2.acquire → work →
@@ -772,7 +772,7 @@ be prevented.
 
 **Timeout mechanism**:
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 TIMEOUT_PROCESS =
   r1.acquire → (
@@ -783,7 +783,7 @@ TIMEOUT_PROCESS =
 
 **Banker's algorithm**:
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 BANKER =
   request?⟨pid, resource⟩ → (
@@ -798,7 +798,7 @@ Livelock is different from deadlock. The system is active, but not making real
 progress. A common analogy is two people in a narrow corridor repeatedly trying
 to step aside in the same direction.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 LIVELOCK_EXAMPLE =
   P1 [| {move} |] P2
@@ -813,7 +813,7 @@ be analyzed from several perspectives.
 
 **Starvation freedom**: every process eventually makes progress.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 FAIR_SCHEDULER =
   schedule!p1 → schedule!p2 → schedule!p3 → FAIR_SCHEDULER
@@ -822,7 +822,7 @@ FAIR_SCHEDULER =
 **Fairness**: a process that continually has the opportunity to proceed is
 ultimately allowed to do so.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 FAIR_ACCESS =
   (request.p1 → grant.p1 → FAIR_ACCESS) |||
@@ -836,7 +836,7 @@ Progress guarantees can also be written abstractly.
 
 **Minimal progress guarantee**:
 
-【Pseudo notation】
+【擬似記法】
 ```text
 PROGRESS = □◊(progress_event)
 ```
@@ -845,7 +845,7 @@ This reads as: always, eventually, a progress event occurs.
 
 **Bounded waiting**:
 
-【Pseudo notation】
+【擬似記法】
 ```text
 BOUNDED_WAIT = request → ◊≤n(grant)
 ```
@@ -860,7 +860,7 @@ system.
 
 **Deadlock detector**:
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 DETECTOR =
   monitor_state → (
@@ -871,7 +871,7 @@ DETECTOR =
 
 **Recovery strategies**:
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 RECOVERY =
   abort_victim → rollback → restart → RECOVERY
@@ -882,7 +882,7 @@ RECOVERY =
 
 A classic illustration of deadlock is the dining philosophers problem.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 PHILOSOPHER(i) =
   pickup.left(i) → pickup.right(i) → eat →
@@ -915,7 +915,7 @@ Deadlock-avoidance measures often have performance costs.
 - **Optimistic strategies** are efficient but may incur higher recovery cost.
 - **Adaptive strategies** switch behavior depending on load or contention.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 ADAPTIVE_SYSTEM =
   low_contention & OPTIMISTIC_PROTOCOL
@@ -969,7 +969,7 @@ resources such as tables, kitchen equipment, and ingredients.
 
 We can begin by describing the basic behavior of each role.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 CUSTOMER(id) =
   arrive → wait_for_table →
@@ -998,7 +998,7 @@ CASHIER =
 Table assignment is a core subsystem. A limited number of seats must be managed
 efficiently while avoiding coordination problems.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 TABLE_MANAGER =
   customer_arrives → (
@@ -1023,7 +1023,7 @@ RESTAURANT_TABLES =
 Order processing from intake through serving can be described as a set of
 cooperating concurrent processes.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 ORDER_TAKING =
   customer_ready → approach_table →
@@ -1060,7 +1060,7 @@ FOOD_SERVICE =
 Kitchen equipment such as stoves and ovens must be managed with mutual
 exclusion.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 EQUIPMENT_MANAGER =
   request_equipment?⟨chef, equipment⟩ → (
@@ -1090,7 +1090,7 @@ KITCHEN_EQUIPMENT =
 Ingredient inventory and replenishment also form an important concurrent
 subsystem.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 INVENTORY_MANAGER =
   use_ingredient?⟨ingredient, quantity⟩ → (
@@ -1115,7 +1115,7 @@ AUTO_ORDERING =
 
 A practical restaurant must also support several payment methods.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 PAYMENT_PROCESSING =
   payment_request?⟨table, amount⟩ →
@@ -1139,7 +1139,7 @@ ACCOUNTING_SYSTEM =
 
 Emergency cases such as food-safety incidents or fire must also be represented.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 EMERGENCY_SYSTEM =
   (fire_alarm → evacuate_all → shutdown_equipment → EMERGENCY_SYSTEM
@@ -1158,7 +1158,7 @@ EVACUATION_PROTOCOL =
 
 Once the subsystems are defined, they can be composed into one whole system.
 
-【Pseudo notation】
+【擬似記法】
 The following is a conceptual composition example. Because several process
 definitions are omitted, it should not be treated as executable CSPM as-is.
 
@@ -1192,7 +1192,7 @@ where
 
 A practical system must also address performance.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 LOAD_BALANCER =
   new_order?order → (
@@ -1251,7 +1251,7 @@ one framework.
 Read the following CSP process definitions and explain the behavior of the
 system.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 PRODUCER = produce → buffer!item → PRODUCER
 CONSUMER = buffer?x → consume.x → CONSUMER
@@ -1271,7 +1271,7 @@ Explain:
 
 Analyze whether the following system can deadlock.
 
-【Pseudo notation】
+【擬似記法】
 ```csp
 PROCESS_A = resource1.acquire → resource2.acquire →
            work → resource2.release → resource1.release → PROCESS_A
