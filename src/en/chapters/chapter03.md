@@ -452,7 +452,7 @@ Pseudo notation:
 ```text
 invariant: ∀user. user.email ≠ null ∧ is_valid_email(user.email)
 invariant: ∀user. count(users_with_email(user.email)) = 1
-invariant: ∀session. session.user ≠ null ⇒ user.is_active
+invariant: ∀session. session.user ≠ null ⇒ session.user.is_active
 ```
 
 ### System Invariants
@@ -553,7 +553,7 @@ make correctness easier to guarantee.
 
 A stack usually provides the following operations.
 
-- `create()`: create an empty stack
+- `create(cap)`: create an empty stack with the given capacity
 - `push(item)`: add an item to the top of the stack
 - `pop()`: remove the top item from the stack and return it
 - `top()`: return the top item without removing it
@@ -726,7 +726,8 @@ precondition:
   true
 postcondition:
   |stack.items| > 0 ⇒
-    (result.0, result.1) = (pop(stack), Some(top(stack)))
+    let (new_stack, popped_item) = pop(stack) in
+      (result.0, result.1) = (new_stack, Some(popped_item))
   |stack.items| = 0 ⇒
     (result.0, result.1) = (stack, None)
 ```
