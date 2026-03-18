@@ -76,21 +76,21 @@ Summarize the following counterexample trace and provide three candidate root ca
 Counterexample: <trace>
 ```
 
-**5) Verification checklist for a pull request**
+**5) Verification checklist for a change review**
 ```
 For the following change, list the verification checkpoints that are required and the commands that should be executed.
-Change summary: <pull request diff summary>
+Change summary: <change summary>
 ```
 
 ## F.5 Using the Templates in Team Workflows
 
-**When creating an issue**
+**When framing a work item**
 - Acceptance criteria, expressed in a form whose pass/fail can be judged by verification
 - Non-goals, that is, what will not be done
 - Execution commands for verifiers and tests
 
-**When reviewing a pull request**
-- Check whether the specification diff and the verification diff are aligned
+**When reviewing a change**
+- Check whether the specification delta and the verification delta are aligned
 - Check whether verification logs include the seed, depth, and scope
 - Check whether the remediation procedure remains documented when a counterexample appears
 
@@ -105,14 +105,14 @@ These checks are most useful when AI is generating a large share of the draft te
 
 Read this example together with Chapter 8 or Chapter 10 if you want a compact reminder of the book's core loop: model, check, inspect, fix, and rerun.
 
-## F.7 Review Packet for Repository-Based Work
+## F.7 Review Packet for Team-Based Verification Work
 
 - Verification logs, including the command, seed, depth, and scope
 - Counterexample trace, including the file name and reproduction steps
-- Change intent, that is, a summary of the specification diff
+- Change intent, that is, a summary of the requirement or specification delta
 - Execution environment, including OS and tool versions
 
-If your team does not use pull requests, treat this section as the minimum review packet that should accompany any formally verified change.
+If your team does not use pull requests, attach this packet to the equivalent review gate, such as a design review, release approval, or incident follow-up.
 
 The templates in this appendix can be reused directly as standard operating rules inside a team.
 
@@ -121,7 +121,7 @@ The templates in this appendix can be reused directly as standard operating rule
 When processing a counterexample, it is important not to mix facts written in the logs with guesses about the cause.  
 AI is useful for summarization and viewpoint enumeration, but the **facts section should be transcribed from logs and traces**, while hypotheses should be placed in a separate section. This separation makes the triage note reusable during review and postmortem analysis.
 
-Related repository template: `templates/counterexample-triage.md` (currently maintained in Japanese). The English adaptation used in this appendix is reproduced below.
+Use the following as a reusable triage note. If your team keeps a version-controlled template, preserve the same separation between facts, hypotheses, and fixes.
 
 ### Template (Copy and Paste)
 
@@ -167,9 +167,9 @@ Related repository template: `templates/counterexample-triage.md` (currently mai
 - Lesson learned (prevention for recurrence):
 ```
 
-## F.9 Quality-Assurance Checklist for AI-Assisted Deliverables (Specification / Proof / CI)
+## F.9 Quality-Assurance Checklist for AI-Assisted Work Products (Specification / Proof / CI)
 
-When a change includes AI-generated artifacts, reduce it to a verifiable deliverable from the following perspectives.
+When a change includes AI-generated artifacts, turn those artifacts into verifiable work products from the following perspectives.
 
 ### Specifications (natural language / Alloy / TLA+)
 
