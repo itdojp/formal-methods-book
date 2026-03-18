@@ -83,6 +83,18 @@ If your primary goal is adoption in industry, do not skip Part IV. A common
 failure mode is to understand the theory but underestimate the organizational
 constraints around introducing these methods.
 
+### Quick Reading Paths
+
+- **New to formal methods**: start with Chapters 1-3, then continue through
+  Chapters 4-8 so that you learn why precise specifications and verification
+  properties matter before choosing tools in depth.
+- **Adoption in industry**: read Chapters 1-3 first, then move to Chapters
+  11-13 and Appendices D-F to plan a pilot scope, review packet, and evidence
+  trail.
+- **Already using one method**: pair the chapter for your current method with
+  Chapters 1-3 and the most relevant verification chapter, then return to Part
+  IV when you need rollout guidance.
+
 ## How to Use the Examples and Exercises
 
 The examples in this book are intentionally small enough to inspect and modify.
