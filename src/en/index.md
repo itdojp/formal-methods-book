@@ -56,17 +56,31 @@ following basics:
 The book uses mathematical notation throughout, but it introduces the required
 concepts carefully. Advanced mathematics is not required.
 
-## Suggested Reading Paths
+## Choose a Starting Path
 
-- **First read**: start with
-  [Introduction]({{ '/en/introduction/' | relative_url }}) and read Parts I and
-  II in order before moving to the verification chapters
-- **Architecture and design focus**: read Chapters 1-4, Chapter 7, Chapter 11,
-  and Chapter 13
-- **Verification focus**: read Chapters 1-3, then use Chapters 8-10 as the
-  backbone of the book
-- **Adoption focus**: read Chapters 1, 3, 11, 12, and 13 together with the
-  relevant appendices
+- **New to formal methods**: start with
+  [Introduction]({{ '/en/introduction/' | relative_url }}), then read Chapters
+  1-3 and continue through Chapters 4-8 so that you understand why precise
+  specifications and verification properties matter before going deeper into
+  tools
+- **Architecture and design decisions**: read Chapters 1-4, Chapter 7, Chapter
+  11, and Chapter 13 to compare modeling styles and see where formalization
+  changes design trade-offs
+- **Verification and proof work**: read Chapters 1-3, then use Chapters 8-10
+  as the backbone of the book, with
+  [Appendix B]({{ '/en/appendices/appendix-b/' | relative_url }}) and
+  [Appendix E]({{ '/en/appendices/appendix-e/' | relative_url }}) nearby for
+  tool setup and primary sources
+- **Adoption and rollout**: read Chapters 1, 3, and 11-13 together with
+  [Appendix D]({{ '/en/appendices/appendix-d/' | relative_url }}),
+  [Appendix E]({{ '/en/appendices/appendix-e/' | relative_url }}), and
+  [Appendix F]({{ '/en/appendices/appendix-f/' | relative_url }}) to define a
+  pilot scope, review packet, and evidence trail
+- **Returning as a reference reader**: start from the
+  [Glossary]({{ '/en/glossary/' | relative_url }}),
+  [Appendix C]({{ '/en/appendices/appendix-c/' | relative_url }}), and the most
+  relevant chapter or appendix when terminology, notation, or setup details
+  have drifted
 
 ## What Makes This Book Different
 
