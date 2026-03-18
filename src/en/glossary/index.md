@@ -38,13 +38,13 @@ properties relevant to reasoning or verification. A useful model is abstract
 enough to be analyzable but concrete enough to preserve the question being
 asked. See Chapters 3, 4, and 8.
 
-**Apalache**: An SMT-based checker for TLA+ specifications. It is useful when
-you want symbolic or bounded exploration in addition to TLC's explicit-state
-model checking. See Chapters 7, 8, and Appendix B.
-
 **Alloy**: A representative lightweight formal-methods tool. It combines a
 relational modeling language with an analyzer that searches for counterexamples.
 See Chapter 4.
+
+**Apalache**: An SMT-based checker for TLA+ specifications. It is useful when
+you want symbolic or bounded exploration in addition to TLC's explicit-state
+model checking. See Chapters 7, 8, and Appendix B.
 
 **Assertion**: A statement of a property that should hold. In Alloy this is
 expressed with `assert`; in program verification it can also mean an explicit
@@ -237,7 +237,7 @@ to describe states and operations. See Chapter 5.
 
 ## Related Links
 
-- [Appendix B: Tool Setup and Verification Quick Start]({{ '/en/appendices/appendix-b/' | relative_url }})
 - [Appendix A: Mathematics Refresher]({{ '/en/appendices/appendix-a/' | relative_url }})
+- [Appendix B: Tool Setup and Verification Quick Start]({{ '/en/appendices/appendix-b/' | relative_url }})
 - [Appendix C: Notation Cross-Reference]({{ '/en/appendices/appendix-c/' | relative_url }})
 - [Appendix E: References and Further Reading Paths]({{ '/en/appendices/appendix-e/' | relative_url }})
