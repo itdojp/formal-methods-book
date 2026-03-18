@@ -124,7 +124,7 @@ en:
     - title: "Appendix A: Mathematics Refresher"
       path: "/en/appendices/appendix-a/"
       order: 15
-    - title: "Appendix B: Tool Installation Guide"
+    - title: "Appendix B: Tool Setup and Verification Quick Start"
       path: "/en/appendices/appendix-b/"
       order: 16
     - title: "Appendix C: Notation Cross-Reference"

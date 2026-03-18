@@ -134,7 +134,7 @@ set: C for notation, D for exercise scaffolding, E for primary sources, and F
 for AI-assisted working methods.
 
 - [Appendix A: Mathematics Refresher]({{ '/en/appendices/appendix-a/' | relative_url }})
-- [Appendix B: Tool Installation Guide]({{ '/en/appendices/appendix-b/' | relative_url }})
+- [Appendix B: Tool Setup and Verification Quick Start]({{ '/en/appendices/appendix-b/' | relative_url }})
 - [Appendix C: Notation Cross-Reference]({{ '/en/appendices/appendix-c/' | relative_url }})
 - [Appendix D: Exercise Guides and Self-Review Frameworks]({{ '/en/appendices/appendix-d/' | relative_url }})
 - [Appendix E: References and Further Reading Paths]({{ '/en/appendices/appendix-e/' | relative_url }})
