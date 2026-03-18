@@ -1,29 +1,29 @@
 ---
 layout: book
-title: "Appendix D: Exercise Solutions (Hints / Model Answers / Rubrics)"
+title: "Appendix D: Exercise Guides and Self-Review Frameworks"
 locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-d.md"
 ---
-# Appendix D: Exercise Solutions (Hints / Model Answers / Rubrics)
+# Appendix D: Exercise Guides and Self-Review Frameworks
 
-This appendix is a collection of templates intended to clarify what should be produced as a submission for each end-of-chapter exercise.
-Because end-of-chapter exercises do not usually have a single unique answer, this appendix focuses on the **solution skeleton** (minimum structure) and the **rubric**.
+This appendix provides reusable answer frameworks for the end-of-chapter exercises. Use it when you want to turn an exercise into a study note, workshop output, or review packet that another reader can inspect.
+Because end-of-chapter exercises do not usually have a single unique answer, this appendix emphasizes the **solution skeleton** (minimum structure), the evidence worth keeping, and the **self-review criteria** you can apply before treating an answer as complete.
 
 Notes:
 - The pseudo-scripts, log structures, and configuration examples in this appendix are illustrative. In actual practice, adjust them to the project environment and requirements.
 - Numerical values such as percentages, multipliers, and counts should either cite a source or explicitly state that they are illustrative.
 
-## D.1 Common Templates for Deliverables and Rubrics
+## D.1 Common Output Structures and Self-Review Criteria
 
-### Common Deliverables (Recommended)
+### Common Work Products (Recommended)
 
 - Problem setting: target, assumptions, and boundaries (`in-scope` / `out-of-scope`)
 - Specification: term definitions, preconditions, and properties such as safety, liveness, and contracts
 - Verification: execution commands, settings such as seed, depth, scope, and time limit, and result logs
 - Counterexample handling, when a counterexample appears: minimal trace, hypotheses about the cause, fix diff, and re-verification logs (see Appendix F)
 
-### Common Rubric
+### Common Self-Review Criteria
 
 - Accuracy: definitions, constraints, and reasoning are consistent
 - Completeness: no required viewpoint is omitted, including exceptions and boundary conditions
@@ -45,7 +45,7 @@ Model answer (outline):
 - An evaluation of how states and transitions grow, including which part explodes combinatorially
 - Failure modes and safety requirements, together with the basis for the `SIL`-level judgment
 
-Rubric:
+Self-review criteria:
 - The system boundary is clear, with few missing assumptions
 - Complexity is explained in terms of both interaction and state space
 - Failure modes are concrete and include operational aspects
@@ -62,7 +62,7 @@ Model answer (outline):
 - A map of what could have been prevented, connected to the methods in Chapters 4, 8, and 10
 - Similar modern risks and practical preventive actions in business settings
 
-Rubric:
+Self-review criteria:
 - The factors of the accident are decomposed appropriately
 - The discussion is reduced to properties that can actually be verified
 - The proposal is concrete, including introduction steps, verification gates, and exception flows
@@ -79,7 +79,7 @@ Model answer (outline):
 - A rough estimate of the total number of implementation patterns and the basis for that calculation
 - A prioritization of what should be fixed first through specification work, as discussed in Chapter 3
 
-Rubric:
+Self-review criteria:
 - Ambiguities are extracted sufficiently
 - The basis of the estimate is explicit
 - Security considerations are included
@@ -96,7 +96,7 @@ Model answer (outline):
 - A six-month to one-year learning and practice plan with deliverables and KPIs
 - An organizational proposal covering return on investment, guardrails, and exception flow
 
-Rubric:
+Self-review criteria:
 - Target selection is rational
 - Deliverables and KPIs are concrete
 - The explanation to the organization is realistic
@@ -115,7 +115,7 @@ Model answer (outline):
 - `students ⊆ Student` as an example when students are treated as a set; if order matters, use a sequence instead
 - `enrolled ⊆ Student × Course` and a membership test such as `⟨s,c⟩ ∈ enrolled`
 
-Rubric:
+Self-review criteria:
 - The type choice is consistent
 - Relations and functions are used appropriately
 - Boundaries such as ordering and duplication are stated explicitly
@@ -133,7 +133,7 @@ Model answer (outline):
 - Example: `∀u ∈ Users : hasValidEmail(u)`
 - Example: `∃p ∈ Products : inStock(p)`
 
-Rubric:
+Self-review criteria:
 - The logical formulas capture the requirements without excess or omission
 - Quantification ranges are explicit
 - Exceptions are considered when mapping the logic to implementation
@@ -150,7 +150,7 @@ Model answer (outline):
 - Input set such as `Insert100`, `Insert500`, `SelectCola`, `SelectTea`, and `Cancel`
 - Example invariants such as `balance>=0`, `stock[item]>=0`, and `purchase => balance>=price`
 
-Rubric:
+Self-review criteria:
 - The state space and inputs are covered comprehensively
 - Invariants correspond to the requirements
 - Scenarios are consistent as transition sequences
@@ -167,7 +167,7 @@ Model answer (outline):
 - An inconsistency condition, for example that the final balance differs from the result of sequential execution
 - Candidate constraints such as locking, transactions, or `CAS`
 
-Rubric:
+Self-review criteria:
 - Interleavings are enumerated correctly
 - The conditions under which inconsistency occurs are explained
 - The constraints are reasonable, including their side effects
@@ -184,7 +184,7 @@ Model answer (outline):
 - Exercise 3 (`CSP`): define processes, channels, and order constraints, and enumerate deadlock-related viewpoints
 - Exercise 4 (`TLA+`): describe state variables, safety, liveness, and fairness assumptions separately
 
-Rubric:
+Self-review criteria:
 - The method assignment is rational
 - Invariants, liveness, and exception handling are covered
 - The connection to the following chapters is clear, including what will actually be created next
@@ -201,7 +201,7 @@ Model answer (outline):
 - A table from ambiguous term to interpretation candidates to impact, such as false positives, false negatives, UX, and operational burden
 - A prioritization of the items that should be fixed first through specification work
 
-Rubric:
+Self-review criteria:
 - Ambiguity is extracted sufficiently
 - The impact analysis includes implementation and operational effects
 
@@ -218,7 +218,7 @@ Model answer (outline):
 - Postcondition (not found): `ret=-1 ∧ ∀i. sorted_array[i] != target`
 - Frame condition: `sorted_array` is not modified
 
-Rubric:
+Self-review criteria:
 - Preconditions, postconditions, and frame conditions are separated
 - The return-value conditions are complete for both cases
 
@@ -236,7 +236,7 @@ Model answer (outline):
 - Definitions of `isEmpty`, `size`, and `front`
 - Invariants such as `size(Q) >= 0` and, where needed, element-type constraints
 
-Rubric:
+Self-review criteria:
 - FIFO is reflected in the specification
 - Preconditions and exceptions are clear
 - The operations are mutually consistent, for example `front` and `dequeue`
@@ -253,7 +253,7 @@ Model answer (outline):
 - Security examples: plain-text passwords are prohibited, with hashing assumed; operations require login
 - Rule examples: each message belongs to one of inbox, sent, or trash; duplicate message IDs are prohibited
 
-Rubric:
+Self-review criteria:
 - Invariants are categorized clearly
 - Referential relationships cannot break
 - Exceptions such as deletion, movement, and undelivered mail are considered
@@ -270,7 +270,7 @@ Model answer (outline):
 - Notes on implementability, such as time complexity and data structures
 - A skeleton for test-case design
 
-Rubric:
+Self-review criteria:
 - Verification viewpoints are systematized
 - The route from specification to testing is explicit
 
@@ -288,7 +288,7 @@ Model answer (outline):
 - Bidirectional consistency between `parents` and `children`
 - Possible missing constraints: `p.spouse != p`, acyclicity of parent-child relations, and mutual exclusiveness of spouses, such as no bigamy
 
-Rubric:
+Self-review criteria:
 - The meaning of each constraint can be explained
 - Validity can be discussed in relation to the business requirement
 
@@ -305,7 +305,7 @@ Model answer (outline):
 - `fact Limit { all u: User | #u.loans <= 5 }`
 - `fact Overdue { all u: User | u.overdue => no u.newLoan }` as an example
 
-Rubric:
+Self-review criteria:
 - Requirements are turned into constraints without excess or omission
 - The assumptions of the abstraction are stated explicitly
 
@@ -321,7 +321,7 @@ Model answer (outline):
 - `pred canWrite[u,f] { u=f.owner or u in Admins and f.mode=RW ... }`
 - `assert NoWriteToRO { all u,f | f.mode=RO implies not canWrite[u,f] }`
 
-Rubric:
+Self-review criteria:
 - The permission model is free from contradiction
 - The assertions correspond to the requirements
 
@@ -336,7 +336,7 @@ Model answer (outline):
 - A minimal counterexample log and an explanation of what was violated
 - A history from hypothesis about the cause, to constraint fix, to re-verification
 
-Rubric:
+Self-review criteria:
 - Counterexamples are handled as facts and separated from speculation
 - The fix is minimal and includes regression prevention
 
@@ -350,7 +350,7 @@ Model answer (outline):
 - Definitions of state variables such as balance and history, together with operations such as deposit and withdrawal
 - Invariants such as non-negative balance, total-amount conservation within the model boundary, and history consistency
 
-Rubric:
+Self-review criteria:
 - State and operations are connected through time
 - Invariants are defined in a form that can actually be checked
 
@@ -367,7 +367,7 @@ Model answer (outline):
 - Explanations of consistency constraints such as `dom enrollment ⊆ students`
 - Identification of requirements that are not yet represented, such as maximum enrollment count or how to handle missing grades
 
-Rubric:
+Self-review criteria:
 - `dom` and `ran` are interpreted correctly
 - You can explain what each constraint prevents
 
@@ -382,7 +382,7 @@ Model answer (outline):
 - Error cases: separate schemas for student not found, course not found, and duplicate enrollment
 - Integration: define the overall behavior as a schema union of the normal and error cases
 
-Rubric:
+Self-review criteria:
 - Normal and error cases are separated
 - The effect of state updates can be tracked clearly
 
@@ -397,7 +397,7 @@ Model answer (outline):
 - Invariants such as non-negative balances, unique account numbers, existing owners, and transaction referential consistency
 - Operations such as open, deposit, withdraw, and transfer, with preconditions, postconditions, and error handling
 
-Rubric:
+Self-review criteria:
 - The invariants correspond to the intended constraints
 - The operations preserve the invariants
 
@@ -413,7 +413,7 @@ Model answer (outline):
 - Unify errors through an `ErrorCode`
 - Compose transfer and guarantee `Ξ State` on failure
 
-Rubric:
+Self-review criteria:
 - Schema operations are used in a reasonable place
 - The state under exceptions is defined clearly
 
@@ -428,7 +428,7 @@ Model answer (outline):
 - Operation schemas for transitions such as signal changes
 - Properties such as safety, liveness, and fairness listed in a verifiable form
 
-Rubric:
+Self-review criteria:
 - Safety is expressed as an invariant
 - Time constraints are reflected in the specification
 
@@ -444,7 +444,7 @@ Model answer (outline):
 - A step-by-step interpretation of the process definitions
 - Synchronization points in the composition, together with examples of possible traces
 
-Rubric:
+Self-review criteria:
 - The notation is explained correctly
 - The explanation can be grounded in concrete traces
 
@@ -458,7 +458,7 @@ Model answer (outline):
 - A minimal deadlock example with two processes and reverse send/receive order
 - Avoidance strategies and their side effects, such as order inversion, infinite buffers, or added delay
 
-Rubric:
+Self-review criteria:
 - The deadlock state can be explained
 - The avoidance strategy is realistic and includes side effects
 
@@ -472,7 +472,7 @@ Model answer (outline):
 - A decomposition into processes and the main channels
 - Handling of failure cases such as timeout, retry, and interruption
 
-Rubric:
+Self-review criteria:
 - The protocol order constraints are clear
 - Failure cases are considered
 
@@ -486,7 +486,7 @@ Model answer (outline):
 - The composition procedure and the properties that should hold afterward
 - A summary of the verification results
 
-Rubric:
+Self-review criteria:
 - The purpose of the composition can be explained
 - Side effects introduced by composition are understood
 
@@ -500,7 +500,7 @@ Model answer (outline):
 - A failure model and the protocol skeleton
 - Definitions of safety and liveness properties
 
-Rubric:
+Self-review criteria:
 - The failure model is stated explicitly
 - The design is connected to the intended properties
 
@@ -516,7 +516,7 @@ Model answer (outline):
 - Convert each property into forms such as `[]P`, `<>Q`, and `P => <>Q`
 - Candidate fairness assumptions
 
-Rubric:
+Self-review criteria:
 - Safety and liveness are not confused
 - Fairness is made explicit as an assumption
 
@@ -530,7 +530,7 @@ Model answer (outline):
 - Definitions of the state variables
 - Skeletons for `Init`, `Next`, and `Invariant`
 
-Rubric:
+Self-review criteria:
 - The description follows the basic TLA+ structure
 - Variable updates are consistent
 
@@ -544,7 +544,7 @@ Model answer (outline):
 - State such as `flag`, `turn`, and the definition of `Next`
 - The invariant for mutual exclusion and, if needed, a liveness property expressing eventual entry
 
-Rubric:
+Self-review criteria:
 - The invariant is not violated
 - Fairness is handled reasonably
 
@@ -558,7 +558,7 @@ Model answer (outline):
 - Buffer state and operations such as `produce` and `consume`
 - Invariants such as `0 <= count <= N`
 
-Rubric:
+Self-review criteria:
 - Safety and liveness are separated clearly
 - The assumption of boundedness is stated explicitly
 
@@ -572,7 +572,7 @@ Model answer (outline):
 - A failure model and protocol
 - Definitions of safety, such as no duplicate processing, and liveness, such as eventual delivery
 
-Rubric:
+Self-review criteria:
 - Assumptions and properties are consistent
 - The retransmission strategy includes stopping conditions
 
@@ -588,7 +588,7 @@ Model answer (outline):
 - Safety: `AG(door_open -> AX ~moving)` as a CTL example, or `[](door_open => ~moving)` as an LTL example
 - Liveness: `AG(call -> AF arrive)` as a CTL example, or `[](call => <>arrive)` as an LTL example
 
-Rubric:
+Self-review criteria:
 - CTL and LTL are used appropriately
 - The propositionalization of states and events is consistent
 
@@ -603,7 +603,7 @@ Model answer (outline):
 - A race example such as lost update
 - Conditions under which partial-order reduction is effective, namely when independent transitions can be swapped
 
-Rubric:
+Self-review criteria:
 - The method for counting states can be explained
 - The cause of the race is concrete
 
@@ -618,7 +618,7 @@ Model answer (outline):
 - The model in `Promela` and the properties as `assert` or LTL
 - A summary of the execution log and the counterexample if one appears
 
-Rubric:
+Self-review criteria:
 - The properties correspond to the requirements
 - Counterexamples are reproducible
 
@@ -632,7 +632,7 @@ Model answer (outline):
 - A `NuSMV` model and the associated properties
 - A summary of the verification result, including the trace if a counterexample appears
 
-Rubric:
+Self-review criteria:
 - Safety, liveness, and responsiveness are separated
 - Interpretation of the counterexample is reasonable
 
@@ -646,7 +646,7 @@ Model answer (outline):
 - Deliverables for Phases 1 to 3, such as specifications, models, and implementations, plus a classification of the issues found
 - A consistency check of results across the tools
 
-Rubric:
+Self-review criteria:
 - The relationship between abstraction level and discovered issues can be explained
 - Deliverables are reproducible
 
@@ -662,7 +662,7 @@ Model answer (outline):
 - A proof tree with the rule application order and an evaluation of validity
 - The issue in inference 2: the premise `∀bird • canFly(bird)` is too strong for reality
 
-Rubric:
+Self-review criteria:
 - The formalization is correct
 - The problem can be explained as an error in the premise
 
@@ -676,7 +676,7 @@ Model answer (outline):
 - A proof strategy, stated as a tactic sequence
 - If necessary, define helper lemmas in advance, for example for the distribution of `forall`
 
-Rubric:
+Self-review criteria:
 - The proof passes
 - The strategy can be explained, including why those tactics were chosen
 
@@ -690,7 +690,7 @@ Model answer (outline):
 - `append_assoc`: induct on `l1`, using `simpl` and `rewrite`
 - `reverse_involutive`: use `reverse_append` as a helper lemma
 
-Rubric:
+Self-review criteria:
 - The selection of helper lemmas is reasonable
 - The proof remains readable and does not depend excessively on automation
 
@@ -704,7 +704,7 @@ Model answer (outline):
 - A proof skeleton for `insert_sorted`
 - A proof skeleton for `insertion_sort_permutation`, using permutation lemmas
 
-Rubric:
+Self-review criteria:
 - Property decomposition is done appropriately
 - The proof is sound and passes
 
@@ -718,7 +718,7 @@ Model answer (outline):
 - The chosen option and its specification, invariants, and proof plan
 - A summary of discovered assumptions such as boundary conditions and data-type constraints
 
-Rubric:
+Self-review criteria:
 - The scope is appropriate
 - There is a practical takeaway about what can be reused
 
@@ -736,7 +736,7 @@ Model answer (outline):
 - Task 1-2: focus on `result=|x|` in the branches
 - Task 1-3: define an invariant such as `sum = (i-1)*i/2`
 
-Rubric:
+Self-review criteria:
 - The invariant is correct and the reasoning is valid
 - The precondition is neither too strong nor too weak
 
@@ -751,7 +751,7 @@ Model answer (outline):
 - Maximum search: `max` is the maximum of `array[0..i-1]`
 - Insertion sort: in the outer loop, `0..i-1` is already sorted
 
-Rubric:
+Self-review criteria:
 - The invariant satisfies initialization, preservation, and termination
 - The variant function is reasonable
 
@@ -765,7 +765,7 @@ Model answer (outline):
 - The chosen algorithm and its specification, including correctness and termination
 - The main invariants and the overall proof strategy
 
-Rubric:
+Self-review criteria:
 - Properties are separated into correctness, termination, and safety
 - The proof can be followed clearly
 
@@ -780,7 +780,7 @@ Model answer (outline):
 - The verification execution log
 - Difficulties encountered and the fixes applied, such as strengthening invariants and adding boundary conditions
 
-Rubric:
+Self-review criteria:
 - Mechanical verification passes
 - The fix process can be explained when verification initially fails
 
@@ -795,7 +795,7 @@ Model answer (outline):
 - The properties, specification, and verification approach
 - The issues discovered and the improvement proposals
 
-Rubric:
+Self-review criteria:
 - The scope and properties are appropriate
 - Practical deployment issues are stated clearly
 
@@ -811,7 +811,7 @@ Model answer (outline):
 - The problems in the plan, such as being too large, uniformly company-wide, or evaluated only in the short term
 - A staged adoption proposal, such as pilot to broader rollout, together with KPIs
 
-Rubric:
+Self-review criteria:
 - The plan is revised into a realistic one
 - The KPIs are measurable
 
@@ -826,7 +826,7 @@ Model answer (outline):
 - Obstacles and enabling factors
 - A change strategy involving education, standardization, and successful early experiences
 
-Rubric:
+Self-review criteria:
 - The analysis is concrete
 - The measures are executable
 
@@ -841,7 +841,7 @@ Model answer (outline):
 - Comparison of introduction cost against expected reduction effect
 - Uncertainty tied to assumptions and the related risk
 
-Rubric:
+Self-review criteria:
 - The calculation basis can be followed
 - The validity of the assumptions can be explained
 
@@ -855,7 +855,7 @@ Model answer (outline):
 - Gate design, including mandatory and soft gates
 - Exception flow, including approver, deadline, and rollback
 
-Rubric:
+Self-review criteria:
 - Reproducibility and operations are assured
 - The design does not make exceptions routine
 
@@ -869,7 +869,7 @@ Model answer (outline):
 - A one-year plan including stages, deliverables, and education
 - Consensus building and governance
 
-Rubric:
+Self-review criteria:
 - The execution plan is staged
 - Governance is clear
 
@@ -885,7 +885,7 @@ Model answer (outline):
 - Candidate tools and the reasons for choosing them, considering requirements, constraints, and risks
 - An 18-month staged plan from introduction to stable adoption
 
-Rubric:
+Self-review criteria:
 - Evaluation axes are clear
 - The plan is realistic
 
@@ -899,7 +899,7 @@ Model answer (outline):
 - Job structure for pull requests, nightly runs, and pre-release checks
 - Artifact preservation and exception approval
 
-Rubric:
+Self-review criteria:
 - The staging is appropriate
 - Counterexample handling is part of the design
 
@@ -913,7 +913,7 @@ Model answer (outline):
 - Generation targets such as specifications, tests, and contracts, plus the review viewpoints
 - The design of verification and CI gates
 
-Rubric:
+Self-review criteria:
 - The trust boundary is clear
 - Reproducibility is ensured
 
@@ -927,7 +927,7 @@ Model answer (outline):
 - A classification of failure factors
 - Improvement measures such as staged rollout, templates, and CI integration
 
-Rubric:
+Self-review criteria:
 - Cause analysis is concrete
 - Improvement measures are translated into operational practice
 
@@ -941,7 +941,7 @@ Model answer (outline):
 - A toolchain configuration diagram
 - Pinned dependencies, artifacts, and exception flow
 
-Rubric:
+Self-review criteria:
 - Reproducibility can be explained
 - Operating cost is realistic
 
@@ -958,7 +958,7 @@ Model answer (outline):
 - Common success factors and differences
 - Viewpoints for deciding applicability
 
-Rubric:
+Self-review criteria:
 - Comparison axes are systematic
 - Lessons are generalized appropriately
 
@@ -972,7 +972,7 @@ Model answer (outline):
 - Risks in the target industry and candidate application areas
 - Introduction steps and KPIs
 
-Rubric:
+Self-review criteria:
 - Industry characteristics are reflected
 - Adoption is staged
 
@@ -986,7 +986,7 @@ Model answer (outline):
 - A source list
 - A summary of properties and reproduction steps
 
-Rubric:
+Self-review criteria:
 - Sources are appropriate
 - Reproducibility is demonstrated
 
@@ -999,7 +999,7 @@ Hints (steps):
 Model answer (outline):
 - Target selection, verification method, staged introduction, and KPIs
 
-Rubric:
+Self-review criteria:
 - The plan is realistic
 - Guardrails are present
 
@@ -1012,7 +1012,7 @@ Hints (steps):
 Model answer (outline):
 - Two or three scenarios, together with assumptions, impact, and response measures
 
-Rubric:
+Self-review criteria:
 - Hypotheses and facts are separated
 - The implications are usable in practice
 

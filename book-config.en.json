@@ -106,18 +106,18 @@
       },
       {
         "id": "appendix-d",
-        "title": "Appendix D: Exercise Hints and Solutions",
-        "description": "Hints, grading perspectives, and sample solutions for the exercises."
+        "title": "Appendix D: Exercise Guides and Self-Review Frameworks",
+        "description": "Reusable answer structures and self-review criteria for the end-of-chapter exercises."
       },
       {
         "id": "appendix-e",
-        "title": "Appendix E: References and Web Resources",
-        "description": "Suggested readings and web resources for further study."
+        "title": "Appendix E: References and Further Reading Paths",
+        "description": "Primary sources and chapter-aligned paths for deeper follow-up reading."
       },
       {
         "id": "appendix-f",
-        "title": "Appendix F: Practical Guide to AI Assistance",
-        "description": "How to use AI assistance with formal specifications while preserving reviewability and correctness."
+        "title": "Appendix F: Practical Playbook for AI-Assisted Formal Methods",
+        "description": "A workflow playbook for using AI assistance while preserving verification evidence and reviewability."
       }
     ]
   },
