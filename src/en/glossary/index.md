@@ -11,7 +11,9 @@ This glossary is designed for fast re-entry. If you return to the book after a
 break, use it to recover the meaning of a term, re-establish the distinction
 between similar ideas, and jump back to the relevant chapter. Definitions are
 kept short on purpose. When the technical boundary matters, the listed chapter
-should be treated as the primary explanation.
+should be treated as the primary explanation. Use Appendix B when the term is
+mainly about tool setup, Appendix C when the issue is notation, and Appendix E
+when you need primary sources.
 
 ## 0) Acronyms
 
@@ -24,6 +26,8 @@ should be treated as the primary explanation.
   logics used to describe properties in model checking.
 - **CI**: Continuous Integration. Automated validation gates used for pull
   requests, nightly checks, and release preparation.
+- **HOL**: Higher-Order Logic. A family of logics used by systems such as
+  Isabelle/HOL.
 - **RMW**: Read-Modify-Write. A common concurrent update pattern that can lead
   to lost updates.
 
@@ -37,6 +41,10 @@ asked. See Chapters 3, 4, and 8.
 **Alloy**: A representative lightweight formal-methods tool. It combines a
 relational modeling language with an analyzer that searches for counterexamples.
 See Chapter 4.
+
+**Apalache**: An SMT-based checker for TLA+ specifications. It is useful when
+you want symbolic or bounded exploration in addition to TLC's explicit-state
+model checking. See Chapters 7, 8, and Appendix B.
 
 **Assertion**: A statement of a property that should hold. In Alloy this is
 expressed with `assert`; in program verification it can also mean an explicit
@@ -71,6 +79,10 @@ types, and proofs correspond to programs. See Chapter 9.
 
 ## D
 
+**Dafny**: A verification-oriented programming language and toolchain for
+writing implementations together with contracts, invariants, and proofs. See
+Chapters 9, 10, and 12.
+
 **Deadlock**: A state in which multiple processes wait on one another and no
 further progress is possible. See Chapters 6 and 8.
 
@@ -98,7 +110,16 @@ Chapter 10.
 **Invariant**: A property that must always hold. In model checking, violations
 are typically shown as counterexamples. See Chapters 3, 7, and 8.
 
+**Isabelle/HOL**: A proof assistant centered on higher-order logic. It is often
+used for mechanized proofs, proof documentation, and larger proof libraries.
+See Chapters 9 and 10.
+
 ## L
+
+**Lean 4**: A proof assistant and programming language based on dependent type
+theory. In this book, it is presented as an engineering option for maintainable
+proof assets rather than as the only proof workflow. See Chapter 9 and
+Appendix B.
 
 **Liveness**: A property stating that “something good eventually happens.”
 Liveness claims are often sensitive to assumptions such as fairness. See
@@ -132,11 +153,24 @@ fragment starts for the promised result to be valid. See Chapters 3 and 10.
 checking of formal proofs. Examples discussed in this book include Rocq, Lean,
 and Isabelle/HOL. See Chapters 9 and 12.
 
+**Proof obligation**: A logical claim that must be discharged for a proof or
+verification argument to go through. Tools may generate proof obligations
+automatically from contracts, invariants, or program structure. See Chapters 8,
+9, and 10.
+
+**Promela**: The modeling language used by SPIN for concurrent systems. It is
+suited to describing processes, communication, and interleavings. See Chapters
+6 and 8.
+
 ## R
 
 **Refinement**: The process of turning an abstract specification into a more
 concrete design or implementation while preserving the essential properties of
 the original specification. See Chapters 3, 5, and 10.
+
+**Rocq**: The proof assistant formerly known as Coq. It is based on type
+theory and is used in this book as a representative environment for
+mechanized proofs. See Chapters 9, 10, and Appendix E.
 
 ## S
 
@@ -180,8 +214,15 @@ Chapter 9.
 
 **TLC**: The model checker for TLA+ specifications. See Chapters 7 and 8.
 
+**Total correctness**: The claim that a program not only satisfies the required
+postcondition when it terminates, but also does terminate. See Chapter 10.
+
 **Trace**: A sequence of state transitions. Counterexamples are often presented
 as traces. See Chapter 8.
+
+**Type theory**: A logical foundation used by many proof assistants, where
+types and propositions are closely connected. It is central to Rocq, Lean, and
+the discussion in Chapter 9. See Chapter 9.
 
 ## V
 
@@ -197,4 +238,6 @@ to describe states and operations. See Chapter 5.
 ## Related Links
 
 - [Appendix A: Mathematics Refresher]({{ '/en/appendices/appendix-a/' | relative_url }})
+- [Appendix B: Tool Setup and Verification Quick Start]({{ '/en/appendices/appendix-b/' | relative_url }})
 - [Appendix C: Notation Cross-Reference]({{ '/en/appendices/appendix-c/' | relative_url }})
+- [Appendix E: References and Further Reading Paths]({{ '/en/appendices/appendix-e/' | relative_url }})
