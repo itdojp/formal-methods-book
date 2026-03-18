@@ -91,25 +91,27 @@ system should be trusted.
 That is the standard this book ultimately argues for: not formalism for its
 own sake, but rigor where rigor changes outcomes.
 
-## Build a Practical Follow-Up Plan
+## Choose One Next Step for the Next 30 Days
 
-If you want this book to remain useful after the first read, keep the next
-step narrow and concrete:
+If you want this book to remain useful after the first read, do not start with
+an ambitious reading backlog. Choose one of the following next steps and
+complete it within the next month:
 
-- **Primary sources**: Use
-  [Appendix E]({{ '/en/appendices/appendix-e/' | relative_url }}) to choose
-  one chapter-aligned paper, book, or official guide instead of collecting a
-  long unsorted reading list.
-- **Communities**: Track one active community for the method you are actually
-  using, such as the TLA+ community, Alloy users, or a proof-assistant
-  community.
-- **Hands-on repetition**: Rework one example from this book in your own
-  domain and compare what changed in the assumptions, state variables, and
-  failure modes.
-- **Reference loop**: When terminology drifts inside your team, return to
-  [the glossary]({{ '/en/glossary/' | relative_url }}) and
+- **Choose one chapter-aligned source**: Use
+  [Appendix E]({{ '/en/appendices/appendix-e/' | relative_url }}) to pick one
+  paper, official guide, or book that deepens the chapter you most need next.
+- **Choose one pilot target**: Pick one component, workflow, or requirement
+  that still feels ambiguous, then use
+  [Appendix D]({{ '/en/appendices/appendix-d/' | relative_url }}) and
+  [Appendix F]({{ '/en/appendices/appendix-f/' | relative_url }}) to define
+  one review checkpoint and one piece of verification evidence you want to see.
+- **Choose one terminology checkpoint**: If language is drifting inside your
+  team, return to [the glossary]({{ '/en/glossary/' | relative_url }}) and
   [Appendix C]({{ '/en/appendices/appendix-c/' | relative_url }}) before
-  rewriting definitions from scratch.
+  writing new specifications, review notes, or design documents.
+
+The point is not to do everything at once. The point is to convert one part of
+this book into a repeated practice.
 
 I close this book with a practical expectation: use formal methods where they
 change a decision, reduce an ambiguity, or strengthen a claim that matters.
