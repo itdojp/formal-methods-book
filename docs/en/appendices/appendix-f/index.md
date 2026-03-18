@@ -169,7 +169,7 @@ Use the following as a reusable triage note. If your team keeps a version-contro
 
 ## F.9 Quality-Assurance Checklist for AI-Assisted Work Products (Specification / Proof / CI)
 
-When a change includes AI-generated artifacts, turn it into verifiable work products from the following perspectives.
+When a change includes AI-generated artifacts, turn those artifacts into verifiable work products from the following perspectives.
 
 ### Specifications (natural language / Alloy / TLA+)
 
