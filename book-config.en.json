@@ -96,8 +96,8 @@
       },
       {
         "id": "appendix-b",
-        "title": "Appendix B: Tool Installation Guide",
-        "description": "Installation steps and troubleshooting for Alloy Analyzer, TLC, SPIN, Coq, and related tools."
+        "title": "Appendix B: Tool Setup and Verification Quick Start",
+        "description": "The shortest reproducible path to running the companion examples for Alloy, TLC, Apalache, Dafny, and Lean 4."
       },
       {
         "id": "appendix-c",

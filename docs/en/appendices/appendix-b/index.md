@@ -1,20 +1,20 @@
 ---
 layout: book
-title: "Appendix B: Tool Installation Guide"
+title: "Appendix B: Tool Setup and Verification Quick Start"
 locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-b.md"
 ---
-# Appendix B: Tool Installation Guide
+# Appendix B: Tool Setup and Verification Quick Start
 
-Tool execution in this book is provided through the following two tracks, with **reproducibility (minimizing environment differences)** treated as the priority.
+This appendix gives the shortest reproducible path to running the book's companion examples. It prioritizes **reproducibility (minimizing environment differences)** over local customization.
 
-1. **Container (recommended)**: prepare a unified environment with a devcontainer  
-2. **Local**: run with minimum dependencies such as Java, `curl`, and `unzip`
+1. **Container (recommended)**: use a devcontainer for a unified environment  
+2. **Local**: run the same scripts with minimum dependencies such as Java, `curl`, and `unzip`
 
 The commands below are representative examples. Distribution formats and prerequisites may change, so consult Appendix E on primary sources when necessary.
 
-By following this appendix, you should be able to reproduce at least **one model checking workflow** (`Alloy`/`TLC`/`Apalache`) and **one program verification workflow** (`Dafny`).
+You do not need every tool before you begin reading. By following this appendix, you should be able to reproduce at least **one model checking workflow** (`Alloy`/`TLC`/`Apalache`) and **one program verification workflow** (`Dafny`).
 
 ## Target Tools (Minimum Set)
 
@@ -27,15 +27,15 @@ Notes:
 - Theorem provers such as `Rocq` and `Isabelle` have larger dependency footprints, so this appendix primarily points to primary sources for them in Appendix E.
 - `Lean 4` is included here only as a **minimal setup** at the end of the appendix as an optional path through the book.
 
-## Recommended: devcontainer (Container Workflow)
+## Recommended: devcontainer (Fastest Reproducible Path)
 
 Prerequisites:
 - Docker is available
 - You have an editor that can work with a devcontainer, such as `VS Code` with `Dev Containers`
 
 Steps:
-1. Open this repository in the devcontainer by using `.devcontainer/`
-2. On the first startup, `tools/bootstrap.sh` runs and places tools under `tools/.cache/`
+1. Open the book's companion repository in a devcontainer by using `.devcontainer/`
+2. On the first startup, `tools/bootstrap.sh` fetches the tool distributions and places them under `tools/.cache/`
 3. Run the following commands to execute the sample workflows
 
 ```bash
@@ -62,15 +62,16 @@ Expected output (excerpt):
 - Dafny: `finished with ... verified, 0 errors`
 
 Outputs such as counterexamples and logs are stored under `.artifacts/`. They are also uploaded as CI artifacts.
+If any command fails, check the Java version, shell environment, and the primary sources listed in Appendix E before modifying the helper scripts.
 
-## Local Workflow (Non-container)
+## Local Workflow (Without a Container)
 
 ### Prerequisites (Linux/WSL)
 
 - Java 17 or later, required to run `TLC`, `Alloy`, and `Apalache`
 - `curl` and `unzip`
 
-The procedure is the same as in the devcontainer: run `bash tools/bootstrap.sh` to fetch the required files and then execute the scripts under `tools/*.sh`.
+Use the same flow as in the devcontainer: run `bash tools/bootstrap.sh` to fetch the required files, then execute the scripts under `tools/*.sh`.
 
 ### OS-specific Notes (Key Points)
 
@@ -115,7 +116,7 @@ Primary Sources (Official / Representative):
 - `elan`: <https://github.com/leanprover/elan>
 - `VS Code` Lean 4 extension: <https://github.com/leanprover/vscode-lean4>
 
-## CI (Automated Execution)
+## Companion Automation (Reference Only)
 
-In `GitHub Actions`, `.github/workflows/formal-checks.yml` provides pull-request jobs for lightweight checks and nightly jobs for deeper exploration.  
+The companion repository includes `GitHub Actions` workflows in `.github/workflows/formal-checks.yml` for lightweight pull-request checks and deeper nightly exploration.  
 If you want to run the equivalent lightweight path locally, execute `bash examples/ci/pr-quick-check.sh`.
