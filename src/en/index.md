@@ -11,16 +11,19 @@ The goal is not to turn every reader into a verification specialist. The goal
 is to help readers decide where formal methods pay off, how to adopt them
 incrementally, and how to read verification results critically.
 
-## What This Book Delivers
+## Questions This Book Helps You Answer
 
-- A practical map of the formal-methods landscape, from foundational concepts
-  to adoption in real development work
-- A comparative treatment of representative approaches, including Alloy, Z,
-  CSP, TLA+, model checking, theorem proving, and program verification
-- Small but concrete examples that show how specifications, properties, and
-  verification results fit together
-- A decision-oriented view of where formal methods help, where they are costly,
-  and how to introduce them without disrupting an entire organization
+- Which parts of a system should be specified precisely, and which parts can
+  remain informal without creating unnecessary risk?
+- When is model checking enough, and when is theorem proving or program
+  verification worth the extra cost?
+- How should you read a counterexample, proof obligation, or verification
+  result without treating the tool as a black box?
+- How do you introduce formal methods incrementally, without turning adoption
+  into an all-or-nothing process?
+
+These questions are answered through comparative chapters, small but concrete
+examples, and later chapters on adoption, tooling, and case studies.
 
 ## Intended Audience
 
