@@ -37,15 +37,22 @@ alone unreliable.
 ## How to Use This Book After the First Read
 
 This book is intended to remain useful after an initial cover-to-cover read.
-In practice, readers often return in the following ways:
+In practice, readers most often return when one of the following concrete
+problems appears:
 
-- go back to Chapters 3-7 when choosing a modeling style or notation
-- return to Chapters 8-10 when interpreting a verification result or planning
-  a proof strategy
-- use Chapters 11-13 when discussing process design, tool adoption, or
-  organizational rollout
-- consult Appendix C and the glossary when terminology becomes unstable across
-  teams or documents
+- **You need to choose a notation or modeling style**: go back to Chapters 3-7
+  together with [Appendix C]({{ '/en/appendices/appendix-c/' | relative_url }}).
+- **You need to interpret a counterexample, proof obligation, or failure
+  report**: return to Chapters 8-10, then use
+  [the glossary]({{ '/en/glossary/' | relative_url }}) if the terminology in
+  the result needs to be stabilized.
+- **You need to plan adoption, review flow, or rollout**: use Chapters 11-13
+  with [Appendix D]({{ '/en/appendices/appendix-d/' | relative_url }}) and
+  [Appendix F]({{ '/en/appendices/appendix-f/' | relative_url }}).
+- **You need to align terminology across team documents**: consult
+  [the glossary]({{ '/en/glossary/' | relative_url }}) and
+  [Appendix C]({{ '/en/appendices/appendix-c/' | relative_url }}) before
+  rewriting the terms in new specifications or review notes.
 
 If the book succeeds as a reference, it should help you restart thinking
 quickly rather than forcing you to reconstruct the entire field from memory.
