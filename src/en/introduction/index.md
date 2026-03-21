@@ -52,22 +52,26 @@ The notation is introduced carefully, so advanced mathematics is not required.
 
 ## How the Book Is Organized
 
-The book is organized into four parts and thirteen chapters:
+The book is organized into four parts and thirteen chapters. Each part is meant
+to help you make a different kind of engineering decision:
 
 **Part I: Foundations (Chapters 1-3)**  
-Why formal methods matter, where informal reasoning breaks down, and what it
-means to write a precise specification
+Understand where informal reasoning breaks down, what counts as a precise
+specification, and why that distinction matters before tools enter the picture.
 
 **Part II: Methods (Chapters 4-7)**  
-Representative specification approaches, including Alloy, Z notation, CSP, and
-TLA+
+Compare representative specification styles such as Alloy, Z notation, CSP, and
+TLA+ so you can choose the notation that exposes the risk or behavior you need
+to reason about.
 
 **Part III: Verification (Chapters 8-10)**  
-How properties are checked, proved, and connected to program behavior
+Learn how to interpret counterexamples, proofs, and verification obligations,
+and when checking, proving, or program verification is the right level of
+assurance.
 
 **Part IV: Practice (Chapters 11-13)**  
-How formal methods fit into development processes, toolchains, and case-study
-based engineering decisions
+Decide how formal methods fit into development processes, toolchains, and
+organizational rollout without treating adoption as an all-or-nothing change.
 
 ## How to Read This Book
 
