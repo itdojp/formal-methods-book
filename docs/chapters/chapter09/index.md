@@ -1846,8 +1846,3 @@ Theorem linearizability : forall operations,
 4. **実用性**: 実際の問題への応用可能性
 
 これらの演習を通じて、定理証明の理論的基礎と実践的応用の両方を身につけ、次章でのプログラム検証への準備を整えてください。特に発展演習では、実際のソフトウェア開発で直面する問題に対する形式的アプローチを体験することが重要です。
-
-## 章末まとめ
-
-- `summary`: 定理証明は、補題分割・帰納法・場合分け・計算の活用を組み合わせて進める。
-- `nextSteps`: 次は [第10章：プログラム検証]({{ '/chapters/chapter10/' | relative_url }}) に進み、必要に応じて [用語集（Glossary）]({{ '/glossary/' | relative_url }}) と [付録C: 記法対照表]({{ '/appendices/appendix-c/' | relative_url }}) を参照する。

@@ -6,7 +6,7 @@
 
 本書の構造を最短で把握したい場合は、まず全体の概念マップを確認してください。
 
-![図1-2：形式的手法学習の体系的ロードマップ（4部13章構成）]({{ '/assets/images/diagrams/formal-methods-roadmap.svg' | relative_url }})
+![概念マップ：形式的手法学習の体系的ロードマップ（4部13章構成、図1-2）]({{ '/assets/images/diagrams/formal-methods-roadmap.svg' | relative_url }})
 
 - 4部13章の役割分担を俯瞰できる。
 - 詳細は [第1章の学習ロードマップ]({{ '/chapters/chapter01/' | relative_url }}) を参照すると、読み進める順序を定めやすい。
