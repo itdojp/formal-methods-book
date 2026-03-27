@@ -39,9 +39,17 @@ source_path: "src/ja/index.md"
 - 用語の意味や略語は [用語集（Glossary）]({{ '/glossary/' | relative_url }}) で確認し、記法や構文の差分は [付録C: 記法対照表]({{ '/appendices/appendix-c/' | relative_url }}) で確認する。
 - 長い章を読むときは、[第9章]({{ '/chapters/chapter09/' | relative_url }}) など章末に `summary` と `nextSteps` が用意されている章では、先にそれらを確認して、必要な戻り先と次の読解順を固定する。
 
+## 安全に使うための注意
+
+- 形式仕様、模型検査、定理証明の結果は、前提条件と抽象化の置き方に依存します。検証結果だけでシステム全体の安全性や完全性を断定しないでください。
+- 実務へ適用する場合は、検証対象の範囲、未検証の前提、環境差分をレビューや設計文書に残し、関係者の合意を取ってから利用してください。
+- ツールの構文やオプションは変わるため、付録Bや第8章〜第12章の手順を再利用する前に、利用中ツールの公式ドキュメントを確認してください。
+
 ## 想定読者
 
 本書は以下の方を対象としています。
+
+主対象は、ソフトウェア設計・品質保証・安全性向上に形式的手法を部分導入したい実務エンジニアです。学生・研究者は、理論と実践の橋渡しとして活用できます。
 
 - **ソフトウェア設計・開発に従事するエンジニア**：より厳密で信頼性の高いソフトウェア設計手法を学びたい方
 - **品質保証・テストエンジニア**：数学的検証による品質保証手法を習得したい方
@@ -108,6 +116,13 @@ source_path: "src/ja/index.md"
 - [付録E: 参考文献とWebリソース]({{ '/appendices/appendix-e/' | relative_url }})
 - [付録F: AI支援の実践ガイド]({{ '/appendices/appendix-f/' | relative_url }})
 - [おわりに]({{ '/afterword/' | relative_url }})
+
+## 利用と更新情報
+
+- 公開ページ: [GitHub Pages](https://itdojp.github.io/formal-methods-book/)
+- リポジトリ: [GitHub](https://github.com/itdojp/formal-methods-book)
+- 更新確認先: [コミット履歴](https://github.com/itdojp/formal-methods-book/commits/main/)、[Pull Requests](https://github.com/itdojp/formal-methods-book/pulls)
+- 付録Eは一次情報や関連資料の入口、付録Fは AI 支援併用時の注意点の入口として使ってください。
 
 ## ライセンス
 
