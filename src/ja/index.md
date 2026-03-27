@@ -112,6 +112,16 @@
 
 ## 利用と更新情報
 
+<!-- markdownlint-disable MD034 -->
+{% assign repo_url = site.github.repository_url | default: site.repository_url | default: site.repository.github | default: site.repository %}
+{% if repo_url and repo_url != '' %}
+{% unless repo_url contains 'http' %}
+{% assign repo_url = 'https://github.com/' | append: repo_url %}
+{% endunless %}
+{% endif %}
+{% assign repo_branch = site.repository_branch | default: 'main' %}
+<!-- markdownlint-enable MD034 -->
+
 - 公開ページ: [GitHub Pages](https://itdojp.github.io/formal-methods-book/)
 - リポジトリ: [GitHub]({{ repo_url }})
 - 更新確認先: [コミット履歴]({{ repo_url }}/commits/{{ repo_branch }}/)、[Pull Requests]({{ repo_url }}/pulls)
