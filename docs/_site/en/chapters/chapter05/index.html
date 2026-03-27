@@ -1,0 +1,2026 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta name="author" content="太田和彦（株式会社アイティードゥ）">
+
+    <title>Chapter 5: State-Based Specification: Foundations of Z Notation - Formal Methods: Foundations and Applications</title>
+
+    <link rel="canonical" href="https://itdojp.github.io/formal-methods-book/en/chapters/chapter05/">
+    <link rel="alternate" hreflang="ja" href="https://itdojp.github.io/formal-methods-book/chapters/chapter05/">
+    <link rel="alternate" hreflang="en" href="https://itdojp.github.io/formal-methods-book/en/chapters/chapter05/">
+    <link rel="alternate" hreflang="x-default" href="https://itdojp.github.io/formal-methods-book/">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/main.css">
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/syntax-highlighting.css">
+
+    <link rel="icon" type="image/png" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+    <link rel="apple-touch-icon" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+
+    <meta property="og:title" content="Chapter 5: State-Based Specification: Foundations of Z Notation">
+    <meta property="og:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://itdojp.github.io/formal-methods-book/en/chapters/chapter05/">
+    <meta property="og:locale" content="en_US">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Chapter 5: State-Based Specification: Foundations of Z Notation">
+    <meta name="twitter:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+
+    <script>
+        (function() {
+            try {
+                const k = 'book-theme';
+                const t = localStorage.getItem(k) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (_) {}
+        })();
+    </script>
+</head>
+<body>
+    
+    
+    
+    
+    
+
+    <input type="checkbox" id="sidebar-toggle-checkbox" class="sidebar-toggle-checkbox" aria-hidden="true">
+
+    <div class="book-layout">
+        <header class="book-header">
+            <div class="header-left">
+                <label for="sidebar-toggle-checkbox" class="sidebar-toggle" aria-label="Toggle sidebar" role="button" tabindex="0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </label>
+                <a href="/formal-methods-book/en/" class="header-title">
+                    <h1>Formal Methods: Foundations and Applications</h1>
+                </a>
+            </div>
+
+            <div class="header-center">
+                <div class="search-container">
+                    <input type="search"
+                           placeholder="Search..."
+                           class="search-input"
+                           id="search-input"
+                           autocomplete="off">
+                    <div class="search-results" id="search-results"></div>
+                </div>
+            </div>
+
+            <div class="header-right">
+                
+
+
+
+
+
+
+
+
+
+
+<a href="/formal-methods-book/chapters/chapter05/"
+   class="language-switcher"
+   hreflang="ja"
+   lang="ja"
+   >
+    日本語
+</a>
+
+                <button class="theme-toggle" aria-label="Toggle theme">
+                    <svg class="theme-icon theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="theme-icon theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+
+                
+            </div>
+        </header>
+
+        <aside class="book-sidebar" id="sidebar">
+            <nav class="sidebar-nav" role="navigation" aria-label="Main navigation">
+                
+
+
+
+
+
+
+
+
+
+
+<div class="sidebar-content">
+    <div class="book-info">
+        <h2 class="book-title"><a href="/formal-methods-book/en/" class="header-title">Formal Methods: Foundations and Applications</a></h2>
+        
+        <p class="book-subtitle">An Integrated Understanding of Specification, Model Checking, and Theorem Proving</p>
+        
+    </div>
+
+    <div class="toc">
+        <h3 class="toc-title">Contents</h3>
+
+        <div class="toc-section">
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/" class="toc-link ">
+                        Home
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Introduction</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/introduction/" class="toc-link ">
+                        Introduction
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Chapters</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter01/" class="toc-link ">
+                        Chapter 1: Why Formal Methods Matter
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter02/" class="toc-link ">
+                        Chapter 2: Bridging Mathematics and Programs
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter03/" class="toc-link ">
+                        Chapter 3: Foundations of Specification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter04/" class="toc-link ">
+                        Chapter 4: Introduction to Lightweight Formal Methods — Specification with Alloy
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter05/" class="toc-link active">
+                        Chapter 5: State-Based Specification — Fundamentals of Z Notation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter06/" class="toc-link ">
+                        Chapter 6: Process-Centric Specification — Concurrency with CSP
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter07/" class="toc-link ">
+                        Chapter 7: Specifying Time — Introduction to TLA+
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter08/" class="toc-link ">
+                        Chapter 8: Introduction to Model Checking
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter09/" class="toc-link ">
+                        Chapter 9: Fundamentals of Theorem Proving
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter10/" class="toc-link ">
+                        Chapter 10: Program Verification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter11/" class="toc-link ">
+                        Chapter 11: Integrating Formal Methods into Development Processes
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter12/" class="toc-link ">
+                        Chapter 12: Tools and Automation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter13/" class="toc-link ">
+                        Chapter 13: Case Studies
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Additional</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/glossary/" class="toc-link ">
+                        Glossary
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Appendices</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-a/" class="toc-link ">
+                        Appendix A: Mathematics Refresher
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-b/" class="toc-link ">
+                        Appendix B: Tool Setup and Verification Quick Start
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-c/" class="toc-link ">
+                        Appendix C: Notation Cross-Reference
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-d/" class="toc-link ">
+                        Appendix D: Exercise Guides and Self-Review Frameworks
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-e/" class="toc-link ">
+                        Appendix E: References and Further Reading Paths
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-f/" class="toc-link ">
+                        Appendix F: Practical Playbook for AI-Assisted Formal Methods
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Afterword</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/afterword/" class="toc-link ">
+                        Afterword
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="external-links">
+            
+            <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener" class="external-link">GitHub</a>
+            
+            
+        </div>
+    </div>
+</div>
+
+            </nav>
+        </aside>
+
+        <main class="book-main" id="main">
+            <div class="book-content">
+                
+                    
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb-list">
+    <li class="breadcrumb-item">
+        <a href="/formal-methods-book/en/" class="breadcrumb-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span class="sr-only">Home</span>
+        </a>
+    </li>
+
+    
+        
+    
+        
+    
+        
+            
+            
+            
+                
+                
+                <li class="breadcrumb-item">
+                    <a href="/formal-methods-book/en/chapters/" class="breadcrumb-link">
+                        
+                            Chapters
+                        
+                    </a>
+                </li>
+            
+        
+    
+        
+            
+            
+            
+                <li class="breadcrumb-item active" aria-current="page">
+                    Chapter 5: state based specification: foundations of z notation
+                </li>
+            
+        
+    
+</ol>
+
+<style>
+.breadcrumb-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    font-size: 0.875rem;
+    flex-wrap: wrap;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb-item:not(:last-child)::after {
+    content: '/';
+    margin: 0 0.5rem;
+    color: var(--text-muted);
+}
+
+.breadcrumb-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.breadcrumb-link:hover {
+    color: var(--primary-color);
+}
+
+.breadcrumb-item.active {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (max-width: 768px) {
+    .breadcrumb-list {
+        font-size: 0.75rem;
+    }
+
+    .breadcrumb-item:not(:last-child)::after {
+        margin: 0 0.375rem;
+    }
+}
+</style>
+
+                
+
+                <article class="page-content">
+                    <h1 id="chapter-5-state-based-specification-foundations-of-z-notation">Chapter 5: State-Based Specification: Foundations of Z Notation</h1>
+
+<h2 id="51-the-world-of-z-notation-thinking-in-terms-of-state-and-schemas">5.1 The World of Z Notation: Thinking in Terms of State and Schemas</h2>
+
+<h3 id="a-culture-of-precision-born-in-oxford">A Culture of Precision Born in Oxford</h3>
+
+<p>Z notation was developed at the Oxford University Computing Laboratory from the
+late 1970s into the 1980s. The background was a growing recognition that
+software systems were becoming too complex for informal methods to guarantee
+quality reliably.</p>
+
+<p>The creators of Z tried to address this problem by importing mathematical
+rigor into software specification. Their goal, however, was not merely to write
+software documents with mathematical symbols. They wanted a practical form of
+mathematical rigor that software engineers could actually use.</p>
+
+<p>The result was Z notation, which is often described as “readable mathematics.”
+Complex mathematical ideas are expressed in a structured way, making them
+usable not only by mathematicians but also by practitioners who need to design
+and review software systems.</p>
+
+<h3 id="a-state-centered-worldview">A State-Centered Worldview</h3>
+
+<p>The defining feature of Z notation is its state-centered worldview. A system is
+understood as a combination of state and operations that transform that state.
+This viewpoint is close to database design and state-machine thinking.</p>
+
+<p>When we think in state-centered terms, we first identify the information the
+system must carry, namely its state variables. Next, we define invariants over
+those variables. Only then do we describe the operations that change the state.
+That order matters. It is impossible to discuss whether an operation is correct
+unless the valid states of the system are already understood.</p>
+
+<p>Consider a library system. A conventional object-oriented approach may start
+from a <code class="language-plaintext highlighter-rouge">Book</code> object or a <code class="language-plaintext highlighter-rouge">Member</code> object. Z begins elsewhere: what is the
+state of the library? Which books exist, which are on loan, and who has
+borrowed which book? Those pieces of information and their relations define the
+system state.</p>
+
+<h3 id="the-structured-wisdom-of-schemas">The Structured Wisdom of Schemas</h3>
+
+<p>One of the most innovative ideas in Z notation is the <em>schema</em>. A schema is a
+way to package related declarations and constraints together. This is not just
+a notational convenience. It is a deep mechanism for managing complexity.</p>
+
+<p><img src="/formal-methods-book/assets/images/diagrams/z-notation-schema-structure.svg" alt="Figure 5-1: Schema structure in Z notation and state-based specification" /></p>
+
+<p>Human cognitive capacity is limited. A software system may contain dozens or
+hundreds of relevant elements, but a person cannot reason about all of them at
+once. Schemas are an abstraction mechanism for overcoming that limit.</p>
+
+<p>By grouping related variables and constraints into one conceptually coherent
+unit, a schema lets us break a large system into understandable pieces. Schemas
+are also reusable, so recurring structures can be captured once and then
+included elsewhere.</p>
+
+<h3 id="putting-mathematical-foundations-to-work">Putting Mathematical Foundations to Work</h3>
+
+<p>Z notation is built on established mathematical foundations such as set theory,
+logic, and functions. It does not simply reproduce those subjects verbatim. It
+adapts them into a practical notation for software specification.</p>
+
+<p>For example, the mathematical idea of a function is refined into several
+categories that matter directly in software: partial functions, total
+functions, injections, and so on. Each of these captures a different aspect of
+system structure or behavior.</p>
+
+<p>Z also places strong emphasis on types. This is reminiscent of type systems in
+programming languages, but Z is often more expressive. Types help detect
+mistakes early and make a specification easier to understand.</p>
+
+<h3 id="industrial-successes-and-lessons-learned">Industrial Successes and Lessons Learned</h3>
+
+<p>Z notation has a long record not only in academic work but also in industry,
+especially in safety-critical domains such as transportation control, aerospace
+systems, and nuclear applications.</p>
+
+<p>One major lesson from these cases is the importance of gradual adoption. It is
+usually ineffective to rewrite an entire system specification in Z at once. A
+better approach is to begin with the most critical part of the system and then
+expand the scope step by step.</p>
+
+<p>Another lesson is that Z succeeds only when a team develops a shared
+understanding of how to use it. Learning the notation is necessary, but not
+sufficient. The team also has to build a culture in which the notation supports
+review and communication.</p>
+
+<h2 id="52-the-system-of-mathematical-notation-making-sets-and-logic-practical">5.2 The System of Mathematical Notation: Making Sets and Logic Practical</h2>
+
+<h3 id="symbols-as-a-common-language">Symbols as a Common Language</h3>
+
+<p>The greatest value of mathematical notation is uniqueness of interpretation.
+Natural language makes expressions such as “large,” “small,” “many,” or “few”
+ambiguous. Symbols such as <code class="language-plaintext highlighter-rouge">≤</code>, <code class="language-plaintext highlighter-rouge">≥</code>, <code class="language-plaintext highlighter-rouge">∈</code>, and <code class="language-plaintext highlighter-rouge">⊆</code> have stable meanings
+independent of language and region.</p>
+
+<p>Z notation builds a software-oriented notation on top of that stability. The
+important thing is not memorizing symbols mechanically, but understanding the
+concept each symbol captures.</p>
+
+<h3 id="basic-types-and-constructed-types">Basic Types and Constructed Types</h3>
+
+<p>In Z, we begin by defining basic types and then combine them to construct more
+elaborate types.</p>
+
+<p><strong>Examples of basic types</strong>:</p>
+
+<p>【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-z">[Person, BookID, Date]
+</code></pre>
+
+<p>Names in square brackets denote basic types. Each one represents a set of
+primitive elements that we do not decompose any further.</p>
+
+<p><strong>Examples of constructed types</strong>:</p>
+
+<p>【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-z">Name == seq Char
+Status ::= available | borrowed | reserved
+Address == [street: seq Char; city: seq Char; zipcode: Nat]
+</code></pre>
+
+<p>Constructors such as sequences, free types, and record types allow us to build
+new types from simpler ones.</p>
+
+<h3 id="practical-use-of-set-operations">Practical Use of Set Operations</h3>
+
+<p>Set-theoretic operators are natural and powerful in software specification.</p>
+
+<p><strong>Basic set operators</strong>:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">∈</code> (membership)</li>
+  <li><code class="language-plaintext highlighter-rouge">⊆</code> (subset)</li>
+  <li><code class="language-plaintext highlighter-rouge">∪</code> (union)</li>
+  <li><code class="language-plaintext highlighter-rouge">∩</code> (intersection)</li>
+  <li><code class="language-plaintext highlighter-rouge">\</code> (difference)</li>
+  <li><code class="language-plaintext highlighter-rouge">ℙ</code> (power set)</li>
+</ul>
+
+<p><strong>Practical example: library stock management</strong></p>
+
+<p>【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-z">availableBooks == allBooks \ borrowedBooks
+overdueBooks == {b: borrowedBooks | dueDate(b) &lt; today}
+popularBooks == {b: allBooks | #borrowers(b) &gt; threshold}
+</code></pre>
+
+<p>Such expressions are far more precise than natural language, and often more
+readable than code.</p>
+
+<h3 id="the-hierarchy-of-relations-and-functions">The Hierarchy of Relations and Functions</h3>
+
+<p>Z notation distinguishes clearly between general relations and the various
+special cases of functions.</p>
+
+<p><strong>Basic relation and function symbols used in this chapter</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">X ↔ Y</code>: an arbitrary binary relation</li>
+  <li><code class="language-plaintext highlighter-rouge">X ⇸ Y</code>: a partial function</li>
+  <li><code class="language-plaintext highlighter-rouge">X → Y</code>: a total function</li>
+  <li><code class="language-plaintext highlighter-rouge">X ↣ Y</code>: an injection</li>
+  <li><code class="language-plaintext highlighter-rouge">x ↦ y</code>: a maplet, that is, an explicit pair</li>
+</ul>
+
+<p><strong>Practical example: student enrollment</strong></p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">enrollment: Student ↔ Course
+advisor: Student ⇸ Teacher
+teaches: Teacher → ℙ Course
+studentID: Student ↣ StudentNumber
+</code></pre>
+
+<p>The enrollment relation is many-to-many. An advisor is modeled as a partial
+function because some students may not yet have an advisor. <code class="language-plaintext highlighter-rouge">teaches</code> is a
+total function to sets of courses, and <code class="language-plaintext highlighter-rouge">studentID</code> is injective because student
+numbers must be unique.</p>
+
+<h3 id="practical-use-of-predicate-logic">Practical Use of Predicate Logic</h3>
+
+<p>Quantifiers such as <code class="language-plaintext highlighter-rouge">∀</code> and <code class="language-plaintext highlighter-rouge">∃</code> are central in specification writing.</p>
+
+<p><strong>Universal quantification</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">∀ s: Student • #(s.courses) ≤ maxCourses
+
+∀ b: BorrowedBook • b.dueDate ≥ b.borrowDate + 14
+</code></pre>
+
+<p>The first formula states that every student is under the enrollment limit. The
+second states that every borrowed book has a due date at least fourteen days
+after its borrowing date.</p>
+
+<p><strong>Existential quantification</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">∃ a: Admin • a.isActive = true
+
+∃! p: Person • p.email = targetEmail
+</code></pre>
+
+<p>The first says that at least one active administrator exists. The second says
+that exactly one person has the target email address.</p>
+
+<h3 id="integrating-notation-inside-a-schema">Integrating Notation Inside a Schema</h3>
+
+<p>The real strength of Z appears when these mathematical building blocks are
+combined inside a schema.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">LibrarySystem
+├─ books: ℙ Book
+├─ members: ℙ Member
+├─ loans: Member ↔ Book
+├─ dueDate: Book ⇸ Date
+├─────────────────────────
+├─ dom loans ⊆ members
+├─ ran loans ⊆ books
+├─ ran loans ⊆ dom dueDate
+├─ ∀ m: Member • #(loans[{m}]) ≤ maxLoans
+└─ ∀ b: ran loans • dueDate(b) &gt; today
+</code></pre>
+
+<p>This schema gives a mathematically precise description of library state, while
+remaining readable at the design level.</p>
+
+<h3 id="reading-and-pronouncing-the-notation">Reading and Pronouncing the Notation</h3>
+
+<p>To use Z effectively in practice, a team must be able to read the symbols
+correctly. This matters for discussion and review.</p>
+
+<p><strong>Typical readings</strong>:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">x ∈ S</code>: “x belongs to S” or “x is in S”</li>
+  <li><code class="language-plaintext highlighter-rouge">A ⊆ B</code>: “A is a subset of B”</li>
+  <li><code class="language-plaintext highlighter-rouge">f: X → Y</code>: “f is a function from X to Y”</li>
+  <li><code class="language-plaintext highlighter-rouge">∀ x: X • P(x)</code>: “for all x in X, P of x”</li>
+  <li><code class="language-plaintext highlighter-rouge">∃ x: X • P(x)</code>: “there exists x in X such that P of x”</li>
+</ul>
+
+<p>Once the team shares a consistent way of reading the notation, Z becomes much
+more practical as a communication medium.</p>
+
+<h2 id="53-describing-state-with-schemas">5.3 Describing State with Schemas</h2>
+
+<h3 id="the-fundamental-idea-of-structured-state">The Fundamental Idea of Structured State</h3>
+
+<p>To understand the state of a complex system, some kind of structure is
+essential. Schemas in Z provide that structure. They do more than group
+variables. They also collect the constraints that maintain consistency.</p>
+
+<p>This makes it possible to answer a fundamental design question precisely: what
+counts as a valid state of the system?</p>
+
+<h3 id="the-basic-structure-of-a-schema">The Basic Structure of a Schema</h3>
+
+<p>A Z schema consists of a declaration part and a predicate part. The declaration
+part introduces state variables and their types. The predicate part states the
+relationships and constraints among them.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">┌─ BankAccount ─────────────────────┐
+│ accountNumber: AccountID          │
+│ balance: ℕ                        │
+│ owner: Person                     │
+│ isActive: 𝔹                       │
+├───────────────────────────────────┤
+│ balance ≤ creditLimit             │
+│ isActive ⇒ owner ∈ validCustomers │
+└───────────────────────────────────┘
+</code></pre>
+
+<p>The upper part is the declaration part. The lower part contains invariants that
+must always hold.</p>
+
+<h3 id="representing-composite-state">Representing Composite State</h3>
+
+<p>Real systems usually contain several interrelated collections and mappings.
+Schemas can express those compound structures naturally.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">┌─ Library ─────────────────────────┐
+│ books: ℙ Book                     │
+│ members: ℙ Member                 │
+│ catalogue: Book → BookInfo        │
+│ loans: Member ↔ Book              │
+│ reservations: Member ↔ Book       │
+├───────────────────────────────────┤
+│ dom catalogue = books             │
+│ dom loans ⊆ members               │
+│ ran loans ⊆ books                 │
+│ ∀ m: Member • #(loans[{m}]) ≤ 5   │
+│ loans ∩ reservations = ∅          │
+└───────────────────────────────────┘
+</code></pre>
+
+<p>This schema captures a realistic library state. Each constraint represents a
+piece of the system’s integrity policy.</p>
+
+<h3 id="hierarchical-schema-design">Hierarchical Schema Design</h3>
+
+<p>Large systems benefit from hierarchical structuring. Lower-level schemas can be
+combined into higher-level ones.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">┌─ PersonalInfo ───────────────────┐
+│ name: Name                       │
+│ address: Address                 │
+│ phoneNumber: PhoneNumber         │
+├─────────────────────────────────┤
+│ name ≠ ""                        │
+│ isValidPhone(phoneNumber)        │
+└─────────────────────────────────┘
+
+┌─ BankingInfo ────────────────────┐
+│ accountNumbers: ℙ AccountID      │
+│ creditRating: CreditRating       │
+│ lastTransaction: Date            │
+├─────────────────────────────────┤
+│ #accountNumbers ≥ 1              │
+│ creditRating ∈ {A, B, C, D, E}   │
+└─────────────────────────────────┘
+
+┌─ Customer ───────────────────────┐
+│ PersonalInfo                     │
+│ BankingInfo                      │
+├─────────────────────────────────┤
+│ lastTransaction ≤ today          │
+└─────────────────────────────────┘
+</code></pre>
+
+<p>Hierarchical organization preserves local clarity while controlling overall
+complexity.</p>
+
+<h3 id="expressing-state-invariants">Expressing State Invariants</h3>
+
+<p>State invariants are among the most important elements of a Z specification.
+They capture the consistency properties that must survive every operation.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">┌─ OnlineStore ────────────────────┐
+│ products: ℙ Product              │
+│ inventory: Product → ℕ           │
+│ orders: ℙ Order                  │
+│ orderItems: Order → ℙ Product    │
+│ reservedStock: Product → ℕ       │
+├─────────────────────────────────┤
+│ dom inventory = products         │
+│ dom reservedStock = products     │
+│ ∀ p: Product •                   │
+│   reservedStock(p) ≤ inventory(p)│
+│ ∀ o: orders; p: orderItems(o) •  │
+│   p ∈ products                   │
+└─────────────────────────────────┘
+</code></pre>
+
+<p>These invariants encode the core of the business logic, such as inventory
+consistency and order validity.</p>
+
+<h3 id="expressing-conditional-state">Expressing Conditional State</h3>
+
+<p>System constraints often depend on conditions. Z can express such conditional
+state restrictions naturally.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">┌─ FlightBookingSystem ────────────┐
+│ flights: ℙ Flight                │
+│ bookings: ℙ Booking              │
+│ passengers: Booking → ℙ Passenger│
+│ flightStatus: Flight → Status    │
+│ capacity: Flight → ℕ             │
+├─────────────────────────────────┤
+│ ∀ f: flights •                   │
+│   flightStatus(f) = cancelled ⇒  │
+│     ¬∃ b: bookings • b.flight = f│
+│ ∀ f: flights; b: bookings •      │
+│   b.flight = f ⇒                 │
+│     #(passengers(b)) ≤ capacity(f)│
+│ ∀ b: bookings •                  │
+│   b.isPaid ∨ b.paymentDue ≤ today│
+└─────────────────────────────────┘
+</code></pre>
+
+<h3 id="considering-time-dependent-state">Considering Time-Dependent State</h3>
+
+<p>In dynamic systems, state evolves over time. Z can model that dependence
+explicitly when needed.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">┌─ TimedSystem ────────────────────┐
+│ currentTime: Time                │
+│ events: ℙ Event                  │
+│ schedule: Event → Time           │
+│ completed: ℙ Event               │
+├─────────────────────────────────┤
+│ completed ⊆ events               │
+│ ∀ e: completed •                 │
+│   schedule(e) ≤ currentTime      │
+│ ∀ e: events \ completed •        │
+│   schedule(e) &gt; currentTime      │
+└─────────────────────────────────┘
+</code></pre>
+
+<h3 id="designing-for-readability">Designing for Readability</h3>
+
+<p>Readable schemas are easier to review and maintain. The order of declarations,
+the grouping of related constraints, and naming discipline all matter.</p>
+
+<p>Useful principles include:</p>
+
+<ol>
+  <li>Place related variables together.</li>
+  <li>Write constraints in a logical order.</li>
+  <li>Use meaningful names.</li>
+  <li>Split complex constraints over multiple lines.</li>
+</ol>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">┌─ WebServer ──────────────────────┐
+│ // Connection management         │
+│ activeConnections: ℙ Connection  │
+│ maxConnections: ℕ                │
+│                                  │
+│ // Resource management           │
+│ availableMemory: ℕ               │
+│ usedMemory: ℕ                    │
+│ totalMemory: ℕ                   │
+├─────────────────────────────────┤
+│ // Connection limit              │
+│ #activeConnections ≤ maxConnections│
+│                                  │
+│ // Memory consistency            │
+│ usedMemory + availableMemory = totalMemory│
+│ usedMemory ≥ 0                   │
+│ availableMemory ≥ 0              │
+└─────────────────────────────────┘
+</code></pre>
+
+<p>Structured presentation makes the intention of the schema visible, not just the
+raw formulas.</p>
+
+<h2 id="54-operation-schemas-describing-state-change">5.4 Operation Schemas: Describing State Change</h2>
+
+<h3 id="operations-as-state-transformations">Operations as State Transformations</h3>
+
+<p>In Z notation, an operation is understood as a state transformation. It defines
+the mathematical relation between a pre-state and a post-state. That viewpoint
+makes it possible to reason rigorously about correctness and about how
+operations interact.</p>
+
+<p>An operation schema describes the current state, the next state, any inputs,
+and any outputs. It makes explicit not only what the operation changes, but
+also what it leaves unchanged.</p>
+
+<h3 id="delta-schemas-and-xi-schemas">Delta Schemas and Xi Schemas</h3>
+
+<p>Z provides dedicated notation for operations.</p>
+
+<p><strong>Delta notation (<code class="language-plaintext highlighter-rouge">Δ</code>)</strong>: the operation changes state.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">ΔLibrary
+≙ Library ∧ Library'
+</code></pre>
+
+<p>This means that both the pre-state <code class="language-plaintext highlighter-rouge">Library</code> and the post-state <code class="language-plaintext highlighter-rouge">Library'</code> are
+in scope.</p>
+
+<p><strong>Xi notation (<code class="language-plaintext highlighter-rouge">Ξ</code>)</strong>: the operation does not change state.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">ΞLibrary
+≙ ΔLibrary ∧ θLibrary = θLibrary'
+</code></pre>
+
+<p>It states that all bindings in the schema are preserved across the operation.</p>
+
+<h3 id="a-detailed-borrow-operation">A Detailed Borrow Operation</h3>
+
+<p>Let us examine a book-borrowing operation in a library system.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">┌─ BorrowBook ─────────────────────┐
+│ ΔLibrary                         │
+│ member?: Member                  │
+│ book?: Book                      │
+│ result!: RESPONSE                │
+├─────────────────────────────────┤
+│ // Preconditions                 │
+│ member? ∈ members                │
+│ book? ∈ books                    │
+│ book? ∉ ran loans                │
+│ #(loans[{member?}]) &lt; maxLoans   │
+│                                  │
+│ // Postconditions                │
+│ loans' = loans ∪ {member? ↦ book?}│
+│ books' = books                   │
+│ members' = members               │
+│ result! = success                │
+└─────────────────────────────────┘
+</code></pre>
+
+<p>Input variables are marked with <code class="language-plaintext highlighter-rouge">?</code> and outputs with <code class="language-plaintext highlighter-rouge">!</code>. The schema states
+both the conditions required for normal execution and the resulting next state.</p>
+
+<h3 id="formalizing-error-handling">Formalizing Error Handling</h3>
+
+<p>Real systems must define error behavior as carefully as success behavior. Z can
+capture both in the same overall framework.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">┌─ BorrowBookError ────────────────┐
+│ ΞLibrary                         │
+│ member?: Member                  │
+│ book?: Book                      │
+│ result!: RESPONSE                │
+├─────────────────────────────────┤
+│ member? ∉ members ∨              │
+│ book? ∉ books ∨                  │
+│ book? ∈ ran loans ∨              │
+│ #(loans[{member?}]) ≥ maxLoans   │
+│                                  │
+│ result! ∈ {memberNotFound,       │
+│            bookNotFound,         │
+│            alreadyBorrowed,      │
+│            loanLimitExceeded}    │
+└─────────────────────────────────┘
+</code></pre>
+
+<p>Because the schema uses <code class="language-plaintext highlighter-rouge">ΞLibrary</code>, the state remains unchanged in the error
+case.</p>
+
+<h3 id="a-complete-operation-definition">A Complete Operation Definition</h3>
+
+<p>A complete operation combines the normal and error cases.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">CompleteBorrowBook ≙ BorrowBook ∨ BorrowBookError
+</code></pre>
+
+<p>This definition ensures that the operation has specified behavior for every
+relevant input category.</p>
+
+<h3 id="structuring-more-complex-operations">Structuring More Complex Operations</h3>
+
+<p>For more elaborate business logic, it is often helpful to describe the
+operation in stages.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">┌─ ProcessPurchase ────────────────┐
+│ ΔOnlineStore                     │
+│ customer?: Customer              │
+│ items?: ℙ Product                │
+│ paymentInfo?: Payment            │
+│ result!: RESPONSE                │
+├─────────────────────────────────┤
+│ // Stage 1: stock validation     │
+│ ∀ item: items? • item ∈ products │
+│ ∀ item: items? •                 │
+│   inventory(item) ≥ requested(item)│
+│                                  │
+│ // Stage 2: payment processing   │
+│ ValidatePayment                  │
+│ ProcessPayment                   │
+│                                  │
+│ // Stage 3: inventory update     │
+│ ∀ item: items? •                 │
+│   inventory'(item) =             │
+│     inventory(item) - requested(item)│
+│                                  │
+│ // Stage 4: order recording      │
+│ CreateOrder                      │
+│                                  │
+│ result! = orderConfirmed         │
+└─────────────────────────────────┘
+</code></pre>
+
+<h3 id="before-and-after-relationships">Before-and-After Relationships</h3>
+
+<p>Operation schemas are especially valuable because they let us state exactly how
+the pre-state and post-state are related.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">┌─ TransferFunds ──────────────────┐
+│ ΔBankingSystem                   │
+│ fromAccount?: AccountID          │
+│ toAccount?: AccountID            │
+│ amount?: ℕ                       │
+│ result!: RESPONSE                │
+├─────────────────────────────────┤
+│ // Preconditions                 │
+│ fromAccount? ∈ accounts          │
+│ toAccount? ∈ accounts            │
+│ fromAccount? ≠ toAccount?        │
+│ balance(fromAccount?) ≥ amount?  │
+│                                  │
+│ // State changes                 │
+│ balance'(fromAccount?) =         │
+│   balance(fromAccount?) - amount?│
+│ balance'(toAccount?) =           │
+│   balance(toAccount?) + amount?  │
+│                                  │
+│ // Unchanged part                │
+│ ∀ acc: accounts \ {fromAccount?, toAccount?} •│
+│   balance'(acc) = balance(acc)   │
+│ accounts' = accounts             │
+│                                  │
+│ result! = transferComplete       │
+└─────────────────────────────────┘
+</code></pre>
+
+<p>The explicit unchanged part is the response to the frame problem in this style
+of specification.</p>
+
+<h3 id="composition-and-order-of-operations">Composition and Order of Operations</h3>
+
+<p>When multiple operations are combined, their order and dependency have to be
+made explicit.</p>
+
+<p>【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-z">BookReservationProcess ≙
+  CheckAvailability ⨾
+  ReserveBook ⨾
+  NotifyMember ⨾
+  UpdateCatalogue
+</code></pre>
+
+<p>The operator <code class="language-plaintext highlighter-rouge">⨾</code> denotes sequential composition.</p>
+
+<h3 id="conditional-operations">Conditional Operations</h3>
+
+<p>Operations can also branch based on conditions.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">┌─ ProcessReturn ──────────────────┐
+│ ΔLibrary                         │
+│ member?: Member                  │
+│ book?: Book                      │
+│ returnDate?: Date                │
+│ fine!: ℕ                         │
+├─────────────────────────────────┤
+│ member? ↦ book? ∈ loans          │
+│                                  │
+│ returnDate? &gt; dueDate(book?) ⇒   │
+│   fine! = calculateFine(book?, returnDate?)│
+│                                  │
+│ returnDate? ≤ dueDate(book?) ⇒   │
+│   fine! = 0                      │
+│                                  │
+│ loans' = loans \ {member? ↦ book?}│
+│ members' = members               │
+│ books' = books                   │
+└─────────────────────────────────┘
+</code></pre>
+
+<p>This one schema covers both the on-time return case and the overdue case.</p>
+
+<h2 id="55-schema-calculus-building-complex-operations">5.5 Schema Calculus: Building Complex Operations</h2>
+
+<h3 id="the-algebraic-structure-of-operations">The Algebraic Structure of Operations</h3>
+
+<p>The deeper power of Z notation lies in its ability to compose simple
+operations into more complex ones. This is analogous to algebra, where
+operators can be combined to derive larger expressions.</p>
+
+<p>That algebraic view improves reuse, supports layered design, and makes
+relationships among operations mathematically analyzable.</p>
+
+<h3 id="schema-composition">Schema Composition</h3>
+
+<p>The most basic schema-calculus operation is composition through logical
+operators.</p>
+
+<p><strong>Composition by conjunction (<code class="language-plaintext highlighter-rouge">∧</code>)</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">AuthenticatedOperation ≙
+  UserAuthentication ∧
+  SystemOperation
+</code></pre>
+
+<p>This defines an operation that must satisfy both the authentication constraint
+and the system-operation constraint.</p>
+
+<p><strong>Composition by disjunction (<code class="language-plaintext highlighter-rouge">∨</code>)</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">FlexiblePayment ≙
+  CreditCardPayment ∨
+  BankTransferPayment ∨
+  DigitalWalletPayment
+</code></pre>
+
+<p>This schema allows one of several payment mechanisms.</p>
+
+<h3 id="sequential-composition">Sequential Composition</h3>
+
+<p>Many real operations consist of several stages executed in sequence.</p>
+
+<p>【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-z">CompleteBooking ≙
+  ValidateRequest ⨾
+  CheckAvailability ⨾
+  ProcessPayment ⨾
+  ConfirmReservation ⨾
+  SendConfirmation
+</code></pre>
+
+<p>Each stage feeds into the next one, together forming a larger transaction.</p>
+
+<h3 id="expressing-conditional-branches">Expressing Conditional Branches</h3>
+
+<p>Conditional behavior can also be written in schema-calculus style.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">ProcessOrder ≙
+  (InStock ∧ ImmediateDelivery) ∨
+  (OutOfStock ∧ BackOrder) ∨
+  (SpecialOrder ∧ CustomProcessing)
+</code></pre>
+
+<h3 id="integrating-error-handling">Integrating Error Handling</h3>
+
+<p>Production systems need a clean integration of success and failure behavior.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">RobustOperation ≙
+  (Preconditions ∧ NormalProcessing) ∨
+  (¬Preconditions ∧ ErrorHandling)
+</code></pre>
+
+<p>A more concrete example:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">┌─ SafeWithdrawal ─────────────────┐
+│ (ValidAccount ∧ SufficientFunds  │
+│  ∧ WithinDailyLimit ∧ ProcessWithdrawal) │
+│ ∨                                │
+│ (¬ValidAccount ∧ AccountError)   │
+│ ∨                                │
+│ (¬SufficientFunds ∧ InsufficientFundsError)│
+│ ∨                                │
+│ (¬WithinDailyLimit ∧ LimitExceededError)│
+└─────────────────────────────────┘
+</code></pre>
+
+<h3 id="parallel-composition">Parallel Composition</h3>
+
+<p>Some operations conceptually run in parallel.</p>
+
+<p>【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-z">ParallelProcessing ≙
+  DatabaseUpdate ∥
+  CacheRefresh ∥
+  LogEntry
+</code></pre>
+
+<p>The operator <code class="language-plaintext highlighter-rouge">∥</code> denotes parallel composition.</p>
+
+<h3 id="abstraction-and-concretization">Abstraction and Concretization</h3>
+
+<p>Schema calculus also supports a stepwise refinement from abstract to concrete
+operations.</p>
+
+<p><strong>Abstract level</strong>:</p>
+
+<p>【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-z">PaymentProcess ≙
+  ValidatePayment ⨾
+  ProcessTransaction ⨾
+  UpdateRecords
+</code></pre>
+
+<p><strong>More concrete level</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">CreditCardPayment ≙
+  (ValidateCreditCard ∧ CheckCreditLimit) ⨾
+  (ContactPaymentGateway ∧ ProcessCreditTransaction) ⨾
+  (UpdateAccountBalance ∧ RecordTransaction ∧ SendReceipt)
+</code></pre>
+
+<h3 id="minimizing-state-change">Minimizing State Change</h3>
+
+<p>One response to the frame problem is to define the changed and unchanged parts
+of the state explicitly.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">┌─ MinimalUpdate ──────────────────┐
+│ ΔSystemState                     │
+│ targetField?: FieldID            │
+│ newValue?: Value                 │
+├─────────────────────────────────┤
+│ // Update only the target field  │
+│ state'(targetField?) = newValue? │
+│                                  │
+│ // Everything else is unchanged  │
+│ ∀ field: dom state \ {targetField?} •│
+│   state'(field) = state(field)   │
+└─────────────────────────────────┘
+</code></pre>
+
+<h3 id="reversibility-of-operations">Reversibility of Operations</h3>
+
+<p>In some domains, inverse operations such as undo are an essential design
+concern.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">UndoableOperation ≙
+  (DoAction ∧ SaveUndoInfo) ∨
+  (UndoAction ∧ RestorePreviousState)
+
+FileManagement ≙
+  (DeleteFile ∧ MoveToTrash) ∨
+  (RestoreFile ∧ MoveFromTrash)
+</code></pre>
+
+<h3 id="integrating-access-control">Integrating Access Control</h3>
+
+<p>Systems with security requirements often need an access-control wrapper around
+all operations.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">SecureOperation[X] ≙
+  AuthorizeUser ∧
+  CheckPermissions ∧
+  X ∧
+  LogAccess
+</code></pre>
+
+<p>This generic pattern adds security control to an arbitrary operation <code class="language-plaintext highlighter-rouge">X</code>.</p>
+
+<p>【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-z">SecureFileAccess ≙ SecureOperation[ReadFile]
+SecureDataModification ≙ SecureOperation[UpdateDatabase]
+</code></pre>
+
+<h3 id="performance-characteristics-of-operations">Performance Characteristics of Operations</h3>
+
+<p>Schema calculus can also help document performance-related design choices.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">EfficientOperation ≙
+  (SmallDataSet ∧ LinearSearch) ∨
+  (LargeDataSet ∧ IndexedSearch)
+
+OptimizedQuery ≙
+  CacheCheck ⨾
+  (CacheHit ∧ ReturnCachedResult) ∨
+  (CacheMiss ∧ DatabaseQuery ∧ UpdateCache)
+</code></pre>
+
+<p>This kind of description does not replace measurement, but it makes the
+assumed performance strategy explicit in the specification.</p>
+
+<h2 id="56-applying-the-method-to-the-real-world-an-elevator-control-system">5.6 Applying the Method to the Real World: An Elevator Control System</h2>
+
+<h3 id="analyzing-the-system-requirements">Analyzing the System Requirements</h3>
+
+<p>The elevator control system is a classic example for formal methods. It is
+safety-critical, contains real-time and concurrent aspects, and exhibits
+nontrivial state transitions. That makes it a strong example for Z notation.</p>
+
+<p>Let us first summarize the main requirements.</p>
+
+<p><strong>Functional requirements</strong>:</p>
+
+<ul>
+  <li>respond to passenger calls;</li>
+  <li>determine an efficient movement schedule;</li>
+  <li>stop at requested floors; and</li>
+  <li>control door opening and closing.</li>
+</ul>
+
+<p><strong>Safety requirements</strong>:</p>
+
+<ul>
+  <li>the elevator must not move while the doors are open;</li>
+  <li>the cabin must not exceed capacity; and</li>
+  <li>under mechanical failure, the system must stop in a safe condition.</li>
+</ul>
+
+<p><strong>Performance requirements</strong>:</p>
+
+<ul>
+  <li>minimize average waiting time; and</li>
+  <li>optimize energy efficiency.</li>
+</ul>
+
+<h3 id="the-basic-state-model">The Basic State Model</h3>
+
+<p>We can model the system state in stages.</p>
+
+<p><strong>Basic type definitions</strong>:</p>
+
+<p>【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-z">[FloorNumber, PassengerID, Time]
+
+Direction ::= up | down | stationary
+DoorState ::= open | closed | opening | closing
+ElevatorState ::= moving | stopped | maintenance
+</code></pre>
+
+<p><strong>Basic state schema</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">┌─ ElevatorStatus ─────────────────┐
+│ currentFloor: FloorNumber        │
+│ direction: Direction             │
+│ doorState: DoorState             │
+│ elevatorState: ElevatorState     │
+│ passengers: ℙ PassengerID        │
+│ capacity: ℕ                      │
+├─────────────────────────────────┤
+│ #passengers ≤ capacity           │
+│ elevatorState = moving ⇒         │
+│   doorState = closed             │
+│ doorState ∈ {open, opening} ⇒    │
+│   elevatorState = stopped        │
+└─────────────────────────────────┘
+</code></pre>
+
+<h3 id="the-call-management-subsystem">The Call-Management Subsystem</h3>
+
+<p>Handling hall calls and cabin calls is one of the central functions.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">┌─ CallSystem ─────────────────────┐
+│ upCalls: ℙ FloorNumber           │
+│ downCalls: ℙ FloorNumber         │
+│ cabinCalls: ℙ FloorNumber        │
+│ minFloor: FloorNumber            │
+│ maxFloor: FloorNumber            │
+├─────────────────────────────────┤
+│ upCalls ⊆ minFloor .. maxFloor-1 │
+│ downCalls ⊆ minFloor+1 .. maxFloor│
+│ cabinCalls ⊆ minFloor .. maxFloor│
+│ minFloor &lt; maxFloor              │
+└─────────────────────────────────┘
+</code></pre>
+
+<h3 id="integrated-system-state">Integrated System State</h3>
+
+<p>The overall system state includes both the elevator’s physical status and the
+call-management state.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">┌─ ElevatorSystem ─────────────────┐
+│ ElevatorStatus                   │
+│ CallSystem                       │
+│ currentTime: Time                │
+│ lastMaintenance: Time            │
+│ totalTrips: ℕ                    │
+├─────────────────────────────────┤
+│ elevatorState = maintenance ⇒    │
+│   passengers = ∅                 │
+│ currentFloor ∈ minFloor .. maxFloor│
+│ lastMaintenance ≤ currentTime    │
+└─────────────────────────────────┘
+</code></pre>
+
+<h3 id="a-basic-operation-registering-a-hall-call">A Basic Operation: Registering a Hall Call</h3>
+
+<p>We next define an operation that records an external call.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">┌─ RegisterUpCall ─────────────────┐
+│ ΔElevatorSystem                  │
+│ floor?: FloorNumber              │
+│ result!: RESPONSE                │
+├─────────────────────────────────┤
+│ floor? ∈ minFloor .. maxFloor-1  │
+│ elevatorState ≠ maintenance      │
+│                                  │
+│ upCalls' = upCalls ∪ {floor?}    │
+│ downCalls' = downCalls           │
+│ cabinCalls' = cabinCalls         │
+│ ΞElevatorStatus                  │
+│                                  │
+│ result! = callRegistered         │
+└─────────────────────────────────┘
+</code></pre>
+
+<p>The same style can be used for downward hall calls and cabin calls.</p>
+
+<h3 id="a-more-complex-operation-scheduling">A More Complex Operation: Scheduling</h3>
+
+<p>The scheduler is the more intelligent part of the system. It decides the next
+target floor based on current requests and current direction.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">┌─ DetermineNextFloor ─────────────┐
+│ ΞElevatorSystem                  │
+│ nextFloor!: FloorNumber          │
+│ newDirection!: Direction         │
+├─────────────────────────────────┤
+│ elevatorState = stopped          │
+│ upCalls ∪ downCalls ∪ cabinCalls ≠ ∅│
+│                                  │
+│ // Highest-priority floor in the current direction│
+│ direction = up ⇒                 │
+│   nextFloor! = min({f: upCalls ∪ cabinCalls │
+│                    | f &gt; currentFloor})     │
+│                                  │
+│ direction = down ⇒               │
+│   nextFloor! = max({f: downCalls ∪ cabinCalls│
+│                    | f &lt; currentFloor})      │
+│                                  │
+│ direction = stationary ⇒         │
+│   nextFloor! = min({f: upCalls ∪ downCalls ∪│
+│                         cabinCalls │         │
+│                    | f ≠ currentFloor})     │
+│                                  │
+│ nextFloor! &gt; currentFloor ⇒ newDirection! = up│
+│ nextFloor! &lt; currentFloor ⇒ newDirection! = down│
+│ nextFloor! = currentFloor ⇒ newDirection! = stationary│
+└─────────────────────────────────┘
+</code></pre>
+
+<h3 id="a-safety-critical-operation-door-control">A Safety-Critical Operation: Door Control</h3>
+
+<p>Door control directly affects safety, so the preconditions are especially
+important.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">┌─ OpenDoor ───────────────────────┐
+│ ΔElevatorSystem                  │
+│ result!: RESPONSE                │
+├─────────────────────────────────┤
+│ // Safety preconditions          │
+│ elevatorState = stopped          │
+│ direction = stationary           │
+│ doorState = closed               │
+│                                  │
+│ // There is a request at the current floor│
+│ currentFloor ∈ upCalls ∪ downCalls ∪ cabinCalls│
+│                                  │
+│ // State update                  │
+│ doorState' = opening             │
+│ elevatorState' = elevatorState   │
+│ currentFloor' = currentFloor     │
+│ direction' = direction           │
+│ passengers' = passengers         │
+│                                  │
+│ // Clear the served calls        │
+│ upCalls' = upCalls \ {currentFloor}│
+│ downCalls' = downCalls \ {currentFloor}│
+│ cabinCalls' = cabinCalls \ {currentFloor}│
+│                                  │
+│ result! = doorOpening            │
+└─────────────────────────────────┘
+</code></pre>
+
+<h3 id="emergency-operations">Emergency Operations</h3>
+
+<p>In a safety-critical system, emergency behavior must also be specified
+explicitly.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">┌─ EmergencyStop ──────────────────┐
+│ ΔElevatorSystem                  │
+│ reason?: EmergencyReason         │
+├─────────────────────────────────┤
+│ reason? ∈ {fire, earthquake,     │
+│            powerFailure, mechanical}│
+│                                  │
+│ // Stop immediately              │
+│ elevatorState' = maintenance     │
+│ direction' = stationary          │
+│                                  │
+│ // Door control under emergency  │
+│ reason? = fire ⇒ doorState' = open│
+│ reason? ≠ fire ⇒ doorState' = closed│
+│                                  │
+│ // Clear pending calls           │
+│ upCalls' = ∅                     │
+│ downCalls' = ∅                   │
+│ cabinCalls' = ∅                  │
+│                                  │
+│ // Preserve other parts          │
+│ currentFloor' = currentFloor     │
+│ passengers' = passengers         │
+└─────────────────────────────────┘
+</code></pre>
+
+<h3 id="verifying-system-level-properties">Verifying System-Level Properties</h3>
+
+<p>Once the model is complete enough, we can state important system properties.</p>
+
+<p><strong>Safety property</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">SafetyInvariant ≙
+  ∀ ElevatorSystem •
+    (doorState ∈ {open, opening} ⇒ elevatorState = stopped) ∧
+    (#passengers ≤ capacity) ∧
+    (elevatorState = moving ⇒ doorState = closed)
+</code></pre>
+
+<p><strong>Liveness property</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">LivenessProperty ≙
+  ∀ ElevatorSystem •
+    (upCalls ∪ downCalls ∪ cabinCalls ≠ ∅) ⇒
+    ∃ ElevatorSystem' •
+      (upCalls' ∪ downCalls' ∪ cabinCalls') ⊂
+      (upCalls ∪ downCalls ∪ cabinCalls)
+</code></pre>
+
+<p>The liveness property expresses that if there are pending calls, eventually the
+set of pending calls becomes smaller.</p>
+
+<h3 id="formalizing-performance-characteristics">Formalizing Performance Characteristics</h3>
+
+<p>Formal specification can also record performance expectations.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">┌─ PerformanceMetrics ─────────────┐
+│ averageWaitTime: ℝ               │
+│ energyConsumption: ℝ             │
+│ totalDistance: ℕ                 │
+├─────────────────────────────────┤
+│ averageWaitTime ≤ maxAcceptableWait│
+│ energyConsumption ≤ energyBudget │
+│ // Efficiency requirement        │
+│ ∀ trip: TripSequence •           │
+│   optimizeRoute(trip)            │
+└─────────────────────────────────┘
+</code></pre>
+
+<p>This elevator example illustrates the main value of Z notation: safety,
+functionality, and performance expectations can all be described in one unified
+framework.</p>
+
+<hr />
+
+<h2 id="end-of-chapter-exercises">End-of-Chapter Exercises</h2>
+
+<h3 id="basic-exercise-1-reading-and-analyzing-a-schema">Basic Exercise 1: Reading and Analyzing a Schema</h3>
+
+<p>Read the following Z schema and explain the system structure and constraints it
+represents.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-z">┌─ UniversityDatabase ─────────────┐
+│ students: ℙ Student              │
+│ courses: ℙ Course                │
+│ lecturers: ℙ Lecturer            │
+│ enrollment: Student ↔ Course     │
+│ teaching: Lecturer ↔ Course      │
+│ grades: Student ⤇ Course → Grade │
+├─────────────────────────────────┤
+│ dom enrollment ⊆ students        │
+│ ran enrollment ⊆ courses         │
+│ dom teaching ⊆ lecturers         │
+│ ran teaching ⊆ courses           │
+│ ∀ c: courses • ∃ l: lecturers •  │
+│   l ↦ c ∈ teaching               │
+│ dom(dom grades) ⊆ students       │
+│ ran(dom grades) ⊆ courses        │
+└─────────────────────────────────┘
+</code></pre>
+
+<p>Explain:</p>
+
+<ol>
+  <li>The meaning and type of each variable</li>
+  <li>The meaning and plausibility of each constraint</li>
+  <li>Examples of situations that this model can express</li>
+  <li>Requirements that this model might still fail to express</li>
+</ol>
+
+<h3 id="basic-exercise-2-writing-an-operation-schema">Basic Exercise 2: Writing an Operation Schema</h3>
+
+<p>For the university system above, create an operation schema for student course
+registration.</p>
+
+<p><strong>Student registration operation</strong></p>
+
+<ul>
+  <li>A student registers for a new course.</li>
+  <li>Preconditions: the student exists, the course exists, and the student is not
+already enrolled.</li>
+  <li>Postcondition: the enrollment relation is extended.</li>
+  <li>Error cases: unknown student, unknown course, duplicate enrollment.</li>
+</ul>
+
+<p>Produce:</p>
+
+<ol>
+  <li>the normal-case operation schema;</li>
+  <li>the error-case operation schema; and</li>
+  <li>the complete operation definition combining both.</li>
+</ol>
+
+<h3 id="practical-exercise-1-modeling-a-banking-system">Practical Exercise 1: Modeling a Banking System</h3>
+
+<p>Model a banking system in Z notation that satisfies the following requirements.</p>
+
+<p><strong>Basic elements</strong>:</p>
+
+<ul>
+  <li>customers (name, address, phone number);</li>
+  <li>accounts (account number, balance, type, owner); and</li>
+  <li>transactions (transaction ID, account, amount, timestamp, type).</li>
+</ul>
+
+<p><strong>Constraints</strong>:</p>
+
+<ul>
+  <li>account balances are non-negative;</li>
+  <li>every account has an owner;</li>
+  <li>transactions apply only to existing accounts; and</li>
+  <li>account numbers are unique.</li>
+</ul>
+
+<p><strong>Operations</strong>:</p>
+
+<ul>
+  <li>opening an account;</li>
+  <li>depositing money;</li>
+  <li>withdrawing money; and</li>
+  <li>transferring funds between accounts.</li>
+</ul>
+
+<p>Tasks:</p>
+
+<ol>
+  <li>define the state schema;</li>
+  <li>define the operation schema for each operation; and</li>
+  <li>identify the key invariants.</li>
+</ol>
+
+<h3 id="practical-exercise-2-using-schema-calculus">Practical Exercise 2: Using Schema Calculus</h3>
+
+<p>For the banking system from the previous exercise, use schema calculus to
+achieve the following goals.</p>
+
+<ol>
+  <li><strong>Define secure operations</strong>
+    <ul>
+      <li>add authentication checks to every operation;</li>
+      <li>automate logging.</li>
+    </ul>
+  </li>
+  <li><strong>Integrate error handling</strong>
+    <ul>
+      <li>combine normal and error cases consistently;</li>
+      <li>define a uniform error response style.</li>
+    </ul>
+  </li>
+  <li><strong>Represent transaction atomicity</strong>
+    <ul>
+      <li>express transfer as a composition of withdrawal and deposit;</li>
+      <li>handle rollback when an error occurs midway.</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="advanced-exercise-specifying-a-real-time-system">Advanced Exercise: Specifying a Real-Time System</h3>
+
+<p>Model a traffic-signal control system with a notion of time using Z notation.</p>
+
+<p><strong>Requirements</strong>:</p>
+
+<ul>
+  <li>a four-way intersection (north-south and east-west);</li>
+  <li>vehicle signals and pedestrian signals for each direction;</li>
+  <li>safety: conflicting directions must not be green at the same time;</li>
+  <li>efficiency: minimum green-time and maximum red-time constraints; and</li>
+  <li>pedestrian requests through push buttons.</li>
+</ul>
+
+<p><strong>Elements to model</strong>:</p>
+
+<ol>
+  <li>signal states (red, yellow, green);</li>
+  <li>time concepts (timers and current time);</li>
+  <li>vehicle-detection sensors;</li>
+  <li>pedestrian request buttons; and</li>
+  <li>signal-change operations.</li>
+</ol>
+
+<p><strong>Properties to verify</strong>:</p>
+
+<ol>
+  <li><strong>Safety</strong>: unsafe signal combinations never occur.</li>
+  <li><strong>Liveness</strong>: every direction eventually receives a green signal.</li>
+  <li><strong>Fairness</strong>: no direction waits indefinitely.</li>
+</ol>
+
+<p>Through these exercises, you should acquire practical skill in system modeling
+with Z notation and be ready for the process-centered descriptions in the next
+chapter.</p>
+
+                </article>
+
+                
+                <nav class="page-navigation" aria-label="Page navigation">
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+
+
+
+
+
+<nav class="book-navigation" aria-label="Page navigation">
+  <div class="chapter-nav">
+    
+      <a href="/formal-methods-book/en/chapters/chapter04/" class="nav-prev" rel="prev">
+        <span class="arrow" aria-hidden="true">←</span>
+        <span class="label">Previous</span>
+        <span class="title">Chapter 4: Introduction to Lightweight Formal Methods — Specification with Alloy</span>
+      </a>
+    
+
+    <a href="/formal-methods-book/en/" class="nav-home">
+      <span class="label">Contents</span>
+    </a>
+
+    
+      <a href="/formal-methods-book/en/chapters/chapter06/" class="nav-next" rel="next">
+        <span class="label">Next</span>
+        <span class="title">Chapter 6: Process-Centric Specification — Concurrency with CSP</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    
+  </div>
+</nav>
+
+<style>
+.book-navigation { margin: 2rem 0; padding: 1rem; border-top: 1px solid var(--border-color, #e5e7eb); }
+.chapter-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.nav-prev, .nav-next, .nav-home { display: flex; align-items: center; padding: 0.75rem 1.25rem; background: var(--bg-primary, #fff); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; text-decoration: none; color: inherit; }
+.nav-disabled { opacity: .5; cursor: not-allowed; background: var(--bg-tertiary, #f9fafb); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; padding: 0.75rem 1.25rem; display: flex; align-items: center; }
+.nav-prev { flex: 1; }
+.nav-next { flex: 1; justify-content: flex-end; text-align: right; }
+.nav-home { flex: 0 0 auto; justify-content: center; }
+.label { font-weight: 600; margin: 0 .25rem; }
+.title { font-size: .9rem; opacity: .8; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 768px) { .chapter-nav { flex-wrap: wrap; } .nav-prev, .nav-next { flex: 1 1 45%; } .nav-home { flex: 1 1 100%; order: -1; } .title { display: none; } }
+</style>
+
+                </nav>
+                
+
+                
+
+                <footer class="book-footer" role="contentinfo">
+                    <div class="book-footer-inner">
+                        <div class="book-footer-license">
+                            Reader-facing text: CC BY-NC-SA 4.0 / Code assets: Apache-2.0 / excluding trademarks and third-party assets
+                        </div>
+                        <div class="book-footer-links">
+                            
+                                <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener">GitHub</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/LICENSE-SCOPE.md" target="_blank" rel="noopener">License</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/COMMERCIAL.md" target="_blank" rel="noopener">Commercial</a>
+                            
+                            
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <label for="sidebar-toggle-checkbox" class="book-sidebar-overlay" id="sidebar-overlay" aria-label="Close sidebar"></label>
+
+    <script async src="/formal-methods-book/assets/js/code-copy-lightweight.js"></script>
+    <script defer src="/formal-methods-book/assets/js/theme.js"></script>
+    <script defer src="/formal-methods-book/assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var cb = document.getElementById('sidebar-toggle-checkbox');
+            var toggle = document.querySelector('.sidebar-toggle');
+            if (cb) cb.checked = false;
+            if (cb && toggle) {
+                var sync = function() {
+                    toggle.setAttribute('aria-expanded', cb.checked ? 'true' : 'false');
+                };
+                sync();
+                cb.addEventListener('change', sync);
+                toggle.addEventListener('keydown', function(e) {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        cb.checked = !cb.checked;
+                        cb.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        (function() {
+            function initTocAutoScroll() {
+                var cb = document.getElementById('sidebar-toggle-checkbox');
+                if (!cb) return;
+
+                function normalizePath(p) {
+                    var path = String(p || '').replace(/index\.html$/, '');
+                    if (path.length > 1) {
+                        path = path.replace(/\/+$/, '');
+                    }
+                    return path || '/';
+                }
+
+                function isMobileDrawer() {
+                    try {
+                        if (typeof window.matchMedia === 'function') {
+                            return window.matchMedia('(max-width: 1024px)').matches;
+                        }
+                    } catch (_) {}
+                    return typeof window.innerWidth === 'number' ? window.innerWidth <= 1024 : true;
+                }
+
+                function findActiveTocLink() {
+                    var current = normalizePath(window.location.pathname);
+                    var actives = document.querySelectorAll('a.toc-link.active');
+                    if (!actives || actives.length === 0) return null;
+
+                    for (var i = 0; i < actives.length; i++) {
+                        var a = actives[i];
+                        if (!a || !a.href) continue;
+                        try {
+                            var pathname = normalizePath(new URL(a.href).pathname);
+                            if (pathname === current) return a;
+                        } catch (_) {}
+                    }
+                    return actives[0];
+                }
+
+                function ensureActiveTocVisible() {
+                    if (!cb.checked) return;
+                    if (!isMobileDrawer()) return;
+
+                    var active = findActiveTocLink();
+                    if (!active) return;
+
+                    var sidebar = active.closest('.book-sidebar') || document.getElementById('sidebar');
+                    if (!sidebar) return;
+
+                    try {
+                        var linkRect = active.getBoundingClientRect();
+                        var sidebarRect = sidebar.getBoundingClientRect();
+                        var marginTop = 8;
+                        var marginBottom = 8;
+                        try {
+                            if (window.getComputedStyle) {
+                                var cs = window.getComputedStyle(sidebar);
+                                if (cs) {
+                                    var pt = parseFloat(cs.paddingTop);
+                                    var pb = parseFloat(cs.paddingBottom);
+                                    if (!isNaN(pt)) marginTop = pt;
+                                    if (!isNaN(pb)) marginBottom = pb;
+                                }
+                            }
+                        } catch (_) {}
+
+                        var top = sidebarRect.top + marginTop;
+                        var bottom = sidebarRect.bottom - marginBottom;
+                        var outOfView = linkRect.top < top || linkRect.bottom > bottom;
+
+                        if (outOfView && typeof active.scrollIntoView === 'function') {
+                            try {
+                                active.scrollIntoView({ block: 'center', behavior: 'auto' });
+                            } catch (e) {
+                                active.scrollIntoView();
+                            }
+                        }
+                    } catch (_) {}
+                }
+
+                function scheduleEnsure() {
+                    setTimeout(ensureActiveTocVisible, 0);
+                    setTimeout(ensureActiveTocVisible, 350);
+                }
+
+                cb.addEventListener('change', function() {
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+
+                if (cb.checked) {
+                    scheduleEnsure();
+                }
+
+                window.addEventListener('pageshow', function(e) {
+                    if (!e || !e.persisted) return;
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initTocAutoScroll);
+            } else {
+                initTocAutoScroll();
+            }
+        })();
+    </script>
+</body>
+</html>

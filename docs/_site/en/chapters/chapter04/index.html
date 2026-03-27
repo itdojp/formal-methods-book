@@ -1,0 +1,2403 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta name="author" content="太田和彦（株式会社アイティードゥ）">
+
+    <title>Chapter 4: Introduction to Lightweight Formal Methods: Specification with Alloy - Formal Methods: Foundations and Applications</title>
+
+    <link rel="canonical" href="https://itdojp.github.io/formal-methods-book/en/chapters/chapter04/">
+    <link rel="alternate" hreflang="ja" href="https://itdojp.github.io/formal-methods-book/chapters/chapter04/">
+    <link rel="alternate" hreflang="en" href="https://itdojp.github.io/formal-methods-book/en/chapters/chapter04/">
+    <link rel="alternate" hreflang="x-default" href="https://itdojp.github.io/formal-methods-book/">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/main.css">
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/syntax-highlighting.css">
+
+    <link rel="icon" type="image/png" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+    <link rel="apple-touch-icon" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+
+    <meta property="og:title" content="Chapter 4: Introduction to Lightweight Formal Methods: Specification with Alloy">
+    <meta property="og:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://itdojp.github.io/formal-methods-book/en/chapters/chapter04/">
+    <meta property="og:locale" content="en_US">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Chapter 4: Introduction to Lightweight Formal Methods: Specification with Alloy">
+    <meta name="twitter:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+
+    <script>
+        (function() {
+            try {
+                const k = 'book-theme';
+                const t = localStorage.getItem(k) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (_) {}
+        })();
+    </script>
+</head>
+<body>
+    
+    
+    
+    
+    
+
+    <input type="checkbox" id="sidebar-toggle-checkbox" class="sidebar-toggle-checkbox" aria-hidden="true">
+
+    <div class="book-layout">
+        <header class="book-header">
+            <div class="header-left">
+                <label for="sidebar-toggle-checkbox" class="sidebar-toggle" aria-label="Toggle sidebar" role="button" tabindex="0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </label>
+                <a href="/formal-methods-book/en/" class="header-title">
+                    <h1>Formal Methods: Foundations and Applications</h1>
+                </a>
+            </div>
+
+            <div class="header-center">
+                <div class="search-container">
+                    <input type="search"
+                           placeholder="Search..."
+                           class="search-input"
+                           id="search-input"
+                           autocomplete="off">
+                    <div class="search-results" id="search-results"></div>
+                </div>
+            </div>
+
+            <div class="header-right">
+                
+
+
+
+
+
+
+
+
+
+
+<a href="/formal-methods-book/chapters/chapter04/"
+   class="language-switcher"
+   hreflang="ja"
+   lang="ja"
+   >
+    日本語
+</a>
+
+                <button class="theme-toggle" aria-label="Toggle theme">
+                    <svg class="theme-icon theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="theme-icon theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+
+                
+            </div>
+        </header>
+
+        <aside class="book-sidebar" id="sidebar">
+            <nav class="sidebar-nav" role="navigation" aria-label="Main navigation">
+                
+
+
+
+
+
+
+
+
+
+
+<div class="sidebar-content">
+    <div class="book-info">
+        <h2 class="book-title"><a href="/formal-methods-book/en/" class="header-title">Formal Methods: Foundations and Applications</a></h2>
+        
+        <p class="book-subtitle">An Integrated Understanding of Specification, Model Checking, and Theorem Proving</p>
+        
+    </div>
+
+    <div class="toc">
+        <h3 class="toc-title">Contents</h3>
+
+        <div class="toc-section">
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/" class="toc-link ">
+                        Home
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Introduction</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/introduction/" class="toc-link ">
+                        Introduction
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Chapters</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter01/" class="toc-link ">
+                        Chapter 1: Why Formal Methods Matter
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter02/" class="toc-link ">
+                        Chapter 2: Bridging Mathematics and Programs
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter03/" class="toc-link ">
+                        Chapter 3: Foundations of Specification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter04/" class="toc-link active">
+                        Chapter 4: Introduction to Lightweight Formal Methods — Specification with Alloy
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter05/" class="toc-link ">
+                        Chapter 5: State-Based Specification — Fundamentals of Z Notation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter06/" class="toc-link ">
+                        Chapter 6: Process-Centric Specification — Concurrency with CSP
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter07/" class="toc-link ">
+                        Chapter 7: Specifying Time — Introduction to TLA+
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter08/" class="toc-link ">
+                        Chapter 8: Introduction to Model Checking
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter09/" class="toc-link ">
+                        Chapter 9: Fundamentals of Theorem Proving
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter10/" class="toc-link ">
+                        Chapter 10: Program Verification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter11/" class="toc-link ">
+                        Chapter 11: Integrating Formal Methods into Development Processes
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter12/" class="toc-link ">
+                        Chapter 12: Tools and Automation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter13/" class="toc-link ">
+                        Chapter 13: Case Studies
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Additional</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/glossary/" class="toc-link ">
+                        Glossary
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Appendices</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-a/" class="toc-link ">
+                        Appendix A: Mathematics Refresher
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-b/" class="toc-link ">
+                        Appendix B: Tool Setup and Verification Quick Start
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-c/" class="toc-link ">
+                        Appendix C: Notation Cross-Reference
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-d/" class="toc-link ">
+                        Appendix D: Exercise Guides and Self-Review Frameworks
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-e/" class="toc-link ">
+                        Appendix E: References and Further Reading Paths
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-f/" class="toc-link ">
+                        Appendix F: Practical Playbook for AI-Assisted Formal Methods
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Afterword</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/afterword/" class="toc-link ">
+                        Afterword
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="external-links">
+            
+            <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener" class="external-link">GitHub</a>
+            
+            
+        </div>
+    </div>
+</div>
+
+            </nav>
+        </aside>
+
+        <main class="book-main" id="main">
+            <div class="book-content">
+                
+                    
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb-list">
+    <li class="breadcrumb-item">
+        <a href="/formal-methods-book/en/" class="breadcrumb-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span class="sr-only">Home</span>
+        </a>
+    </li>
+
+    
+        
+    
+        
+    
+        
+            
+            
+            
+                
+                
+                <li class="breadcrumb-item">
+                    <a href="/formal-methods-book/en/chapters/" class="breadcrumb-link">
+                        
+                            Chapters
+                        
+                    </a>
+                </li>
+            
+        
+    
+        
+            
+            
+            
+                <li class="breadcrumb-item active" aria-current="page">
+                    Chapter 4: introduction to lightweight formal methods: specification with alloy
+                </li>
+            
+        
+    
+</ol>
+
+<style>
+.breadcrumb-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    font-size: 0.875rem;
+    flex-wrap: wrap;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb-item:not(:last-child)::after {
+    content: '/';
+    margin: 0 0.5rem;
+    color: var(--text-muted);
+}
+
+.breadcrumb-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.breadcrumb-link:hover {
+    color: var(--primary-color);
+}
+
+.breadcrumb-item.active {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (max-width: 768px) {
+    .breadcrumb-list {
+        font-size: 0.75rem;
+    }
+
+    .breadcrumb-item:not(:last-child)::after {
+        margin: 0 0.375rem;
+    }
+}
+</style>
+
+                
+
+                <article class="page-content">
+                    <h1 id="chapter-4-introduction-to-lightweight-formal-methods-specification-with-alloy">Chapter 4: Introduction to Lightweight Formal Methods: Specification with Alloy</h1>
+
+<h2 id="41-the-philosophy-of-alloy-a-lightweight-but-powerful-approach">4.1 The Philosophy of Alloy: A Lightweight but Powerful Approach</h2>
+
+<h3 id="the-real-meaning-of-lightweight">The Real Meaning of “Lightweight”</h3>
+
+<p>The notion of <em>lightweight</em> formal methods was popularized by Daniel Jackson at
+MIT. The term does not simply mean that the tool is easy to use. It expresses a
+fundamentally different stance toward formal methods.</p>
+
+<p>Traditional heavyweight formal methods aimed at complete proof. The goal was to
+prove every relevant property mathematically and thereby guarantee correctness
+completely. That perfectionist approach had a serious weakness. The learning
+cost was high, adoption required a long lead time, and the methods were rarely
+used in ordinary projects.</p>
+
+<p>Alloy takes a different path. Its lightweight approach prioritizes practical
+value over completeness. Instead of trying to deliver a full proof, it focuses
+on discovering counterexamples. Rather than proving that every case is correct,
+it tries to find concrete situations in which the design fails, and uses those
+findings to improve the design.</p>
+
+<h3 id="a-heuristic-method-driven-by-counterexamples">A Heuristic Method Driven by Counterexamples</h3>
+
+<p>At the core of Alloy is a counterexample-driven mindset. The idea is close to
+scientific hypothesis testing. A scientist cannot usually prove a theory
+completely, but can improve the theory by finding evidence that contradicts it.</p>
+
+<p>Software design works similarly. Proving that a design is perfect is difficult,
+but finding a concrete example that demonstrates a flaw is often much easier.
+Alloy automates that discovery process.</p>
+
+<p>Suppose you are designing an access-control system and want to ensure that only
+authorized users can access a file. A traditional approach tries to construct a
+mathematical proof. In Alloy, we instead ask whether there exists a situation
+in which an unauthorized user can access the file. If such a situation exists,
+the design is wrong, and the counterexample gives immediate guidance on how to
+repair it.</p>
+
+<h3 id="exhaustive-exploration-within-a-finite-scope">Exhaustive Exploration Within a Finite Scope</h3>
+
+<p>Another key feature of Alloy is exhaustive exploration within a finite scope.
+Real systems have unbounded possibilities, but many important defects can be
+discovered through small examples. Alloy therefore explores every possible
+instance within a specified bound, such as "up to three users" or "up to five
+files."</p>
+
+<p>This bound looks like a limitation at first, but in practice it is a major
+strength. Inside the chosen scope, the analysis is mathematically rigorous. And
+empirically, many design defects do show up in small instances.</p>
+
+<p>For example, when analyzing the possibility of deadlock in a transaction
+system, two transactions and two resources are often enough to expose the core
+problem. We do not need hundreds of transactions before the design flaw becomes
+visible.</p>
+
+<h3 id="supporting-exploratory-design">Supporting Exploratory Design</h3>
+
+<p>Alloy is not primarily a proof tool. It is an exploration tool. It gives
+designers an environment in which they can formulate hypotheses and test them
+quickly. That makes iterative improvement at the design stage much more
+practical.</p>
+
+<p>In conventional development, design defects are often discovered during
+implementation or testing, when the cost of repair is already high. Alloy moves
+many of those discoveries forward into the design phase, where changes are
+cheaper and the feedback cycle is shorter.</p>
+
+<h3 id="background-at-mit-and-its-lasting-influence">Background at MIT and Its Lasting Influence</h3>
+
+<p>Alloy was developed by the Software Design Group at MIT. Daniel Jackson argued
+that many software failures are not implementation problems but conceptual
+design problems. According to this view, the decisive mistakes are often made
+before any code is written.</p>
+
+<p>That insight shaped Alloy. It is specialized for modeling the essential
+structure and behavior of a system without committing to implementation details.
+It intentionally stays away from programming-language details, low-level
+optimization, and concrete algorithms, and instead focuses on high-level design
+questions such as what the system does and which constraints it must satisfy.</p>
+
+<h3 id="adoption-in-industry-and-successful-use-cases">Adoption in Industry and Successful Use Cases</h3>
+
+<p>Alloy began as an academic tool, but it is now used in practice as well,
+especially for finding specification holes and consistency violations early by
+means of bounded checking during design.</p>
+
+<p>What Alloy Analyzer provides is bounded exploration within a given scope. The
+guarantee is therefore only that no counterexample exists <em>within that scope</em>.
+If you want to claim a more general result, you need an additional argument for
+why the chosen abstraction and scope are adequate, for example by appealing to
+the small-scope hypothesis.</p>
+
+<p>References (primary or official sources):</p>
+
+<ul>
+  <li>Alloy Tools (official): <a href="https://alloytools.org/">https://alloytools.org/</a></li>
+  <li>Daniel Jackson, "Alloy: A lightweight object modelling notation" (2002): <a href="https://people.csail.mit.edu/dnj/publications/alloy-journal.pdf">https://people.csail.mit.edu/dnj/publications/alloy-journal.pdf</a></li>
+</ul>
+
+<p><img src="/formal-methods-book/assets/images/diagrams/alloy-modeling-approach-en.svg" alt="Figure 4-1: The overall Alloy approach to lightweight formal methods" /></p>
+
+<h2 id="42-alloys-worldview-relational-modeling">4.2 Alloy’s Worldview: Relational Modeling</h2>
+
+<h3 id="a-paradigm-shift-from-objects-to-relations">A Paradigm Shift from Objects to Relations</h3>
+
+<p>Most programmers are familiar with an object-oriented worldview. We think in
+terms of objects, attributes, methods, and messages exchanged among objects.
+That worldview is powerful, but it can also limit how we understand system
+structure.</p>
+
+<p>Alloy proposes a different worldview: a relational one. A system is described
+as a collection of atoms and relations among them. This perspective allows us
+to see the structure of the system at a higher level of abstraction and, in
+many cases, more directly.</p>
+
+<p>Consider a university enrollment system. In an object-oriented design, we might
+create <code class="language-plaintext highlighter-rouge">Student</code> objects and <code class="language-plaintext highlighter-rouge">Course</code> objects, and give a student object an
+attribute such as an enrollment list. In Alloy, we instead describe the sets
+<code class="language-plaintext highlighter-rouge">Student</code> and <code class="language-plaintext highlighter-rouge">Course</code> and the relation <code class="language-plaintext highlighter-rouge">enrollment</code>.</p>
+
+<p>【Tool-compliant (runs as-is)】</p>
+<pre><code class="language-alloy">sig Student {
+    enrollment: set Course
+}
+
+sig Course {}
+</code></pre>
+
+<p>In this representation, <code class="language-plaintext highlighter-rouge">enrollment</code> is a field of type <code class="language-plaintext highlighter-rouge">Student -&gt; Course</code>.
+For a student <code class="language-plaintext highlighter-rouge">s</code>, the expression <code class="language-plaintext highlighter-rouge">s.enrollment</code> denotes the set of courses
+that <code class="language-plaintext highlighter-rouge">s</code> is enrolled in. Once the relation is explicit, a wide range of
+constraints and properties can be described naturally.</p>
+
+<h3 id="the-structure-of-the-world-as-relations">The Structure of the World as Relations</h3>
+
+<p>In a relational worldview, everything is understood as a relation. This is
+close to the relational model of databases and to graph-theoretic thinking.</p>
+
+<ul>
+  <li><strong>Ownership relation</strong>: a user owns a file</li>
+  <li><strong>Containment relation</strong>: a folder contains a file</li>
+  <li><strong>Dependency relation</strong>: one module depends on another</li>
+  <li><strong>Inheritance relation</strong>: one class extends another</li>
+  <li><strong>Communication relation</strong>: one process communicates with another</li>
+</ul>
+
+<p>By modeling these relations explicitly, we can analyze the structural
+properties of the system in a disciplined way.</p>
+
+<h3 id="atoms-and-signatures">Atoms and Signatures</h3>
+
+<p>The most basic building blocks in Alloy are <em>atoms</em>. Atoms are indivisible
+elements that represent the entities of the system. Atoms are grouped by
+<em>signatures</em>.</p>
+
+<p>【Pseudo notation】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sig Person {
+    age: Int,
+    friends: set Person
+}
+
+sig Student extends Person {
+    courses: set Course
+}
+
+sig Teacher extends Person {
+    teaches: set Course
+}
+</code></pre></div></div>
+
+<p>In this example, <code class="language-plaintext highlighter-rouge">Person</code>, <code class="language-plaintext highlighter-rouge">Student</code>, and <code class="language-plaintext highlighter-rouge">Teacher</code> are signatures. The
+individual elements that belong to those signatures, such as a concrete student
+or a concrete teacher, are atoms.</p>
+
+<h3 id="fields-as-relational-structure">Fields as Relational Structure</h3>
+
+<p>The fields of a signature are, in fact, relations. <code class="language-plaintext highlighter-rouge">age: Int</code> is a relation
+from <code class="language-plaintext highlighter-rouge">Person</code> to integers, and <code class="language-plaintext highlighter-rouge">friends: set Person</code> is a relation from one
+<code class="language-plaintext highlighter-rouge">Person</code> to zero or more other <code class="language-plaintext highlighter-rouge">Person</code> atoms.</p>
+
+<p>This relational view lets us describe complex structure compactly.</p>
+
+<p>【Pseudo notation】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sig File {
+    parent: lone Directory,
+    contents: set Byte
+}
+
+sig Directory {
+    children: set File
+}
+</code></pre></div></div>
+
+<h3 id="facts-as-constraints">Facts as Constraints</h3>
+
+<p>In Alloy, constraints that must hold in every valid model are written as
+<em>facts</em>.</p>
+
+<p>【Pseudo notation】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fact NoSelfLoop {
+    no p: Person | p in p.friends
+}
+
+fact SymmetricFriendship {
+    all p1, p2: Person | p1 in p2.friends iff p2 in p1.friends
+}
+
+fact FileSystemTree {
+    no f: File | f in f.^parent
+}
+</code></pre></div></div>
+
+<h3 id="the-expressive-power-of-multiplicity">The Expressive Power of Multiplicity</h3>
+
+<p>Alloy allows multiplicity constraints to be attached to relations.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">one</code>: exactly one</li>
+  <li><code class="language-plaintext highlighter-rouge">lone</code>: at most one</li>
+  <li><code class="language-plaintext highlighter-rouge">some</code>: at least one</li>
+  <li><code class="language-plaintext highlighter-rouge">set</code>: any number, including zero</li>
+</ul>
+
+<p>【Pseudo notation】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sig Car {
+    owner: one Person,
+    driver: lone Person,
+    passengers: set Person
+}
+</code></pre></div></div>
+
+<h3 id="rich-relational-operators">Rich Relational Operators</h3>
+
+<p>Alloy provides powerful operators over relations.</p>
+
+<ul>
+  <li><strong>Join</strong>: <code class="language-plaintext highlighter-rouge">r.s</code></li>
+  <li><strong>Transpose</strong>: <code class="language-plaintext highlighter-rouge">~r</code></li>
+  <li><strong>Transitive closure</strong>: <code class="language-plaintext highlighter-rouge">^r</code></li>
+  <li><strong>Reflexive transitive closure</strong>: <code class="language-plaintext highlighter-rouge">*r</code></li>
+</ul>
+
+<p>Examples:</p>
+
+<p>【Pseudo notation】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>person.^parent
+
+person.follows &amp; person.~follows
+
+directory.*children
+</code></pre></div></div>
+
+<p>The first expression denotes all ancestors except the person itself. The second
+computes mutual-follow relationships. The third denotes all reachable
+descendants including the starting directory.</p>
+
+<h3 id="expressing-constraints-relationally">Expressing Constraints Relationally</h3>
+
+<p>Once the model is centered on relations, even complicated constraints become
+natural to write.</p>
+
+<p>【Pseudo notation】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fact AccessControl {
+    all f: File, u: User |
+        u in f.readers implies (u = f.owner or u in f.authorized)
+}
+
+fact DatabaseConsistency {
+    all o: Order | o.customer in Customer
+    all p: Product | p.stock &gt;= 0
+}
+</code></pre></div></div>
+
+<h2 id="43-describing-basic-structure">4.3 Describing Basic Structure</h2>
+
+<h3 id="a-first-alloy-model-an-address-book">A First Alloy Model: An Address Book</h3>
+
+<p>To learn Alloy modeling, let us begin with a familiar example: an address-book
+system. Even this small example captures the basic syntax and habits of Alloy.</p>
+
+<p>【Tool-compliant (runs as-is)】</p>
+<pre><code class="language-alloy">module AddressBook
+
+sig Name {}
+sig Address {}
+
+sig Contact {
+    name: one Name,
+    address: lone Address,
+    friends: set Contact
+}
+</code></pre>
+
+<p>Even this small model already expresses several important points.</p>
+
+<ul>
+  <li>Every contact has exactly one name.</li>
+  <li>A contact may have no address at all (<code class="language-plaintext highlighter-rouge">lone</code> means zero or one).</li>
+  <li>A contact may have multiple friends.</li>
+</ul>
+
+<h3 id="using-signature-hierarchies">Using Signature Hierarchies</h3>
+
+<p>To express more elaborate structure, we can exploit inheritance among
+signatures.</p>
+
+<p>【Context-dependent snippet】</p>
+<pre><code class="language-alloy">abstract sig Contact {
+    name: one Name,
+    address: lone Address,
+    friends: set Contact
+}
+
+sig PersonalContact extends Contact {
+    birthday: lone Date,
+    relatives: set PersonalContact
+}
+
+sig BusinessContact extends Contact {
+    company: one Company,
+    position: lone String
+}
+
+sig Company {
+    employees: set BusinessContact
+}
+</code></pre>
+
+<p>The keyword <code class="language-plaintext highlighter-rouge">abstract</code> means that there are no direct atoms of <code class="language-plaintext highlighter-rouge">Contact</code>.
+Only atoms of the concrete extending signatures exist.</p>
+
+<h3 id="refining-structure-with-constraints">Refining Structure with Constraints</h3>
+
+<p>Bare structure is rarely enough. To make the model realistic, we add facts that
+capture consistency requirements.</p>
+
+<p>【Context-dependent snippet】</p>
+<pre><code class="language-alloy">fact ConsistentEmployment {
+    all b: BusinessContact, c: Company |
+        b in c.employees iff c = b.company
+}
+
+fact NoSelfRelation {
+    no c: Contact | c in c.friends
+    no p: PersonalContact | p in p.relatives
+}
+
+fact ReasonableRelatives {
+    all p1, p2: PersonalContact |
+        p1 in p2.relatives iff p2 in p1.relatives
+}
+</code></pre>
+
+<h3 id="representing-dynamic-behavior">Representing Dynamic Behavior</h3>
+
+<p>Alloy can also describe dynamic behavior, not only static structure. One
+classic style introduces time explicitly and models change across time points.</p>
+
+<p>【Context-dependent snippet】</p>
+<pre><code class="language-alloy">sig Time {}
+open util/ordering[Time]
+
+sig Contact {
+    name: one Name,
+    address: Address lone -&gt; Time,
+    friends: Contact set -&gt; Time
+}
+
+pred moveAddress[c: Contact, newAddr: Address, t, tNext: Time] {
+    tNext = t.next
+
+    c.address.tNext = newAddr
+
+    all other: Contact - c | other.address.tNext = other.address.t
+    all contact: Contact | contact.friends.tNext = contact.friends.t
+}
+</code></pre>
+
+<p>This style is still useful to understand because older Alloy models and a large
+body of educational material use explicit <code class="language-plaintext highlighter-rouge">Time</code> or <code class="language-plaintext highlighter-rouge">State</code> signatures together
+with <code class="language-plaintext highlighter-rouge">util/ordering</code>.</p>
+
+<h3 id="practical-example-1-access-control-in-an-email-system">Practical Example 1: Access Control in an Email System</h3>
+
+<p>Let us move to a more realistic example: access control for an email system.</p>
+
+<p>【Tool-compliant (runs as-is)】</p>
+<pre><code class="language-alloy">module EmailSecurity
+
+sig User {
+    roles: set Role
+}
+
+sig Role {
+    permissions: set Permission
+}
+
+sig Permission {}
+
+sig Email {
+    sender: one User,
+    recipients: set User,
+    confidential: lone User
+}
+
+one sig ReadEmail, SendEmail, AdminAccess extends Permission {}
+
+one sig RegularUser, Manager, Administrator extends Role {}
+
+fact RolePermissions {
+    RegularUser.permissions = ReadEmail + SendEmail
+    Manager.permissions = ReadEmail + SendEmail
+    Administrator.permissions = ReadEmail + SendEmail + AdminAccess
+}
+
+pred canReadEmail[u: User, e: Email] {
+    u = e.sender or u in e.recipients
+    or
+    (no e.confidential and ReadEmail in u.roles.permissions)
+    or
+    (some e.confidential and (u = e.confidential or AdminAccess in u.roles.permissions))
+}
+
+assert NoUnauthorizedAccess {
+    all u: User, e: Email |
+        some e.confidential and
+        u != e.sender and u not in e.recipients and
+        u != e.confidential and
+        AdminAccess not in u.roles.permissions
+        implies
+        not canReadEmail[u, e]
+}
+
+check NoUnauthorizedAccess for 5 User, 5 Email, 3 Role
+</code></pre>
+
+<p>This example shows how signatures, role-permission assignments, and assertions
+combine to form a precise security model.</p>
+
+<h3 id="practical-example-2-inventory-management-for-an-online-bookstore">Practical Example 2: Inventory Management for an Online Bookstore</h3>
+
+<p>The next example includes richer business logic.</p>
+
+<p>【Tool-compliant (runs as-is)】</p>
+<pre><code class="language-alloy">module OnlineBookstore
+
+sig Book {
+    isbn: one ISBN,
+    price: one Int,
+    stock: Int one -&gt; Time
+}
+
+sig ISBN {}
+
+sig Customer {
+    orders: set Order
+}
+
+sig Order {
+    items: set OrderItem,
+    status: Status one -&gt; Time,
+    timestamp: one Time
+}
+
+sig OrderItem {
+    book: one Book,
+    quantity: one Int
+}
+
+abstract sig Status {}
+one sig Pending, Confirmed, Shipped, Delivered, Cancelled extends Status {}
+
+sig Time {
+    next: lone Time
+}
+
+fact ValidQuantities {
+    all item: OrderItem | item.quantity &gt; 0
+    all b: Book, t: Time | b.stock.t &gt;= 0
+}
+
+fact OrderIntegrity {
+    all o: Order | some o.items
+    all item: OrderItem | one item.~items
+}
+
+pred reserveStock[b: Book, qty: Int, t, tNext: Time] {
+    tNext = t.next
+    b.stock.t &gt;= qty
+    b.stock.tNext = b.stock.t - qty
+
+    all other: Book - b | other.stock.tNext = other.stock.t
+}
+
+pred processOrder[o: Order, t, tNext: Time] {
+    tNext = t.next
+    o.status.t = Pending
+
+    all item: o.items | item.book.stock.t &gt;= item.quantity
+
+    all item: o.items |
+        item.book.stock.tNext = item.book.stock.t - item.quantity
+
+    o.status.tNext = Confirmed
+}
+
+assert NoOverselling {
+    all b: Book, t: Time |
+        b.stock.t &gt;= 0 implies
+            (all tPrev: Time | tPrev.^(~next) = t implies b.stock.tPrev &gt;= 0)
+}
+
+assert OrderConsistency {
+    all o: Order, t: Time |
+        o.status.t = Confirmed implies
+            (all item: o.items | item.quantity &lt;= item.book.stock.t)
+}
+
+check NoOverselling for 5 Book, 5 Order, 10 Time
+check OrderConsistency for 5 Book, 5 Order, 10 Time
+</code></pre>
+
+<p>This model is still abstract, but it already captures inventory constraints,
+order consistency, and state changes over time.</p>
+
+<h3 id="practical-example-3-leader-election-in-a-distributed-system">Practical Example 3: Leader Election in a Distributed System</h3>
+
+<p>As a more advanced example, we can model a leader-election algorithm in a
+distributed system.</p>
+
+<p>【Tool-compliant (runs as-is)】</p>
+<pre><code class="language-alloy">module LeaderElection
+
+sig Node {
+    id: one Int,
+    leader: Node lone -&gt; Time,
+    alive: set Time
+}
+
+sig Message {
+    from: one Node,
+    to: one Node,
+    content: one MessageType,
+    timestamp: one Time
+}
+
+abstract sig MessageType {}
+one sig Election, OK, Coordinator extends MessageType {}
+
+sig Time {
+    next: lone Time
+}
+
+fact UniqueIDs {
+    all disj n1, n2: Node | n1.id != n2.id
+}
+
+fact InitialState {
+    some first: Time | no first.~next and
+        all n: Node |
+            no n.leader.first and
+            first in n.alive
+}
+
+pred startElection[n: Node, t: Time] {
+    t in n.alive
+    no n.leader.t
+
+    all higher: Node | higher.id &gt; n.id and t in higher.alive implies
+        some m: Message |
+            m.from = n and m.to = higher and
+            m.content = Election and m.timestamp = t
+}
+
+pred respondToElection[receiver: Node, sender: Node, t: Time] {
+    t in receiver.alive
+    receiver.id &gt; sender.id
+
+    some m: Message |
+        m.from = receiver and m.to = sender and
+        m.content = OK and m.timestamp = t
+
+    startElection[receiver, t]
+}
+
+pred becomeLeader[n: Node, t, tNext: Time] {
+    tNext = t.next
+    t in n.alive
+
+    no m: Message |
+        m.to = n and m.content = OK and m.timestamp = t
+
+    n.leader.tNext = n
+
+    all lower: Node | lower.id &lt; n.id and t in lower.alive implies
+        some m: Message |
+            m.from = n and m.to = lower and
+            m.content = Coordinator and m.timestamp = tNext
+}
+
+assert LeaderUniqueness {
+    all t: Time | lone n: Node | n.leader.t = n
+}
+
+assert LeaderIsAlive {
+    all n: Node, t: Time |
+        n.leader.t = n implies t in n.alive
+}
+
+assert HighestIdWins {
+    all t: Time, n: Node |
+        n.leader.t = n implies
+            (no higher: Node | higher.id &gt; n.id and t in higher.alive)
+}
+
+check LeaderUniqueness for 5 Node, 10 Message, 8 Time
+check LeaderIsAlive for 5 Node, 10 Message, 8 Time
+check HighestIdWins for 5 Node, 10 Message, 8 Time
+</code></pre>
+
+<p>For a self-contained executable example, see <code class="language-plaintext highlighter-rouge">examples/ch04/leader-election.als</code>.</p>
+
+<p>These practical examples connect directly to later chapters, especially Chapter
+8 on model checking and Chapter 11 on integrating formal methods into the
+development process.</p>
+
+<h3 id="relationships-across-multiple-signatures">Relationships Across Multiple Signatures</h3>
+
+<p>Real systems contain multiple kinds of entities connected in nontrivial ways.</p>
+
+<p>【Tool-compliant (runs as-is)】</p>
+<pre><code class="language-alloy">sig User {
+    owns: set File,
+    groups: set Group
+}
+
+sig Group {
+    members: set User,
+    permissions: set Permission
+}
+
+sig File {
+    owner: lone User,
+    readers: set User,
+    groups: set Group
+}
+
+sig Permission {}
+
+fact Consistency {
+    all u: User, f: File | f in u.owns iff u = f.owner
+
+    all u: User, g: Group | u in g.members iff g in u.groups
+}
+
+fact AccessControl {
+    all f: File, u: User |
+        u in f.readers implies (
+            u = f.owner or
+            some g: u.groups &amp; f.groups | some g.permissions
+        )
+}
+</code></pre>
+
+<h3 id="defining-utility-predicates">Defining Utility Predicates</h3>
+
+<p>As models grow, reusable predicates improve readability and reduce duplication.</p>
+
+<p>【Context-dependent snippet】</p>
+<pre><code class="language-alloy">pred canAccess[u: User, f: File] {
+    u in f.readers or
+    u = f.owner or
+    some g: u.groups &amp; f.groups | some g.permissions
+}
+
+pred orphaned[f: File] {
+    no f.owner
+}
+
+pred securityViolation {
+    some f: File, u: User |
+        not canAccess[u, f] and u in f.readers
+}
+</code></pre>
+
+<h3 id="building-a-model-incrementally">Building a Model Incrementally</h3>
+
+<p>Large models should be built in stages.</p>
+
+<p><strong>Stage 1</strong>: basic entities and relations</p>
+
+<p>【Tool-compliant (runs as-is)】</p>
+<pre><code class="language-alloy">sig File {}
+
+sig User {
+    owns: set File
+}
+</code></pre>
+
+<p><strong>Stage 2</strong>: add constraints</p>
+
+<p>【Tool-compliant (runs as-is)】</p>
+<pre><code class="language-alloy">sig File {}
+
+sig User {
+    owns: set File
+}
+
+fact UniqueOwner {
+    all f: File | one u: User | f in u.owns
+}
+</code></pre>
+
+<p><strong>Stage 3</strong>: introduce richer relations</p>
+
+<p>【Tool-compliant (runs as-is)】</p>
+<pre><code class="language-alloy">sig File {}
+
+sig Group {
+    groupFiles: set File
+}
+
+sig User {
+    owns: set File,
+    groups: set Group
+}
+</code></pre>
+
+<p><strong>Stage 4</strong>: refine policy and consistency requirements</p>
+
+<p>【Pseudo notation】</p>
+<pre><code class="language-alloy">fact AccessPolicy { ... }
+fact ConsistencyRules { ... }
+</code></pre>
+
+<p>Because the final stage contains ellipsis, it is explanatory pseudo notation
+rather than code that can be pasted directly into the tool.</p>
+
+<h2 id="44-expressing-constraints-and-properties">4.4 Expressing Constraints and Properties</h2>
+
+<h3 id="constraints-as-logical-formulas">Constraints as Logical Formulas</h3>
+
+<p>One of Alloy’s main strengths is that complex constraints can be described as
+logical formulas. Requirements that would remain ambiguous in natural language
+can be expressed precisely.</p>
+
+<p>The basic logical operators are:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">and</code> or <code class="language-plaintext highlighter-rouge">&amp;&amp;</code>: conjunction</li>
+  <li><code class="language-plaintext highlighter-rouge">or</code> or <code class="language-plaintext highlighter-rouge">||</code>: disjunction</li>
+  <li><code class="language-plaintext highlighter-rouge">not</code> or <code class="language-plaintext highlighter-rouge">!</code>: negation</li>
+  <li><code class="language-plaintext highlighter-rouge">implies</code> or <code class="language-plaintext highlighter-rouge">=&gt;</code>: implication</li>
+  <li><code class="language-plaintext highlighter-rouge">iff</code> or <code class="language-plaintext highlighter-rouge">&lt;=&gt;</code>: equivalence</li>
+</ul>
+
+<p>Example: constraints for a university enrollment system.</p>
+
+<p>【Context-dependent snippet】</p>
+<pre><code class="language-alloy">fact EnrollmentRules {
+    all s: Student | #s.courses &lt;= 5
+
+    all s: Student | RequiredCourse in s.courses
+
+    all s: Student, c: AdvancedCourse |
+        c in s.courses implies c.prerequisite in s.courses
+}
+</code></pre>
+
+<p>For a self-contained model, see <code class="language-plaintext highlighter-rouge">examples/ch04/university-enrollment.als</code>.</p>
+
+<h3 id="general-constraints-with-quantifiers">General Constraints with Quantifiers</h3>
+
+<p>Quantifiers express notions such as "for all" and "there exists."</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">all x: Set | formula</code></li>
+  <li><code class="language-plaintext highlighter-rouge">some x: Set | formula</code></li>
+  <li><code class="language-plaintext highlighter-rouge">no x: Set | formula</code></li>
+  <li><code class="language-plaintext highlighter-rouge">one x: Set | formula</code></li>
+  <li><code class="language-plaintext highlighter-rouge">lone x: Set | formula</code></li>
+</ul>
+
+<p>Example: constraints for a file system.</p>
+
+<p>【Context-dependent snippet】</p>
+<pre><code class="language-alloy">fact FileSystemInvariants {
+    all f: File | lone f.parent
+
+    one d: Directory | no d.parent
+
+    all d: Directory | d not in d.^parent
+
+    some d: Directory | some d.children
+}
+</code></pre>
+
+<h3 id="expressing-relations-with-set-operators">Expressing Relations with Set Operators</h3>
+
+<p>Alloy also relies heavily on set operators.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">s1 + s2</code>: union</li>
+  <li><code class="language-plaintext highlighter-rouge">s1 &amp; s2</code>: intersection</li>
+  <li><code class="language-plaintext highlighter-rouge">s1 - s2</code>: difference</li>
+  <li><code class="language-plaintext highlighter-rouge">s in t</code>: subset relation</li>
+  <li><code class="language-plaintext highlighter-rouge">#s</code>: cardinality</li>
+</ul>
+
+<p>Banking example:</p>
+
+<p>【Tool-compliant (runs as-is)】</p>
+<pre><code class="language-alloy">sig Account {
+    owner: one Customer,
+    balance: one Int,
+    authorized: set Customer
+}
+
+sig Customer {
+    accounts: set Account
+}
+
+sig JointAccount in Account {}
+
+fact BankingRules {
+    all a: Account | a.owner in a.authorized
+
+    all a: Account | a.balance &gt;= 0
+
+    all c: Customer, a: Account |
+        a in c.accounts iff c = a.owner
+
+    all a: Account | #a.authorized &gt; 1 implies a in JointAccount
+}
+</code></pre>
+
+<h3 id="expressing-temporal-properties">Expressing Temporal Properties</h3>
+
+<p>Alloy can also express dynamic behavior and time-dependent requirements.</p>
+
+<p>【Tool-compliant (runs as-is)】</p>
+<pre><code class="language-alloy">sig State {
+    next: lone State,
+    users: set User,
+    sessions: set Session
+}
+
+sig User {}
+
+sig Session {
+    user: one User,
+    startTime: one State,
+    endTime: lone State
+}
+
+fact SessionLifecycle {
+    all s: Session |
+        some s.endTime implies s.endTime in s.startTime.^next
+
+    all s: Session, st: State |
+        st in s.startTime.*next and
+        (no s.endTime or st in s.endTime.^~next) implies
+        s.user in st.users
+
+    all u: User, st: State |
+        lone s: Session | s.user = u and
+        st in s.startTime.*next and
+        (no s.endTime or st in s.endTime.^~next)
+}
+</code></pre>
+
+<h3 id="formalizing-security-policies">Formalizing Security Policies</h3>
+
+<p>Alloy is particularly well suited to the description of security policies.</p>
+
+<p>【Tool-compliant (runs as-is)】</p>
+<pre><code class="language-alloy">sig Subject {
+    roles: set Role,
+    clearance: one SecurityLevel
+}
+
+sig Object {
+    classification: one SecurityLevel,
+    owner: one Subject
+}
+
+sig Role {
+    permissions: set Permission
+}
+
+sig Permission {}
+sig SecurityLevel {
+    dominates: set SecurityLevel
+}
+
+one sig ReadPermission, WritePermission extends Permission {}
+
+fact BellLaPadulaModel {
+    all s: Subject, o: Object |
+        canRead[s, o] implies o.classification in s.clearance.*dominates
+
+    all s: Subject, o: Object |
+        canWrite[s, o] implies s.clearance in o.classification.*dominates
+}
+
+pred canRead[s: Subject, o: Object] {
+    ReadPermission in s.roles.permissions or s = o.owner
+}
+
+pred canWrite[s: Subject, o: Object] {
+    WritePermission in s.roles.permissions or s = o.owner
+}
+</code></pre>
+
+<h3 id="layering-invariants">Layering Invariants</h3>
+
+<p>In a complex system, constraints should be organized in layers.</p>
+
+<p>【Context-dependent snippet】</p>
+<pre><code class="language-alloy">fact BasicConsistency {
+    all ref: Reference | ref.target in ValidTargets
+
+    all disj x, y: Entity | x.id != y.id
+}
+
+fact BusinessRules {
+    all p: Product | p.stock &gt;= p.reserved
+
+    all o: Order | o.total = sum[o.items.price]
+}
+
+fact SecurityPolicies {
+    all s: Subject, r: Resource |
+        accesses[s, r] implies authorized[s, r]
+
+    all action: Action | some log: AuditLog | log.action = action
+}
+
+fact PerformanceConstraints {
+    #CacheEntries &lt;= MaxCacheSize
+
+    #ActiveConnections &lt;= MaxConnections
+}
+</code></pre>
+
+<p>This layering clarifies the purpose and criticality of the constraints and
+supports staged verification.</p>
+
+<h2 id="45-practical-verification-with-alloy-analyzer">4.5 Practical Verification with Alloy Analyzer</h2>
+
+<h3 id="the-basic-idea-of-model-checking">The Basic Idea of Model Checking</h3>
+
+<p>Alloy Analyzer is the tool that actually explores the model. It applies model
+checking within the chosen scope, searching all possible instances in that
+bounded space and reporting constraint violations or unexpected behavior.</p>
+
+<p>The basic workflow is:</p>
+
+<ol>
+  <li><strong>Generate instances</strong>: produce structures that satisfy the facts.</li>
+  <li><strong>Check properties</strong>: test whether a target property holds.</li>
+  <li><strong>Find counterexamples</strong>: if the property fails, produce a concrete failing
+instance.</li>
+  <li><strong>Analyze results</strong>: use the result to improve the model.</li>
+</ol>
+
+<h3 id="first-check-generating-instances">First Check: Generating Instances</h3>
+
+<p>The first step is often to confirm that the model has meaningful instances.
+Using the address-book example:</p>
+
+<p>【Context-dependent snippet】</p>
+<pre><code class="language-alloy">run {} for 3
+
+run {
+    some c: Contact | #c.friends &gt; 0
+} for 3 Contact, 2 Name
+
+run {
+    some disj c1, c2: Contact |
+        c1 in c2.friends and c2 in c1.friends
+} for 4
+</code></pre>
+
+<p>The command <code class="language-plaintext highlighter-rouge">run</code> checks whether an instance satisfying the constraints exists.
+The scope <code class="language-plaintext highlighter-rouge">for 3</code> means that the exploration may use at most three atoms of
+the relevant signatures.</p>
+
+<h3 id="assertions-checking-properties">Assertions: Checking Properties</h3>
+
+<p>The keyword <code class="language-plaintext highlighter-rouge">assert</code> lets us state properties that the model is expected to
+satisfy.</p>
+
+<p>【Context-dependent snippet】</p>
+<pre><code class="language-alloy">assert FriendshipSymmetry {
+    all c1, c2: Contact |
+        c1 in c2.friends implies c2 in c1.friends
+}
+
+check FriendshipSymmetry for 5
+
+assert NoOrphanedFiles {
+    all f: File | some u: User | f in u.owns
+}
+
+check NoOrphanedFiles for 4 User, 6 File
+</code></pre>
+
+<p>The command <code class="language-plaintext highlighter-rouge">check</code> looks for a counterexample to the assertion. If one is
+found, the analyzer shows a concrete instance.</p>
+
+<h3 id="interpreting-and-using-counterexamples">Interpreting and Using Counterexamples</h3>
+
+<p>Consider the following model:</p>
+
+<p>【Tool-compliant (runs as-is)】</p>
+<pre><code class="language-alloy">sig User {
+    files: set File,
+    groups: set Group
+}
+
+sig Group {
+    members: set User,
+    sharedFiles: set File
+}
+
+sig File {}
+
+fact {
+    all u: User, g: u.groups | g.sharedFiles in u.files
+}
+
+assert NoFileSharing {
+    all f: File | lone u: User | f in u.files
+}
+
+check NoFileSharing for 3
+</code></pre>
+
+<p>The assertion <code class="language-plaintext highlighter-rouge">NoFileSharing</code> fails. A counterexample may look as follows.</p>
+
+<p>【Pseudo notation】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>User0: files = {File0}, groups = {Group0}
+User1: files = {File0}, groups = {Group0}
+Group0: members = {User0, User1}, sharedFiles = {File0}
+File0: (file)
+</code></pre></div></div>
+
+<p>This counterexample makes the design contradiction explicit: the model of group
+sharing allows multiple users to hold the same file, which conflicts with the
+assertion.</p>
+
+<h3 id="choosing-scopes-effectively">Choosing Scopes Effectively</h3>
+
+<p>The chosen scope has a major effect on both performance and usefulness.</p>
+
+<p>【Context-dependent snippet】</p>
+<pre><code class="language-alloy">check BasicProperty for 2
+
+check ScalabilityProperty for 2 User, 6 File, 3 Group
+
+check ComplexProperty for 8
+
+check ConditionalProperty for 4 but exactly 2 Admin
+</code></pre>
+
+<p>General guidelines:</p>
+
+<ul>
+  <li>Start with a small scope, such as two or three elements, to find basic
+problems quickly.</li>
+  <li>If no issue is found, increase the scope gradually.</li>
+  <li>If one kind of element is especially important, control that scope
+separately.</li>
+</ul>
+
+<h3 id="staged-verification-with-predicates">Staged Verification with Predicates</h3>
+
+<p>Complex scenarios can be explored in stages by using predicates.</p>
+
+<p>【Context-dependent snippet】</p>
+<pre><code class="language-alloy">pred initialState {
+    no User.files
+    no Group.sharedFiles
+}
+
+pred createFile[u: one User, f: one File] {
+    f not in u.files
+    no other: User - u | f in other.files
+}
+
+pred securityBreach {
+    some u: User, f: File |
+        f in u.files and
+        not authorized[u, f]
+}
+
+run initialState for 3
+run { initialState and some u: User, f: File | createFile[u, f] } for 3
+check { not securityBreach } for 4
+</code></pre>
+
+<h3 id="the-iterative-model-improvement-process">The Iterative Model-Improvement Process</h3>
+
+<p>Practical use of Alloy usually follows an iterative cycle.</p>
+
+<p><strong>1. Build the initial model</strong></p>
+
+<p>【Tool-compliant (runs as-is)】</p>
+<pre><code class="language-alloy">sig Document {
+    owner: one User,
+    readers: set User,
+    authorized: set User
+}
+
+sig User {}
+
+fact BasicSecurity {
+    all d: Document | d.owner in d.readers
+}
+</code></pre>
+
+<p><strong>2. Perform a first verification</strong></p>
+
+<p>【Context-dependent snippet】</p>
+<pre><code class="language-alloy">run {} for 3
+assert OwnerCanRead { all d: Document | d.owner in d.readers }
+check OwnerCanRead for 3
+</code></pre>
+
+<p><strong>3. Discover a problem and refine requirements</strong></p>
+
+<p>【Context-dependent snippet】</p>
+<pre><code class="language-alloy">pred collaborativeDocument {
+    some d: Document | #d.readers &gt; 1
+}
+
+run collaborativeDocument for 3
+</code></pre>
+
+<p><strong>4. Add a new constraint</strong></p>
+
+<p>【Context-dependent snippet】</p>
+<pre><code class="language-alloy">fact SharePolicy {
+    all d: Document, u: User |
+        u in d.readers and u != d.owner implies
+        u in d.authorized
+}
+</code></pre>
+
+<p><strong>5. Verify again</strong></p>
+
+<p>【Context-dependent snippet】</p>
+<pre><code class="language-alloy">assert NoUnauthorizedAccess {
+    all d: Document, u: User |
+        u in d.readers implies
+        (u = d.owner or u in d.authorized)
+}
+
+check NoUnauthorizedAccess for 4
+</code></pre>
+
+<p>By repeating this cycle, the model can be improved incrementally instead of
+being treated as fixed from the beginning.</p>
+
+<h2 id="46-alloy-6-extensions-mutable-state-and-temporal-logic">4.6 Alloy 6 Extensions: Mutable State and Temporal Logic</h2>
+
+<p>Historically, Alloy was strongest for checking the consistency of static
+structure expressed as relations. In <strong>Alloy 6</strong>, however, the introduction of
+<code class="language-plaintext highlighter-rouge">var</code> and temporal operators makes it possible to describe state transitions and
+traces directly. This reduces the need for the classic <code class="language-plaintext highlighter-rouge">State</code>-signature plus
+<code class="language-plaintext highlighter-rouge">ordering</code> encoding that was common in Alloy 4.</p>
+
+<p>The execution environment used in this book, described in Appendix B, fixes
+Alloy <code class="language-plaintext highlighter-rouge">6.2.0</code> through <code class="language-plaintext highlighter-rouge">tools/bootstrap.sh</code>. The same commands should therefore
+be reproducible for readers unless they intentionally override
+<code class="language-plaintext highlighter-rouge">ALLOY_VERSION</code>.</p>
+
+<h3 id="basic-syntax-in-alloy-6">Basic Syntax in Alloy 6</h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">var</code>: declare a signature or field whose value changes across states</li>
+  <li><code class="language-plaintext highlighter-rouge">'</code> (prime): refer to the value in the next state, as in <code class="language-plaintext highlighter-rouge">Trash' = Trash + f</code></li>
+  <li>temporal operators such as <code class="language-plaintext highlighter-rouge">always</code>, <code class="language-plaintext highlighter-rouge">eventually</code>, <code class="language-plaintext highlighter-rouge">once</code>, and <code class="language-plaintext highlighter-rouge">after</code></li>
+  <li><code class="language-plaintext highlighter-rouge">n steps</code>: bound the trace length; larger scope and more steps mean higher
+exploration cost</li>
+</ul>
+
+<h3 id="example-the-trash-model">Example: The Trash Model</h3>
+
+<p><code class="language-plaintext highlighter-rouge">examples/alloy/trash-temporal.als</code> is a minimal model with a set <code class="language-plaintext highlighter-rouge">File</code> and a
+mutable subset <code class="language-plaintext highlighter-rouge">Trash</code>. Delete and restore operations are described as
+transitions, and a simple safety property is checked.</p>
+
+<p>【Tool-compliant (runs as-is)】</p>
+<pre><code class="language-alloy">sig File {}
+
+var sig Trash in File {}
+
+pred delete[f: File] {
+  f not in Trash
+  Trash' = Trash + f
+}
+
+pred restore[f: File] {
+  f in Trash
+  Trash' = Trash - f
+}
+
+pred stutter {
+  Trash' = Trash
+}
+
+fact init {
+  no Trash
+}
+
+fact transitions {
+  always (stutter or some f: File | delete[f] or restore[f])
+}
+
+example: run { eventually (some Trash and after no Trash) } for 3 but 6 steps
+
+assert restoreAfterDelete {
+  always (all f: File | restore[f] implies once delete[f])
+}
+check restoreAfterDelete for 3 but 6 steps
+</code></pre>
+
+<p>Command-line execution:</p>
+
+<p>【Tool-compliant (runs as-is)】</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash tools/bootstrap.sh
+bash tools/alloy-check.sh <span class="nt">--verbose</span> examples/alloy/trash-temporal.als
+</code></pre></div></div>
+
+<p>How to read the results:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">run</code> checks for the existence of a trace. <code class="language-plaintext highlighter-rouge">SAT</code> means that a trace
+satisfying the condition exists.</li>
+  <li><code class="language-plaintext highlighter-rouge">check</code> looks for a counterexample. <code class="language-plaintext highlighter-rouge">UNSAT</code> means that no counterexample was
+found within the given scope and step bound. It does <strong>not</strong> mean that a
+general proof has been established outside those bounds.</li>
+</ul>
+
+<p>Generated artifacts:</p>
+
+<ul>
+  <li>The trace is written to <code class="language-plaintext highlighter-rouge">.artifacts/alloy/trash-temporal/example-solution-0.md</code>.</li>
+  <li>To visualize it in the GUI, run <code class="language-plaintext highlighter-rouge">java -jar tools/.cache/alloy-6.2.0.jar gui</code>
+and step through the states interactively.</li>
+</ul>
+
+<h2 id="47-learning-from-counterexamples-the-design-improvement-cycle">4.7 Learning from Counterexamples: The Design Improvement Cycle</h2>
+
+<h3 id="the-educational-value-of-counterexamples">The Educational Value of Counterexamples</h3>
+
+<p>The counterexamples produced by Alloy Analyzer are more than error messages.
+They are concrete learning material. A counterexample shows not only that a
+problem exists, but also how the design decisions made that problem possible.</p>
+
+<p>Strong designers do not stop at "there is a bug." They ask deeper questions:
+Why is this situation possible? Is it truly unacceptable? Is the root cause a
+missing constraint, a vague requirement, or a flawed design concept?</p>
+
+<h3 id="example-improving-an-access-control-system">Example: Improving an Access-Control System</h3>
+
+<p>Let us trace an improvement cycle for a file access-control system.</p>
+
+<p><strong>Initial design</strong>:</p>
+
+<p>【Tool-compliant (runs as-is)】</p>
+<pre><code class="language-alloy">sig User {
+    owns: set File,
+    canRead: set File
+}
+
+sig File {
+    owner: one User
+}
+
+fact OwnershipConsistent {
+    all f: File | f in f.owner.owns
+    all u: User, f: u.owns | f.owner = u
+}
+
+fact OwnerCanRead {
+    all u: User | u.owns in u.canRead
+}
+
+assert SecureAccess {
+    all u: User | u.canRead = u.owns
+}
+
+check SecureAccess for 3
+</code></pre>
+
+<p><strong>Counterexample</strong>:</p>
+
+<p>【Pseudo notation】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>User0: owns = {File0}, canRead = {File0, File1}
+User1: owns = {File1}, canRead = {File1}
+File0: owner = User0
+File1: owner = User1
+</code></pre></div></div>
+
+<p>The counterexample shows that <code class="language-plaintext highlighter-rouge">User0</code> can read <code class="language-plaintext highlighter-rouge">File1</code>. That may be contrary
+to the designer’s intent, but under the current facts it is legal.</p>
+
+<p><strong>Design review prompted by the counterexample</strong>:</p>
+
+<ol>
+  <li>Should file sharing be allowed at all?</li>
+  <li>If it is allowed, what control mechanism is required?</li>
+  <li>How should read permission for non-owners be represented?</li>
+</ol>
+
+<p><strong>Improved design</strong>:</p>
+
+<p>【Tool-compliant (runs as-is)】</p>
+<pre><code class="language-alloy">sig User {
+    owns: set File
+}
+
+sig File {
+    owner: one User,
+    sharedWith: set User
+}
+
+fun canRead: User -&gt; File {
+    owns + ~sharedWith
+}
+
+fact SharePolicy {
+    all f: File | f.sharedWith in User - f.owner
+}
+
+assert AuthorizedAccessOnly {
+    all u: User, f: File |
+        f in canRead[u] iff (f in u.owns or u in f.sharedWith)
+}
+
+check AuthorizedAccessOnly for 4
+</code></pre>
+
+<h3 id="extending-the-design-to-group-based-access-control">Extending the Design to Group-Based Access Control</h3>
+
+<p>Even this simple sharing model may reveal further counterexamples.</p>
+
+<p>【Context-dependent snippet】</p>
+<pre><code class="language-alloy">pred LargeSharedFile {
+    some f: File | #f.sharedWith &gt; 2
+}
+
+run LargeSharedFile for 5
+</code></pre>
+
+<p>This exploration shows that a single file may be shared with many users. That
+may or may not be acceptable, depending on the requirements. If it becomes a
+management problem, a group-based model may be more appropriate.</p>
+
+<p><strong>Improved group-based model</strong>:</p>
+
+<p>【Tool-compliant (runs as-is)】</p>
+<pre><code class="language-alloy">sig User {
+    owns: set File,
+    memberOf: set Group
+}
+
+sig Group {
+    members: set User,
+    files: set File
+}
+
+sig File {
+    owner: one User,
+    groups: set Group
+}
+
+fact GroupConsistency {
+    all u: User, g: Group |
+        u in g.members iff g in u.memberOf
+
+    all f: File, g: Group |
+        f in g.files iff g in f.groups
+}
+
+fun canAccess: User -&gt; File {
+    owns + (memberOf.files)
+}
+
+assert GroupAccessControl {
+    all u: User, f: File |
+        f in u.canAccess iff
+        (f in u.owns or some g: u.memberOf | f in g.files)
+}
+
+check GroupAccessControl for 4
+</code></pre>
+
+<h3 id="finding-and-addressing-temporal-constraints">Finding and Addressing Temporal Constraints</h3>
+
+<p>Counterexamples can also reveal temporal design problems.</p>
+
+<p>【Tool-compliant (runs as-is)】</p>
+<pre><code class="language-alloy">open util/ordering[Time]
+
+sig Time {}
+
+sig User {
+    active: set Time
+}
+
+sig Session {
+    user: one User,
+    start: one Time,
+    end: lone Time
+}
+
+fact SessionLifetime {
+    all s: Session |
+        some s.end implies s.end in s.start.^next
+}
+
+pred ConcurrentSessions {
+    some disj s1, s2: Session |
+        s1.user = s2.user and
+        some t: Time |
+            t in s1.start.*next and t in s2.start.*next and
+            (no s1.end or t in s1.end.^~next) and
+            (no s2.end or t in s2.end.^~next)
+}
+
+run ConcurrentSessions for 3 User, 4 Session, 5 Time
+</code></pre>
+
+<p>This exploration reveals the possibility of concurrent sessions for the same
+user. Whether that is acceptable depends on the intended policy.</p>
+
+<h3 id="predicting-performance-problems">Predicting Performance Problems</h3>
+
+<p>Alloy can also help predict performance risks.</p>
+
+<p>【Tool-compliant (runs as-is)】</p>
+<pre><code class="language-alloy">sig Database {
+    tables: set Table,
+    connections: set Connection
+}
+
+sig Table {
+    rows: set Row,
+    indexes: set Index
+}
+
+sig Row {}
+sig Index {}
+
+sig Connection {
+    queries: set Query
+}
+
+sig Query {
+    targetTable: one Table,
+    filterConditions: set Condition
+}
+
+sig Condition {}
+
+fact PerformanceConstraints {
+    all t: Table | #t.rows &gt; 100 implies some t.indexes
+
+    all d: Database | #d.connections &lt;= 50
+}
+
+pred PerformanceBottleneck {
+    some q: Query |
+        #q.targetTable.rows &gt; 1000 and
+        no q.targetTable.indexes and
+        #q.filterConditions &gt; 0
+}
+
+run PerformanceBottleneck for 3
+</code></pre>
+
+<p>This model does not measure runtime directly, but it does expose structures
+that are likely to produce poor performance.</p>
+
+<h3 id="a-methodology-for-counterexample-driven-design-improvement">A Methodology for Counterexample-Driven Design Improvement</h3>
+
+<p>To use counterexamples effectively, a systematic process is helpful.</p>
+
+<ol>
+  <li><strong>Classify the counterexample</strong>
+    <ul>
+      <li>a genuine design defect</li>
+      <li>an ambiguity in the requirements</li>
+      <li>an incompleteness in the model</li>
+      <li>an unexpected but acceptable situation</li>
+    </ul>
+  </li>
+  <li><strong>Analyze the root cause</strong>
+    <ul>
+      <li>Why does the situation arise?</li>
+      <li>Which constraint is missing?</li>
+      <li>Which assumption was left implicit?</li>
+    </ul>
+  </li>
+  <li><strong>Choose a response strategy</strong>
+    <ul>
+      <li>add a constraint</li>
+      <li>restructure the model</li>
+      <li>clarify the requirement</li>
+      <li>accept the behavior if it is not actually problematic</li>
+    </ul>
+  </li>
+  <li><strong>Verify the improvement</strong>
+    <ul>
+      <li>confirm the effect of the new constraint</li>
+      <li>evaluate its impact on other properties</li>
+      <li>rerun the analysis at a larger scope if needed</li>
+    </ul>
+  </li>
+</ol>
+
+<p>With this disciplined approach, counterexamples become one of the most
+effective tools for improving a design.</p>
+
+<hr />
+
+<h2 id="end-of-chapter-exercises">End-of-Chapter Exercises</h2>
+
+<p><strong>If you use AI while working through these exercises</strong></p>
+
+<ul>
+  <li>Treat AI output as a proposal; use verifiers to make the final judgment.</li>
+  <li>Keep a record of the prompts you used, the generated specifications and
+invariants, the verification commands and logs (including seed, depth, and
+scope), and the revision history when counterexamples were found.</li>
+  <li>For detailed templates, see Appendix D and Appendix F.</li>
+</ul>
+
+<h3 id="basic-exercise-1-reading-an-alloy-model">Basic Exercise 1: Reading an Alloy Model</h3>
+
+<p>Read the following Alloy model and explain the system structure and constraints
+that it represents.</p>
+
+<p>【Tool-compliant (runs as-is)】</p>
+<pre><code class="language-alloy">sig Person {
+    spouse: lone Person,
+    parents: set Person,
+    children: set Person
+}
+
+fact FamilyRules {
+    all p1, p2: Person | p1.spouse = p2 iff p2.spouse = p1
+
+    all p1, p2: Person | p1 in p2.parents iff p2 in p1.children
+
+    all p: Person | p not in p.parents
+
+    all p: Person | no p.spouse &amp; p.parents
+}
+</code></pre>
+
+<p>Explain:</p>
+
+<ol>
+  <li>The real-world concepts represented by the signatures</li>
+  <li>The meaning and plausibility of each constraint</li>
+  <li>Whether there are family relationships that the model cannot represent</li>
+  <li>Plausible counterexamples and what they would mean</li>
+</ol>
+
+<h3 id="basic-exercise-2-writing-constraints">Basic Exercise 2: Writing Constraints</h3>
+
+<p>For an online library system, write Alloy constraints satisfying the following
+requirements.</p>
+
+<p><strong>Requirements</strong>:</p>
+
+<ul>
+  <li>A user may borrow multiple books.</li>
+  <li>A book may not be lent to multiple people at the same time.</li>
+  <li>A user may borrow at most five books.</li>
+  <li>A user with overdue items may not borrow new books.</li>
+  <li>Every book has a due date.</li>
+</ul>
+
+<p>Define the necessary signatures and facts.</p>
+
+<h3 id="practical-exercise-1-modeling-a-security-policy">Practical Exercise 1: Modeling a Security Policy</h3>
+
+<p>Model a file access-control system in Alloy that satisfies the following
+requirements.</p>
+
+<p><strong>Functional requirements</strong>:</p>
+
+<ul>
+  <li>Users can own files.</li>
+  <li>Files are either read-only or read-write.</li>
+  <li>Groups can be created and users can be added to them.</li>
+  <li>Files can be shared with groups.</li>
+</ul>
+
+<p><strong>Security requirements</strong>:</p>
+
+<ul>
+  <li>The owner can always access the file.</li>
+  <li>Group members can access only files shared with that group.</li>
+  <li>Writing to a read-only file is forbidden.</li>
+  <li>Administrators can access all files.</li>
+</ul>
+
+<p>Tasks:</p>
+
+<ol>
+  <li>Define appropriate signatures.</li>
+  <li>Write facts for the constraints.</li>
+  <li>Write assertions for the security properties.</li>
+  <li>Verify them using <code class="language-plaintext highlighter-rouge">check</code>.</li>
+</ol>
+
+<h3 id="practical-exercise-2-model-checking-and-improvement">Practical Exercise 2: Model Checking and Improvement</h3>
+
+<p>For the model created in the previous exercise:</p>
+
+<ol>
+  <li>Try various <code class="language-plaintext highlighter-rouge">run</code> commands to generate instances.</li>
+  <li>Execute checks under different scopes.</li>
+  <li>Analyze any counterexamples that are found.</li>
+  <li>Improve the constraints or the design.</li>
+  <li>Verify the improved version again.</li>
+</ol>
+
+<h3 id="advanced-exercise-modeling-dynamic-behavior">Advanced Exercise: Modeling Dynamic Behavior</h3>
+
+<p>Using Alloy 6 <code class="language-plaintext highlighter-rouge">var</code> declarations and temporal operators, model the dynamic
+behavior of the following ATM system, referring to Section 4.6.</p>
+
+<p><strong>ATM system</strong>:</p>
+
+<ul>
+  <li>Accounts have balances.</li>
+  <li>A withdrawal decreases the balance.</li>
+  <li>A deposit increases the balance.</li>
+  <li>A withdrawal is forbidden if funds are insufficient.</li>
+  <li>Every transaction is recorded in the history.</li>
+</ul>
+
+<p>Tasks:</p>
+
+<ol>
+  <li>Declare state such as account balances and transaction history using <code class="language-plaintext highlighter-rouge">var</code>.</li>
+  <li>Define each operation as a current-state to next-state predicate using
+expressions such as <code class="language-plaintext highlighter-rouge">x' = ...</code>.</li>
+  <li>Write invariants and forbidden conditions with <code class="language-plaintext highlighter-rouge">always</code>, and search for
+counterexamples with <code class="language-plaintext highlighter-rouge">check</code>.</li>
+  <li>Adjust both the exploration scope and the trace length with <code class="language-plaintext highlighter-rouge">for ... but ...
+steps</code>, then iterate through counterexample, repair, and re-verification.</li>
+</ol>
+
+<p>Supplement: a classic Alloy 4 style based on an explicit <code class="language-plaintext highlighter-rouge">State</code> signature and
+<code class="language-plaintext highlighter-rouge">util/ordering</code> can still be used, but this book treats the Alloy 6 notation
+as the primary style.</p>
+
+<p><strong>Properties to verify</strong>:</p>
+
+<ul>
+  <li>Balances remain non-negative.</li>
+  <li>The total amount of money is preserved before and after each transaction.</li>
+  <li>Every transaction is recorded in the history.</li>
+</ul>
+
+<p>By working through these exercises, you should develop practical skill in
+Alloy-based modeling and be prepared for the more advanced formal methods
+presented in the next chapter.</p>
+
+                </article>
+
+                
+                <nav class="page-navigation" aria-label="Page navigation">
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+
+
+
+
+
+<nav class="book-navigation" aria-label="Page navigation">
+  <div class="chapter-nav">
+    
+      <a href="/formal-methods-book/en/chapters/chapter03/" class="nav-prev" rel="prev">
+        <span class="arrow" aria-hidden="true">←</span>
+        <span class="label">Previous</span>
+        <span class="title">Chapter 3: Foundations of Specification</span>
+      </a>
+    
+
+    <a href="/formal-methods-book/en/" class="nav-home">
+      <span class="label">Contents</span>
+    </a>
+
+    
+      <a href="/formal-methods-book/en/chapters/chapter05/" class="nav-next" rel="next">
+        <span class="label">Next</span>
+        <span class="title">Chapter 5: State-Based Specification — Fundamentals of Z Notation</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    
+  </div>
+</nav>
+
+<style>
+.book-navigation { margin: 2rem 0; padding: 1rem; border-top: 1px solid var(--border-color, #e5e7eb); }
+.chapter-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.nav-prev, .nav-next, .nav-home { display: flex; align-items: center; padding: 0.75rem 1.25rem; background: var(--bg-primary, #fff); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; text-decoration: none; color: inherit; }
+.nav-disabled { opacity: .5; cursor: not-allowed; background: var(--bg-tertiary, #f9fafb); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; padding: 0.75rem 1.25rem; display: flex; align-items: center; }
+.nav-prev { flex: 1; }
+.nav-next { flex: 1; justify-content: flex-end; text-align: right; }
+.nav-home { flex: 0 0 auto; justify-content: center; }
+.label { font-weight: 600; margin: 0 .25rem; }
+.title { font-size: .9rem; opacity: .8; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 768px) { .chapter-nav { flex-wrap: wrap; } .nav-prev, .nav-next { flex: 1 1 45%; } .nav-home { flex: 1 1 100%; order: -1; } .title { display: none; } }
+</style>
+
+                </nav>
+                
+
+                
+
+                <footer class="book-footer" role="contentinfo">
+                    <div class="book-footer-inner">
+                        <div class="book-footer-license">
+                            Reader-facing text: CC BY-NC-SA 4.0 / Code assets: Apache-2.0 / excluding trademarks and third-party assets
+                        </div>
+                        <div class="book-footer-links">
+                            
+                                <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener">GitHub</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/LICENSE-SCOPE.md" target="_blank" rel="noopener">License</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/COMMERCIAL.md" target="_blank" rel="noopener">Commercial</a>
+                            
+                            
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <label for="sidebar-toggle-checkbox" class="book-sidebar-overlay" id="sidebar-overlay" aria-label="Close sidebar"></label>
+
+    <script async src="/formal-methods-book/assets/js/code-copy-lightweight.js"></script>
+    <script defer src="/formal-methods-book/assets/js/theme.js"></script>
+    <script defer src="/formal-methods-book/assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var cb = document.getElementById('sidebar-toggle-checkbox');
+            var toggle = document.querySelector('.sidebar-toggle');
+            if (cb) cb.checked = false;
+            if (cb && toggle) {
+                var sync = function() {
+                    toggle.setAttribute('aria-expanded', cb.checked ? 'true' : 'false');
+                };
+                sync();
+                cb.addEventListener('change', sync);
+                toggle.addEventListener('keydown', function(e) {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        cb.checked = !cb.checked;
+                        cb.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        (function() {
+            function initTocAutoScroll() {
+                var cb = document.getElementById('sidebar-toggle-checkbox');
+                if (!cb) return;
+
+                function normalizePath(p) {
+                    var path = String(p || '').replace(/index\.html$/, '');
+                    if (path.length > 1) {
+                        path = path.replace(/\/+$/, '');
+                    }
+                    return path || '/';
+                }
+
+                function isMobileDrawer() {
+                    try {
+                        if (typeof window.matchMedia === 'function') {
+                            return window.matchMedia('(max-width: 1024px)').matches;
+                        }
+                    } catch (_) {}
+                    return typeof window.innerWidth === 'number' ? window.innerWidth <= 1024 : true;
+                }
+
+                function findActiveTocLink() {
+                    var current = normalizePath(window.location.pathname);
+                    var actives = document.querySelectorAll('a.toc-link.active');
+                    if (!actives || actives.length === 0) return null;
+
+                    for (var i = 0; i < actives.length; i++) {
+                        var a = actives[i];
+                        if (!a || !a.href) continue;
+                        try {
+                            var pathname = normalizePath(new URL(a.href).pathname);
+                            if (pathname === current) return a;
+                        } catch (_) {}
+                    }
+                    return actives[0];
+                }
+
+                function ensureActiveTocVisible() {
+                    if (!cb.checked) return;
+                    if (!isMobileDrawer()) return;
+
+                    var active = findActiveTocLink();
+                    if (!active) return;
+
+                    var sidebar = active.closest('.book-sidebar') || document.getElementById('sidebar');
+                    if (!sidebar) return;
+
+                    try {
+                        var linkRect = active.getBoundingClientRect();
+                        var sidebarRect = sidebar.getBoundingClientRect();
+                        var marginTop = 8;
+                        var marginBottom = 8;
+                        try {
+                            if (window.getComputedStyle) {
+                                var cs = window.getComputedStyle(sidebar);
+                                if (cs) {
+                                    var pt = parseFloat(cs.paddingTop);
+                                    var pb = parseFloat(cs.paddingBottom);
+                                    if (!isNaN(pt)) marginTop = pt;
+                                    if (!isNaN(pb)) marginBottom = pb;
+                                }
+                            }
+                        } catch (_) {}
+
+                        var top = sidebarRect.top + marginTop;
+                        var bottom = sidebarRect.bottom - marginBottom;
+                        var outOfView = linkRect.top < top || linkRect.bottom > bottom;
+
+                        if (outOfView && typeof active.scrollIntoView === 'function') {
+                            try {
+                                active.scrollIntoView({ block: 'center', behavior: 'auto' });
+                            } catch (e) {
+                                active.scrollIntoView();
+                            }
+                        }
+                    } catch (_) {}
+                }
+
+                function scheduleEnsure() {
+                    setTimeout(ensureActiveTocVisible, 0);
+                    setTimeout(ensureActiveTocVisible, 350);
+                }
+
+                cb.addEventListener('change', function() {
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+
+                if (cb.checked) {
+                    scheduleEnsure();
+                }
+
+                window.addEventListener('pageshow', function(e) {
+                    if (!e || !e.persisted) return;
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initTocAutoScroll);
+            } else {
+                initTocAutoScroll();
+            }
+        })();
+    </script>
+</body>
+</html>

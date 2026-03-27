@@ -1,0 +1,222 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      :root {
+        --primary-blue: #2563eb;
+        --secondary-indigo: #4f46e5;
+        --accent-purple: #7c3aed;
+        --neutral-gray: #6b7280;
+        --light-gray: #f3f4f6;
+        --success-green: #059669;
+        --warning-orange: #d97706;
+        --error-red: #dc2626;
+      }
+
+      .title-text {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+        font-size: 16px;
+        font-weight: 600;
+        fill: var(--neutral-gray);
+      }
+
+      .label-text {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+        font-size: 14px;
+        font-weight: 500;
+        fill: var(--neutral-gray);
+      }
+
+      .detail-text {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+        font-size: 12px;
+        font-weight: 400;
+        fill: var(--neutral-gray);
+      }
+
+      .phase-box {
+        rx: 4;
+        ry: 4;
+        stroke: var(--primary-blue);
+        stroke-width: 2;
+        fill: rgba(37, 99, 235, 0.1);
+      }
+
+      .alloy-box {
+        rx: 4;
+        ry: 4;
+        stroke: var(--accent-purple);
+        stroke-width: 2;
+        fill: rgba(124, 58, 237, 0.1);
+      }
+
+      .relation-arrow {
+        stroke: var(--secondary-indigo);
+        stroke-width: 2;
+        fill: var(--secondary-indigo);
+        marker-end: url(#arrowhead);
+      }
+
+      .verification-arrow {
+        stroke: var(--success-green);
+        stroke-width: 2;
+        fill: var(--success-green);
+        marker-end: url(#arrowhead-green);
+      }
+
+      .atom-circle {
+        fill: var(--primary-blue);
+        opacity: 0.8;
+      }
+
+      .relation-line {
+        stroke: var(--accent-purple);
+        stroke-width: 2;
+        opacity: 0.7;
+      }
+    </style>
+
+    <defs>
+      <marker id="arrowhead" markerWidth="10" markerHeight="7"
+              refX="9" refY="3.5" orient="auto">
+        <polygon points="0 0, 10 3.5, 0 7" fill="var(--secondary-indigo)" />
+      </marker>
+      <marker id="arrowhead-green" markerWidth="10" markerHeight="7"
+              refX="9" refY="3.5" orient="auto">
+        <polygon points="0 0, 10 3.5, 0 7" fill="var(--success-green)" />
+      </marker>
+    </defs>
+  </defs>
+
+  <text x="400" y="30" text-anchor="middle" class="title-text">Alloy and the Lightweight Formal-Methods Approach</text>
+
+  <g transform="translate(50, 60)">
+    <rect x="0" y="0" width="200" height="120" class="phase-box"/>
+    <text x="100" y="20" text-anchor="middle" class="label-text">1. Modeling</text>
+
+    <text x="10" y="40" class="detail-text">• Define signatures</text>
+    <text x="10" y="55" class="detail-text">• Describe relations</text>
+    <text x="10" y="70" class="detail-text">• Express constraints</text>
+    <text x="10" y="85" class="detail-text">• Set facts</text>
+    <text x="10" y="100" class="detail-text">• Define functions</text>
+
+    <rect x="280" y="0" width="200" height="120" class="phase-box"/>
+    <text x="380" y="20" text-anchor="middle" class="label-text">2. Analysis and Checking</text>
+
+    <text x="290" y="40" class="detail-text">• Run Alloy Analyzer</text>
+    <text x="290" y="55" class="detail-text">• Generate instances</text>
+    <text x="290" y="70" class="detail-text">• Check satisfiability</text>
+    <text x="290" y="85" class="detail-text">• Find counterexamples</text>
+    <text x="290" y="100" class="detail-text">• Verify properties</text>
+
+    <rect x="560" y="0" width="180" height="120" class="phase-box"/>
+    <text x="650" y="20" text-anchor="middle" class="label-text">3. Refinement and Iteration</text>
+
+    <text x="570" y="40" class="detail-text">• Revise the model</text>
+    <text x="570" y="55" class="detail-text">• Tune constraints</text>
+    <text x="570" y="70" class="detail-text">• Add new properties</text>
+    <text x="570" y="85" class="detail-text">• Analyze results</text>
+    <text x="570" y="100" class="detail-text">• Improve the design</text>
+
+    <line x1="200" y1="60" x2="280" y2="60" class="relation-arrow"/>
+    <line x1="480" y1="60" x2="560" y2="60" class="relation-arrow"/>
+
+    <path d="M 650 120 Q 650 140 380 140 Q 100 140 100 120"
+          stroke="var(--warning-orange)" stroke-width="2" fill="none"
+          marker-end="url(#arrowhead)" stroke-dasharray="5,5"/>
+    <text x="380" y="155" text-anchor="middle" class="detail-text">Feedback loop</text>
+  </g>
+
+  <g transform="translate(50, 220)">
+    <text x="0" y="0" class="label-text">Core concepts in Alloy</text>
+
+    <g transform="translate(0, 30)">
+      <rect x="0" y="0" width="150" height="100" class="alloy-box"/>
+      <text x="75" y="20" text-anchor="middle" class="label-text">Atoms and relations</text>
+
+      <circle cx="30" cy="40" r="6" class="atom-circle"/>
+      <text x="30" y="58" text-anchor="middle" class="detail-text">Person</text>
+
+      <circle cx="120" cy="40" r="6" class="atom-circle"/>
+      <text x="120" y="58" text-anchor="middle" class="detail-text">Book</text>
+
+      <line x1="36" y1="40" x2="114" y2="40" class="relation-line"/>
+      <text x="75" y="35" text-anchor="middle" class="detail-text">borrows</text>
+
+      <text x="75" y="85" text-anchor="middle" class="detail-text">Relational worldview</text>
+    </g>
+
+    <g transform="translate(180, 30)">
+      <rect x="0" y="0" width="150" height="100" class="alloy-box"/>
+      <text x="75" y="20" text-anchor="middle" class="label-text">Signatures</text>
+
+      <text x="10" y="40" class="detail-text">sig Person {</text>
+      <text x="20" y="55" class="detail-text">borrows: set Book</text>
+      <text x="10" y="70" class="detail-text">}</text>
+
+      <text x="75" y="90" text-anchor="middle" class="detail-text">Define type and structure</text>
+    </g>
+
+    <g transform="translate(360, 30)">
+      <rect x="0" y="0" width="150" height="100" class="alloy-box"/>
+      <text x="75" y="20" text-anchor="middle" class="label-text">Constraints</text>
+
+      <text x="10" y="40" class="detail-text">fact {</text>
+      <text x="15" y="55" class="detail-text">all p: Person |</text>
+      <text x="20" y="70" class="detail-text">#p.borrows &lt;= 3</text>
+      <text x="10" y="85" class="detail-text">}</text>
+    </g>
+
+    <g transform="translate(540, 30)">
+      <rect x="0" y="0" width="150" height="100" class="alloy-box"/>
+      <text x="75" y="20" text-anchor="middle" class="label-text">Analysis commands</text>
+
+      <text x="10" y="40" class="detail-text">run {} for 5</text>
+      <text x="10" y="55" class="detail-text">check property</text>
+      <text x="10" y="70" class="detail-text">for 10</text>
+
+      <text x="75" y="90" text-anchor="middle" class="detail-text">Automated checking</text>
+    </g>
+  </g>
+
+  <g transform="translate(50, 380)">
+    <text x="0" y="0" class="label-text">Characteristics of the lightweight approach</text>
+
+    <g transform="translate(0, 30)">
+      <rect x="0" y="0" width="180" height="120" stroke="var(--error-red)" stroke-width="2" fill="rgba(220, 38, 38, 0.1)" rx="4" ry="4"/>
+      <text x="90" y="20" text-anchor="middle" class="label-text">Heavyweight methods</text>
+
+      <text x="10" y="40" class="detail-text">• Full proof required</text>
+      <text x="10" y="55" class="detail-text">• High learning cost</text>
+      <text x="10" y="70" class="detail-text">• Experts required</text>
+      <text x="10" y="85" class="detail-text">• Long lead time</text>
+      <text x="10" y="100" class="detail-text">• Narrow applicability</text>
+
+      <rect x="250" y="0" width="180" height="120" stroke="var(--success-green)" stroke-width="2" fill="rgba(5, 150, 105, 0.1)" rx="4" ry="4"/>
+      <text x="340" y="20" text-anchor="middle" class="label-text">Alloy lightweight method</text>
+
+      <text x="260" y="40" class="detail-text">• Counterexample-driven</text>
+      <text x="260" y="55" class="detail-text">• Easier to learn</text>
+      <text x="260" y="70" class="detail-text">• Usable by developers</text>
+      <text x="260" y="85" class="detail-text">• Rapid feedback</text>
+      <text x="260" y="100" class="detail-text">• Incremental adoption</text>
+
+      <rect x="500" y="0" width="180" height="120" stroke="var(--primary-blue)" stroke-width="2" fill="rgba(37, 99, 235, 0.1)" rx="4" ry="4"/>
+      <text x="590" y="20" text-anchor="middle" class="label-text">Practical benefits</text>
+
+      <text x="510" y="40" class="detail-text">• Early design checking</text>
+      <text x="510" y="55" class="detail-text">• Remove ambiguity</text>
+      <text x="510" y="70" class="detail-text">• Find design defects</text>
+      <text x="510" y="85" class="detail-text">• Support team discussion</text>
+      <text x="510" y="100" class="detail-text">• Improve quality</text>
+    </g>
+  </g>
+
+  <g transform="translate(50, 540)">
+    <text x="300" y="0" text-anchor="middle" class="label-text">Figure 4-1: Overview of Alloy as a lightweight formal method</text>
+
+    <text x="0" y="25" class="detail-text">Example: Library system</text>
+    <text x="0" y="40" class="detail-text">Person -borrows→ Book, Person -returns→ Book</text>
+    <text x="300" y="40" class="detail-text">Constraint: at most three books per person</text>
+    <text x="500" y="40" class="detail-text">Check: find violating instances</text>
+  </g>
+</svg>

@@ -1,0 +1,1090 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="仕様記述、模型検査、定理証明の統合的理解 - ソフトウェアの数学的設計入門">
+    <meta name="author" content="太田和彦（株式会社アイティードゥ）">
+
+    <title>付録C：記法対照表 - 形式的手法の基礎と応用</title>
+
+    <link rel="canonical" href="https://itdojp.github.io/formal-methods-book/appendices/appendix-c/">
+    <link rel="alternate" hreflang="ja" href="https://itdojp.github.io/formal-methods-book/appendices/appendix-c/">
+    <link rel="alternate" hreflang="en" href="https://itdojp.github.io/formal-methods-book/en/appendices/appendix-c/">
+    <link rel="alternate" hreflang="x-default" href="https://itdojp.github.io/formal-methods-book/">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/main.css">
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/syntax-highlighting.css">
+
+    <link rel="icon" type="image/png" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+    <link rel="apple-touch-icon" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+
+    <meta property="og:title" content="付録C：記法対照表">
+    <meta property="og:description" content="仕様記述、模型検査、定理証明の統合的理解 - ソフトウェアの数学的設計入門">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://itdojp.github.io/formal-methods-book/appendices/appendix-c/">
+    <meta property="og:locale" content="ja_JP">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="付録C：記法対照表">
+    <meta name="twitter:description" content="仕様記述、模型検査、定理証明の統合的理解 - ソフトウェアの数学的設計入門">
+
+    <script>
+        (function() {
+            try {
+                const k = 'book-theme';
+                const t = localStorage.getItem(k) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (_) {}
+        })();
+    </script>
+</head>
+<body>
+    
+    
+    
+    
+    
+
+    <input type="checkbox" id="sidebar-toggle-checkbox" class="sidebar-toggle-checkbox" aria-hidden="true">
+
+    <div class="book-layout">
+        <header class="book-header">
+            <div class="header-left">
+                <label for="sidebar-toggle-checkbox" class="sidebar-toggle" aria-label="サイドバーを切り替え" role="button" tabindex="0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </label>
+                <a href="/formal-methods-book/" class="header-title">
+                    <h1>形式的手法の基礎と応用</h1>
+                </a>
+            </div>
+
+            <div class="header-center">
+                <div class="search-container">
+                    <input type="search"
+                           placeholder="検索..."
+                           class="search-input"
+                           id="search-input"
+                           autocomplete="off">
+                    <div class="search-results" id="search-results"></div>
+                </div>
+            </div>
+
+            <div class="header-right">
+                
+
+
+
+
+
+
+
+
+
+
+<a href="/formal-methods-book/en/appendices/appendix-c/"
+   class="language-switcher"
+   hreflang="en"
+   lang="en"
+   >
+    English
+</a>
+
+                <button class="theme-toggle" aria-label="テーマを切り替え">
+                    <svg class="theme-icon theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="theme-icon theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+
+                
+                <a href="https://github.com/itdojp/formal-methods-book" class="github-link" target="_blank" rel="noopener" aria-label="GitHub">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
+                
+            </div>
+        </header>
+
+        <aside class="book-sidebar" id="sidebar">
+            <nav class="sidebar-nav" role="navigation" aria-label="メインナビゲーション">
+                
+
+
+
+
+
+
+
+
+
+
+<div class="sidebar-content">
+    <div class="book-info">
+        <h2 class="book-title"><a href="/formal-methods-book/" class="header-title">形式的手法の基礎と応用</a></h2>
+        
+        <p class="book-subtitle">仕様記述、模型検査、定理証明の統合的理解</p>
+        
+    </div>
+
+    <div class="toc">
+        <h3 class="toc-title">目次</h3>
+
+        <div class="toc-section">
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="/formal-methods-book/" class="toc-link ">
+                        ホーム
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">導入</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/introduction/" class="toc-link ">
+                        はじめに
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">本編</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter01/" class="toc-link ">
+                        第1章：なぜ形式的手法が必要なのか
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter02/" class="toc-link ">
+                        第2章：数学とプログラムの橋渡し
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter03/" class="toc-link ">
+                        第3章：仕様記述の基本
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter04/" class="toc-link ">
+                        第4章：軽量形式的手法入門 - Alloyで始める仕様記述
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter05/" class="toc-link ">
+                        第5章：状態ベース仕様記述 - Z記法の基礎
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter06/" class="toc-link ">
+                        第6章：プロセス中心の記述 - CSPによる並行システム
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter07/" class="toc-link ">
+                        第7章：時間を扱う仕様記述 - TLA+入門
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter08/" class="toc-link ">
+                        第8章：模型検査入門
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter09/" class="toc-link ">
+                        第9章：定理証明の基礎
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter10/" class="toc-link ">
+                        第10章：プログラム検証
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter11/" class="toc-link ">
+                        第11章：開発プロセスとの統合
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter12/" class="toc-link ">
+                        第12章：ツールと自動化
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter13/" class="toc-link ">
+                        第13章：事例研究
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">追加</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/glossary/" class="toc-link ">
+                        用語集（Glossary）
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">付録</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-a/" class="toc-link ">
+                        付録A: 数学的基礎の復習
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-b/" class="toc-link ">
+                        付録B: ツールインストールガイド
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-c/" class="toc-link active">
+                        付録C: 記法対照表
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-d/" class="toc-link ">
+                        付録D: 演習問題解答
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-e/" class="toc-link ">
+                        付録E: 参考文献とWebリソース
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-f/" class="toc-link ">
+                        付録F: AI支援の実践ガイド
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">おわりに</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/afterword/" class="toc-link ">
+                        おわりに
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="external-links">
+            
+            <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener" class="external-link">GitHub</a>
+            
+            
+        </div>
+    </div>
+</div>
+
+            </nav>
+        </aside>
+
+        <main class="book-main" id="main">
+            <div class="book-content">
+                
+                    
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb-list">
+    <li class="breadcrumb-item">
+        <a href="/formal-methods-book/" class="breadcrumb-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span class="sr-only">ホーム</span>
+        </a>
+    </li>
+
+    
+        
+    
+        
+            
+            
+            
+                
+                
+                <li class="breadcrumb-item">
+                    <a href="/formal-methods-book/appendices/" class="breadcrumb-link">
+                        
+                            Appendices
+                        
+                    </a>
+                </li>
+            
+        
+    
+        
+            
+            
+            
+                <li class="breadcrumb-item active" aria-current="page">
+                    付録c：記法対照表
+                </li>
+            
+        
+    
+</ol>
+
+<style>
+.breadcrumb-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    font-size: 0.875rem;
+    flex-wrap: wrap;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb-item:not(:last-child)::after {
+    content: '/';
+    margin: 0 0.5rem;
+    color: var(--text-muted);
+}
+
+.breadcrumb-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.breadcrumb-link:hover {
+    color: var(--primary-color);
+}
+
+.breadcrumb-item.active {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (max-width: 768px) {
+    .breadcrumb-list {
+        font-size: 0.75rem;
+    }
+
+    .breadcrumb-item:not(:last-child)::after {
+        margin: 0 0.375rem;
+    }
+}
+</style>
+
+                
+
+                <article class="page-content">
+                    <h1 id="付録c記法対照表">付録C：記法対照表</h1>
+
+<p>本付録では、形式的手法で頻出する用語・記号の最小セットと、AI時代のDoDチェックリストをまとめます。</p>
+
+<h2 id="c1-用語集glossary">C.1 用語集（Glossary）</h2>
+
+<ul>
+  <li><strong>invariant（不変条件）</strong>：常に成り立つべき性質。反例が出たら仕様/実装の破綻を示す。</li>
+  <li><strong>safety（安全性）</strong>：悪いことが起きない性質（例：二重引き落としが起きない）。</li>
+  <li><strong>liveness（活性）</strong>：良いことがいつか起きる性質（例：要求がいつか処理される）。</li>
+  <li><strong>refinement（詳細化）</strong>：抽象仕様から実装仕様へ段階的に具体化する手続き。</li>
+  <li><strong>contract（契約）</strong>：事前条件/事後条件を明文化した実行時/検証時のガード。</li>
+  <li><strong>trace（トレース）</strong>：状態遷移の列。反例はトレースとして提示される。</li>
+  <li><strong>counterexample（反例）</strong>：性質が破れる最小の実行例。設計修正の入口。</li>
+</ul>
+
+<h2 id="c2-ai時代のdodチェックリスト">C.2 AI時代のDoDチェックリスト</h2>
+
+<p>AI支援開発では、出力の正当性を検証器で担保することが前提です。</p>
+
+<ul>
+  <li>仕様差分がある場合、対応する形式仕様も更新されている</li>
+  <li>検証ログに seed/深さ/スコープ/実行コマンドが含まれている</li>
+  <li>反例が出た場合、修正履歴と再検証ログが残っている</li>
+  <li>例外承認の理由・代替策・フォローアップ期限が明記されている</li>
+</ul>
+
+<h2 id="c3-記法対照表z--alloy--csp--tla">C.3 記法対照表（Z / Alloy / CSP / TLA+）</h2>
+
+<p>以下は「同じ概念」を各記法でどう表現するかの最小対応表です。章内の表記（第4章Alloy、第5章Z、第6章CSP、第7章TLA+）と整合する範囲で記載します。</p>
+
+<p>コードブロックのラベル：</p>
+<ul>
+  <li><strong>ツール準拠（そのまま動く）</strong>：そのままツール/CLIへ貼り付けて実行できることを意図した記法（環境差により追加設定が必要な場合あり）。</li>
+  <li><strong>文脈依存スニペット</strong>：構文自体は実ツールに沿うが、前提となる宣言・モデル・ハーネス・対話コンテキストを別途必要とする断片。</li>
+  <li><strong>擬似記法</strong>：説明用に数学記法・省略表記・出力例等を含む記法（ツール入力としての厳密性を保証しない）。</li>
+</ul>
+
+<p>注意：</p>
+<ul>
+  <li><strong>ツール準拠（そのまま動く）</strong>のコードフェンス内には、ツール入力として有効な文字列のみを記載する（出力例・図示・自然言語説明は入れない）。</li>
+  <li>変数宣言・<code class="language-plaintext highlighter-rouge">MODULE main</code>・検証ハーネス・対話コンテキストなど、周辺の必須要素を別の場所に置く場合は <strong>文脈依存スニペット</strong> を使う。</li>
+  <li>周辺の必須要素を本文や参照先で明示している断片は <strong>文脈依存スニペット</strong>、参照先を明示していない断片や数学記法・省略・自然言語を含む断片は <strong>擬似記法</strong> として扱う。</li>
+  <li>図示/出力例/擬似コードは <strong>擬似記法</strong> を使用する。</li>
+</ul>
+
+<h3 id="c31-概念の対応最小セット">C.3.1 概念の対応（最小セット）</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>概念</th>
+      <th>Z記法（本書）</th>
+      <th>Alloy（Alloy Analyzer 6想定）</th>
+      <th>CSP（本書/ツール）</th>
+      <th>TLA+（TLC想定）</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>集合（型）</td>
+      <td><code class="language-plaintext highlighter-rouge">A : ℙ X</code></td>
+      <td><code class="language-plaintext highlighter-rouge">A: set X</code></td>
+      <td>事象集合 <code class="language-plaintext highlighter-rouge">{a, b}</code> / 同期集合 <code class="language-plaintext highlighter-rouge">X</code></td>
+      <td><code class="language-plaintext highlighter-rouge">A ∈ SUBSET X</code></td>
+    </tr>
+    <tr>
+      <td>要素所属</td>
+      <td><code class="language-plaintext highlighter-rouge">x ∈ A</code></td>
+      <td><code class="language-plaintext highlighter-rouge">x in A</code></td>
+      <td>（事象）<code class="language-plaintext highlighter-rouge">a ∈ X</code></td>
+      <td><code class="language-plaintext highlighter-rouge">x ∈ A</code></td>
+    </tr>
+    <tr>
+      <td>関係</td>
+      <td><code class="language-plaintext highlighter-rouge">R : X ↔ Y</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R: X -&gt; Y</code></td>
+      <td>（通常は直接は書かない）</td>
+      <td><code class="language-plaintext highlighter-rouge">R ⊆ X × Y</code></td>
+    </tr>
+    <tr>
+      <td>全関数</td>
+      <td><code class="language-plaintext highlighter-rouge">f : X → Y</code></td>
+      <td><code class="language-plaintext highlighter-rouge">f: X -&gt; one Y</code></td>
+      <td>（通常は直接は書かない）</td>
+      <td><code class="language-plaintext highlighter-rouge">f ∈ [X -&gt; Y]</code></td>
+    </tr>
+    <tr>
+      <td>部分関数</td>
+      <td><code class="language-plaintext highlighter-rouge">f : X ⇸ Y</code></td>
+      <td><code class="language-plaintext highlighter-rouge">f: X -&gt; lone Y</code></td>
+      <td>（通常は直接は書かない）</td>
+      <td>（必要なら部分関数として表現）</td>
+    </tr>
+    <tr>
+      <td>状態</td>
+      <td>状態スキーマ</td>
+      <td>時刻（ステップ）を明示してモデル化</td>
+      <td>プロセス（状態は遷移に埋め込む）</td>
+      <td>変数 <code class="language-plaintext highlighter-rouge">v</code> と次状態 <code class="language-plaintext highlighter-rouge">v'</code></td>
+    </tr>
+    <tr>
+      <td>初期状態</td>
+      <td><code class="language-plaintext highlighter-rouge">InitState</code></td>
+      <td><code class="language-plaintext highlighter-rouge">pred Init[...]</code></td>
+      <td>初期プロセス <code class="language-plaintext highlighter-rouge">P0</code></td>
+      <td><code class="language-plaintext highlighter-rouge">Init == ...</code></td>
+    </tr>
+    <tr>
+      <td>遷移/操作</td>
+      <td><code class="language-plaintext highlighter-rouge">ΔState</code></td>
+      <td><code class="language-plaintext highlighter-rouge">pred Step[s, s']</code></td>
+      <td>前置 <code class="language-plaintext highlighter-rouge">a → P</code>（ツールでは <code class="language-plaintext highlighter-rouge">a -&gt; P</code>）</td>
+      <td><code class="language-plaintext highlighter-rouge">Next == ...</code></td>
+    </tr>
+    <tr>
+      <td>不変条件（安全性）</td>
+      <td>スキーマ制約</td>
+      <td><code class="language-plaintext highlighter-rouge">fact</code> / <code class="language-plaintext highlighter-rouge">assert</code></td>
+      <td>refinement / assertions（ツール依存）</td>
+      <td><code class="language-plaintext highlighter-rouge">Invariant == ...</code> / <code class="language-plaintext highlighter-rouge">[]P</code></td>
+    </tr>
+    <tr>
+      <td>活性/公平性</td>
+      <td>（拡張が必要）</td>
+      <td>（トレース上で表現）</td>
+      <td>（ツール依存）</td>
+      <td><code class="language-plaintext highlighter-rouge">&lt;&gt;P</code>, <code class="language-plaintext highlighter-rouge">WF_vars(A)</code>, <code class="language-plaintext highlighter-rouge">SF_vars(A)</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>注記：</p>
+<ul>
+  <li>Zの <code class="language-plaintext highlighter-rouge">↔/→/⇸/↦</code> は第5章の記号体系に合わせています。</li>
+  <li>CSPは本文では数学記法として <code class="language-plaintext highlighter-rouge">→, □, ⊓</code> を用い、ツール（FDR/CSPM）では代表的に <code class="language-plaintext highlighter-rouge">-&gt;, [], |~|</code> を用います。</li>
+</ul>
+
+<h3 id="c32-z記法主要記号読みの目安">C.3.2 Z記法：主要記号（読みの目安）</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>記号</th>
+      <th>意味</th>
+      <th>読み（例）</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">ℙ X</code></td>
+      <td>冪集合</td>
+      <td>power set of X</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">x ∈ A</code></td>
+      <td>要素所属</td>
+      <td>x is in A</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">R : X ↔ Y</code></td>
+      <td>関係</td>
+      <td>relation from X to Y</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">f : X → Y</code></td>
+      <td>全関数</td>
+      <td>(total) function from X to Y</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">f : X ⇸ Y</code></td>
+      <td>部分関数</td>
+      <td>partial function from X to Y</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">x ↦ y</code></td>
+      <td>maplet（ペア）</td>
+      <td>x maps to y</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">dom R</code>, <code class="language-plaintext highlighter-rouge">ran R</code></td>
+      <td>定義域/値域</td>
+      <td>domain/range</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="c33-alloy主要記号alloy-analyzer-6">C.3.3 Alloy：主要記号（Alloy Analyzer 6）</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>記号</th>
+      <th>意味</th>
+      <th>例</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">sig</code> / フィールド</td>
+      <td>集合と関係</td>
+      <td><code class="language-plaintext highlighter-rouge">sig User { files: set File }</code></td>
+    </tr>
+    <tr>
+      <td>多重度 <code class="language-plaintext highlighter-rouge">one/lone/some/set</code></td>
+      <td>要素数制約</td>
+      <td><code class="language-plaintext highlighter-rouge">owner: one User</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">fact</code></td>
+      <td>常に成り立つ制約</td>
+      <td><code class="language-plaintext highlighter-rouge">fact { ... }</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">assert</code> + <code class="language-plaintext highlighter-rouge">check</code></td>
+      <td>性質検証（反例探索）</td>
+      <td><code class="language-plaintext highlighter-rouge">check Inv for 5</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">run</code></td>
+      <td>充足例探索</td>
+      <td><code class="language-plaintext highlighter-rouge">run { ... } for 5</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">.</code> / <code class="language-plaintext highlighter-rouge">~</code> / <code class="language-plaintext highlighter-rouge">^</code></td>
+      <td>結合/転置/推移閉包</td>
+      <td><code class="language-plaintext highlighter-rouge">u.files</code>, <code class="language-plaintext highlighter-rouge">~r</code>, <code class="language-plaintext highlighter-rouge">^parent</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="c34-csp主要記号本文ツール">C.3.4 CSP：主要記号（本文/ツール）</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>概念</th>
+      <th>本書表記（数学記法）</th>
+      <th>ツール表記（CSPM/FDRの代表例）</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>前置（prefix）</td>
+      <td><code class="language-plaintext highlighter-rouge">a → P</code></td>
+      <td><code class="language-plaintext highlighter-rouge">a -&gt; P</code></td>
+    </tr>
+    <tr>
+      <td>外部選択</td>
+      <td><code class="language-plaintext highlighter-rouge">P □ Q</code></td>
+      <td><code class="language-plaintext highlighter-rouge">P [] Q</code></td>
+    </tr>
+    <tr>
+      <td>内部選択</td>
+      <td><code class="language-plaintext highlighter-rouge">P ⊓ Q</code></td>
+      <td><code>P &#124;~&#124; Q</code></td>
+    </tr>
+    <tr>
+      <td>同期並行（同期集合X）</td>
+      <td><code>P [&#124; X &#124;] Q</code></td>
+      <td><code>P [&#124; X &#124;] Q</code></td>
+    </tr>
+    <tr>
+      <td>インタリーブ</td>
+      <td><code>P &#124;&#124;&#124; Q</code></td>
+      <td><code>P &#124;&#124;&#124; Q</code></td>
+    </tr>
+    <tr>
+      <td>隠蔽（hiding）</td>
+      <td><code class="language-plaintext highlighter-rouge">P \ X</code></td>
+      <td><code class="language-plaintext highlighter-rouge">P \\ X</code></td>
+    </tr>
+    <tr>
+      <td>リネーム</td>
+      <td><code class="language-plaintext highlighter-rouge">P[[ a ← b ]]</code></td>
+      <td><code class="language-plaintext highlighter-rouge">P[[ a &lt;- b ]]</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>注記：ツール表記は代表例です。プロジェクトでは使用ツール（FDR版、CSP dialect）に合わせて確認してください。</p>
+
+<h3 id="c35-tla主要記号tlc">C.3.5 TLA+：主要記号（TLC）</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>記号</th>
+      <th>意味</th>
+      <th>例</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">v'</code></td>
+      <td>次状態の値</td>
+      <td><code class="language-plaintext highlighter-rouge">x' = x + 1</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">[]P</code> / <code class="language-plaintext highlighter-rouge">&lt;&gt;P</code></td>
+      <td>常に / いつか</td>
+      <td><code class="language-plaintext highlighter-rouge">[]Inv</code>, <code class="language-plaintext highlighter-rouge">&lt;&gt;Goal</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">WF_vars(A)</code> / <code class="language-plaintext highlighter-rouge">SF_vars(A)</code></td>
+      <td>公平性仮定</td>
+      <td><code class="language-plaintext highlighter-rouge">WF_vars(Next)</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">.cfg</code></td>
+      <td>TLC設定</td>
+      <td>初期状態/不変条件/探索制約</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>補足：</p>
+<ul>
+  <li>Alloyは有限範囲の反例探索が中心。状態遷移を扱う場合は、時間（ステップ）を明示してモデル化する</li>
+  <li>TLA+は状態遷移と時相論理が中心。実装詳細を詰める前に、高レベルで性質（不変/活性）を固定する</li>
+  <li>Zは状態/操作（スキーマ）で要件を厳密化し、実装へ詳細化する</li>
+</ul>
+
+                </article>
+
+                
+                <nav class="page-navigation" aria-label="ページナビゲーション">
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+
+
+
+
+
+<nav class="book-navigation" aria-label="ページナビゲーション">
+  <div class="chapter-nav">
+    
+      <a href="/formal-methods-book/appendices/appendix-b/" class="nav-prev" rel="prev">
+        <span class="arrow" aria-hidden="true">←</span>
+        <span class="label">前へ</span>
+        <span class="title">付録B: ツールインストールガイド</span>
+      </a>
+    
+
+    <a href="/formal-methods-book/" class="nav-home">
+      <span class="label">目次へ</span>
+    </a>
+
+    
+      <a href="/formal-methods-book/appendices/appendix-d/" class="nav-next" rel="next">
+        <span class="label">次へ</span>
+        <span class="title">付録D: 演習問題解答</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    
+  </div>
+</nav>
+
+<style>
+.book-navigation { margin: 2rem 0; padding: 1rem; border-top: 1px solid var(--border-color, #e5e7eb); }
+.chapter-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.nav-prev, .nav-next, .nav-home { display: flex; align-items: center; padding: 0.75rem 1.25rem; background: var(--bg-primary, #fff); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; text-decoration: none; color: inherit; }
+.nav-disabled { opacity: .5; cursor: not-allowed; background: var(--bg-tertiary, #f9fafb); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; padding: 0.75rem 1.25rem; display: flex; align-items: center; }
+.nav-prev { flex: 1; }
+.nav-next { flex: 1; justify-content: flex-end; text-align: right; }
+.nav-home { flex: 0 0 auto; justify-content: center; }
+.label { font-weight: 600; margin: 0 .25rem; }
+.title { font-size: .9rem; opacity: .8; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 768px) { .chapter-nav { flex-wrap: wrap; } .nav-prev, .nav-next { flex: 1 1 45%; } .nav-home { flex: 1 1 100%; order: -1; } .title { display: none; } }
+</style>
+
+                </nav>
+                
+
+                
+                <div class="edit-page">
+                    <a href="https://github.com/itdojp/formal-methods-book/edit/main/src/ja/appendices/appendix-c.md"
+                       target="_blank"
+                       rel="noopener"
+                       class="edit-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                            <path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4Z"></path>
+                        </svg>
+                        GitHub で原稿を編集
+                    </a>
+                </div>
+                
+
+                <footer class="book-footer" role="contentinfo">
+                    <div class="book-footer-inner">
+                        <div class="book-footer-license">
+                            本文: CC BY-NC-SA 4.0 / コード資産: Apache-2.0 / 商標・第三者資産を除く
+                        </div>
+                        <div class="book-footer-links">
+                            
+                                <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener">GitHub</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/LICENSE-SCOPE.md" target="_blank" rel="noopener">ライセンス</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/COMMERCIAL.md" target="_blank" rel="noopener">商用利用</a>
+                            
+                            
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <label for="sidebar-toggle-checkbox" class="book-sidebar-overlay" id="sidebar-overlay" aria-label="サイドバーを閉じる"></label>
+
+    <script async src="/formal-methods-book/assets/js/code-copy-lightweight.js"></script>
+    <script defer src="/formal-methods-book/assets/js/theme.js"></script>
+    <script defer src="/formal-methods-book/assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var cb = document.getElementById('sidebar-toggle-checkbox');
+            var toggle = document.querySelector('.sidebar-toggle');
+            if (cb) cb.checked = false;
+            if (cb && toggle) {
+                var sync = function() {
+                    toggle.setAttribute('aria-expanded', cb.checked ? 'true' : 'false');
+                };
+                sync();
+                cb.addEventListener('change', sync);
+                toggle.addEventListener('keydown', function(e) {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        cb.checked = !cb.checked;
+                        cb.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        (function() {
+            function initTocAutoScroll() {
+                var cb = document.getElementById('sidebar-toggle-checkbox');
+                if (!cb) return;
+
+                function normalizePath(p) {
+                    var path = String(p || '').replace(/index\.html$/, '');
+                    if (path.length > 1) {
+                        path = path.replace(/\/+$/, '');
+                    }
+                    return path || '/';
+                }
+
+                function isMobileDrawer() {
+                    try {
+                        if (typeof window.matchMedia === 'function') {
+                            return window.matchMedia('(max-width: 1024px)').matches;
+                        }
+                    } catch (_) {}
+                    return typeof window.innerWidth === 'number' ? window.innerWidth <= 1024 : true;
+                }
+
+                function findActiveTocLink() {
+                    var current = normalizePath(window.location.pathname);
+                    var actives = document.querySelectorAll('a.toc-link.active');
+                    if (!actives || actives.length === 0) return null;
+
+                    for (var i = 0; i < actives.length; i++) {
+                        var a = actives[i];
+                        if (!a || !a.href) continue;
+                        try {
+                            var pathname = normalizePath(new URL(a.href).pathname);
+                            if (pathname === current) return a;
+                        } catch (_) {}
+                    }
+                    return actives[0];
+                }
+
+                function ensureActiveTocVisible() {
+                    if (!cb.checked) return;
+                    if (!isMobileDrawer()) return;
+
+                    var active = findActiveTocLink();
+                    if (!active) return;
+
+                    var sidebar = active.closest('.book-sidebar') || document.getElementById('sidebar');
+                    if (!sidebar) return;
+
+                    try {
+                        var linkRect = active.getBoundingClientRect();
+                        var sidebarRect = sidebar.getBoundingClientRect();
+                        var marginTop = 8;
+                        var marginBottom = 8;
+                        try {
+                            if (window.getComputedStyle) {
+                                var cs = window.getComputedStyle(sidebar);
+                                if (cs) {
+                                    var pt = parseFloat(cs.paddingTop);
+                                    var pb = parseFloat(cs.paddingBottom);
+                                    if (!isNaN(pt)) marginTop = pt;
+                                    if (!isNaN(pb)) marginBottom = pb;
+                                }
+                            }
+                        } catch (_) {}
+
+                        var top = sidebarRect.top + marginTop;
+                        var bottom = sidebarRect.bottom - marginBottom;
+                        var outOfView = linkRect.top < top || linkRect.bottom > bottom;
+
+                        if (outOfView && typeof active.scrollIntoView === 'function') {
+                            try {
+                                active.scrollIntoView({ block: 'center', behavior: 'auto' });
+                            } catch (e) {
+                                active.scrollIntoView();
+                            }
+                        }
+                    } catch (_) {}
+                }
+
+                function scheduleEnsure() {
+                    setTimeout(ensureActiveTocVisible, 0);
+                    setTimeout(ensureActiveTocVisible, 350);
+                }
+
+                cb.addEventListener('change', function() {
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+
+                if (cb.checked) {
+                    scheduleEnsure();
+                }
+
+                window.addEventListener('pageshow', function(e) {
+                    if (!e || !e.persisted) return;
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initTocAutoScroll);
+            } else {
+                initTocAutoScroll();
+            }
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,960 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta name="author" content="太田和彦（株式会社アイティードゥ）">
+
+    <title>Appendix F: Practical Playbook for AI-Assisted Formal Methods - Formal Methods: Foundations and Applications</title>
+
+    <link rel="canonical" href="https://itdojp.github.io/formal-methods-book/en/appendices/appendix-f/">
+    <link rel="alternate" hreflang="ja" href="https://itdojp.github.io/formal-methods-book/appendices/appendix-f/">
+    <link rel="alternate" hreflang="en" href="https://itdojp.github.io/formal-methods-book/en/appendices/appendix-f/">
+    <link rel="alternate" hreflang="x-default" href="https://itdojp.github.io/formal-methods-book/">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/main.css">
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/syntax-highlighting.css">
+
+    <link rel="icon" type="image/png" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+    <link rel="apple-touch-icon" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+
+    <meta property="og:title" content="Appendix F: Practical Playbook for AI-Assisted Formal Methods">
+    <meta property="og:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://itdojp.github.io/formal-methods-book/en/appendices/appendix-f/">
+    <meta property="og:locale" content="en_US">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Appendix F: Practical Playbook for AI-Assisted Formal Methods">
+    <meta name="twitter:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+
+    <script>
+        (function() {
+            try {
+                const k = 'book-theme';
+                const t = localStorage.getItem(k) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (_) {}
+        })();
+    </script>
+</head>
+<body>
+    
+    
+    
+    
+    
+
+    <input type="checkbox" id="sidebar-toggle-checkbox" class="sidebar-toggle-checkbox" aria-hidden="true">
+
+    <div class="book-layout">
+        <header class="book-header">
+            <div class="header-left">
+                <label for="sidebar-toggle-checkbox" class="sidebar-toggle" aria-label="Toggle sidebar" role="button" tabindex="0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </label>
+                <a href="/formal-methods-book/en/" class="header-title">
+                    <h1>Formal Methods: Foundations and Applications</h1>
+                </a>
+            </div>
+
+            <div class="header-center">
+                <div class="search-container">
+                    <input type="search"
+                           placeholder="Search..."
+                           class="search-input"
+                           id="search-input"
+                           autocomplete="off">
+                    <div class="search-results" id="search-results"></div>
+                </div>
+            </div>
+
+            <div class="header-right">
+                
+
+
+
+
+
+
+
+
+
+
+<a href="/formal-methods-book/appendices/appendix-f/"
+   class="language-switcher"
+   hreflang="ja"
+   lang="ja"
+   >
+    日本語
+</a>
+
+                <button class="theme-toggle" aria-label="Toggle theme">
+                    <svg class="theme-icon theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="theme-icon theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+
+                
+            </div>
+        </header>
+
+        <aside class="book-sidebar" id="sidebar">
+            <nav class="sidebar-nav" role="navigation" aria-label="Main navigation">
+                
+
+
+
+
+
+
+
+
+
+
+<div class="sidebar-content">
+    <div class="book-info">
+        <h2 class="book-title"><a href="/formal-methods-book/en/" class="header-title">Formal Methods: Foundations and Applications</a></h2>
+        
+        <p class="book-subtitle">An Integrated Understanding of Specification, Model Checking, and Theorem Proving</p>
+        
+    </div>
+
+    <div class="toc">
+        <h3 class="toc-title">Contents</h3>
+
+        <div class="toc-section">
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/" class="toc-link ">
+                        Home
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Introduction</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/introduction/" class="toc-link ">
+                        Introduction
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Chapters</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter01/" class="toc-link ">
+                        Chapter 1: Why Formal Methods Matter
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter02/" class="toc-link ">
+                        Chapter 2: Bridging Mathematics and Programs
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter03/" class="toc-link ">
+                        Chapter 3: Foundations of Specification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter04/" class="toc-link ">
+                        Chapter 4: Introduction to Lightweight Formal Methods — Specification with Alloy
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter05/" class="toc-link ">
+                        Chapter 5: State-Based Specification — Fundamentals of Z Notation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter06/" class="toc-link ">
+                        Chapter 6: Process-Centric Specification — Concurrency with CSP
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter07/" class="toc-link ">
+                        Chapter 7: Specifying Time — Introduction to TLA+
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter08/" class="toc-link ">
+                        Chapter 8: Introduction to Model Checking
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter09/" class="toc-link ">
+                        Chapter 9: Fundamentals of Theorem Proving
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter10/" class="toc-link ">
+                        Chapter 10: Program Verification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter11/" class="toc-link ">
+                        Chapter 11: Integrating Formal Methods into Development Processes
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter12/" class="toc-link ">
+                        Chapter 12: Tools and Automation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter13/" class="toc-link ">
+                        Chapter 13: Case Studies
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Additional</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/glossary/" class="toc-link ">
+                        Glossary
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Appendices</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-a/" class="toc-link ">
+                        Appendix A: Mathematics Refresher
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-b/" class="toc-link ">
+                        Appendix B: Tool Setup and Verification Quick Start
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-c/" class="toc-link ">
+                        Appendix C: Notation Cross-Reference
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-d/" class="toc-link ">
+                        Appendix D: Exercise Guides and Self-Review Frameworks
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-e/" class="toc-link ">
+                        Appendix E: References and Further Reading Paths
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-f/" class="toc-link active">
+                        Appendix F: Practical Playbook for AI-Assisted Formal Methods
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Afterword</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/afterword/" class="toc-link ">
+                        Afterword
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="external-links">
+            
+            <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener" class="external-link">GitHub</a>
+            
+            
+        </div>
+    </div>
+</div>
+
+            </nav>
+        </aside>
+
+        <main class="book-main" id="main">
+            <div class="book-content">
+                
+                    
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb-list">
+    <li class="breadcrumb-item">
+        <a href="/formal-methods-book/en/" class="breadcrumb-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span class="sr-only">Home</span>
+        </a>
+    </li>
+
+    
+        
+    
+        
+    
+        
+            
+            
+            
+                
+                
+                <li class="breadcrumb-item">
+                    <a href="/formal-methods-book/en/appendices/" class="breadcrumb-link">
+                        
+                            Appendices
+                        
+                    </a>
+                </li>
+            
+        
+    
+        
+            
+            
+            
+                <li class="breadcrumb-item active" aria-current="page">
+                    Appendix f: practical playbook for ai assisted formal methods
+                </li>
+            
+        
+    
+</ol>
+
+<style>
+.breadcrumb-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    font-size: 0.875rem;
+    flex-wrap: wrap;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb-item:not(:last-child)::after {
+    content: '/';
+    margin: 0 0.5rem;
+    color: var(--text-muted);
+}
+
+.breadcrumb-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.breadcrumb-link:hover {
+    color: var(--primary-color);
+}
+
+.breadcrumb-item.active {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (max-width: 768px) {
+    .breadcrumb-list {
+        font-size: 0.75rem;
+    }
+
+    .breadcrumb-item:not(:last-child)::after {
+        margin: 0 0.375rem;
+    }
+}
+</style>
+
+                
+
+                <article class="page-content">
+                    <h1 id="appendix-f-practical-playbook-for-ai-assisted-formal-methods">Appendix F: Practical Playbook for AI-Assisted Formal Methods</h1>
+
+<p>This appendix is a <strong>reader-facing playbook</strong> for using AI assistance without weakening formal assurance. Use it after Chapters 8–12 when you want to turn the book’s main argument into a repeatable workflow: let AI draft, let tools judge, and keep the evidence needed for re-verification and review.<br />
+Treat AI output as a proposal, and operate on the assumption that final judgment is delegated to verifiers such as <code class="language-plaintext highlighter-rouge">TLC</code>, <code class="language-plaintext highlighter-rouge">Alloy</code>, <code class="language-plaintext highlighter-rouge">Rocq</code> (formerly <code class="language-plaintext highlighter-rouge">Coq</code>), and <code class="language-plaintext highlighter-rouge">Dafny</code>.</p>
+
+<h2 id="how-to-use-this-appendix">How to Use This Appendix</h2>
+
+<ul>
+  <li><strong>If you are drafting a specification</strong>: start with <code class="language-plaintext highlighter-rouge">F.3 Workflow Template</code>, then adapt the prompts in <code class="language-plaintext highlighter-rouge">F.4</code>.</li>
+  <li><strong>If you are handling a counterexample</strong>: jump to <code class="language-plaintext highlighter-rouge">F.6 Minimal Example</code> and <code class="language-plaintext highlighter-rouge">F.8 Counterexample Triage Template</code>.</li>
+  <li><strong>If you are preparing a review packet for a team</strong>: use <code class="language-plaintext highlighter-rouge">F.7</code> and <code class="language-plaintext highlighter-rouge">F.9</code> together.</li>
+  <li><strong>If you are deciding where AI can and cannot be trusted</strong>: read <code class="language-plaintext highlighter-rouge">F.1</code> and <code class="language-plaintext highlighter-rouge">F.2</code> first, then return to Chapters 9–12.</li>
+</ul>
+
+<h2 id="f1-core-working-assumptions">F.1 Core Working Assumptions</h2>
+
+<ul>
+  <li>Generation is fast, but mistakes are fast as well.</li>
+  <li>AI is good at generating specifications, invariants, and proof sketches.</li>
+  <li>Pass/fail judgment is handled by verifiers and CI.</li>
+</ul>
+
+<p>These assumptions matter because the workflow in this appendix is designed to preserve engineering judgment under acceleration, not to replace that judgment.</p>
+
+<h2 id="f2-trust-boundary-and-operating-model">F.2 Trust Boundary and Operating Model</h2>
+
+<ul>
+  <li>LLM / agent: <strong>proposer (untrusted)</strong></li>
+  <li>Verifiers (<code class="language-plaintext highlighter-rouge">TLC</code> / <code class="language-plaintext highlighter-rouge">Alloy</code> / <code class="language-plaintext highlighter-rouge">Rocq</code> (formerly <code class="language-plaintext highlighter-rouge">Coq</code>) / <code class="language-plaintext highlighter-rouge">Dafny</code>): <strong>judge (trusted)</strong></li>
+  <li>CI: <strong>executor (reproducibility assurance)</strong></li>
+</ul>
+
+<p>If this boundary is broken, errors from AI flow directly into errors in quality assurance.</p>
+
+<h2 id="f3-workflow-template">F.3 Workflow Template</h2>
+
+<ol>
+  <li>Clarify the requirement in short sentences, including the objective and prohibited behavior</li>
+  <li>Organize term definitions, including noun boundaries and synonyms</li>
+  <li>Enumerate invariants, that is, properties that must always hold</li>
+  <li>Build a model with small scopes and shallow exploration first</li>
+  <li>Inspect the counterexample and analyze the cause</li>
+  <li>Apply a fix and then rerun verification with reproducibility preserved</li>
+</ol>
+
+<p>In CI, stage the verification depth across pull requests, nightly runs, and pre-release runs so that verification cost remains controlled.</p>
+
+<p>If you only adopt one pattern from this appendix, adopt this workflow and require each step to leave behind evidence that another engineer can rerun.</p>
+
+<h2 id="f4-prompt-templates-you-can-adapt-copy-and-paste">F.4 Prompt Templates You Can Adapt (Copy and Paste)</h2>
+
+<p><strong>1) Specification extraction</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>You are responsible for specifications. From the following requirements, extract term definitions, state, events, invariants, and disallowed behavior.
+Requirements: &lt;requirement text&gt;
+Output format: terms / state / events / invariants / prohibited behavior
+</code></pre></div></div>
+
+<p><strong>2) Alloy skeleton generation</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Convert the following term definitions and invariants into Alloy sig / fact / assert declarations. Make the result a skeleton that can be checked within a small scope.
+Terms: &lt;term definitions&gt;
+Invariants: &lt;invariants&gt;
+</code></pre></div></div>
+
+<p><strong>3) TLA+ skeleton generation</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Using the following state and events, create TLA+ Init / Next / Spec definitions. Include the necessary variables and invariants as well.
+State: &lt;state&gt;
+Events: &lt;events&gt;
+Invariants: &lt;invariants&gt;
+</code></pre></div></div>
+
+<p><strong>4) Counterexample trace summary</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Summarize the following counterexample trace and provide three candidate root causes and three candidate fixes.
+Counterexample: &lt;trace&gt;
+</code></pre></div></div>
+
+<p><strong>5) Verification checklist for a change review</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>For the following change, list the verification checkpoints that are required and the commands that should be executed.
+Change summary: &lt;change summary&gt;
+</code></pre></div></div>
+
+<h2 id="f5-using-the-templates-in-team-workflows">F.5 Using the Templates in Team Workflows</h2>
+
+<p><strong>When framing a work item</strong></p>
+<ul>
+  <li>Acceptance criteria, expressed in a form whose pass/fail can be judged by verification</li>
+  <li>Non-goals, that is, what will not be done</li>
+  <li>Execution commands for verifiers and tests</li>
+</ul>
+
+<p><strong>When reviewing a change</strong></p>
+<ul>
+  <li>Check whether the specification delta and the verification delta are aligned</li>
+  <li>Check whether verification logs include the seed, depth, and scope</li>
+  <li>Check whether the remediation procedure remains documented when a counterexample appears</li>
+</ul>
+
+<p>These checks are most useful when AI is generating a large share of the draft text, because review otherwise collapses into trust-by-default.</p>
+
+<h2 id="f6-minimal-example-counterexample--fix--re-verification">F.6 Minimal Example: Counterexample → Fix → Re-verification</h2>
+
+<ul>
+  <li>Counterexample: a trace is produced that violates FIFO</li>
+  <li>Cause: the precondition of the <code class="language-plaintext highlighter-rouge">Dequeue</code> operation is too weak</li>
+  <li>Fix: add an invariant that forbids <code class="language-plaintext highlighter-rouge">Dequeue</code> on an empty queue</li>
+  <li>Re-verification: rerun with the seed, depth, and scope fixed</li>
+</ul>
+
+<p>Read this example together with Chapter 8 or Chapter 10 if you want a compact reminder of the book’s core loop: model, check, inspect, fix, and rerun.</p>
+
+<h2 id="f7-review-packet-for-team-based-verification-work">F.7 Review Packet for Team-Based Verification Work</h2>
+
+<ul>
+  <li>Verification logs, including the command, seed, depth, and scope</li>
+  <li>Counterexample trace, including the file name and reproduction steps</li>
+  <li>Change intent, that is, a summary of the requirement or specification delta</li>
+  <li>Execution environment, including OS and tool versions</li>
+</ul>
+
+<p>If your team does not use pull requests, attach this packet to the equivalent review gate, such as a design review, release approval, or incident follow-up.</p>
+
+<p>The templates in this appendix can be reused directly as standard operating rules inside a team.</p>
+
+<h2 id="f8-counterexample-triage-template-separate-facts-from-hypotheses">F.8 Counterexample Triage Template (Separate Facts from Hypotheses)</h2>
+
+<p>When processing a counterexample, it is important not to mix facts written in the logs with guesses about the cause.<br />
+AI is useful for summarization and viewpoint enumeration, but the <strong>facts section should be transcribed from logs and traces</strong>, while hypotheses should be placed in a separate section. This separation makes the triage note reusable during review and postmortem analysis.</p>
+
+<p>Use the following as a reusable triage note. If your team keeps a version-controlled template, preserve the same separation between facts, hypotheses, and fixes.</p>
+
+<h3 id="template-copy-and-paste">Template (Copy and Paste)</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Verification Target
+- Target (specification / implementation / configuration):
+- Expected property (safety / liveness / invariant / contract):
+- Summary of the change diff:
+- Related issue / PR:
+
+## Execution Environment (Facts)
+- OS / CPU:
+- Execution location (local / CI):
+- Tools / versions:
+  - Alloy:
+  - TLC:
+  - Apalache:
+  - Dafny:
+
+## Reproduction Steps (Facts)
+- command:
+- seed:
+- scope / depth / length:
+- time-limit:
+- artifact (logs / counterexample):
+
+## Observed Facts (Excerpt from Logs / Trace)
+- Which property was violated:
+- Shortest counterexample trace (summary):
+
+## Hypotheses (Candidate Causes)
+- H1:
+- H2:
+- H3:
+
+## Candidate Fixes
+- Fix 1:
+- Fix 2:
+
+## Re-verification
+- Re-execution command:
+- Result (OK / NG):
+- Lesson learned (prevention for recurrence):
+</code></pre></div></div>
+
+<h2 id="f9-quality-assurance-checklist-for-ai-assisted-work-products-specification--proof--ci">F.9 Quality-Assurance Checklist for AI-Assisted Work Products (Specification / Proof / CI)</h2>
+
+<p>When a change includes AI-generated artifacts, turn those artifacts into verifiable work products from the following perspectives.</p>
+
+<h3 id="specifications-natural-language--alloy--tla">Specifications (natural language / Alloy / TLA+)</h3>
+
+<ul>
+  <li>Term definitions are clear, including synonyms, boundaries, units, and exception conditions</li>
+  <li>Preconditions, such as environmental assumptions, fairness assumptions, and failure models, are stated explicitly</li>
+  <li>Invariants, that is, safety properties, are enumerated, and the meaning of a violation can be explained</li>
+  <li>Liveness, when required, is defined and does not appear to hold only because of excessive assumptions</li>
+  <li>Numerical values, such as percentages, multipliers, and counts, are accompanied by sources or explicitly marked as illustrative examples</li>
+</ul>
+
+<h3 id="proof--model-checking-reproducibility">Proof / Model Checking (Reproducibility)</h3>
+
+<ul>
+  <li>It is clear what was checked, including the property name, range, and scope / depth / length</li>
+  <li>Execution conditions, such as seed, time limit, and exploration bounds, are recorded</li>
+  <li>If a counterexample appears, the reproduction steps and the minimal trace remain available</li>
+  <li>After applying a fix, the result is re-verified and regression checks are also performed on related properties</li>
+</ul>
+
+<h3 id="ci-gate-design">CI (Gate Design)</h3>
+
+<ul>
+  <li>Verification depth is staged across pull requests, nightly runs, and pre-release runs</li>
+  <li>When a failure occurs, logs and counterexamples are saved as artifacts and remain reproducible</li>
+  <li>Conditions for exceptions, such as skipped verification, and the approval flow are defined</li>
+  <li>Tool versions are fixed, and caching and reproducibility are preserved</li>
+</ul>
+
+                </article>
+
+                
+                <nav class="page-navigation" aria-label="Page navigation">
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+
+
+
+
+
+<nav class="book-navigation" aria-label="Page navigation">
+  <div class="chapter-nav">
+    
+      <a href="/formal-methods-book/en/appendices/appendix-e/" class="nav-prev" rel="prev">
+        <span class="arrow" aria-hidden="true">←</span>
+        <span class="label">Previous</span>
+        <span class="title">Appendix E: References and Further Reading Paths</span>
+      </a>
+    
+
+    <a href="/formal-methods-book/en/" class="nav-home">
+      <span class="label">Contents</span>
+    </a>
+
+    
+      <a href="/formal-methods-book/en/afterword/" class="nav-next" rel="next">
+        <span class="label">Next</span>
+        <span class="title">Afterword</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    
+  </div>
+</nav>
+
+<style>
+.book-navigation { margin: 2rem 0; padding: 1rem; border-top: 1px solid var(--border-color, #e5e7eb); }
+.chapter-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.nav-prev, .nav-next, .nav-home { display: flex; align-items: center; padding: 0.75rem 1.25rem; background: var(--bg-primary, #fff); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; text-decoration: none; color: inherit; }
+.nav-disabled { opacity: .5; cursor: not-allowed; background: var(--bg-tertiary, #f9fafb); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; padding: 0.75rem 1.25rem; display: flex; align-items: center; }
+.nav-prev { flex: 1; }
+.nav-next { flex: 1; justify-content: flex-end; text-align: right; }
+.nav-home { flex: 0 0 auto; justify-content: center; }
+.label { font-weight: 600; margin: 0 .25rem; }
+.title { font-size: .9rem; opacity: .8; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 768px) { .chapter-nav { flex-wrap: wrap; } .nav-prev, .nav-next { flex: 1 1 45%; } .nav-home { flex: 1 1 100%; order: -1; } .title { display: none; } }
+</style>
+
+                </nav>
+                
+
+                
+
+                <footer class="book-footer" role="contentinfo">
+                    <div class="book-footer-inner">
+                        <div class="book-footer-license">
+                            Reader-facing text: CC BY-NC-SA 4.0 / Code assets: Apache-2.0 / excluding trademarks and third-party assets
+                        </div>
+                        <div class="book-footer-links">
+                            
+                                <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener">GitHub</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/LICENSE-SCOPE.md" target="_blank" rel="noopener">License</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/COMMERCIAL.md" target="_blank" rel="noopener">Commercial</a>
+                            
+                            
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <label for="sidebar-toggle-checkbox" class="book-sidebar-overlay" id="sidebar-overlay" aria-label="Close sidebar"></label>
+
+    <script async src="/formal-methods-book/assets/js/code-copy-lightweight.js"></script>
+    <script defer src="/formal-methods-book/assets/js/theme.js"></script>
+    <script defer src="/formal-methods-book/assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var cb = document.getElementById('sidebar-toggle-checkbox');
+            var toggle = document.querySelector('.sidebar-toggle');
+            if (cb) cb.checked = false;
+            if (cb && toggle) {
+                var sync = function() {
+                    toggle.setAttribute('aria-expanded', cb.checked ? 'true' : 'false');
+                };
+                sync();
+                cb.addEventListener('change', sync);
+                toggle.addEventListener('keydown', function(e) {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        cb.checked = !cb.checked;
+                        cb.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        (function() {
+            function initTocAutoScroll() {
+                var cb = document.getElementById('sidebar-toggle-checkbox');
+                if (!cb) return;
+
+                function normalizePath(p) {
+                    var path = String(p || '').replace(/index\.html$/, '');
+                    if (path.length > 1) {
+                        path = path.replace(/\/+$/, '');
+                    }
+                    return path || '/';
+                }
+
+                function isMobileDrawer() {
+                    try {
+                        if (typeof window.matchMedia === 'function') {
+                            return window.matchMedia('(max-width: 1024px)').matches;
+                        }
+                    } catch (_) {}
+                    return typeof window.innerWidth === 'number' ? window.innerWidth <= 1024 : true;
+                }
+
+                function findActiveTocLink() {
+                    var current = normalizePath(window.location.pathname);
+                    var actives = document.querySelectorAll('a.toc-link.active');
+                    if (!actives || actives.length === 0) return null;
+
+                    for (var i = 0; i < actives.length; i++) {
+                        var a = actives[i];
+                        if (!a || !a.href) continue;
+                        try {
+                            var pathname = normalizePath(new URL(a.href).pathname);
+                            if (pathname === current) return a;
+                        } catch (_) {}
+                    }
+                    return actives[0];
+                }
+
+                function ensureActiveTocVisible() {
+                    if (!cb.checked) return;
+                    if (!isMobileDrawer()) return;
+
+                    var active = findActiveTocLink();
+                    if (!active) return;
+
+                    var sidebar = active.closest('.book-sidebar') || document.getElementById('sidebar');
+                    if (!sidebar) return;
+
+                    try {
+                        var linkRect = active.getBoundingClientRect();
+                        var sidebarRect = sidebar.getBoundingClientRect();
+                        var marginTop = 8;
+                        var marginBottom = 8;
+                        try {
+                            if (window.getComputedStyle) {
+                                var cs = window.getComputedStyle(sidebar);
+                                if (cs) {
+                                    var pt = parseFloat(cs.paddingTop);
+                                    var pb = parseFloat(cs.paddingBottom);
+                                    if (!isNaN(pt)) marginTop = pt;
+                                    if (!isNaN(pb)) marginBottom = pb;
+                                }
+                            }
+                        } catch (_) {}
+
+                        var top = sidebarRect.top + marginTop;
+                        var bottom = sidebarRect.bottom - marginBottom;
+                        var outOfView = linkRect.top < top || linkRect.bottom > bottom;
+
+                        if (outOfView && typeof active.scrollIntoView === 'function') {
+                            try {
+                                active.scrollIntoView({ block: 'center', behavior: 'auto' });
+                            } catch (e) {
+                                active.scrollIntoView();
+                            }
+                        }
+                    } catch (_) {}
+                }
+
+                function scheduleEnsure() {
+                    setTimeout(ensureActiveTocVisible, 0);
+                    setTimeout(ensureActiveTocVisible, 350);
+                }
+
+                cb.addEventListener('change', function() {
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+
+                if (cb.checked) {
+                    scheduleEnsure();
+                }
+
+                window.addEventListener('pageshow', function(e) {
+                    if (!e || !e.persisted) return;
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initTocAutoScroll);
+            } else {
+                initTocAutoScroll();
+            }
+        })();
+    </script>
+</body>
+</html>

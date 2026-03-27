@@ -1,0 +1,1366 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="仕様記述、模型検査、定理証明の統合的理解 - ソフトウェアの数学的設計入門">
+    <meta name="author" content="太田和彦（株式会社アイティードゥ）">
+
+    <title>第2章：数学とプログラムの橋渡し - 形式的手法の基礎と応用</title>
+
+    <link rel="canonical" href="https://itdojp.github.io/formal-methods-book/chapters/chapter02/">
+    <link rel="alternate" hreflang="ja" href="https://itdojp.github.io/formal-methods-book/chapters/chapter02/">
+    <link rel="alternate" hreflang="en" href="https://itdojp.github.io/formal-methods-book/en/chapters/chapter02/">
+    <link rel="alternate" hreflang="x-default" href="https://itdojp.github.io/formal-methods-book/">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/main.css">
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/syntax-highlighting.css">
+
+    <link rel="icon" type="image/png" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+    <link rel="apple-touch-icon" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+
+    <meta property="og:title" content="第2章：数学とプログラムの橋渡し">
+    <meta property="og:description" content="仕様記述、模型検査、定理証明の統合的理解 - ソフトウェアの数学的設計入門">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://itdojp.github.io/formal-methods-book/chapters/chapter02/">
+    <meta property="og:locale" content="ja_JP">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="第2章：数学とプログラムの橋渡し">
+    <meta name="twitter:description" content="仕様記述、模型検査、定理証明の統合的理解 - ソフトウェアの数学的設計入門">
+
+    <script>
+        (function() {
+            try {
+                const k = 'book-theme';
+                const t = localStorage.getItem(k) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (_) {}
+        })();
+    </script>
+</head>
+<body>
+    
+    
+    
+    
+    
+
+    <input type="checkbox" id="sidebar-toggle-checkbox" class="sidebar-toggle-checkbox" aria-hidden="true">
+
+    <div class="book-layout">
+        <header class="book-header">
+            <div class="header-left">
+                <label for="sidebar-toggle-checkbox" class="sidebar-toggle" aria-label="サイドバーを切り替え" role="button" tabindex="0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </label>
+                <a href="/formal-methods-book/" class="header-title">
+                    <h1>形式的手法の基礎と応用</h1>
+                </a>
+            </div>
+
+            <div class="header-center">
+                <div class="search-container">
+                    <input type="search"
+                           placeholder="検索..."
+                           class="search-input"
+                           id="search-input"
+                           autocomplete="off">
+                    <div class="search-results" id="search-results"></div>
+                </div>
+            </div>
+
+            <div class="header-right">
+                
+
+
+
+
+
+
+
+
+
+
+<a href="/formal-methods-book/en/chapters/chapter02/"
+   class="language-switcher"
+   hreflang="en"
+   lang="en"
+   >
+    English
+</a>
+
+                <button class="theme-toggle" aria-label="テーマを切り替え">
+                    <svg class="theme-icon theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="theme-icon theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+
+                
+                <a href="https://github.com/itdojp/formal-methods-book" class="github-link" target="_blank" rel="noopener" aria-label="GitHub">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
+                
+            </div>
+        </header>
+
+        <aside class="book-sidebar" id="sidebar">
+            <nav class="sidebar-nav" role="navigation" aria-label="メインナビゲーション">
+                
+
+
+
+
+
+
+
+
+
+
+<div class="sidebar-content">
+    <div class="book-info">
+        <h2 class="book-title"><a href="/formal-methods-book/" class="header-title">形式的手法の基礎と応用</a></h2>
+        
+        <p class="book-subtitle">仕様記述、模型検査、定理証明の統合的理解</p>
+        
+    </div>
+
+    <div class="toc">
+        <h3 class="toc-title">目次</h3>
+
+        <div class="toc-section">
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="/formal-methods-book/" class="toc-link ">
+                        ホーム
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">導入</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/introduction/" class="toc-link ">
+                        はじめに
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">本編</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter01/" class="toc-link ">
+                        第1章：なぜ形式的手法が必要なのか
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter02/" class="toc-link active">
+                        第2章：数学とプログラムの橋渡し
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter03/" class="toc-link ">
+                        第3章：仕様記述の基本
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter04/" class="toc-link ">
+                        第4章：軽量形式的手法入門 - Alloyで始める仕様記述
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter05/" class="toc-link ">
+                        第5章：状態ベース仕様記述 - Z記法の基礎
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter06/" class="toc-link ">
+                        第6章：プロセス中心の記述 - CSPによる並行システム
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter07/" class="toc-link ">
+                        第7章：時間を扱う仕様記述 - TLA+入門
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter08/" class="toc-link ">
+                        第8章：模型検査入門
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter09/" class="toc-link ">
+                        第9章：定理証明の基礎
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter10/" class="toc-link ">
+                        第10章：プログラム検証
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter11/" class="toc-link ">
+                        第11章：開発プロセスとの統合
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter12/" class="toc-link ">
+                        第12章：ツールと自動化
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter13/" class="toc-link ">
+                        第13章：事例研究
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">追加</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/glossary/" class="toc-link ">
+                        用語集（Glossary）
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">付録</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-a/" class="toc-link ">
+                        付録A: 数学的基礎の復習
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-b/" class="toc-link ">
+                        付録B: ツールインストールガイド
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-c/" class="toc-link ">
+                        付録C: 記法対照表
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-d/" class="toc-link ">
+                        付録D: 演習問題解答
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-e/" class="toc-link ">
+                        付録E: 参考文献とWebリソース
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-f/" class="toc-link ">
+                        付録F: AI支援の実践ガイド
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">おわりに</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/afterword/" class="toc-link ">
+                        おわりに
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="external-links">
+            
+            <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener" class="external-link">GitHub</a>
+            
+            
+        </div>
+    </div>
+</div>
+
+            </nav>
+        </aside>
+
+        <main class="book-main" id="main">
+            <div class="book-content">
+                
+                    
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb-list">
+    <li class="breadcrumb-item">
+        <a href="/formal-methods-book/" class="breadcrumb-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span class="sr-only">ホーム</span>
+        </a>
+    </li>
+
+    
+        
+    
+        
+            
+            
+            
+                
+                
+                <li class="breadcrumb-item">
+                    <a href="/formal-methods-book/chapters/" class="breadcrumb-link">
+                        
+                            Chapters
+                        
+                    </a>
+                </li>
+            
+        
+    
+        
+            
+            
+            
+                <li class="breadcrumb-item active" aria-current="page">
+                    第2章：数学とプログラムの橋渡し
+                </li>
+            
+        
+    
+</ol>
+
+<style>
+.breadcrumb-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    font-size: 0.875rem;
+    flex-wrap: wrap;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb-item:not(:last-child)::after {
+    content: '/';
+    margin: 0 0.5rem;
+    color: var(--text-muted);
+}
+
+.breadcrumb-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.breadcrumb-link:hover {
+    color: var(--primary-color);
+}
+
+.breadcrumb-item.active {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (max-width: 768px) {
+    .breadcrumb-list {
+        font-size: 0.75rem;
+    }
+
+    .breadcrumb-item:not(:last-child)::after {
+        margin: 0 0.375rem;
+    }
+}
+</style>
+
+                
+
+                <article class="page-content">
+                    <h1 id="第2章数学とプログラムの橋渡し">第2章　数学とプログラムの橋渡し</h1>
+
+<p>ミニ要約：</p>
+<ul>
+  <li>プログラミングに潜む数学構造の明示化</li>
+  <li>仕様記述（第4–7章）への橋渡し</li>
+  <li>図2-2で主要手法の比較観点を把握</li>
+</ul>
+
+<h2 id="21-プログラミングに潜む数学的構造">2.1 プログラミングに潜む数学的構造</h2>
+
+<p>「数学は苦手だけど、プログラミングは好き」という人は多いのではないでしょうか。しかし実は、プログラミングの行為そのものが、既に高度に数学的なのです。あなたが変数を宣言し、関数を定義し、条件分岐やループを書くとき、無意識のうちに数学的な概念を使っています。</p>
+
+<p>この事実に気づくことが、形式的手法への第一歩です。形式的手法は、プログラミングの延長線上にある技術であり、全く新しい世界ではありません。既にあなたが知っている概念を、より明示的に、より厳密に表現する方法なのです。</p>
+
+<p>本章では、プログラミングの基本概念と数学的概念の対応関係を明らかにし、第3章以降で学ぶ形式仕様記述への自然な橋渡しを行います。特に、第4章のAlloyモデリング、第5章のZ記法、第6章のCSP、第7章のTLA+で使用する数学的基盤を、既知のプログラミング概念から導入していきます（図2-1参照）。また、本書で扱う代表的な手法の特性を俯瞰するため、主要な形式的手法の比較マトリクスを示します（図2-2参照）。</p>
+
+<p><img src="/formal-methods-book/assets/images/diagrams/programming-math-correspondence.svg" alt="図2-1: プログラミング概念と数学概念の対応関係" />
+（読み取りポイント：変数・関数・制御↔集合・関数・論理の橋渡し）</p>
+
+<p><img src="/formal-methods-book/assets/images/diagrams/formal-methods-comparison-matrix.svg" alt="図2-2：主要な形式的手法の比較マトリクス" />
+（読み取りポイント：表現の軸［構造・状態・並行・時間］、導入コスト、検証様式の違いを把握）</p>
+
+<p>上図（図2-2）は、本書で扱う代表的な手法（Alloy / Z / CSP / TLA+ 等）の表現力や学習コスト、検証支援の性質を俯瞰的に比較したものです。詳細は各章で扱いますが、どの観点で強みを発揮するかを事前に把握しておくと、以降の学習がスムーズになります。</p>
+
+<h3 id="変数という名前の数学的対象">変数という名前の数学的対象</h3>
+
+<p>プログラミングで最初に学ぶ概念の一つが「変数」です。しかし、なぜ「変数」と呼ばれているのでしょうか。数学の方程式 <code class="language-plaintext highlighter-rouge">y = 2x + 1</code> の <code class="language-plaintext highlighter-rouge">x</code> や <code class="language-plaintext highlighter-rouge">y</code> と、プログラムの <code class="language-plaintext highlighter-rouge">int count = 0</code> の <code class="language-plaintext highlighter-rouge">count</code> には、どのような関係があるのでしょうか。</p>
+
+<p>実は、両者は同じ数学的概念の異なる表現です。数学の変数が「値の範囲」を表すように、プログラムの変数も「取りうる値の集合」を持っています。<code class="language-plaintext highlighter-rouge">int</code> 型の変数は整数の集合から値を選び、<code class="language-plaintext highlighter-rouge">boolean</code> 型の変数は真偽値の2要素集合 <code class="language-plaintext highlighter-rouge">{true, false}</code> から値を選びます。</p>
+
+<p>より深く考えると、プログラムの実行は「変数に値を割り当てる過程」として理解できます。これは数学的には「関数の定義」に相当します。時刻 <code class="language-plaintext highlighter-rouge">t</code> における変数 <code class="language-plaintext highlighter-rouge">x</code> の値を <code class="language-plaintext highlighter-rouge">x(t)</code> と表現すれば、プログラムの実行は時間の関数として記述できるのです。</p>
+
+<p>この視点は、第7章で学ぶTLA+（Temporal Logic of Actions）の基礎となります。TLA+では、システムの状態を変数の値の組として表現し、状態変化を時間軸上の関数として記述します。また、第10章のプログラム検証では、この「変数の値の変化」を数学的に追跡して、プログラムの正しさを証明する技法を学びます。</p>
+
+<h3 id="関数入力と出力の関係の抽象化">関数：入力と出力の関係の抽象化</h3>
+
+<p>プログラミングにおける関数は、数学の関数と本質的に同じものです。入力（引数）を受け取り、何らかの処理を行って、出力（戻り値）を返します。数学の関数 <code class="language-plaintext highlighter-rouge">f(x) = x²</code> と、プログラムの関数 <code class="language-plaintext highlighter-rouge">square(x) { return x * x; }</code> は、表記法は違いますが、同じ概念を表現しています。</p>
+
+<p>しかし、プログラミングの関数には、数学の関数にはない側面があります。「副作用」です。ファイルを読み書きしたり、画面に出力を表示したり、他の変数の値を変更したりすることがあります。この副作用も、実は数学的に記述できます。関数を「システムの状態を変換する操作」として捉えれば、副作用も含めて数学的に表現できるのです。</p>
+
+<p>この状態変換の概念は、第5章のZ記法で中心的な役割を果たします。Z記法では、操作を「事前状態」から「事後状態」への変換として厳密に記述します。また、第10章のプログラム検証では、Hoare論理を用いて、副作用を持つプログラムの正しさを事前条件と事後条件で表現する手法を学びます。</p>
+
+<h3 id="制御構造論理の具現化">制御構造：論理の具現化</h3>
+
+<p>条件分岐（if-then-else）やループ（for、while）も、論理学の概念の具現化です。条件分岐は論理の「含意」に対応し、ループは「再帰的定義」や「帰納法」に対応します。</p>
+
+<p>例えば、以下のような単純な条件分岐を考えてみましょう：</p>
+
+<p>【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if (age &gt;= 18) {
+    status = "adult";
+} else {
+    status = "minor";
+}
+</code></pre></div></div>
+
+<p>これは、論理学的には以下のように表現できます：
+「年齢が18以上ならば成人、そうでなければ未成年」</p>
+
+<p>この文を数学的に記述すると：
+<code class="language-plaintext highlighter-rouge">status = (age ≥ 18) ? "adult" : "minor"</code></p>
+
+<p>ループはより複雑ですが、同様に数学的に記述できます。for ループは数列の定義に、while ループは条件を満たす最小値の探索に対応します。</p>
+
+<h3 id="データ構造集合と関係の実現">データ構造：集合と関係の実現</h3>
+
+<p>配列、リスト、辞書（ハッシュマップ）などのデータ構造も、数学的概念の実装です。配列は「順序付けられた集合」、辞書は「関数」（キーから値への写像）、グラフは「関係」の表現です。</p>
+
+<p>配列 <code class="language-plaintext highlighter-rouge">[1, 3, 5, 7, 9]</code> は、数学的には添字の集合 <code class="language-plaintext highlighter-rouge">{0, 1, 2, 3, 4}</code> から値の集合 <code class="language-plaintext highlighter-rouge">{1, 3, 5, 7, 9}</code> への関数として理解できます。つまり、<code class="language-plaintext highlighter-rouge">f(0) = 1, f(1) = 3, f(2) = 5, ...</code> という関数の表現なのです。</p>
+
+<p>連想配列（辞書）はさらに明確です。<code class="language-plaintext highlighter-rouge">{"name": "Alice", "age": 30}</code> というデータ構造は、文字列の集合 <code class="language-plaintext highlighter-rouge">{"name", "age"}</code> から値の集合への関数です。</p>
+
+<p>このような集合と関数の概念は、第4章のAlloyモデリングで中心的な役割を果たします。Alloyでは、すべてのデータを集合と関係（リレーション）として表現し、システムの構造と振る舞いを記述します。第5章のZ記法でも、状態を変数名から値への関数として表現し、データ構造を集合演算で操作します。</p>
+
+<h3 id="型システム集合論の実践的応用">型システム：集合論の実践的応用</h3>
+
+<p>プログラミング言語の型システムは、集合論の実践的な応用です。型は「値の集合」を定義し、型チェックは「集合の包含関係」を確認します。</p>
+
+<p>例えば、整数型 <code class="language-plaintext highlighter-rouge">int</code> は整数の集合を表し、文字列型 <code class="language-plaintext highlighter-rouge">string</code> は文字列の集合を表します。型安全性とは、「関数が期待する型の値のみが渡されることを保証する」ことであり、これは数学的には「関数の定義域を明確にする」ことに相当します。</p>
+
+<p>より高度な型システム（ジェネリクス、代数的データ型、依存型など）は、さらに複雑な数学的構造を扱います。これらは、プログラミングが数学にどれだけ近づけるかを示しています。</p>
+
+<h3 id="エラー処理例外的状況の数学的表現">エラー処理：例外的状況の数学的表現</h3>
+
+<p>プログラムにおけるエラー処理や例外処理も、数学的に表現できます。関数の戻り値を「正常な値または例外」という和型（union type）として捉えれば、エラーも含めて数学的に記述できます。</p>
+
+<p>関数 <code class="language-plaintext highlighter-rouge">divide(a, b)</code> を考えてみましょう。この関数は、<code class="language-plaintext highlighter-rouge">b = 0</code> のときは定義されません。数学的には、この関数の定義域は「<code class="language-plaintext highlighter-rouge">b ≠ 0</code> を満たす実数の組 <code class="language-plaintext highlighter-rouge">(a, b)</code>」です。プログラムでのゼロ除算エラーは、この定義域外での関数呼び出しに相当します。</p>
+
+<h2 id="22-正しさを数学的に表現する">2.2 「正しさ」を数学的に表現する</h2>
+
+<h3 id="直感的正しさから形式的正しさへ">直感的正しさから形式的正しさへ</h3>
+
+<p>プログラマーは常に「正しい」プログラムを書こうとします。しかし、「正しい」とは何でしょうか。コンパイルが通ること？期待通りに動作すること？バグがないこと？これらの直感的な理解から、数学的に厳密な「正しさ」の概念を構築してみましょう。</p>
+
+<p>プログラムの正しさは、本質的には「仕様と実装の一致」です。仕様は「プログラムが何をすべきか」を定義し、実装は「プログラムが実際に何をするか」を定義します。正しさとは、これら二つの間の対応関係なのです。</p>
+
+<h3 id="仕様という約束">仕様という約束</h3>
+
+<p>仕様を理解するために、日常生活のアナロジーを使ってみましょう。料理のレシピを考えてください。レシピは「材料と手順」を指定し、「期待される結果」を記述します。「玉ねぎを炒めて飴色になるまで」「強火で3分間」といった指示は、実は非常に厳密な仕様です。</p>
+
+<p>プログラムの仕様も同様です。「ユーザー名とパスワードを入力として受け取り、認証が成功すればtrueを、失敗すればfalseを返す」といった記述は、関数の入力、出力、振る舞いを定義する仕様です。</p>
+
+<p>しかし、料理のレシピと同じように、自然言語による仕様には曖昧性があります。「飴色になるまで」とは、具体的に何分でしょうか？どの程度の色でしょうか？「認証が成功する」とは、どのような条件を満たすことでしょうか？</p>
+
+<h3 id="数学的仕様の力">数学的仕様の力</h3>
+
+<p>数学的仕様は、この曖昧性を排除します。認証関数の仕様を数学的に表現すると：</p>
+
+<p>【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>authenticate: String × String → Boolean
+事前条件: username と password は空でない文字列
+事後条件: 
+  - (username, password) が有効な組み合わせの場合、結果は true
+  - そうでない場合、結果は false
+  - データベースの内容は変更されない
+</code></pre></div></div>
+
+<p>この記述は、自然言語の記述よりもはるかに明確です。関数の型（入力と出力の種類）、事前条件（関数が正しく動作するために必要な条件）、事後条件（関数が保証する結果）が明示されています。</p>
+
+<h3 id="実装との対応関係">実装との対応関係</h3>
+
+<p>実装は、この仕様を満たすようにコードを書くことです。しかし、「満たす」とは何でしょうか？これが、形式的手法における「適合性」の概念です。</p>
+
+<p>実装が仕様に適合するとは、数学的には以下を意味します：</p>
+<ol>
+  <li>事前条件を満たすすべての入力に対して、実装は停止する</li>
+  <li>実装の出力は、事後条件を満たす</li>
+  <li>実装は、仕様で許可されていない副作用を引き起こさない</li>
+</ol>
+
+<p>この定義は抽象的に見えますが、実は非常に具体的で検証可能です。</p>
+
+<h3 id="部分正しさと全正しさ">部分正しさと全正しさ</h3>
+
+<p>プログラムの正しさには、二つの側面があります。「部分正しさ」と「全正しさ」です。</p>
+
+<p>部分正しさは、「プログラムが停止した場合、その結果は正しい」ことを意味します。しかし、プログラムが無限ループに陥ったり、クラッシュしたりする可能性は排除しません。</p>
+
+<p>全正しさは、「プログラムは必ず停止し、その結果は正しい」ことを意味します。これは、部分正しさに「停止性」を加えた概念です。</p>
+
+<p>例えば、以下のような関数を考えてみましょう：</p>
+
+<p>【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>function factorial(n) {
+    if (n &lt;= 1) return 1;
+    return n * factorial(n - 1);
+}
+</code></pre></div></div>
+
+<p>この関数の部分正しさは、「n が自然数の場合、結果は n! である」ことです。しかし、全正しさを保証するには、「n が自然数の場合、この関数は必ず停止する」ことも証明する必要があります。</p>
+
+<h3 id="不変条件システムの約束">不変条件：システムの約束</h3>
+
+<p>プログラムの正しさを考える上で重要な概念が「不変条件」です。これは、プログラムの実行中に常に成り立つべき性質です。</p>
+
+<p>例えば、銀行口座のシステムでは、「すべての口座の残高の合計は、預金総額と引き出し総額の差に等しい」という不変条件があります。どのような操作を行っても、この性質は保たれなければなりません。</p>
+
+<p>不変条件は、システムの「一貫性」を保証する概念です。データベースの整合性制約、オブジェクト指向プログラミングのクラス不変条件、並行プログラムの同期条件などは、すべて不変条件の例です。</p>
+
+<h3 id="仕様の階層性">仕様の階層性</h3>
+
+<p>実際のシステムでは、仕様は階層的に構成されています。システム全体の仕様、モジュールの仕様、関数の仕様が、それぞれ異なるレベルで定義されます。</p>
+
+<p>この階層性は、複雑性の管理に不可欠です。各レベルで適切な抽象化を行うことで、人間が理解可能な形でシステム全体の正しさを保証できます。</p>
+
+<p>形式的手法は、この階層的な仕様を厳密に記述し、各レベルでの正しさを数学的に証明する技術を提供します。</p>
+
+<h3 id="チェックポイント理解確認">チェックポイント（理解確認）</h3>
+
+<p>本節は章内の理解確認のための短いチェックポイントです（章末課題とは別）。解答の骨子・採点観点は<a href="/formal-methods-book/appendices/appendix-d/">付録D</a>を参照。</p>
+
+<ol>
+  <li>比較マトリクス（図2-2）を参照し、あなたのプロジェクト要件に対して適切な手法を2つ選び、理由を100字程度で述べよ（表現力・導入コスト・検証様式の観点）。</li>
+  <li>「関係（リレーション）」を用いてユーザーと権限のモデルを定義し、Alloyで検証したい整合制約を2つ日本語で列挙せよ（例: 最小権限、相互排他的権限）。</li>
+</ol>
+
+<p>＜解答の方向性（骨子）＞</p>
+<ul>
+  <li>問1: 比較軸の3観点から2手法を選定（例: 初期導入にAlloy、分散特性でTLA+）。選定理由は抽象度・探索性・証明性のどれを重視かを明示。</li>
+  <li>問2: 関係の性質として部分関係/全域性/多重度/閉包などを言語化。Alloyでは事前条件・不変条件としてfacts/assertsへ写像。</li>
+</ul>
+
+<p>＜採点観点＞</p>
+<ul>
+  <li>比較軸の網羅（表現/コスト/検証）と選定理由の一貫性</li>
+  <li>関係の性質の正確さ（多重度/全域性など）とAlloyへの適切な写像</li>
+</ul>
+
+<h2 id="23-集合論プログラムの世界を記述する言語">2.3 集合論：プログラムの世界を記述する言語</h2>
+
+<h3 id="データの本質要素の集まり">データの本質：要素の集まり</h3>
+
+<p>プログラムで扱うデータは、本質的には「要素の集まり」です。整数、文字列、オブジェクト、これらはすべて何らかの集合の要素です。集合論は、この「集まり」を厳密に扱うための数学的な枠組みを提供します。</p>
+
+<p>集合論の基本概念は直感的です。集合は「物の集まり」であり、要素は「集合に属する物」です。プログラミングでは、型が集合に対応し、値が要素に対応します。<code class="language-plaintext highlighter-rouge">int</code> 型は整数の集合、<code class="language-plaintext highlighter-rouge">boolean</code> 型は <code class="language-plaintext highlighter-rouge">{true, false}</code> という2要素集合です。</p>
+
+<h3 id="集合演算データ操作の数学的記述">集合演算：データ操作の数学的記述</h3>
+
+<p>プログラムでのデータ操作は、集合演算として理解できます。和集合（∪）、積集合（∩）、差集合（\）、これらの演算は、プログラムでの一般的な操作に対応します。</p>
+
+<p>例えば、二つのユーザーグループがあるとき：</p>
+<ul>
+  <li>管理者グループ：<code class="language-plaintext highlighter-rouge">{Alice, Bob, Charlie}</code></li>
+  <li>開発者グループ：<code class="language-plaintext highlighter-rouge">{Bob, David, Eve}</code></li>
+</ul>
+
+<p>和集合は「どちらかのグループに属するユーザー」：<code class="language-plaintext highlighter-rouge">{Alice, Bob, Charlie, David, Eve}</code>
+積集合は「両方のグループに属するユーザー」：<code class="language-plaintext highlighter-rouge">{Bob}</code>
+差集合は「管理者だけで開発者でないユーザー」：<code class="language-plaintext highlighter-rouge">{Alice, Charlie}</code></p>
+
+<p>これらの操作は、プログラムでのリスト結合、フィルタリング、検索などの操作の数学的記述です。</p>
+
+<h3 id="関係要素間のつながり">関係：要素間のつながり</h3>
+
+<p>集合論のもう一つの重要な概念が「関係」です。関係は、異なる集合の要素間の対応を表現します。プログラムでの多くの構造は、関係として理解できます。</p>
+
+<p>データベースのテーブルは関係の典型例です。「学生」と「科目」の間の「履修関係」は、数学的には学生の集合と科目の集合の直積の部分集合として表現できます。</p>
+
+<p>【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>学生 = {Alice, Bob, Charlie}
+科目 = {数学, 物理, 化学}
+履修関係 = {(Alice, 数学), (Alice, 物理), (Bob, 数学), (Charlie, 化学)}
+</code></pre></div></div>
+
+<h3 id="関数特別な関係">関数：特別な関係</h3>
+
+<p>関数は、特別な性質を持つ関係です。各入力に対して、出力がただ一つ決まる関係が関数です。プログラムの関数は、この数学的な関数の実装です。</p>
+
+<p>関数の重要な性質として、「定義域」と「値域」があります。定義域は関数が定義される入力の集合、値域は可能な出力の集合です。プログラムでの型エラーは、多くの場合、定義域外の値を関数に渡すことで発生します。</p>
+
+<p>例えば、平方根関数 <code class="language-plaintext highlighter-rouge">sqrt</code> の定義域は非負実数の集合です。負の数を渡すとエラーになるのは、その値が定義域に含まれていないからです。</p>
+
+<h3 id="順序関係比較と並び替え">順序関係：比較と並び替え</h3>
+
+<p>プログラムでよく使われる操作の一つが「比較」です。数値の大小比較、文字列の辞書順比較、日付の前後関係など、これらはすべて「順序関係」の例です。</p>
+
+<p>順序関係は、集合の要素間の「順序」を定義する関係です。数学的には、反射的（a ≤ a）、反対称的（a ≤ b かつ b ≤ a ならば a = b）、推移的（a ≤ b かつ b ≤ c ならば a ≤ c）という性質を持つ関係として定義されます。</p>
+
+<p>プログラムでのソートアルゴリズムは、この順序関係を利用してデータを並び替えます。ソートの正しさを証明するには、使用している関係が実際に順序関係の性質を満たすことを確認する必要があります。</p>
+
+<h3 id="カルテシアン積複合データの構造">カルテシアン積：複合データの構造</h3>
+
+<p>複合データ型（構造体、タプル、レコード）は、数学的にはカルテシアン積（直積）として表現できます。二つの集合 A と B のカルテシアン積 A × B は、(a, b) の形の順序対の集合です。</p>
+
+<p>例えば、座標を表すデータ型：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Point = {(x, y) | x ∈ Real, y ∈ Real}
+</code></pre></div></div>
+<p>これは、実数の集合の直積 Real × Real です。</p>
+
+<p>より複雑な例として、ユーザー情報：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>User = Name × Age × Email
+Name = String
+Age = Natural
+Email = String
+</code></pre></div></div>
+
+<p>このように、複合データ型は基本型の直積として数学的に記述できます。</p>
+
+<h3 id="冪集合選択肢の集合">冪集合：選択肢の集合</h3>
+
+<p>集合 A の冪集合 P(A) は、A のすべての部分集合の集合です。これは、プログラムでの「選択肢の集合」に対応します。</p>
+
+<p>例えば、権限システムで、基本権限の集合が <code class="language-plaintext highlighter-rouge">{read, write, execute}</code> の場合、可能な権限の組み合わせは冪集合の要素です：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>P({read, write, execute}) = {
+  {}, {read}, {write}, {execute},
+  {read, write}, {read, execute}, {write, execute},
+  {read, write, execute}
+}
+</code></pre></div></div>
+
+<p>プログラムでのビット演算、フラグの組み合わせ、設定項目の選択などは、冪集合の操作として理解できます。</p>
+
+<h2 id="24-論理プログラムの性質を語る言語">2.4 論理：プログラムの性質を語る言語</h2>
+
+<h3 id="命題真偽を持つ文">命題：真偽を持つ文</h3>
+
+<p>プログラムの世界では、常に何かを判断しています。「ユーザーは認証されているか」「配列の範囲内にあるか」「ファイルは存在するか」。これらの判断は、論理学では「命題」として扱われます。</p>
+
+<p>命題は、真または偽の値を持つ文です。プログラムでの boolean 型の変数や、条件式の結果は、命題の具体的な表現です。命題論理は、これらの命題を組み合わせて、より複雑な条件を表現する方法を提供します。</p>
+
+<h3 id="論理演算子条件の組み合わせ">論理演算子：条件の組み合わせ</h3>
+
+<p>プログラムの条件式で使う AND (<code class="language-plaintext highlighter-rouge">&amp;&amp;</code>)、OR (<code class="language-plaintext highlighter-rouge">||</code>)、NOT (<code class="language-plaintext highlighter-rouge">!</code>) は、論理学の論理演算子そのものです。これらの演算子には、数学的に厳密な定義があります。</p>
+
+<p>論理積（AND）: <code class="language-plaintext highlighter-rouge">P ∧ Q</code> は、P と Q が両方とも真のときのみ真
+論理和（OR）: <code class="language-plaintext highlighter-rouge">P ∨ Q</code> は、P または Q の少なくとも一方が真のとき真
+否定（NOT）: <code class="language-plaintext highlighter-rouge">¬P</code> は、P が偽のとき真、P が真のとき偽</p>
+
+<p>これらの演算子は、真理表によって完全に定義されます。プログラムでの複雑な条件式も、これらの基本演算子の組み合わせで表現できます。</p>
+
+<h3 id="含意条件の関係">含意：条件の関係</h3>
+
+<p>プログラムロジックで重要な概念の一つが「含意」です。「A ならば B」という関係は、論理学では「A → B」と表記されます。これは、A が真のとき B も真であることを意味します。</p>
+
+<p>プログラムでの条件分岐は、含意の具体的な実装です：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if (user.isAuthenticated()) {
+    // ユーザーが認証されているならば、秘密情報にアクセス可能
+    return secretData;
+}
+</code></pre></div></div>
+
+<p>この条件分岐は、「ユーザーが認証されている → 秘密情報にアクセス可能」という含意を実装しています。</p>
+
+<h3 id="述語論理より表現力豊かな論理">述語論理：より表現力豊かな論理</h3>
+
+<p>命題論理だけでは表現できない概念があります。「すべてのユーザーは有効なメールアドレスを持つ」「少なくとも一人の管理者が存在する」といった文は、量詞を使った述語論理で表現する必要があります。</p>
+
+<p>全称量詞（∀）: 「すべての」を表す
+存在量詞（∃）: 「少なくとも一つの」を表す</p>
+
+<p>例：</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">∀x ∈ Users. hasValidEmail(x)</code> : すべてのユーザーは有効なメールアドレスを持つ</li>
+  <li><code class="language-plaintext highlighter-rouge">∃x ∈ Users. isAdmin(x)</code> : 少なくとも一人の管理者が存在する</li>
+</ul>
+
+<p>この述語論理は、第3章の仕様記述技法で詳しく学び、第4章のAlloyや第5章のZ記法で実際に使用します。第8章の模型検査では、これらの論理式を自動的に検証する技術を扱い、第9章の定理証明では、論理的推論によってより複雑な性質を証明する手法を学びます。</p>
+
+<h3 id="論理と制御構造">論理と制御構造</h3>
+
+<p>プログラムの制御構造は、論理的な構造に対応しています。</p>
+
+<p>条件分岐は含意に対応：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if (condition) { action() }
+≡ condition → action()
+</code></pre></div></div>
+
+<p>ループは量詞に対応：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for (item in collection) { process(item) }
+≡ ∀item ∈ collection. process(item)
+</code></pre></div></div>
+
+<p>例外処理は排他的論理和に対応：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>try { normalAction() } catch { errorAction() }
+≡ (normalAction() ∧ ¬error) ∨ (errorAction() ∧ error)
+</code></pre></div></div>
+
+<h3 id="論理的推論プログラムの証明">論理的推論：プログラムの証明</h3>
+
+<p>論理学の推論規則は、プログラムの正しさを証明するための基礎となります。代表的な推論規則には以下があります：</p>
+
+<p>モダス・ポネンス（前件肯定）:
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>P → Q, P
+---------
+     Q
+</code></pre></div></div>
+
+<p>三段論法：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>P → Q, Q → R
+-------------
+    P → R
+</code></pre></div></div>
+
+<p>これらの推論規則を使って、プログラムの性質を段階的に証明できます。</p>
+
+<h3 id="論理的等価性条件式の最適化">論理的等価性：条件式の最適化</h3>
+
+<p>論理学の等価性は、プログラムの条件式を最適化するために使われます。ド・モルガンの法則、分配法則、結合法則などは、条件式を読みやすく、効率的に書き換えるための基礎となります。</p>
+
+<p>ド・モルガンの法則：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>¬(P ∧ Q) ≡ (¬P ∨ ¬Q)
+¬(P ∨ Q) ≡ (¬P ∧ ¬Q)
+</code></pre></div></div>
+
+<p>プログラムでは：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>!(a &amp;&amp; b) ≡ (!a || !b)
+!(a || b) ≡ (!a &amp;&amp; !b)
+</code></pre></div></div>
+
+<h2 id="25-状態と変化動的システムの数学的モデル化">2.5 状態と変化：動的システムの数学的モデル化</h2>
+
+<h3 id="状態という概念の深層">状態という概念の深層</h3>
+
+<p>プログラムの実行は、本質的には「状態の変化の連続」です。この「状態」という概念を数学的に厳密に定義することが、動的システムを理解する鍵となります。</p>
+
+<p>状態とは、ある時点でのシステムのすべての情報の完全な記述です。プログラムでは、すべての変数の値、メモリの内容、ファイルシステムの状態、ネットワーク接続の状況など、システムの振る舞いに影響するすべての情報が状態に含まれます。</p>
+
+<p>数学的には、状態は「状態空間」という集合の要素として表現されます。状態空間 S は、システムが取りうるすべての可能な状態の集合です。</p>
+
+<h3 id="状態遷移変化の数学的記述">状態遷移：変化の数学的記述</h3>
+
+<p>プログラムの実行による状態の変化は、「状態遷移」として表現されます。状態遷移は、数学的には状態空間上の関数として定義できます。</p>
+
+<p>遷移関数 δ: S × I → S は、現在の状態 s ∈ S と入力 i ∈ I を受け取り、新しい状態 s’ ∈ S を返します。ここで、I は可能な入力の集合です。</p>
+
+<p><img src="/formal-methods-book/assets/images/diagrams/state-transition-model.svg" alt="図2-3: 状態遷移モデル（銀行口座システムの例）" />
+（読み取りポイント：状態・遷移・不変を分離し、仕様の土台に）</p>
+
+<p>例えば、単純なカウンターを考えてみましょう：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>状態空間 S = Integer（カウンターの値）
+入力集合 I = {increment, decrement, reset}
+遷移関数：
+  δ(n, increment) = n + 1
+  δ(n, decrement) = n - 1
+  δ(n, reset) = 0
+</code></pre></div></div>
+
+<h3 id="状態の抽象化複雑性の管理">状態の抽象化：複雑性の管理</h3>
+
+<p>実際のプログラムの状態空間は膨大です。現代的なコンピュータでは、64ビットのメインメモリだけで 2^64 通りの状態が可能です。この膨大な状態空間を人間が直接扱うことは不可能です。</p>
+
+<p>そこで重要になるのが「抽象化」です。システムの本質的な性質に影響する状態の要素のみを取り出し、詳細を省略することで、管理可能なサイズの状態空間を作ります。</p>
+
+<p>例えば、Webアプリケーションのユーザーセッションを考える場合：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>具体的状態：メモリ内のすべてのバイト値、TCPコネクションの詳細など
+抽象状態：{logged_out, logged_in, admin_session}
+</code></pre></div></div>
+
+<p>この抽象化により、数十億通りの具体的状態を3つの抽象状態で表現できます。</p>
+
+<h3 id="不変条件状態の制約">不変条件：状態の制約</h3>
+
+<p>すべての状態が有効というわけではありません。システムには、常に満たされるべき性質があります。これが「不変条件」です。</p>
+
+<p>不変条件は、状態空間の部分集合として表現できます。有効な状態の集合を Valid ⊆ S とすると、不変条件は「常に s ∈ Valid である」という性質です。</p>
+
+<p>銀行システムの例：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>状態：各口座の残高の組 (balance1, balance2, ..., balanceN)
+不変条件：∀i. balancei ≥ 0（すべての口座の残高は非負）
+</code></pre></div></div>
+
+<h3 id="状態遷移の性質">状態遷移の性質</h3>
+
+<p>状態遷移には、重要な性質があります：</p>
+
+<p><strong>決定性</strong>: 同じ状態で同じ入力を与えれば、常に同じ次の状態になる
+<strong>全関数性</strong>: すべての状態と入力の組み合わせに対して、次の状態が定義されている
+<strong>部分関数性</strong>: 一部の状態と入力の組み合わせでは、次の状態が定義されない（エラー状態）</p>
+
+<p>プログラムの例外処理やエラーハンドリングは、部分関数性を扱うためのメカニズムです。</p>
+
+<h3 id="並行システムの状態モデル">並行システムの状態モデル</h3>
+
+<p>単一プロセスのシステムでは状態遷移は順次的ですが、並行システムでは複数の遷移が同時に発生する可能性があります。これにより、状態モデルは格段に複雑になります。</p>
+
+<p>並行システムの状態は、各プロセスの状態の組み合わせとして表現されます：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>S = S1 × S2 × ... × SN
+</code></pre></div></div>
+
+<p>しかし、すべての組み合わせが有効というわけではありません。プロセス間の同期や相互排斥により、実際に到達可能な状態は制限されます。</p>
+
+<h3 id="インターリービング並行実行の数学的記述">インターリービング：並行実行の数学的記述</h3>
+
+<p>並行システムの実行は、「インターリービング」として理解できます。これは、各プロセスの操作を時間軸上で組み合わせることです。</p>
+
+<p>二つのプロセス P1 と P2 があり、それぞれ操作列 [a, b] と [x, y] を実行する場合、可能なインターリービングは：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[a, b, x, y]
+[a, x, b, y]
+[a, x, y, b]
+[x, a, b, y]
+[x, a, y, b]
+[x, y, a, b]
+</code></pre></div></div>
+
+<p>この組み合わせ爆発が、並行システムの複雑性の根源です。第6章で学ぶCSP（Communicating Sequential Processes）では、このような並行実行を数学的に記述し、プロセス間の通信と同期を厳密に扱う技法を学びます。第7章のTLA+では、より複雑な分散システムの並行性を時相論理で表現する方法を扱います。</p>
+
+<h3 id="状態空間の探索">状態空間の探索</h3>
+
+<p>形式的手法における検証の多くは、状態空間の探索に基づいています。システムの初期状態から始めて、可能なすべての状態遷移を辿り、到達可能なすべての状態を調べます。</p>
+
+<p>この探索により、以下のような性質を確認できます：</p>
+<ul>
+  <li>不変条件違反の検出</li>
+  <li>デッドロック状態の発見</li>
+  <li>特定の目標状態への到達可能性</li>
+  <li>悪い状態への到達不可能性</li>
+</ul>
+
+<h3 id="時間の扱い離散と連続">時間の扱い：離散と連続</h3>
+
+<p>プログラムシステムの時間モデルには、離散時間と連続時間があります。</p>
+
+<p>離散時間モデルでは、時間は自然数の列 {0, 1, 2, …} で表現され、各時点での状態が定義されます。多くのソフトウェアシステムは、この離散時間モデルで十分に表現できます。</p>
+
+<p>連続時間モデルでは、実数の時間軸上でシステムの状態が変化します。リアルタイムシステムや物理シミュレーションでは、連続時間モデルが必要になることがあります。</p>
+
+<hr />
+
+<h2 id="章末課題">章末課題</h2>
+
+<h3 id="理解確認演習1データ構造の集合論的表現">理解確認演習1：データ構造の集合論的表現</h3>
+
+<p>以下のプログラムのデータ構造を集合論的に表現してください：</p>
+
+<p>【ツール準拠（そのまま動く）】</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Student</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">,</span> <span class="n">courses</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>        <span class="c1"># 文字列
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>          <span class="c1"># 整数
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">courses</span> <span class="o">=</span> <span class="n">courses</span>  <span class="c1"># 文字列のリスト
+</span>
+<span class="n">students</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">Student</span><span class="p">(</span><span class="s">"Alice"</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="p">[</span><span class="s">"Math"</span><span class="p">,</span> <span class="s">"Physics"</span><span class="p">]),</span>
+    <span class="n">Student</span><span class="p">(</span><span class="s">"Bob"</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="p">[</span><span class="s">"Chemistry"</span><span class="p">,</span> <span class="s">"Biology"</span><span class="p">]),</span>
+<span class="p">]</span>
+</code></pre></div></div>
+
+<ol>
+  <li>Student クラスの型を直積として表現</li>
+  <li>courses フィールドの型を冪集合として表現</li>
+  <li>students リストの型を集合として表現</li>
+  <li>特定の学生が特定の科目を履修しているかを判定する関係を定義</li>
+</ol>
+
+<h3 id="理解確認演習2論理と制御構造">理解確認演習2：論理と制御構造</h3>
+
+<p>以下の自然言語の条件を論理式で表現し、さらにプログラムの条件式として実装してください：</p>
+
+<ol>
+  <li>「18歳以上かつ有効な免許証を持つ場合のみ、運転できる」</li>
+  <li>「管理者であるか、またはファイルの所有者である場合、ファイルを削除できる」</li>
+  <li>「すべてのユーザーが有効なメールアドレスを持つ」</li>
+  <li>「少なくとも一つの商品が在庫切れでない」</li>
+</ol>
+
+<h3 id="実践演習状態モデリング">実践演習：状態モデリング</h3>
+
+<p>単純な自動販売機を状態遷移システムとしてモデル化してください：</p>
+
+<p>機能：</p>
+<ul>
+  <li>硬貨投入（100円、500円）</li>
+  <li>商品選択（コーラ150円、お茶100円）</li>
+  <li>キャンセル（投入金額を返却）</li>
+  <li>お釣り計算</li>
+</ul>
+
+<p>要求：</p>
+<ol>
+  <li>状態空間を定義</li>
+  <li>入力集合を定義</li>
+  <li>状態遷移関数を定義</li>
+  <li>不変条件を少なくとも3つ特定</li>
+  <li>正常な購入シナリオの状態遷移列を示す</li>
+</ol>
+
+<h3 id="発展演習並行性の分析">発展演習：並行性の分析</h3>
+
+<p>以下のような銀行振込システムを考えてください：</p>
+
+<p>【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Account A: balance = 1000
+Account B: balance = 500
+
+Transaction 1: A → B (300円)
+Transaction 2: B → A (200円)
+</code></pre></div></div>
+
+<p>両方の取引が同時に実行される場合：</p>
+
+<ol>
+  <li>各取引の状態遷移を定義</li>
+  <li>可能なインターリービングをすべて列挙</li>
+  <li>それぞれの実行結果を計算</li>
+  <li>不整合が発生する可能性を分析</li>
+  <li>不整合を防ぐための制約を提案</li>
+</ol>
+
+<h3 id="統合演習形式的手法への準備">統合演習：形式的手法への準備</h3>
+
+<p>以下の演習は、第3章以降で学ぶ形式的手法の基礎を準備するものです：</p>
+
+<h4 id="演習1alloyモデリングの準備">演習1：Alloyモデリングの準備</h4>
+<p>Webアプリケーションのユーザー管理システムを以下の観点で分析してください：</p>
+
+<ol>
+  <li><strong>エンティティの特定</strong>：User, Role, Permission等の基本要素を集合として定義</li>
+  <li><strong>関係の記述</strong>：「ユーザーが役割を持つ」「役割が権限を持つ」関係を数学的に表現</li>
+  <li><strong>制約の形式化</strong>：「管理者は少なくとも一人必要」等のビジネスルールを述語論理で記述</li>
+  <li><strong>不変条件の特定</strong>：システムが常に満たすべき性質を論理式で表現</li>
+</ol>
+
+<p><strong>目標</strong>：第4章のAlloyモデリング実習への準備</p>
+
+<h4 id="演習2z記法の基礎準備">演習2：Z記法の基礎準備</h4>
+<p>銀行口座システムの基本操作を状態変換として分析してください：</p>
+
+<ol>
+  <li><strong>状態スキーマ</strong>：口座の状態（残高、口座番号等）を変数の集合として定義</li>
+  <li><strong>操作スキーマ</strong>：預金、引き出し、振込操作を事前条件と事後条件で記述</li>
+  <li><strong>エラー処理</strong>：残高不足等の例外的状況の取り扱いを形式化</li>
+  <li><strong>操作の合成</strong>：複数の操作を組み合わせた複合操作の記述</li>
+</ol>
+
+<p><strong>目標</strong>：第5章のZ記法実践への準備</p>
+
+<h4 id="演習3csp並行性の基礎">演習3：CSP並行性の基礎</h4>
+<p>チャットシステムのクライアント・サーバー通信を分析してください：</p>
+
+<ol>
+  <li><strong>プロセス特定</strong>：クライアント、サーバー、メッセージキューを並行プロセスとして記述</li>
+  <li><strong>通信チャネル</strong>：メッセージ送受信の同期通信を数学的に表現</li>
+  <li><strong>プロトコル設計</strong>：ログイン、メッセージ送信、ログアウトの順序制約</li>
+  <li><strong>デッドロック分析</strong>：起こりうる並行性の問題を特定</li>
+</ol>
+
+<p><strong>目標</strong>：第6章のCSP並行システム設計への準備</p>
+
+<h4 id="演習4tla時相論理の基礎">演習4：TLA+時相論理の基礎</h4>
+<p>分散ファイルシステムの整合性を時間的観点から分析してください：</p>
+
+<ol>
+  <li><strong>状態変数</strong>：ファイルのバージョン、レプリカの状態等を時間の関数として定義</li>
+  <li><strong>安全性性質</strong>：「データが失われない」「整合性が保たれる」等の時不変性質</li>
+  <li><strong>活性性質</strong>：「要求は最終的に処理される」等の進歩性質</li>
+  <li><strong>時相的制約</strong>：更新の順序、タイムアウト等の時間依存制約</li>
+</ol>
+
+<p><strong>目標</strong>：第7章のTLA+分散システム検証への準備</p>
+
+<p>これらの演習を通じて、プログラミングの概念と数学的概念の対応関係を理解し、第3章以降の形式仕様記述技法への確実な基盤を築くことができます。次章では、これらの数学的概念を使って、曖昧性のない仕様を記述する具体的な技法を学んでいきます。</p>
+
+                </article>
+
+                
+                <nav class="page-navigation" aria-label="ページナビゲーション">
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+    
+    
+
+
+
+
+
+<nav class="book-navigation" aria-label="ページナビゲーション">
+  <div class="chapter-nav">
+    
+      <a href="/formal-methods-book/chapters/chapter01/" class="nav-prev" rel="prev">
+        <span class="arrow" aria-hidden="true">←</span>
+        <span class="label">前へ</span>
+        <span class="title">第1章：なぜ形式的手法が必要なのか</span>
+      </a>
+    
+
+    <a href="/formal-methods-book/" class="nav-home">
+      <span class="label">目次へ</span>
+    </a>
+
+    
+      <a href="/formal-methods-book/chapters/chapter03/" class="nav-next" rel="next">
+        <span class="label">次へ</span>
+        <span class="title">第3章：仕様記述の基本</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    
+  </div>
+</nav>
+
+<style>
+.book-navigation { margin: 2rem 0; padding: 1rem; border-top: 1px solid var(--border-color, #e5e7eb); }
+.chapter-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.nav-prev, .nav-next, .nav-home { display: flex; align-items: center; padding: 0.75rem 1.25rem; background: var(--bg-primary, #fff); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; text-decoration: none; color: inherit; }
+.nav-disabled { opacity: .5; cursor: not-allowed; background: var(--bg-tertiary, #f9fafb); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; padding: 0.75rem 1.25rem; display: flex; align-items: center; }
+.nav-prev { flex: 1; }
+.nav-next { flex: 1; justify-content: flex-end; text-align: right; }
+.nav-home { flex: 0 0 auto; justify-content: center; }
+.label { font-weight: 600; margin: 0 .25rem; }
+.title { font-size: .9rem; opacity: .8; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 768px) { .chapter-nav { flex-wrap: wrap; } .nav-prev, .nav-next { flex: 1 1 45%; } .nav-home { flex: 1 1 100%; order: -1; } .title { display: none; } }
+</style>
+
+                </nav>
+                
+
+                
+                <div class="edit-page">
+                    <a href="https://github.com/itdojp/formal-methods-book/edit/main/docs/chapters/chapter02/index.md"
+                       target="_blank"
+                       rel="noopener"
+                       class="edit-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                            <path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4Z"></path>
+                        </svg>
+                        GitHub で原稿を編集
+                    </a>
+                </div>
+                
+
+                <footer class="book-footer" role="contentinfo">
+                    <div class="book-footer-inner">
+                        <div class="book-footer-license">
+                            本文: CC BY-NC-SA 4.0 / コード資産: Apache-2.0 / 商標・第三者資産を除く
+                        </div>
+                        <div class="book-footer-links">
+                            
+                                <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener">GitHub</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/LICENSE-SCOPE.md" target="_blank" rel="noopener">ライセンス</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/COMMERCIAL.md" target="_blank" rel="noopener">商用利用</a>
+                            
+                            
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <label for="sidebar-toggle-checkbox" class="book-sidebar-overlay" id="sidebar-overlay" aria-label="サイドバーを閉じる"></label>
+
+    <script async src="/formal-methods-book/assets/js/code-copy-lightweight.js"></script>
+    <script defer src="/formal-methods-book/assets/js/theme.js"></script>
+    <script defer src="/formal-methods-book/assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var cb = document.getElementById('sidebar-toggle-checkbox');
+            var toggle = document.querySelector('.sidebar-toggle');
+            if (cb) cb.checked = false;
+            if (cb && toggle) {
+                var sync = function() {
+                    toggle.setAttribute('aria-expanded', cb.checked ? 'true' : 'false');
+                };
+                sync();
+                cb.addEventListener('change', sync);
+                toggle.addEventListener('keydown', function(e) {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        cb.checked = !cb.checked;
+                        cb.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        (function() {
+            function initTocAutoScroll() {
+                var cb = document.getElementById('sidebar-toggle-checkbox');
+                if (!cb) return;
+
+                function normalizePath(p) {
+                    var path = String(p || '').replace(/index\.html$/, '');
+                    if (path.length > 1) {
+                        path = path.replace(/\/+$/, '');
+                    }
+                    return path || '/';
+                }
+
+                function isMobileDrawer() {
+                    try {
+                        if (typeof window.matchMedia === 'function') {
+                            return window.matchMedia('(max-width: 1024px)').matches;
+                        }
+                    } catch (_) {}
+                    return typeof window.innerWidth === 'number' ? window.innerWidth <= 1024 : true;
+                }
+
+                function findActiveTocLink() {
+                    var current = normalizePath(window.location.pathname);
+                    var actives = document.querySelectorAll('a.toc-link.active');
+                    if (!actives || actives.length === 0) return null;
+
+                    for (var i = 0; i < actives.length; i++) {
+                        var a = actives[i];
+                        if (!a || !a.href) continue;
+                        try {
+                            var pathname = normalizePath(new URL(a.href).pathname);
+                            if (pathname === current) return a;
+                        } catch (_) {}
+                    }
+                    return actives[0];
+                }
+
+                function ensureActiveTocVisible() {
+                    if (!cb.checked) return;
+                    if (!isMobileDrawer()) return;
+
+                    var active = findActiveTocLink();
+                    if (!active) return;
+
+                    var sidebar = active.closest('.book-sidebar') || document.getElementById('sidebar');
+                    if (!sidebar) return;
+
+                    try {
+                        var linkRect = active.getBoundingClientRect();
+                        var sidebarRect = sidebar.getBoundingClientRect();
+                        var marginTop = 8;
+                        var marginBottom = 8;
+                        try {
+                            if (window.getComputedStyle) {
+                                var cs = window.getComputedStyle(sidebar);
+                                if (cs) {
+                                    var pt = parseFloat(cs.paddingTop);
+                                    var pb = parseFloat(cs.paddingBottom);
+                                    if (!isNaN(pt)) marginTop = pt;
+                                    if (!isNaN(pb)) marginBottom = pb;
+                                }
+                            }
+                        } catch (_) {}
+
+                        var top = sidebarRect.top + marginTop;
+                        var bottom = sidebarRect.bottom - marginBottom;
+                        var outOfView = linkRect.top < top || linkRect.bottom > bottom;
+
+                        if (outOfView && typeof active.scrollIntoView === 'function') {
+                            try {
+                                active.scrollIntoView({ block: 'center', behavior: 'auto' });
+                            } catch (e) {
+                                active.scrollIntoView();
+                            }
+                        }
+                    } catch (_) {}
+                }
+
+                function scheduleEnsure() {
+                    setTimeout(ensureActiveTocVisible, 0);
+                    setTimeout(ensureActiveTocVisible, 350);
+                }
+
+                cb.addEventListener('change', function() {
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+
+                if (cb.checked) {
+                    scheduleEnsure();
+                }
+
+                window.addEventListener('pageshow', function(e) {
+                    if (!e || !e.persisted) return;
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initTocAutoScroll);
+            } else {
+                initTocAutoScroll();
+            }
+        })();
+    </script>
+</body>
+</html>

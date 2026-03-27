@@ -1,0 +1,1085 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta name="author" content="太田和彦（株式会社アイティードゥ）">
+
+    <title>Appendix E: References and Further Reading Paths - Formal Methods: Foundations and Applications</title>
+
+    <link rel="canonical" href="https://itdojp.github.io/formal-methods-book/en/appendices/appendix-e/">
+    <link rel="alternate" hreflang="ja" href="https://itdojp.github.io/formal-methods-book/appendices/appendix-e/">
+    <link rel="alternate" hreflang="en" href="https://itdojp.github.io/formal-methods-book/en/appendices/appendix-e/">
+    <link rel="alternate" hreflang="x-default" href="https://itdojp.github.io/formal-methods-book/">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/main.css">
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/syntax-highlighting.css">
+
+    <link rel="icon" type="image/png" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+    <link rel="apple-touch-icon" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+
+    <meta property="og:title" content="Appendix E: References and Further Reading Paths">
+    <meta property="og:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://itdojp.github.io/formal-methods-book/en/appendices/appendix-e/">
+    <meta property="og:locale" content="en_US">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Appendix E: References and Further Reading Paths">
+    <meta name="twitter:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+
+    <script>
+        (function() {
+            try {
+                const k = 'book-theme';
+                const t = localStorage.getItem(k) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (_) {}
+        })();
+    </script>
+</head>
+<body>
+    
+    
+    
+    
+    
+
+    <input type="checkbox" id="sidebar-toggle-checkbox" class="sidebar-toggle-checkbox" aria-hidden="true">
+
+    <div class="book-layout">
+        <header class="book-header">
+            <div class="header-left">
+                <label for="sidebar-toggle-checkbox" class="sidebar-toggle" aria-label="Toggle sidebar" role="button" tabindex="0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </label>
+                <a href="/formal-methods-book/en/" class="header-title">
+                    <h1>Formal Methods: Foundations and Applications</h1>
+                </a>
+            </div>
+
+            <div class="header-center">
+                <div class="search-container">
+                    <input type="search"
+                           placeholder="Search..."
+                           class="search-input"
+                           id="search-input"
+                           autocomplete="off">
+                    <div class="search-results" id="search-results"></div>
+                </div>
+            </div>
+
+            <div class="header-right">
+                
+
+
+
+
+
+
+
+
+
+
+<a href="/formal-methods-book/appendices/appendix-e/"
+   class="language-switcher"
+   hreflang="ja"
+   lang="ja"
+   >
+    日本語
+</a>
+
+                <button class="theme-toggle" aria-label="Toggle theme">
+                    <svg class="theme-icon theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="theme-icon theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+
+                
+            </div>
+        </header>
+
+        <aside class="book-sidebar" id="sidebar">
+            <nav class="sidebar-nav" role="navigation" aria-label="Main navigation">
+                
+
+
+
+
+
+
+
+
+
+
+<div class="sidebar-content">
+    <div class="book-info">
+        <h2 class="book-title"><a href="/formal-methods-book/en/" class="header-title">Formal Methods: Foundations and Applications</a></h2>
+        
+        <p class="book-subtitle">An Integrated Understanding of Specification, Model Checking, and Theorem Proving</p>
+        
+    </div>
+
+    <div class="toc">
+        <h3 class="toc-title">Contents</h3>
+
+        <div class="toc-section">
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/" class="toc-link ">
+                        Home
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Introduction</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/introduction/" class="toc-link ">
+                        Introduction
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Chapters</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter01/" class="toc-link ">
+                        Chapter 1: Why Formal Methods Matter
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter02/" class="toc-link ">
+                        Chapter 2: Bridging Mathematics and Programs
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter03/" class="toc-link ">
+                        Chapter 3: Foundations of Specification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter04/" class="toc-link ">
+                        Chapter 4: Introduction to Lightweight Formal Methods — Specification with Alloy
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter05/" class="toc-link ">
+                        Chapter 5: State-Based Specification — Fundamentals of Z Notation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter06/" class="toc-link ">
+                        Chapter 6: Process-Centric Specification — Concurrency with CSP
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter07/" class="toc-link ">
+                        Chapter 7: Specifying Time — Introduction to TLA+
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter08/" class="toc-link ">
+                        Chapter 8: Introduction to Model Checking
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter09/" class="toc-link ">
+                        Chapter 9: Fundamentals of Theorem Proving
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter10/" class="toc-link ">
+                        Chapter 10: Program Verification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter11/" class="toc-link ">
+                        Chapter 11: Integrating Formal Methods into Development Processes
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter12/" class="toc-link ">
+                        Chapter 12: Tools and Automation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter13/" class="toc-link ">
+                        Chapter 13: Case Studies
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Additional</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/glossary/" class="toc-link ">
+                        Glossary
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Appendices</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-a/" class="toc-link ">
+                        Appendix A: Mathematics Refresher
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-b/" class="toc-link ">
+                        Appendix B: Tool Setup and Verification Quick Start
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-c/" class="toc-link ">
+                        Appendix C: Notation Cross-Reference
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-d/" class="toc-link ">
+                        Appendix D: Exercise Guides and Self-Review Frameworks
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-e/" class="toc-link active">
+                        Appendix E: References and Further Reading Paths
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-f/" class="toc-link ">
+                        Appendix F: Practical Playbook for AI-Assisted Formal Methods
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Afterword</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/afterword/" class="toc-link ">
+                        Afterword
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="external-links">
+            
+            <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener" class="external-link">GitHub</a>
+            
+            
+        </div>
+    </div>
+</div>
+
+            </nav>
+        </aside>
+
+        <main class="book-main" id="main">
+            <div class="book-content">
+                
+                    
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb-list">
+    <li class="breadcrumb-item">
+        <a href="/formal-methods-book/en/" class="breadcrumb-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span class="sr-only">Home</span>
+        </a>
+    </li>
+
+    
+        
+    
+        
+    
+        
+            
+            
+            
+                
+                
+                <li class="breadcrumb-item">
+                    <a href="/formal-methods-book/en/appendices/" class="breadcrumb-link">
+                        
+                            Appendices
+                        
+                    </a>
+                </li>
+            
+        
+    
+        
+            
+            
+            
+                <li class="breadcrumb-item active" aria-current="page">
+                    Appendix e: references and further reading paths
+                </li>
+            
+        
+    
+</ol>
+
+<style>
+.breadcrumb-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    font-size: 0.875rem;
+    flex-wrap: wrap;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb-item:not(:last-child)::after {
+    content: '/';
+    margin: 0 0.5rem;
+    color: var(--text-muted);
+}
+
+.breadcrumb-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.breadcrumb-link:hover {
+    color: var(--primary-color);
+}
+
+.breadcrumb-item.active {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (max-width: 768px) {
+    .breadcrumb-list {
+        font-size: 0.75rem;
+    }
+
+    .breadcrumb-item:not(:last-child)::after {
+        margin: 0 0.375rem;
+    }
+}
+</style>
+
+                
+
+                <article class="page-content">
+                    <h1 id="appendix-e-references-and-further-reading-paths">Appendix E: References and Further Reading Paths</h1>
+
+<p>This appendix is a <strong>reader-facing guide to primary sources</strong> for the methods, tools, and case studies introduced in the main text. Use it when you want to deepen a chapter, verify a claim against an official source, or decide which tool family to study next.<br />
+As of January 2026, it reflects naming changes and current mainstream references such as <code class="language-plaintext highlighter-rouge">Coq</code> → <code class="language-plaintext highlighter-rouge">Rocq</code>, <code class="language-plaintext highlighter-rouge">CVC4</code> → <code class="language-plaintext highlighter-rouge">cvc5</code>, the <code class="language-plaintext highlighter-rouge">Alloy 6</code> series, and <code class="language-plaintext highlighter-rouge">Apalache</code> in the TLA+ ecosystem.</p>
+
+<h2 id="how-to-use-this-appendix">How to Use This Appendix</h2>
+
+<ul>
+  <li><strong>After a specific chapter</strong>: start with the entry that names the chapter you just finished, then follow the official site before the release page or mirror.</li>
+  <li><strong>When evaluating a tool</strong>: read the purpose line first, then jump to the official site or repository to confirm current installation, release, and documentation details.</li>
+  <li><strong>When citing the book in engineering work</strong>: prefer the primary or quasi-primary links here over secondary summaries, especially for tool capabilities, case studies, and reported results.</li>
+  <li><strong>When planning a second pass through the book</strong>: use the reading paths below to choose between modeling, model checking, theorem proving, program verification, and industrial adoption.</li>
+</ul>
+
+<h2 id="fast-reading-paths">Fast Reading Paths</h2>
+
+<ul>
+  <li><strong>Learn lightweight modeling first</strong>: Chapter 4 → Alloy → Chapter 8 for counterexample-oriented thinking.</li>
+  <li><strong>Strengthen concurrency and distributed-systems reasoning</strong>: Chapter 7 → TLA+ / TLC → Apalache → industrial TLA+ case studies.</li>
+  <li><strong>Move from proofs to mechanized assurance</strong>: Chapter 9 → Rocq or Lean → Chapter 10 for program-verification payoff.</li>
+  <li><strong>Evaluate tools for engineering adoption</strong>: Chapters 10–12 → Dafny / CBMC / SPARK / Z3 / cvc5.</li>
+  <li><strong>Study business-facing evidence</strong>: Chapter 13 → Paris Metro Line 14, Amazon <code class="language-plaintext highlighter-rouge">s2n</code>, and industrial TLA+ reports.</li>
+</ul>
+
+<h2 id="how-sources-were-chosen">How Sources Were Chosen</h2>
+
+<ul>
+  <li><strong>Reported values (measurements / case data)</strong>: cite primary or quasi-primary sources such as papers, official blogs, or official reports.</li>
+  <li><strong>Illustrative examples</strong>: mark them as examples so readers do not mistake them for generally established values.</li>
+  <li><strong>Uncertain estimates</strong>: avoid them where possible. If one is unavoidable, state that it is uncertain and record the assumptions, including scope and measurement conditions.</li>
+</ul>
+
+<h2 id="1-specification-languages-and-modeling-tools-alloy--tla--z--csp">1) Specification Languages and Modeling Tools (Alloy / TLA+ / Z / CSP)</h2>
+
+<h3 id="alloy-alloy-6x">Alloy (Alloy 6.x)</h3>
+
+<ul>
+  <li>Purpose: describing relational models and searching for counterexamples within a finite scope</li>
+  <li>Best after reading: Chapter 4, “Introduction to Lightweight Formal Methods — Specification with Alloy”; Chapter 8, “Introduction to Model Checking”</li>
+  <li>Primary sources:
+    <ul>
+      <li>Official site: <a href="https://alloytools.org/">https://alloytools.org/</a></li>
+      <li>Releases (<code class="language-plaintext highlighter-rouge">Alloy 6.x</code>): <a href="https://github.com/AlloyTools/org.alloytools.alloy/releases">https://github.com/AlloyTools/org.alloytools.alloy/releases</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="tla-tlc">TLA+ (TLC)</h3>
+
+<ul>
+  <li>Purpose: writing state-transition specifications for distributed and concurrent systems and verifying them by exploration with <code class="language-plaintext highlighter-rouge">TLC</code></li>
+  <li>Best after reading: Chapter 7, “Specifying Time — Introduction to TLA+”; Chapter 8, “Introduction to Model Checking”</li>
+  <li>Primary sources:
+    <ul>
+      <li>Official TLA+ page (Lamport site): <a href="https://lamport.azurewebsites.net/tla/tla.html">https://lamport.azurewebsites.net/tla/tla.html</a></li>
+      <li><code class="language-plaintext highlighter-rouge">tlaplus/tlaplus</code> releases (<code class="language-plaintext highlighter-rouge">tla2tools.jar</code>): <a href="https://github.com/tlaplus/tlaplus/releases">https://github.com/tlaplus/tlaplus/releases</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="z-z-notation">Z (Z notation)</h3>
+
+<ul>
+  <li>Purpose: rigorously describing state-based specifications with sets, relations, and mappings so they can serve as a basis for review and verification</li>
+  <li>Best after reading: Chapter 5, “State-Based Specification — Fundamentals of Z Notation”</li>
+  <li>Primary sources (implementations and tools):
+    <ul>
+      <li>Community Z Tools (<code class="language-plaintext highlighter-rouge">CZT</code>): <a href="https://czt.sourceforge.net/">https://czt.sourceforge.net/</a></li>
+      <li><code class="language-plaintext highlighter-rouge">SourceForge</code> (<code class="language-plaintext highlighter-rouge">CZT</code> project): <a href="https://sourceforge.net/projects/czt/">https://sourceforge.net/projects/czt/</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="csp">CSP</h3>
+
+<ul>
+  <li>Purpose: handling communication, synchronization, deadlock, and related properties in concurrent processes</li>
+  <li>Best after reading: Chapter 6, “Process-Centric Specification — Concurrency with CSP”</li>
+  <li>Primary sources (tool example):
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">FDR</code> (information on the CSP model checker): <a href="https://www.cs.ox.ac.uk/projects/fdr/">https://www.cs.ox.ac.uk/projects/fdr/</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="2-model-checking-and-state-space-exploration-tlc--apalache--spin--nusmv">2) Model Checking and State-Space Exploration (TLC / Apalache / SPIN / NuSMV)</h2>
+
+<h3 id="apalache-additional-checking-for-tla-smt-based">Apalache (Additional checking for TLA+, SMT-based)</h3>
+
+<ul>
+  <li>Purpose: checking properties of TLA+ specifications through SMT-based exploration and constraint solving, as a complement to <code class="language-plaintext highlighter-rouge">TLC</code></li>
+  <li>Best after reading: Chapter 7, “Specifying Time — Introduction to TLA+”; Chapter 8, “Introduction to Model Checking”; Chapter 12, “Tools and Automation”</li>
+  <li>Primary sources:
+    <ul>
+      <li>Official site: <a href="https://apalache-mc.org/">https://apalache-mc.org/</a></li>
+      <li><code class="language-plaintext highlighter-rouge">GitHub</code> (releases / distributions): <a href="https://github.com/apalache-mc/apalache/releases">https://github.com/apalache-mc/apalache/releases</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="spin-promela">SPIN (Promela)</h3>
+
+<ul>
+  <li>Purpose: model checking of concurrent systems written in <code class="language-plaintext highlighter-rouge">Promela</code>, including counterexample traces</li>
+  <li>Best after reading: Chapter 6, “Process-Centric Specification — Concurrency with CSP”; Chapter 8, “Introduction to Model Checking”</li>
+  <li>Primary sources:
+    <ul>
+      <li>Official page (<code class="language-plaintext highlighter-rouge">spinroot</code>): <a href="https://spinroot.com/spin/whatispin.html">https://spinroot.com/spin/whatispin.html</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="nusmv">NuSMV</h3>
+
+<ul>
+  <li>Purpose: model checking over state-transition models, including <code class="language-plaintext highlighter-rouge">CTL</code> and <code class="language-plaintext highlighter-rouge">LTL</code></li>
+  <li>Best after reading: Chapter 8, “Introduction to Model Checking”</li>
+  <li>Primary sources:
+    <ul>
+      <li>Official site: <a href="https://nusmv.fbk.eu/">https://nusmv.fbk.eu/</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="3-theorem-proving-and-proof-assistants-rocq--lean--isabelle--agda">3) Theorem Proving and Proof Assistants (Rocq / Lean / Isabelle / Agda)</h2>
+
+<h3 id="rocq-formerly-coq">Rocq (formerly Coq)</h3>
+
+<ul>
+  <li>Purpose: proof assistance based on type theory and kernel checking, together with integrated development of proofs and programs</li>
+  <li>Best after reading: Chapter 9, “Fundamentals of Theorem Proving”</li>
+  <li>Primary sources:
+    <ul>
+      <li>Official site: <a href="https://rocq-prover.org/">https://rocq-prover.org/</a></li>
+      <li>Release example (<code class="language-plaintext highlighter-rouge">9.0.0</code>): <a href="https://rocq-prover.org/releases/9.0.0">https://rocq-prover.org/releases/9.0.0</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="lean-lean-4">Lean (Lean 4)</h3>
+
+<ul>
+  <li>Purpose: theorem proving, use of mathematical libraries, and proof automation through tactics</li>
+  <li>Best after reading: Chapter 9, “Fundamentals of Theorem Proving”</li>
+  <li>Primary sources:
+    <ul>
+      <li>Official site: <a href="https://lean-lang.org/">https://lean-lang.org/</a></li>
+      <li><code class="language-plaintext highlighter-rouge">GitHub</code> (<code class="language-plaintext highlighter-rouge">Lean 4</code>): <a href="https://github.com/leanprover/lean4">https://github.com/leanprover/lean4</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="isabelle">Isabelle</h3>
+
+<ul>
+  <li>Purpose: proof assistance with <code class="language-plaintext highlighter-rouge">Isabelle/HOL</code> and related environments, proof documentation, and tool integration</li>
+  <li>Best after reading: Chapter 9, “Fundamentals of Theorem Proving”</li>
+  <li>Primary sources:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">GitHub</code> (mirror): <a href="https://github.com/isabelle-prover/mirror-isabelle">https://github.com/isabelle-prover/mirror-isabelle</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="agda">Agda</h3>
+
+<ul>
+  <li>Purpose: theorem proving and program description based on dependent types</li>
+  <li>Best after reading: Chapter 9, “Fundamentals of Theorem Proving”, as auxiliary context for type theory</li>
+  <li>Primary sources:
+    <ul>
+      <li>Documentation: <a href="https://agda.readthedocs.io/en/latest/">https://agda.readthedocs.io/en/latest/</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="4-program-verification-and-static-assurance-dafny--frama-c--cbmc--verifast--spark">4) Program Verification and Static Assurance (Dafny / Frama-C / CBMC / VeriFast / SPARK)</h2>
+
+<h3 id="dafny">Dafny</h3>
+
+<ul>
+  <li>Purpose: integrating specification and verification through contracts and automated checking based on SMT</li>
+  <li>Best after reading: Chapter 10, “Program Verification”; Chapter 12, “Tools and Automation”</li>
+  <li>Primary sources:
+    <ul>
+      <li>Official site: <a href="https://dafny.org/">https://dafny.org/</a></li>
+      <li><code class="language-plaintext highlighter-rouge">GitHub</code>: <a href="https://github.com/dafny-lang/dafny">https://github.com/dafny-lang/dafny</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="frama-c">Frama-C</h3>
+
+<ul>
+  <li>Purpose: static analysis and verification for C, including annotations and plugins</li>
+  <li>Best after reading: Chapter 10, “Program Verification”</li>
+  <li>Primary sources:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">GitHub</code> (distribution / snapshots): <a href="https://github.com/Frama-C/Frama-C-snapshot">https://github.com/Frama-C/Frama-C-snapshot</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="cbmc">CBMC</h3>
+
+<ul>
+  <li>Purpose: bounded model checking for C and C++, including bug finding, safety checking, and assertions</li>
+  <li>Best after reading: Chapter 8, “Introduction to Model Checking”; Chapter 10, “Program Verification”</li>
+  <li>Primary sources:
+    <ul>
+      <li>Official site: <a href="https://www.cprover.org/cbmc/">https://www.cprover.org/cbmc/</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="verifast">VeriFast</h3>
+
+<ul>
+  <li>Purpose: verification based on separation logic for languages such as C and Java</li>
+  <li>Best after reading: Chapter 10, “Program Verification”</li>
+  <li>Primary sources:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">GitHub</code>: <a href="https://github.com/verifast/verifast">https://github.com/verifast/verifast</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="spark-ada">SPARK (Ada)</h3>
+
+<ul>
+  <li>Purpose: contracts, static analysis, and proof for high-assurance <code class="language-plaintext highlighter-rouge">Ada</code> development, especially in safety-critical contexts</li>
+  <li>Best after reading: Chapter 11, “Integrating Formal Methods into Development Processes”; Chapter 12, “Tools and Automation”</li>
+  <li>Primary sources:
+    <ul>
+      <li>Official site: <a href="https://www.adacore.com/sparkpro">https://www.adacore.com/sparkpro</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="5-smt-solvers-and-verification-backends-z3--cvc5">5) SMT Solvers and Verification Backends (Z3 / cvc5)</h2>
+
+<h3 id="z3">Z3</h3>
+
+<ul>
+  <li>Purpose: a foundation for constraint solving and automated reasoning, often used as a backend for verifiers</li>
+  <li>Best after reading: Chapter 10, “Program Verification”; Chapter 12, “Tools and Automation”</li>
+  <li>Primary sources:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">GitHub</code> releases: <a href="https://github.com/Z3Prover/z3/releases">https://github.com/Z3Prover/z3/releases</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="cvc5-successor-to-the-cvc-line-formerly-cvc4">cvc5 (successor to the CVC line, formerly CVC4)</h3>
+
+<ul>
+  <li>Purpose: an SMT solver often used as the backend of other verification tools</li>
+  <li>Best after reading: Chapter 10, “Program Verification”; Chapter 12, “Tools and Automation”</li>
+  <li>Primary sources:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">GitHub</code>: <a href="https://github.com/cvc5/cvc5">https://github.com/cvc5/cvc5</a></li>
+      <li><code class="language-plaintext highlighter-rouge">GitHub</code> releases: <a href="https://github.com/cvc5/cvc5/releases">https://github.com/cvc5/cvc5/releases</a></li>
+      <li>Python bindings, when needed: <a href="https://pypi.org/project/cvc5/">https://pypi.org/project/cvc5/</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="6-industrial-case-studies-and-adoption-evidence">6) Industrial Case Studies and Adoption Evidence</h2>
+
+<h3 id="paris-metro-line-14-b-method">Paris Metro Line 14 (B-Method)</h3>
+
+<ul>
+  <li>Best after reading: Chapter 13, “Case Studies”</li>
+  <li>Primary and quasi-primary sources:
+    <ul>
+      <li>Clearsy (<code class="language-plaintext highlighter-rouge">Line 14</code> / <code class="language-plaintext highlighter-rouge">B-Method</code>): <a href="https://www.clearsy.com/en/the-tools/extension-of-line-14-of-the-paris-metro-over-25-years-of-reliability-thanks-to-the-b-formal-method/">https://www.clearsy.com/en/the-tools/extension-of-line-14-of-the-paris-metro-over-25-years-of-reliability-thanks-to-the-b-formal-method/</a></li>
+      <li>Butler et al. (<code class="language-plaintext highlighter-rouge">FMICS 2020</code>, Springer chapter): <a href="https://link.springer.com/chapter/10.1007/978-3-030-58298-2_8">https://link.springer.com/chapter/10.1007/978-3-030-58298-2_8</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="amazon-s2n-verification-of-a-cryptographic-implementation">Amazon s2n (verification of a cryptographic implementation)</h3>
+
+<ul>
+  <li>Best after reading: Chapter 13, “Case Studies”</li>
+  <li>Primary and quasi-primary sources:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">AWS Security Blog</code>: <a href="https://aws.amazon.com/blogs/security/automated-reasoning-and-amazon-s2n/">https://aws.amazon.com/blogs/security/automated-reasoning-and-amazon-s2n/</a></li>
+      <li>Galois (verification example with <code class="language-plaintext highlighter-rouge">SAW</code>): <a href="https://www.galois.com/articles/verifying-s2n-hmac-with-saw">https://www.galois.com/articles/verifying-s2n-hmac-with-saw</a></li>
+      <li><code class="language-plaintext highlighter-rouge">CAV 2018</code> (<code class="language-plaintext highlighter-rouge">s2n</code>/<code class="language-plaintext highlighter-rouge">SAW</code> report, PDF): <a href="http://www0.cs.ucl.ac.uk/staff/b.cook/CAV18_s2n.pdf">http://www0.cs.ucl.ac.uk/staff/b.cook/CAV18_s2n.pdf</a></li>
+      <li><code class="language-plaintext highlighter-rouge">s2n-tls</code> (<code class="language-plaintext highlighter-rouge">GitHub</code>): <a href="https://github.com/aws/s2n-tls">https://github.com/aws/s2n-tls</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="industrial-use-of-tla">Industrial use of TLA+</h3>
+
+<ul>
+  <li>Best after reading: Chapter 7, “Specifying Time — Introduction to TLA+”; Chapter 13, “Case Studies”</li>
+  <li>Primary and quasi-primary sources:
+    <ul>
+      <li>Lamport (<code class="language-plaintext highlighter-rouge">Industrial use of TLA+</code>): <a href="https://lamport.azurewebsites.net/tla/industrial-use.html">https://lamport.azurewebsites.net/tla/industrial-use.html</a></li>
+      <li><code class="language-plaintext highlighter-rouge">Microsoft Learn</code> (distributed implementation and consistency in <code class="language-plaintext highlighter-rouge">Cosmos DB</code>, with a path to TLA+ specifications): <a href="https://learn.microsoft.com/en-us/azure/cosmos-db/global-dist-under-the-hood">https://learn.microsoft.com/en-us/azure/cosmos-db/global-dist-under-the-hood</a></li>
+      <li><code class="language-plaintext highlighter-rouge">Azure Cosmos DB</code> (high-level TLA+ specifications): <a href="https://github.com/Azure/azure-cosmos-tla">https://github.com/Azure/azure-cosmos-tla</a></li>
+      <li><code class="language-plaintext highlighter-rouge">Microsoft Research</code> (video on TLA+ specifications for <code class="language-plaintext highlighter-rouge">Cosmos DB</code> consistency guarantees): <a href="https://www.microsoft.com/en-us/research/video/tla-specifications-of-the-consistency-guarantees-provided-by-cosmos-db/">https://www.microsoft.com/en-us/research/video/tla-specifications-of-the-consistency-guarantees-provided-by-cosmos-db/</a></li>
+      <li>Hackett (<code class="language-plaintext highlighter-rouge">ICSE SEIP 2023</code>, PDF): <a href="https://fhackett.com/files/icse-seip-23-inconsistency.pdf">https://fhackett.com/files/icse-seip-23-inconsistency.pdf</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="7-ai-and-formal-methods-further-reading-and-boundaries">7) AI and Formal Methods (Further Reading and Boundaries)</h2>
+
+<p>Use this section after Chapters 9–12 if you want to separate promising AI-assisted workflows from assurance mechanisms that remain fundamentally non-negotiable.<br />
+LLMs are useful for drafting specifications, proofs, and counterexample interpretations and for assisting exploration. They are <strong>not</strong>, however, a source of final assurance. This book recommends treating LLM output as untrusted input and always closing the loop with mechanical verification such as model checking, type checking, or SMT-based verification.</p>
+
+<ul>
+  <li>Representative implementations and evaluation platforms:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">Lean Copilot</code>: <a href="https://github.com/lean-dojo/LeanCopilot">https://github.com/lean-dojo/LeanCopilot</a></li>
+      <li><code class="language-plaintext highlighter-rouge">ProofGym</code> (<code class="language-plaintext highlighter-rouge">NeurIPS 2025</code>): <a href="https://neurips.cc/virtual/2025/131121">https://neurips.cc/virtual/2025/131121</a></li>
+      <li><code class="language-plaintext highlighter-rouge">APOLLO</code> (<code class="language-plaintext highlighter-rouge">arXiv</code>): <a href="https://arxiv.org/html/2505.05758v5">https://arxiv.org/html/2505.05758v5</a></li>
+      <li>Natural language to formal language (example: <code class="language-plaintext highlighter-rouge">EMNLP 2025</code>, PDF): <a href="https://aclanthology.org/2025.emnlp-main.1586v2.pdf">https://aclanthology.org/2025.emnlp-main.1586v2.pdf</a></li>
+    </ul>
+  </li>
+</ul>
+
+<!-- markdown-link-check-disable-next-line -->
+<ul>
+  <li>Reference (quasi-primary): How Amazon Web Services Uses Formal Methods (<code class="language-plaintext highlighter-rouge">CACM</code>) <a href="https://cacm.acm.org/research/how-amazon-web-services-uses-formal-methods/">https://cacm.acm.org/research/how-amazon-web-services-uses-formal-methods/</a></li>
+</ul>
+
+                </article>
+
+                
+                <nav class="page-navigation" aria-label="Page navigation">
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+
+
+
+
+
+<nav class="book-navigation" aria-label="Page navigation">
+  <div class="chapter-nav">
+    
+      <a href="/formal-methods-book/en/appendices/appendix-d/" class="nav-prev" rel="prev">
+        <span class="arrow" aria-hidden="true">←</span>
+        <span class="label">Previous</span>
+        <span class="title">Appendix D: Exercise Guides and Self-Review Frameworks</span>
+      </a>
+    
+
+    <a href="/formal-methods-book/en/" class="nav-home">
+      <span class="label">Contents</span>
+    </a>
+
+    
+      <a href="/formal-methods-book/en/appendices/appendix-f/" class="nav-next" rel="next">
+        <span class="label">Next</span>
+        <span class="title">Appendix F: Practical Playbook for AI-Assisted Formal Methods</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    
+  </div>
+</nav>
+
+<style>
+.book-navigation { margin: 2rem 0; padding: 1rem; border-top: 1px solid var(--border-color, #e5e7eb); }
+.chapter-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.nav-prev, .nav-next, .nav-home { display: flex; align-items: center; padding: 0.75rem 1.25rem; background: var(--bg-primary, #fff); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; text-decoration: none; color: inherit; }
+.nav-disabled { opacity: .5; cursor: not-allowed; background: var(--bg-tertiary, #f9fafb); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; padding: 0.75rem 1.25rem; display: flex; align-items: center; }
+.nav-prev { flex: 1; }
+.nav-next { flex: 1; justify-content: flex-end; text-align: right; }
+.nav-home { flex: 0 0 auto; justify-content: center; }
+.label { font-weight: 600; margin: 0 .25rem; }
+.title { font-size: .9rem; opacity: .8; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 768px) { .chapter-nav { flex-wrap: wrap; } .nav-prev, .nav-next { flex: 1 1 45%; } .nav-home { flex: 1 1 100%; order: -1; } .title { display: none; } }
+</style>
+
+                </nav>
+                
+
+                
+
+                <footer class="book-footer" role="contentinfo">
+                    <div class="book-footer-inner">
+                        <div class="book-footer-license">
+                            Reader-facing text: CC BY-NC-SA 4.0 / Code assets: Apache-2.0 / excluding trademarks and third-party assets
+                        </div>
+                        <div class="book-footer-links">
+                            
+                                <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener">GitHub</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/LICENSE-SCOPE.md" target="_blank" rel="noopener">License</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/COMMERCIAL.md" target="_blank" rel="noopener">Commercial</a>
+                            
+                            
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <label for="sidebar-toggle-checkbox" class="book-sidebar-overlay" id="sidebar-overlay" aria-label="Close sidebar"></label>
+
+    <script async src="/formal-methods-book/assets/js/code-copy-lightweight.js"></script>
+    <script defer src="/formal-methods-book/assets/js/theme.js"></script>
+    <script defer src="/formal-methods-book/assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var cb = document.getElementById('sidebar-toggle-checkbox');
+            var toggle = document.querySelector('.sidebar-toggle');
+            if (cb) cb.checked = false;
+            if (cb && toggle) {
+                var sync = function() {
+                    toggle.setAttribute('aria-expanded', cb.checked ? 'true' : 'false');
+                };
+                sync();
+                cb.addEventListener('change', sync);
+                toggle.addEventListener('keydown', function(e) {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        cb.checked = !cb.checked;
+                        cb.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        (function() {
+            function initTocAutoScroll() {
+                var cb = document.getElementById('sidebar-toggle-checkbox');
+                if (!cb) return;
+
+                function normalizePath(p) {
+                    var path = String(p || '').replace(/index\.html$/, '');
+                    if (path.length > 1) {
+                        path = path.replace(/\/+$/, '');
+                    }
+                    return path || '/';
+                }
+
+                function isMobileDrawer() {
+                    try {
+                        if (typeof window.matchMedia === 'function') {
+                            return window.matchMedia('(max-width: 1024px)').matches;
+                        }
+                    } catch (_) {}
+                    return typeof window.innerWidth === 'number' ? window.innerWidth <= 1024 : true;
+                }
+
+                function findActiveTocLink() {
+                    var current = normalizePath(window.location.pathname);
+                    var actives = document.querySelectorAll('a.toc-link.active');
+                    if (!actives || actives.length === 0) return null;
+
+                    for (var i = 0; i < actives.length; i++) {
+                        var a = actives[i];
+                        if (!a || !a.href) continue;
+                        try {
+                            var pathname = normalizePath(new URL(a.href).pathname);
+                            if (pathname === current) return a;
+                        } catch (_) {}
+                    }
+                    return actives[0];
+                }
+
+                function ensureActiveTocVisible() {
+                    if (!cb.checked) return;
+                    if (!isMobileDrawer()) return;
+
+                    var active = findActiveTocLink();
+                    if (!active) return;
+
+                    var sidebar = active.closest('.book-sidebar') || document.getElementById('sidebar');
+                    if (!sidebar) return;
+
+                    try {
+                        var linkRect = active.getBoundingClientRect();
+                        var sidebarRect = sidebar.getBoundingClientRect();
+                        var marginTop = 8;
+                        var marginBottom = 8;
+                        try {
+                            if (window.getComputedStyle) {
+                                var cs = window.getComputedStyle(sidebar);
+                                if (cs) {
+                                    var pt = parseFloat(cs.paddingTop);
+                                    var pb = parseFloat(cs.paddingBottom);
+                                    if (!isNaN(pt)) marginTop = pt;
+                                    if (!isNaN(pb)) marginBottom = pb;
+                                }
+                            }
+                        } catch (_) {}
+
+                        var top = sidebarRect.top + marginTop;
+                        var bottom = sidebarRect.bottom - marginBottom;
+                        var outOfView = linkRect.top < top || linkRect.bottom > bottom;
+
+                        if (outOfView && typeof active.scrollIntoView === 'function') {
+                            try {
+                                active.scrollIntoView({ block: 'center', behavior: 'auto' });
+                            } catch (e) {
+                                active.scrollIntoView();
+                            }
+                        }
+                    } catch (_) {}
+                }
+
+                function scheduleEnsure() {
+                    setTimeout(ensureActiveTocVisible, 0);
+                    setTimeout(ensureActiveTocVisible, 350);
+                }
+
+                cb.addEventListener('change', function() {
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+
+                if (cb.checked) {
+                    scheduleEnsure();
+                }
+
+                window.addEventListener('pageshow', function(e) {
+                    if (!e || !e.persisted) return;
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initTocAutoScroll);
+            } else {
+                initTocAutoScroll();
+            }
+        })();
+    </script>
+</body>
+</html>

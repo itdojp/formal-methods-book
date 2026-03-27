@@ -1,0 +1,2237 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta name="author" content="太田和彦（株式会社アイティードゥ）">
+
+    <title>Chapter 7: Specifying Time: Introduction to TLA+ - Formal Methods: Foundations and Applications</title>
+
+    <link rel="canonical" href="https://itdojp.github.io/formal-methods-book/en/chapters/chapter07/">
+    <link rel="alternate" hreflang="ja" href="https://itdojp.github.io/formal-methods-book/chapters/chapter07/">
+    <link rel="alternate" hreflang="en" href="https://itdojp.github.io/formal-methods-book/en/chapters/chapter07/">
+    <link rel="alternate" hreflang="x-default" href="https://itdojp.github.io/formal-methods-book/">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/main.css">
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/syntax-highlighting.css">
+
+    <link rel="icon" type="image/png" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+    <link rel="apple-touch-icon" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+
+    <meta property="og:title" content="Chapter 7: Specifying Time: Introduction to TLA+">
+    <meta property="og:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://itdojp.github.io/formal-methods-book/en/chapters/chapter07/">
+    <meta property="og:locale" content="en_US">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Chapter 7: Specifying Time: Introduction to TLA+">
+    <meta name="twitter:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+
+    <script>
+        (function() {
+            try {
+                const k = 'book-theme';
+                const t = localStorage.getItem(k) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (_) {}
+        })();
+    </script>
+</head>
+<body>
+    
+    
+    
+    
+    
+
+    <input type="checkbox" id="sidebar-toggle-checkbox" class="sidebar-toggle-checkbox" aria-hidden="true">
+
+    <div class="book-layout">
+        <header class="book-header">
+            <div class="header-left">
+                <label for="sidebar-toggle-checkbox" class="sidebar-toggle" aria-label="Toggle sidebar" role="button" tabindex="0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </label>
+                <a href="/formal-methods-book/en/" class="header-title">
+                    <h1>Formal Methods: Foundations and Applications</h1>
+                </a>
+            </div>
+
+            <div class="header-center">
+                <div class="search-container">
+                    <input type="search"
+                           placeholder="Search..."
+                           class="search-input"
+                           id="search-input"
+                           autocomplete="off">
+                    <div class="search-results" id="search-results"></div>
+                </div>
+            </div>
+
+            <div class="header-right">
+                
+
+
+
+
+
+
+
+
+
+
+<a href="/formal-methods-book/chapters/chapter07/"
+   class="language-switcher"
+   hreflang="ja"
+   lang="ja"
+   >
+    日本語
+</a>
+
+                <button class="theme-toggle" aria-label="Toggle theme">
+                    <svg class="theme-icon theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="theme-icon theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+
+                
+            </div>
+        </header>
+
+        <aside class="book-sidebar" id="sidebar">
+            <nav class="sidebar-nav" role="navigation" aria-label="Main navigation">
+                
+
+
+
+
+
+
+
+
+
+
+<div class="sidebar-content">
+    <div class="book-info">
+        <h2 class="book-title"><a href="/formal-methods-book/en/" class="header-title">Formal Methods: Foundations and Applications</a></h2>
+        
+        <p class="book-subtitle">An Integrated Understanding of Specification, Model Checking, and Theorem Proving</p>
+        
+    </div>
+
+    <div class="toc">
+        <h3 class="toc-title">Contents</h3>
+
+        <div class="toc-section">
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/" class="toc-link ">
+                        Home
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Introduction</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/introduction/" class="toc-link ">
+                        Introduction
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Chapters</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter01/" class="toc-link ">
+                        Chapter 1: Why Formal Methods Matter
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter02/" class="toc-link ">
+                        Chapter 2: Bridging Mathematics and Programs
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter03/" class="toc-link ">
+                        Chapter 3: Foundations of Specification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter04/" class="toc-link ">
+                        Chapter 4: Introduction to Lightweight Formal Methods — Specification with Alloy
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter05/" class="toc-link ">
+                        Chapter 5: State-Based Specification — Fundamentals of Z Notation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter06/" class="toc-link ">
+                        Chapter 6: Process-Centric Specification — Concurrency with CSP
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter07/" class="toc-link active">
+                        Chapter 7: Specifying Time — Introduction to TLA+
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter08/" class="toc-link ">
+                        Chapter 8: Introduction to Model Checking
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter09/" class="toc-link ">
+                        Chapter 9: Fundamentals of Theorem Proving
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter10/" class="toc-link ">
+                        Chapter 10: Program Verification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter11/" class="toc-link ">
+                        Chapter 11: Integrating Formal Methods into Development Processes
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter12/" class="toc-link ">
+                        Chapter 12: Tools and Automation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter13/" class="toc-link ">
+                        Chapter 13: Case Studies
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Additional</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/glossary/" class="toc-link ">
+                        Glossary
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Appendices</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-a/" class="toc-link ">
+                        Appendix A: Mathematics Refresher
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-b/" class="toc-link ">
+                        Appendix B: Tool Setup and Verification Quick Start
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-c/" class="toc-link ">
+                        Appendix C: Notation Cross-Reference
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-d/" class="toc-link ">
+                        Appendix D: Exercise Guides and Self-Review Frameworks
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-e/" class="toc-link ">
+                        Appendix E: References and Further Reading Paths
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-f/" class="toc-link ">
+                        Appendix F: Practical Playbook for AI-Assisted Formal Methods
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Afterword</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/afterword/" class="toc-link ">
+                        Afterword
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="external-links">
+            
+            <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener" class="external-link">GitHub</a>
+            
+            
+        </div>
+    </div>
+</div>
+
+            </nav>
+        </aside>
+
+        <main class="book-main" id="main">
+            <div class="book-content">
+                
+                    
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb-list">
+    <li class="breadcrumb-item">
+        <a href="/formal-methods-book/en/" class="breadcrumb-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span class="sr-only">Home</span>
+        </a>
+    </li>
+
+    
+        
+    
+        
+    
+        
+            
+            
+            
+                
+                
+                <li class="breadcrumb-item">
+                    <a href="/formal-methods-book/en/chapters/" class="breadcrumb-link">
+                        
+                            Chapters
+                        
+                    </a>
+                </li>
+            
+        
+    
+        
+            
+            
+            
+                <li class="breadcrumb-item active" aria-current="page">
+                    Chapter 7: specifying time: introduction to tla+
+                </li>
+            
+        
+    
+</ol>
+
+<style>
+.breadcrumb-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    font-size: 0.875rem;
+    flex-wrap: wrap;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb-item:not(:last-child)::after {
+    content: '/';
+    margin: 0 0.5rem;
+    color: var(--text-muted);
+}
+
+.breadcrumb-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.breadcrumb-link:hover {
+    color: var(--primary-color);
+}
+
+.breadcrumb-item.active {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (max-width: 768px) {
+    .breadcrumb-list {
+        font-size: 0.75rem;
+    }
+
+    .breadcrumb-item:not(:last-child)::after {
+        margin: 0 0.375rem;
+    }
+}
+</style>
+
+                
+
+                <article class="page-content">
+                    <h1 id="chapter-7-specifying-time-introduction-to-tla">Chapter 7: Specifying Time: Introduction to TLA+</h1>
+
+<h2 id="71-the-challenge-of-distributed-systems-time-and-state-become-complex">7.1 The Challenge of Distributed Systems: Time and State Become Complex</h2>
+
+<h3 id="the-fundamental-difficulty-of-distribution">The Fundamental Difficulty of Distribution</h3>
+
+<p>Distributed systems are one of the key technical foundations of modern digital
+society, but their design and implementation involve difficulties that are
+qualitatively different from those of a single-machine system. Those
+difficulties arise because physical constraints and logical constraints interact
+in complicated ways.</p>
+
+<p>The most fundamental problem is the ambiguity of time. In a single machine, the
+execution order of instructions is largely deterministic, so the statement “A
+executed before B” has a clear meaning. In a distributed system, however, the
+temporal order between operations running on different machines is not obvious.</p>
+
+<h3 id="the-limits-of-physical-time">The Limits of Physical Time</h3>
+
+<p>Each machine has its own local clock, and perfect synchronization among those
+clocks is impossible. Relativity already tells us that absolute simultaneity is
+not a physically meaningful concept. Even at a practical engineering level,
+network delay, clock skew, and timezone differences make it hard to share one
+precise notion of time.</p>
+
+<p>Suppose two servers, one in Tokyo and one in New York, each execute an
+operation at “12:00:00.000” according to their own clocks. Were those actions
+truly simultaneous? Once we account for timezone offsets, network delay, and
+clock precision, the answer becomes uncertain.</p>
+
+<h3 id="increasing-complexity-of-causality">Increasing Complexity of Causality</h3>
+
+<p>In a distributed system, causal relationships among events become more subtle.
+For event A to be the cause of event B, information about A must have reached
+B. Because information propagation takes time, physical timestamps alone are not
+enough.</p>
+
+<p>【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Node 1: event A occurs → send message
+         |
+         ↓ (network delay)
+Node 2: receive message → event B occurs
+</code></pre></div></div>
+
+<p>To reason about such situations, we need a notion of logical time, not just
+physical time.</p>
+
+<h3 id="the-reality-of-partial-failure">The Reality of Partial Failure</h3>
+
+<p>Partial failure is unavoidable in distributed systems. One part of the system
+may fail while the rest continues to operate. This is very different from the
+usual failure mode of a single-machine program.</p>
+
+<p>Typical examples of partial failure include the following.</p>
+
+<ul>
+  <li><strong>Network partition</strong>: communication between some nodes is lost.</li>
+  <li><strong>Node failure</strong>: a particular machine stops responding.</li>
+  <li><strong>Performance degradation</strong>: one part of the system becomes much slower.</li>
+  <li><strong>Byzantine failure</strong>: a node behaves arbitrarily or maliciously.</li>
+</ul>
+
+<p>Maintaining consistency under such conditions is one of the core design
+problems of distributed systems.</p>
+
+<h3 id="the-trade-off-between-consistency-and-availability">The Trade-Off Between Consistency and Availability</h3>
+
+<p>One of the most important findings in distributed-systems theory is the CAP
+theorem. It says that the following three properties cannot all be guaranteed
+at the same time.</p>
+
+<ul>
+  <li><strong>Consistency</strong>: all nodes observe the same data.</li>
+  <li><strong>Availability</strong>: the system always returns a response.</li>
+  <li><strong>Partition tolerance</strong>: the system continues to operate despite network
+partitions.</li>
+</ul>
+
+<p>In practice, partitions cannot be ruled out, so a system must make design
+choices that trade consistency against availability depending on its needs.</p>
+
+<h3 id="managing-nondeterminism">Managing Nondeterminism</h3>
+
+<p>Nondeterminism is an essential feature of distributed systems. Even from the
+same initial state, different network delays or scheduling decisions may lead
+to different outcomes.</p>
+
+<p>That nondeterminism gives flexibility, but it also makes correctness harder to
+guarantee. We need to ensure that the system remains safe under <em>all</em> relevant
+execution orders, not just a convenient one.</p>
+
+<h3 id="the-difficulty-of-consensus">The Difficulty of Consensus</h3>
+
+<p>Distributed systems repeatedly face the need for agreement. Multiple nodes must
+agree on a value, a leader, or an ordering of operations. That turns out to be
+harder than it first appears.</p>
+
+<p>The FLP impossibility result shows that in an asynchronous distributed system,
+if even a single node can fail, there is no deterministic consensus algorithm
+that always guarantees termination. This theoretical limit is one of the key
+reasons why practical systems rely on additional assumptions such as timing
+bounds, failure restrictions, or probabilistic techniques.</p>
+
+<h3 id="state-explosion">State Explosion</h3>
+
+<p>The state space of a distributed system grows exponentially with the number of
+nodes. If each of <code class="language-plaintext highlighter-rouge">N</code> nodes has <code class="language-plaintext highlighter-rouge">K</code> possible local states, then the combined
+system may have <code class="language-plaintext highlighter-rouge">K^N</code> global states.</p>
+
+<p>This state explosion makes it hard to understand all possible behaviors by
+informal reasoning alone. Formal methods are therefore essential for controlling
+complexity and guaranteeing critical properties.</p>
+
+<h3 id="tla-as-an-approach-to-these-problems">TLA+ as an Approach to These Problems</h3>
+
+<p>TLA+ (Temporal Logic of Actions) addresses these difficulties through a few key
+ideas.</p>
+
+<ul>
+  <li><strong>Temporal logic for dynamic properties</strong>: properties such as “always” and
+“eventually” can be written precisely.</li>
+  <li><strong>State-transition modeling</strong>: a system is abstracted as states and the
+transitions among them.</li>
+  <li><strong>Actions as structured change</strong>: state change is described explicitly as an
+action.</li>
+  <li><strong>Fairness assumptions for realistic modeling</strong>: the specification can rule
+out unrealistic executions caused only by pathological scheduling.</li>
+</ul>
+
+<p>TLA+ does not make the essential difficulties of distributed systems disappear.
+Instead, it makes them explicit and therefore analyzable.</p>
+
+<h2 id="72-the-philosophy-of-tla-actions-and-temporal-logic">7.2 The Philosophy of TLA+: Actions and Temporal Logic</h2>
+
+<h3 id="leslie-lamports-central-insight">Leslie Lamport’s Central Insight</h3>
+
+<p>One of Leslie Lamport’s most important insights was that system behavior can be
+understood as a sequence of states. That idea seems simple, but it has major
+consequences.</p>
+
+<p>Traditional programming often focuses on the execution of commands. Lamport’s
+view shifts attention from “which instruction ran” to “how the system state
+changed.” Once that viewpoint is adopted, even complicated distributed behavior
+can be understood in a uniform way.</p>
+
+<h3 id="a-worldview-based-on-state-transition-systems">A Worldview Based on State-Transition Systems</h3>
+
+<p>In TLA+, every system is treated as a state-transition system. The system starts
+from an initial state and evolves through a sequence of transitions.</p>
+
+<p>【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>initial state → state 1 → state 2 → state 3 → ...
+</code></pre></div></div>
+
+<p>The state contains every relevant piece of information about the system: the
+values of program variables, the status of the network, the local state of each
+node, and any other information that can influence behavior.</p>
+
+<h3 id="actions-as-abstractions-of-change">Actions as Abstractions of Change</h3>
+
+<p>In TLA+, an <em>action</em> describes a relationship between a current state and a
+next state. Formally, an action is a predicate over unprimed and primed
+variables.</p>
+
+<p>For example, an action that increments <code class="language-plaintext highlighter-rouge">x</code> can be written as follows.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">Increment ≜ x' = x + 1
+</code></pre>
+
+<p>Here <code class="language-plaintext highlighter-rouge">x</code> denotes the value in the current state and <code class="language-plaintext highlighter-rouge">x'</code> denotes the value in
+the next state.</p>
+
+<h3 id="the-expressive-power-of-temporal-logic">The Expressive Power of Temporal Logic</h3>
+
+<p>TLA+ uses temporal logic to express dynamic properties of behavior.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">□</code> (always)</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">□(x ≥ 0)
+</code></pre>
+
+<p>This says that <code class="language-plaintext highlighter-rouge">x</code> is always non-negative.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">◇</code> (eventually)</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">◇(x = 10)
+</code></pre>
+
+<p>This says that <code class="language-plaintext highlighter-rouge">x</code> becomes 10 at some point.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">○</code> (next)</strong> is common in temporal-logic explanation, although ordinary TLA+
+specifications usually work directly with primed variables and action formulas
+rather than with a separate next-time operator.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">○(x &gt; y)
+</code></pre>
+
+<p>These operators can be combined to describe richer behavior.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">□◇(process = "ready")
+◇□(system = "stable")
+</code></pre>
+
+<p>The first says that the process becomes ready infinitely often. The second says
+that the system eventually reaches a stable condition and stays there.</p>
+
+<h3 id="the-power-of-prime-notation">The Power of Prime Notation</h3>
+
+<p>Prime notation is one of the cleanest ideas in TLA+. It distinguishes the
+current state from the next state concisely and directly.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">Transfer ≜
+  ∧ amount &gt; 0
+  ∧ balance_from ≥ amount
+  ∧ balance_from' = balance_from - amount
+  ∧ balance_to' = balance_to + amount
+</code></pre>
+
+<p>This reads naturally as a state change: the amount is positive, the source
+account has enough funds, and then the two balances are updated accordingly.</p>
+
+<h3 id="the-meaning-of-fairness">The Meaning of Fairness</h3>
+
+<p>In a concurrent or distributed system, an action may be enabled forever in the
+specification and yet never be scheduled in some pathological execution.
+Fairness is a way to rule out such unrealistic behaviors by assumption. It does
+<em>not</em> mean that an implementation automatically becomes fair merely because the
+specification includes fairness.</p>
+
+<p>Here <code class="language-plaintext highlighter-rouge">ENABLED A</code> means that from the current state, some next state exists that
+satisfies action <code class="language-plaintext highlighter-rouge">A</code>.</p>
+
+<ul>
+  <li><strong>Weak fairness (<code class="language-plaintext highlighter-rouge">WF</code>)</strong>: if an action is continuously enabled from some
+point onward, then it must eventually occur.</li>
+  <li><strong>Strong fairness (<code class="language-plaintext highlighter-rouge">SF</code>)</strong>: if an action becomes enabled infinitely often,
+then it must eventually occur.</li>
+</ul>
+
+<p>【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-tla">WF_vars(Action)
+SF_vars(Action)
+</code></pre>
+
+<h3 id="compositionality">Compositionality</h3>
+
+<p>TLA+ supports compositionality. Larger systems can be built from smaller
+specifications.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">System ≜ Process1 ∧ Process2 ∧ Process3
+</code></pre>
+
+<p>Each process can be specified independently, then combined using logical
+conjunction.</p>
+
+<h3 id="stepwise-refinement">Stepwise Refinement</h3>
+
+<p>TLA+ also supports refinement: a concrete specification can be shown to realize
+an abstract one. This allows development to proceed from a high-level design to
+an implementable model while preserving important guarantees.</p>
+
+<p>【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>abstract specification ⊨ concrete specification
+</code></pre></div></div>
+
+<p>The notation above is explanatory rather than executable TLA+ code, but it
+captures the refinement idea.</p>
+
+<h3 id="accepting-nondeterminism">Accepting Nondeterminism</h3>
+
+<p>TLA+ does not treat nondeterminism as a flaw to be eliminated. Instead, it is a
+valuable modeling tool. By allowing different actions to be chosen
+nondeterministically, the specification can preserve implementation freedom
+while still enforcing the required safety properties.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">Next ≜ Action1 ∨ Action2 ∨ Action3
+</code></pre>
+
+<p>The specification does not force one branch to be chosen. Instead, it requires
+all possible choices to be safe.</p>
+
+<h3 id="putting-mathematical-foundations-to-work">Putting Mathematical Foundations to Work</h3>
+
+<p>TLA+ is built on set theory, logic, and computation theory, but it integrates
+those foundations into a notation designed for system engineering. Because it
+can work naturally with sets, functions, sequences, and quantified formulas, it
+scales from abstract models to detailed protocol behavior.</p>
+
+<h3 id="integration-with-tools">Integration with Tools</h3>
+
+<p>TLA+ is not just a description language. It is tightly integrated with tooling,
+most notably TLC, the TLA+ model checker. That integration is one of its most
+important practical strengths: a mathematically written specification can be
+checked automatically against concrete finite models.</p>
+
+<h2 id="73-state-and-action-the-dynamic-model-of-a-system">7.3 State and Action: The Dynamic Model of a System</h2>
+
+<h3 id="structuring-the-state-space">Structuring the State Space</h3>
+
+<p>In TLA+, a state represents the complete relevant information about the system.
+This may include program variables, network state, local node state, and any
+other information that affects behavior.</p>
+
+<p>A state can often be understood as a function from variables to values. For
+example, a banking system might be modeled as follows.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">State ≜ [
+  accounts: [AccountID → Nat],
+  transactions: Seq(Transaction),
+  current_time: Time,
+  network_status: NetworkState
+]
+</code></pre>
+
+<p>This gives a compact description of the full situation at one moment.</p>
+
+<h3 id="defining-variables-and-types">Defining Variables and Types</h3>
+
+<p>TLA+ makes the state variables explicit, and type-like invariants can restrict
+them to the values that make sense for the model.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">VARIABLES
+  balance,
+  pending,
+  log,
+  clock
+
+TypeInvariant ≜
+  ∧ balance ∈ [AccountID → Nat]
+  ∧ pending ∈ SUBSET Transaction
+  ∧ log ∈ Seq(LogEntry)
+  ∧ clock ∈ Nat
+</code></pre>
+
+<p>Although TLA+ itself is untyped, such invariants play the role of a type
+discipline for the model.</p>
+
+<h3 id="specifying-the-initial-state">Specifying the Initial State</h3>
+
+<p>Behavior begins from <code class="language-plaintext highlighter-rouge">Init</code>, the predicate describing the initial state.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">Init ≜
+  ∧ balance = [a ∈ AccountID ↦ InitialBalance[a]]
+  ∧ pending = {}
+  ∧ log = ⟨⟩
+  ∧ clock = 0
+</code></pre>
+
+<p>The initial state fixes what is true at the start of every behavior.</p>
+
+<h3 id="state-change-through-actions">State Change Through Actions</h3>
+
+<p>An action describes one way the state can evolve.</p>
+
+<p><strong>Deposit example</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">Deposit(account, amount) ≜
+  ∧ amount &gt; 0
+  ∧ account ∈ DOMAIN balance
+  ∧ balance' = [balance EXCEPT ![account] = @ + amount]
+  ∧ log' = Append(log, [type ↦ "deposit", account ↦ account, amount ↦ amount])
+  ∧ clock' = clock + 1
+  ∧ UNCHANGED pending
+</code></pre>
+
+<p>This says that a deposit increases the selected balance, appends a log entry,
+and advances the clock, while leaving <code class="language-plaintext highlighter-rouge">pending</code> unchanged.</p>
+
+<h3 id="the-complexity-of-a-transfer-operation">The Complexity of a Transfer Operation</h3>
+
+<p>Transfers are more complex because several parts of the state must be updated
+consistently.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">Transfer(from, to, amount) ≜
+  ∧ amount &gt; 0
+  ∧ from ≠ to
+  ∧ from ∈ DOMAIN balance ∧ to ∈ DOMAIN balance
+  ∧ balance[from] ≥ amount
+  ∧ balance' = [balance EXCEPT
+      ![from] = @ - amount,
+      ![to] = @ + amount]
+  ∧ log' = Append(log, [type ↦ "transfer", from ↦ from, to ↦ to, amount ↦ amount])
+  ∧ clock' = clock + 1
+  ∧ UNCHANGED pending
+</code></pre>
+
+<h3 id="conditional-actions">Conditional Actions</h3>
+
+<p>Many actions are meaningful only under certain conditions.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">ProcessPendingTransaction ≜
+  ∧ pending ≠ {}
+  ∧ ∃ t ∈ pending :
+      ∧ CanProcess(t)
+      ∧ ExecuteTransaction(t)
+      ∧ pending' = pending \ {t}
+  ∧ UNCHANGED ⟨balance, log, clock⟩
+</code></pre>
+
+<h3 id="nondeterministic-choice">Nondeterministic Choice</h3>
+
+<p>A TLA+ next-state relation often combines many possible actions.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">Next ≜
+  ∨ ∃ account ∈ AccountID, amount ∈ Nat : Deposit(account, amount)
+  ∨ ∃ from, to ∈ AccountID, amount ∈ Nat : Transfer(from, to, amount)
+  ∨ ProcessPendingTransaction
+  ∨ TimeoutCleanup
+</code></pre>
+
+<p>The system may take any of these actions, provided the chosen action’s
+constraints are satisfied.</p>
+
+<h3 id="the-importance-of-frame-conditions">The Importance of Frame Conditions</h3>
+
+<p>When an action is written, it is important to make clear which variables do
+<em>not</em> change. These frame conditions prevent unintended side effects.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">ReadBalance(account) ≜
+  ∧ account ∈ DOMAIN balance
+  ∧ UNCHANGED ⟨balance, pending, log, clock⟩
+</code></pre>
+
+<p>A read-only action should explicitly state that all relevant variables remain
+unchanged.</p>
+
+<h3 id="expressing-atomicity">Expressing Atomicity</h3>
+
+<p>When several changes must happen together, they are written in one action.
+This is how atomicity is expressed.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">AtomicSwap(account1, account2) ≜
+  ∧ account1 ≠ account2
+  ∧ account1 ∈ DOMAIN balance ∧ account2 ∈ DOMAIN balance
+  ∧ balance' = [balance EXCEPT
+      ![account1] = balance[account2],
+      ![account2] = balance[account1]]
+  ∧ log' = Append(log, [type ↦ "swap", acc1 ↦ account1, acc2 ↦ account2])
+  ∧ clock' = clock + 1
+  ∧ UNCHANGED pending
+</code></pre>
+
+<h3 id="modeling-the-passage-of-time">Modeling the Passage of Time</h3>
+
+<p>Some systems require explicit representation of time passing.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">TickClock ≜
+  ∧ clock' = clock + 1
+  ∧ ProcessTimeouts
+  ∧ UNCHANGED ⟨balance, pending⟩
+
+ProcessTimeouts ≜
+  log' = [i ∈ DOMAIN log ↦
+    IF log[i].timestamp + TIMEOUT ≤ clock'
+    THEN [log[i] EXCEPT !.status = "expired"]
+    ELSE log[i]]
+</code></pre>
+
+<h3 id="interacting-with-the-environment">Interacting with the Environment</h3>
+
+<p>A system usually interacts with clients, users, or other external components.
+That interaction can also be modeled as actions.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">ReceiveExternalRequest(request) ≜
+  ∧ ValidRequest(request)
+  ∧ pending' = pending ∪ {request}
+  ∧ log' = Append(log, [type ↦ "request_received", request ↦ request])
+  ∧ clock' = clock + 1
+  ∧ UNCHANGED balance
+</code></pre>
+
+<h3 id="modeling-failures">Modeling Failures</h3>
+
+<p>Practical models often need explicit failure actions.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">NetworkFailure ≜
+  ∧ network_status = "operational"
+  ∧ network_status' = "failed"
+  ∧ pending' = {}
+  ∧ UNCHANGED ⟨balance, log, clock⟩
+
+Recovery ≜
+  ∧ network_status = "failed"
+  ∧ network_status' = "operational"
+  ∧ UNCHANGED ⟨balance, pending, log, clock⟩
+</code></pre>
+
+<h3 id="constraints-as-state-predicates">Constraints as State Predicates</h3>
+
+<p>Desired properties can also be written as state predicates and invariants.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">SafetyInvariant ≜
+  ∧ TypeInvariant
+  ∧ ∀ a ∈ DOMAIN balance : balance[a] ≥ 0
+  ∧ TotalMoney' = TotalMoney
+
+TotalMoney ≜ Sum({balance[a] : a ∈ DOMAIN balance})
+</code></pre>
+
+<p>This kind of formula captures the consistency properties that every reachable
+state or transition should respect.</p>
+
+<h2 id="74-temporal-logic-a-language-for-when-and-how">7.4 Temporal Logic: A Language for “When” and “How”</h2>
+
+<h3 id="abstracting-time">Abstracting Time</h3>
+
+<p>Temporal logic is a logical system for reasoning about time. In TLA+, time is
+abstracted as a sequence of states rather than treated primarily as physical
+clock time. This makes it possible to describe essential temporal properties
+without relying on one concrete timestamping scheme.</p>
+
+<p>The power of temporal logic lies in its focus on order and inevitability rather
+than on precise wall-clock values.</p>
+
+<h3 id="basic-temporal-operators">Basic Temporal Operators</h3>
+
+<p>TLA+ uses several foundational temporal operators.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">□</code> (always)</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">□P
+</code></pre>
+
+<p>Example:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">□(balance ≥ 0)
+□(mutex ⟹ ¬(process1_critical ∧ process2_critical))
+</code></pre>
+
+<p><strong><code class="language-plaintext highlighter-rouge">◇</code> (eventually)</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">◇P
+</code></pre>
+
+<p>Example:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">◇(task_completed)
+◇(system_stable)
+</code></pre>
+
+<h3 id="combining-operators">Combining Operators</h3>
+
+<p>Temporal operators can be combined to express richer long-run behavior.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">□◇P</code></strong>: <code class="language-plaintext highlighter-rouge">P</code> holds infinitely often.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">□◇(process_scheduled)
+□◇(garbage_collection)
+</code></pre>
+
+<p><strong><code class="language-plaintext highlighter-rouge">◇□P</code></strong>: eventually <code class="language-plaintext highlighter-rouge">P</code> becomes permanently true.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">◇□(leader_elected)
+◇□(consensus_reached)
+</code></pre>
+
+<h3 id="the-leads-to-relation">The Leads-To Relation</h3>
+
+<p>A very common temporal idea is that whenever <code class="language-plaintext highlighter-rouge">A</code> happens, <code class="language-plaintext highlighter-rouge">B</code> eventually
+follows.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">A ~&gt; B ≜ □(A ⟹ ◇B)
+</code></pre>
+
+<p>Example:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">request_sent ~&gt; response_received
+failure_detected ~&gt; recovery_initiated
+</code></pre>
+
+<h3 id="distinguishing-safety-from-liveness">Distinguishing Safety from Liveness</h3>
+
+<p>Temporal properties are often divided into two main categories.</p>
+
+<p><strong>Safety</strong>: nothing bad ever happens.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">Safety ≜ □¬BadThing
+</code></pre>
+
+<p>Examples:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">□¬(balance &lt; 0)
+□¬(deadlock)
+</code></pre>
+
+<p><strong>Liveness</strong>: something good eventually happens.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">Liveness ≜ ◇GoodThing
+</code></pre>
+
+<p>Examples:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">◇(all_processes_terminate)
+□(request ⟹ ◇response)
+</code></pre>
+
+<h3 id="temporal-expressions-of-fairness">Temporal Expressions of Fairness</h3>
+
+<p>Fairness can also be written precisely in temporal form.</p>
+
+<p><strong>Weak fairness</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">WF_vars(A) ≜ ◇□ENABLED ⟨A⟩_vars ⟹ □◇⟨A⟩_vars
+</code></pre>
+
+<p>This says that if action <code class="language-plaintext highlighter-rouge">A</code> eventually remains enabled forever, then it must
+occur infinitely often.</p>
+
+<p><strong>Strong fairness</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">SF_vars(A) ≜ □◇ENABLED ⟨A⟩_vars ⟹ □◇⟨A⟩_vars
+</code></pre>
+
+<p>This says that if <code class="language-plaintext highlighter-rouge">A</code> becomes enabled infinitely often, then it must also occur
+infinitely often.</p>
+
+<p>Note that <code class="language-plaintext highlighter-rouge">⟨A⟩_vars</code> excludes stuttering by requiring that action <code class="language-plaintext highlighter-rouge">A</code> occurs and
+that the tuple <code class="language-plaintext highlighter-rouge">vars</code> actually changes.</p>
+
+<h3 id="temporal-properties-of-mutual-exclusion">Temporal Properties of Mutual Exclusion</h3>
+
+<p>Mutual exclusion is a standard example of temporal reasoning.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">MutualExclusion ≜
+  ∀ i, j ∈ Processes : i ≠ j ⟹ □¬(pc[i] = "critical" ∧ pc[j] = "critical")
+
+Starvation_Free ≜
+  ∀ i ∈ Processes : (pc[i] = "trying") ~&gt; (pc[i] = "critical")
+
+Progress ≜
+  (∃ i ∈ Processes : pc[i] = "trying") ⟹ ◇(∃ j ∈ Processes : pc[j] = "critical")
+</code></pre>
+
+<h3 id="temporal-properties-of-distributed-consensus">Temporal Properties of Distributed Consensus</h3>
+
+<p>Consensus algorithms require several classic temporal properties.</p>
+
+<p><strong>Agreement</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">Agreement ≜
+  ∀ p, q ∈ Nodes :
+    (decided[p] ∧ decided[q]) ⟹ (decision[p] = decision[q])
+</code></pre>
+
+<p><strong>Validity</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">Validity ≜
+  ∀ p ∈ Nodes :
+    decided[p] ⟹ decision[p] ∈ {proposed[q] : q ∈ Nodes}
+</code></pre>
+
+<p><strong>Termination</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">Termination ≜
+  ◇(∀ p ∈ Nodes : decided[p])
+</code></pre>
+
+<h3 id="temporal-expressions-of-causality">Temporal Expressions of Causality</h3>
+
+<p>Distributed systems also require temporal reasoning about causal dependence.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">CausalOrder ≜
+  ∀ e1, e2 ∈ Events :
+    (e1.timestamp &lt; e2.timestamp ∧ e1.node = e2.node) ⟹
+    (e1 happens_before e2)
+
+EventualConsistency ≜
+  ◇□(∀ n1, n2 ∈ Nodes : replica[n1] = replica[n2])
+</code></pre>
+
+<h3 id="expressing-time-bounds">Expressing Time Bounds</h3>
+
+<p>Practical systems often require bounded-response guarantees.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">ResponseTime ≜
+  ∀ req ∈ Requests :
+    (request_sent(req)) ~&gt; (response_received(req) ∧ time ≤ req.timestamp + TIMEOUT)
+
+PeriodicMaintenance ≜
+  □◇(maintenance_performed ∧ time_since_last_maintenance ≤ MAINTENANCE_INTERVAL)
+</code></pre>
+
+<p>Some of these formulas are explanatory and use notation that is not standard
+raw TLA+ syntax. They should therefore be read as pseudo notation.</p>
+
+<h3 id="temporal-models-of-failure-and-recovery">Temporal Models of Failure and Recovery</h3>
+
+<p>Failures and recoveries are also naturally expressed as temporal requirements.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">FailureRecovery ≜
+  □(failure_detected ~&gt; recovery_initiated)
+
+Availability ≜
+  □◇(system_operational)
+
+BoundedDowntime ≜
+  □(failure_occurred ⟹ ◇≤MAX_DOWNTIME system_operational)
+</code></pre>
+
+<h3 id="more-complex-temporal-properties">More Complex Temporal Properties</h3>
+
+<p>Real systems usually require several temporal concerns to be combined.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">SystemSpec ≜
+  ∧ Safety_Properties
+  ∧ Liveness_Properties
+  ∧ Fairness_Assumptions
+
+Safety_Properties ≜
+  ∧ MutualExclusion
+  ∧ DataConsistency
+  ∧ SecurityPolicy
+
+Liveness_Properties ≜
+  ∧ Progress
+  ∧ EventualTermination
+  ∧ ServiceAvailability
+
+Fairness_Assumptions ≜
+  ∧ ∀ i ∈ Processes : WF_vars(Step(i))
+  ∧ ∀ msg ∈ Messages : SF_vars(Deliver(msg))
+</code></pre>
+
+<h3 id="the-power-and-limits-of-temporal-logic">The Power and Limits of Temporal Logic</h3>
+
+<p>Temporal logic is powerful, but not omnipotent.</p>
+
+<p><strong>It expresses well</strong>:</p>
+
+<ul>
+  <li>safety and liveness;</li>
+  <li>fairness and progress;</li>
+  <li>causal and ordering constraints; and</li>
+  <li>recurring or eventual patterns of behavior.</li>
+</ul>
+
+<p><strong>Its limits include</strong>:</p>
+
+<ul>
+  <li>quantitative real-time reasoning in full generality;</li>
+  <li>probabilistic guarantees;</li>
+  <li>explicit resource-consumption analysis; and</li>
+  <li>highly detailed numeric optimization.</li>
+</ul>
+
+<p>The key is to choose an abstraction level at which the temporal properties are
+both meaningful and analyzable.</p>
+
+<h2 id="75-practical-model-checking-with-tlc">7.5 Practical Model Checking with TLC</h2>
+
+<h3 id="what-tlc-is">What TLC Is</h3>
+
+<p>TLC (the TLA+ model checker) is the principal analysis tool for executable TLA+
+specifications. Developed around Leslie Lamport’s work, it explores behaviors
+of a finite model automatically and checks whether desired properties hold.</p>
+
+<p>The main value of TLC is that it makes mathematical specifications operational.
+Problems that are hard to spot from formulas alone often appear immediately as
+concrete counterexamples.</p>
+
+<h3 id="the-basic-principle-of-model-checking">The Basic Principle of Model Checking</h3>
+
+<p>Model checking systematically explores the state space of the system and asks
+whether any reachable state or behavior violates the properties of interest.
+TLC follows a pattern such as this:</p>
+
+<ol>
+  <li>generate all states satisfying <code class="language-plaintext highlighter-rouge">Init</code>;</li>
+  <li>compute successors using <code class="language-plaintext highlighter-rouge">Next</code>;</li>
+  <li>check invariants and temporal properties on the reachable states and
+behaviors; and</li>
+  <li>report a counterexample trace if a violation is found.</li>
+</ol>
+
+<h3 id="executability-of-a-specification">Executability of a Specification</h3>
+
+<p>For TLC to analyze a specification, the model must be executable in a finite
+sense. That means restricting an abstract specification to finite sets and
+finite bounds that TLC can enumerate.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">CONSTANTS
+  Processes,
+  MaxBalance,
+  MaxTime
+
+ASSUME
+  ∧ Processes ⊆ {"p1", "p2", "p3"}
+  ∧ MaxBalance ∈ Nat ∧ MaxBalance ≤ 1000
+  ∧ MaxTime ∈ Nat ∧ MaxTime ≤ 100
+</code></pre>
+
+<h3 id="creating-a-configuration-file">Creating a Configuration File</h3>
+
+<p>TLC is controlled through a configuration file (<code class="language-plaintext highlighter-rouge">.cfg</code>) that supplies concrete
+constant values, the specification to check, and the properties to verify.</p>
+
+<p>【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>\* BankingSystem.cfg
+CONSTANTS
+  Accounts = {"A1", "A2", "A3"}
+  InitialBalance = 100
+
+SPECIFICATION Spec
+
+INVARIANTS
+  TypeInvariant
+  SafetyInvariant
+
+PROPERTIES
+  ProgressProperty
+  LivenessProperty
+</code></pre></div></div>
+
+<h3 id="a-stepwise-verification-strategy">A Stepwise Verification Strategy</h3>
+
+<p>A staged approach is effective for nontrivial systems.</p>
+
+<p><strong>Stage 1: type-style invariants</strong></p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">TypeInvariant ≜
+  ∧ balance ∈ [Accounts → Nat]
+  ∧ pending ∈ SUBSET Transactions
+  ∧ clock ∈ Nat
+</code></pre>
+
+<p><strong>Stage 2: safety invariants</strong></p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">SafetyInvariant ≜
+  ∧ ∀ a ∈ Accounts : balance[a] ≤ MaxBalance
+  ∧ ∀ t ∈ pending : t.amount &gt; 0
+  ∧ TotalMoney = CHOOSE n ∈ Nat : TRUE
+</code></pre>
+
+<p><strong>Stage 3: liveness properties</strong></p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">Progress ≜ □(pending ≠ {} ⟹ ◇(pending = {}))
+</code></pre>
+
+<h3 id="controlling-the-state-space">Controlling the State Space</h3>
+
+<p>TLC’s usefulness depends heavily on the size of the explored state space. Good
+control techniques therefore matter.</p>
+
+<p><strong>Using symmetry</strong>:</p>
+
+<p>【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-tla">SYMMETRY Permutations(Accounts)
+</code></pre>
+
+<p>This is typically used in a model or configuration context to reduce the number
+of symmetric states that TLC explores.</p>
+
+<p><strong>Adding state constraints</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">StateConstraint ≜
+  ∧ clock ≤ MaxTime
+  ∧ ∀ a ∈ Accounts : balance[a] ≤ MaxBalance
+  ∧ Cardinality(pending) ≤ MaxPendingTransactions
+</code></pre>
+
+<h3 id="analyzing-error-traces">Analyzing Error Traces</h3>
+
+<p>When TLC finds a violation, it reports the execution trace that leads to it.
+Analyzing that trace is often the fastest route to understanding the root
+cause.</p>
+
+<p><strong>Typical output example</strong>:</p>
+
+<p>【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error: Invariant SafetyInvariant is violated.
+
+State 1: (Initial state)
+balance = (A1 :&gt; 100 @@ A2 :&gt; 100 @@ A3 :&gt; 100)
+pending = {}
+clock = 0
+
+State 2:
+balance = (A1 :&gt; 50 @@ A2 :&gt; 100 @@ A3 :&gt; 100)
+pending = {[from |-&gt; "A1", to |-&gt; "A2", amount |-&gt; 50]}
+clock = 1
+
+State 3:
+balance = (A1 :&gt; 50 @@ A2 :&gt; 150 @@ A3 :&gt; 100)
+pending = {}
+clock = 2
+</code></pre></div></div>
+
+<h3 id="detecting-deadlock">Detecting Deadlock</h3>
+
+<p>TLC can automatically report deadlock when the system reaches a state in which
+no enabled transition exists.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">BadMutex ≜
+  ∧ pc[1] = "wait" ∧ pc[2] = "wait"
+  ∧ ∀ i ∈ {1,2} : UNCHANGED pc[i]
+
+\* TLC may report:
+\* Error: Deadlock reached.
+</code></pre>
+
+<h3 id="verifying-liveness-properties">Verifying Liveness Properties</h3>
+
+<p>Checking liveness is generally more expensive than checking safety. TLC uses
+specialized graph analysis techniques, such as strongly connected components,
+to search for liveness violations.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">EventualProgress ≜
+  ∀ i ∈ Processes : □(pc[i] = "trying" ⟹ ◇(pc[i] = "critical"))
+</code></pre>
+
+<p>A TLC violation report for such a property will typically show a cycle in which
+a desired event is postponed forever.</p>
+
+<h3 id="probabilistic-or-sampling-based-checking">Probabilistic or Sampling-Based Checking</h3>
+
+<p>For very large state spaces, exhaustive checking may be impractical. In such
+cases, bounded or sampling-oriented approaches may be used operationally, even
+though their guarantees differ from exhaustive model checking.</p>
+
+<p>【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CONSTRAINT StateConstraint
+SYMMETRY Symmetries
+CHECK_DEADLOCK TRUE
+COVERAGE 80
+</code></pre></div></div>
+
+<h3 id="performance-optimization-techniques">Performance-Optimization Techniques</h3>
+
+<p>Several practical techniques improve TLC performance.</p>
+
+<p><strong>Parallel execution</strong>:</p>
+
+<p>【ツール準拠（そのまま動く）】</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tlc <span class="nt">-workers</span> 8 BankingSystem.tla
+</code></pre></div></div>
+
+<p><strong>Memory tuning</strong>:</p>
+
+<p>【ツール準拠（そのまま動く）】</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tlc <span class="nt">-Xmx8g</span> <span class="nt">-XX</span>:+UseG1GC BankingSystem.tla
+</code></pre></div></div>
+
+<p><strong>Checkpointing</strong>:</p>
+
+<p>【ツール準拠（そのまま動く）】</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tlc <span class="nt">-checkpoint</span> 60 BankingSystem.tla
+</code></pre></div></div>
+
+<h3 id="iterative-specification-improvement">Iterative Specification Improvement</h3>
+
+<p>In practice, TLC is usually used in an iterative loop.</p>
+
+<ol>
+  <li>write an initial specification;</li>
+  <li>run TLC;</li>
+  <li>analyze the error or counterexample;</li>
+  <li>improve the specification; and</li>
+  <li>run TLC again.</li>
+</ol>
+
+<p>This cycle gradually improves both the model and the team’s understanding of
+the system.</p>
+
+<h3 id="practical-verification-strategy">Practical Verification Strategy</h3>
+
+<p>Useful practical tactics include the following.</p>
+
+<ul>
+  <li><strong>Start small</strong>: begin with the smallest model that can express the core
+problem.</li>
+  <li><strong>Expand gradually</strong>: add more detail step by step.</li>
+  <li><strong>Check continuously</strong>: rerun verification when the specification changes.</li>
+  <li><strong>Monitor performance</strong>: record runtime and state counts to detect scaling
+issues early.</li>
+</ul>
+
+<h3 id="understanding-the-limits-of-tlc">Understanding the Limits of TLC</h3>
+
+<p>TLC also has clear limitations.</p>
+
+<ul>
+  <li><strong>State explosion</strong>: the state space can grow exponentially.</li>
+  <li><strong>Need for finite models</strong>: infinite sets cannot be handled directly.</li>
+  <li><strong>Time cost</strong>: large models may take a long time to check.</li>
+  <li><strong>Memory cost</strong>: the number of states is limited by available memory.</li>
+</ul>
+
+<p>Practical use of TLC depends on extracting the maximum value within those
+constraints.</p>
+
+<h2 id="76-applying-tla-to-the-real-world-a-distributed-consensus-algorithm">7.6 Applying TLA+ to the Real World: A Distributed Consensus Algorithm</h2>
+
+<h3 id="the-essence-of-the-distributed-consensus-problem">The Essence of the Distributed Consensus Problem</h3>
+
+<p>Distributed consensus is one of the most fundamental problems in distributed
+systems. Multiple nodes must agree on a value or decision despite failures,
+message delay, and uncertainty about the state of the rest of the system.</p>
+
+<p>The challenge is not only to reach agreement, but to do so in a way that keeps
+the decision stable once made.</p>
+
+<h3 id="a-formal-definition-of-consensus">A Formal Definition of Consensus</h3>
+
+<p>A distributed consensus algorithm is expected to satisfy three standard
+properties.</p>
+
+<ul>
+  <li><strong>Agreement</strong>: any nodes that decide must decide the same value.</li>
+  <li><strong>Validity</strong>: the chosen value must have been proposed by some node.</li>
+  <li><strong>Termination</strong>: all non-faulty nodes eventually decide.</li>
+</ul>
+
+<p>In TLA+, we can express them as follows.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">VARIABLES
+  proposed,
+  decided,
+  decision,
+  phase
+
+Agreement ≜
+  ∀ p, q ∈ Nodes :
+    (decided[p] ∧ decided[q]) ⟹ (decision[p] = decision[q])
+
+Validity ≜
+  ∀ p ∈ Nodes :
+    decided[p] ⟹ decision[p] ∈ {proposed[q] : q ∈ Nodes}
+
+Termination ≜
+  ◇(∀ p ∈ Nodes : decided[p])
+</code></pre>
+
+<h3 id="overview-of-raft">Overview of Raft</h3>
+
+<p>Raft is a distributed consensus algorithm designed with understandability in
+mind. It separates the problem into leader election and log replication, which
+makes the design easier to reason about.</p>
+
+<p>Its central concepts include:</p>
+
+<ul>
+  <li><strong>roles</strong>: <code class="language-plaintext highlighter-rouge">Leader</code>, <code class="language-plaintext highlighter-rouge">Follower</code>, and <code class="language-plaintext highlighter-rouge">Candidate</code>;</li>
+  <li><strong>terms</strong>: monotonically increasing epochs of leadership; and</li>
+  <li><strong>log entries</strong>: the ordered operations that the cluster agrees on.</li>
+</ul>
+
+<h3 id="the-state-model-of-raft">The State Model of Raft</h3>
+
+<p>A TLA+ model of Raft can make all of these pieces explicit.</p>
+
+<p>【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-tla">VARIABLES
+  \* Persistent state on all servers
+  currentTerm,
+  votedFor,
+  log,
+
+  \* Volatile state on all servers
+  state,
+  commitIndex,
+
+  \* Volatile state on leaders
+  nextIndex,
+  matchIndex,
+
+  \* Auxiliary state
+  messages,
+  election_timer,
+  heartbeat_timer
+</code></pre>
+
+<h3 id="defining-the-initial-state">Defining the Initial State</h3>
+
+<p>Initially, all servers begin as followers.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">Init ≜
+  ∧ currentTerm = [s ∈ Servers ↦ 0]
+  ∧ votedFor = [s ∈ Servers ↦ Nil]
+  ∧ log = [s ∈ Servers ↦ ⟨⟩]
+  ∧ state = [s ∈ Servers ↦ Follower]
+  ∧ commitIndex = [s ∈ Servers ↦ 0]
+  ∧ nextIndex = [s ∈ Servers ↦ [t ∈ Servers ↦ 1]]
+  ∧ matchIndex = [s ∈ Servers ↦ [t ∈ Servers ↦ 0]]
+  ∧ messages = {}
+  ∧ election_timer = [s ∈ Servers ↦ ElectionTimeout]
+  ∧ heartbeat_timer = [s ∈ Servers ↦ HeartbeatInterval]
+</code></pre>
+
+<h3 id="the-leader-election-process">The Leader-Election Process</h3>
+
+<p>Raft leader election can be written in stages.</p>
+
+<p><strong>1. Election timeout</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">ElectionTimeout(s) ≜
+  ∧ state[s] = Follower
+  ∧ election_timer[s] = 0
+  ∧ state' = [state EXCEPT ![s] = Candidate]
+  ∧ currentTerm' = [currentTerm EXCEPT ![s] = @ + 1]
+  ∧ votedFor' = [votedFor EXCEPT ![s] = s]
+  ∧ SendRequestVoteRequests(s)
+  ∧ election_timer' = [election_timer EXCEPT ![s] = ElectionTimeout]
+  ∧ UNCHANGED ⟨log, commitIndex, nextIndex, matchIndex, heartbeat_timer⟩
+</code></pre>
+
+<p><strong>2. Sending vote requests</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">SendRequestVoteRequests(s) ≜
+  messages' = messages ∪
+    {[type ↦ "RequestVote",
+      term ↦ currentTerm'[s],
+      candidateId ↦ s,
+      lastLogIndex ↦ Len(log[s]),
+      lastLogTerm ↦ IF Len(log[s]) &gt; 0 THEN log[s][Len(log[s])].term ELSE 0,
+      dest ↦ t] : t ∈ Servers \ {s}}
+</code></pre>
+
+<p><strong>3. Processing vote responses</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">ReceiveRequestVoteResponse(s) ≜
+  ∃ m ∈ messages :
+    ∧ m.type = "RequestVoteResponse"
+    ∧ m.dest = s
+    ∧ m.term = currentTerm[s]
+    ∧ m.voteGranted = TRUE
+    ∧ state[s] = Candidate
+    ∧ LET votes ≜ {t ∈ Servers : ∃ msg ∈ messages :
+                     msg.type = "RequestVoteResponse" ∧
+                     msg.dest = s ∧ msg.voteGranted = TRUE} ∪ {s}
+       IN  ∧ Cardinality(votes) &gt; Cardinality(Servers) ÷ 2
+           ∧ state' = [state EXCEPT ![s] = Leader]
+           ∧ SendHeartbeats(s)
+           ∧ UNCHANGED ⟨currentTerm, votedFor, log, commitIndex⟩
+</code></pre>
+
+<h3 id="log-replication">Log Replication</h3>
+
+<p>Once a leader exists, it accepts client requests and replicates them to the
+followers as log entries.</p>
+
+<p><strong>1. Appending an entry</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">AppendEntry(s, entry) ≜
+  ∧ state[s] = Leader
+  ∧ log' = [log EXCEPT ![s] = Append(@, entry)]
+  ∧ SendAppendEntries(s)
+  ∧ UNCHANGED ⟨currentTerm, votedFor, state, commitIndex⟩
+</code></pre>
+
+<p><strong>2. Sending <code class="language-plaintext highlighter-rouge">AppendEntries</code></strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">SendAppendEntries(s) ≜
+  messages' = messages ∪
+    {[type ↦ "AppendEntries",
+      term ↦ currentTerm[s],
+      leaderId ↦ s,
+      prevLogIndex ↦ nextIndex[s][t] - 1,
+      prevLogTerm ↦ IF nextIndex[s][t] &gt; 1
+                     THEN log[s][nextIndex[s][t] - 1].term
+                     ELSE 0,
+      entries ↦ SubSeq(log[s], nextIndex[s][t], Len(log[s])),
+      leaderCommit ↦ commitIndex[s],
+      dest ↦ t] : t ∈ Servers \ {s}}
+</code></pre>
+
+<p><strong>3. Processing responses and committing</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">ProcessAppendEntriesResponse(s) ≜
+  ∃ m ∈ messages :
+    ∧ m.type = "AppendEntriesResponse"
+    ∧ m.dest = s
+    ∧ state[s] = Leader
+    ∧ m.term = currentTerm[s]
+    ∧ IF m.success
+       THEN ∧ nextIndex' = [nextIndex EXCEPT ![s][m.source] = m.matchIndex + 1]
+            ∧ matchIndex' = [matchIndex EXCEPT ![s][m.source] = m.matchIndex]
+            ∧ UpdateCommitIndex(s)
+       ELSE ∧ nextIndex' = [nextIndex EXCEPT ![s][m.source] = Max(1, @ - 1)]
+            ∧ UNCHANGED matchIndex
+    ∧ UNCHANGED ⟨currentTerm, votedFor, log, state, commitIndex⟩
+</code></pre>
+
+<h3 id="safety-guarantees">Safety Guarantees</h3>
+
+<p>Raft should satisfy several important safety invariants.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">LogMatching ≜
+  ∀ s, t ∈ Servers, i ∈ DOMAIN log[s] ∩ DOMAIN log[t] :
+    log[s][i].term = log[t][i].term ⟹
+    ∀ j ∈ 1..i : log[s][j] = log[t][j]
+
+LeaderUniqueness ≜
+  ∀ s, t ∈ Servers :
+    (state[s] = Leader ∧ state[t] = Leader) ⟹
+    (s = t ∨ currentTerm[s] ≠ currentTerm[t])
+
+CommittedEntriesNeverChange ≜
+  ∀ s ∈ Servers, i ∈ 1..commitIndex[s] :
+    □(log[s][i] = log'[s][i])
+</code></pre>
+
+<h3 id="incorporating-a-failure-model">Incorporating a Failure Model</h3>
+
+<p>A realistic distributed-system model must also include failures.</p>
+
+<p><strong>Node failure</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">NodeFailure(s) ≜
+  ∧ state[s] ≠ Failed
+  ∧ state' = [state EXCEPT ![s] = Failed]
+  ∧ UNCHANGED ⟨currentTerm, votedFor, log, commitIndex,
+               nextIndex, matchIndex, messages⟩
+</code></pre>
+
+<p><strong>Network partition</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">NetworkPartition ≜
+  ∃ partition ⊆ Servers :
+    ∧ Cardinality(partition) &gt; 0
+    ∧ Cardinality(partition) &lt; Cardinality(Servers)
+    ∧ ∀ m ∈ messages :
+        (m.source ∈ partition ∧ m.dest ∉ partition) ∨
+        (m.source ∉ partition ∧ m.dest ∈ partition) ⟹
+        m ∉ messages'
+</code></pre>
+
+<p><strong>Message loss</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">MessageLoss ≜
+  ∃ m ∈ messages :
+    ∧ messages' = messages \ {m}
+    ∧ UNCHANGED ⟨currentTerm, votedFor, log, state, commitIndex,
+                 nextIndex, matchIndex⟩
+</code></pre>
+
+<h3 id="liveness-guarantees">Liveness Guarantees</h3>
+
+<p>Raft also aims to satisfy progress properties, subject to fairness and network
+assumptions.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-tla">EventualLeaderElection ≜
+  ◇(∃ s ∈ Servers : state[s] = Leader)
+
+Progress ≜
+  □(client_request ⟹ ◇committed)
+
+Fairness ≜
+  ∧ ∀ s ∈ Servers : WF_vars(ElectionTimeout(s))
+  ∧ ∀ s ∈ Servers : WF_vars(ReceiveMessage(s))
+  ∧ ∀ m ∈ MessageType : SF_vars(DeliverMessage(m))
+</code></pre>
+
+<h3 id="verifying-with-tlc">Verifying with TLC</h3>
+
+<p>A TLC configuration for a small Raft model might look as follows.</p>
+
+<p>【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>\* Raft.cfg
+CONSTANTS
+  Servers = {"s1", "s2", "s3"}
+  ElectionTimeout = 3
+  HeartbeatInterval = 1
+  MaxLogLength = 5
+
+SPECIFICATION
+  Init ∧ □[Next]_vars ∧ Fairness
+
+INVARIANTS
+  TypeInvariant
+  LogMatching
+  LeaderUniqueness
+  CommittedEntriesNeverChange
+
+PROPERTIES
+  EventualLeaderElection
+  Progress
+</code></pre></div></div>
+
+<p>This kind of model lets us check the essential correctness of the algorithm on a
+small cluster, including various fault scenarios.</p>
+
+<p>The broader lesson is that even a complicated protocol such as distributed
+consensus can be written precisely in TLA+ and then checked automatically. That
+combination of mathematical clarity and practical verification is one of the
+main reasons TLA+ is valuable for real systems.</p>
+
+<hr />
+
+<h2 id="end-of-chapter-exercises">End-of-Chapter Exercises</h2>
+
+<p><strong>If you use AI while working through these exercises</strong></p>
+
+<ul>
+  <li>Treat AI output as a proposal; use verifiers to make the final judgment.</li>
+  <li>Keep a record of the prompts you used, the generated specifications and
+invariants, the verification commands and logs (including seed, depth, and
+scope), and the revision history when counterexamples were found.</li>
+  <li>For detailed templates, see Appendix D and Appendix F.</li>
+</ul>
+
+<h3 id="basic-exercise-1-understanding-temporal-logic-notation">Basic Exercise 1: Understanding Temporal-Logic Notation</h3>
+
+<p>Explain the following temporal formulas in plain language and give a concrete
+example of each in a real system.</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">□(resource_requested ⟹ ◇resource_granted)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">◇□(system_stable)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">□◇(garbage_collection)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">(critical_section_entered) ~&gt; (critical_section_exited)</code></li>
+</ol>
+
+<p>For each formula, provide:</p>
+
+<ul>
+  <li>an explanation of its meaning;</li>
+  <li>a concrete real-system example; and</li>
+  <li>an example of a situation in which the property is violated.</li>
+</ul>
+
+<h3 id="basic-exercise-2-describing-state-and-action">Basic Exercise 2: Describing State and Action</h3>
+
+<p>Describe the following system in terms of TLA+ state and actions.</p>
+
+<p><strong>Simple inventory-management system</strong>:</p>
+
+<ul>
+  <li>a variable <code class="language-plaintext highlighter-rouge">stock</code> stores the current quantity;</li>
+  <li>a restock operation increases the quantity;</li>
+  <li>a shipment operation decreases the quantity but cannot execute when stock is
+insufficient; and</li>
+  <li>a stocktaking operation corrects the quantity to the accurate value.</li>
+</ul>
+
+<p>Describe:</p>
+
+<ol>
+  <li>the variable declarations and type invariant;</li>
+  <li>the initial state;</li>
+  <li>the action definition for each operation;</li>
+  <li>the <code class="language-plaintext highlighter-rouge">Next</code> predicate; and</li>
+  <li>a basic safety invariant.</li>
+</ol>
+
+<h3 id="practical-exercise-1-designing-a-mutual-exclusion-protocol">Practical Exercise 1: Designing a Mutual-Exclusion Protocol</h3>
+
+<p>Write Peterson’s algorithm in TLA+ and verify it with TLC.</p>
+
+<p><strong>Requirements</strong>:</p>
+
+<ul>
+  <li>two processes use mutual exclusion;</li>
+  <li>each process has the states “noncritical,” “trying,” and “critical”; and</li>
+  <li>the protocol is controlled by a flag array and a turn variable.</li>
+</ul>
+
+<p><strong>Properties to verify</strong>:</p>
+
+<ol>
+  <li>mutual exclusion: the two processes are never in the critical section at the
+same time;</li>
+  <li>progress: if there is a pending request, eventually some process enters the
+critical section; and</li>
+  <li>fairness: both processes can enter the critical section repeatedly rather
+than one starving forever.</li>
+</ol>
+
+<h3 id="practical-exercise-2-the-producer-consumer-problem">Practical Exercise 2: The Producer-Consumer Problem</h3>
+
+<p>Design a producer-consumer system with a finite buffer in TLA+.</p>
+
+<p><strong>System structure</strong>:</p>
+
+<ul>
+  <li>multiple producer processes;</li>
+  <li>multiple consumer processes; and</li>
+  <li>a shared fixed-size buffer.</li>
+</ul>
+
+<p><strong>Constraints</strong>:</p>
+
+<ul>
+  <li>producers must wait when the buffer is full;</li>
+  <li>consumers must wait when the buffer is empty; and</li>
+  <li>FIFO order must be preserved.</li>
+</ul>
+
+<p><strong>Verification targets</strong>:</p>
+
+<ol>
+  <li>absence of deadlock;</li>
+  <li>no data loss;</li>
+  <li>fairness between producers and consumers; and</li>
+  <li>avoidance of buffer overflow and underflow.</li>
+</ol>
+
+<h3 id="advanced-exercise-designing-a-distributed-system">Advanced Exercise: Designing a Distributed System</h3>
+
+<p>Design a simplified distributed file system in TLA+.</p>
+
+<p><strong>System requirements</strong>:</p>
+
+<ul>
+  <li>multiple storage nodes;</li>
+  <li>replication for redundancy;</li>
+  <li>client read and write requests; and</li>
+  <li>tolerance to node failure.</li>
+</ul>
+
+<p><strong>Main operations</strong>:</p>
+
+<ol>
+  <li>file creation and deletion;</li>
+  <li>file reading and writing;</li>
+  <li>replication management; and</li>
+  <li>failure detection and recovery.</li>
+</ol>
+
+<p><strong>Properties to verify</strong>:</p>
+
+<ol>
+  <li><strong>Consistency</strong>: all replicas eventually hold the same contents.</li>
+  <li><strong>Availability</strong>: service continues despite some node failures.</li>
+  <li><strong>Durability</strong>: data remains persistently stored.</li>
+  <li><strong>Partition tolerance</strong>: the system behaves appropriately under network
+partition.</li>
+</ol>
+
+<p><strong>Design questions</strong>:</p>
+
+<ul>
+  <li>How is the failure model defined?</li>
+  <li>Which consistency model is chosen: strong consistency or eventual
+consistency?</li>
+  <li>Is distributed consensus required, and if so, which algorithm should be
+chosen?</li>
+  <li>How are performance trade-offs handled?</li>
+</ul>
+
+<p>Through these exercises, you should gain practical skill in formal distributed
+system design with TLA+. In the advanced exercise in particular, it is
+important to reason explicitly about the implications of CAP-style constraints
+and the trade-offs between theory and practice.</p>
+
+                </article>
+
+                
+                <nav class="page-navigation" aria-label="Page navigation">
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+
+
+
+
+
+<nav class="book-navigation" aria-label="Page navigation">
+  <div class="chapter-nav">
+    
+      <a href="/formal-methods-book/en/chapters/chapter06/" class="nav-prev" rel="prev">
+        <span class="arrow" aria-hidden="true">←</span>
+        <span class="label">Previous</span>
+        <span class="title">Chapter 6: Process-Centric Specification — Concurrency with CSP</span>
+      </a>
+    
+
+    <a href="/formal-methods-book/en/" class="nav-home">
+      <span class="label">Contents</span>
+    </a>
+
+    
+      <a href="/formal-methods-book/en/chapters/chapter08/" class="nav-next" rel="next">
+        <span class="label">Next</span>
+        <span class="title">Chapter 8: Introduction to Model Checking</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    
+  </div>
+</nav>
+
+<style>
+.book-navigation { margin: 2rem 0; padding: 1rem; border-top: 1px solid var(--border-color, #e5e7eb); }
+.chapter-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.nav-prev, .nav-next, .nav-home { display: flex; align-items: center; padding: 0.75rem 1.25rem; background: var(--bg-primary, #fff); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; text-decoration: none; color: inherit; }
+.nav-disabled { opacity: .5; cursor: not-allowed; background: var(--bg-tertiary, #f9fafb); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; padding: 0.75rem 1.25rem; display: flex; align-items: center; }
+.nav-prev { flex: 1; }
+.nav-next { flex: 1; justify-content: flex-end; text-align: right; }
+.nav-home { flex: 0 0 auto; justify-content: center; }
+.label { font-weight: 600; margin: 0 .25rem; }
+.title { font-size: .9rem; opacity: .8; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 768px) { .chapter-nav { flex-wrap: wrap; } .nav-prev, .nav-next { flex: 1 1 45%; } .nav-home { flex: 1 1 100%; order: -1; } .title { display: none; } }
+</style>
+
+                </nav>
+                
+
+                
+
+                <footer class="book-footer" role="contentinfo">
+                    <div class="book-footer-inner">
+                        <div class="book-footer-license">
+                            Reader-facing text: CC BY-NC-SA 4.0 / Code assets: Apache-2.0 / excluding trademarks and third-party assets
+                        </div>
+                        <div class="book-footer-links">
+                            
+                                <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener">GitHub</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/LICENSE-SCOPE.md" target="_blank" rel="noopener">License</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/COMMERCIAL.md" target="_blank" rel="noopener">Commercial</a>
+                            
+                            
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <label for="sidebar-toggle-checkbox" class="book-sidebar-overlay" id="sidebar-overlay" aria-label="Close sidebar"></label>
+
+    <script async src="/formal-methods-book/assets/js/code-copy-lightweight.js"></script>
+    <script defer src="/formal-methods-book/assets/js/theme.js"></script>
+    <script defer src="/formal-methods-book/assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var cb = document.getElementById('sidebar-toggle-checkbox');
+            var toggle = document.querySelector('.sidebar-toggle');
+            if (cb) cb.checked = false;
+            if (cb && toggle) {
+                var sync = function() {
+                    toggle.setAttribute('aria-expanded', cb.checked ? 'true' : 'false');
+                };
+                sync();
+                cb.addEventListener('change', sync);
+                toggle.addEventListener('keydown', function(e) {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        cb.checked = !cb.checked;
+                        cb.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        (function() {
+            function initTocAutoScroll() {
+                var cb = document.getElementById('sidebar-toggle-checkbox');
+                if (!cb) return;
+
+                function normalizePath(p) {
+                    var path = String(p || '').replace(/index\.html$/, '');
+                    if (path.length > 1) {
+                        path = path.replace(/\/+$/, '');
+                    }
+                    return path || '/';
+                }
+
+                function isMobileDrawer() {
+                    try {
+                        if (typeof window.matchMedia === 'function') {
+                            return window.matchMedia('(max-width: 1024px)').matches;
+                        }
+                    } catch (_) {}
+                    return typeof window.innerWidth === 'number' ? window.innerWidth <= 1024 : true;
+                }
+
+                function findActiveTocLink() {
+                    var current = normalizePath(window.location.pathname);
+                    var actives = document.querySelectorAll('a.toc-link.active');
+                    if (!actives || actives.length === 0) return null;
+
+                    for (var i = 0; i < actives.length; i++) {
+                        var a = actives[i];
+                        if (!a || !a.href) continue;
+                        try {
+                            var pathname = normalizePath(new URL(a.href).pathname);
+                            if (pathname === current) return a;
+                        } catch (_) {}
+                    }
+                    return actives[0];
+                }
+
+                function ensureActiveTocVisible() {
+                    if (!cb.checked) return;
+                    if (!isMobileDrawer()) return;
+
+                    var active = findActiveTocLink();
+                    if (!active) return;
+
+                    var sidebar = active.closest('.book-sidebar') || document.getElementById('sidebar');
+                    if (!sidebar) return;
+
+                    try {
+                        var linkRect = active.getBoundingClientRect();
+                        var sidebarRect = sidebar.getBoundingClientRect();
+                        var marginTop = 8;
+                        var marginBottom = 8;
+                        try {
+                            if (window.getComputedStyle) {
+                                var cs = window.getComputedStyle(sidebar);
+                                if (cs) {
+                                    var pt = parseFloat(cs.paddingTop);
+                                    var pb = parseFloat(cs.paddingBottom);
+                                    if (!isNaN(pt)) marginTop = pt;
+                                    if (!isNaN(pb)) marginBottom = pb;
+                                }
+                            }
+                        } catch (_) {}
+
+                        var top = sidebarRect.top + marginTop;
+                        var bottom = sidebarRect.bottom - marginBottom;
+                        var outOfView = linkRect.top < top || linkRect.bottom > bottom;
+
+                        if (outOfView && typeof active.scrollIntoView === 'function') {
+                            try {
+                                active.scrollIntoView({ block: 'center', behavior: 'auto' });
+                            } catch (e) {
+                                active.scrollIntoView();
+                            }
+                        }
+                    } catch (_) {}
+                }
+
+                function scheduleEnsure() {
+                    setTimeout(ensureActiveTocVisible, 0);
+                    setTimeout(ensureActiveTocVisible, 350);
+                }
+
+                cb.addEventListener('change', function() {
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+
+                if (cb.checked) {
+                    scheduleEnsure();
+                }
+
+                window.addEventListener('pageshow', function(e) {
+                    if (!e || !e.persisted) return;
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initTocAutoScroll);
+            } else {
+                initTocAutoScroll();
+            }
+        })();
+    </script>
+</body>
+</html>
