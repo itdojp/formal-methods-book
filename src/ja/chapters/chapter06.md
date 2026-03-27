@@ -1211,4 +1211,4 @@ SYSTEM = PROCESS_A [| {resource1.acquire, resource1.release,
 ## 章末まとめ
 
 - `summary`: CSPは、プロセス・事象・同期を使って並行システムの振る舞いを記述し、デッドロック・活性・公平性を同じ枠組みで検討できる。
-- `nextSteps`: 次は [第7章：時間を扱う仕様記述 - TLA+入門]({{ '/chapters/chapter07/' | relative_url }}) に進み、必要に応じて [付録C: 記法対照表]({{ '/appendices/appendix-c/' | relative_url }}) と [付録D: 演習問題解答]({{ '/appendices/appendix-d/' | relative_url }}) を参照する。
+- `nextSteps`: 次は [第7章：時間を扱う仕様記述 - TLA+入門](chapter07.md) に進み、必要に応じて [付録C: 記法対照表](../appendices/appendix-c.md) と [付録D: 演習問題解答](../appendices/appendix-d.md) を参照する。

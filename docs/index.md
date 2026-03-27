@@ -37,7 +37,7 @@ source_path: "src/ja/index.md"
 
 - 全体像の把握には、[第1章の学習ロードマップ]({{ '/chapters/chapter01/' | relative_url }}) を起点にすると、部ごとの役割が追いやすい。
 - 用語の意味や略語は [用語集（Glossary）]({{ '/glossary/' | relative_url }}) で確認し、記法や構文の差分は [付録C: 記法対照表]({{ '/appendices/appendix-c/' | relative_url }}) で確認する。
-- 長い章を読むときは、[第9章]({{ '/chapters/chapter09/' | relative_url }}) など章末に `summary` と `nextSteps` が用意されている章では、先にそれらを確認して、必要な戻り先と次の読解順を固定する。
+- 長い章を読むときは、[第6章]({{ '/chapters/chapter06/' | relative_url }}) など章末に `summary` と `nextSteps` が用意されている章では、先にそれらを確認して、必要な戻り先と次の読解順を固定する。
 
 ## 安全に使うための注意
 
@@ -120,9 +120,9 @@ source_path: "src/ja/index.md"
 ## 利用と更新情報
 
 - 公開ページ: [GitHub Pages](https://itdojp.github.io/formal-methods-book/)
-- リポジトリ: [GitHub](https://github.com/itdojp/formal-methods-book)
-- 更新確認先: [コミット履歴](https://github.com/itdojp/formal-methods-book/commits/main/)、[Pull Requests](https://github.com/itdojp/formal-methods-book/pulls)
-- 付録Eは一次情報や関連資料の入口、付録Fは AI 支援併用時の注意点の入口として使ってください。
+- リポジトリ: [GitHub]({{ repo_url }})
+- 更新確認先: [コミット履歴]({{ repo_url }}/commits/{{ repo_branch }}/)、[Pull Requests]({{ repo_url }}/pulls)
+- 付録Eは一次情報や関連資料の入口、付録Fは AI支援併用時の注意点の入口として使ってください。
 
 ## ライセンス
 
