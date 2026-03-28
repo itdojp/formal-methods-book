@@ -1,0 +1,895 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta name="author" content="太田和彦（株式会社アイティードゥ）">
+
+    <title>Appendix B: Tool Setup and Verification Quick Start - Formal Methods: Foundations and Applications</title>
+
+    <link rel="canonical" href="https://itdojp.github.io/formal-methods-book/en/appendices/appendix-b/">
+    <link rel="alternate" hreflang="ja" href="https://itdojp.github.io/formal-methods-book/appendices/appendix-b/">
+    <link rel="alternate" hreflang="en" href="https://itdojp.github.io/formal-methods-book/en/appendices/appendix-b/">
+    <link rel="alternate" hreflang="x-default" href="https://itdojp.github.io/formal-methods-book/">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/main.css">
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/syntax-highlighting.css">
+
+    <link rel="icon" type="image/png" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+    <link rel="apple-touch-icon" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+
+    <meta property="og:title" content="Appendix B: Tool Setup and Verification Quick Start">
+    <meta property="og:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://itdojp.github.io/formal-methods-book/en/appendices/appendix-b/">
+    <meta property="og:locale" content="en_US">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Appendix B: Tool Setup and Verification Quick Start">
+    <meta name="twitter:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+
+    <script>
+        (function() {
+            try {
+                const k = 'book-theme';
+                const t = localStorage.getItem(k) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (_) {}
+        })();
+    </script>
+</head>
+<body>
+    
+    
+    
+    
+    
+
+    <input type="checkbox" id="sidebar-toggle-checkbox" class="sidebar-toggle-checkbox" aria-hidden="true">
+
+    <div class="book-layout">
+        <header class="book-header">
+            <div class="header-left">
+                <label for="sidebar-toggle-checkbox" class="sidebar-toggle" aria-label="Toggle sidebar" role="button" tabindex="0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </label>
+                <a href="/formal-methods-book/en/" class="header-title">
+                    <h1>Formal Methods: Foundations and Applications</h1>
+                </a>
+            </div>
+
+            <div class="header-center">
+                <div class="search-container">
+                    <input type="search"
+                           placeholder="Search..."
+                           class="search-input"
+                           id="search-input"
+                           autocomplete="off">
+                    <div class="search-results" id="search-results"></div>
+                </div>
+            </div>
+
+            <div class="header-right">
+                
+
+
+
+
+
+
+
+
+
+
+<a href="/formal-methods-book/appendices/appendix-b/"
+   class="language-switcher"
+   hreflang="ja"
+   lang="ja"
+   >
+    日本語
+</a>
+
+                <button class="theme-toggle" aria-label="Toggle theme">
+                    <svg class="theme-icon theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="theme-icon theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+
+                
+            </div>
+        </header>
+
+        <aside class="book-sidebar" id="sidebar">
+            <nav class="sidebar-nav" role="navigation" aria-label="Main navigation">
+                
+
+
+
+
+
+
+
+
+
+
+<div class="sidebar-content">
+    <div class="book-info">
+        <h2 class="book-title"><a href="/formal-methods-book/en/" class="header-title">Formal Methods: Foundations and Applications</a></h2>
+        
+        <p class="book-subtitle">An Integrated Understanding of Specification, Model Checking, and Theorem Proving</p>
+        
+    </div>
+
+    <div class="toc">
+        <h3 class="toc-title">Contents</h3>
+
+        <div class="toc-section">
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/" class="toc-link ">
+                        Home
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Introduction</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/introduction/" class="toc-link ">
+                        Introduction
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Chapters</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter01/" class="toc-link ">
+                        Chapter 1: Why Formal Methods Matter
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter02/" class="toc-link ">
+                        Chapter 2: Bridging Mathematics and Programs
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter03/" class="toc-link ">
+                        Chapter 3: Foundations of Specification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter04/" class="toc-link ">
+                        Chapter 4: Introduction to Lightweight Formal Methods — Specification with Alloy
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter05/" class="toc-link ">
+                        Chapter 5: State-Based Specification — Fundamentals of Z Notation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter06/" class="toc-link ">
+                        Chapter 6: Process-Centric Specification — Concurrency with CSP
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter07/" class="toc-link ">
+                        Chapter 7: Specifying Time — Introduction to TLA+
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter08/" class="toc-link ">
+                        Chapter 8: Introduction to Model Checking
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter09/" class="toc-link ">
+                        Chapter 9: Fundamentals of Theorem Proving
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter10/" class="toc-link ">
+                        Chapter 10: Program Verification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter11/" class="toc-link ">
+                        Chapter 11: Integrating Formal Methods into Development Processes
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter12/" class="toc-link ">
+                        Chapter 12: Tools and Automation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter13/" class="toc-link ">
+                        Chapter 13: Case Studies
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Additional</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/glossary/" class="toc-link ">
+                        Glossary
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Appendices</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-a/" class="toc-link ">
+                        Appendix A: Mathematics Refresher
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-b/" class="toc-link active">
+                        Appendix B: Tool Setup and Verification Quick Start
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-c/" class="toc-link ">
+                        Appendix C: Notation Cross-Reference
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-d/" class="toc-link ">
+                        Appendix D: Exercise Guides and Self-Review Frameworks
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-e/" class="toc-link ">
+                        Appendix E: References and Further Reading Paths
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-f/" class="toc-link ">
+                        Appendix F: Practical Playbook for AI-Assisted Formal Methods
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Afterword</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/afterword/" class="toc-link ">
+                        Afterword
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="external-links">
+            
+            <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener" class="external-link">GitHub</a>
+            
+            
+        </div>
+    </div>
+</div>
+
+            </nav>
+        </aside>
+
+        <main class="book-main" id="main">
+            <div class="book-content">
+                
+                    
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb-list">
+    <li class="breadcrumb-item">
+        <a href="/formal-methods-book/en/" class="breadcrumb-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span class="sr-only">Home</span>
+        </a>
+    </li>
+
+    
+        
+    
+        
+    
+        
+            
+            
+            
+                
+                
+                <li class="breadcrumb-item">
+                    <a href="/formal-methods-book/en/appendices/" class="breadcrumb-link">
+                        
+                            Appendices
+                        
+                    </a>
+                </li>
+            
+        
+    
+        
+            
+            
+            
+                <li class="breadcrumb-item active" aria-current="page">
+                    Appendix b: tool setup and verification quick start
+                </li>
+            
+        
+    
+</ol>
+
+<style>
+.breadcrumb-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    font-size: 0.875rem;
+    flex-wrap: wrap;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb-item:not(:last-child)::after {
+    content: '/';
+    margin: 0 0.5rem;
+    color: var(--text-muted);
+}
+
+.breadcrumb-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.breadcrumb-link:hover {
+    color: var(--primary-color);
+}
+
+.breadcrumb-item.active {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (max-width: 768px) {
+    .breadcrumb-list {
+        font-size: 0.75rem;
+    }
+
+    .breadcrumb-item:not(:last-child)::after {
+        margin: 0 0.375rem;
+    }
+}
+</style>
+
+                
+
+                <article class="page-content">
+                    <h1 id="appendix-b-tool-setup-and-verification-quick-start">Appendix B: Tool Setup and Verification Quick Start</h1>
+
+<p>This appendix gives the shortest reproducible path to running the book’s companion examples. It prioritizes <strong>reproducibility (minimizing environment differences)</strong> over local customization.</p>
+
+<ol>
+  <li><strong>Container (recommended)</strong>: use a devcontainer for a unified environment</li>
+  <li><strong>Local</strong>: run the same scripts with minimum dependencies such as Java, <code class="language-plaintext highlighter-rouge">curl</code>, and <code class="language-plaintext highlighter-rouge">unzip</code></li>
+</ol>
+
+<p>The commands below are representative examples. Distribution formats and prerequisites may change, so consult Appendix E on primary sources when necessary.</p>
+
+<p>You do not need every tool before you begin reading. By following this appendix, you should be able to reproduce at least <strong>one model checking workflow</strong> (<code class="language-plaintext highlighter-rouge">Alloy</code>/<code class="language-plaintext highlighter-rouge">TLC</code>/<code class="language-plaintext highlighter-rouge">Apalache</code>) and <strong>one program verification workflow</strong> (<code class="language-plaintext highlighter-rouge">Dafny</code>).</p>
+
+<h2 id="target-tools-minimum-set">Target Tools (Minimum Set)</h2>
+
+<ul>
+  <li>Alloy <code class="language-plaintext highlighter-rouge">6.x</code> (CLI execution)</li>
+  <li>TLA+ <code class="language-plaintext highlighter-rouge">TLC</code> (<code class="language-plaintext highlighter-rouge">tla2tools.jar</code>)</li>
+  <li>Apalache (SMT-based verification for TLA+)</li>
+  <li>Dafny (verifier)</li>
+</ul>
+
+<p>Notes:</p>
+<ul>
+  <li>Theorem provers such as <code class="language-plaintext highlighter-rouge">Rocq</code> and <code class="language-plaintext highlighter-rouge">Isabelle</code> have larger dependency footprints, so this appendix primarily points to primary sources for them in Appendix E.</li>
+  <li><code class="language-plaintext highlighter-rouge">Lean 4</code> is included here only as a <strong>minimal setup</strong> at the end of the appendix as an optional path through the book.</li>
+</ul>
+
+<h2 id="recommended-devcontainer-fastest-reproducible-path">Recommended: devcontainer (Fastest Reproducible Path)</h2>
+
+<p>Prerequisites:</p>
+<ul>
+  <li>Docker is available</li>
+  <li>You have an editor that can work with a devcontainer, such as <code class="language-plaintext highlighter-rouge">VS Code</code> with <code class="language-plaintext highlighter-rouge">Dev Containers</code></li>
+</ul>
+
+<p>Steps:</p>
+<ol>
+  <li>Open the book’s companion repository in a devcontainer by using <code class="language-plaintext highlighter-rouge">.devcontainer/</code></li>
+  <li>On the first startup, <code class="language-plaintext highlighter-rouge">tools/bootstrap.sh</code> fetches the tool distributions and places them under <code class="language-plaintext highlighter-rouge">tools/.cache/</code></li>
+  <li>Run the following commands to execute the sample workflows</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Fetch tools (safe to rerun)</span>
+bash tools/bootstrap.sh
+
+<span class="c"># Alloy (confirm SAT)</span>
+bash tools/alloy-check.sh <span class="nt">--verbose</span> examples/alloy/collection.als
+
+<span class="c"># TLC (confirm No error)</span>
+bash tools/tlc-run.sh <span class="nt">--config</span> examples/tla/QueueBounded.cfg examples/tla/QueueBounded.tla
+
+<span class="c"># Apalache (confirm NoError)</span>
+bash tools/apalache-check.sh <span class="nt">--config</span> examples/apalache/Counter.cfg <span class="nt">--length</span> 10 <span class="nt">--init</span> Init <span class="nt">--next</span> Next <span class="nt">--inv</span> Inv examples/apalache/Counter.tla
+
+<span class="c"># Dafny (confirm 0 errors)</span>
+bash tools/dafny-verify.sh examples/dafny/Abs.dfy
+</code></pre></div></div>
+
+<p>Expected output (excerpt):</p>
+<ul>
+  <li>Alloy: <code class="language-plaintext highlighter-rouge">SAT</code> (for example, a line containing <code class="language-plaintext highlighter-rouge">SAT</code> appears)</li>
+  <li>TLC: <code class="language-plaintext highlighter-rouge">Model checking completed. No error has been found.</code></li>
+  <li>Apalache: <code class="language-plaintext highlighter-rouge">The outcome is: NoError</code> and <code class="language-plaintext highlighter-rouge">EXITCODE: OK</code></li>
+  <li>Dafny: <code class="language-plaintext highlighter-rouge">finished with ... verified, 0 errors</code></li>
+</ul>
+
+<p>Outputs such as counterexamples and logs are stored under <code class="language-plaintext highlighter-rouge">.artifacts/</code>. They are also uploaded as CI artifacts.
+If any command fails, check the Java version, shell environment, and the primary sources listed in Appendix E before modifying the helper scripts.</p>
+
+<h2 id="local-workflow-without-a-container">Local Workflow (Without a Container)</h2>
+
+<h3 id="prerequisites-linuxwsl">Prerequisites (Linux/WSL)</h3>
+
+<ul>
+  <li>Java 17 or later, required to run <code class="language-plaintext highlighter-rouge">TLC</code>, <code class="language-plaintext highlighter-rouge">Alloy</code>, and <code class="language-plaintext highlighter-rouge">Apalache</code></li>
+  <li><code class="language-plaintext highlighter-rouge">curl</code> and <code class="language-plaintext highlighter-rouge">unzip</code></li>
+</ul>
+
+<p>Use the same flow as in the devcontainer: run <code class="language-plaintext highlighter-rouge">bash tools/bootstrap.sh</code> to fetch the required files, then execute the scripts under <code class="language-plaintext highlighter-rouge">tools/*.sh</code>.</p>
+
+<h3 id="os-specific-notes-key-points">OS-specific Notes (Key Points)</h3>
+
+<ul>
+  <li>Windows:
+    <ul>
+      <li><strong>Running under <code class="language-plaintext highlighter-rouge">WSL2</code> is recommended</strong> so that the assumptions behind the tool distributions and shell scripts match the environment</li>
+      <li>Install Java inside the WSL environment rather than relying on Java installed on the Windows side</li>
+    </ul>
+  </li>
+  <li>macOS:
+    <ul>
+      <li>Because <code class="language-plaintext highlighter-rouge">timeout</code> is not available by default, using <code class="language-plaintext highlighter-rouge">tools/tlc-run.sh --time-limit</code> requires a provider such as <code class="language-plaintext highlighter-rouge">gtimeout</code> (for example via <code class="language-plaintext highlighter-rouge">coreutils</code> from <code class="language-plaintext highlighter-rouge">Homebrew</code>). <code class="language-plaintext highlighter-rouge">tools/tlc-run.sh</code> automatically detects <code class="language-plaintext highlighter-rouge">timeout</code> or <code class="language-plaintext highlighter-rouge">gtimeout</code>.</li>
+      <li>The Dafny distribution fetched by <code class="language-plaintext highlighter-rouge">tools/bootstrap.sh</code> targets Linux, so on macOS use the official macOS distribution or install Dafny via <code class="language-plaintext highlighter-rouge">dotnet tool</code></li>
+    </ul>
+  </li>
+  <li>Linux:
+    <ul>
+      <li>Package names for Java differ by distribution. For example, <code class="language-plaintext highlighter-rouge">Ubuntu</code> and <code class="language-plaintext highlighter-rouge">Debian</code> use <code class="language-plaintext highlighter-rouge">openjdk-17-jre</code>.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="lean-4-setup-minimal-setup--optional">Lean 4 Setup (Minimal Setup / Optional)</h2>
+
+<p>In this book, <code class="language-plaintext highlighter-rouge">Lean 4</code> is positioned as an option for making theorem proving a maintainable engineering asset. See Chapter 9 for the conceptual role. Here, only the shortest path to a minimal setup is shown; consult the primary sources for detail.</p>
+
+<h3 id="what-to-know-first-minimum">What to Know First (Minimum)</h3>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">elan</code></strong>: a tool for managing the Lean toolchain, including the Lean compiler and related components</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">Lake</code></strong>: Lean 4’s build and dependency-management tool, used for creating and building projects</li>
+  <li><strong>VS Code extension</strong>: provides the interactive development experience, including type-checking results and goal display</li>
+</ul>
+
+<h3 id="steps-representative-example">Steps (Representative Example)</h3>
+
+<ol>
+  <li>Install <code class="language-plaintext highlighter-rouge">elan</code> by following the primary source</li>
+  <li>Install <code class="language-plaintext highlighter-rouge">VS Code</code> and the <code class="language-plaintext highlighter-rouge">Lean 4</code> extension by following the primary source</li>
+  <li>Create a minimal <code class="language-plaintext highlighter-rouge">Lean 4</code> project and confirm that it starts correctly</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> lean-sandbox <span class="o">&amp;&amp;</span> <span class="nb">cd </span>lean-sandbox
+lake init hello
+lake build
+</code></pre></div></div>
+
+<p>Confirm:</p>
+<ul>
+  <li>Open <code class="language-plaintext highlighter-rouge">lean-sandbox/</code> in <code class="language-plaintext highlighter-rouge">VS Code</code> and open the generated <code class="language-plaintext highlighter-rouge">.lean</code> file</li>
+  <li>Confirm that no error appears and that the toolchain is active</li>
+</ul>
+
+<p>Primary Sources (Official / Representative):</p>
+<ul>
+  <li>Lean official site: <a href="https://lean-lang.org/">https://lean-lang.org/</a></li>
+  <li>Lean 4 (<code class="language-plaintext highlighter-rouge">GitHub</code>): <a href="https://github.com/leanprover/lean4">https://github.com/leanprover/lean4</a></li>
+  <li><code class="language-plaintext highlighter-rouge">elan</code>: <a href="https://github.com/leanprover/elan">https://github.com/leanprover/elan</a></li>
+  <li><code class="language-plaintext highlighter-rouge">VS Code</code> Lean 4 extension: <a href="https://github.com/leanprover/vscode-lean4">https://github.com/leanprover/vscode-lean4</a></li>
+</ul>
+
+<h2 id="companion-automation-reference-only">Companion Automation (Reference Only)</h2>
+
+<p>The companion repository includes <code class="language-plaintext highlighter-rouge">GitHub Actions</code> workflows in <code class="language-plaintext highlighter-rouge">.github/workflows/formal-checks.yml</code> for lightweight pull-request checks and deeper nightly exploration.<br />
+If you want to run the equivalent lightweight path locally, execute <code class="language-plaintext highlighter-rouge">bash examples/ci/pr-quick-check.sh</code>.</p>
+
+                </article>
+
+                
+                <nav class="page-navigation" aria-label="Page navigation">
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+
+
+
+
+
+<nav class="book-navigation" aria-label="Page navigation">
+  <div class="chapter-nav">
+    
+      <a href="/formal-methods-book/en/appendices/appendix-a/" class="nav-prev" rel="prev">
+        <span class="arrow" aria-hidden="true">←</span>
+        <span class="label">Previous</span>
+        <span class="title">Appendix A: Mathematics Refresher</span>
+      </a>
+    
+
+    <a href="/formal-methods-book/en/" class="nav-home">
+      <span class="label">Contents</span>
+    </a>
+
+    
+      <a href="/formal-methods-book/en/appendices/appendix-c/" class="nav-next" rel="next">
+        <span class="label">Next</span>
+        <span class="title">Appendix C: Notation Cross-Reference</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    
+  </div>
+</nav>
+
+<style>
+.book-navigation { margin: 2rem 0; padding: 1rem; border-top: 1px solid var(--border-color, #e5e7eb); }
+.chapter-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.nav-prev, .nav-next, .nav-home { display: flex; align-items: center; padding: 0.75rem 1.25rem; background: var(--bg-primary, #fff); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; text-decoration: none; color: inherit; }
+.nav-disabled { opacity: .5; cursor: not-allowed; background: var(--bg-tertiary, #f9fafb); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; padding: 0.75rem 1.25rem; display: flex; align-items: center; }
+.nav-prev { flex: 1; }
+.nav-next { flex: 1; justify-content: flex-end; text-align: right; }
+.nav-home { flex: 0 0 auto; justify-content: center; }
+.label { font-weight: 600; margin: 0 .25rem; }
+.title { font-size: .9rem; opacity: .8; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 768px) { .chapter-nav { flex-wrap: wrap; } .nav-prev, .nav-next { flex: 1 1 45%; } .nav-home { flex: 1 1 100%; order: -1; } .title { display: none; } }
+</style>
+
+                </nav>
+                
+
+                
+
+                <footer class="book-footer" role="contentinfo">
+                    <div class="book-footer-inner">
+                        <div class="book-footer-license">
+                            Reader-facing text: CC BY-NC-SA 4.0 / Code assets: Apache-2.0 / excluding trademarks and third-party assets
+                        </div>
+                        <div class="book-footer-links">
+                            
+                                <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener">GitHub</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/LICENSE-SCOPE.md" target="_blank" rel="noopener">License</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/COMMERCIAL.md" target="_blank" rel="noopener">Commercial</a>
+                            
+                            
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <label for="sidebar-toggle-checkbox" class="book-sidebar-overlay" id="sidebar-overlay" aria-label="Close sidebar"></label>
+
+    <script async src="/formal-methods-book/assets/js/code-copy-lightweight.js"></script>
+    <script defer src="/formal-methods-book/assets/js/theme.js"></script>
+    <script defer src="/formal-methods-book/assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var cb = document.getElementById('sidebar-toggle-checkbox');
+            var toggle = document.querySelector('.sidebar-toggle');
+            if (cb) cb.checked = false;
+            if (cb && toggle) {
+                var sync = function() {
+                    toggle.setAttribute('aria-expanded', cb.checked ? 'true' : 'false');
+                };
+                sync();
+                cb.addEventListener('change', sync);
+                toggle.addEventListener('keydown', function(e) {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        cb.checked = !cb.checked;
+                        cb.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        (function() {
+            function initTocAutoScroll() {
+                var cb = document.getElementById('sidebar-toggle-checkbox');
+                if (!cb) return;
+
+                function normalizePath(p) {
+                    var path = String(p || '').replace(/index\.html$/, '');
+                    if (path.length > 1) {
+                        path = path.replace(/\/+$/, '');
+                    }
+                    return path || '/';
+                }
+
+                function isMobileDrawer() {
+                    try {
+                        if (typeof window.matchMedia === 'function') {
+                            return window.matchMedia('(max-width: 1024px)').matches;
+                        }
+                    } catch (_) {}
+                    return typeof window.innerWidth === 'number' ? window.innerWidth <= 1024 : true;
+                }
+
+                function findActiveTocLink() {
+                    var current = normalizePath(window.location.pathname);
+                    var actives = document.querySelectorAll('a.toc-link.active');
+                    if (!actives || actives.length === 0) return null;
+
+                    for (var i = 0; i < actives.length; i++) {
+                        var a = actives[i];
+                        if (!a || !a.href) continue;
+                        try {
+                            var pathname = normalizePath(new URL(a.href).pathname);
+                            if (pathname === current) return a;
+                        } catch (_) {}
+                    }
+                    return actives[0];
+                }
+
+                function ensureActiveTocVisible() {
+                    if (!cb.checked) return;
+                    if (!isMobileDrawer()) return;
+
+                    var active = findActiveTocLink();
+                    if (!active) return;
+
+                    var sidebar = active.closest('.book-sidebar') || document.getElementById('sidebar');
+                    if (!sidebar) return;
+
+                    try {
+                        var linkRect = active.getBoundingClientRect();
+                        var sidebarRect = sidebar.getBoundingClientRect();
+                        var marginTop = 8;
+                        var marginBottom = 8;
+                        try {
+                            if (window.getComputedStyle) {
+                                var cs = window.getComputedStyle(sidebar);
+                                if (cs) {
+                                    var pt = parseFloat(cs.paddingTop);
+                                    var pb = parseFloat(cs.paddingBottom);
+                                    if (!isNaN(pt)) marginTop = pt;
+                                    if (!isNaN(pb)) marginBottom = pb;
+                                }
+                            }
+                        } catch (_) {}
+
+                        var top = sidebarRect.top + marginTop;
+                        var bottom = sidebarRect.bottom - marginBottom;
+                        var outOfView = linkRect.top < top || linkRect.bottom > bottom;
+
+                        if (outOfView && typeof active.scrollIntoView === 'function') {
+                            try {
+                                active.scrollIntoView({ block: 'center', behavior: 'auto' });
+                            } catch (e) {
+                                active.scrollIntoView();
+                            }
+                        }
+                    } catch (_) {}
+                }
+
+                function scheduleEnsure() {
+                    setTimeout(ensureActiveTocVisible, 0);
+                    setTimeout(ensureActiveTocVisible, 350);
+                }
+
+                cb.addEventListener('change', function() {
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+
+                if (cb.checked) {
+                    scheduleEnsure();
+                }
+
+                window.addEventListener('pageshow', function(e) {
+                    if (!e || !e.persisted) return;
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initTocAutoScroll);
+            } else {
+                initTocAutoScroll();
+            }
+        })();
+    </script>
+</body>
+</html>

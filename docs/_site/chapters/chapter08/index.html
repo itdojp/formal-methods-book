@@ -1,0 +1,2325 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="仕様記述、模型検査、定理証明の統合的理解 - ソフトウェアの数学的設計入門">
+    <meta name="author" content="太田和彦（株式会社アイティードゥ）">
+
+    <title>第8章：模型検査入門 - 形式的手法の基礎と応用</title>
+
+    <link rel="canonical" href="https://itdojp.github.io/formal-methods-book/chapters/chapter08/">
+    <link rel="alternate" hreflang="ja" href="https://itdojp.github.io/formal-methods-book/chapters/chapter08/">
+    <link rel="alternate" hreflang="en" href="https://itdojp.github.io/formal-methods-book/en/chapters/chapter08/">
+    <link rel="alternate" hreflang="x-default" href="https://itdojp.github.io/formal-methods-book/">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/main.css">
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/syntax-highlighting.css">
+
+    <link rel="icon" type="image/png" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+    <link rel="apple-touch-icon" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+
+    <meta property="og:title" content="第8章：模型検査入門">
+    <meta property="og:description" content="仕様記述、模型検査、定理証明の統合的理解 - ソフトウェアの数学的設計入門">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://itdojp.github.io/formal-methods-book/chapters/chapter08/">
+    <meta property="og:locale" content="ja_JP">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="第8章：模型検査入門">
+    <meta name="twitter:description" content="仕様記述、模型検査、定理証明の統合的理解 - ソフトウェアの数学的設計入門">
+
+    <script>
+        (function() {
+            try {
+                const k = 'book-theme';
+                const t = localStorage.getItem(k) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (_) {}
+        })();
+    </script>
+</head>
+<body>
+    
+    
+    
+    
+    
+
+    <input type="checkbox" id="sidebar-toggle-checkbox" class="sidebar-toggle-checkbox" aria-hidden="true">
+
+    <div class="book-layout">
+        <header class="book-header">
+            <div class="header-left">
+                <label for="sidebar-toggle-checkbox" class="sidebar-toggle" aria-label="サイドバーを切り替え" role="button" tabindex="0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </label>
+                <a href="/formal-methods-book/" class="header-title">
+                    <h1>形式的手法の基礎と応用</h1>
+                </a>
+            </div>
+
+            <div class="header-center">
+                <div class="search-container">
+                    <input type="search"
+                           placeholder="検索..."
+                           class="search-input"
+                           id="search-input"
+                           autocomplete="off">
+                    <div class="search-results" id="search-results"></div>
+                </div>
+            </div>
+
+            <div class="header-right">
+                
+
+
+
+
+
+
+
+
+
+
+<a href="/formal-methods-book/en/chapters/chapter08/"
+   class="language-switcher"
+   hreflang="en"
+   lang="en"
+   >
+    English
+</a>
+
+                <button class="theme-toggle" aria-label="テーマを切り替え">
+                    <svg class="theme-icon theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="theme-icon theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+
+                
+                <a href="https://github.com/itdojp/formal-methods-book" class="github-link" target="_blank" rel="noopener" aria-label="GitHub">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
+                
+            </div>
+        </header>
+
+        <aside class="book-sidebar" id="sidebar">
+            <nav class="sidebar-nav" role="navigation" aria-label="メインナビゲーション">
+                
+
+
+
+
+
+
+
+
+
+
+<div class="sidebar-content">
+    <div class="book-info">
+        <h2 class="book-title"><a href="/formal-methods-book/" class="header-title">形式的手法の基礎と応用</a></h2>
+        
+        <p class="book-subtitle">仕様記述、模型検査、定理証明の統合的理解</p>
+        
+    </div>
+
+    <div class="toc">
+        <h3 class="toc-title">目次</h3>
+
+        <div class="toc-section">
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="/formal-methods-book/" class="toc-link ">
+                        ホーム
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">導入</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/introduction/" class="toc-link ">
+                        はじめに
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">本編</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter01/" class="toc-link ">
+                        第1章：なぜ形式的手法が必要なのか
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter02/" class="toc-link ">
+                        第2章：数学とプログラムの橋渡し
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter03/" class="toc-link ">
+                        第3章：仕様記述の基本
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter04/" class="toc-link ">
+                        第4章：軽量形式的手法入門 - Alloyで始める仕様記述
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter05/" class="toc-link ">
+                        第5章：状態ベース仕様記述 - Z記法の基礎
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter06/" class="toc-link ">
+                        第6章：プロセス中心の記述 - CSPによる並行システム
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter07/" class="toc-link ">
+                        第7章：時間を扱う仕様記述 - TLA+入門
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter08/" class="toc-link active">
+                        第8章：模型検査入門
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter09/" class="toc-link ">
+                        第9章：定理証明の基礎
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter10/" class="toc-link ">
+                        第10章：プログラム検証
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter11/" class="toc-link ">
+                        第11章：開発プロセスとの統合
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter12/" class="toc-link ">
+                        第12章：ツールと自動化
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter13/" class="toc-link ">
+                        第13章：事例研究
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">追加</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/glossary/" class="toc-link ">
+                        用語集（Glossary）
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">付録</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-a/" class="toc-link ">
+                        付録A: 数学的基礎の復習
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-b/" class="toc-link ">
+                        付録B: ツールインストールガイド
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-c/" class="toc-link ">
+                        付録C: 記法対照表
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-d/" class="toc-link ">
+                        付録D: 演習問題解答
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-e/" class="toc-link ">
+                        付録E: 参考文献とWebリソース
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-f/" class="toc-link ">
+                        付録F: AI支援の実践ガイド
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">おわりに</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/afterword/" class="toc-link ">
+                        おわりに
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="external-links">
+            
+            <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener" class="external-link">GitHub</a>
+            
+            
+        </div>
+    </div>
+</div>
+
+            </nav>
+        </aside>
+
+        <main class="book-main" id="main">
+            <div class="book-content">
+                
+                    
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb-list">
+    <li class="breadcrumb-item">
+        <a href="/formal-methods-book/" class="breadcrumb-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span class="sr-only">ホーム</span>
+        </a>
+    </li>
+
+    
+        
+    
+        
+            
+            
+            
+                
+                
+                <li class="breadcrumb-item">
+                    <a href="/formal-methods-book/chapters/" class="breadcrumb-link">
+                        
+                            Chapters
+                        
+                    </a>
+                </li>
+            
+        
+    
+        
+            
+            
+            
+                <li class="breadcrumb-item active" aria-current="page">
+                    第8章：模型検査入門
+                </li>
+            
+        
+    
+</ol>
+
+<style>
+.breadcrumb-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    font-size: 0.875rem;
+    flex-wrap: wrap;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb-item:not(:last-child)::after {
+    content: '/';
+    margin: 0 0.5rem;
+    color: var(--text-muted);
+}
+
+.breadcrumb-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.breadcrumb-link:hover {
+    color: var(--primary-color);
+}
+
+.breadcrumb-item.active {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (max-width: 768px) {
+    .breadcrumb-list {
+        font-size: 0.75rem;
+    }
+
+    .breadcrumb-item:not(:last-child)::after {
+        margin: 0 0.375rem;
+    }
+}
+</style>
+
+                
+
+                <article class="page-content">
+                    <h1 id="第8章模型検査入門">第8章　模型検査入門</h1>
+
+<p>ミニ要約：</p>
+<ul>
+  <li>仕様と性質を分離し自動探索・反例学習</li>
+  <li>境界づけ/抽象化でスケール</li>
+  <li>図8-1・第12章に沿って段階別に深度UP</li>
+</ul>
+
+<h2 id="81-自動検証の夢コンピュータによる証明">8.1 自動検証の夢：コンピュータによる証明</h2>
+
+<h3 id="人間の限界と機械の可能性">人間の限界と機械の可能性</h3>
+
+<p>ソフトウェアシステムの複雑性が増大する中で、人間の直感や経験だけでは、システムの正しさを保証することが困難になっています。プログラマーがコードを書き、レビュアーがそれをチェックし、テスターが動作を確認する従来のプロセスでも、微妙なバグや予期しない相互作用を見落とすことがあります。</p>
+
+<p>模型検査（Model Checking）は、この人間の認知的限界を、コンピュータの計算能力で補完するアプローチです。「すべての可能な実行パス」を体系的に探索し、指定された性質が満たされるかを自動的に検証します。これは、人間には不可能な網羅性を持つ検証手法です。</p>
+
+<p>模型検査の革新性は、「証明の自動化」にあります。従来、システムの正しさの証明は、数学的才能と深い洞察を持つ専門家の仕事でした。しかし模型検査では、システムの仕様と検証したい性質を記述すれば、後はコンピュータが自動的に証明（または反例の発見）を行います。
+（定理証明との関係と相補性は第9章参照）</p>
+
+<h3 id="総当たり探索の威力">総当たり探索の威力</h3>
+
+<p>模型検査の基本的なアイデアは、システムの状態空間を「総当たり」で探索することです。これは、一見非効率に思えるかもしれませんが、実際には非常に強力な手法です。（図8-1参照）</p>
+
+<p>チェスや将棋のコンピュータープログラムが、人間のチャンピオンを打ち負かすことができるのも、同様の総当たり探索の力によるものです。人間は直感と経験に頼りますが、コンピュータは可能な手順をすべて計算し、最適な選択を行います。</p>
+
+<p>ソフトウェア検証においても、人間が「おそらく正しいだろう」と推測する部分を、コンピュータが「確実に正しい」または「反例を発見」として決定的に判断できます。</p>
+
+<h3 id="形式的検証の自動化">形式的検証の自動化</h3>
+
+<p>模型検査以前の形式的検証は、主に手動の定理証明に依存していました。専門家が数学的推論を行い、システムの性質を一歩ずつ証明していくプロセスでした。この手法は理論的には強力ですが、実用性に課題がありました：</p>
+
+<ul>
+  <li><strong>専門知識の要求</strong>: 高度な数学的背景が必要</li>
+  <li><strong>時間とコスト</strong>: 証明には長期間を要する</li>
+  <li><strong>エラーの可能性</strong>: 人間による証明にもミスがある</li>
+  <li><strong>スケーラビリティ</strong>: 大規模システムには適用困難</li>
+</ul>
+
+<p>模型検査は、これらの課題を根本的に解決しました。数学的な証明の詳細を知らなくても、システムの仕様を記述できれば検証が可能になったのです。</p>
+
+<h3 id="反例の教育的価値">反例の教育的価値</h3>
+
+<p>模型検査の最も価値ある特徴の一つは、性質が満たされない場合に「反例」を提供することです。抽象的な「正しくない」という結果ではなく、具体的に「どのような状況で問題が発生するか」を示してくれます。</p>
+
+<p>この反例は、システム設計者にとって極めて貴重な情報です：</p>
+
+<ul>
+  <li><strong>問題の具体化</strong>: 抽象的な問題が具体的なシナリオとして明確になる</li>
+  <li><strong>原因の特定</strong>: 問題の根本原因を追跡できる</li>
+  <li><strong>修正の指針</strong>: どこを直せばよいかが分かる</li>
+  <li><strong>理解の深化</strong>: システムの振る舞いに対する理解が深まる</li>
+</ul>
+
+<h3 id="早期発見による品質向上">早期発見による品質向上</h3>
+
+<p>模型検査は、開発プロセスの早い段階で問題を発見できます。設計段階や仕様段階での検証により、実装後に発見される問題を大幅に削減できます。</p>
+
+<p>ソフトウェア工学の研究によると、バグ修正のコストは、発見が遅れるほど指数的に増大します。要求定義段階で発見されたバグの修正コストを1とすると、設計段階では5倍、実装段階では10倍、テスト段階では20倍、運用段階では100倍以上になるとされています。</p>
+
+<p>模型検査による早期の問題発見は、この修正コストの増大を防ぐ効果的な手段です。</p>
+
+<p><img src="/formal-methods-book/assets/images/diagrams/model-checking-process.svg" alt="図8-1：模型検査による自動検証のプロセス" />
+（読み取りポイント：モデル・性質・探索・反例の学習ループ）</p>
+
+<p>（読み取りポイント：図8-1参照）</p>
+<ul>
+  <li>モデル→性質→探索: 仕様（モデル）と確認したい性質を分離</li>
+  <li>反例活用: 反例トレースから設計/仕様/仮定の見直しへ</li>
+  <li>スケール戦略: 抽象化/切り詰め/境界づけで段階的に拡大</li>
+</ul>
+
+<h3 id="チェックポイント理解確認">チェックポイント（理解確認）</h3>
+
+<p>本節は章内の理解確認のための短いチェックポイントです（章末課題とは別）。解答の骨子・採点観点は<a href="/formal-methods-book/appendices/appendix-d/">付録D</a>を参照。</p>
+
+<ol>
+  <li>図8-1を参照し、反例トレースを再現するための最小入力列と前提条件を日本語で記述せよ。</li>
+  <li>状態空間爆発に対処するための抽象化1件と境界づけ1件を提案し、それぞれの副作用（リスク）を50–80字で述べよ。</li>
+</ol>
+
+<p>＜解答の方向性（骨子）＞</p>
+<ul>
+  <li>問1: イベント列＋前提（初期状態/環境仮定）を分離。再現可能性の観点で最小化。</li>
+  <li>問2: データ範囲縮小や独立性仮定の追加は検出力低下のリスク、境界づけは偽陰性のリスクを明示。</li>
+</ul>
+
+<p>＜採点観点＞</p>
+<ul>
+  <li>反例再現の明瞭さ（前提/イベント列/期待との差分）</li>
+  <li>抽象化/境界づけの副作用の理解（検出力低下や偽陰性の明示）</li>
+</ul>
+
+<h3 id="限界の正しい理解">限界の正しい理解</h3>
+
+<p>模型検査は強力ですが、万能ではありません。その限界を正しく理解することが、効果的な活用のために重要です：</p>
+
+<ul>
+  <li><strong>状態爆発問題</strong>: システムの状態数が指数的に増大し、検証が困難になる</li>
+  <li><strong>抽象化の必要性</strong>: 現実のシステムを有限のモデルに抽象化する必要がある</li>
+  <li><strong>性質記述の困難さ</strong>: 検証したい性質を形式的に記述するスキルが必要</li>
+  <li><strong>偽陽性・偽陰性</strong>: 抽象化により、実際には存在しない問題や見落としが発生する可能性</li>
+</ul>
+
+<p>これらの限界を理解した上で、適切な抽象化レベルと検証戦略を選択することが、実用的な模型検査の鍵となります。</p>
+
+<h3 id="産業界での成功事例">産業界での成功事例</h3>
+
+<p>模型検査は、学術的な研究だけでなく、産業界でも多くの成功事例を持っています：</p>
+
+<ul>
+  <li><strong>Intel</strong>: プロセッサの設計検証で、従来のシミュレーションでは発見できないバグを検出</li>
+  <li><strong>Microsoft</strong>: Windows ドライバーの検証で、ブルースクリーンエラーを大幅に削減</li>
+  <li><strong>Amazon</strong>: 分散システムの設計で、TLA+による模型検査を活用</li>
+  <li><strong>Airbus</strong>: 航空機の制御システムで、安全性の保証に活用</li>
+</ul>
+
+<p>これらの成功事例は、模型検査が理論的な技術から実用的なツールへと成熟したことを示しています。</p>
+
+<h3 id="第4章alloyモデルとの連携">第4章Alloyモデルとの連携</h3>
+
+<p>第4章で学習したAlloyモデリングは、模型検査の優れた入門となります。Alloyの<code class="language-plaintext highlighter-rouge">check</code>コマンドは、本質的に小規模な模型検査を実行しています：</p>
+
+<p>【擬似記法】（第4章のモデル定義を省略しているため、そのまま実行できません）</p>
+<pre><code class="language-alloy">// 第4章の電子メールシステム例の再検討
+assert NoUnauthorizedAccess {
+    all u: User, e: Email |
+        some e.confidential and
+        u != e.sender and u not in e.recipients and
+        u != e.confidential and
+        AdminAccess not in u.roles.permissions
+        implies
+        not canReadEmail[u, e]
+}
+check NoUnauthorizedAccess for 5 User, 5 Email, 3 Role
+</code></pre>
+
+<p>この<code class="language-plaintext highlighter-rouge">check</code>操作で、Alloyは指定された範囲内のすべての可能な状態を探索し、反例を見つけようとします。これは、本章で学ぶ模型検査の基本原理と同じです。</p>
+
+<h3 id="技術の民主化">技術の民主化</h3>
+
+<p>模型検査の最も重要な貢献の一つは、形式的検証の「民主化」です。以前は一部の専門家のみが扱える技術でしたが、現在では比較的学習しやすいツールとして、より多くの開発者が活用できるようになりました。</p>
+
+<p>この民主化により、形式的手法がニッチな学術技術から、実用的な開発ツールへと変化しています。今後、模型検査はソフトウェア開発の標準的な品質保証手法の一部として、広く普及していくことが期待されます。</p>
+
+<h2 id="82-状態空間とその探索">8.2 状態空間とその探索</h2>
+
+<h3 id="状態空間という概念的枠組み">状態空間という概念的枠組み</h3>
+
+<p>状態空間（State Space）は、システムが取りうるすべての状態の集合を表す数学的概念です。この抽象化により、極めて複雑なシステムも、有限または可算無限の点の集合として理解できます。</p>
+
+<p>プログラムの実行を考えてみましょう。プログラムカウンタ、変数の値、メモリの内容、入出力の状態など、実行時点でのすべての情報が「状態」を構成します。プログラムの実行は、この状態空間内での「軌道」として表現できます。</p>
+
+<p>状態空間の概念は、物理学の相空間や数学の位相空間に類似しています。複雑なシステムの動的な振る舞いを、静的な幾何学的構造として捉えることで、分析と理解が可能になります。</p>
+
+<h3 id="状態遷移グラフの構造">状態遷移グラフの構造</h3>
+
+<p>状態空間の構造は、通常、状態遷移グラフ（State Transition Graph）として視覚化されます。このグラフでは、ノードが状態を、エッジが状態間の遷移を表します。</p>
+
+<p>【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>初期状態 → 状態1 → 状態2 → 状態3
+    ↓        ↓       ↓       ↓
+  状態A → 状態B → 状態C → 状態D
+    ↓        ↓       ↓       ↓
+  状態X → 状態Y → 状態Z → 終了状態
+</code></pre></div></div>
+
+<p>このグラフの構造から、システムの重要な性質を読み取れます：</p>
+
+<ul>
+  <li><strong>到達可能性</strong>: ある状態から別の状態に到達できるか</li>
+  <li><strong>循環性</strong>: システムに永続的なループが存在するか</li>
+  <li><strong>デッドロック</strong>: 進行不可能な状態が存在するか</li>
+  <li><strong>活性</strong>: 常に何らかの進歩が可能か</li>
+</ul>
+
+<h3 id="爆発する状態数">爆発する状態数</h3>
+
+<p>実際のソフトウェアシステムでは、状態数が爆発的に増大します。これは「状態爆発問題」として知られる、模型検査の最大の課題です。</p>
+
+<p><strong>具体例での状態数計算</strong>：</p>
+
+<p>単純な例として、3つの boolean 変数を持つシステムを考えてみましょう：</p>
+<ul>
+  <li>変数 a, b, c ∈ {true, false}</li>
+  <li>可能な状態数 = 2³ = 8 状態</li>
+</ul>
+
+<p>これが 10 個の boolean 変数になると：</p>
+<ul>
+  <li>可能な状態数 = 2¹⁰ = 1,024 状態</li>
+</ul>
+
+<p>32 個の boolean 変数では：</p>
+<ul>
+  <li>可能な状態数 = 2³² = 約 43 億状態</li>
+</ul>
+
+<p>実際のプログラムでは、整数変数、配列、ポインタなどがあり、状態数は天文学的な数字になります。64ビットの整数変数が一つあるだけで、2⁶⁴（約 1.8 × 10¹⁹）の可能な値があります。</p>
+
+<h3 id="到達可能性分析">到達可能性分析</h3>
+
+<p>すべての状態が実際の実行で到達可能なわけではありません。模型検査では、初期状態から「到達可能な状態」のみを対象とします。これにより、状態爆発問題を部分的に緩和できます。</p>
+
+<p><strong>到達可能性の計算アルゴリズム</strong>：</p>
+
+<p>【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Reachable ← {InitialStates}
+Frontier ← {InitialStates}
+while Frontier ≠ ∅ do
+    NewStates ← ∅
+    for each state s in Frontier do
+        for each successor t of s do
+            if t ∉ Reachable then
+                NewStates ← NewStates ∪ {t}
+                Reachable ← Reachable ∪ {t}
+    Frontier ← NewStates
+</code></pre></div></div>
+
+<p>このアルゴリズムは、幅優先探索（BFS）により、初期状態から到達可能なすべての状態を計算します。</p>
+
+<h3 id="深さ優先-vs-幅優先探索">深さ優先 vs 幅優先探索</h3>
+
+<p>状態空間の探索には、主に二つの戦略があります：</p>
+
+<p><strong>深さ優先探索（DFS）</strong>：</p>
+<ul>
+  <li><strong>利点</strong>: メモリ使用量が少ない</li>
+  <li><strong>欠点</strong>: 最短の反例を見つけられない場合がある</li>
+  <li><strong>適用</strong>: サイクル検出、デッドロック検出</li>
+</ul>
+
+<p><strong>幅優先探索（BFS）</strong>：</p>
+<ul>
+  <li><strong>利点</strong>: 最短の反例を発見</li>
+  <li><strong>欠点</strong>: メモリ使用量が多い</li>
+  <li><strong>適用</strong>: 最小ステップでの到達可能性分析</li>
+</ul>
+
+<p>実用的な模型検査ツールでは、問題の特性に応じて探索戦略を切り替えたり、両方を組み合わせたりします。</p>
+
+<h3 id="状態の効率的表現">状態の効率的表現</h3>
+
+<p>膨大な状態を効率的に表現し、管理することが、実用的な模型検査には不可欠です。</p>
+
+<p><strong>ビットベクトル表現</strong>：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>状態 = [a:1, b:0, c:1, counter:5] 
+→ ビットベクトル = 10100101
+</code></pre></div></div>
+
+<p><strong>ハッシュテーブル</strong>：
+訪問済み状態の高速な検索のため、ハッシュテーブルを使用します。状態をハッシュ値に変換し、衝突を適切に処理します。</p>
+
+<p><strong>圧縮技術</strong>：
+類似した状態や稀な状態パターンを圧縮し、メモリ使用量を削減します。</p>
+
+<h3 id="部分順序簡約">部分順序簡約</h3>
+
+<p>並行システムでは、異なる実行順序でも同じ結果になることがあります。部分順序簡約（Partial Order Reduction）は、この冗長性を除去する技術です。</p>
+
+<p>例：二つの独立した操作 A と B がある場合</p>
+<ul>
+  <li>実行順序 A→B と B→A は同等</li>
+  <li>一方の順序のみを探索することで、状態数を削減</li>
+</ul>
+
+<p>この技術により、並行システムの状態爆発問題を大幅に緩和できます。</p>
+
+<h3 id="シンボリック模型検査">シンボリック模型検査</h3>
+
+<p>従来の明示的模型検査では、各状態を個別に表現していました。シンボリック模型検査では、状態集合を論理式（特にBDD: Binary Decision Diagram）で表現します。</p>
+
+<p><strong>BDDによる状態表現</strong>：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>状態集合 {(a=1,b=0), (a=1,b=1), (a=0,b=1)} 
+→ BDD表現: (a ∧ ¬b) ∨ (a ∧ b) ∨ (¬a ∧ b)
+→ 簡約: a ∨ (¬a ∧ b) = a ∨ b
+</code></pre></div></div>
+
+<p>この表現により、指数的に大きな状態集合も、コンパクトに表現できる場合があります。</p>
+
+<h3 id="反復深化探索">反復深化探索</h3>
+
+<p>メモリ制約と完全性のバランスを取るため、反復深化探索（Iterative Deepening）が使われることがあります。</p>
+
+<p>【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for depth = 1 to MaxDepth do
+    result = DepthLimitedSearch(depth)
+    if result = "property violation" then
+        return counterexample
+    if result = "complete" then
+        return "property verified"
+</code></pre></div></div>
+
+<p>この手法により、メモリ使用量を制御しながら、段階的に探索範囲を拡大できます。</p>
+
+<h3 id="並列分散探索">並列・分散探索</h3>
+
+<p>現代の多核プロセッサや分散環境を活用し、状態空間探索を並列化することで、検証性能を大幅に向上できます。</p>
+
+<p><strong>Work-stealing アルゴリズム</strong>：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>各スレッドが独立したスタックを持ち、
+作業がなくなったスレッドは他のスレッドから作業を「盗む」
+</code></pre></div></div>
+
+<p><strong>分散ハッシュテーブル</strong>：
+複数のマシンに状態を分散して格納し、ネットワーク越しに協調探索を行います。</p>
+
+<p>これらの技術により、従来は検証不可能だった大規模システムも、実用的な時間内で検証できるようになりつつあります。</p>
+
+<h2 id="83-時相論理による性質の記述">8.3 時相論理による性質の記述</h2>
+
+<h3 id="動的性質の表現という挑戦">動的性質の表現という挑戦</h3>
+
+<p>ソフトウェアシステムの「正しさ」は、単一の時点での状態だけでは判断できません。時間の経過とともに、システムがどのように振る舞うかが重要です。「要求が来たら最終的に応答する」「デッドロックは発生しない」「リソースは公平に分配される」といった性質は、システムの動的な振る舞いに関するものです。</p>
+
+<p>時相論理（Temporal Logic）は、このような動的性質を数学的に厳密に表現するための言語です。通常の論理が「現在の状態」について語るのに対し、時相論理は「時間の経過」について語ることができます。</p>
+
+<h3 id="ctl計算木論理の世界">CTL：計算木論理の世界</h3>
+
+<p>CTL（Computation Tree Logic）は、模型検査で最も広く使われる時相論理の一つです。CTLでは、システムの実行を「計算木」として捉えます。各ノードが状態を、各エッジが状態遷移を表し、初期状態から始まる木構造として実行の可能性を表現します。</p>
+
+<p>【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        初期状態
+       /    |    \
+   状態1   状態2   状態3
+   /  \    /  \    /  \
+  ...  ... ... ... ... ...
+</code></pre></div></div>
+
+<p>CTLの基本的な演算子は、「パス量詞」と「時相演算子」の組み合わせで構成されます。</p>
+
+<p><strong>パス量詞</strong>：</p>
+<ul>
+  <li><strong>A</strong> (All paths): すべての実行パスについて</li>
+  <li><strong>E</strong> (Exists path): 少なくとも一つの実行パスについて</li>
+</ul>
+
+<p><strong>時相演算子</strong>：</p>
+<ul>
+  <li><strong>X</strong> (neXt): 次の状態で</li>
+  <li><strong>F</strong> (Future): いつか将来の状態で</li>
+  <li><strong>G</strong> (Globally): 常に</li>
+  <li><strong>U</strong> (Until): ～まで</li>
+</ul>
+
+<h3 id="ctl式の実例と直感的理解">CTL式の実例と直感的理解</h3>
+
+<p><strong>安全性の表現</strong>：
+【擬似記法】</p>
+<pre><code class="language-ctl">AG(¬error)  
+「すべての実行パスで、常にエラーが発生しない」
+</code></pre>
+
+<p>これは、システムが決してエラー状態に到達しないことを保証します。</p>
+
+<p><strong>活性の表現</strong>：
+【擬似記法】</p>
+<pre><code class="language-ctl">AG(request → AF(response))
+「すべての実行パスで、常に、要求があれば最終的に応答がある」
+</code></pre>
+
+<p>これは、システムが要求に対して必ず応答することを保証します。</p>
+
+<p><strong>到達可能性の表現</strong>：
+【擬似記法】</p>
+<pre><code class="language-ctl">EF(goal_achieved)
+</code></pre>
+
+<p>「少なくとも一つの実行パスで、いつか目標が達成される」</p>
+
+<p>これは、目標状態に到達する可能性があることを示します。</p>
+
+<p><strong>公平性の表現</strong>：
+【擬似記法】</p>
+<pre><code class="language-ctl">AG(EF(process1_scheduled) ∧ EF(process2_scheduled))
+「常に、プロセス1もプロセス2もいつかはスケジュールされる可能性がある」
+</code></pre>
+
+<h3 id="ltl線形時相論理の視点">LTL：線形時相論理の視点</h3>
+
+<p>LTL（Linear Temporal Logic）は、CTLとは異なるアプローチで時相性質を表現します。LTLでは、システムの実行を「線形の時間軸」として捉えます。</p>
+
+<p><strong>LTLの基本演算子</strong>：</p>
+<ul>
+  <li><strong>○</strong> (Next): 次の時刻で</li>
+  <li><strong>◇</strong> (Eventually): いつか</li>
+  <li><strong>□</strong> (Always): 常に</li>
+  <li><strong>U</strong> (Until): ～まで</li>
+</ul>
+
+<p><strong>LTL式の例</strong>：
+【擬似記法】</p>
+<pre><code class="language-ltl">□(request → ◇response)
+「常に、要求があればいつか応答がある」
+
+□◇(process_scheduled)
+「プロセスは無限に何度もスケジュールされる」
+
+◇□(stable)
+「いつかシステムが安定し、その後ずっと安定」
+</code></pre>
+
+<h3 id="ctlとltlの表現力の違い">CTLとLTLの表現力の違い</h3>
+
+<p>CTLとLTLは、異なる種類の性質を表現するのに適しています。</p>
+
+<p><strong>CTLが得意な性質</strong>：
+【擬似記法】</p>
+<pre><code class="language-ctl">AG(EF(reset_possible))
+</code></pre>
+
+<p>「常に、リセットが可能な状態への道筋が存在する」</p>
+
+<p>この性質は、LTLでは直接表現できません。</p>
+
+<p><strong>LTLが得意な性質</strong>：
+【擬似記法】</p>
+<pre><code class="language-ltl">□(grant1 → (¬grant2 U release1))
+「プロセス1に許可が与えられたら、プロセス1が解放するまでプロセス2には許可されない」
+</code></pre>
+
+<p>この相互排除の性質は、CTLでは表現が困難です。</p>
+
+<h3 id="実用的な性質パターン">実用的な性質パターン</h3>
+
+<p>実際のシステム検証では、よく使われる性質のパターンがあります。</p>
+
+<p><strong>相互排除</strong>：
+【擬似記法】</p>
+<pre><code class="language-ctl">AG(¬(critical1 ∧ critical2))
+「二つのプロセスが同時にクリティカルセクションにいない」
+</code></pre>
+
+<p><strong>デッドロック不発生</strong>：
+【擬似記法】</p>
+<pre><code class="language-ctl">AG(EX(true))
+</code></pre>
+
+<p>「常に、次の状態が存在する（システムが停止しない）」</p>
+
+<p><strong>飢餓不発生</strong>：
+【擬似記法】</p>
+<pre><code class="language-ltl">□(waiting → ◇served)
+「待機しているプロセスは最終的にサービスを受ける」
+</code></pre>
+
+<p><strong>順序性</strong>：
+【擬似記法】</p>
+<pre><code class="language-ltl">□(event_a → ○(¬event_b U event_c))
+「イベントaの後、イベントcが起こるまでイベントbは起こらない」
+</code></pre>
+
+<h3 id="性質の階層構造">性質の階層構造</h3>
+
+<p>複雑なシステムでは、性質を階層的に構造化することが有効です。</p>
+
+<p><strong>レベル1: 基本的な型安全性</strong>
+【擬似記法】</p>
+<pre><code class="language-ctl">AG(valid_state)
+</code></pre>
+
+<p>「常に有効な状態にある」</p>
+
+<p><strong>レベル2: プロトコルの正しさ</strong>
+【擬似記法】</p>
+<pre><code class="language-ctl">AG(message_sent → AF(ack_received))
+「送信されたメッセージには必ず確認応答がある」
+</code></pre>
+
+<p><strong>レベル3: 性能特性</strong>
+【擬似記法】</p>
+<pre><code class="language-ctl">AG(request → AF≤n(response))
+「要求に対する応答は最大n時間以内」
+</code></pre>
+
+<p>注記：上の <code class="language-plaintext highlighter-rouge">AF≤n</code> は時間制約付きの拡張記法です（標準CTLの外）。ツールや拡張ロジックでサポートされる場合に使用します。</p>
+
+<h3 id="ltlの基本例安全性活性-ltl-basic-examples-">LTLの基本例（安全性・活性）{: #ltl-basic-examples }</h3>
+
+<p>まず、LTL（線形時相論理）でよく用いる基本性質の例を確認します。</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-ltl">G(¬bad)            -- 安全性：常に bad が起きない
+G(request -&gt; F response)  -- 活性：要求があればいつか応答する
+</code></pre>
+
+<p>LTL は「単一の実行（パス）」に沿って性質を評価します。安全性/活性の直観に馴染みやすく、ツールのLTLモードと対応します。</p>
+
+<h3 id="ctlでの性質の否定と反例">CTLでの性質の否定と反例</h3>
+
+<p>この節では CTL（分岐時相論理）表記を用いて、性質の否定と反例を説明します。</p>
+
+<p>模型検査では、性質が満たされない場合の反例も重要です。</p>
+
+<p>性質 <code class="language-plaintext highlighter-rouge">AG(safe)</code> が満たされない場合：</p>
+<ul>
+  <li>反例：初期状態から安全でない状態に到達するパス</li>
+  <li>表現：<code class="language-plaintext highlighter-rouge">EF(¬safe)</code> を満たす実行</li>
+</ul>
+
+<p>性質 <code class="language-plaintext highlighter-rouge">AF(goal)</code> が満たされない場合：</p>
+<ul>
+  <li>反例：目標に到達しない無限実行パス</li>
+  <li>表現：<code class="language-plaintext highlighter-rouge">EG(¬goal)</code> を満たす実行</li>
+</ul>
+
+<h3 id="公平性制約の重要性">公平性制約の重要性</h3>
+
+<p>現実的なシステムでは、「公平性」の仮定が重要です。理論的には可能でも実際には起こりにくい実行を除外することで、より現実的な検証ができます。</p>
+
+<p><strong>弱公平性（概念）</strong>：ある時点以降ずっと実行可能な行動を、永遠に無視する実行（飢餓）を除外する。
+（本章では SMV 系の公平性制約を擬似記法として示す。以下の <code class="language-plaintext highlighter-rouge">FAIRNESS</code> / <code class="language-plaintext highlighter-rouge">COMPASSION (p, q)</code> は概念説明のための簡略表記であり、実際のツール入力にはモジュール定義などの周辺要素が別途必要である）</p>
+
+<p>例（NuSMV/nuXmv の公平性制約）:
+【擬似記法】</p>
+<pre><code class="language-smv">FAIRNESS running_i
+</code></pre>
+
+<p><code class="language-plaintext highlighter-rouge">FAIRNESS running_i</code> は、<code class="language-plaintext highlighter-rouge">running_i</code> が無限回真になるパスのみを公平とみなす（i の飢餓を除外）。</p>
+
+<p><strong>強公平性（概念）</strong>：無限回「実行可能になる」行動を、そのたびに回避し続ける実行を除外する。
+（本章では SMV 系における強公平性制約を、擬似記法として <code class="language-plaintext highlighter-rouge">COMPASSION (p, q)</code> と書くことにする。<code class="language-plaintext highlighter-rouge">p</code> が無限回真なら <code class="language-plaintext highlighter-rouge">q</code> も無限回真、という制約を表す）</p>
+
+<p>例（NuSMV/nuXmv の強公平性制約）:
+【擬似記法】</p>
+<pre><code class="language-smv">COMPASSION (enabled_a, executed_a)
+</code></pre>
+
+<p><code class="language-plaintext highlighter-rouge">COMPASSION (enabled_a, executed_a)</code> は、<code class="language-plaintext highlighter-rouge">enabled_a</code> が無限回真なら <code class="language-plaintext highlighter-rouge">executed_a</code> も無限回真となるパスを評価対象にする（回避し続けるパスを除外）。</p>
+
+<p>公平性の概念・TLA+での厳密な定義は、<a href="/formal-methods-book/chapters/chapter07/#%E5%85%AC%E5%B9%B3%E6%80%A7%E3%81%AE%E6%99%82%E7%9B%B8%E7%9A%84%E8%A1%A8%E7%8F%BE">第7章の公平性の時相的表現</a>も参照してください。</p>
+
+<p>最小例（NuSMV/nuXmv の FAIRNESS / COMPASSION 使用）:
+【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-smv">MODULE main
+VAR
+  enabled_a : boolean;
+  executed_a : boolean;
+
+ASSIGN
+  init(enabled_a) := FALSE;
+  init(executed_a) := FALSE;
+  next(enabled_a) := !enabled_a;
+  next(executed_a) := enabled_a;
+
+FAIRNESS enabled_a
+COMPASSION (enabled_a, executed_a)
+</code></pre>
+<p>自己完結したファイルとしては <code class="language-plaintext highlighter-rouge">examples/ch08/nusmv/fairness.smv</code> を参照してください。</p>
+
+<p>補足：</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">FAIRNESS enabled_a</code> は、<code class="language-plaintext highlighter-rouge">enabled_a</code> が無限回真になるパスだけを評価対象にする。</li>
+  <li><code class="language-plaintext highlighter-rouge">COMPASSION (enabled_a, executed_a)</code> は、<code class="language-plaintext highlighter-rouge">enabled_a</code> が無限回真なら <code class="language-plaintext highlighter-rouge">executed_a</code> も無限回真となるパスだけを評価対象にする。</li>
+  <li>この最小モデルでは <code class="language-plaintext highlighter-rouge">enabled_a</code> が真偽を交互に取り、<code class="language-plaintext highlighter-rouge">executed_a</code> は1ステップ遅れて <code class="language-plaintext highlighter-rouge">enabled_a</code> に追従する。</li>
+  <li>一般には、公平性制約は探索対象のパスを絞るものであり、単独で活性性質そのものを表すわけではない。</li>
+</ul>
+
+<p>最小例（COMPASSION の概念）:
+<code class="language-plaintext highlighter-rouge">COMPASSION (p, q)</code> は、<code class="language-plaintext highlighter-rouge">p</code> が無限回成り立つなら <code class="language-plaintext highlighter-rouge">q</code> も無限回成り立つパスのみを公平とみなす。</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-smv">COMPASSION (enabled_a, executed_a)
+</code></pre>
+
+<h3 id="性質記述の実践的ガイドライン">性質記述の実践的ガイドライン</h3>
+
+<p>効果的な性質記述のためのガイドライン：</p>
+
+<ol>
+  <li><strong>具体的で検証可能</strong>: 曖昧な表現を避け、明確に定義された状態や事象を使用</li>
+  <li><strong>段階的詳細化</strong>: 簡単な性質から始めて、徐々に複雑な性質に拡張</li>
+  <li><strong>反例を考慮</strong>: 性質が満たされない場合を想定し、それが本当に問題かを検討</li>
+  <li><strong>現実的な制約</strong>: 理想的すぎる性質ではなく、実装可能な性質を記述</li>
+</ol>
+
+<h3 id="ツール固有の拡張">ツール固有の拡張</h3>
+
+<p>実際の模型検査ツールでは、標準的な時相論理に加えて、実用的な拡張が提供されることがあります。</p>
+
+<p><strong>SPIN（Promela）での例（進捗・無飢餓の性質）［LTL例］</strong>：
+【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-promela">bool critical_section = false;
+bool cs1 = false;
+bool cs2 = false;
+
+active proctype Worker() {
+    do
+    :: critical_section = true;
+       critical_section = false
+    od
+}
+
+active proctype P1() {
+    do
+    :: atomic { !cs2 -&gt; cs1 = true; cs1 = false }
+    od
+}
+
+active proctype P2() {
+    do
+    :: atomic { !cs1 -&gt; cs2 = true; cs2 = false }
+    od
+}
+
+ltl fairness { []&lt;&gt;(critical_section) }
+ltl mutual_exclusion { [](!(cs1 &amp;&amp; cs2)) }
+</code></pre>
+<p>自己完結したファイルとしては <code class="language-plaintext highlighter-rouge">examples/ch08/spin/ltl-properties.pml</code> を参照してください。</p>
+
+<p><strong>NuSMV（SMV）での例（LTL/CTLの両方）</strong>：
+LTL例：
+【擬似記法】</p>
+<pre><code class="language-smv">LTLSPEC G(request -&gt; F(response))
+</code></pre>
+<p>CTL例：
+【擬似記法】</p>
+<pre><code class="language-smv">CTLSPEC AG(critical1 -&gt; !critical2)
+</code></pre>
+
+<p>これらの拡張により、理論的な時相論理を実用的な検証に適用できます。</p>
+
+<h3 id="ミニまとめltl--ctl--公平性の使い分け">ミニまとめ：LTL / CTL / 公平性の使い分け</h3>
+
+<ul>
+  <li>LTL（線形時相）
+    <ul>
+      <li>単一実行（パス）沿いの性質を表現（G, F, X, U）</li>
+      <li>例: G(¬bad), G(req -&gt; F resp), 無飢餓: <a href="waiting -&gt; &lt;&gt; served"></a></li>
+      <li>使いどころ: 安全性・活性の基本、SPINのLTL、NuSMVのLTLSPEC</li>
+    </ul>
+  </li>
+  <li>CTL（分岐時相）
+    <ul>
+      <li>量化子 A/E + 演算子 G/F/X/U で木状の実行分岐を表現</li>
+      <li>例: AG(safe), EF(¬goal), 否定の等価性: ¬AG(safe) ≡ EF(¬safe)</li>
+      <li>使いどころ: 到達性/不変性の分岐探索、NuSMVのCTLSPEC</li>
+    </ul>
+  </li>
+  <li>公平性（Fairness）
+    <ul>
+      <li>概念: 弱公平（ずっと可能なのに無視される実行を除外）、強公平（可能になるたび回避され続ける実行を除外）</li>
+      <li>ツール表現: NuSMV/nuXmv の FAIRNESS/COMPASSION、SPIN はLTLで no_starvation 等を記述</li>
+      <li>相互参照: 第7章（TLA+での WF/SF 定義）と本章（ツール制約）を参照</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="84-状態爆発問題現実との妥協">8.4 状態爆発問題：現実との妥協</h2>
+
+<h3 id="組み合わせ爆発の数学的現実">組み合わせ爆発の数学的現実</h3>
+
+<p>状態爆発問題は、模型検査における最も根本的な挑戦です。この問題の深刻さは、しばしば過小評価されがちですが、実際の数値を見ると、その困難さが明確になります。</p>
+
+<p><strong>具体的な計算例</strong>：</p>
+
+<p>n個のプロセスがあり、各プロセスがk個の状態を持つ場合：</p>
+<ul>
+  <li>総状態数 = k^n</li>
+</ul>
+
+<p>10個のプロセス、各3状態の場合：</p>
+<ul>
+  <li>総状態数 = 3^10 = 59,049 状態</li>
+</ul>
+
+<p>20個のプロセス、各3状態の場合：</p>
+<ul>
+  <li>総状態数 = 3^20 = 約 35億状態</li>
+</ul>
+
+<p>これに時間、メッセージキュー、各種カウンタなどが加わると、状態数は天文学的な数字になります。現代の最高性能コンピュータでも、このような状態空間を完全に探索することは不可能です。</p>
+
+<h3 id="メモリの物理的限界">メモリの物理的限界</h3>
+
+<p>模型検査では、訪問した状態を記録する必要があります。各状態を 100バイトで表現するとしても：</p>
+
+<ul>
+  <li>10^6 状態 = 100 MB</li>
+  <li>10^9 状態 = 100 GB</li>
+  <li>10^12 状態 = 100 TB</li>
+</ul>
+
+<p>10^12 状態を扱うには、100テラバイトのメモリが必要になります。これは、現在の技術では非現実的です。</p>
+
+<h3 id="状態爆発の根本原因">状態爆発の根本原因</h3>
+
+<p>状態爆発が起こる主な原因を理解することで、効果的な対策を立てられます。</p>
+
+<p><strong>並行性による爆発</strong>：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2つのプロセス、各10状態 → 100状態
+3つのプロセス、各10状態 → 1,000状態  
+10つのプロセス、各10状態 → 10^10状態
+</code></pre></div></div>
+
+<p><strong>データ値による爆発</strong>：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>32ビット整数変数1個 → 2^32 = 約43億の可能性
+64ビット整数変数1個 → 2^64 = 約1.8×10^19の可能性
+</code></pre></div></div>
+
+<p><strong>動的データ構造による爆発</strong>：
+リスト、木、グラフなどの動的データ構造は、サイズと構造の組み合わせで、状態数が爆発的に増大します。</p>
+
+<h3 id="抽象化詳細の戦略的省略">抽象化：詳細の戦略的省略</h3>
+
+<p>状態爆発問題に対する最も基本的な対策は「抽象化」です。システムの本質的でない詳細を省略し、検証したい性質に関連する情報のみを保持します。</p>
+
+<p><strong>データ抽象化の例</strong>：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>具体値: balance = 1247 → 抽象値: balance ∈ {zero, positive, negative}
+具体値: array[100] → 抽象値: array_size ∈ {empty, small, large}
+</code></pre></div></div>
+
+<p><strong>制御抽象化の例</strong>：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>具体的制御フロー: 複雑なアルゴリズム
+→ 抽象的制御フロー: 成功/失敗の2択
+</code></pre></div></div>
+
+<h3 id="有界模型検査">有界模型検査</h3>
+
+<p>有界模型検査（Bounded Model Checking）は、探索深度を制限することで、状態爆発を制御する手法です。</p>
+
+<p><strong>基本的なアイデア</strong>：</p>
+<ul>
+  <li>k ステップ以内で到達可能な状態のみを探索</li>
+  <li>性質違反がk ステップ以内で発見されればNG</li>
+  <li>k ステップ以内で発見されなければ「この範囲では OK」</li>
+</ul>
+
+<p><strong>利点</strong>：</p>
+<ul>
+  <li>メモリ使用量が制御可能</li>
+  <li>SAT ソルバーなどの高性能ツールを活用可能</li>
+  <li>反例が見つかった場合は短く、理解しやすい</li>
+</ul>
+
+<p><strong>欠点</strong>：</p>
+<ul>
+  <li>完全性の保証がない</li>
+  <li>適切な k の設定が困難</li>
+</ul>
+
+<h3 id="部分順序簡約の理論と実践">部分順序簡約の理論と実践</h3>
+
+<p>並行システムでは、多くの状態遷移の順序が結果に影響しません。部分順序簡約は、この冗長性を利用して状態数を削減します。</p>
+
+<p><strong>独立な行動の例</strong>：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>プロセス1: x := x + 1
+プロセス2: y := y + 1
+</code></pre></div></div>
+
+<p>これらの操作は独立なので、実行順序 (1→2) と (2→1) は同じ結果になります。部分順序簡約では、一方の順序のみを探索します。</p>
+
+<p><strong>削減効果</strong>：</p>
+<ul>
+  <li>n個の独立な行動がある場合</li>
+  <li>通常の探索：n! 通りの順序</li>
+  <li>部分順序簡約：依存関係に応じて順序数が削減される（すべて独立なら1通り、依存があれば複数の代表順序が残る）</li>
+</ul>
+
+<h3 id="シンボリック模型検査の技術">シンボリック模型検査の技術</h3>
+
+<p>シンボリック模型検査では、状態集合を論理式で表現し、集合演算を論理演算として実行します。</p>
+
+<p><strong>BDD（Binary Decision Diagram）の活用</strong>：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>状態集合 S = {(x=0,y=0), (x=0,y=1), (x=1,y=1)}
+→ BDD表現: (¬x ∧ ¬y) ∨ (¬x ∧ y) ∨ (x ∧ y)
+→ 簡約: ¬x ∨ (x ∧ y)
+</code></pre></div></div>
+
+<p>BDDが効果的な場合、指数的に大きな状態集合も多項式サイズで表現できます。</p>
+
+<p><strong>SAT/SMTソルバーの利用</strong>：
+現代のSATソルバーは、数百万の変数を持つ論理式を効率的に解けます。状態遷移を論理制約として表現し、SATソルバーで解くことで、高性能な検証が可能になります。</p>
+
+<h3 id="合成的検証">合成的検証</h3>
+
+<p>大規模システムを小さな部分に分解し、各部分を独立に検証してから、全体の性質を推論する手法です。</p>
+
+<p><strong>仮定保証推論</strong>：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>コンポーネント A: 仮定 PA のもとで保証 QA
+コンポーネント B: 仮定 PB のもとで保証 QB
+システム全体: (PA ∧ PB) → (QA ∧ QB)
+</code></pre></div></div>
+
+<p>この手法により、各コンポーネントの状態数は小さく保ちながら、システム全体の性質を保証できます。</p>
+
+<h3 id="反復的詳細化">反復的詳細化</h3>
+
+<p>抽象化が粗すぎて偽の反例が見つかった場合、段階的に詳細化を行う手法です。</p>
+
+<p>【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. 粗い抽象化で検証
+2. 反例が見つかったら、それが真の反例かを確認
+3. 偽の反例なら、抽象化を詳細化
+4. 1に戻って再検証
+</code></pre></div></div>
+
+<p>この反復プロセスにより、検証したい性質に対して必要最小限の詳細度を自動的に見つけられます。</p>
+
+<h3 id="並列分散検証">並列・分散検証</h3>
+
+<p>現代の多核プロセッサやクラスター環境を活用した並列検証技術：</p>
+
+<p><strong>並列探索戦略</strong>：</p>
+<ul>
+  <li>Work-stealing: 各スレッドが独立に探索し、負荷を動的に分散</li>
+  <li>Hash-based partitioning: 状態のハッシュ値でワーカーを割り当て</li>
+</ul>
+
+<p><strong>分散検証</strong>：</p>
+<ul>
+  <li>複数マシンにまたがる検証</li>
+  <li>ネットワーク通信による状態情報の共有</li>
+  <li>分散ハッシュテーブルによる訪問済み状態管理</li>
+</ul>
+
+<h3 id="近似確率的手法">近似・確率的手法</h3>
+
+<p>完全な検証が困難な場合の近似的アプローチ：</p>
+
+<p><strong>ランダムサンプリング</strong>：</p>
+<ul>
+  <li>状態空間から無作為に実行パスを選択</li>
+  <li>統計的な信頼度で性質の成立を評価</li>
+</ul>
+
+<p><strong>モンテカルロ模型検査</strong>：</p>
+<ul>
+  <li>確率的な探索により、高い確率で反例を発見</li>
+  <li>完全性は保証されないが、実用的な時間で実行可能</li>
+</ul>
+
+<h3 id="実用的な戦略選択">実用的な戦略選択</h3>
+
+<p>実際のプロジェクトでは、複数の技術を組み合わせた戦略が効果的です：</p>
+
+<p><strong>段階的アプローチ</strong>：</p>
+<ol>
+  <li>有界模型検査で簡単な問題を発見</li>
+  <li>抽象化により重要な性質を検証</li>
+  <li>必要に応じてシンボリック検査や並列検査を適用</li>
+</ol>
+
+<p><strong>コストベネフィット分析</strong>：</p>
+<ul>
+  <li>検証コスト vs 発見される問題の価値</li>
+  <li>完全性 vs 実用的な検証時間</li>
+  <li>自動化の程度 vs 人的介入の必要性</li>
+</ul>
+
+<p>状態爆発問題は完全に解決できるものではありませんが、適切な技術の組み合わせにより、実用的なレベルでの検証が可能になります。重要なのは、問題の特性を理解し、最適な手法を選択することです。</p>
+
+<h2 id="85-反例の解釈と活用">8.5 反例の解釈と活用</h2>
+
+<h3 id="反例という贈り物">反例という贈り物</h3>
+
+<p>模型検査において反例（Counterexample）は、単なるエラー報告ではありません。それは、システムの隠れた問題を具体的に示してくれる「贈り物」です。抽象的な「仕様を満たさない」という結果ではなく、「どのような状況で、どのような順序で問題が発生するか」を詳細に教えてくれます。</p>
+
+<p>優れた設計者は、反例から多くのことを学びます。反例を見て「バグを直そう」と考えるだけでなく、「なぜこの問題が発生したのか」「設計のどの部分に問題があるのか」「類似の問題が他にもないか」を深く考察します。</p>
+
+<h3 id="反例の解剖学">反例の解剖学</h3>
+
+<p>典型的な反例は、以下の要素から構成されます：</p>
+
+<p><strong>1. 実行トレース</strong>: 初期状態から性質違反状態までの状態列
+<strong>2. 状態情報</strong>: 各状態での変数の値
+<strong>3. 遷移情報</strong>: 状態間の遷移を引き起こした行動
+<strong>4. 時刻情報</strong>: 各ステップでの論理的時刻</p>
+
+<p><strong>具体例</strong>：相互排除違反の反例
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>State 0: (Initial)
+  process1_state = "thinking"
+  process2_state = "thinking"  
+  flag1 = false, flag2 = false
+  turn = 1
+
+State 1: (Process1 wants to enter)
+  process1_state = "trying"
+  process2_state = "thinking"
+  flag1 = true, flag2 = false
+  turn = 1
+
+State 2: (Process2 wants to enter)
+  process1_state = "trying"
+  process2_state = "trying"
+  flag1 = true, flag2 = true
+  turn = 1
+
+State 3: (Both enter critical section - VIOLATION!)
+  process1_state = "critical"
+  process2_state = "critical"
+  flag1 = true, flag2 = true
+  turn = 1
+</code></pre></div></div>
+
+<h3 id="根本原因分析">根本原因分析</h3>
+
+<p>反例から根本原因を特定するには、体系的な分析が必要です。</p>
+
+<p><strong>1. 症状の特定</strong>：</p>
+<ul>
+  <li>何が期待された動作と異なるか</li>
+  <li>どの時点で問題が顕在化したか</li>
+</ul>
+
+<p><strong>2. 前提条件の確認</strong>：</p>
+<ul>
+  <li>問題が発生するために必要な条件は何か</li>
+  <li>それらの条件はなぜ成立したか</li>
+</ul>
+
+<p><strong>3. タイミング分析</strong>：</p>
+<ul>
+  <li>特定の実行順序が必要か</li>
+  <li>異なるタイミングでも問題は発生するか</li>
+</ul>
+
+<p><strong>4. 設計判断の見直し</strong>：</p>
+<ul>
+  <li>問題の根底にある設計上の仮定は適切か</li>
+  <li>異なる設計選択で問題を回避できるか</li>
+</ul>
+
+<h3 id="デッドロック反例の分析">デッドロック反例の分析</h3>
+
+<p>デッドロックの反例は、特に教育的価値が高い例です。</p>
+
+<p><strong>デッドロック反例の例</strong>：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>State N: (Deadlock detected)
+  Process A: waiting for Resource 2, holding Resource 1
+  Process B: waiting for Resource 1, holding Resource 2
+  Available resources: none
+  Possible transitions: none
+</code></pre></div></div>
+
+<p><strong>分析のポイント</strong>：</p>
+<ul>
+  <li><strong>循環待機の形成過程</strong>: どのような順序で資源が取得されたか</li>
+  <li><strong>回避可能性</strong>: どの時点で異なる選択をすれば回避できたか</li>
+  <li><strong>設計改善</strong>: 資源順序付けや タイムアウトで回避可能か</li>
+</ul>
+
+<h3 id="時相的性質違反の分析">時相的性質違反の分析</h3>
+
+<p>時相的性質の違反は、より複雑な分析が必要です。</p>
+
+<p><strong>活性違反の例</strong>：「要求があれば最終的に応答する」が満たされない
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>反例: 無限ループで応答が生成されない実行パス
+State 0 → State 1 → State 2 → State 1 → State 2 → ...
+</code></pre></div></div>
+
+<p><strong>分析手法</strong>：</p>
+<ul>
+  <li><strong>強連結成分の特定</strong>: ループを形成している状態集合</li>
+  <li><strong>公平性の確認</strong>: 応答生成の機会があるのに選択されていないか</li>
+  <li><strong>外部条件の分析</strong>: 応答を阻害している外部要因はないか</li>
+</ul>
+
+<h3 id="偽の反例への対処">偽の反例への対処</h3>
+
+<p>抽象化により生成された反例が、実際のシステムでは発生しない場合があります。これを「偽の反例（Spurious Counterexample）」と呼びます。</p>
+
+<p><strong>偽の反例の特徴</strong>：</p>
+<ul>
+  <li>抽象化により失われた情報に依存している</li>
+  <li>実装レベルでは不可能な状態遷移を含む</li>
+  <li>現実的でないタイミングや条件を仮定している</li>
+</ul>
+
+<p><strong>対処法</strong>：</p>
+<ol>
+  <li><strong>抽象化の詳細化</strong>: より詳細な情報を保持</li>
+  <li><strong>制約の追加</strong>: 現実的でない遷移を除外</li>
+  <li><strong>具体化による確認</strong>: 元のシステムで反例が再現できるか確認</li>
+</ol>
+
+<h3 id="反例の最小化">反例の最小化</h3>
+
+<p>長い反例は理解が困難なため、最小化が重要です。</p>
+
+<p><strong>最小化の手法</strong>：</p>
+<ul>
+  <li><strong>二分探索</strong>: 反例の中間部分を除去して最短経路を発見</li>
+  <li><strong>因果関係分析</strong>: 性質違反に直接関係しないステップを除去</li>
+  <li><strong>状態投影</strong>: 関連する変数のみに注目して簡約</li>
+</ul>
+
+<p><strong>最小化の例</strong>：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>元の反例: 50ステップ
+最小化後: 8ステップ（本質的な遷移のみ）
+</code></pre></div></div>
+
+<h3 id="反例の視覚化">反例の視覚化</h3>
+
+<p>複雑な反例を理解するには、適切な視覚化が重要です。</p>
+
+<p><strong>状態遷移図</strong>：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[State0] --action1--&gt; [State1] --action2--&gt; [State2]
+    |                    |                    |
+  var1=0              var1=1              var1=2
+  var2=false          var2=false          var2=true
+</code></pre></div></div>
+
+<p><strong>タイムライン図</strong>：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Process A: |----thinking----|--trying--|--critical--|
+Process B: |----thinking----|----trying----|--critical--|
+Time:      0              5           10           15
+</code></pre></div></div>
+
+<p><strong>メッセージシーケンス図</strong>：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Client    Server    Database
+  |         |          |
+  |--req---&gt;|          |
+  |         |--query--&gt;|
+  |         |&lt;--resp---|
+  |&lt;--err---|          |
+</code></pre></div></div>
+
+<h3 id="反例からの学習と改善">反例からの学習と改善</h3>
+
+<p>反例分析の目標は、単一の問題修正ではなく、システム全体の改善です。</p>
+
+<p><strong>パターン認識</strong>：</p>
+<ul>
+  <li>類似の問題が他の場所にもないか</li>
+  <li>同じ設計判断が他の問題を引き起こしていないか</li>
+  <li>系統的な設計改善の必要性はないか</li>
+</ul>
+
+<p><strong>予防的改善</strong>：</p>
+<ul>
+  <li>発見された問題の類型を分析</li>
+  <li>設計ガイドラインや チェックリストの更新</li>
+  <li>自動化された検証項目の追加</li>
+</ul>
+
+<h3 id="ツールによる反例分析支援">ツールによる反例分析支援</h3>
+
+<p>現代の模型検査ツールは、反例分析を支援する様々な機能を提供します。</p>
+
+<p><strong>NuSMVの反例機能</strong>：
+【文脈依存スニペット】</p>
+<pre><code class="language-smv">show_traces -v
+write_traces -o counterexample.xml
+</code></pre>
+
+<p>上から順に、反例の表示（<code class="language-plaintext highlighter-rouge">show_traces -v</code>）と保存（<code class="language-plaintext highlighter-rouge">write_traces -o counterexample.xml</code>）です。</p>
+
+<p><strong>SPINの反例機能</strong>：
+【ツール準拠（そのまま動く）】</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spin <span class="nt">-t</span> <span class="nt">-p</span> examples/ch08/spin/producer-consumer.pml
+spin <span class="nt">-t</span> examples/ch08/spin/producer-consumer.pml
+</code></pre></div></div>
+
+<p>上から順に、反例の詳細表示（<code class="language-plaintext highlighter-rouge">spin -t -p</code>）とシミュレーション（<code class="language-plaintext highlighter-rouge">spin -t</code>）です。</p>
+
+<p><strong>TLCの反例機能</strong>：</p>
+<ul>
+  <li>ステップごとの状態表示</li>
+  <li>変数の変化の追跡</li>
+  <li>エラー状態の詳細分析</li>
+</ul>
+
+<h3 id="反例駆動の開発プロセス">反例駆動の開発プロセス</h3>
+
+<p>反例を開発プロセスに統合することで、品質を継続的に改善できます。</p>
+
+<p><strong>反例データベース</strong>：</p>
+<ul>
+  <li>発見された反例の系統的な記録</li>
+  <li>分類と検索機能</li>
+  <li>修正方法と効果の追跡</li>
+</ul>
+
+<p><strong>回帰テスト</strong>：</p>
+<ul>
+  <li>修正により反例が解消されたかの確認</li>
+  <li>新しい問題が発生していないかのチェック</li>
+  <li>性能への影響の評価</li>
+</ul>
+
+<p><strong>教育リソース</strong>：</p>
+<ul>
+  <li>典型的な問題パターンの共有</li>
+  <li>新人への教育材料として活用</li>
+  <li>設計レビューでの参考資料</li>
+</ul>
+
+<p>反例は、模型検査の最も価値ある成果物の一つです。それを適切に分析し、活用することで、システムの品質向上だけでなく、設計者の能力向上にも大きく貢献します。</p>
+
+<h2 id="86-主要ツールの比較と選択指針">8.6 主要ツールの比較と選択指針</h2>
+
+<h3 id="模型検査ツールの生態系">模型検査ツールの生態系</h3>
+
+<p>模型検査の実用化に伴い、様々な特徴を持つツールが開発されてきました。それぞれのツールは、特定の問題領域や検証手法に特化しており、適切なツール選択は検証の成功に大きく影響します。ツールの特徴を理解し、プロジェクトの要求に最適なものを選択することが重要です。</p>
+
+<h3 id="spin並行システム検証の先駆者">SPIN：並行システム検証の先駆者</h3>
+
+<p>SPINは、Gerard Holzmannにより開発された、並行システム検証のための代表的なツールです。</p>
+
+<p><strong>主要特徴</strong>：</p>
+<ul>
+  <li><strong>Promela言語</strong>: 並行プロセスの記述に特化</li>
+  <li><strong>部分順序簡約</strong>: 並行性による状態爆発を効率的に削減</li>
+  <li><strong>メモリ効率</strong>: 大規模状態空間の効率的な探索</li>
+  <li><strong>ランダムシミュレーション</strong>: 検証前の予備検査</li>
+</ul>
+
+<p><strong>適用領域</strong>：
+【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-promela">mtype = { msg };
+chan buffer = [1] of { mtype };
+
+active proctype Producer() {
+    do
+    :: buffer!msg -&gt; printf("Produced\n")
+    od
+}
+
+active proctype Consumer() {
+    do  
+    :: buffer?msg -&gt; printf("Consumed\n")
+    od
+}
+</code></pre>
+<p>自己完結したファイルとしては <code class="language-plaintext highlighter-rouge">examples/ch08/spin/producer-consumer.pml</code> を参照してください。</p>
+
+<p><strong>利点</strong>：</p>
+<ul>
+  <li>並行システムの自然な記述</li>
+  <li>高度に最適化された検証エンジン</li>
+  <li>産業界での豊富な実績</li>
+</ul>
+
+<p><strong>制約</strong>：</p>
+<ul>
+  <li>データ型の制限</li>
+  <li>学習コストの高さ</li>
+  <li>グラフィカルインターフェースの不足</li>
+</ul>
+
+<h3 id="nusmvシンボリック検証の代表格">NuSMV：シンボリック検証の代表格</h3>
+
+<p>NuSMVは、シンボリック模型検査の先駆的なツールです。</p>
+
+<p><strong>主要特徴</strong>：</p>
+<ul>
+  <li><strong>BDD（Binary Decision Diagram）</strong>: 大規模状態集合の効率的表現</li>
+  <li><strong>CTL/LTL サポート</strong>: 豊富な時相論理の支援</li>
+  <li><strong>階層的仕様記述</strong>: 複雑なシステムの構造化記述</li>
+  <li><strong>反例生成</strong>: 詳細な診断情報</li>
+</ul>
+
+<p><strong>仕様記述例</strong>：
+【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-smv">MODULE main
+VAR
+    state : {idle, req, crit, exit};
+    input_req : boolean;
+    other_flag : boolean;
+
+ASSIGN
+    init(state) := idle;
+    init(input_req) := FALSE;
+    init(other_flag) := FALSE;
+    next(input_req) := {TRUE, FALSE};
+    next(other_flag) := {TRUE, FALSE};
+    next(state) := case
+        state = idle &amp; input_req : req;
+        state = req &amp; !other_flag : crit;
+        state = crit : exit;
+        state = exit : idle;
+        TRUE : state;
+    esac;
+
+LTLSPEC G(state = crit -&gt; F(state = exit))
+CTLSPEC AG(state = crit -&gt; !other_flag)
+</code></pre>
+<p>自己完結したファイルとしては <code class="language-plaintext highlighter-rouge">examples/ch08/nusmv/request-response.smv</code> を参照してください。</p>
+
+<p><strong>利点</strong>：</p>
+<ul>
+  <li>宣言的な仕様記述</li>
+  <li>強力なシンボリック検証エンジン</li>
+  <li>学術・産業両方での実績</li>
+</ul>
+
+<p><strong>制約</strong>：</p>
+<ul>
+  <li>メモリ集約的</li>
+  <li>BDD構築の失敗リスク</li>
+  <li>動的データ構造の制限</li>
+</ul>
+
+<h3 id="tlctlaの実行エンジン">TLC：TLA+の実行エンジン</h3>
+
+<p>TLCは、TLA+仕様専用の模型検査器です。</p>
+
+<p><strong>主要特徴</strong>：</p>
+<ul>
+  <li><strong>高レベル仕様</strong>: 数学的記法による自然な記述</li>
+  <li><strong>型システム</strong>: 豊富なデータ型のサポート</li>
+  <li><strong>分散検証</strong>: 複数マシンでの並列検証</li>
+  <li><strong>設定の柔軟性</strong>: 詳細な検証パラメータの制御</li>
+</ul>
+
+<p><strong>TLA+仕様例</strong>：
+【擬似記法】</p>
+<pre><code class="language-tla">Init ≜ balance = [a ∈ Accounts ↦ 0]
+
+Transfer(from, to, amount) ≜
+    ∧ balance[from] ≥ amount
+    ∧ balance' = [balance EXCEPT 
+        ![from] = @ - amount,
+        ![to] = @ + amount]
+
+Next ≜ ∃ from, to ∈ Accounts, amount ∈ Nat :
+    Transfer(from, to, amount)
+</code></pre>
+
+<p><strong>利点</strong>：</p>
+<ul>
+  <li>表現力の高い仕様言語</li>
+  <li>抽象的モデリングに適している</li>
+  <li>分散システムの記述に優れている</li>
+</ul>
+
+<p><strong>制約</strong>：</p>
+<ul>
+  <li>学習曲線の急峻さ</li>
+  <li>実装との距離</li>
+  <li>ツールチェーンの限定性</li>
+</ul>
+
+<h3 id="cbmcソフトウェア検証の実用ツール">CBMC：ソフトウェア検証の実用ツール</h3>
+
+<p>CBMCは、C/C++プログラムの有界模型検査ツールです。</p>
+
+<p><strong>主要特徴</strong>：</p>
+<ul>
+  <li><strong>実コード検証</strong>: 実際のC/C++プログラムを直接検証</li>
+  <li><strong>SAT ベース</strong>: 現代的なSATソルバーの活用</li>
+  <li><strong>反例実行</strong>: 実際に実行可能な反例プログラム生成</li>
+  <li><strong>産業標準</strong>: 自動車・航空宇宙業界での活用</li>
+</ul>
+
+<p><strong>検証例</strong>：
+【ツール準拠（そのまま動く）】</p>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;assert.h&gt;</span><span class="cp">
+</span>
+<span class="k">extern</span> <span class="kt">int</span> <span class="nf">nondet_int</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">array</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+    <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">nondet_int</span><span class="p">();</span>
+
+    <span class="n">__CPROVER_assume</span><span class="p">(</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">);</span>
+    <span class="n">array</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
+
+    <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">nondet_int</span><span class="p">();</span>
+    <span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="n">nondet_int</span><span class="p">();</span>
+    <span class="n">__CPROVER_assume</span><span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="mi">1000</span><span class="p">);</span>
+    <span class="n">__CPROVER_assume</span><span class="p">(</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="mi">1000</span><span class="p">);</span>
+
+    <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">;</span>
+    <span class="n">__CPROVER_assert</span><span class="p">(</span><span class="n">sum</span> <span class="o">&gt;=</span> <span class="n">x</span> <span class="o">&amp;&amp;</span> <span class="n">sum</span> <span class="o">&gt;=</span> <span class="n">y</span><span class="p">,</span> <span class="s">"sum grows for bounded non-negative inputs"</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>自己完結したファイルとしては <code class="language-plaintext highlighter-rouge">examples/ch08/cbmc/array-bounds.c</code> を参照してください。</p>
+
+<p><strong>利点</strong>：</p>
+<ul>
+  <li>実装レベルでの検証</li>
+  <li>既存コードの活用</li>
+  <li>バグの具体的な特定</li>
+</ul>
+
+<p><strong>制約</strong>：</p>
+<ul>
+  <li>有界検証のみ</li>
+  <li>抽象化の困難さ</li>
+  <li>大規模プログラムでの性能問題</li>
+</ul>
+
+<h3 id="uppaalリアルタイムシステム専用">UPPAAL：リアルタイムシステム専用</h3>
+
+<p>UPPAALは、リアルタイムシステムの検証に特化したツールです。</p>
+
+<p><strong>主要特徴</strong>：</p>
+<ul>
+  <li><strong>時間オートマトン</strong>: 時間制約を持つシステムの自然な記述</li>
+  <li><strong>グラフィカル UI</strong>: 視覚的な状態機械の編集</li>
+  <li><strong>時刻制約</strong>: リアルタイム性質の厳密な検証</li>
+  <li><strong>最適化</strong>: 最短時間や最小コストの経路発見</li>
+</ul>
+
+<p><strong>時間オートマトン例</strong>：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// リアルタイムタスクの記述
+process Task {
+    clock t;
+    
+    state Idle {
+        when(trigger &amp;&amp; t &gt;= period) -&gt; Running { t := 0; }
+    }
+    
+    state Running {
+        when(t &lt;= deadline) -&gt; Idle;
+        when(t &gt; deadline) -&gt; Error; // デッドライン違反
+    }
+}
+</code></pre></div></div>
+
+<p><strong>利点</strong>：</p>
+<ul>
+  <li>リアルタイム特性の正確な検証</li>
+  <li>直感的なグラフィカル記述</li>
+  <li>最適化問題の解決</li>
+</ul>
+
+<p><strong>制約</strong>：</p>
+<ul>
+  <li>特定領域への限定</li>
+  <li>学習コストの高さ</li>
+  <li>大規模システムでの制限</li>
+</ul>
+
+<h3 id="ツール選択の決定要因">ツール選択の決定要因</h3>
+
+<p>適切なツールを選択するための主要な判断基準：</p>
+
+<p><strong>1. 検証対象の特性</strong></p>
+<ul>
+  <li><strong>並行システム</strong> → SPIN, TLC</li>
+  <li><strong>ハードウェア/組み込み</strong> → NuSMV, UPPAAL</li>
+  <li><strong>ソフトウェアコード</strong> → CBMC, JAVA PATHFINDER</li>
+  <li><strong>リアルタイムシステム</strong> → UPPAAL, TIMES</li>
+</ul>
+
+<p><strong>2. 要求される検証の深度</strong></p>
+<ul>
+  <li><strong>完全検証</strong> → シンボリック手法（NuSMV）</li>
+  <li><strong>バグ発見</strong> → 明示的検証（SPIN, TLC）</li>
+  <li><strong>有界検証</strong> → SAT ベース（CBMC）</li>
+</ul>
+
+<p><strong>3. チームの技術的背景</strong></p>
+<ul>
+  <li><strong>数学的背景</strong> → TLA+/TLC</li>
+  <li><strong>プログラミング中心</strong> → CBMC, JAVA PATHFINDER</li>
+  <li><strong>モデリング経験</strong> → NuSMV, UPPAAL</li>
+</ul>
+
+<p><strong>4. プロジェクトの制約</strong></p>
+<ul>
+  <li><strong>学習時間</strong> → 短期：CBMC、長期：TLA+</li>
+  <li><strong>既存ツールチェーン</strong> → 統合可能性を考慮</li>
+  <li><strong>性能要求</strong> → 対象システムのサイズと複雑性</li>
+</ul>
+
+<h3 id="統合的なツール活用戦略">統合的なツール活用戦略</h3>
+
+<p>実際のプロジェクトでは、複数ツールの組み合わせが効果的です：</p>
+
+<p><strong>段階的検証アプローチ</strong>：</p>
+<ol>
+  <li><strong>設計段階</strong>: TLA+ で高レベル仕様を検証</li>
+  <li><strong>詳細設計</strong>: NuSMV で制御ロジックを検証</li>
+  <li><strong>実装段階</strong>: CBMC で実際のコードを検証</li>
+  <li><strong>統合段階</strong>: SPIN で並行動作を検証</li>
+</ol>
+
+<p><strong>相補的検証</strong>：</p>
+<ul>
+  <li><strong>性質の種類</strong>: 安全性（CBMC）+ 活性（SPIN）</li>
+  <li><strong>抽象化レベル</strong>: 高レベル（TLA+）+ 低レベル（CBMC）</li>
+  <li><strong>検証手法</strong>: シンボリック（NuSMV）+ 明示的（SPIN）</li>
+</ul>
+
+<h3 id="新興ツールとトレンド">新興ツールとトレンド</h3>
+
+<p>模型検査技術の発展に伴い、新しいツールも登場しています：</p>
+
+<p><strong>CATAPULT</strong>: 高位合成用の検証ツール
+<strong>SEAHORN</strong>: LLVM ベースの検証フレームワーク
+<strong>SMACK</strong>: LLVM から ブギーへの変換ツール
+<strong>KLEE</strong>: シンボリック実行エンジン</p>
+
+<h3 id="実用的な導入ガイドライン">実用的な導入ガイドライン</h3>
+
+<p><strong>評価フェーズ</strong>：</p>
+<ol>
+  <li>小規模な実例でツールを試用</li>
+  <li>学習コストと効果を評価</li>
+  <li>既存開発プロセスとの適合性確認</li>
+</ol>
+
+<p><strong>導入フェーズ</strong>：</p>
+<ol>
+  <li>パイロットプロジェクトでの試験導入</li>
+  <li>チーム内での知識共有</li>
+  <li>段階的な適用範囲拡大</li>
+</ol>
+
+<p><strong>定着フェーズ</strong>：</p>
+<ol>
+  <li>定期的なツール更新</li>
+  <li>新しい検証パターンの蓄積</li>
+  <li>他のプロジェクトへの展開</li>
+</ol>
+
+<p>適切なツール選択は、模型検査の成功に決定的な影響を与えます。技術的特徴だけでなく、チームの能力、プロジェクトの制約、長期的な戦略を総合的に考慮した判断が重要です。</p>
+
+<hr />
+
+<h2 id="章末課題">章末課題</h2>
+
+<h3 id="基礎理解演習1時相論理の実践">基礎理解演習1：時相論理の実践</h3>
+
+<p>以下のシステムについて、CTLとLTLで性質を記述してください：</p>
+
+<p><strong>エレベーター制御システム</strong>：</p>
+<ul>
+  <li>状態：{idle, moving_up, moving_down, door_open}</li>
+  <li>イベント：{call_button, arrive_floor, open_door, close_door}</li>
+</ul>
+
+<p>記述すべき性質：</p>
+<ol>
+  <li>安全性：ドアが開いている間は移動しない</li>
+  <li>活性：呼び出しがあれば最終的に到着する</li>
+  <li>公平性：すべての階が公平にサービスされる</li>
+  <li>効率性：無駄な移動は発生しない</li>
+</ol>
+
+<p>各性質について：</p>
+<ul>
+  <li>CTL での記述</li>
+  <li>LTL での記述</li>
+  <li>どちらが表現しやすいかの分析</li>
+</ul>
+
+<h3 id="基礎理解演習2状態空間分析">基礎理解演習2：状態空間分析</h3>
+
+<p>以下の並行システムの状態空間を分析してください：</p>
+
+<p><strong>2つのプロセスによる共有カウンタシステム</strong>：
+【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>プロセス1: 
+  loop: read counter → increment → write counter
+
+プロセス2:
+  loop: read counter → decrement → write counter
+</code></pre></div></div>
+
+<p>分析項目：</p>
+<ol>
+  <li>可能な状態数の計算（カウンタ値0-10の場合）</li>
+  <li>状態遷移図の作成</li>
+  <li>競合状態の特定</li>
+  <li>デッドロック状態の有無</li>
+  <li>部分順序簡約の適用可能性</li>
+</ol>
+
+<h3 id="実践演習1spin-による検証">実践演習1：SPIN による検証</h3>
+
+<p>読者・書者問題をPromela で記述し、SPIN で検証してください：</p>
+
+<p><strong>要求</strong>：</p>
+<ul>
+  <li>複数の読者は同時にデータを読める</li>
+  <li>書者は排他的にデータを書く</li>
+  <li>読者と書者は同時にアクセスできない</li>
+  <li>飢餓状態を回避する</li>
+</ul>
+
+<p><strong>実装要素</strong>：</p>
+<ol>
+  <li>Promela による プロセス定義</li>
+  <li>共有データ構造の記述</li>
+  <li>同期プリミティブの実装</li>
+  <li>安全性・活性性質の記述</li>
+  <li>SPIN による検証と結果分析</li>
+</ol>
+
+<h3 id="実践演習2nusmv-による検証">実践演習2：NuSMV による検証</h3>
+
+<p>交通信号制御システムをNuSMVで記述し、検証してください：</p>
+
+<p><strong>システム仕様</strong>：</p>
+<ul>
+  <li>南北方向と東西方向の信号</li>
+  <li>各方向に赤・黄・青の3つの状態</li>
+  <li>車両検知センサーによる制御</li>
+  <li>歩行者用押しボタン</li>
+</ul>
+
+<p><strong>検証項目</strong>：</p>
+<ol>
+  <li>安全性：対向する方向が同時に青にならない</li>
+  <li>活性：すべての方向が最終的に青になる</li>
+  <li>応答性：歩行者ボタンに対する適切な応答</li>
+  <li>効率性：不必要な信号変更を避ける</li>
+</ol>
+
+<h3 id="発展演習複数ツールによる段階的検証">発展演習：複数ツールによる段階的検証</h3>
+
+<p>分散データベースのコンセンサスアルゴリズムを設計し、複数のツールで段階的に検証してください：</p>
+
+<p><strong>システム要求</strong>：</p>
+<ul>
+  <li>3つのデータベースノード</li>
+  <li>過半数による合意メカニズム</li>
+  <li>ノード障害への耐性</li>
+  <li>データ一貫性の保証</li>
+</ul>
+
+<p><strong>段階的検証プロセス</strong>：</p>
+
+<p><strong>Phase 1: TLA+ による高レベル設計</strong></p>
+<ol>
+  <li>システム全体のアルゴリズムを TLA+ で記述</li>
+  <li>基本的な安全性・活性性質を検証</li>
+  <li>TLC による初期検証</li>
+</ol>
+
+<p><strong>Phase 2: Promela による詳細化</strong></p>
+<ol>
+  <li>メッセージ交換プロトコルの詳細化</li>
+  <li>並行性と通信の詳細な記述</li>
+  <li>SPIN による検証</li>
+</ol>
+
+<p><strong>Phase 3: 実装レベル検証</strong></p>
+<ol>
+  <li>実際のC/Java コードの実装</li>
+  <li>CBMC または Java PathFinder による検証</li>
+  <li>単体テストとの統合</li>
+</ol>
+
+<p><strong>統合分析</strong>：</p>
+<ul>
+  <li>各段階で発見された問題の分類</li>
+  <li>ツール間での検証結果の一貫性確認</li>
+  <li>抽象化レベルと発見問題の関係分析</li>
+  <li>実用的な検証戦略の評価</li>
+</ul>
+
+<p><strong>評価項目</strong>：</p>
+<ol>
+  <li>各ツールの特徴と適用場面の理解</li>
+  <li>段階的検証による品質向上の効果</li>
+  <li>学習コストと検証効果のトレードオフ</li>
+  <li>実際のプロジェクトへの適用可能性</li>
+</ol>
+
+<p>これらの演習を通じて、模型検査の理論的理解と実践的応用能力を身につけ、次章での定理証明の学習への準備を整えてください。特に発展演習では、実際のプロジェクトで直面する複雑さと、それに対する系統的なアプローチを体験することが重要です。</p>
+
+                </article>
+
+                
+                <nav class="page-navigation" aria-label="ページナビゲーション">
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+
+
+
+
+
+<nav class="book-navigation" aria-label="ページナビゲーション">
+  <div class="chapter-nav">
+    
+      <a href="/formal-methods-book/chapters/chapter07/" class="nav-prev" rel="prev">
+        <span class="arrow" aria-hidden="true">←</span>
+        <span class="label">前へ</span>
+        <span class="title">第7章：時間を扱う仕様記述 - TLA+入門</span>
+      </a>
+    
+
+    <a href="/formal-methods-book/" class="nav-home">
+      <span class="label">目次へ</span>
+    </a>
+
+    
+      <a href="/formal-methods-book/chapters/chapter09/" class="nav-next" rel="next">
+        <span class="label">次へ</span>
+        <span class="title">第9章：定理証明の基礎</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    
+  </div>
+</nav>
+
+<style>
+.book-navigation { margin: 2rem 0; padding: 1rem; border-top: 1px solid var(--border-color, #e5e7eb); }
+.chapter-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.nav-prev, .nav-next, .nav-home { display: flex; align-items: center; padding: 0.75rem 1.25rem; background: var(--bg-primary, #fff); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; text-decoration: none; color: inherit; }
+.nav-disabled { opacity: .5; cursor: not-allowed; background: var(--bg-tertiary, #f9fafb); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; padding: 0.75rem 1.25rem; display: flex; align-items: center; }
+.nav-prev { flex: 1; }
+.nav-next { flex: 1; justify-content: flex-end; text-align: right; }
+.nav-home { flex: 0 0 auto; justify-content: center; }
+.label { font-weight: 600; margin: 0 .25rem; }
+.title { font-size: .9rem; opacity: .8; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 768px) { .chapter-nav { flex-wrap: wrap; } .nav-prev, .nav-next { flex: 1 1 45%; } .nav-home { flex: 1 1 100%; order: -1; } .title { display: none; } }
+</style>
+
+                </nav>
+                
+
+                
+                <div class="edit-page">
+                    <a href="https://github.com/itdojp/formal-methods-book/edit/main/docs/chapters/chapter08/index.md"
+                       target="_blank"
+                       rel="noopener"
+                       class="edit-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                            <path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4Z"></path>
+                        </svg>
+                        GitHub で原稿を編集
+                    </a>
+                </div>
+                
+
+                <footer class="book-footer" role="contentinfo">
+                    <div class="book-footer-inner">
+                        <div class="book-footer-license">
+                            本文: CC BY-NC-SA 4.0 / コード資産: Apache-2.0 / 商標・第三者資産を除く
+                        </div>
+                        <div class="book-footer-links">
+                            
+                                <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener">GitHub</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/LICENSE-SCOPE.md" target="_blank" rel="noopener">ライセンス</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/COMMERCIAL.md" target="_blank" rel="noopener">商用利用</a>
+                            
+                            
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <label for="sidebar-toggle-checkbox" class="book-sidebar-overlay" id="sidebar-overlay" aria-label="サイドバーを閉じる"></label>
+
+    <script async src="/formal-methods-book/assets/js/code-copy-lightweight.js"></script>
+    <script defer src="/formal-methods-book/assets/js/theme.js"></script>
+    <script defer src="/formal-methods-book/assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var cb = document.getElementById('sidebar-toggle-checkbox');
+            var toggle = document.querySelector('.sidebar-toggle');
+            if (cb) cb.checked = false;
+            if (cb && toggle) {
+                var sync = function() {
+                    toggle.setAttribute('aria-expanded', cb.checked ? 'true' : 'false');
+                };
+                sync();
+                cb.addEventListener('change', sync);
+                toggle.addEventListener('keydown', function(e) {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        cb.checked = !cb.checked;
+                        cb.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        (function() {
+            function initTocAutoScroll() {
+                var cb = document.getElementById('sidebar-toggle-checkbox');
+                if (!cb) return;
+
+                function normalizePath(p) {
+                    var path = String(p || '').replace(/index\.html$/, '');
+                    if (path.length > 1) {
+                        path = path.replace(/\/+$/, '');
+                    }
+                    return path || '/';
+                }
+
+                function isMobileDrawer() {
+                    try {
+                        if (typeof window.matchMedia === 'function') {
+                            return window.matchMedia('(max-width: 1024px)').matches;
+                        }
+                    } catch (_) {}
+                    return typeof window.innerWidth === 'number' ? window.innerWidth <= 1024 : true;
+                }
+
+                function findActiveTocLink() {
+                    var current = normalizePath(window.location.pathname);
+                    var actives = document.querySelectorAll('a.toc-link.active');
+                    if (!actives || actives.length === 0) return null;
+
+                    for (var i = 0; i < actives.length; i++) {
+                        var a = actives[i];
+                        if (!a || !a.href) continue;
+                        try {
+                            var pathname = normalizePath(new URL(a.href).pathname);
+                            if (pathname === current) return a;
+                        } catch (_) {}
+                    }
+                    return actives[0];
+                }
+
+                function ensureActiveTocVisible() {
+                    if (!cb.checked) return;
+                    if (!isMobileDrawer()) return;
+
+                    var active = findActiveTocLink();
+                    if (!active) return;
+
+                    var sidebar = active.closest('.book-sidebar') || document.getElementById('sidebar');
+                    if (!sidebar) return;
+
+                    try {
+                        var linkRect = active.getBoundingClientRect();
+                        var sidebarRect = sidebar.getBoundingClientRect();
+                        var marginTop = 8;
+                        var marginBottom = 8;
+                        try {
+                            if (window.getComputedStyle) {
+                                var cs = window.getComputedStyle(sidebar);
+                                if (cs) {
+                                    var pt = parseFloat(cs.paddingTop);
+                                    var pb = parseFloat(cs.paddingBottom);
+                                    if (!isNaN(pt)) marginTop = pt;
+                                    if (!isNaN(pb)) marginBottom = pb;
+                                }
+                            }
+                        } catch (_) {}
+
+                        var top = sidebarRect.top + marginTop;
+                        var bottom = sidebarRect.bottom - marginBottom;
+                        var outOfView = linkRect.top < top || linkRect.bottom > bottom;
+
+                        if (outOfView && typeof active.scrollIntoView === 'function') {
+                            try {
+                                active.scrollIntoView({ block: 'center', behavior: 'auto' });
+                            } catch (e) {
+                                active.scrollIntoView();
+                            }
+                        }
+                    } catch (_) {}
+                }
+
+                function scheduleEnsure() {
+                    setTimeout(ensureActiveTocVisible, 0);
+                    setTimeout(ensureActiveTocVisible, 350);
+                }
+
+                cb.addEventListener('change', function() {
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+
+                if (cb.checked) {
+                    scheduleEnsure();
+                }
+
+                window.addEventListener('pageshow', function(e) {
+                    if (!e || !e.persisted) return;
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initTocAutoScroll);
+            } else {
+                initTocAutoScroll();
+            }
+        })();
+    </script>
+</body>
+</html>

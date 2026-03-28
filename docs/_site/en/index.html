@@ -1,0 +1,746 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta name="author" content="太田和彦（株式会社アイティードゥ）">
+
+    <title>Formal Methods: Foundations and Applications - Formal Methods: Foundations and Applications</title>
+
+    <link rel="canonical" href="https://itdojp.github.io/formal-methods-book/en/">
+    <link rel="alternate" hreflang="ja" href="https://itdojp.github.io/formal-methods-book/">
+    <link rel="alternate" hreflang="en" href="https://itdojp.github.io/formal-methods-book/en/">
+    <link rel="alternate" hreflang="x-default" href="https://itdojp.github.io/formal-methods-book/">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/main.css">
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/syntax-highlighting.css">
+
+    <link rel="icon" type="image/png" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+    <link rel="apple-touch-icon" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+
+    <meta property="og:title" content="Formal Methods: Foundations and Applications">
+    <meta property="og:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://itdojp.github.io/formal-methods-book/en/">
+    <meta property="og:locale" content="en_US">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Formal Methods: Foundations and Applications">
+    <meta name="twitter:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+
+    <script>
+        (function() {
+            try {
+                const k = 'book-theme';
+                const t = localStorage.getItem(k) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (_) {}
+        })();
+    </script>
+</head>
+<body>
+    
+    
+    
+    
+    
+
+    <input type="checkbox" id="sidebar-toggle-checkbox" class="sidebar-toggle-checkbox" aria-hidden="true">
+
+    <div class="book-layout">
+        <header class="book-header">
+            <div class="header-left">
+                <label for="sidebar-toggle-checkbox" class="sidebar-toggle" aria-label="Toggle sidebar" role="button" tabindex="0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </label>
+                <a href="/formal-methods-book/en/" class="header-title">
+                    <h1>Formal Methods: Foundations and Applications</h1>
+                </a>
+            </div>
+
+            <div class="header-center">
+                <div class="search-container">
+                    <input type="search"
+                           placeholder="Search..."
+                           class="search-input"
+                           id="search-input"
+                           autocomplete="off">
+                    <div class="search-results" id="search-results"></div>
+                </div>
+            </div>
+
+            <div class="header-right">
+                
+
+
+
+
+
+
+
+
+
+
+<a href="/formal-methods-book/"
+   class="language-switcher"
+   hreflang="ja"
+   lang="ja"
+   >
+    日本語
+</a>
+
+                <button class="theme-toggle" aria-label="Toggle theme">
+                    <svg class="theme-icon theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="theme-icon theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+
+                
+            </div>
+        </header>
+
+        <aside class="book-sidebar" id="sidebar">
+            <nav class="sidebar-nav" role="navigation" aria-label="Main navigation">
+                
+
+
+
+
+
+
+
+
+
+
+<div class="sidebar-content">
+    <div class="book-info">
+        <h2 class="book-title"><a href="/formal-methods-book/en/" class="header-title">Formal Methods: Foundations and Applications</a></h2>
+        
+        <p class="book-subtitle">An Integrated Understanding of Specification, Model Checking, and Theorem Proving</p>
+        
+    </div>
+
+    <div class="toc">
+        <h3 class="toc-title">Contents</h3>
+
+        <div class="toc-section">
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/" class="toc-link active">
+                        Home
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Introduction</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/introduction/" class="toc-link ">
+                        Introduction
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Chapters</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter01/" class="toc-link ">
+                        Chapter 1: Why Formal Methods Matter
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter02/" class="toc-link ">
+                        Chapter 2: Bridging Mathematics and Programs
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter03/" class="toc-link ">
+                        Chapter 3: Foundations of Specification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter04/" class="toc-link ">
+                        Chapter 4: Introduction to Lightweight Formal Methods — Specification with Alloy
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter05/" class="toc-link ">
+                        Chapter 5: State-Based Specification — Fundamentals of Z Notation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter06/" class="toc-link ">
+                        Chapter 6: Process-Centric Specification — Concurrency with CSP
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter07/" class="toc-link ">
+                        Chapter 7: Specifying Time — Introduction to TLA+
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter08/" class="toc-link ">
+                        Chapter 8: Introduction to Model Checking
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter09/" class="toc-link ">
+                        Chapter 9: Fundamentals of Theorem Proving
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter10/" class="toc-link ">
+                        Chapter 10: Program Verification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter11/" class="toc-link ">
+                        Chapter 11: Integrating Formal Methods into Development Processes
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter12/" class="toc-link ">
+                        Chapter 12: Tools and Automation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter13/" class="toc-link ">
+                        Chapter 13: Case Studies
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Additional</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/glossary/" class="toc-link ">
+                        Glossary
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Appendices</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-a/" class="toc-link ">
+                        Appendix A: Mathematics Refresher
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-b/" class="toc-link ">
+                        Appendix B: Tool Setup and Verification Quick Start
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-c/" class="toc-link ">
+                        Appendix C: Notation Cross-Reference
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-d/" class="toc-link ">
+                        Appendix D: Exercise Guides and Self-Review Frameworks
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-e/" class="toc-link ">
+                        Appendix E: References and Further Reading Paths
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-f/" class="toc-link ">
+                        Appendix F: Practical Playbook for AI-Assisted Formal Methods
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Afterword</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/afterword/" class="toc-link ">
+                        Afterword
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="external-links">
+            
+            <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener" class="external-link">GitHub</a>
+            
+            
+        </div>
+    </div>
+</div>
+
+            </nav>
+        </aside>
+
+        <main class="book-main" id="main">
+            <div class="book-content">
+                
+
+                <article class="page-content">
+                    <h1 id="formal-methods-foundations-and-applications">Formal Methods: Foundations and Applications</h1>
+
+<p>Formal methods are often presented in one of two unhelpful ways: as abstract
+mathematics with little engineering payoff, or as tool manuals that explain
+commands without explaining why the method matters. This book takes a third
+path.</p>
+
+<p>It treats specification, model checking, theorem proving, and program
+verification as one engineering discipline for building dependable software.
+The goal is not to turn every reader into a verification specialist. The goal
+is to help readers decide where formal methods pay off, how to adopt them
+incrementally, and how to read verification results critically.</p>
+
+<h2 id="questions-this-book-helps-you-answer">Questions This Book Helps You Answer</h2>
+
+<ul>
+  <li>Which parts of a system should be specified precisely, and which parts can
+remain informal without creating unnecessary risk?</li>
+  <li>When is model checking enough, and when is theorem proving or program
+verification worth the extra cost?</li>
+  <li>How should you read a counterexample, proof obligation, or verification
+result without treating the tool as a black box?</li>
+  <li>How do you introduce formal methods incrementally, without turning adoption
+into an all-or-nothing process?</li>
+</ul>
+
+<p>These questions are answered through comparative chapters, small but concrete
+examples, and later chapters on adoption, tooling, and case studies.</p>
+
+<h2 id="intended-audience">Intended Audience</h2>
+
+<p>This book is written for the following readers:</p>
+
+<ul>
+  <li><strong>Software engineers and architects</strong> who want a more rigorous way to reason
+about behavior, constraints, and system assumptions</li>
+  <li><strong>Quality, test, and reliability engineers</strong> who need more than testing
+alone can provide</li>
+  <li><strong>Engineers working on safety-, security-, or correctness-critical systems</strong></li>
+  <li><strong>Students and researchers</strong> who want a bridge between foundational ideas and
+engineering practice</li>
+</ul>
+
+<h2 id="who-should-not-use-this-book-as-their-first-stop">Who Should Not Use This Book as Their First Stop</h2>
+
+<p>This book is less suitable if you need any of the following:</p>
+
+<ul>
+  <li>a certification handbook focused on one regulatory standard</li>
+  <li>a language reference manual for a single tool</li>
+  <li>an introduction to programming or discrete mathematics from first principles</li>
+</ul>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>To get the most out of this book, you should already be comfortable with the
+following basics:</p>
+
+<ul>
+  <li><strong>Programming</strong>: basic coding experience, standard data structures, and the
+fundamentals of procedural or object-oriented development</li>
+  <li><strong>Mathematics</strong>: sets, logic, functions, and basic discrete reasoning</li>
+  <li><strong>Software engineering</strong>: requirements, design, testing, and change
+management</li>
+</ul>
+
+<p>The book uses mathematical notation throughout, but it introduces the required
+concepts carefully. Advanced mathematics is not required.</p>
+
+<h2 id="choose-a-starting-path">Choose a Starting Path</h2>
+
+<ul>
+  <li><strong>New to formal methods</strong>: start with
+<a href="/formal-methods-book/en/introduction/">Introduction</a>, then read Chapters
+1-3 and continue through Chapters 4-8 so that you understand why precise
+specifications and verification properties matter before going deeper into
+tools</li>
+  <li><strong>Architecture and design decisions</strong>: read Chapters 1-4, Chapter 7, Chapter
+11, and Chapter 13 to compare modeling styles and see where formalization
+changes design trade-offs</li>
+  <li><strong>Verification and proof work</strong>: read Chapters 1-3, then use Chapters 8-10
+as the backbone of the book, with
+<a href="/formal-methods-book/en/appendices/appendix-b/">Appendix B</a> and
+<a href="/formal-methods-book/en/appendices/appendix-e/">Appendix E</a> nearby for
+tool setup and primary sources</li>
+  <li><strong>Adoption and rollout</strong>: read Chapters 1, 3, and 11-13 together with
+<a href="/formal-methods-book/en/appendices/appendix-d/">Appendix D</a>,
+<a href="/formal-methods-book/en/appendices/appendix-e/">Appendix E</a>, and
+<a href="/formal-methods-book/en/appendices/appendix-f/">Appendix F</a> to define a
+pilot scope, review packet, and evidence trail</li>
+  <li><strong>Returning as a reference reader</strong>: start from the
+<a href="/formal-methods-book/en/glossary/">Glossary</a>,
+<a href="/formal-methods-book/en/appendices/appendix-c/">Appendix C</a>, and the most
+relevant chapter or appendix when terminology, notation, or setup details
+have drifted</li>
+</ul>
+
+<h2 id="what-makes-this-book-different">What Makes This Book Different</h2>
+
+<ul>
+  <li>It compares multiple formal methods instead of treating one notation as the
+whole field.</li>
+  <li>It explains both the mathematical promise and the engineering trade-offs.</li>
+  <li>It is organized as a book first, with a learning path, chapter roles, and
+reference appendices, rather than as a loose collection of repository pages.</li>
+  <li>It aims to support both a cover-to-cover read and later reuse as a desk
+reference.</li>
+</ul>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ul>
+  <li><a href="/formal-methods-book/en/introduction/">Introduction</a></li>
+  <li><a href="/formal-methods-book/en/glossary/">Glossary</a></li>
+</ul>
+
+<h3 id="part-i-foundations">Part I: Foundations</h3>
+
+<ul>
+  <li>establishes why formal methods matter, where intuition breaks down, and what
+conceptual tools the rest of the book depends on</li>
+  <li><a href="/formal-methods-book/en/chapters/chapter01/">Chapter 1: Why Formal Methods Matter</a></li>
+  <li><a href="/formal-methods-book/en/chapters/chapter02/">Chapter 2: Bridging Mathematics and Programs</a></li>
+  <li><a href="/formal-methods-book/en/chapters/chapter03/">Chapter 3: Foundations of Specification</a></li>
+</ul>
+
+<h3 id="part-ii-methods">Part II: Methods</h3>
+
+<ul>
+  <li>introduces representative specification styles so that readers can compare
+modeling choices rather than memorize isolated syntax</li>
+  <li><a href="/formal-methods-book/en/chapters/chapter04/">Chapter 4: Introduction to Lightweight Formal Methods — Specification with Alloy</a></li>
+  <li><a href="/formal-methods-book/en/chapters/chapter05/">Chapter 5: State-Based Specification — Fundamentals of Z Notation</a></li>
+  <li><a href="/formal-methods-book/en/chapters/chapter06/">Chapter 6: Process-Centric Specification — Concurrency with CSP</a></li>
+  <li><a href="/formal-methods-book/en/chapters/chapter07/">Chapter 7: Specifying Time — Introduction to TLA+</a></li>
+</ul>
+
+<h3 id="part-iii-verification">Part III: Verification</h3>
+
+<ul>
+  <li>explains how properties are checked, proved, or derived, and where each
+verification style provides practical value</li>
+  <li><a href="/formal-methods-book/en/chapters/chapter08/">Chapter 8: Introduction to Model Checking</a></li>
+  <li><a href="/formal-methods-book/en/chapters/chapter09/">Chapter 9: Fundamentals of Theorem Proving</a></li>
+  <li><a href="/formal-methods-book/en/chapters/chapter10/">Chapter 10: Program Verification</a></li>
+</ul>
+
+<h3 id="part-iv-practice">Part IV: Practice</h3>
+
+<ul>
+  <li>moves from theory to engineering practice: process integration, tools,
+automation, and case studies</li>
+  <li><a href="/formal-methods-book/en/chapters/chapter11/">Chapter 11: Integrating Formal Methods into Development Processes</a></li>
+  <li><a href="/formal-methods-book/en/chapters/chapter12/">Chapter 12: Tools and Automation</a></li>
+  <li><a href="/formal-methods-book/en/chapters/chapter13/">Chapter 13: Case Studies</a></li>
+</ul>
+
+<p>For hints, self-review checkpoints, and sample solution structures for the
+end-of-chapter exercises, see
+<a href="/formal-methods-book/en/appendices/appendix-d/">Appendix D: Exercise Guides and Self-Review Frameworks</a>.</p>
+
+<h2 id="appendices">Appendices</h2>
+
+<p>On a second pass through the book, use Appendices C-F as the main reference
+set: C for notation, D for exercise scaffolding, E for primary sources, and F
+for AI-assisted working methods.</p>
+
+<ul>
+  <li><a href="/formal-methods-book/en/appendices/appendix-a/">Appendix A: Mathematics Refresher</a></li>
+  <li><a href="/formal-methods-book/en/appendices/appendix-b/">Appendix B: Tool Setup and Verification Quick Start</a></li>
+  <li><a href="/formal-methods-book/en/appendices/appendix-c/">Appendix C: Notation Cross-Reference</a></li>
+  <li><a href="/formal-methods-book/en/appendices/appendix-d/">Appendix D: Exercise Guides and Self-Review Frameworks</a></li>
+  <li><a href="/formal-methods-book/en/appendices/appendix-e/">Appendix E: References and Further Reading Paths</a></li>
+  <li><a href="/formal-methods-book/en/appendices/appendix-f/">Appendix F: Practical Playbook for AI-Assisted Formal Methods</a></li>
+  <li><a href="/formal-methods-book/en/afterword/">Afterword</a></li>
+</ul>
+
+<h2 id="using-this-book-as-a-reference">Using This Book as a Reference</h2>
+
+<p>After a first read, the book is designed to work as a reference in at least
+three ways:</p>
+
+<ul>
+  <li>return to the glossary and Appendix C when notation or terminology becomes
+unstable across projects</li>
+  <li>use the method chapters to compare modeling styles before choosing a tool or
+specification approach</li>
+  <li>use Chapters 11-13 and Appendix F when planning adoption, review workflows,
+or AI-assisted engineering practices</li>
+</ul>
+
+<h2 id="license">License</h2>
+
+<p>Reader-facing content such as the main text, figures, and appendices is
+distributed under <code class="language-plaintext highlighter-rouge">CC BY-NC-SA 4.0</code>. Code samples, tools, and build assets are
+distributed under <code class="language-plaintext highlighter-rouge">Apache-2.0</code>.</p>
+
+<!-- markdownlint-disable MD034 -->
+
+<ul>
+  <li><a href="https://github.com/itdojp/formal-methods-book/blob/main/LICENSE">Full legal text of CC BY-NC-SA 4.0</a></li>
+  <li><a href="https://github.com/itdojp/formal-methods-book/blob/main/LICENSE-SCOPE.md">License scope</a></li>
+  <li><a href="https://github.com/itdojp/formal-methods-book/blob/main/COMMERCIAL.md">Commercial licensing contact</a></li>
+  <li><a href="https://github.com/itdojp/formal-methods-book/blob/main/TRADEMARKS.md">Trademark policy</a></li>
+  <li><a href="https://github.com/itdojp/formal-methods-book/blob/main/THIRD_PARTY_NOTICES.md">Third-party and upstream assets</a>
+<!-- markdownlint-enable MD034 --></li>
+</ul>
+
+<h2 id="contact">Contact</h2>
+
+<ul>
+  <li>ITDO Inc.</li>
+  <li>Email: <a href="mailto:knowledge@itdo.jp">knowledge@itdo.jp</a></li>
+</ul>
+
+                </article>
+
+                
+
+                
+
+                <footer class="book-footer" role="contentinfo">
+                    <div class="book-footer-inner">
+                        <div class="book-footer-license">
+                            Reader-facing text: CC BY-NC-SA 4.0 / Code assets: Apache-2.0 / excluding trademarks and third-party assets
+                        </div>
+                        <div class="book-footer-links">
+                            
+                                <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener">GitHub</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/LICENSE-SCOPE.md" target="_blank" rel="noopener">License</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/COMMERCIAL.md" target="_blank" rel="noopener">Commercial</a>
+                            
+                            
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <label for="sidebar-toggle-checkbox" class="book-sidebar-overlay" id="sidebar-overlay" aria-label="Close sidebar"></label>
+
+    <script async src="/formal-methods-book/assets/js/code-copy-lightweight.js"></script>
+    <script defer src="/formal-methods-book/assets/js/theme.js"></script>
+    <script defer src="/formal-methods-book/assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var cb = document.getElementById('sidebar-toggle-checkbox');
+            var toggle = document.querySelector('.sidebar-toggle');
+            if (cb) cb.checked = false;
+            if (cb && toggle) {
+                var sync = function() {
+                    toggle.setAttribute('aria-expanded', cb.checked ? 'true' : 'false');
+                };
+                sync();
+                cb.addEventListener('change', sync);
+                toggle.addEventListener('keydown', function(e) {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        cb.checked = !cb.checked;
+                        cb.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        (function() {
+            function initTocAutoScroll() {
+                var cb = document.getElementById('sidebar-toggle-checkbox');
+                if (!cb) return;
+
+                function normalizePath(p) {
+                    var path = String(p || '').replace(/index\.html$/, '');
+                    if (path.length > 1) {
+                        path = path.replace(/\/+$/, '');
+                    }
+                    return path || '/';
+                }
+
+                function isMobileDrawer() {
+                    try {
+                        if (typeof window.matchMedia === 'function') {
+                            return window.matchMedia('(max-width: 1024px)').matches;
+                        }
+                    } catch (_) {}
+                    return typeof window.innerWidth === 'number' ? window.innerWidth <= 1024 : true;
+                }
+
+                function findActiveTocLink() {
+                    var current = normalizePath(window.location.pathname);
+                    var actives = document.querySelectorAll('a.toc-link.active');
+                    if (!actives || actives.length === 0) return null;
+
+                    for (var i = 0; i < actives.length; i++) {
+                        var a = actives[i];
+                        if (!a || !a.href) continue;
+                        try {
+                            var pathname = normalizePath(new URL(a.href).pathname);
+                            if (pathname === current) return a;
+                        } catch (_) {}
+                    }
+                    return actives[0];
+                }
+
+                function ensureActiveTocVisible() {
+                    if (!cb.checked) return;
+                    if (!isMobileDrawer()) return;
+
+                    var active = findActiveTocLink();
+                    if (!active) return;
+
+                    var sidebar = active.closest('.book-sidebar') || document.getElementById('sidebar');
+                    if (!sidebar) return;
+
+                    try {
+                        var linkRect = active.getBoundingClientRect();
+                        var sidebarRect = sidebar.getBoundingClientRect();
+                        var marginTop = 8;
+                        var marginBottom = 8;
+                        try {
+                            if (window.getComputedStyle) {
+                                var cs = window.getComputedStyle(sidebar);
+                                if (cs) {
+                                    var pt = parseFloat(cs.paddingTop);
+                                    var pb = parseFloat(cs.paddingBottom);
+                                    if (!isNaN(pt)) marginTop = pt;
+                                    if (!isNaN(pb)) marginBottom = pb;
+                                }
+                            }
+                        } catch (_) {}
+
+                        var top = sidebarRect.top + marginTop;
+                        var bottom = sidebarRect.bottom - marginBottom;
+                        var outOfView = linkRect.top < top || linkRect.bottom > bottom;
+
+                        if (outOfView && typeof active.scrollIntoView === 'function') {
+                            try {
+                                active.scrollIntoView({ block: 'center', behavior: 'auto' });
+                            } catch (e) {
+                                active.scrollIntoView();
+                            }
+                        }
+                    } catch (_) {}
+                }
+
+                function scheduleEnsure() {
+                    setTimeout(ensureActiveTocVisible, 0);
+                    setTimeout(ensureActiveTocVisible, 350);
+                }
+
+                cb.addEventListener('change', function() {
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+
+                if (cb.checked) {
+                    scheduleEnsure();
+                }
+
+                window.addEventListener('pageshow', function(e) {
+                    if (!e || !e.persisted) return;
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initTocAutoScroll);
+            } else {
+                initTocAutoScroll();
+            }
+        })();
+    </script>
+</body>
+</html>

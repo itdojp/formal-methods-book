@@ -33,15 +33,12 @@ source_path: "src/ja/index.md"
 - 検証技術やツール運用に関心が高い読者は、第III部（模型検査・定理証明・プログラム検証）を軸に読み、前後の章を必要に応じて行き来する形で活用してほしい。
 - 実務への適用を検討している読者は、第IV部（事例研究・適用パターン）を中心に読みつつ、関係する基礎章を併せて確認することで、自組織への導入シナリオをイメージしやすくなる。
 
-## 学習導線の補足
-
-- 全体像の把握には、[第1章の学習ロードマップ]({{ '/chapters/chapter01/' | relative_url }}) を起点にすると、部ごとの役割が追いやすい。
-- 用語の意味や略語は [用語集（Glossary）]({{ '/glossary/' | relative_url }}) で確認し、記法や構文の差分は [付録C: 記法対照表]({{ '/appendices/appendix-c/' | relative_url }}) で確認する。
-- 長い章を読むときは、[第9章]({{ '/chapters/chapter09/' | relative_url }}) など章末に `summary` と `nextSteps` が用意されている章では、先にそれらを確認して、必要な戻り先と次の読解順を固定する。
 
 ## 想定読者
 
 本書は以下の方を対象としています。
+
+主対象は、ソフトウェア設計・品質保証・安全性向上に形式的手法を部分導入したい実務エンジニアです。学生・研究者は、理論と実践の橋渡しとして活用できます。
 
 - **ソフトウェア設計・開発に従事するエンジニア**：より厳密で信頼性の高いソフトウェア設計手法を学びたい方
 - **品質保証・テストエンジニア**：数学的検証による品質保証手法を習得したい方
@@ -108,6 +105,23 @@ source_path: "src/ja/index.md"
 - [付録E: 参考文献とWebリソース]({{ '/appendices/appendix-e/' | relative_url }})
 - [付録F: AI支援の実践ガイド]({{ '/appendices/appendix-f/' | relative_url }})
 - [おわりに]({{ '/afterword/' | relative_url }})
+
+## 利用と更新情報
+
+<!-- markdownlint-disable MD034 -->
+{% assign repo_url = site.github.repository_url | default: site.repository_url | default: site.repository.github | default: site.repository %}
+{% if repo_url and repo_url != '' %}
+{% unless repo_url contains 'http' %}
+{% assign repo_url = 'https://github.com/' | append: repo_url %}
+{% endunless %}
+{% endif %}
+{% assign repo_branch = site.repository_branch | default: 'main' %}
+<!-- markdownlint-enable MD034 -->
+
+- 公開ページ: [GitHub Pages](https://itdojp.github.io/formal-methods-book/)
+- リポジトリ: [GitHub]({{ repo_url }})
+- 更新確認先: [コミット履歴]({{ repo_url }}/commits/{{ repo_branch }}/)、[Pull Requests]({{ repo_url }}/pulls)
+- 付録Eは一次情報や関連資料の入口、付録Fは AI支援併用時の注意点の入口として使ってください。
 
 ## ライセンス
 

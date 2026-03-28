@@ -1,0 +1,1966 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="仕様記述、模型検査、定理証明の統合的理解 - ソフトウェアの数学的設計入門">
+    <meta name="author" content="太田和彦（株式会社アイティードゥ）">
+
+    <title>第6章：プロセス中心の記述 - CSPによる並行システム - 形式的手法の基礎と応用</title>
+
+    <link rel="canonical" href="https://itdojp.github.io/formal-methods-book/chapters/chapter06/">
+    <link rel="alternate" hreflang="ja" href="https://itdojp.github.io/formal-methods-book/chapters/chapter06/">
+    <link rel="alternate" hreflang="en" href="https://itdojp.github.io/formal-methods-book/en/chapters/chapter06/">
+    <link rel="alternate" hreflang="x-default" href="https://itdojp.github.io/formal-methods-book/">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/main.css">
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/syntax-highlighting.css">
+
+    <link rel="icon" type="image/png" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+    <link rel="apple-touch-icon" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+
+    <meta property="og:title" content="第6章：プロセス中心の記述 - CSPによる並行システム">
+    <meta property="og:description" content="仕様記述、模型検査、定理証明の統合的理解 - ソフトウェアの数学的設計入門">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://itdojp.github.io/formal-methods-book/chapters/chapter06/">
+    <meta property="og:locale" content="ja_JP">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="第6章：プロセス中心の記述 - CSPによる並行システム">
+    <meta name="twitter:description" content="仕様記述、模型検査、定理証明の統合的理解 - ソフトウェアの数学的設計入門">
+
+    <script>
+        (function() {
+            try {
+                const k = 'book-theme';
+                const t = localStorage.getItem(k) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (_) {}
+        })();
+    </script>
+</head>
+<body>
+    
+    
+    
+    
+    
+
+    <input type="checkbox" id="sidebar-toggle-checkbox" class="sidebar-toggle-checkbox" aria-hidden="true">
+
+    <div class="book-layout">
+        <header class="book-header">
+            <div class="header-left">
+                <label for="sidebar-toggle-checkbox" class="sidebar-toggle" aria-label="サイドバーを切り替え" role="button" tabindex="0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </label>
+                <a href="/formal-methods-book/" class="header-title">
+                    <h1>形式的手法の基礎と応用</h1>
+                </a>
+            </div>
+
+            <div class="header-center">
+                <div class="search-container">
+                    <input type="search"
+                           placeholder="検索..."
+                           class="search-input"
+                           id="search-input"
+                           autocomplete="off">
+                    <div class="search-results" id="search-results"></div>
+                </div>
+            </div>
+
+            <div class="header-right">
+                
+
+
+
+
+
+
+
+
+
+
+<a href="/formal-methods-book/en/chapters/chapter06/"
+   class="language-switcher"
+   hreflang="en"
+   lang="en"
+   >
+    English
+</a>
+
+                <button class="theme-toggle" aria-label="テーマを切り替え">
+                    <svg class="theme-icon theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="theme-icon theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+
+                
+                <a href="https://github.com/itdojp/formal-methods-book" class="github-link" target="_blank" rel="noopener" aria-label="GitHub">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
+                
+            </div>
+        </header>
+
+        <aside class="book-sidebar" id="sidebar">
+            <nav class="sidebar-nav" role="navigation" aria-label="メインナビゲーション">
+                
+
+
+
+
+
+
+
+
+
+
+<div class="sidebar-content">
+    <div class="book-info">
+        <h2 class="book-title"><a href="/formal-methods-book/" class="header-title">形式的手法の基礎と応用</a></h2>
+        
+        <p class="book-subtitle">仕様記述、模型検査、定理証明の統合的理解</p>
+        
+    </div>
+
+    <div class="toc">
+        <h3 class="toc-title">目次</h3>
+
+        <div class="toc-section">
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="/formal-methods-book/" class="toc-link ">
+                        ホーム
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">導入</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/introduction/" class="toc-link ">
+                        はじめに
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">本編</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter01/" class="toc-link ">
+                        第1章：なぜ形式的手法が必要なのか
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter02/" class="toc-link ">
+                        第2章：数学とプログラムの橋渡し
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter03/" class="toc-link ">
+                        第3章：仕様記述の基本
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter04/" class="toc-link ">
+                        第4章：軽量形式的手法入門 - Alloyで始める仕様記述
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter05/" class="toc-link ">
+                        第5章：状態ベース仕様記述 - Z記法の基礎
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter06/" class="toc-link active">
+                        第6章：プロセス中心の記述 - CSPによる並行システム
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter07/" class="toc-link ">
+                        第7章：時間を扱う仕様記述 - TLA+入門
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter08/" class="toc-link ">
+                        第8章：模型検査入門
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter09/" class="toc-link ">
+                        第9章：定理証明の基礎
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter10/" class="toc-link ">
+                        第10章：プログラム検証
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter11/" class="toc-link ">
+                        第11章：開発プロセスとの統合
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter12/" class="toc-link ">
+                        第12章：ツールと自動化
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter13/" class="toc-link ">
+                        第13章：事例研究
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">追加</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/glossary/" class="toc-link ">
+                        用語集（Glossary）
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">付録</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-a/" class="toc-link ">
+                        付録A: 数学的基礎の復習
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-b/" class="toc-link ">
+                        付録B: ツールインストールガイド
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-c/" class="toc-link ">
+                        付録C: 記法対照表
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-d/" class="toc-link ">
+                        付録D: 演習問題解答
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-e/" class="toc-link ">
+                        付録E: 参考文献とWebリソース
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-f/" class="toc-link ">
+                        付録F: AI支援の実践ガイド
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">おわりに</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/afterword/" class="toc-link ">
+                        おわりに
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="external-links">
+            
+            <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener" class="external-link">GitHub</a>
+            
+            
+        </div>
+    </div>
+</div>
+
+            </nav>
+        </aside>
+
+        <main class="book-main" id="main">
+            <div class="book-content">
+                
+                    
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb-list">
+    <li class="breadcrumb-item">
+        <a href="/formal-methods-book/" class="breadcrumb-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span class="sr-only">ホーム</span>
+        </a>
+    </li>
+
+    
+        
+    
+        
+            
+            
+            
+                
+                
+                <li class="breadcrumb-item">
+                    <a href="/formal-methods-book/chapters/" class="breadcrumb-link">
+                        
+                            Chapters
+                        
+                    </a>
+                </li>
+            
+        
+    
+        
+            
+            
+            
+                <li class="breadcrumb-item active" aria-current="page">
+                    第6章：プロセス中心の記述   cspによる並行システム
+                </li>
+            
+        
+    
+</ol>
+
+<style>
+.breadcrumb-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    font-size: 0.875rem;
+    flex-wrap: wrap;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb-item:not(:last-child)::after {
+    content: '/';
+    margin: 0 0.5rem;
+    color: var(--text-muted);
+}
+
+.breadcrumb-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.breadcrumb-link:hover {
+    color: var(--primary-color);
+}
+
+.breadcrumb-item.active {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (max-width: 768px) {
+    .breadcrumb-list {
+        font-size: 0.75rem;
+    }
+
+    .breadcrumb-item:not(:last-child)::after {
+        margin: 0 0.375rem;
+    }
+}
+</style>
+
+                
+
+                <article class="page-content">
+                    <h1 id="第6章プロセス中心の記述---cspによる並行システム">第6章　プロセス中心の記述 - CSPによる並行システム</h1>
+
+<p>ミニ要約：</p>
+<ul>
+  <li>プロセス代数・チャネルで並行/同期を表現</li>
+  <li>図6-1の観点でデッドロック/進行性を分析</li>
+  <li>図11-1/図10-1と連携しDevOps/検証層へ展開</li>
+</ul>
+
+<p>本章では、コード例を次の2種類で表記します。</p>
+
+<ul>
+  <li><strong>ツール準拠（そのまま動く）</strong>：CSPM（FDR）として文法的に成立し、そのまま貼り付けて解析できる例（ASCII記法：<code class="language-plaintext highlighter-rouge">-&gt;</code>, <code class="language-plaintext highlighter-rouge">[]</code>, <code class="language-plaintext highlighter-rouge">|||</code>, <code class="language-plaintext highlighter-rouge">[| X |]</code>, <code class="language-plaintext highlighter-rouge">P[[a &lt;- b]]</code> など）</li>
+  <li><strong>擬似記法</strong>：説明用の簡略表記。Unicode記号（<code class="language-plaintext highlighter-rouge">→</code>, <code class="language-plaintext highlighter-rouge">□</code>, <code class="language-plaintext highlighter-rouge">⊓</code> など）や一部のガード/where/イベントパラメータはCSPMと一致しないため、そのままではツール投入できません</li>
+</ul>
+
+<h2 id="61-並行性の本質なぜ難しいのか">6.1 並行性の本質：なぜ難しいのか</h2>
+
+<h3 id="逐次的思考の限界">逐次的思考の限界</h3>
+
+<p>人間の脳は、基本的に逐次的な思考に適応しています。物事を順番に考え、一歩ずつ論理を進めることに長けています。この思考パターンは、単一プロセスのプログラムでは非常に有効です。「AをしてからBをして、その結果に基づいてCまたはDをする」といった流れは、自然に理解できます。（図6-1参照）</p>
+
+<p>しかし、並行システムでは、複数の事象が同時に進行します。レストランで例えると、厨房では複数のシェフが異なる料理を並行して調理し、ホールでは複数のウェイターが異なるテーブルにサービスを提供しています。この複雑な相互作用を、逐次的思考だけで理解することは困難です。</p>
+
+<p>並行性の困難さは、可能な実行パターンの組み合わせ爆発にあります。2つのプロセスがそれぞれ3つの操作を行う場合、可能な実行順序は20通りにもなります。プロセス数や操作数が増えれば、この数は指数的に増大します。</p>
+
+<h3 id="相互作用による創発的複雑性">相互作用による創発的複雑性</h3>
+
+<p>並行システムの最も興味深い、そして困難な側面は、個々のプロセスは単純でも、その相互作用により予期しない複雑な振る舞いが創発することです。これは、物理学の「多体問題」や生物学の「群れの行動」に似た現象です。</p>
+
+<p>例えば、2つのプロセスが同じリソースにアクセスしようとする場合を考えてみましょう。各プロセス単体では完全に正しく動作しますが、同時実行により「競合状態」が発生し、予期しない結果が生じることがあります。</p>
+
+<p>【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>プロセス A: リソースを読む → 値を更新 → リソースに書く
+プロセス B: リソースを読む → 値を更新 → リソースに書く
+</code></pre></div></div>
+
+<p>これらの操作が交互に実行されると、一方の更新がもう一方により上書きされ、データの不整合が発生します。</p>
+
+<h3 id="非決定性という現実">非決定性という現実</h3>
+
+<p>並行システムでは、「非決定性」が避けられない特徴です。同じ初期状態から開始しても、実行のタイミングにより異なる結果が生じる可能性があります。これは、プログラムの動作を予測困難にし、デバッグを複雑にします。</p>
+
+<p>しかし、非決定性は必ずしも悪いものではありません。システムの柔軟性や効率性を提供することもあります。重要なのは、非決定性を制御し、システムの安全性と活性を保証することです。</p>
+
+<p><img src="/formal-methods-book/assets/images/diagrams/csp-concurrency-concepts.svg" alt="図6-1：CSPによる並行システムの基本概念と通信モデル" />
+（読み取りポイント：プロセス合成・通信・検証観点（FDR）を俯瞰）</p>
+
+<p>（読み取りポイント：図6-1参照）</p>
+<ul>
+  <li>プロセス代数: 並列合成/選択/逐次のオペレータで振る舞いを記述</li>
+  <li>チャネル通信: 同期/非同期の違いとデッドロック回避設計</li>
+  <li>検証観点: トレース/フロー/失敗・ダイバージェンス（FDR）</li>
+</ul>
+
+<h3 id="チェックポイント理解確認">チェックポイント（理解確認）</h3>
+
+<p>本節は章内の理解確認のための短いチェックポイントです（章末課題とは別）。解答の骨子・採点観点は<a href="/formal-methods-book/appendices/appendix-d/">付録D</a>を参照。</p>
+
+<ol>
+  <li>二つのプロセスの並行合成がデッドロックに陥る最小例を日本語で記述し、回避策（プロトコル/バッファ）を1つ提案せよ。</li>
+  <li>失敗・ダイバージェンスの観点から、非同期化の副作用（例えば無限バッファ）を50–80字で述べよ。</li>
+</ol>
+
+<p>＜解答の方向性（骨子）＞</p>
+<ul>
+  <li>問1: 双方向同期の待ち合わせが典型。片方向化/時間制約/有限バッファで緩和。</li>
+  <li>問2: 無限待ち/順序逆転/背圧喪失による安全性・進行性の劣化を指摘。</li>
+</ul>
+
+<h3 id="時間と因果関係の複雑化">時間と因果関係の複雑化</h3>
+
+<p>逐次システムでは、時間の流れと因果関係は明確です。「AがBより前に実行される」ことは、「AがBの原因となりうる」ことを意味します。しかし、並行システムでは、物理的時刻と論理的時刻が異なり、因果関係が複雑になります。</p>
+
+<p>分散システムでは、この問題がさらに深刻になります。異なるノード間での時刻同期は困難で、「同時」という概念自体が曖昧になります。相対性理論が物理学に与えた影響と似て、分散システムでは絶対的な時間の概念を放棄する必要があります。</p>
+
+<h3 id="故障の部分性">故障の部分性</h3>
+
+<p>並行・分散システムでは、システムの一部が故障しても、残りの部分は動作し続けることがあります。これは「部分故障」と呼ばれ、システム設計に新たな複雑性をもたらします。</p>
+
+<p>従来の逐次システムでは、故障は全体的でした。プログラムがクラッシュすれば、すべてが停止します。しかし、分散システムでは、ネットワークの一部が切断されても、他の部分は動作し続けます。この状況で、どのようにシステムの一貫性を保つかは、重要な設計課題です。</p>
+
+<h3 id="並行性の利点">並行性の利点</h3>
+
+<p>これらの困難さにもかかわらず、並行性は現代のシステムにとって不可欠です。その理由は：</p>
+
+<p><strong>性能向上</strong>: 複数のCPUコアを活用し、処理時間を短縮
+<strong>応答性の向上</strong>: ユーザーインターフェースをブロックせずにバックグラウンド処理を実行
+<strong>スケーラビリティ</strong>: 処理能力を水平方向に拡張
+<strong>可用性</strong>: 一部の故障に対する耐性
+<strong>自然なモデリング</strong>: 現実世界の並行性を直接反映</p>
+
+<p>並行システムの設計は困難ですが、適切な抽象化と形式的手法により、その複雑性を管理できます。CSPは、そのための強力なツールの一つです。
+（開発プロセス/CIへの組み込みは第11章、検証レベルの役割分担は図10-1参照）</p>
+
+<h2 id="62-cspの世界観プロセスとコミュニケーション">6.2 CSPの世界観：プロセスとコミュニケーション</h2>
+
+<h3 id="tony-hoareの洞察">Tony Hoareの洞察</h3>
+
+<p>CSP（Communicating Sequential Processes）は、1978年にTony Hoareによって発表されました。Hoare は、並行システムの本質は「コミュニケーション」にあるという深い洞察を得ました。プロセス同士がどのようにメッセージを交換し、同期するかが、システムの振る舞いを決定するという考えです。</p>
+
+<p>この洞察は革命的でした。従来の並行プログラミングでは、共有メモリや共有変数による相互作用が主流でした。しかし、Hoareは「メッセージ パッシング」による明示的なコミュニケーションこそが、並行システムを理解し設計するための適切な抽象化であることを示しました。</p>
+
+<h3 id="プロセスという抽象化">プロセスという抽象化</h3>
+
+<p>CSPにおける「プロセス」は、逐次的に実行される操作の列です。重要なのは、プロセス内部は従来の逐次プログラムと同様に理解できることです。複雑さは、プロセス間の相互作用にのみ集中されます。</p>
+
+<p>この分離により、「プロセス内部の正しさ」と「プロセス間の相互作用の正しさ」を独立して考えることができます。これは、複雑性の管理において重要な原理です。</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">VENDING_MACHINE = coin → (tea → VENDING_MACHINE | coffee → VENDING_MACHINE)
+</code></pre>
+
+<p>この表記では、自動販売機のプロセスが「硬貨の投入」に続いて「お茶またはコーヒーの選択」を行い、その後初期状態に戻ることを表現しています。</p>
+
+<h3 id="事象による相互作用">事象による相互作用</h3>
+
+<p>CSPでは、プロセス間の相互作用を「事象（event）」として抽象化します。事象は、プロセス間でのメッセージ交換、同期、リソースアクセスなどを統一的に表現する概念です。</p>
+
+<p>事象の重要な特徴は「同期性」です。事象は、関与するすべてのプロセスが準備できたときにのみ発生します。これにより、プロセス間の協調を自然に表現できます。</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">CUSTOMER = arrive → order → pay → leave → CUSTOMER
+CASHIER = greet → order → pay → CASHIER
+
+SYSTEM = CUSTOMER [| {order, pay} |] CASHIER
+</code></pre>
+
+<p>この例では、<code class="language-plaintext highlighter-rouge">order</code> と <code class="language-plaintext highlighter-rouge">pay</code> が両プロセスで同名のため、同期集合 <code class="language-plaintext highlighter-rouge">{order, pay}</code> に含めた事象はランデブー同期（待ち合わせ）として発生します。異なる名前の事象が自動的に同期するわけではなく、必要ならイベント名を揃えるか、renaming（リネーム）で同期条件を明示します。</p>
+
+<h3 id="チャネルによる構造化">チャネルによる構造化</h3>
+
+<p>実用的なシステムでは、多数のプロセスが相互作用します。CSPでは、「チャネル」という概念により、この複雑性を管理します。チャネルは、特定のプロセス間での通信経路を表現します。</p>
+
+<p>【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-csp">channel in, out : {0..1}
+
+PRODUCER = in!0 -&gt; PRODUCER
+BUFFER = in?x -&gt; out!x -&gt; BUFFER
+CONSUMER = out?x -&gt; CONSUMER
+
+SYSTEM = (PRODUCER [| {|in|} |] BUFFER) [| {|out|} |] CONSUMER
+</code></pre>
+
+<p>この例では、<code class="language-plaintext highlighter-rouge">in</code> と <code class="language-plaintext highlighter-rouge">out</code> の2つのチャネルで段階的に同期します。<code class="language-plaintext highlighter-rouge">PRODUCER</code> と <code class="language-plaintext highlighter-rouge">BUFFER</code> は <code class="language-plaintext highlighter-rouge">in</code> の事象で同期し、<code class="language-plaintext highlighter-rouge">BUFFER</code> と <code class="language-plaintext highlighter-rouge">CONSUMER</code> は <code class="language-plaintext highlighter-rouge">out</code> の事象で同期します。</p>
+
+<h3 id="階層的システム構築">階層的システム構築</h3>
+
+<p>CSPの強力な特徴の一つは、小さなプロセスから大きなシステムを階層的に構築できることです。この構成可能性により、複雑なシステムも理解可能な部分に分解できます。</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">CELL = left?x → right!x → CELL
+PIPE(n) = if n = 0 then CELL 
+          else CELL [| {right, left} |] PIPE(n-1)
+</code></pre>
+
+<p>この再帰的定義により、任意の長さのパイプラインを構築できます。</p>
+
+<h3 id="選択と並行の統合">選択と並行の統合</h3>
+
+<p>CSPでは、「選択」と「並行」を統一的な枠組みで扱います。これにより、複雑な制御構造も自然に表現できます。</p>
+
+<p><strong>外部選択（□）</strong>: 環境からの入力により選択が決まる
+【擬似記法】</p>
+<pre><code class="language-csp">ATM = card_insert → (pin_correct → transaction □ pin_incorrect → reject)
+</code></pre>
+
+<p><strong>内部選択（⊓）</strong>: プロセス内部の非決定的選択
+【擬似記法】</p>
+<pre><code class="language-csp">RANDOM = heads → SUCCESS ⊓ tails → FAILURE
+</code></pre>
+
+<p><strong>並行合成（||）</strong>: 複数のプロセスの並行実行
+【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-csp">PROCESS1 = a -&gt; PROCESS1
+PROCESS2 = b -&gt; PROCESS2
+PROCESS3 = c -&gt; PROCESS3
+
+SYSTEM = PROCESS1 || PROCESS2 || PROCESS3
+</code></pre>
+
+<h3 id="時間抽象化の利点">時間抽象化の利点</h3>
+
+<p>CSPでは、具体的な実行時間を抽象化し、事象の順序関係のみに焦点を当てます。この抽象化により、タイミングの詳細に惑わされることなく、システムの本質的な振る舞いを分析できます。</p>
+
+<p>ただし、必要に応じて時間制約も導入できます。「timed CSP」では、事象の発生時刻や期限を明示的に扱えます。</p>
+
+<h3 id="故障と例外の取り扱い">故障と例外の取り扱い</h3>
+
+<p>CSPでは、正常な動作だけでなく、故障や例外的状況も自然に表現できます。故障も一種の事象として扱うことで、故障処理を通常の制御構造と統一的に記述できます。</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">RELIABLE_SERVICE = 
+  request → (
+    success → response → RELIABLE_SERVICE
+    □
+    failure → retry → RELIABLE_SERVICE
+    □
+    timeout → abort → RELIABLE_SERVICE
+  )
+</code></pre>
+
+<p>この統一的な取り扱いにより、システムの堅牢性を設計段階から考慮できます。</p>
+
+<h2 id="63-基本的なプロセスとその合成">6.3 基本的なプロセスとその合成</h2>
+
+<h3 id="プリミティブプロセス">プリミティブプロセス</h3>
+
+<p>CSPのすべての複雑なシステムは、少数の基本的なプロセスから構築されます。これらのプリミティブプロセスを理解することが、CSP全体の理解の基礎となります。</p>
+
+<p><strong>STOP</strong>: 何もしないプロセス（デッドロック）
+【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-csp">STOP
+</code></pre>
+
+<p><strong>SKIP</strong>: 正常終了するプロセス
+【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-csp">SKIP
+</code></pre>
+
+<p><strong>単純な事象プロセス</strong>:
+【擬似記法】</p>
+<pre><code class="language-csp">a → STOP          // 事象aの後に停止
+a → b → STOP      // 事象a、bの順次実行
+</code></pre>
+
+<p>これらの基本要素は、音楽の音符のように、組み合わせることで豊かな表現を生み出します。</p>
+
+<h3 id="前置演算子">前置演算子（→）</h3>
+
+<p>前置演算子は、CSPの最も基本的な構成要素です。「事象が発生した後に、特定の振る舞いを行う」ことを表現します。</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">coin → (tea → STOP | coffee → STOP)
+</code></pre>
+
+<p>この表記は、「硬貨投入後に、お茶またはコーヒーを選択できる」ことを意味します。</p>
+
+<p>前置演算子の重要な特徴は、事象の同期性です。指定された事象が発生するまで、プロセスは待機状態にあります。</p>
+
+<h3 id="選択演算子">選択演算子</h3>
+
+<p>CSPには、複数種類の選択演算子があります。それぞれ異なる意味を持ち、適切な場面で使い分けることが重要です。</p>
+
+<p><strong>外部選択（□）</strong>: 環境の選択
+【擬似記法】</p>
+<pre><code class="language-csp">ATM = card_insert → pin_entry □ admin_key → maintenance_mode
+</code></pre>
+
+<p>顧客がカードを挿入するか、管理者がキーを使うかは、環境（利用者）が決定します。</p>
+
+<p><strong>内部選択（⊓）</strong>: プロセスの選択
+【擬似記法】</p>
+<pre><code class="language-csp">COIN_FLIP = heads → WIN ⊓ tails → LOSE
+</code></pre>
+
+<p>どちらが選ばれるかは、プロセス内部の非決定性によります。</p>
+
+<p><strong>ガード付き選択</strong>:
+【擬似記法】</p>
+<pre><code class="language-csp">BUFFER = size &lt; MAX &amp; input?x → add.x → BUFFER
+        □ size &gt; 0 &amp; output!first → remove → BUFFER
+</code></pre>
+
+<p>条件が満たされた場合にのみ選択可能になります。</p>
+
+<h3 id="並行合成演算子">並行合成演算子</h3>
+
+<p>複数のプロセスを並行実行させるための演算子群は、CSPの核心的な機能です。</p>
+
+<p><strong>独立並行（|||）</strong>: 完全に独立した並行実行
+【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-csp">PRINTER = print_job -&gt; PRINTER
+SCANNER = scan_doc -&gt; SCANNER
+KEYBOARD = key_press -&gt; KEYBOARD
+
+SYSTEM = PRINTER ||| SCANNER ||| KEYBOARD
+</code></pre>
+
+<p>プロセス間に相互作用はなく、完全に並行して動作します。</p>
+
+<p><strong>同期並行（[| X |]）</strong>: 指定された事象での同期
+【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-csp">CUSTOMER = arrive -&gt; order -&gt; pay -&gt; leave -&gt; CUSTOMER
+CASHIER = greet -&gt; order -&gt; pay -&gt; CASHIER
+
+SYSTEM = CUSTOMER [| {order, pay} |] CASHIER
+</code></pre>
+
+<p><code class="language-plaintext highlighter-rouge">order</code>と<code class="language-plaintext highlighter-rouge">pay</code>事象で同期し、他の事象は独立して実行されます。</p>
+
+<p><strong>インターリーブ（|||）</strong>: 事象の交互実行
+【擬似記法】</p>
+<pre><code class="language-csp">AB_SEQUENCE = A ||| B
+where A = a → b → A
+      B = c → d → B
+</code></pre>
+
+<p>AとBの事象が任意の順序で交互に実行されます。</p>
+
+<h3 id="パイプライン構成">パイプライン構成</h3>
+
+<p>プロセス間でのデータ フローを表現するため、パイプライン構成がよく使われます。</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">PRODUCER = produce.data → c12!data → PRODUCER
+PROCESSOR = c12?x → process.x → c23!process(x) → PROCESSOR  
+CONSUMER = c23?x → consume.x → CONSUMER
+
+PIPELINE = (PRODUCER [| {c12} |] PROCESSOR)
+           [| {c23} |] CONSUMER
+</code></pre>
+
+<p>この構成により、データが生産者から消費者まで段階的に処理されます。</p>
+
+<h3 id="再帰による無限プロセス">再帰による無限プロセス</h3>
+
+<p>多くの実用システムは、継続的に動作する必要があります。CSPでは、再帰により無限に動作するプロセスを自然に表現できます。</p>
+
+<p><strong>単純な再帰</strong>:
+【擬似記法】</p>
+<pre><code class="language-csp">CLOCK = tick → CLOCK
+</code></pre>
+
+<p><strong>状態を持つ再帰</strong>:
+【擬似記法】</p>
+<pre><code class="language-csp">COUNTER(n) = up → COUNTER(n+1) 
+           □ down → COUNTER(n-1)
+           □ reset → COUNTER(0)
+</code></pre>
+
+<p><strong>相互再帰</strong>:
+【擬似記法】</p>
+<pre><code class="language-csp">PING = ping → PONG
+PONG = pong → PING
+</code></pre>
+
+<h3 id="プロセス-ファミリー">プロセス ファミリー</h3>
+
+<p>類似したプロセスの集合を扱うため、プロセス ファミリーという概念があります。</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">WORKER(id) = task?t → process.id.t → result!process(t) → WORKER(id)
+WORKERS = ||| i:{1..N} @ WORKER(i)
+</code></pre>
+
+<p>N個のワーカープロセスが並行して動作します。</p>
+
+<h3 id="隠蔽と抽象化">隠蔽と抽象化</h3>
+
+<p>内部的な事象を外部から見えなくするため、隠蔽演算子（\）を使います。</p>
+
+<p>【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-csp">INTERNAL_PROCESS = internal_event1 -&gt; internal_event2 -&gt; external_event -&gt; INTERNAL_PROCESS
+PUBLIC_INTERFACE = INTERNAL_PROCESS \ {internal_event1, internal_event2}
+</code></pre>
+
+<p>これにより、システムの内部構造を隠し、外部インターフェースのみを公開できます。</p>
+
+<h3 id="名前変更">名前変更</h3>
+
+<p>プロセスの再利用のため、事象名を変更する演算子があります。</p>
+
+<p>【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-csp">channel in, out : {0..1}
+channel input, output : {0..1}
+
+GENERIC_BUFFER = in?x -&gt; out!x -&gt; GENERIC_BUFFER
+SPECIFIC_BUFFER = GENERIC_BUFFER[[in &lt;- input, out &lt;- output]]
+</code></pre>
+
+<p>これにより、汎用的なプロセス定義を特定の文脈で再利用できます。</p>
+
+<h3 id="プロセス結合の設計原則">プロセス結合の設計原則</h3>
+
+<p>効果的なプロセス結合のための設計原則：</p>
+
+<ol>
+  <li><strong>最小インターフェース</strong>: 必要最小限の事象でのみ同期</li>
+  <li><strong>対称性</strong>: 可能な限り対称的な設計</li>
+  <li><strong>再利用性</strong>: 汎用的なプロセス定義</li>
+  <li><strong>段階的詳細化</strong>: 抽象から具体への段階的構築</li>
+</ol>
+
+<p>これらの原則により、理解しやすく、保守しやすい並行システムを設計できます。</p>
+
+<h2 id="64-同期とコミュニケーション">6.4 同期とコミュニケーション</h2>
+
+<h3 id="同期の本質的意味">同期の本質的意味</h3>
+
+<p>同期（synchronization）は、並行システムにおいて最も重要な概念の一つです。CSPでは、同期を「複数のプロセスが特定の時点で協調すること」として理解します。これは、オーケストラの演奏者が指揮者に合わせて演奏することや、ダンサーが音楽に合わせて踊ることに似ています。</p>
+
+<p>CSPの同期は「ランデブー同期」と呼ばれます。事象が発生するためには、その事象に関与するすべてのプロセスが準備完了状態になる必要があります。この制約により、プロセス間の協調が自然に表現されます。</p>
+
+<h3 id="チャネル通信の仕組み">チャネル通信の仕組み</h3>
+
+<p>CSPでは、プロセス間の通信を「チャネル」という抽象的な通信経路で表現します。チャネルは、電話回線や郵便配達のように、メッセージを運ぶ媒体として機能します。</p>
+
+<p><strong>出力（!）</strong>: メッセージの送信
+【擬似記法】</p>
+<pre><code class="language-csp">SENDER = ch!message → SENDER
+</code></pre>
+
+<p><strong>入力（?）</strong>: メッセージの受信
+【擬似記法】</p>
+<pre><code class="language-csp">RECEIVER = ch?x → process.x → RECEIVER
+</code></pre>
+
+<p><strong>同期通信</strong>: 送信と受信が同時に発生
+【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-csp">channel ch : {0..1}
+
+SENDER = ch!0 -&gt; SENDER
+RECEIVER = ch?x -&gt; RECEIVER
+
+COMMUNICATION = SENDER [| {|ch|} |] RECEIVER
+</code></pre>
+
+<p>この抽象では、送信と受信が同一の事象として同時に発生する（= 片方だけが進まない）ため、送受の整合性条件を仕様として明示できます。一方で、実システムにおける通信路の信頼性（損失・遅延・再送・バッファリング等）は別途モデル化が必要です。</p>
+
+<h3 id="バッファリングの概念">バッファリングの概念</h3>
+
+<p>実世界の通信では、しばしばバッファリングが必要になります。CSPでは、バッファーも一つのプロセスとして表現できます。</p>
+
+<p><strong>単一要素バッファー</strong>:
+【擬似記法】</p>
+<pre><code class="language-csp">BUFFER1 = in?x → out!x → BUFFER1
+</code></pre>
+
+<p><strong>容量Nのバッファー</strong>:
+【擬似記法】</p>
+<pre><code class="language-csp">BUFFER(n) = (n &gt; 0) &amp; out!front → BUFFER(n-1)
+          □ (n &lt; MAX) &amp; in?x → BUFFER(n+1)
+</code></pre>
+
+<p><strong>先入先出（FIFO）バッファー</strong>:
+【擬似記法】</p>
+<pre><code class="language-csp">FIFO_BUFFER(queue) = 
+  (queue ≠ ⟨⟩) &amp; out!head(queue) → FIFO_BUFFER(tail(queue))
+  □ (len(queue) &lt; MAX) &amp; in?x → FIFO_BUFFER(queue ⌢ ⟨x⟩)
+</code></pre>
+
+<h3 id="優先度付き通信">優先度付き通信</h3>
+
+<p>システムによっては、メッセージに優先度が必要な場合があります。</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">PRIORITY_HANDLER = 
+  urgent?x → handle_urgent.x → PRIORITY_HANDLER
+  □ normal?y → handle_normal.y → PRIORITY_HANDLER
+  where urgent has priority over normal
+</code></pre>
+
+<h3 id="ブロードキャスト通信">ブロードキャスト通信</h3>
+
+<p>一つのメッセージを複数の受信者に送信する場合：</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">BROADCASTER = message?x → (out1!x || out2!x || out3!x) → BROADCASTER
+
+MULTICAST_SYSTEM = BROADCASTER 
+                 [| {out1} |] RECEIVER1
+                 [| {out2} |] RECEIVER2  
+                 [| {out3} |] RECEIVER3
+</code></pre>
+
+<h3 id="選択的通信">選択的通信</h3>
+
+<p>状況に応じて通信相手を選択する場合：</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">ROUTER = 
+  input?msg → (
+    (destination(msg) = A) &amp; to_A!msg → ROUTER
+    □ (destination(msg) = B) &amp; to_B!msg → ROUTER
+    □ (destination(msg) = C) &amp; to_C!msg → ROUTER
+  )
+</code></pre>
+
+<h3 id="タイムアウト付き通信">タイムアウト付き通信</h3>
+
+<p>実際のシステムでは、通信の失敗や遅延を考慮する必要があります。</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">RELIABLE_SENDER = 
+  send!message → (
+    ack → SUCCESS
+    □ timeout → retry → RELIABLE_SENDER
+  )
+</code></pre>
+
+<h3 id="ハンドシェイク-プロトコル">ハンドシェイク プロトコル</h3>
+
+<p>複雑な通信では、複数段階のハンドシェイクが必要になることがあります。</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">CLIENT = request!req → response?res → CLIENT
+SERVER = request?req → process.req → response!result → SERVER
+
+THREE_WAY_HANDSHAKE = 
+  syn → syn_ack → ack → ESTABLISHED
+</code></pre>
+
+<h3 id="同期パターンの分類">同期パターンの分類</h3>
+
+<p>CSPで表現できる同期パターンを分類すると：</p>
+
+<p><strong>1対1通信</strong>: 単純なメッセージ交換
+<strong>1対多通信</strong>: ブロードキャストやマルチキャスト
+<strong>多対1通信</strong>: 複数の送信者から単一の受信者
+<strong>多対多通信</strong>: 複雑なネットワーク通信</p>
+
+<p><strong>バリア同期</strong>: 全プロセスが特定の地点で待機
+【擬似記法】</p>
+<pre><code class="language-csp">BARRIER(n) = 
+  (n &gt; 1) &amp; arrive → BARRIER(n-1)
+  □ (n = 1) &amp; arrive → release → BARRIER(N)
+</code></pre>
+
+<h3 id="リーダーフォロワー-パターン">リーダー・フォロワー パターン</h3>
+
+<p>階層的な制御構造での通信：</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">LEADER = 
+  decision!cmd → (
+    follower1.ack → follower2.ack → follower3.ack → commit
+  ) → LEADER
+
+FOLLOWER(id) = 
+  decision?cmd → execute.cmd → ack → FOLLOWER(id)
+</code></pre>
+
+<h3 id="投票プロトコル">投票プロトコル</h3>
+
+<p>分散システムでの合意形成：</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">VOTER(id) = vote_request?proposal → 
+           (approve!id → VOTER(id) □ reject!id → VOTER(id))
+
+COORDINATOR = 
+  broadcast_proposal → 
+  collect_votes → 
+  (majority_approve &amp; commit □ majority_reject &amp; abort) →
+  COORDINATOR
+</code></pre>
+
+<h3 id="通信の信頼性">通信の信頼性</h3>
+
+<p>現実的なシステムでは、通信の失敗を考慮する必要があります：</p>
+
+<p><strong>メッセージ損失の処理</strong>:
+【擬似記法】</p>
+<pre><code class="language-csp">LOSSY_CHANNEL = msg?x → (deliver!x □ lose → SKIP) → LOSSY_CHANNEL
+</code></pre>
+
+<p><strong>重複除去</strong>:
+【擬似記法】</p>
+<pre><code class="language-csp">DEDUP_RECEIVER = 
+  msg?x → (
+    (x ∉ received) &amp; process.x → DEDUP_RECEIVER[received ∪ {x}]
+    □ (x ∈ received) &amp; duplicate → DEDUP_RECEIVER
+  )
+</code></pre>
+
+<p><strong>順序保証</strong>:
+【擬似記法】</p>
+<pre><code class="language-csp">ORDERED_DELIVERY = 
+  in?⟨seq, msg⟩ → (
+    (seq = expected) &amp; out!msg → ORDERED_DELIVERY[expected+1]
+    □ (seq ≠ expected) &amp; buffer.⟨seq,msg⟩ → ORDERED_DELIVERY
+  )
+</code></pre>
+
+<p>これらの通信パターンを組み合わせることで、現実的な分散システムの複雑な通信要求を満たすことができます。</p>
+
+<h2 id="65-デッドロックと活性システムの病理学">6.5 デッドロックと活性：システムの病理学</h2>
+
+<h3 id="デッドロックという病理現象">デッドロックという病理現象</h3>
+
+<p>デッドロック（deadlock）は、並行システムにおける最も深刻な問題の一つです。複数のプロセスが互いに相手の行動を待ち続け、システム全体が停止状態に陥る現象です。これは、交差点で4台の車が互いに道を譲り合って動けなくなる状況に似ています。</p>
+
+<p>CSPでは、デッドロックを形式的に定義できます。すべての参加プロセスが、他のプロセスからの事象を待機している状態がデッドロックです。</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">DEADLOCK_EXAMPLE = 
+  (a → b → STOP) [| {a, b} |] (b → a → STOP)
+</code></pre>
+
+<p>この例では、左のプロセスが事象<code class="language-plaintext highlighter-rouge">a</code>の発生を待ち、右のプロセスが事象<code class="language-plaintext highlighter-rouge">b</code>の発生を待っているため、どちらも進行できません。</p>
+
+<h3 id="デッドロック発生の4条件">デッドロック発生の4条件</h3>
+
+<p>古典的な研究により、デッドロックが発生するためには以下の4つの条件が同時に満たされる必要があることが知られています：</p>
+
+<p><strong>1. 相互排除（Mutual Exclusion）</strong>: リソースが同時に複数のプロセスから使用できない
+<strong>2. 保持と待機（Hold and Wait）</strong>: プロセスがリソースを保持しながら他のリソースを待機
+<strong>3. 非プリエンプション（No Preemption）</strong>: 強制的にリソースを取り上げることができない
+<strong>4. 循環待機（Circular Wait）</strong>: プロセス間でリソース待機の循環構造が存在</p>
+
+<p>CSPでこれらの条件を表現すると：</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">// 相互排除：リソースの排他制御
+RESOURCE = acquire → use → release → RESOURCE
+
+// 保持と待機：複数リソースの取得
+PROCESS = resource1.acquire → resource2.acquire → 
+          work → resource2.release → resource1.release → PROCESS
+
+// 循環待機：プロセス間の循環依存
+SYSTEM = (P1 [| {r1,r2} |] P2) \ {r1,r2}
+where P1 = r1.acquire → r2.acquire → work → r2.release → r1.release → P1
+      P2 = r2.acquire → r1.acquire → work → r1.release → r2.release → P2
+</code></pre>
+
+<h3 id="デッドロック回避戦略">デッドロック回避戦略</h3>
+
+<p>デッドロックを回避するには、4つの条件のうち少なくとも一つを破る必要があります。</p>
+
+<p><strong>資源順序付け（Resource Ordering）</strong>:
+【擬似記法】</p>
+<pre><code class="language-csp">ORDERED_PROCESS = 
+  (id(r1) &lt; id(r2)) &amp; r1.acquire → r2.acquire → work →
+  r2.release → r1.release → ORDERED_PROCESS
+</code></pre>
+
+<p>すべてのプロセスが同じ順序でリソースを取得することで、循環待機を防ぎます。</p>
+
+<p><strong>タイムアウト機構</strong>:
+【擬似記法】</p>
+<pre><code class="language-csp">TIMEOUT_PROCESS = 
+  r1.acquire → (
+    r2.acquire → work → r2.release → r1.release → TIMEOUT_PROCESS
+    □ timeout → r1.release → retry → TIMEOUT_PROCESS
+  )
+</code></pre>
+
+<p><strong>銀行家アルゴリズム</strong>:
+【擬似記法】</p>
+<pre><code class="language-csp">BANKER = 
+  request?⟨pid, resource⟩ → (
+    safe_state(allocate(pid, resource)) &amp; grant!pid → BANKER
+    □ ¬safe_state(allocate(pid, resource)) &amp; deny!pid → BANKER
+  )
+</code></pre>
+
+<h3 id="ライブロックという微妙な問題">ライブロックという微妙な問題</h3>
+
+<p>ライブロック（livelock）は、プロセスが動作しているにもかかわらず、実質的な進歩がない状態です。狭い廊下で二人が出会い、互いに避けようとして同じ方向に動き続ける状況に似ています。</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">LIVELOCK_EXAMPLE = 
+  P1 [| {move} |] P2
+where P1 = move.left → detect_collision → move.right → P1
+      P2 = move.right → detect_collision → move.left → P2
+</code></pre>
+
+<h3 id="活性livenessの保証">活性（Liveness）の保証</h3>
+
+<p>活性とは、「良いことがいつかは起こる」という性質です。CSPでは、活性を複数の観点から分析できます。</p>
+
+<p><strong>無飢餓性（Starvation Freedom）</strong>: すべてのプロセスが最終的に進歩する
+【擬似記法】</p>
+<pre><code class="language-csp">FAIR_SCHEDULER = 
+  schedule!p1 → schedule!p2 → schedule!p3 → FAIR_SCHEDULER
+</code></pre>
+
+<p><strong>公平性（Fairness）</strong>: 継続的に機会があるプロセスは最終的に実行される
+【擬似記法】</p>
+<pre><code class="language-csp">FAIR_ACCESS = 
+  (request.p1 → grant.p1 → FAIR_ACCESS) |||
+  (request.p2 → grant.p2 → FAIR_ACCESS) |||
+  FAIRNESS_CONSTRAINT
+</code></pre>
+
+<h3 id="進歩条件の形式化">進歩条件の形式化</h3>
+
+<p>システムの進歩を保証するための条件を形式化できます：</p>
+
+<p><strong>最小進歩保証</strong>:
+【擬似記法】</p>
+<pre><code class="language-csp">PROGRESS = □◊(progress_event)  // 「常に最終的に進歩事象が発生」
+</code></pre>
+
+<p><strong>有界待機</strong>:
+【擬似記法】</p>
+<pre><code class="language-csp">BOUNDED_WAIT = request → ◊≤n(grant)  // 「要求から最大n時間以内に許可」
+</code></pre>
+
+<h3 id="検出と回復">検出と回復</h3>
+
+<p>デッドロックの検出と回復も重要な技術です：</p>
+
+<p><strong>デッドロック検出器</strong>:
+【擬似記法】</p>
+<pre><code class="language-csp">DETECTOR = 
+  monitor_state → (
+    deadlock_detected &amp; recovery_action → DETECTOR
+    □ normal_state &amp; continue → DETECTOR
+  )
+</code></pre>
+
+<p><strong>回復戦略</strong>:
+【擬似記法】</p>
+<pre><code class="language-csp">RECOVERY = 
+  abort_victim → rollback → restart → RECOVERY
+  □ preempt_resource → reassign → RECOVERY
+</code></pre>
+
+<h3 id="哲学者の食事問題">哲学者の食事問題</h3>
+
+<p>デッドロックの古典的な例である「哲学者の食事問題」をCSPで分析しましょう：</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">// 問題のある実装（デッドロック発生可能）
+PHILOSOPHER(i) = 
+  pickup.left(i) → pickup.right(i) → eat → 
+  putdown.right(i) → putdown.left(i) → think → PHILOSOPHER(i)
+
+DINING_PHILOSOPHERS = 
+  ||| i:{1..5} @ PHILOSOPHER(i)
+
+// 解決策1：非対称的な取得順序
+PHILOSOPHER_FIXED(i) = 
+  (i &lt; 5) &amp; pickup.left(i) → pickup.right(i) → eat → 
+           putdown.right(i) → putdown.left(i) → think → PHILOSOPHER_FIXED(i)
+  □ (i = 5) &amp; pickup.right(i) → pickup.left(i) → eat → 
+              putdown.left(i) → putdown.right(i) → think → PHILOSOPHER_FIXED(i)
+
+// 解決策2：ウェイター制御
+WAITER = 
+  request.i → (
+    available_forks(i) &amp; grant.i → WAITER
+    □ ¬available_forks(i) &amp; wait.i → WAITER
+  )
+</code></pre>
+
+<h3 id="性能への影響">性能への影響</h3>
+
+<p>デッドロック回避策は、しばしば性能に影響を与えます：</p>
+
+<p><strong>保守的戦略</strong>: 安全だが効率が悪い
+<strong>楽観的戦略</strong>: 効率的だが回復コストが高い
+<strong>適応的戦略</strong>: 状況に応じて戦略を変更</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">ADAPTIVE_SYSTEM = 
+  low_contention &amp; OPTIMISTIC_PROTOCOL
+  □ high_contention &amp; CONSERVATIVE_PROTOCOL
+</code></pre>
+
+<h3 id="ツールによる検証">ツールによる検証</h3>
+
+<p>CSPモデルのデッドロック検証には専用ツールが利用できます：</p>
+
+<ul>
+  <li><strong>FDR (Failures-Divergences Refinement)</strong>: 厳密な検証</li>
+  <li><strong>ProB</strong>: 模型検査とアニメーション</li>
+  <li><strong>PAT</strong>: 確率的検証</li>
+</ul>
+
+<p>これらのツールにより、設計段階でデッドロックの可能性を発見し、修正できます。</p>
+
+<h2 id="66-実例で学ぶレストランシステムの設計">6.6 実例で学ぶ：レストランシステムの設計</h2>
+
+<h3 id="システム要求の整理">システム要求の整理</h3>
+
+<p>レストランシステムは、並行システム設計の優れた例題です。複数の役割を持つ人々（顧客、ウェイター、シェフ、レジ係）が協調して動作し、限られたリソース（座席、厨房設備、食材）を共有する必要があります。</p>
+
+<p><strong>主要な登場人物</strong>：</p>
+<ul>
+  <li>顧客（複数）</li>
+  <li>ウェイター（複数）</li>
+  <li>シェフ（複数）</li>
+  <li>レジ係</li>
+  <li>マネージャー</li>
+</ul>
+
+<p><strong>共有リソース</strong>：</p>
+<ul>
+  <li>テーブル（座席）</li>
+  <li>厨房設備</li>
+  <li>食材在庫</li>
+  <li>メニュー情報</li>
+</ul>
+
+<p><strong>主要プロセス</strong>：</p>
+<ol>
+  <li>顧客の入店と着席</li>
+  <li>注文の受付と厨房への伝達</li>
+  <li>料理の調理と配膳</li>
+  <li>会計と退店</li>
+</ol>
+
+<h3 id="基本的なプロセス定義">基本的なプロセス定義</h3>
+
+<p>まず、各役割の基本的な振る舞いをCSPで定義しましょう：</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">// 顧客の行動パターン
+CUSTOMER(id) = 
+  arrive → wait_for_table → 
+  seat.id → browse_menu → order.id → 
+  wait_for_food → eat → request_bill → 
+  pay → leave → CUSTOMER(id)
+
+// ウェイターの行動パターン
+WAITER(id) = 
+  greet_customer → take_order → 
+  transmit_to_kitchen → serve_food → 
+  present_bill → process_payment → 
+  clean_table → WAITER(id)
+
+// シェフの行動パターン  
+CHEF(id) = 
+  receive_order → check_ingredients → 
+  cook → plate_food → ready_for_service → 
+  CHEF(id)
+
+// レジ係の行動パターン
+CASHIER = 
+  receive_payment_request → calculate_total → 
+  process_payment → issue_receipt → CASHIER
+</code></pre>
+
+<h3 id="テーブル管理サブシステム">テーブル管理サブシステム</h3>
+
+<p>レストランの座席管理は重要なサブシステムです。限られた座席を効率的に割り当て、デッドロックを回避する必要があります。</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">// テーブル管理プロセス
+TABLE_MANAGER = 
+  customer_arrives → (
+    available_table &amp; assign_table → TABLE_MANAGER
+    □ no_available_table &amp; add_to_waitlist → TABLE_MANAGER
+  )
+  □ table_freed → update_availability → 
+    (waitlist_empty &amp; TABLE_MANAGER 
+     □ waitlist_not_empty &amp; serve_next_customer → TABLE_MANAGER)
+
+// 個別テーブルの状態管理
+TABLE(id) = 
+  reserve.id → occupied.id → 
+  serve.id → eating.id → 
+  clear.id → clean.id → TABLE(id)
+
+// 全テーブルシステム
+RESTAURANT_TABLES = 
+  ||| table_id:{1..N} @ TABLE(table_id)
+</code></pre>
+
+<h3 id="注文処理ワークフロー">注文処理ワークフロー</h3>
+
+<p>注文から配膳までの複雑なワークフローを並行プロセスとして設計します：</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">// 注文受付プロセス
+ORDER_TAKING = 
+  customer_ready → approach_table → 
+  present_menu → answer_questions → 
+  take_order → confirm_order → 
+  transmit_to_kitchen → ORDER_TAKING
+
+// 厨房オーダー管理
+KITCHEN_ORDER_MANAGER = 
+  new_order?order → (
+    ingredients_available(order) &amp; 
+    assign_to_chef!order → KITCHEN_ORDER_MANAGER
+    □ ingredients_unavailable(order) &amp; 
+    inform_shortage → KITCHEN_ORDER_MANAGER
+  )
+
+// 調理プロセス
+COOKING_PROCESS(chef_id) = 
+  assigned_order?order → 
+  gather_ingredients.order → 
+  cook.order → 
+  quality_check.order → 
+  ready_for_pickup!order → 
+  COOKING_PROCESS(chef_id)
+
+// 配膳プロセス
+FOOD_SERVICE = 
+  food_ready?order → 
+  locate_customer.order → 
+  deliver_food.order → 
+  check_satisfaction → 
+  FOOD_SERVICE
+</code></pre>
+
+<h3 id="リソース管理厨房設備">リソース管理：厨房設備</h3>
+
+<p>厨房設備（コンロ、オーブン、調理台）の排他制御を実装します：</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">// 設備管理プロセス
+EQUIPMENT_MANAGER = 
+  request_equipment?⟨chef, equipment⟩ → (
+    equipment_available(equipment) &amp; 
+    grant_access!⟨chef, equipment⟩ → EQUIPMENT_MANAGER
+    □ equipment_busy(equipment) &amp; 
+    queue_request!⟨chef, equipment⟩ → EQUIPMENT_MANAGER
+  )
+  □ release_equipment?⟨chef, equipment⟩ → 
+    update_availability → 
+    serve_next_request → EQUIPMENT_MANAGER
+
+// 個別設備の状態
+STOVE(id) = 
+  reserve.id → cooking.id → release.id → STOVE(id)
+
+OVEN(id) = 
+  preheat.id → reserve.id → baking.id → release.id → OVEN(id)
+
+// 設備群の並行管理
+KITCHEN_EQUIPMENT = 
+  (||| stove_id:{1..4} @ STOVE(stove_id))
+  |||
+  (||| oven_id:{1..2} @ OVEN(oven_id))
+</code></pre>
+
+<h3 id="在庫管理システム">在庫管理システム</h3>
+
+<p>食材の在庫管理と発注プロセスを組み込みます：</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">// 在庫管理プロセス
+INVENTORY_MANAGER = 
+  use_ingredient?⟨ingredient, quantity⟩ → (
+    sufficient_stock(ingredient, quantity) &amp; 
+    update_stock → check_reorder_level → 
+    (below_threshold &amp; trigger_reorder □ adequate_stock &amp; SKIP) → 
+    INVENTORY_MANAGER
+    □ insufficient_stock(ingredient, quantity) &amp; 
+    report_shortage → INVENTORY_MANAGER
+  )
+  □ receive_delivery?⟨ingredient, quantity⟩ → 
+    update_stock → INVENTORY_MANAGER
+
+// 自動発注システム
+AUTO_ORDERING = 
+  check_inventory → (
+    reorder_needed &amp; place_order → wait_for_delivery → AUTO_ORDERING
+    □ stock_adequate &amp; schedule_next_check → AUTO_ORDERING
+  )
+</code></pre>
+
+<h3 id="支払い処理システム">支払い処理システム</h3>
+
+<p>複数の支払い方法に対応した決済システム：</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">// 決済プロセス
+PAYMENT_PROCESSING = 
+  payment_request?⟨table, amount⟩ → 
+  calculate_total.amount → 
+  present_payment_options → 
+  (cash_payment → process_cash → issue_receipt → PAYMENT_PROCESSING
+   □ card_payment → process_card → 
+     (transaction_approved &amp; issue_receipt → PAYMENT_PROCESSING
+      □ transaction_declined &amp; request_alternative → PAYMENT_PROCESSING)
+   □ digital_payment → process_digital → 
+     verify_payment → issue_receipt → PAYMENT_PROCESSING)
+
+// 会計システム統合
+ACCOUNTING_SYSTEM = 
+  transaction_completed?details → 
+  record_sale → update_daily_total → 
+  (end_of_day &amp; generate_report □ continue_operation) → 
+  ACCOUNTING_SYSTEM
+</code></pre>
+
+<h3 id="緊急時対応">緊急時対応</h3>
+
+<p>食品安全や火災などの緊急事態への対応も設計に含めます：</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">// 緊急事態管理
+EMERGENCY_SYSTEM = 
+  (fire_alarm → evacuate_all → shutdown_equipment → EMERGENCY_SYSTEM
+   □ food_safety_issue → stop_affected_orders → investigate → EMERGENCY_SYSTEM  
+   □ power_outage → emergency_lighting → preserve_cold_storage → EMERGENCY_SYSTEM
+   □ normal_operation → monitor → EMERGENCY_SYSTEM)
+
+// 避難プロトコル
+EVACUATION_PROTOCOL = 
+  emergency_detected → 
+  sound_alarm → 
+  (guide_customers_out ||| secure_premises ||| contact_authorities) → 
+  all_clear → resume_operations → EVACUATION_PROTOCOL
+</code></pre>
+
+<h3 id="システム全体の統合">システム全体の統合</h3>
+
+<p>個々のサブシステムを統合して、完全なレストランシステムを構築します：</p>
+
+<p>【擬似記法】
+（以下は構成の概念例であり、プロセス定義の省略があるためCSPMとしてはそのまま実行できません）</p>
+<pre><code class="language-csp">RESTAURANT_SYSTEM = 
+  (CUSTOMER_MANAGEMENT 
+   [| {arrive, seat, order, pay, leave} |] 
+   STAFF_COORDINATION)
+  [| {order, food_ready, payment} |]
+  (KITCHEN_OPERATIONS 
+   [| {ingredients, equipment} |] 
+   RESOURCE_MANAGEMENT)
+  \ {internal_communications}
+
+where 
+  CUSTOMER_MANAGEMENT = ||| id:{1..MAX_CUSTOMERS} @ CUSTOMER(id)
+  STAFF_COORDINATION = 
+    (||| id:{1..N_WAITERS} @ WAITER(id)) |||
+    (||| id:{1..N_CHEFS} @ CHEF(id)) |||
+    CASHIER
+  KITCHEN_OPERATIONS = 
+    KITCHEN_ORDER_MANAGER ||| 
+    (||| id:{1..N_CHEFS} @ COOKING_PROCESS(id))
+  RESOURCE_MANAGEMENT = 
+    INVENTORY_MANAGER ||| 
+    EQUIPMENT_MANAGER ||| 
+    TABLE_MANAGER
+</code></pre>
+
+<h3 id="性能最適化の考慮">性能最適化の考慮</h3>
+
+<p>実用的なシステムでは、性能最適化も重要です：</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">// 負荷バランシング
+LOAD_BALANCER = 
+  new_order?order → (
+    find_least_busy_chef → 
+    assign_order!⟨chef, order⟩ → LOAD_BALANCER
+  )
+
+// ピーク時対応
+PEAK_TIME_MANAGEMENT = 
+  detect_rush_hour → 
+  (increase_staff ||| prioritize_fast_orders ||| optimize_seating) →
+  monitor_queue_length → 
+  (acceptable_wait_time &amp; continue □ excessive_wait &amp; escalate) →
+  PEAK_TIME_MANAGEMENT
+</code></pre>
+
+<h3 id="検証すべき性質">検証すべき性質</h3>
+
+<p>設計したシステムに対して、以下の性質を検証する必要があります：</p>
+
+<p><strong>安全性</strong>：</p>
+<ul>
+  <li>デッドロック不発生</li>
+  <li>リソースの排他制御</li>
+  <li>食品安全基準の遵守</li>
+</ul>
+
+<p><strong>活性</strong>：</p>
+<ul>
+  <li>すべての顧客が最終的にサービスを受ける</li>
+  <li>注文が無限に遅延しない</li>
+  <li>設備が無限に占有されない</li>
+</ul>
+
+<p><strong>公平性</strong>：</p>
+<ul>
+  <li>先着順でのサービス提供</li>
+  <li>スタッフの負荷分散</li>
+  <li>リソースの公平な利用</li>
+</ul>
+
+<p>このレストランシステムの例により、CSPが現実的な複雑システムの設計にどのように適用できるかが理解できます。並行性、リソース管理、エラー処理のすべてを統一的な枠組みで扱えることが、CSPの大きな価値です。</p>
+
+<hr />
+
+<h2 id="章末課題">章末課題</h2>
+
+<h3 id="基礎理解演習1csp記法の読解">基礎理解演習1：CSP記法の読解</h3>
+
+<p>以下のCSPプロセス定義を読んで、システムの振る舞いを説明してください：</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">PRODUCER = produce → buffer!item → PRODUCER
+CONSUMER = buffer?x → consume.x → CONSUMER  
+BUFFER = in?x → out!x → BUFFER
+
+SYSTEM = PRODUCER [| {buffer} |] BUFFER[buffer/in, buffer/out] [| {buffer} |] CONSUMER
+</code></pre>
+
+<p>説明すべき内容：</p>
+<ol>
+  <li>各プロセスの役割と動作</li>
+  <li>プロセス間の同期点</li>
+  <li>システム全体のデータフロー</li>
+  <li>可能な実行シーケンスの例</li>
+</ol>
+
+<h3 id="基礎理解演習2デッドロック分析">基礎理解演習2：デッドロック分析</h3>
+
+<p>以下のシステムでデッドロックが発生する可能性を分析してください：</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">PROCESS_A = resource1.acquire → resource2.acquire → 
+           work → resource2.release → resource1.release → PROCESS_A
+
+PROCESS_B = resource2.acquire → resource1.acquire → 
+           work → resource1.release → resource2.release → PROCESS_B
+
+SYSTEM = PROCESS_A [| {resource1.acquire, resource1.release, 
+                     resource2.acquire, resource2.release} |] PROCESS_B
+</code></pre>
+
+<p>分析内容：</p>
+<ol>
+  <li>デッドロック発生のシナリオ</li>
+  <li>デッドロック発生の4条件の確認</li>
+  <li>防止策の提案（少なくとも2つ）</li>
+  <li>修正されたCSP定義</li>
+</ol>
+
+<h3 id="実践演習1atmシステムの設計">実践演習1：ATMシステムの設計</h3>
+
+<p>以下の要求を満たすATMシステムをCSPでモデル化してください：</p>
+
+<p><strong>基本機能</strong>：</p>
+<ul>
+  <li>カード挿入・暗証番号入力</li>
+  <li>残高照会・引き出し・預け入れ</li>
+  <li>明細印刷・カード排出</li>
+</ul>
+
+<p><strong>並行性要求</strong>：</p>
+<ul>
+  <li>複数のATMが同一銀行システムにアクセス</li>
+  <li>各ATMは同時に一人の顧客のみサービス</li>
+  <li>中央銀行システムでの排他制御</li>
+</ul>
+
+<p><strong>安全性要求</strong>：</p>
+<ul>
+  <li>不正アクセスの防止</li>
+  <li>残高不足時の引き出し拒否</li>
+  <li>ネットワーク障害時の安全な停止</li>
+</ul>
+
+<ol>
+  <li>主要プロセスの定義</li>
+  <li>リソース管理機構</li>
+  <li>エラー処理の統合</li>
+  <li>システム全体の統合</li>
+</ol>
+
+<h3 id="実践演習2プロセス合成の活用">実践演習2：プロセス合成の活用</h3>
+
+<p>前のATMシステムについて、以下の拡張を行ってください：</p>
+
+<ol>
+  <li><strong>階層的設計</strong>
+    <ul>
+      <li>基本操作プロセスから複合操作プロセスを構成</li>
+      <li>インターフェース層とビジネスロジック層の分離</li>
+    </ul>
+  </li>
+  <li><strong>並行性の制御</strong>
+    <ul>
+      <li>複数顧客の同時利用（異なるATM）</li>
+      <li>管理者による保守モードの実装</li>
+    </ul>
+  </li>
+  <li><strong>通信パターン</strong>
+    <ul>
+      <li>ATMと中央システム間の信頼性の高い通信</li>
+      <li>障害検出と回復機構</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="発展演習分散システムの設計">発展演習：分散システムの設計</h3>
+
+<p>複数ノードからなる分散ファイルシステムをCSPで設計してください：</p>
+
+<p><strong>システム構成</strong>：</p>
+<ul>
+  <li>クライアントノード（複数）</li>
+  <li>ストレージノード（複数）</li>
+  <li>メタデータサーバー（冗長化）</li>
+</ul>
+
+<p><strong>要求</strong>：</p>
+<ul>
+  <li>ファイルの読み書き操作</li>
+  <li>データの冗長化（レプリケーション）</li>
+  <li>ノード障害への耐性</li>
+  <li>一貫性の保証</li>
+</ul>
+
+<p><strong>設計課題</strong>：</p>
+<ol>
+  <li>ノード間通信プロトコル</li>
+  <li>障害検出と回復</li>
+  <li>分散合意アルゴリズム</li>
+  <li>負荷分散機構</li>
+</ol>
+
+<p><strong>検証事項</strong>：</p>
+<ul>
+  <li>デッドロック不発生</li>
+  <li>データ一貫性の保証</li>
+  <li>部分障害に対する堅牢性</li>
+  <li>公平性（すべてのクライアントがサービスを受けられる）</li>
+</ul>
+
+<p>これらの演習を通じて、CSPによる実践的な並行システム設計能力を身につけ、次章でのより高度な時間的性質の記述への準備を整えてください。</p>
+
+<h2 id="章末まとめ">章末まとめ</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">summary</code>: CSPは、プロセス・事象・同期を使って並行システムの振る舞いを記述し、デッドロック・活性・公平性を同じ枠組みで検討できる。</li>
+  <li><code class="language-plaintext highlighter-rouge">nextSteps</code>: 次は <a href="/formal-methods-book/chapters/chapter07/">第7章：時間を扱う仕様記述 - TLA+入門</a> に進み、必要に応じて <a href="/formal-methods-book/appendices/appendix-c/">付録C: 記法対照表</a> と <a href="/formal-methods-book/appendices/appendix-d/">付録D: 演習問題解答</a> を参照する。</li>
+</ul>
+
+                </article>
+
+                
+                <nav class="page-navigation" aria-label="ページナビゲーション">
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+
+
+
+
+
+<nav class="book-navigation" aria-label="ページナビゲーション">
+  <div class="chapter-nav">
+    
+      <a href="/formal-methods-book/chapters/chapter05/" class="nav-prev" rel="prev">
+        <span class="arrow" aria-hidden="true">←</span>
+        <span class="label">前へ</span>
+        <span class="title">第5章：状態ベース仕様記述 - Z記法の基礎</span>
+      </a>
+    
+
+    <a href="/formal-methods-book/" class="nav-home">
+      <span class="label">目次へ</span>
+    </a>
+
+    
+      <a href="/formal-methods-book/chapters/chapter07/" class="nav-next" rel="next">
+        <span class="label">次へ</span>
+        <span class="title">第7章：時間を扱う仕様記述 - TLA+入門</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    
+  </div>
+</nav>
+
+<style>
+.book-navigation { margin: 2rem 0; padding: 1rem; border-top: 1px solid var(--border-color, #e5e7eb); }
+.chapter-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.nav-prev, .nav-next, .nav-home { display: flex; align-items: center; padding: 0.75rem 1.25rem; background: var(--bg-primary, #fff); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; text-decoration: none; color: inherit; }
+.nav-disabled { opacity: .5; cursor: not-allowed; background: var(--bg-tertiary, #f9fafb); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; padding: 0.75rem 1.25rem; display: flex; align-items: center; }
+.nav-prev { flex: 1; }
+.nav-next { flex: 1; justify-content: flex-end; text-align: right; }
+.nav-home { flex: 0 0 auto; justify-content: center; }
+.label { font-weight: 600; margin: 0 .25rem; }
+.title { font-size: .9rem; opacity: .8; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 768px) { .chapter-nav { flex-wrap: wrap; } .nav-prev, .nav-next { flex: 1 1 45%; } .nav-home { flex: 1 1 100%; order: -1; } .title { display: none; } }
+</style>
+
+                </nav>
+                
+
+                
+                <div class="edit-page">
+                    <a href="https://github.com/itdojp/formal-methods-book/edit/main/docs/chapters/chapter06/index.md"
+                       target="_blank"
+                       rel="noopener"
+                       class="edit-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                            <path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4Z"></path>
+                        </svg>
+                        GitHub で原稿を編集
+                    </a>
+                </div>
+                
+
+                <footer class="book-footer" role="contentinfo">
+                    <div class="book-footer-inner">
+                        <div class="book-footer-license">
+                            本文: CC BY-NC-SA 4.0 / コード資産: Apache-2.0 / 商標・第三者資産を除く
+                        </div>
+                        <div class="book-footer-links">
+                            
+                                <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener">GitHub</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/LICENSE-SCOPE.md" target="_blank" rel="noopener">ライセンス</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/COMMERCIAL.md" target="_blank" rel="noopener">商用利用</a>
+                            
+                            
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <label for="sidebar-toggle-checkbox" class="book-sidebar-overlay" id="sidebar-overlay" aria-label="サイドバーを閉じる"></label>
+
+    <script async src="/formal-methods-book/assets/js/code-copy-lightweight.js"></script>
+    <script defer src="/formal-methods-book/assets/js/theme.js"></script>
+    <script defer src="/formal-methods-book/assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var cb = document.getElementById('sidebar-toggle-checkbox');
+            var toggle = document.querySelector('.sidebar-toggle');
+            if (cb) cb.checked = false;
+            if (cb && toggle) {
+                var sync = function() {
+                    toggle.setAttribute('aria-expanded', cb.checked ? 'true' : 'false');
+                };
+                sync();
+                cb.addEventListener('change', sync);
+                toggle.addEventListener('keydown', function(e) {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        cb.checked = !cb.checked;
+                        cb.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        (function() {
+            function initTocAutoScroll() {
+                var cb = document.getElementById('sidebar-toggle-checkbox');
+                if (!cb) return;
+
+                function normalizePath(p) {
+                    var path = String(p || '').replace(/index\.html$/, '');
+                    if (path.length > 1) {
+                        path = path.replace(/\/+$/, '');
+                    }
+                    return path || '/';
+                }
+
+                function isMobileDrawer() {
+                    try {
+                        if (typeof window.matchMedia === 'function') {
+                            return window.matchMedia('(max-width: 1024px)').matches;
+                        }
+                    } catch (_) {}
+                    return typeof window.innerWidth === 'number' ? window.innerWidth <= 1024 : true;
+                }
+
+                function findActiveTocLink() {
+                    var current = normalizePath(window.location.pathname);
+                    var actives = document.querySelectorAll('a.toc-link.active');
+                    if (!actives || actives.length === 0) return null;
+
+                    for (var i = 0; i < actives.length; i++) {
+                        var a = actives[i];
+                        if (!a || !a.href) continue;
+                        try {
+                            var pathname = normalizePath(new URL(a.href).pathname);
+                            if (pathname === current) return a;
+                        } catch (_) {}
+                    }
+                    return actives[0];
+                }
+
+                function ensureActiveTocVisible() {
+                    if (!cb.checked) return;
+                    if (!isMobileDrawer()) return;
+
+                    var active = findActiveTocLink();
+                    if (!active) return;
+
+                    var sidebar = active.closest('.book-sidebar') || document.getElementById('sidebar');
+                    if (!sidebar) return;
+
+                    try {
+                        var linkRect = active.getBoundingClientRect();
+                        var sidebarRect = sidebar.getBoundingClientRect();
+                        var marginTop = 8;
+                        var marginBottom = 8;
+                        try {
+                            if (window.getComputedStyle) {
+                                var cs = window.getComputedStyle(sidebar);
+                                if (cs) {
+                                    var pt = parseFloat(cs.paddingTop);
+                                    var pb = parseFloat(cs.paddingBottom);
+                                    if (!isNaN(pt)) marginTop = pt;
+                                    if (!isNaN(pb)) marginBottom = pb;
+                                }
+                            }
+                        } catch (_) {}
+
+                        var top = sidebarRect.top + marginTop;
+                        var bottom = sidebarRect.bottom - marginBottom;
+                        var outOfView = linkRect.top < top || linkRect.bottom > bottom;
+
+                        if (outOfView && typeof active.scrollIntoView === 'function') {
+                            try {
+                                active.scrollIntoView({ block: 'center', behavior: 'auto' });
+                            } catch (e) {
+                                active.scrollIntoView();
+                            }
+                        }
+                    } catch (_) {}
+                }
+
+                function scheduleEnsure() {
+                    setTimeout(ensureActiveTocVisible, 0);
+                    setTimeout(ensureActiveTocVisible, 350);
+                }
+
+                cb.addEventListener('change', function() {
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+
+                if (cb.checked) {
+                    scheduleEnsure();
+                }
+
+                window.addEventListener('pageshow', function(e) {
+                    if (!e || !e.persisted) return;
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initTocAutoScroll);
+            } else {
+                initTocAutoScroll();
+            }
+        })();
+    </script>
+</body>
+</html>

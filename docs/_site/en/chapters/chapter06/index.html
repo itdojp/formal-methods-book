@@ -1,0 +1,2081 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta name="author" content="太田和彦（株式会社アイティードゥ）">
+
+    <title>Chapter 6: Process-Centric Description: Concurrent Systems with CSP - Formal Methods: Foundations and Applications</title>
+
+    <link rel="canonical" href="https://itdojp.github.io/formal-methods-book/en/chapters/chapter06/">
+    <link rel="alternate" hreflang="ja" href="https://itdojp.github.io/formal-methods-book/chapters/chapter06/">
+    <link rel="alternate" hreflang="en" href="https://itdojp.github.io/formal-methods-book/en/chapters/chapter06/">
+    <link rel="alternate" hreflang="x-default" href="https://itdojp.github.io/formal-methods-book/">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/main.css">
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/syntax-highlighting.css">
+
+    <link rel="icon" type="image/png" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+    <link rel="apple-touch-icon" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+
+    <meta property="og:title" content="Chapter 6: Process-Centric Description: Concurrent Systems with CSP">
+    <meta property="og:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://itdojp.github.io/formal-methods-book/en/chapters/chapter06/">
+    <meta property="og:locale" content="en_US">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Chapter 6: Process-Centric Description: Concurrent Systems with CSP">
+    <meta name="twitter:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+
+    <script>
+        (function() {
+            try {
+                const k = 'book-theme';
+                const t = localStorage.getItem(k) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (_) {}
+        })();
+    </script>
+</head>
+<body>
+    
+    
+    
+    
+    
+
+    <input type="checkbox" id="sidebar-toggle-checkbox" class="sidebar-toggle-checkbox" aria-hidden="true">
+
+    <div class="book-layout">
+        <header class="book-header">
+            <div class="header-left">
+                <label for="sidebar-toggle-checkbox" class="sidebar-toggle" aria-label="Toggle sidebar" role="button" tabindex="0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </label>
+                <a href="/formal-methods-book/en/" class="header-title">
+                    <h1>Formal Methods: Foundations and Applications</h1>
+                </a>
+            </div>
+
+            <div class="header-center">
+                <div class="search-container">
+                    <input type="search"
+                           placeholder="Search..."
+                           class="search-input"
+                           id="search-input"
+                           autocomplete="off">
+                    <div class="search-results" id="search-results"></div>
+                </div>
+            </div>
+
+            <div class="header-right">
+                
+
+
+
+
+
+
+
+
+
+
+<a href="/formal-methods-book/chapters/chapter06/"
+   class="language-switcher"
+   hreflang="ja"
+   lang="ja"
+   >
+    日本語
+</a>
+
+                <button class="theme-toggle" aria-label="Toggle theme">
+                    <svg class="theme-icon theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="theme-icon theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+
+                
+            </div>
+        </header>
+
+        <aside class="book-sidebar" id="sidebar">
+            <nav class="sidebar-nav" role="navigation" aria-label="Main navigation">
+                
+
+
+
+
+
+
+
+
+
+
+<div class="sidebar-content">
+    <div class="book-info">
+        <h2 class="book-title"><a href="/formal-methods-book/en/" class="header-title">Formal Methods: Foundations and Applications</a></h2>
+        
+        <p class="book-subtitle">An Integrated Understanding of Specification, Model Checking, and Theorem Proving</p>
+        
+    </div>
+
+    <div class="toc">
+        <h3 class="toc-title">Contents</h3>
+
+        <div class="toc-section">
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/" class="toc-link ">
+                        Home
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Introduction</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/introduction/" class="toc-link ">
+                        Introduction
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Chapters</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter01/" class="toc-link ">
+                        Chapter 1: Why Formal Methods Matter
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter02/" class="toc-link ">
+                        Chapter 2: Bridging Mathematics and Programs
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter03/" class="toc-link ">
+                        Chapter 3: Foundations of Specification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter04/" class="toc-link ">
+                        Chapter 4: Introduction to Lightweight Formal Methods — Specification with Alloy
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter05/" class="toc-link ">
+                        Chapter 5: State-Based Specification — Fundamentals of Z Notation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter06/" class="toc-link active">
+                        Chapter 6: Process-Centric Specification — Concurrency with CSP
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter07/" class="toc-link ">
+                        Chapter 7: Specifying Time — Introduction to TLA+
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter08/" class="toc-link ">
+                        Chapter 8: Introduction to Model Checking
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter09/" class="toc-link ">
+                        Chapter 9: Fundamentals of Theorem Proving
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter10/" class="toc-link ">
+                        Chapter 10: Program Verification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter11/" class="toc-link ">
+                        Chapter 11: Integrating Formal Methods into Development Processes
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter12/" class="toc-link ">
+                        Chapter 12: Tools and Automation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter13/" class="toc-link ">
+                        Chapter 13: Case Studies
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Additional</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/glossary/" class="toc-link ">
+                        Glossary
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Appendices</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-a/" class="toc-link ">
+                        Appendix A: Mathematics Refresher
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-b/" class="toc-link ">
+                        Appendix B: Tool Setup and Verification Quick Start
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-c/" class="toc-link ">
+                        Appendix C: Notation Cross-Reference
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-d/" class="toc-link ">
+                        Appendix D: Exercise Guides and Self-Review Frameworks
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-e/" class="toc-link ">
+                        Appendix E: References and Further Reading Paths
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-f/" class="toc-link ">
+                        Appendix F: Practical Playbook for AI-Assisted Formal Methods
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Afterword</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/afterword/" class="toc-link ">
+                        Afterword
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="external-links">
+            
+            <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener" class="external-link">GitHub</a>
+            
+            
+        </div>
+    </div>
+</div>
+
+            </nav>
+        </aside>
+
+        <main class="book-main" id="main">
+            <div class="book-content">
+                
+                    
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb-list">
+    <li class="breadcrumb-item">
+        <a href="/formal-methods-book/en/" class="breadcrumb-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span class="sr-only">Home</span>
+        </a>
+    </li>
+
+    
+        
+    
+        
+    
+        
+            
+            
+            
+                
+                
+                <li class="breadcrumb-item">
+                    <a href="/formal-methods-book/en/chapters/" class="breadcrumb-link">
+                        
+                            Chapters
+                        
+                    </a>
+                </li>
+            
+        
+    
+        
+            
+            
+            
+                <li class="breadcrumb-item active" aria-current="page">
+                    Chapter 6: process centric description: concurrent systems with csp
+                </li>
+            
+        
+    
+</ol>
+
+<style>
+.breadcrumb-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    font-size: 0.875rem;
+    flex-wrap: wrap;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb-item:not(:last-child)::after {
+    content: '/';
+    margin: 0 0.5rem;
+    color: var(--text-muted);
+}
+
+.breadcrumb-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.breadcrumb-link:hover {
+    color: var(--primary-color);
+}
+
+.breadcrumb-item.active {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (max-width: 768px) {
+    .breadcrumb-list {
+        font-size: 0.75rem;
+    }
+
+    .breadcrumb-item:not(:last-child)::after {
+        margin: 0 0.375rem;
+    }
+}
+</style>
+
+                
+
+                <article class="page-content">
+                    <h1 id="chapter-6-process-centric-description-concurrent-systems-with-csp">Chapter 6: Process-Centric Description: Concurrent Systems with CSP</h1>
+
+<p>This chapter uses two kinds of code examples.</p>
+
+<ul>
+  <li><strong>Tool-compliant blocks</strong>: examples intended to be syntactically valid
+CSPM for FDR, using ASCII notation such as <code class="language-plaintext highlighter-rouge">-&gt;</code>, <code class="language-plaintext highlighter-rouge">[]</code>, <code class="language-plaintext highlighter-rouge">|||</code>, <code class="language-plaintext highlighter-rouge">[| X |]</code>, and
+<code class="language-plaintext highlighter-rouge">P[[a &lt;- b]]</code></li>
+  <li><strong>Pseudo-notation blocks</strong>: simplified explanatory notation. Unicode symbols such as
+<code class="language-plaintext highlighter-rouge">→</code>, <code class="language-plaintext highlighter-rouge">□</code>, and <code class="language-plaintext highlighter-rouge">⊓</code>, along with some guards, <code class="language-plaintext highlighter-rouge">where</code> clauses, and event
+parameter conventions, do not necessarily match CSPM exactly and should not be
+pasted into a tool unchanged</li>
+</ul>
+
+<h2 id="61-the-essence-of-concurrency-why-it-is-hard">6.1 The Essence of Concurrency: Why It Is Hard</h2>
+
+<h3 id="the-limits-of-sequential-thinking">The Limits of Sequential Thinking</h3>
+
+<p>The human brain is basically adapted to sequential reasoning. We are good at
+thinking about one thing after another and advancing a line of logic step by
+step. That pattern works very well for single-process programs. A flow such as
+“do A, then B, and based on the result do C or D” is easy to understand.</p>
+
+<p>Concurrent systems are different. Multiple events progress at the same time. In
+a restaurant, several chefs may be cooking different dishes in parallel while
+several waiters are serving different tables. Understanding that web of
+interaction through purely sequential reasoning is difficult.</p>
+
+<p>The core difficulty of concurrency is combinatorial explosion in the possible
+execution patterns. If two processes each perform three operations, there may
+already be twenty possible interleavings. As the number of processes and the
+number of operations per process grow, that number increases rapidly.</p>
+
+<h3 id="emergent-complexity-caused-by-interaction">Emergent Complexity Caused by Interaction</h3>
+
+<p>One of the most interesting and difficult features of concurrent systems is
+that each individual process may be simple while the interaction among them
+creates unexpected complexity. This is similar to many-body problems in physics
+or collective behavior in biology.</p>
+
+<p>Consider two processes trying to access the same resource. Each process may be
+perfectly correct in isolation, yet simultaneous execution can lead to a race
+condition and produce an unexpected result.</p>
+
+<p>【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Process A: read the resource → update the value → write the resource
+Process B: read the resource → update the value → write the resource
+</code></pre></div></div>
+
+<p>If these actions interleave in the wrong way, one update may overwrite the
+other, causing inconsistent data.</p>
+
+<h3 id="nondeterminism-as-reality">Nondeterminism as Reality</h3>
+
+<p>In concurrent systems, nondeterminism is unavoidable. The same initial state
+may lead to different results depending on scheduling and timing. This makes
+behavior harder to predict and debugging harder to perform.</p>
+
+<p>Nondeterminism is not purely negative. It can also support flexibility and
+performance. The real design challenge is to control it while still ensuring
+safety and liveness.</p>
+
+<p><img src="/formal-methods-book/assets/images/diagrams/csp-concurrency-concepts-en.svg" alt="Figure 6-1: Basic concepts of concurrent systems and communication models in CSP" /></p>
+
+<h3 id="the-growing-complexity-of-time-and-causality">The Growing Complexity of Time and Causality</h3>
+
+<p>In a sequential system, temporal order and causality are relatively clear. If A
+happens before B, then A can be a cause of B. In a concurrent system, physical
+time and logical time become less aligned, and causal relations become harder
+to reason about.</p>
+
+<p>The problem becomes even more serious in distributed systems. Clock
+synchronization across nodes is difficult, and even the notion of “simultaneous”
+becomes slippery. In much the same way that relativity complicated the notion
+of absolute time in physics, distributed systems force us to reason without a
+single universal clock.</p>
+
+<h3 id="partial-failure">Partial Failure</h3>
+
+<p>In concurrent and distributed systems, one part of the system may fail while the
+rest continues to operate. This is called <em>partial failure</em>, and it introduces
+another layer of design complexity.</p>
+
+<p>In a conventional sequential system, failure is often global: the whole program
+crashes. In a distributed system, by contrast, part of the network may be cut
+off while the remaining nodes continue to run. Maintaining consistency in such
+a situation is a major design challenge.</p>
+
+<h3 id="the-benefits-of-concurrency">The Benefits of Concurrency</h3>
+
+<p>Despite these difficulties, concurrency is indispensable in modern systems.
+There are clear reasons for that.</p>
+
+<ul>
+  <li><strong>Higher performance</strong>: multiple CPU cores can be used effectively.</li>
+  <li><strong>Better responsiveness</strong>: background work can proceed without blocking the
+user interface.</li>
+  <li><strong>Scalability</strong>: capacity can be expanded horizontally.</li>
+  <li><strong>Availability</strong>: the system can tolerate some local failures.</li>
+  <li><strong>Natural modeling</strong>: many real-world activities are inherently concurrent.</li>
+</ul>
+
+<p>Designing concurrent systems is difficult, but with the right abstraction and
+formal methods, their complexity can be managed. CSP is one of the strongest
+tools for doing so.</p>
+
+<h2 id="62-the-csp-worldview-processes-and-communication">6.2 The CSP Worldview: Processes and Communication</h2>
+
+<h3 id="tony-hoares-insight">Tony Hoare’s Insight</h3>
+
+<p>CSP, or <em>Communicating Sequential Processes</em>, was introduced by Tony Hoare in</p>
+<ol>
+  <li>Hoare’s central insight was that the essence of concurrency lies in
+communication. The overall behavior of the system depends on how processes
+exchange messages and synchronize.</li>
+</ol>
+
+<p>This was a major shift in perspective. Earlier approaches to concurrency often
+focused on shared memory and shared variables. Hoare argued that explicit
+message passing provides a better abstraction for understanding and designing
+concurrent systems.</p>
+
+<h3 id="the-abstraction-of-a-process">The Abstraction of a Process</h3>
+
+<p>In CSP, a process is a sequentially executed pattern of behavior. The important
+point is that the inside of a process can still be understood in the familiar
+way: step by step. The complexity is concentrated in the interactions among
+processes.</p>
+
+<p>That separation allows us to reason independently about the correctness of a
+single process and the correctness of process interaction. This is a crucial
+principle for managing complexity.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">VENDING_MACHINE = coin → (tea → VENDING_MACHINE | coffee → VENDING_MACHINE)
+</code></pre>
+
+<p>This expression says that a vending-machine process accepts a coin, then allows
+the choice of tea or coffee, and finally returns to its original state.</p>
+
+<h3 id="interaction-through-events">Interaction Through Events</h3>
+
+<p>In CSP, interaction among processes is abstracted as <em>events</em>. An event may
+represent message exchange, synchronization, access to a resource, or some
+other interaction. CSP treats them in one uniform way.</p>
+
+<p>The crucial property of an event is synchrony. An event occurs only when all
+processes involved in that event are ready. That makes coordination explicit.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">CUSTOMER = arrive → order → pay → leave → CUSTOMER
+CASHIER = greet → order → pay → CASHIER
+
+SYSTEM = CUSTOMER [| {order, pay} |] CASHIER
+</code></pre>
+
+<p>Because <code class="language-plaintext highlighter-rouge">order</code> and <code class="language-plaintext highlighter-rouge">pay</code> appear in both processes and are included in the
+synchronization set, they occur as rendezvous events. Events with different
+names do not synchronize automatically. If synchronization is required, names
+must be aligned explicitly or adjusted through renaming.</p>
+
+<h3 id="structuring-communication-with-channels">Structuring Communication with Channels</h3>
+
+<p>Real systems often contain many interacting processes. CSP uses <em>channels</em> to
+structure that interaction. A channel is an abstract route over which messages
+move between processes.</p>
+
+<p>【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-csp">channel in, out : {0..1}
+
+PRODUCER = in!0 -&gt; PRODUCER
+BUFFER = in?x -&gt; out!x -&gt; BUFFER
+CONSUMER = out?x -&gt; CONSUMER
+
+SYSTEM = (PRODUCER [| {|in|} |] BUFFER) [| {|out|} |] CONSUMER
+</code></pre>
+
+<p>In this example, <code class="language-plaintext highlighter-rouge">PRODUCER</code> synchronizes with <code class="language-plaintext highlighter-rouge">BUFFER</code> on <code class="language-plaintext highlighter-rouge">in</code>, and <code class="language-plaintext highlighter-rouge">BUFFER</code>
+synchronizes with <code class="language-plaintext highlighter-rouge">CONSUMER</code> on <code class="language-plaintext highlighter-rouge">out</code>. The communication structure is visible
+in the process composition itself.</p>
+
+<h3 id="building-systems-hierarchically">Building Systems Hierarchically</h3>
+
+<p>One of the strengths of CSP is compositionality. Small processes can be
+combined to form larger systems. This hierarchical construction allows large
+systems to be decomposed into understandable pieces.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">CELL = left?x → right!x → CELL
+PIPE(n) = if n = 0 then CELL
+          else CELL [| {right, left} |] PIPE(n-1)
+</code></pre>
+
+<p>This recursive definition constructs a pipeline of arbitrary length.</p>
+
+<h3 id="integrating-choice-and-concurrency">Integrating Choice and Concurrency</h3>
+
+<p>CSP treats choice and concurrency within one unified framework.</p>
+
+<p><strong>External choice (<code class="language-plaintext highlighter-rouge">□</code>)</strong>: the environment determines which branch is taken.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">ATM = card_insert → (pin_correct → transaction □ pin_incorrect → reject)
+</code></pre>
+
+<p><strong>Internal choice (<code class="language-plaintext highlighter-rouge">⊓</code>)</strong>: the process chooses nondeterministically.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">RANDOM = heads → SUCCESS ⊓ tails → FAILURE
+</code></pre>
+
+<p><strong>Parallel composition</strong>: multiple processes run concurrently.</p>
+
+<p>【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-csp">PROCESS1 = a -&gt; PROCESS1
+PROCESS2 = b -&gt; PROCESS2
+PROCESS3 = c -&gt; PROCESS3
+
+SYSTEM = PROCESS1 || PROCESS2 || PROCESS3
+</code></pre>
+
+<h3 id="the-benefit-of-time-abstraction">The Benefit of Time Abstraction</h3>
+
+<p>CSP abstracts away from concrete execution time and focuses on the ordering of
+events. This abstraction makes it possible to analyze essential system behavior
+without being distracted by low-level timing details.</p>
+
+<p>When necessary, timing constraints can still be introduced. Timed variants of
+CSP make durations and deadlines explicit. But the untimed form is valuable
+precisely because it isolates the logical structure of concurrency first.</p>
+
+<h3 id="handling-failure-and-exceptions">Handling Failure and Exceptions</h3>
+
+<p>CSP can express not only normal behavior but also faults and exceptional cases.
+A fault can be treated as just another kind of event, which means failure
+handling can be integrated into the same control structure as normal behavior.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">RELIABLE_SERVICE =
+  request → (
+    success → response → RELIABLE_SERVICE
+    □
+    failure → retry → RELIABLE_SERVICE
+    □
+    timeout → abort → RELIABLE_SERVICE
+  )
+</code></pre>
+
+<p>This unified treatment makes it easier to reason about robustness at the design
+stage.</p>
+
+<h2 id="63-basic-processes-and-their-composition">6.3 Basic Processes and Their Composition</h2>
+
+<h3 id="primitive-processes">Primitive Processes</h3>
+
+<p>All the richer systems described in CSP are built from a small number of basic
+processes. Understanding these primitives is the foundation of the notation.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">STOP</code></strong>: a process that does nothing and cannot proceed, representing a
+deadlock state.</p>
+
+<p>【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-csp">STOP
+</code></pre>
+
+<p><strong><code class="language-plaintext highlighter-rouge">SKIP</code></strong>: a process that terminates successfully.</p>
+
+<p>【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-csp">SKIP
+</code></pre>
+
+<p><strong>Simple event processes</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">a → STOP
+
+a → b → STOP
+</code></pre>
+
+<p>These primitives are like notes in music: by combining a small vocabulary, we
+obtain rich behavior.</p>
+
+<h3 id="the-prefix-operator-">The Prefix Operator (<code class="language-plaintext highlighter-rouge">→</code>)</h3>
+
+<p>The prefix operator is the most basic constructor in CSP. It means that after a
+certain event occurs, the process behaves in a specified way.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">coin → (tea → STOP | coffee → STOP)
+</code></pre>
+
+<p>This means that after a coin is inserted, tea or coffee can be selected.</p>
+
+<p>A crucial feature of prefix is that the process waits until the specified event
+can occur. That waiting behavior is where synchronization becomes visible.</p>
+
+<h3 id="choice-operators">Choice Operators</h3>
+
+<p>CSP has several forms of choice, and it is important to understand their
+semantics.</p>
+
+<p><strong>External choice (<code class="language-plaintext highlighter-rouge">□</code>)</strong>: the environment chooses.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">ATM = card_insert → pin_entry □ admin_key → maintenance_mode
+</code></pre>
+
+<p>Here, the environment determines whether a customer inserts a card or an
+administrator enters maintenance mode.</p>
+
+<p><strong>Internal choice (<code class="language-plaintext highlighter-rouge">⊓</code>)</strong>: the process chooses nondeterministically.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">COIN_FLIP = heads → WIN ⊓ tails → LOSE
+</code></pre>
+
+<p><strong>Guarded choice</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">BUFFER = size &lt; MAX &amp; input?x → add.x → BUFFER
+        □ size &gt; 0 &amp; output!first → remove → BUFFER
+</code></pre>
+
+<p>A guarded branch is available only when its condition holds.</p>
+
+<h3 id="parallel-composition-operators">Parallel Composition Operators</h3>
+
+<p>The family of operators for parallel composition is central to CSP.</p>
+
+<p><strong>Independent parallel (<code class="language-plaintext highlighter-rouge">|||</code>)</strong>: processes run independently.</p>
+
+<p>【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-csp">PRINTER = print_job -&gt; PRINTER
+SCANNER = scan_doc -&gt; SCANNER
+KEYBOARD = key_press -&gt; KEYBOARD
+
+SYSTEM = PRINTER ||| SCANNER ||| KEYBOARD
+</code></pre>
+
+<p>These processes do not interact and may proceed independently.</p>
+
+<p><strong>Synchronized parallel (<code class="language-plaintext highlighter-rouge">[| X |]</code>)</strong>: processes synchronize on a chosen set of
+events.</p>
+
+<p>【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-csp">CUSTOMER = arrive -&gt; order -&gt; pay -&gt; leave -&gt; CUSTOMER
+CASHIER = greet -&gt; order -&gt; pay -&gt; CASHIER
+
+SYSTEM = CUSTOMER [| {order, pay} |] CASHIER
+</code></pre>
+
+<p>The events <code class="language-plaintext highlighter-rouge">order</code> and <code class="language-plaintext highlighter-rouge">pay</code> must occur jointly, while the others proceed
+independently.</p>
+
+<p><strong>Interleaving</strong>: the events of processes may be interwoven in any order.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">AB_SEQUENCE = A ||| B
+where A = a → b → A
+      B = c → d → B
+</code></pre>
+
+<h3 id="pipeline-composition">Pipeline Composition</h3>
+
+<p>Pipelines are a standard way to describe staged data flow among processes.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">PRODUCER = produce.data → c12!data → PRODUCER
+PROCESSOR = c12?x → process.x → c23!process(x) → PROCESSOR
+CONSUMER = c23?x → consume.x → CONSUMER
+
+PIPELINE = (PRODUCER [| {c12} |] PROCESSOR)
+           [| {c23} |] CONSUMER
+</code></pre>
+
+<p>The producer, processor, and consumer are connected through intermediate
+channels.</p>
+
+<h3 id="infinite-processes-through-recursion">Infinite Processes Through Recursion</h3>
+
+<p>Many practical systems must run indefinitely. CSP expresses such behavior
+naturally through recursion.</p>
+
+<p><strong>Simple recursion</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">CLOCK = tick → CLOCK
+</code></pre>
+
+<p><strong>Recursion with state</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">COUNTER(n) = up → COUNTER(n+1)
+           □ down → COUNTER(n-1)
+           □ reset → COUNTER(0)
+</code></pre>
+
+<p><strong>Mutual recursion</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">PING = ping → PONG
+PONG = pong → PING
+</code></pre>
+
+<h3 id="process-families">Process Families</h3>
+
+<p>When many similar processes are needed, process families offer a compact way to
+define them.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">WORKER(id) = task?t → process.id.t → result!process(t) → WORKER(id)
+WORKERS = ||| i:{1..N} @ WORKER(i)
+</code></pre>
+
+<p>This defines <code class="language-plaintext highlighter-rouge">N</code> worker processes running concurrently.</p>
+
+<h3 id="hiding-and-abstraction">Hiding and Abstraction</h3>
+
+<p>To conceal internal events from the external interface, CSP provides the hiding
+operator (<code class="language-plaintext highlighter-rouge">\</code>).</p>
+
+<p>【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-csp">INTERNAL_PROCESS = internal_event1 -&gt; internal_event2 -&gt; external_event -&gt; INTERNAL_PROCESS
+PUBLIC_INTERFACE = INTERNAL_PROCESS \ {internal_event1, internal_event2}
+</code></pre>
+
+<p>This exposes only the public behavior while suppressing internal details.</p>
+
+<h3 id="renaming">Renaming</h3>
+
+<p>CSP also supports renaming, which is useful for reusing generic processes in a
+more specific setting.</p>
+
+<p>【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-csp">channel in, out : {0..1}
+channel input, output : {0..1}
+
+GENERIC_BUFFER = in?x -&gt; out!x -&gt; GENERIC_BUFFER
+SPECIFIC_BUFFER = GENERIC_BUFFER[[in &lt;- input, out &lt;- output]]
+</code></pre>
+
+<h3 id="design-principles-for-process-composition">Design Principles for Process Composition</h3>
+
+<p>Useful principles for composing CSP processes include the following.</p>
+
+<ol>
+  <li><strong>Minimal interfaces</strong>: synchronize only where necessary.</li>
+  <li><strong>Symmetry</strong>: use symmetric designs where possible.</li>
+  <li><strong>Reuse</strong>: write generic process definitions.</li>
+  <li><strong>Stepwise refinement</strong>: move gradually from abstraction to detail.</li>
+</ol>
+
+<p>These principles help produce concurrent designs that remain understandable and
+maintainable.</p>
+
+<h2 id="64-synchronization-and-communication">6.4 Synchronization and Communication</h2>
+
+<h3 id="the-essential-meaning-of-synchronization">The Essential Meaning of Synchronization</h3>
+
+<p>Synchronization is one of the core concepts in concurrent systems. In CSP, it
+means that multiple processes coordinate at a particular event. The analogy is
+an orchestra following a conductor or dancers moving together to the same beat.</p>
+
+<p>CSP uses a rendezvous-style notion of synchronization. An event can occur only
+when all processes involved in that event are ready. That requirement expresses
+coordination directly.</p>
+
+<h3 id="how-channel-communication-works">How Channel Communication Works</h3>
+
+<p>CSP models communication through channels.</p>
+
+<p><strong>Output (<code class="language-plaintext highlighter-rouge">!</code>)</strong>: send a message.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">SENDER = ch!message → SENDER
+</code></pre>
+
+<p><strong>Input (<code class="language-plaintext highlighter-rouge">?</code>)</strong>: receive a message.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">RECEIVER = ch?x → process.x → RECEIVER
+</code></pre>
+
+<p><strong>Synchronous communication</strong>: send and receive occur together.</p>
+
+<p>【ツール準拠（そのまま動く）】</p>
+<pre><code class="language-csp">channel ch : {0..1}
+
+SENDER = ch!0 -&gt; SENDER
+RECEIVER = ch?x -&gt; RECEIVER
+
+COMMUNICATION = SENDER [| {|ch|} |] RECEIVER
+</code></pre>
+
+<p>In this abstraction, send and receive are one synchronized event. If real
+systems must model loss, delay, retransmission, or buffering, those phenomena
+need to be represented explicitly.</p>
+
+<h3 id="the-idea-of-buffering">The Idea of Buffering</h3>
+
+<p>Real communication often requires buffering. In CSP, a buffer can itself be
+modeled as a process.</p>
+
+<p><strong>Single-element buffer</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">BUFFER1 = in?x → out!x → BUFFER1
+</code></pre>
+
+<p><strong>Buffer of capacity <code class="language-plaintext highlighter-rouge">N</code></strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">BUFFER(n) = (n &gt; 0) &amp; out!front → BUFFER(n-1)
+          □ (n &lt; MAX) &amp; in?x → BUFFER(n+1)
+</code></pre>
+
+<p><strong>FIFO buffer</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">FIFO_BUFFER(queue) =
+  (queue ≠ ⟨⟩) &amp; out!head(queue) → FIFO_BUFFER(tail(queue))
+  □ (len(queue) &lt; MAX) &amp; in?x → FIFO_BUFFER(queue ⌢ ⟨x⟩)
+</code></pre>
+
+<h3 id="priority-based-communication">Priority-Based Communication</h3>
+
+<p>Some systems need message priorities.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">PRIORITY_HANDLER =
+  urgent?x → handle_urgent.x → PRIORITY_HANDLER
+  □ normal?y → handle_normal.y → PRIORITY_HANDLER
+  where urgent has priority over normal
+</code></pre>
+
+<h3 id="broadcast-communication">Broadcast Communication</h3>
+
+<p>Sometimes a single message must be delivered to multiple receivers.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">BROADCASTER = message?x → (out1!x || out2!x || out3!x) → BROADCASTER
+
+MULTICAST_SYSTEM = BROADCASTER
+                 [| {out1} |] RECEIVER1
+                 [| {out2} |] RECEIVER2
+                 [| {out3} |] RECEIVER3
+</code></pre>
+
+<h3 id="selective-communication">Selective Communication</h3>
+
+<p>A router-like process may choose the communication partner based on the
+message’s destination.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">ROUTER =
+  input?msg → (
+    (destination(msg) = A) &amp; to_A!msg → ROUTER
+    □ (destination(msg) = B) &amp; to_B!msg → ROUTER
+    □ (destination(msg) = C) &amp; to_C!msg → ROUTER
+  )
+</code></pre>
+
+<h3 id="communication-with-timeouts">Communication with Timeouts</h3>
+
+<p>Real systems also need to cope with delay and failure.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">RELIABLE_SENDER =
+  send!message → (
+    ack → SUCCESS
+    □ timeout → retry → RELIABLE_SENDER
+  )
+</code></pre>
+
+<h3 id="handshake-protocols">Handshake Protocols</h3>
+
+<p>More elaborate communication often requires multi-stage handshakes.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">CLIENT = request!req → response?res → CLIENT
+SERVER = request?req → process.req → response!result → SERVER
+
+THREE_WAY_HANDSHAKE =
+  syn → syn_ack → ack → ESTABLISHED
+</code></pre>
+
+<h3 id="classes-of-synchronization-patterns">Classes of Synchronization Patterns</h3>
+
+<p>Synchronization patterns in CSP include the following.</p>
+
+<ul>
+  <li><strong>One-to-one communication</strong>: simple point-to-point messaging</li>
+  <li><strong>One-to-many communication</strong>: broadcast or multicast</li>
+  <li><strong>Many-to-one communication</strong>: multiple senders to one receiver</li>
+  <li><strong>Many-to-many communication</strong>: richer network-style interaction</li>
+</ul>
+
+<p><strong>Barrier synchronization</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">BARRIER(n) =
+  (n &gt; 1) &amp; arrive → BARRIER(n-1)
+  □ (n = 1) &amp; arrive → release → BARRIER(N)
+</code></pre>
+
+<h3 id="the-leader-follower-pattern">The Leader-Follower Pattern</h3>
+
+<p>Hierarchical control structures can also be modeled directly.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">LEADER =
+  decision!cmd → (
+    follower1.ack → follower2.ack → follower3.ack → commit
+  ) → LEADER
+
+FOLLOWER(id) =
+  decision?cmd → execute.cmd → ack → FOLLOWER(id)
+</code></pre>
+
+<h3 id="voting-protocols">Voting Protocols</h3>
+
+<p>Agreement protocols in distributed systems can be captured as CSP processes.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">VOTER(id) = vote_request?proposal →
+           (approve!id → VOTER(id) □ reject!id → VOTER(id))
+
+COORDINATOR =
+  broadcast_proposal →
+  collect_votes →
+  (majority_approve &amp; commit □ majority_reject &amp; abort) →
+  COORDINATOR
+</code></pre>
+
+<h3 id="communication-reliability">Communication Reliability</h3>
+
+<p>Practical systems often require explicit handling of communication failures.</p>
+
+<p><strong>Message loss</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">LOSSY_CHANNEL = msg?x → (deliver!x □ lose → SKIP) → LOSSY_CHANNEL
+</code></pre>
+
+<p><strong>Duplicate elimination</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">DEDUP_RECEIVER =
+  msg?x → (
+    (x ∉ received) &amp; process.x → DEDUP_RECEIVER[received ∪ {x}]
+    □ (x ∈ received) &amp; duplicate → DEDUP_RECEIVER
+  )
+</code></pre>
+
+<p><strong>Ordering guarantee</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">ORDERED_DELIVERY =
+  in?⟨seq, msg⟩ → (
+    (seq = expected) &amp; out!msg → ORDERED_DELIVERY[expected+1]
+    □ (seq ≠ expected) &amp; buffer.⟨seq,msg⟩ → ORDERED_DELIVERY
+  )
+</code></pre>
+
+<p>By combining such communication patterns, CSP can describe the behavior of
+realistic distributed systems in a disciplined way.</p>
+
+<h2 id="65-deadlock-and-liveness-the-pathology-of-systems">6.5 Deadlock and Liveness: The Pathology of Systems</h2>
+
+<h3 id="deadlock-as-a-pathological-phenomenon">Deadlock as a Pathological Phenomenon</h3>
+
+<p>Deadlock is one of the most serious problems in a concurrent system. Multiple
+processes wait for one another, and the entire system reaches a state in which
+no useful progress is possible. A familiar analogy is four cars stuck at an
+intersection, each waiting for another to move first.</p>
+
+<p>In CSP, deadlock can be defined formally. The system is deadlocked when every
+participating process is waiting for an event that another waiting process would
+have to initiate.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">DEADLOCK_EXAMPLE =
+  (a → b → STOP) [| {a, b} |] (b → a → STOP)
+</code></pre>
+
+<p>Here, the left process waits for <code class="language-plaintext highlighter-rouge">a</code> while the right process waits for <code class="language-plaintext highlighter-rouge">b</code>, so
+neither can move.</p>
+
+<h3 id="the-four-conditions-for-deadlock">The Four Conditions for Deadlock</h3>
+
+<p>Classical results say that four conditions are jointly necessary for deadlock.</p>
+
+<ol>
+  <li><strong>Mutual exclusion</strong>: a resource cannot be used simultaneously by multiple
+processes.</li>
+  <li><strong>Hold and wait</strong>: a process holds one resource while waiting for another.</li>
+  <li><strong>No preemption</strong>: resources cannot be forcibly taken away.</li>
+  <li><strong>Circular wait</strong>: there is a cycle in the wait-for relation.</li>
+</ol>
+
+<p>CSP can describe these conditions explicitly.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">RESOURCE = acquire → use → release → RESOURCE
+
+PROCESS = resource1.acquire → resource2.acquire →
+          work → resource2.release → resource1.release → PROCESS
+
+SYSTEM = (P1 [| {r1,r2} |] P2) \ {r1,r2}
+where P1 = r1.acquire → r2.acquire → work → r2.release → r1.release → P1
+      P2 = r2.acquire → r1.acquire → work → r1.release → r2.release → P2
+</code></pre>
+
+<h3 id="deadlock-avoidance-strategies">Deadlock Avoidance Strategies</h3>
+
+<p>To avoid deadlock, at least one of the four conditions must be broken.</p>
+
+<p><strong>Resource ordering</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">ORDERED_PROCESS =
+  (id(r1) &lt; id(r2)) &amp; r1.acquire → r2.acquire → work →
+  r2.release → r1.release → ORDERED_PROCESS
+</code></pre>
+
+<p>If all processes acquire resources in the same global order, circular wait can
+be prevented.</p>
+
+<p><strong>Timeout mechanism</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">TIMEOUT_PROCESS =
+  r1.acquire → (
+    r2.acquire → work → r2.release → r1.release → TIMEOUT_PROCESS
+    □ timeout → r1.release → retry → TIMEOUT_PROCESS
+  )
+</code></pre>
+
+<p><strong>Banker’s algorithm</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">BANKER =
+  request?⟨pid, resource⟩ → (
+    safe_state(allocate(pid, resource)) &amp; grant!pid → BANKER
+    □ ¬safe_state(allocate(pid, resource)) &amp; deny!pid → BANKER
+  )
+</code></pre>
+
+<h3 id="livelock-as-a-more-subtle-problem">Livelock as a More Subtle Problem</h3>
+
+<p>Livelock is different from deadlock. The system is active, but not making real
+progress. A common analogy is two people in a narrow corridor repeatedly trying
+to step aside in the same direction.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">LIVELOCK_EXAMPLE =
+  P1 [| {move} |] P2
+where P1 = move.left → detect_collision → move.right → P1
+      P2 = move.right → detect_collision → move.left → P2
+</code></pre>
+
+<h3 id="guaranteeing-liveness">Guaranteeing Liveness</h3>
+
+<p>Liveness means that “something good eventually happens.” In CSP, liveness can
+be analyzed from several perspectives.</p>
+
+<p><strong>Starvation freedom</strong>: every process eventually makes progress.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">FAIR_SCHEDULER =
+  schedule!p1 → schedule!p2 → schedule!p3 → FAIR_SCHEDULER
+</code></pre>
+
+<p><strong>Fairness</strong>: a process that continually has the opportunity to proceed is
+ultimately allowed to do so.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">FAIR_ACCESS =
+  (request.p1 → grant.p1 → FAIR_ACCESS) |||
+  (request.p2 → grant.p2 → FAIR_ACCESS) |||
+  FAIRNESS_CONSTRAINT
+</code></pre>
+
+<h3 id="formalizing-progress-conditions">Formalizing Progress Conditions</h3>
+
+<p>Progress guarantees can also be written abstractly.</p>
+
+<p><strong>Minimal progress guarantee</strong>:</p>
+
+<p>【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PROGRESS = □◊(progress_event)
+</code></pre></div></div>
+
+<p>This reads as: always, eventually, a progress event occurs.</p>
+
+<p><strong>Bounded waiting</strong>:</p>
+
+<p>【擬似記法】</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>BOUNDED_WAIT = request → ◊≤n(grant)
+</code></pre></div></div>
+
+<p>This expresses that after a request, permission is granted within at most <code class="language-plaintext highlighter-rouge">n</code>
+time units.</p>
+
+<h3 id="detection-and-recovery">Detection and Recovery</h3>
+
+<p>Detection and recovery mechanisms are also important parts of a practical
+system.</p>
+
+<p><strong>Deadlock detector</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">DETECTOR =
+  monitor_state → (
+    deadlock_detected &amp; recovery_action → DETECTOR
+    □ normal_state &amp; continue → DETECTOR
+  )
+</code></pre>
+
+<p><strong>Recovery strategies</strong>:</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">RECOVERY =
+  abort_victim → rollback → restart → RECOVERY
+  □ preempt_resource → reassign → RECOVERY
+</code></pre>
+
+<h3 id="the-dining-philosophers-problem">The Dining Philosophers Problem</h3>
+
+<p>A classic illustration of deadlock is the dining philosophers problem.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">PHILOSOPHER(i) =
+  pickup.left(i) → pickup.right(i) → eat →
+  putdown.right(i) → putdown.left(i) → think → PHILOSOPHER(i)
+
+DINING_PHILOSOPHERS =
+  ||| i:{1..5} @ PHILOSOPHER(i)
+
+PHILOSOPHER_FIXED(i) =
+  (i &lt; 5) &amp; pickup.left(i) → pickup.right(i) → eat →
+           putdown.right(i) → putdown.left(i) → think → PHILOSOPHER_FIXED(i)
+  □ (i = 5) &amp; pickup.right(i) → pickup.left(i) → eat →
+              putdown.left(i) → putdown.right(i) → think → PHILOSOPHER_FIXED(i)
+
+WAITER =
+  request.i → (
+    available_forks(i) &amp; grant.i → WAITER
+    □ ¬available_forks(i) &amp; wait.i → WAITER
+  )
+</code></pre>
+
+<p>The example illustrates both a problematic design and two standard remedies:
+asymmetric acquisition order and waiter-based control.</p>
+
+<h3 id="impact-on-performance">Impact on Performance</h3>
+
+<p>Deadlock-avoidance measures often have performance costs.</p>
+
+<ul>
+  <li><strong>Conservative strategies</strong> are safe but may reduce efficiency.</li>
+  <li><strong>Optimistic strategies</strong> are efficient but may incur higher recovery cost.</li>
+  <li><strong>Adaptive strategies</strong> switch behavior depending on load or contention.</li>
+</ul>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">ADAPTIVE_SYSTEM =
+  low_contention &amp; OPTIMISTIC_PROTOCOL
+  □ high_contention &amp; CONSERVATIVE_PROTOCOL
+</code></pre>
+
+<h3 id="tool-based-verification">Tool-Based Verification</h3>
+
+<p>Dedicated tools can analyze CSP models for deadlock and related properties.</p>
+
+<ul>
+  <li><strong>FDR (Failures-Divergences Refinement)</strong>: rigorous model checking and
+refinement analysis</li>
+  <li><strong>ProB</strong>: model checking and animation support</li>
+  <li><strong>PAT</strong>: support for richer verification scenarios, including probabilistic
+reasoning</li>
+</ul>
+
+<p>These tools allow deadlock risks to be discovered and corrected while the
+system is still at the design stage.</p>
+
+<h2 id="66-learning-through-an-example-designing-a-restaurant-system">6.6 Learning Through an Example: Designing a Restaurant System</h2>
+
+<h3 id="organizing-the-system-requirements">Organizing the System Requirements</h3>
+
+<p>A restaurant system is a strong example for concurrent design. Multiple roles —
+customers, waiters, chefs, and cashiers — must coordinate while sharing limited
+resources such as tables, kitchen equipment, and ingredients.</p>
+
+<p><strong>Main actors</strong>:</p>
+
+<ul>
+  <li>customers;</li>
+  <li>waiters;</li>
+  <li>chefs;</li>
+  <li>cashier; and</li>
+  <li>manager.</li>
+</ul>
+
+<p><strong>Shared resources</strong>:</p>
+
+<ul>
+  <li>tables;</li>
+  <li>kitchen equipment;</li>
+  <li>ingredient inventory; and</li>
+  <li>menu information.</li>
+</ul>
+
+<p><strong>Main processes</strong>:</p>
+
+<ol>
+  <li>customer arrival and seating;</li>
+  <li>order intake and transmission to the kitchen;</li>
+  <li>cooking and serving; and</li>
+  <li>billing and departure.</li>
+</ol>
+
+<h3 id="defining-basic-processes">Defining Basic Processes</h3>
+
+<p>We can begin by describing the basic behavior of each role.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">CUSTOMER(id) =
+  arrive → wait_for_table →
+  seat.id → browse_menu → order.id →
+  wait_for_food → eat → request_bill →
+  pay → leave → CUSTOMER(id)
+
+WAITER(id) =
+  greet_customer → take_order →
+  transmit_to_kitchen → serve_food →
+  present_bill → process_payment →
+  clean_table → WAITER(id)
+
+CHEF(id) =
+  receive_order → check_ingredients →
+  cook → plate_food → ready_for_service →
+  CHEF(id)
+
+CASHIER =
+  receive_payment_request → calculate_total →
+  process_payment → issue_receipt → CASHIER
+</code></pre>
+
+<h3 id="the-table-management-subsystem">The Table-Management Subsystem</h3>
+
+<p>Table assignment is a core subsystem. A limited number of seats must be managed
+efficiently while avoiding coordination problems.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">TABLE_MANAGER =
+  customer_arrives → (
+    available_table &amp; assign_table → TABLE_MANAGER
+    □ no_available_table &amp; add_to_waitlist → TABLE_MANAGER
+  )
+  □ table_freed → update_availability →
+    (waitlist_empty &amp; TABLE_MANAGER
+     □ waitlist_not_empty &amp; serve_next_customer → TABLE_MANAGER)
+
+TABLE(id) =
+  reserve.id → occupied.id →
+  serve.id → eating.id →
+  clear.id → clean.id → TABLE(id)
+
+RESTAURANT_TABLES =
+  ||| table_id:{1..N} @ TABLE(table_id)
+</code></pre>
+
+<h3 id="the-order-processing-workflow">The Order-Processing Workflow</h3>
+
+<p>Order processing from intake through serving can be described as a set of
+cooperating concurrent processes.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">ORDER_TAKING =
+  customer_ready → approach_table →
+  present_menu → answer_questions →
+  take_order → confirm_order →
+  transmit_to_kitchen → ORDER_TAKING
+
+KITCHEN_ORDER_MANAGER =
+  new_order?order → (
+    ingredients_available(order) &amp;
+    assign_to_chef!order → KITCHEN_ORDER_MANAGER
+    □ ingredients_unavailable(order) &amp;
+    inform_shortage → KITCHEN_ORDER_MANAGER
+  )
+
+COOKING_PROCESS(chef_id) =
+  assigned_order?order →
+  gather_ingredients.order →
+  cook.order →
+  quality_check.order →
+  ready_for_pickup!order →
+  COOKING_PROCESS(chef_id)
+
+FOOD_SERVICE =
+  food_ready?order →
+  locate_customer.order →
+  deliver_food.order →
+  check_satisfaction →
+  FOOD_SERVICE
+</code></pre>
+
+<h3 id="resource-management-for-kitchen-equipment">Resource Management for Kitchen Equipment</h3>
+
+<p>Kitchen equipment such as stoves and ovens must be managed with mutual
+exclusion.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">EQUIPMENT_MANAGER =
+  request_equipment?⟨chef, equipment⟩ → (
+    equipment_available(equipment) &amp;
+    grant_access!⟨chef, equipment⟩ → EQUIPMENT_MANAGER
+    □ equipment_busy(equipment) &amp;
+    queue_request!⟨chef, equipment⟩ → EQUIPMENT_MANAGER
+  )
+  □ release_equipment?⟨chef, equipment⟩ →
+    update_availability →
+    serve_next_request → EQUIPMENT_MANAGER
+
+STOVE(id) =
+  reserve.id → cooking.id → release.id → STOVE(id)
+
+OVEN(id) =
+  preheat.id → reserve.id → baking.id → release.id → OVEN(id)
+
+KITCHEN_EQUIPMENT =
+  (||| stove_id:{1..4} @ STOVE(stove_id))
+  |||
+  (||| oven_id:{1..2} @ OVEN(oven_id))
+</code></pre>
+
+<h3 id="the-inventory-management-system">The Inventory-Management System</h3>
+
+<p>Ingredient inventory and replenishment also form an important concurrent
+subsystem.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">INVENTORY_MANAGER =
+  use_ingredient?⟨ingredient, quantity⟩ → (
+    sufficient_stock(ingredient, quantity) &amp;
+    update_stock → check_reorder_level →
+    (below_threshold &amp; trigger_reorder □ adequate_stock &amp; SKIP) →
+    INVENTORY_MANAGER
+    □ insufficient_stock(ingredient, quantity) &amp;
+    report_shortage → INVENTORY_MANAGER
+  )
+  □ receive_delivery?⟨ingredient, quantity⟩ →
+    update_stock → INVENTORY_MANAGER
+
+AUTO_ORDERING =
+  check_inventory → (
+    reorder_needed &amp; place_order → wait_for_delivery → AUTO_ORDERING
+    □ stock_adequate &amp; schedule_next_check → AUTO_ORDERING
+  )
+</code></pre>
+
+<h3 id="the-payment-processing-system">The Payment-Processing System</h3>
+
+<p>A practical restaurant must also support several payment methods.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">PAYMENT_PROCESSING =
+  payment_request?⟨table, amount⟩ →
+  calculate_total.amount →
+  present_payment_options →
+  (cash_payment → process_cash → issue_receipt → PAYMENT_PROCESSING
+   □ card_payment → process_card →
+     (transaction_approved &amp; issue_receipt → PAYMENT_PROCESSING
+      □ transaction_declined &amp; request_alternative → PAYMENT_PROCESSING)
+   □ digital_payment → process_digital →
+     verify_payment → issue_receipt → PAYMENT_PROCESSING)
+
+ACCOUNTING_SYSTEM =
+  transaction_completed?details →
+  record_sale → update_daily_total →
+  (end_of_day &amp; generate_report □ continue_operation) →
+  ACCOUNTING_SYSTEM
+</code></pre>
+
+<h3 id="emergency-handling">Emergency Handling</h3>
+
+<p>Emergency cases such as food-safety incidents or fire must also be represented.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">EMERGENCY_SYSTEM =
+  (fire_alarm → evacuate_all → shutdown_equipment → EMERGENCY_SYSTEM
+   □ food_safety_issue → stop_affected_orders → investigate → EMERGENCY_SYSTEM
+   □ power_outage → emergency_lighting → preserve_cold_storage → EMERGENCY_SYSTEM
+   □ normal_operation → monitor → EMERGENCY_SYSTEM)
+
+EVACUATION_PROTOCOL =
+  emergency_detected →
+  sound_alarm →
+  (guide_customers_out ||| secure_premises ||| contact_authorities) →
+  all_clear → resume_operations → EVACUATION_PROTOCOL
+</code></pre>
+
+<h3 id="integrating-the-whole-system">Integrating the Whole System</h3>
+
+<p>Once the subsystems are defined, they can be composed into one whole system.</p>
+
+<p>【擬似記法】
+The following is a conceptual composition example. Because several process
+definitions are omitted, it should not be treated as executable CSPM as-is.</p>
+
+<pre><code class="language-csp">RESTAURANT_SYSTEM =
+  (CUSTOMER_MANAGEMENT
+   [| {arrive, seat, order, pay, leave} |]
+   STAFF_COORDINATION)
+  [| {order, food_ready, payment} |]
+  (KITCHEN_OPERATIONS
+   [| {ingredients, equipment} |]
+   RESOURCE_MANAGEMENT)
+  \ {internal_communications}
+
+where
+  CUSTOMER_MANAGEMENT = ||| id:{1..MAX_CUSTOMERS} @ CUSTOMER(id)
+  STAFF_COORDINATION =
+    (||| id:{1..N_WAITERS} @ WAITER(id)) |||
+    (||| id:{1..N_CHEFS} @ CHEF(id)) |||
+    CASHIER
+  KITCHEN_OPERATIONS =
+    KITCHEN_ORDER_MANAGER |||
+    (||| id:{1..N_CHEFS} @ COOKING_PROCESS(id))
+  RESOURCE_MANAGEMENT =
+    INVENTORY_MANAGER |||
+    EQUIPMENT_MANAGER |||
+    TABLE_MANAGER
+</code></pre>
+
+<h3 id="considering-performance-optimization">Considering Performance Optimization</h3>
+
+<p>A practical system must also address performance.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">LOAD_BALANCER =
+  new_order?order → (
+    find_least_busy_chef →
+    assign_order!⟨chef, order⟩ → LOAD_BALANCER
+  )
+
+PEAK_TIME_MANAGEMENT =
+  detect_rush_hour →
+  (increase_staff ||| prioritize_fast_orders ||| optimize_seating) →
+  monitor_queue_length →
+  (acceptable_wait_time &amp; continue □ excessive_wait &amp; escalate) →
+  PEAK_TIME_MANAGEMENT
+</code></pre>
+
+<h3 id="properties-that-should-be-verified">Properties That Should Be Verified</h3>
+
+<p>Important verification targets for the restaurant system include the following.</p>
+
+<p><strong>Safety</strong>:</p>
+
+<ul>
+  <li>absence of deadlock;</li>
+  <li>correct mutual exclusion on shared resources; and</li>
+  <li>adherence to food-safety rules.</li>
+</ul>
+
+<p><strong>Liveness</strong>:</p>
+
+<ul>
+  <li>every customer is eventually served;</li>
+  <li>orders do not remain delayed forever; and</li>
+  <li>equipment is not occupied forever without progress.</li>
+</ul>
+
+<p><strong>Fairness</strong>:</p>
+
+<ul>
+  <li>service follows a fair queueing policy;</li>
+  <li>staff workload is balanced; and</li>
+  <li>resources are shared fairly.</li>
+</ul>
+
+<p>The restaurant example shows how CSP can be applied to a realistic system that
+combines concurrency, resource management, communication, and error handling in
+one framework.</p>
+
+<hr />
+
+<h2 id="end-of-chapter-exercises">End-of-Chapter Exercises</h2>
+
+<p><strong>If you use AI while working through these exercises</strong></p>
+
+<ul>
+  <li>Treat AI output as a proposal; use verifiers to make the final judgment.</li>
+  <li>Keep a record of the prompts you used, the generated specifications and
+invariants, the verification commands and logs (including seed, depth, and
+scope), and the revision history when counterexamples were found.</li>
+  <li>For detailed templates, see Appendix D and Appendix F.</li>
+</ul>
+
+<h3 id="basic-exercise-1-reading-csp-notation">Basic Exercise 1: Reading CSP Notation</h3>
+
+<p>Read the following CSP process definitions and explain the behavior of the
+system.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">PRODUCER = produce → buffer!item → PRODUCER
+CONSUMER = buffer?x → consume.x → CONSUMER
+BUFFER = in?x → out!x → BUFFER
+
+SYSTEM = PRODUCER [| {buffer} |] BUFFER[buffer/in, buffer/out] [| {buffer} |] CONSUMER
+</code></pre>
+
+<p>Explain:</p>
+
+<ol>
+  <li>the role and behavior of each process;</li>
+  <li>the synchronization points among the processes;</li>
+  <li>the data flow through the whole system; and</li>
+  <li>an example of a possible execution sequence.</li>
+</ol>
+
+<h3 id="basic-exercise-2-deadlock-analysis">Basic Exercise 2: Deadlock Analysis</h3>
+
+<p>Analyze whether the following system can deadlock.</p>
+
+<p>【擬似記法】</p>
+<pre><code class="language-csp">PROCESS_A = resource1.acquire → resource2.acquire →
+           work → resource2.release → resource1.release → PROCESS_A
+
+PROCESS_B = resource2.acquire → resource1.acquire →
+           work → resource1.release → resource2.release → PROCESS_B
+
+SYSTEM = PROCESS_A [| {resource1.acquire, resource1.release,
+                     resource2.acquire, resource2.release} |] PROCESS_B
+</code></pre>
+
+<p>Discuss:</p>
+
+<ol>
+  <li>a deadlock scenario;</li>
+  <li>the four deadlock conditions and whether they hold;</li>
+  <li>at least two prevention strategies; and</li>
+  <li>a corrected CSP definition.</li>
+</ol>
+
+<h3 id="practical-exercise-1-designing-an-atm-system">Practical Exercise 1: Designing an ATM System</h3>
+
+<p>Model an ATM system in CSP satisfying the following requirements.</p>
+
+<p><strong>Basic functions</strong>:</p>
+
+<ul>
+  <li>card insertion and PIN entry;</li>
+  <li>balance inquiry, withdrawal, and deposit; and</li>
+  <li>receipt printing and card ejection.</li>
+</ul>
+
+<p><strong>Concurrency requirements</strong>:</p>
+
+<ul>
+  <li>multiple ATMs access the same banking system;</li>
+  <li>each ATM serves at most one customer at a time; and</li>
+  <li>access to the central banking system must be controlled safely.</li>
+</ul>
+
+<p><strong>Safety requirements</strong>:</p>
+
+<ul>
+  <li>prevent unauthorized access;</li>
+  <li>reject withdrawals when funds are insufficient; and</li>
+  <li>stop safely under network failure.</li>
+</ul>
+
+<p>Tasks:</p>
+
+<ol>
+  <li>define the main processes;</li>
+  <li>define the resource-management mechanism;</li>
+  <li>integrate error handling; and</li>
+  <li>compose the whole system.</li>
+</ol>
+
+<h3 id="practical-exercise-2-using-process-composition">Practical Exercise 2: Using Process Composition</h3>
+
+<p>For the ATM system above, extend the design in the following ways.</p>
+
+<ol>
+  <li><strong>Hierarchical design</strong>
+    <ul>
+      <li>build composite operations from basic operations;</li>
+      <li>separate the interface layer from the business-logic layer.</li>
+    </ul>
+  </li>
+  <li><strong>Concurrency control</strong>
+    <ul>
+      <li>support concurrent use by multiple customers at different ATMs;</li>
+      <li>add a maintenance mode for administrators.</li>
+    </ul>
+  </li>
+  <li><strong>Communication patterns</strong>
+    <ul>
+      <li>introduce reliable communication between ATMs and the central system;</li>
+      <li>add failure detection and recovery.</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="advanced-exercise-designing-a-distributed-system">Advanced Exercise: Designing a Distributed System</h3>
+
+<p>Design a distributed file system in CSP.</p>
+
+<p><strong>System structure</strong>:</p>
+
+<ul>
+  <li>multiple client nodes;</li>
+  <li>multiple storage nodes; and</li>
+  <li>redundant metadata servers.</li>
+</ul>
+
+<p><strong>Requirements</strong>:</p>
+
+<ul>
+  <li>file read and write operations;</li>
+  <li>data redundancy through replication;</li>
+  <li>tolerance to node failures; and</li>
+  <li>consistency guarantees.</li>
+</ul>
+
+<p><strong>Design tasks</strong>:</p>
+
+<ol>
+  <li>inter-node communication protocol;</li>
+  <li>failure detection and recovery;</li>
+  <li>distributed agreement algorithm; and</li>
+  <li>load-balancing mechanism.</li>
+</ol>
+
+<p><strong>Properties to verify</strong>:</p>
+
+<ul>
+  <li>absence of deadlock;</li>
+  <li>preservation of data consistency;</li>
+  <li>robustness under partial failure; and</li>
+  <li>fairness, meaning that every client eventually receives service.</li>
+</ul>
+
+<p>Through these exercises, you should acquire practical skill in designing
+concurrent systems with CSP and be prepared for the richer treatment of
+temporal properties in the next chapter.</p>
+
+                </article>
+
+                
+                <nav class="page-navigation" aria-label="Page navigation">
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+
+
+
+
+
+<nav class="book-navigation" aria-label="Page navigation">
+  <div class="chapter-nav">
+    
+      <a href="/formal-methods-book/en/chapters/chapter05/" class="nav-prev" rel="prev">
+        <span class="arrow" aria-hidden="true">←</span>
+        <span class="label">Previous</span>
+        <span class="title">Chapter 5: State-Based Specification — Fundamentals of Z Notation</span>
+      </a>
+    
+
+    <a href="/formal-methods-book/en/" class="nav-home">
+      <span class="label">Contents</span>
+    </a>
+
+    
+      <a href="/formal-methods-book/en/chapters/chapter07/" class="nav-next" rel="next">
+        <span class="label">Next</span>
+        <span class="title">Chapter 7: Specifying Time — Introduction to TLA+</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    
+  </div>
+</nav>
+
+<style>
+.book-navigation { margin: 2rem 0; padding: 1rem; border-top: 1px solid var(--border-color, #e5e7eb); }
+.chapter-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.nav-prev, .nav-next, .nav-home { display: flex; align-items: center; padding: 0.75rem 1.25rem; background: var(--bg-primary, #fff); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; text-decoration: none; color: inherit; }
+.nav-disabled { opacity: .5; cursor: not-allowed; background: var(--bg-tertiary, #f9fafb); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; padding: 0.75rem 1.25rem; display: flex; align-items: center; }
+.nav-prev { flex: 1; }
+.nav-next { flex: 1; justify-content: flex-end; text-align: right; }
+.nav-home { flex: 0 0 auto; justify-content: center; }
+.label { font-weight: 600; margin: 0 .25rem; }
+.title { font-size: .9rem; opacity: .8; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 768px) { .chapter-nav { flex-wrap: wrap; } .nav-prev, .nav-next { flex: 1 1 45%; } .nav-home { flex: 1 1 100%; order: -1; } .title { display: none; } }
+</style>
+
+                </nav>
+                
+
+                
+
+                <footer class="book-footer" role="contentinfo">
+                    <div class="book-footer-inner">
+                        <div class="book-footer-license">
+                            Reader-facing text: CC BY-NC-SA 4.0 / Code assets: Apache-2.0 / excluding trademarks and third-party assets
+                        </div>
+                        <div class="book-footer-links">
+                            
+                                <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener">GitHub</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/LICENSE-SCOPE.md" target="_blank" rel="noopener">License</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/COMMERCIAL.md" target="_blank" rel="noopener">Commercial</a>
+                            
+                            
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <label for="sidebar-toggle-checkbox" class="book-sidebar-overlay" id="sidebar-overlay" aria-label="Close sidebar"></label>
+
+    <script async src="/formal-methods-book/assets/js/code-copy-lightweight.js"></script>
+    <script defer src="/formal-methods-book/assets/js/theme.js"></script>
+    <script defer src="/formal-methods-book/assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var cb = document.getElementById('sidebar-toggle-checkbox');
+            var toggle = document.querySelector('.sidebar-toggle');
+            if (cb) cb.checked = false;
+            if (cb && toggle) {
+                var sync = function() {
+                    toggle.setAttribute('aria-expanded', cb.checked ? 'true' : 'false');
+                };
+                sync();
+                cb.addEventListener('change', sync);
+                toggle.addEventListener('keydown', function(e) {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        cb.checked = !cb.checked;
+                        cb.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        (function() {
+            function initTocAutoScroll() {
+                var cb = document.getElementById('sidebar-toggle-checkbox');
+                if (!cb) return;
+
+                function normalizePath(p) {
+                    var path = String(p || '').replace(/index\.html$/, '');
+                    if (path.length > 1) {
+                        path = path.replace(/\/+$/, '');
+                    }
+                    return path || '/';
+                }
+
+                function isMobileDrawer() {
+                    try {
+                        if (typeof window.matchMedia === 'function') {
+                            return window.matchMedia('(max-width: 1024px)').matches;
+                        }
+                    } catch (_) {}
+                    return typeof window.innerWidth === 'number' ? window.innerWidth <= 1024 : true;
+                }
+
+                function findActiveTocLink() {
+                    var current = normalizePath(window.location.pathname);
+                    var actives = document.querySelectorAll('a.toc-link.active');
+                    if (!actives || actives.length === 0) return null;
+
+                    for (var i = 0; i < actives.length; i++) {
+                        var a = actives[i];
+                        if (!a || !a.href) continue;
+                        try {
+                            var pathname = normalizePath(new URL(a.href).pathname);
+                            if (pathname === current) return a;
+                        } catch (_) {}
+                    }
+                    return actives[0];
+                }
+
+                function ensureActiveTocVisible() {
+                    if (!cb.checked) return;
+                    if (!isMobileDrawer()) return;
+
+                    var active = findActiveTocLink();
+                    if (!active) return;
+
+                    var sidebar = active.closest('.book-sidebar') || document.getElementById('sidebar');
+                    if (!sidebar) return;
+
+                    try {
+                        var linkRect = active.getBoundingClientRect();
+                        var sidebarRect = sidebar.getBoundingClientRect();
+                        var marginTop = 8;
+                        var marginBottom = 8;
+                        try {
+                            if (window.getComputedStyle) {
+                                var cs = window.getComputedStyle(sidebar);
+                                if (cs) {
+                                    var pt = parseFloat(cs.paddingTop);
+                                    var pb = parseFloat(cs.paddingBottom);
+                                    if (!isNaN(pt)) marginTop = pt;
+                                    if (!isNaN(pb)) marginBottom = pb;
+                                }
+                            }
+                        } catch (_) {}
+
+                        var top = sidebarRect.top + marginTop;
+                        var bottom = sidebarRect.bottom - marginBottom;
+                        var outOfView = linkRect.top < top || linkRect.bottom > bottom;
+
+                        if (outOfView && typeof active.scrollIntoView === 'function') {
+                            try {
+                                active.scrollIntoView({ block: 'center', behavior: 'auto' });
+                            } catch (e) {
+                                active.scrollIntoView();
+                            }
+                        }
+                    } catch (_) {}
+                }
+
+                function scheduleEnsure() {
+                    setTimeout(ensureActiveTocVisible, 0);
+                    setTimeout(ensureActiveTocVisible, 350);
+                }
+
+                cb.addEventListener('change', function() {
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+
+                if (cb.checked) {
+                    scheduleEnsure();
+                }
+
+                window.addEventListener('pageshow', function(e) {
+                    if (!e || !e.persisted) return;
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initTocAutoScroll);
+            } else {
+                initTocAutoScroll();
+            }
+        })();
+    </script>
+</body>
+</html>

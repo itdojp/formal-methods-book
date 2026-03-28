@@ -1,0 +1,2438 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta name="author" content="太田和彦（株式会社アイティードゥ）">
+
+    <title>Chapter 10: Program Verification - Formal Methods: Foundations and Applications</title>
+
+    <link rel="canonical" href="https://itdojp.github.io/formal-methods-book/en/chapters/chapter10/">
+    <link rel="alternate" hreflang="ja" href="https://itdojp.github.io/formal-methods-book/chapters/chapter10/">
+    <link rel="alternate" hreflang="en" href="https://itdojp.github.io/formal-methods-book/en/chapters/chapter10/">
+    <link rel="alternate" hreflang="x-default" href="https://itdojp.github.io/formal-methods-book/">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/main.css">
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/syntax-highlighting.css">
+
+    <link rel="icon" type="image/png" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+    <link rel="apple-touch-icon" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+
+    <meta property="og:title" content="Chapter 10: Program Verification">
+    <meta property="og:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://itdojp.github.io/formal-methods-book/en/chapters/chapter10/">
+    <meta property="og:locale" content="en_US">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Chapter 10: Program Verification">
+    <meta name="twitter:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+
+    <script>
+        (function() {
+            try {
+                const k = 'book-theme';
+                const t = localStorage.getItem(k) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (_) {}
+        })();
+    </script>
+</head>
+<body>
+    
+    
+    
+    
+    
+
+    <input type="checkbox" id="sidebar-toggle-checkbox" class="sidebar-toggle-checkbox" aria-hidden="true">
+
+    <div class="book-layout">
+        <header class="book-header">
+            <div class="header-left">
+                <label for="sidebar-toggle-checkbox" class="sidebar-toggle" aria-label="Toggle sidebar" role="button" tabindex="0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </label>
+                <a href="/formal-methods-book/en/" class="header-title">
+                    <h1>Formal Methods: Foundations and Applications</h1>
+                </a>
+            </div>
+
+            <div class="header-center">
+                <div class="search-container">
+                    <input type="search"
+                           placeholder="Search..."
+                           class="search-input"
+                           id="search-input"
+                           autocomplete="off">
+                    <div class="search-results" id="search-results"></div>
+                </div>
+            </div>
+
+            <div class="header-right">
+                
+
+
+
+
+
+
+
+
+
+
+<a href="/formal-methods-book/chapters/chapter10/"
+   class="language-switcher"
+   hreflang="ja"
+   lang="ja"
+   >
+    日本語
+</a>
+
+                <button class="theme-toggle" aria-label="Toggle theme">
+                    <svg class="theme-icon theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="theme-icon theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+
+                
+            </div>
+        </header>
+
+        <aside class="book-sidebar" id="sidebar">
+            <nav class="sidebar-nav" role="navigation" aria-label="Main navigation">
+                
+
+
+
+
+
+
+
+
+
+
+<div class="sidebar-content">
+    <div class="book-info">
+        <h2 class="book-title"><a href="/formal-methods-book/en/" class="header-title">Formal Methods: Foundations and Applications</a></h2>
+        
+        <p class="book-subtitle">An Integrated Understanding of Specification, Model Checking, and Theorem Proving</p>
+        
+    </div>
+
+    <div class="toc">
+        <h3 class="toc-title">Contents</h3>
+
+        <div class="toc-section">
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/" class="toc-link ">
+                        Home
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Introduction</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/introduction/" class="toc-link ">
+                        Introduction
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Chapters</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter01/" class="toc-link ">
+                        Chapter 1: Why Formal Methods Matter
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter02/" class="toc-link ">
+                        Chapter 2: Bridging Mathematics and Programs
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter03/" class="toc-link ">
+                        Chapter 3: Foundations of Specification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter04/" class="toc-link ">
+                        Chapter 4: Introduction to Lightweight Formal Methods — Specification with Alloy
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter05/" class="toc-link ">
+                        Chapter 5: State-Based Specification — Fundamentals of Z Notation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter06/" class="toc-link ">
+                        Chapter 6: Process-Centric Specification — Concurrency with CSP
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter07/" class="toc-link ">
+                        Chapter 7: Specifying Time — Introduction to TLA+
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter08/" class="toc-link ">
+                        Chapter 8: Introduction to Model Checking
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter09/" class="toc-link ">
+                        Chapter 9: Fundamentals of Theorem Proving
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter10/" class="toc-link active">
+                        Chapter 10: Program Verification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter11/" class="toc-link ">
+                        Chapter 11: Integrating Formal Methods into Development Processes
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter12/" class="toc-link ">
+                        Chapter 12: Tools and Automation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter13/" class="toc-link ">
+                        Chapter 13: Case Studies
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Additional</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/glossary/" class="toc-link ">
+                        Glossary
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Appendices</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-a/" class="toc-link ">
+                        Appendix A: Mathematics Refresher
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-b/" class="toc-link ">
+                        Appendix B: Tool Setup and Verification Quick Start
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-c/" class="toc-link ">
+                        Appendix C: Notation Cross-Reference
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-d/" class="toc-link ">
+                        Appendix D: Exercise Guides and Self-Review Frameworks
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-e/" class="toc-link ">
+                        Appendix E: References and Further Reading Paths
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-f/" class="toc-link ">
+                        Appendix F: Practical Playbook for AI-Assisted Formal Methods
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Afterword</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/afterword/" class="toc-link ">
+                        Afterword
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="external-links">
+            
+            <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener" class="external-link">GitHub</a>
+            
+            
+        </div>
+    </div>
+</div>
+
+            </nav>
+        </aside>
+
+        <main class="book-main" id="main">
+            <div class="book-content">
+                
+                    
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb-list">
+    <li class="breadcrumb-item">
+        <a href="/formal-methods-book/en/" class="breadcrumb-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span class="sr-only">Home</span>
+        </a>
+    </li>
+
+    
+        
+    
+        
+    
+        
+            
+            
+            
+                
+                
+                <li class="breadcrumb-item">
+                    <a href="/formal-methods-book/en/chapters/" class="breadcrumb-link">
+                        
+                            Chapters
+                        
+                    </a>
+                </li>
+            
+        
+    
+        
+            
+            
+            
+                <li class="breadcrumb-item active" aria-current="page">
+                    Chapter 10: program verification
+                </li>
+            
+        
+    
+</ol>
+
+<style>
+.breadcrumb-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    font-size: 0.875rem;
+    flex-wrap: wrap;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb-item:not(:last-child)::after {
+    content: '/';
+    margin: 0 0.5rem;
+    color: var(--text-muted);
+}
+
+.breadcrumb-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.breadcrumb-link:hover {
+    color: var(--primary-color);
+}
+
+.breadcrumb-item.active {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (max-width: 768px) {
+    .breadcrumb-list {
+        font-size: 0.75rem;
+    }
+
+    .breadcrumb-item:not(:last-child)::after {
+        margin: 0 0.375rem;
+    }
+}
+</style>
+
+                
+
+                <article class="page-content">
+                    <h1 id="chapter-10-program-verification">Chapter 10: Program Verification</h1>
+
+<h2 id="101-program-correctness-the-point-where-theory-meets-practice">10.1 Program Correctness: The Point Where Theory Meets Practice</h2>
+
+<h3 id="the-fundamental-question-of-program-verification">The Fundamental Question of Program Verification</h3>
+
+<p>“Does this program behave correctly?” That simple question sits at the center
+of software engineering. But what does <em>correctly</em> mean? Does it mean behaving
+as expected, following a specification, or handling all intended inputs
+properly?</p>
+
+<p>Program verification is the discipline of turning that ambiguous notion of
+correctness into a mathematically precise statement and then proving it through
+logic. The formal methods introduced in the earlier chapters ultimately aim at
+guaranteeing the correctness of actual program code.</p>
+
+<p>Its importance is rising because software has become both more complex and more
+socially consequential. Control software for autonomous vehicles, medical
+devices, financial systems, and flight-control systems all operate in domains
+where a programming error can lead directly to loss of life or major economic
+damage.</p>
+
+<h3 id="where-verification-fits-in-the-evolution-of-quality-assurance">Where Verification Fits in the Evolution of Quality Assurance</h3>
+
+<p>Traditional software quality assurance has relied mainly on testing: unit
+tests, integration tests, system tests, and acceptance tests. These methods
+remain important and continue to contribute substantially to quality.</p>
+
+<p><img src="/formal-methods-book/assets/images/diagrams/correctness-verification-pyramid-en.svg" alt="Figure 10-1: The correctness-verification pyramid and the relationship between assurance and verification cost" /></p>
+
+<p>Testing, however, has an inherent limitation. It can confirm behavior for
+particular inputs, but it cannot guarantee correctness for <em>all</em> possible
+inputs. As Edsger Dijkstra famously put it, testing can show the presence of
+bugs, not their absence.</p>
+
+<p>Program verification addresses that limit. By means of mathematical proof, it
+can guarantee that a program satisfies its specification for every possible
+execution considered by the model. That is a genuine shift in the quality
+assurance paradigm.</p>
+
+<h3 id="an-analogy-with-structural-engineering">An Analogy with Structural Engineering</h3>
+
+<p>In civil engineering, structural calculation provides mathematical assurance of
+the safety of buildings and bridges. Material strength, load distribution, and
+stress concentration are analyzed according to physical law. No modern
+high-rise building is constructed without such analysis.</p>
+
+<p>Program verification is the software-engineering analogue of structural
+calculation. It reasons mathematically about logical structure, data flow,
+control flow, and program state in order to establish correctness.</p>
+
+<p>This is more than a metaphor. Both disciplines provide mathematical assurance
+for complex systems whose failure would be unacceptable. Just as structural
+calculation is a marker of maturity in civil engineering, program verification
+is a marker of maturity in software engineering.</p>
+
+<h3 id="two-aspects-of-correctness-partial-and-total">Two Aspects of Correctness: Partial and Total</h3>
+
+<p>Program correctness has two important aspects.</p>
+
+<p><strong>Partial correctness</strong> means: “If the program terminates, the result is
+correct.” Non-termination is not ruled out, but any terminating run produces a
+correct outcome.</p>
+
+<p><strong>Total correctness</strong> means: “The program terminates, and the result is
+correct.” It adds termination to partial correctness.</p>
+
+<p>This distinction matters in practice. Many real projects establish partial
+correctness first and tackle termination separately, because proving
+termination is often harder.</p>
+
+<h3 id="verifiability-as-a-design-principle">Verifiability as a Design Principle</h3>
+
+<p>When software is developed with verification in mind, <em>verifiability</em> becomes
+an important design principle. The goal is to design code in a way that makes
+verification feasible.</p>
+
+<p>Principles that increase verifiability include:</p>
+
+<ul>
+  <li><strong>clear specifications</strong> with little ambiguity</li>
+  <li><strong>simple control flow</strong> that is easy to reason about</li>
+  <li><strong>explicit invariants</strong> stating what must always hold</li>
+  <li><strong>controlled side effects</strong> to reduce unexpected state change</li>
+</ul>
+
+<p>These principles do not help verification alone. In general, verifiable
+programs are easier to understand, maintain, and evolve.</p>
+
+<h3 id="the-relationship-to-formal-specifications">The Relationship to Formal Specifications</h3>
+
+<p>Program verification is closely connected to the formal specification methods
+introduced earlier in the book. A system may first be described in Z, Alloy,
+or TLA+, and then implemented in a programming language. Verification then
+proves that the implementation satisfies the specification.</p>
+
+<p>This relationship is not one-way. During verification, incompleteness or
+ambiguity in the specification is often discovered. Verification therefore
+improves both the code and the specification.</p>
+
+<h3 id="from-the-alloy-models-of-chapter-4-to-program-verification">From the Alloy Models of Chapter 4 to Program Verification</h3>
+
+<p>The Alloy modeling you learned in Chapter 4 is a useful preparation for
+program verification. Properties described in Alloy can be carried into an
+implementation-level proof using Hoare logic.</p>
+
+<pre><code class="language-alloy">// Banking-account system in Alloy (Chapter 4)
+sig Account { balance: Int }
+pred transfer[from, to: Account, amount: Int] {
+    from.balance &gt;= amount
+    from.balance' = from.balance - amount
+    to.balance' = to.balance + amount
+}
+assert NoNegativeBalance {
+    all a: Account | a.balance &gt;= 0
+}
+</code></pre>
+
+<p>At implementation level, the same intent may be expressed as a Hoare-style
+contract:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{from.balance &gt;= amount ∧ to.balance &gt;= 0}
+  transfer(from, to, amount)
+{from.balance &gt;= 0 ∧ to.balance &gt;= 0}
+</code></pre></div></div>
+
+<h3 id="managing-levels-of-abstraction">Managing Levels of Abstraction</h3>
+
+<p>Choosing the right abstraction level is essential in practical verification. If
+the model is too low-level, the proof becomes intractable. If it is too
+high-level, critical details are lost.</p>
+
+<p>A layered approach is often effective:</p>
+
+<ul>
+  <li><strong>algorithm level</strong>: correctness of data structures and core operations</li>
+  <li><strong>module level</strong>: interaction among functions or procedures</li>
+  <li><strong>system level</strong>: overall architecture and integrated behavior</li>
+</ul>
+
+<p>Higher layers can then rely on established results from lower layers.</p>
+
+<h3 id="balancing-cost-and-practicality">Balancing Cost and Practicality</h3>
+
+<p>Program verification is powerful, but full verification of everything is rarely
+economically realistic. Practical teams therefore vary the verification effort
+according to criticality:</p>
+
+<ul>
+  <li><strong>safety-critical parts</strong>: full verification</li>
+  <li><strong>important functions</strong>: verification of main properties</li>
+  <li><strong>general functionality</strong>: conventional testing and lighter analysis</li>
+</ul>
+
+<p>This staged approach makes it possible to achieve the highest return from
+limited resources.</p>
+
+<h3 id="tool-progress-and-practical-deployment">Tool Progress and Practical Deployment</h3>
+
+<p>Program-verification tools have improved significantly in recent years.
+Automatic theorem proving, SMT solving, and verification-condition generation
+have all advanced enough that practical verification is no longer purely
+theoretical.</p>
+
+<p>Large technology companies such as Microsoft, Amazon, and Meta have begun to
+apply formal verification techniques to production systems. That change signals
+that program verification is moving from research practice into engineering
+practice.</p>
+
+<p>Program verification is therefore a bridge between theory and real software
+development. The next section introduces Hoare logic, the classical logical
+foundation for this area.</p>
+
+<h2 id="102-hoare-logic-a-logic-of-programs">10.2 Hoare Logic: A Logic of Programs</h2>
+
+<h3 id="the-innovation-of-expressing-program-behavior-in-logic">The Innovation of Expressing Program Behavior in Logic</h3>
+
+<p>Hoare logic, proposed in 1969 by C.A.R. Hoare, is a logical system for
+reasoning about program correctness. Its innovation was to express program
+behavior in a mathematically precise form amenable to proof.</p>
+
+<p>The core idea is to treat each program fragment as a kind of <em>contract</em>: if a
+precondition holds before execution, then a postcondition is guaranteed after
+execution. That perspective makes logical reasoning about programs possible.</p>
+
+<h3 id="hoare-triples-the-basic-unit-of-program-reasoning">Hoare Triples: The Basic Unit of Program Reasoning</h3>
+
+<p>The basic form of Hoare logic is the <em>Hoare triple</em>:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{P} S {Q}
+</code></pre></div></div>
+
+<p>Here:</p>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">P</code></strong> is the precondition</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">S</code></strong> is the program statement</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">Q</code></strong> is the postcondition</li>
+</ul>
+
+<p>The meaning is: if the initial state satisfies <code class="language-plaintext highlighter-rouge">P</code>, then after executing <code class="language-plaintext highlighter-rouge">S</code>,
+the final state satisfies <code class="language-plaintext highlighter-rouge">Q</code>. This describes partial correctness; termination
+is not yet guaranteed.</p>
+
+<h3 id="understanding-through-concrete-examples">Understanding Through Concrete Examples</h3>
+
+<p>A very simple assignment example:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{x = 5} x := x + 1 {x = 6}
+</code></pre></div></div>
+
+<p>This states that if <code class="language-plaintext highlighter-rouge">x</code> starts as 5, then after <code class="language-plaintext highlighter-rouge">x := x + 1</code>, it becomes 6.</p>
+
+<p>A more general version:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{x = n} x := x + 1 {x = n + 1}
+</code></pre></div></div>
+
+<p>A conditional example:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{x &gt;= 0}
+if x &gt; 0 then y := 1 else y := 0
+{(x &gt; 0 ∧ y = 1) ∨ (x = 0 ∧ y = 0)}
+</code></pre></div></div>
+
+<p>The postcondition reflects both execution paths.</p>
+
+<h3 id="weakest-preconditions-and-strongest-postconditions">Weakest Preconditions and Strongest Postconditions</h3>
+
+<p>Two important concepts underpin Hoare logic:</p>
+
+<ul>
+  <li><strong>weakest precondition</strong> <code class="language-plaintext highlighter-rouge">WP(S, Q)</code>: the weakest condition sufficient to
+guarantee postcondition <code class="language-plaintext highlighter-rouge">Q</code> after running <code class="language-plaintext highlighter-rouge">S</code></li>
+  <li><strong>strongest postcondition</strong> <code class="language-plaintext highlighter-rouge">SP(P, S)</code>: the strongest property guaranteed
+after running <code class="language-plaintext highlighter-rouge">S</code> from a state satisfying <code class="language-plaintext highlighter-rouge">P</code></li>
+</ul>
+
+<p>Example:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>WP(x := x + 1, x &gt; 10) = x &gt; 9
+</code></pre></div></div>
+
+<p>To end with <code class="language-plaintext highlighter-rouge">x &gt; 10</code>, the input state must satisfy <code class="language-plaintext highlighter-rouge">x &gt; 9</code>.</p>
+
+<p>Another example:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SP(x &gt; 5, x := x * 2) = x &gt; 10 ∧ x is even
+</code></pre></div></div>
+
+<p>These notions are fundamental for verification-condition generation and proof
+automation.</p>
+
+<h3 id="the-rule-for-assignment">The Rule for Assignment</h3>
+
+<p>Assignment is the simplest program construct, and its rule forms the basis of
+Hoare logic.</p>
+
+<p><strong>Assignment axiom</strong>:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{Q[E/x]} x := E {Q}
+</code></pre></div></div>
+
+<p>Here, <code class="language-plaintext highlighter-rouge">Q[E/x]</code> means “substitute expression <code class="language-plaintext highlighter-rouge">E</code> for every free occurrence of
+<code class="language-plaintext highlighter-rouge">x</code> in <code class="language-plaintext highlighter-rouge">Q</code>.”</p>
+
+<p>This feels backwards at first: the proof computes the precondition from the
+desired postcondition. But that is exactly what makes the effect of assignment
+precise.</p>
+
+<p>Example:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{x + 1 &gt; 10} x := x + 1 {x &gt; 10}
+</code></pre></div></div>
+
+<p>Since <code class="language-plaintext highlighter-rouge">x + 1 &gt; 10</code> is equivalent to <code class="language-plaintext highlighter-rouge">x &gt; 9</code>, the rule captures the intended
+meaning exactly.</p>
+
+<h3 id="sequential-composition">Sequential Composition</h3>
+
+<p>To reason about multiple statements executed in order, Hoare logic uses the
+composition rule:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{P} S1 {R}, {R} S2 {Q}
+─────────────────────────
+{P} S1; S2 {Q}
+</code></pre></div></div>
+
+<p>If the postcondition of <code class="language-plaintext highlighter-rouge">S1</code> is strong enough to serve as the precondition of
+<code class="language-plaintext highlighter-rouge">S2</code>, then the entire sequence is correct.</p>
+
+<p>Example:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{x = 5} x := x + 1 {x = 6}
+{x = 6} y := x * 2 {y = 12 ∧ x = 6}
+─────────────────────────────────────
+{x = 5} x := x + 1; y := x * 2 {y = 12 ∧ x = 6}
+</code></pre></div></div>
+
+<h3 id="conditionals">Conditionals</h3>
+
+<p>For conditionals, both branches must be considered:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{P ∧ B} S1 {Q}, {P ∧ ¬B} S2 {Q}
+──────────────────────────────────
+{P} if B then S1 else S2 {Q}
+</code></pre></div></div>
+
+<p>Example:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{x ≠ 0 ∧ x &gt; 0} y := x {y &gt; 0}
+{x ≠ 0 ∧ ¬(x &gt; 0)} y := -x {y &gt; 0}
+────────────────────────────────────
+{x ≠ 0} if x &gt; 0 then y := x else y := -x {y &gt; 0}
+</code></pre></div></div>
+
+<p>Each branch separately establishes the same overall postcondition.</p>
+
+<h3 id="weakening-and-strengthening">Weakening and Strengthening</h3>
+
+<p>Real proofs often require adapting conditions:</p>
+
+<p><strong>Strengthening the precondition</strong>:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>P' ⇒ P, {P} S {Q}
+──────────────────
+{P'} S {Q}
+</code></pre></div></div>
+
+<p><strong>Weakening the postcondition</strong>:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{P} S {Q}, Q ⇒ Q'
+──────────────────
+{P} S {Q'}
+</code></pre></div></div>
+
+<p>These rules provide the flexibility needed in practical proofs.</p>
+
+<h3 id="the-concept-of-an-invariant">The Concept of an Invariant</h3>
+
+<p>An <em>invariant</em> is a property that remains true throughout execution.</p>
+
+<p>Example of a data invariant:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>∀i,j. 0 ≤ i &lt; j &lt; length(array) ⇒ array[i] ≤ array[j]
+</code></pre></div></div>
+
+<p>This states that the array is always sorted.</p>
+
+<p>Example of a loop invariant:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sum = Σ(k=0 to i-1) array[k]
+</code></pre></div></div>
+
+<p>This states that <code class="language-plaintext highlighter-rouge">sum</code> equals the total of all elements processed so far.</p>
+
+<p>Invariants are one of the most important tools for structuring correctness
+proofs.</p>
+
+<h3 id="relationship-to-contract-based-programming">Relationship to Contract-Based Programming</h3>
+
+<p>The core idea of Hoare logic strongly influenced <em>design by contract</em>. In that
+style, functions or methods explicitly declare preconditions, postconditions,
+and invariants.</p>
+
+<p>Example in Java with JML:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*@ requires x &gt;= 0;
+  @ ensures \result &gt;= 0 &amp;&amp; \result * \result &lt;= x &amp;&amp;
+  @         (\result + 1) * (\result + 1) &gt; x;
+  */</span>
+<span class="kd">public</span> <span class="kt">int</span> <span class="nf">sqrt</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// square-root implementation</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>This makes the intended behavior explicit and enables both runtime and static
+checking.</p>
+
+<h3 id="soundness-and-completeness">Soundness and Completeness</h3>
+
+<p>Hoare logic has two classical theoretical properties:</p>
+
+<ul>
+  <li><strong>soundness</strong>: any triple provable in the logic is semantically correct</li>
+  <li><strong>completeness</strong>: any semantically correct triple is, in principle, provable
+in the logic</li>
+</ul>
+
+<p>For practice, soundness is indispensable. If the logic can prove false claims,
+verification loses its value.</p>
+
+<h3 id="modern-extensions">Modern Extensions</h3>
+
+<p>Basic Hoare logic has been extended in many ways to fit modern programming
+languages:</p>
+
+<ul>
+  <li><strong>separation logic</strong> for pointers and heap reasoning</li>
+  <li><strong>concurrent Hoare logic</strong> for concurrent programs</li>
+  <li><strong>probabilistic Hoare logic</strong> for probabilistic programs</li>
+  <li><strong>quantum Hoare logic</strong> for quantum software</li>
+</ul>
+
+<p>These extensions allow the core insight of Hoare logic to remain relevant in
+modern verification.</p>
+
+<p>Hoare logic provides a durable theoretical foundation for program verification.
+The next section applies this logic to concrete programming constructs.</p>
+
+<h2 id="103-verification-rules-for-basic-syntax">10.3 Verification Rules for Basic Syntax</h2>
+
+<h3 id="systematic-verification-of-program-syntax">Systematic Verification of Program Syntax</h3>
+
+<p>Programs are composed of basic syntactic building blocks: assignment,
+conditionals, loops, procedure calls, and so on. Verification rules are
+defined for each such construct. By composing these rules, we can verify more
+complex programs step by step.</p>
+
+<p>Understanding these rules is essential, because every large program ultimately
+reduces to combinations of these basic forms.</p>
+
+<h3 id="a-detailed-look-at-assignment">A Detailed Look at Assignment</h3>
+
+<p>Assignment is simple in syntax but conceptually deep in verification.</p>
+
+<p><strong>Basic assignment rule</strong>:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{Q[E/x]} x := E {Q}
+</code></pre></div></div>
+
+<p>The reason this runs “backward” is that proof typically starts from the desired
+postcondition and computes what must already have been true beforehand.</p>
+
+<p>Simple examples:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{5 &gt; 3} x := 5 {x &gt; 3}
+</code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{y + 1 &gt; 3} x := y + 1 {x &gt; 3}
+</code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{2 * (y + 1) &gt; 10} x := 2 * (y + 1) {x &gt; 10}
+</code></pre></div></div>
+
+<p>The last one simplifies to:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{y &gt; 4} x := 2 * (y + 1) {x &gt; 10}
+</code></pre></div></div>
+
+<p>For multiple assignments, care is needed.</p>
+
+<p>Simultaneous assignment:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{x + y = z + w} x, y := z, w {x + y = z + w}
+</code></pre></div></div>
+
+<p>Sequential assignment:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{E2[E1/x] = F} x := E1; y := E2 {y = F}
+</code></pre></div></div>
+
+<p>The key subtlety is that occurrences of <code class="language-plaintext highlighter-rouge">x</code> inside <code class="language-plaintext highlighter-rouge">E2</code> are affected by the
+earlier assignment.</p>
+
+<h3 id="strategies-for-verifying-conditionals">Strategies for Verifying Conditionals</h3>
+
+<p>Conditionals introduce branching, so verification must cover every possible
+path.</p>
+
+<p><strong>Conditional rule</strong>:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{P ∧ B} S1 {Q}, {P ∧ ¬B} S2 {Q}
+──────────────────────────────────
+{P} if B then S1 else S2 {Q}
+</code></pre></div></div>
+
+<p>Practical example: absolute value</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{true}
+if x &gt;= 0 then
+    result := x
+else
+    result := -x
+{result &gt;= 0 ∧ (result = x ∨ result = -x)}
+</code></pre></div></div>
+
+<p>Then-branch reasoning:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{x &gt;= 0} result := x {x &gt;= 0 ∧ (x = x ∨ x = -x)}
+</code></pre></div></div>
+
+<p>Else-branch reasoning:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{x &lt; 0} result := -x {-x &gt;= 0 ∧ (-x = x ∨ -x = -x)}
+</code></pre></div></div>
+
+<p>In each case, the branch-specific condition is enough to establish the common
+postcondition.</p>
+
+<h3 id="nested-conditionals">Nested Conditionals</h3>
+
+<p>Nested branching makes path conditions more complex:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{P}
+if B1 then
+    if B2 then S1 else S2
+else
+    if B3 then S3 else S4
+{Q}
+</code></pre></div></div>
+
+<p>The path-specific premises are:</p>
+
+<ul>
+  <li>path 1: <code class="language-plaintext highlighter-rouge">P ∧ B1 ∧ B2</code></li>
+  <li>path 2: <code class="language-plaintext highlighter-rouge">P ∧ B1 ∧ ¬B2</code></li>
+  <li>path 3: <code class="language-plaintext highlighter-rouge">P ∧ ¬B1 ∧ B3</code></li>
+  <li>path 4: <code class="language-plaintext highlighter-rouge">P ∧ ¬B1 ∧ ¬B3</code></li>
+</ul>
+
+<p>Good proofs make those path conditions explicit instead of reasoning about them
+implicitly.</p>
+
+<h3 id="practical-use-of-sequential-composition">Practical Use of Sequential Composition</h3>
+
+<p>Sequential composition is the main way to decompose a complex program into
+manageable fragments.</p>
+
+<p>Example: swapping two variables</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{x = a ∧ y = b}
+temp := x;
+x := y;
+y := temp
+{x = b ∧ y = a}
+</code></pre></div></div>
+
+<p>A stepwise analysis yields:</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">{x = a ∧ y = b} temp := x {temp = a ∧ x = a ∧ y = b}</code></li>
+  <li><code class="language-plaintext highlighter-rouge">{temp = a ∧ x = a ∧ y = b} x := y {temp = a ∧ x = b ∧ y = b}</code></li>
+  <li><code class="language-plaintext highlighter-rouge">{temp = a ∧ x = b ∧ y = b} y := temp {temp = a ∧ x = b ∧ y = a}</code></li>
+</ol>
+
+<p>From the final state, the desired postcondition follows immediately.</p>
+
+<h3 id="block-structure-and-scope">Block Structure and Scope</h3>
+
+<p>Modern programming languages use blocks to delimit variable scope.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{P} var x := E; S {Q}
+</code></pre></div></div>
+
+<p>In this setting, <code class="language-plaintext highlighter-rouge">x</code> must not appear free in <code class="language-plaintext highlighter-rouge">Q</code>, because <code class="language-plaintext highlighter-rouge">x</code> is local to the
+block.</p>
+
+<p>Example:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{y &gt; 0}
+var temp := y * 2;
+result := temp + 1
+{result &gt; 1}
+</code></pre></div></div>
+
+<h3 id="error-handling-and-exceptions">Error Handling and Exceptions</h3>
+
+<p>Real programs also contain exceptional behavior:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{P}
+if valid_input(x) then
+    result := process(x)
+else
+    error("Invalid input")
+{valid_input(x) ⇒ result = process(x)}
+</code></pre></div></div>
+
+<p>The postcondition guarantees the normal case only when the input is valid; the
+invalid path is handled through explicit error behavior.</p>
+
+<h3 id="functions-and-procedures">Functions and Procedures</h3>
+
+<p>Verification of function calls relies on their contracts.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{P[E/x]} y := f(E) {Q[y/result]}
+</code></pre></div></div>
+
+<p>If a function <code class="language-plaintext highlighter-rouge">f</code> has a contract <code class="language-plaintext highlighter-rouge">{P'} f(x) {Q'}</code>, then the call site must
+establish <code class="language-plaintext highlighter-rouge">P[E/x] ⇒ P'</code>, and the function’s postcondition must imply the
+desired caller-side postcondition.</p>
+
+<p>Example:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(* Specification of sqrt:
+   {x &gt;= 0} sqrt(x) {result * result &lt;= x &lt; (result+1)*(result+1)} *)
+
+{16 &gt;= 0} y := sqrt(16) {y * y &lt;= 16 &lt; (y+1)*(y+1)}
+</code></pre></div></div>
+
+<h3 id="practical-verification-strategy">Practical Verification Strategy</h3>
+
+<p>Useful proof strategies for basic syntax include:</p>
+
+<ol>
+  <li><strong>backward reasoning</strong> from the postcondition</li>
+  <li><strong>forward reasoning</strong> from the precondition</li>
+  <li><strong>strategic choice of intermediate assertions</strong> in sequential composition</li>
+  <li><strong>explicit use of invariants</strong> for properties that remain stable</li>
+</ol>
+
+<p>Once these basic rules are well understood, larger program proofs become much
+more systematic.</p>
+
+<h2 id="104-loop-invariants-the-essence-of-repetition">10.4 Loop Invariants: The Essence of Repetition</h2>
+
+<h3 id="why-loops-are-fundamentally-difficult">Why Loops Are Fundamentally Difficult</h3>
+
+<p>Loops are among the hardest program constructs to verify because they may
+iterate an arbitrary number of times. A finite proof must account for an
+unbounded set of possible executions.</p>
+
+<p>Consider:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>i := 0;
+while i &lt; n do
+    i := i + 1
+</code></pre></div></div>
+
+<p>Depending on <code class="language-plaintext highlighter-rouge">n</code>, the loop may run 0 times, 100 times, 1000 times, or more.
+Yet verification must cover all those possibilities at once.</p>
+
+<p>The key concept that makes this possible is the <em>loop invariant</em>.</p>
+
+<h3 id="invariance-amid-change">Invariance Amid Change</h3>
+
+<p>A loop invariant is a property that remains true throughout loop execution. The
+idea is closely related to mathematical induction.</p>
+
+<p>In ordinary induction:</p>
+
+<ol>
+  <li>base case: prove <code class="language-plaintext highlighter-rouge">P</code> for 0</li>
+  <li>inductive step: prove <code class="language-plaintext highlighter-rouge">P(k) -&gt; P(k+1)</code></li>
+  <li>conclude <code class="language-plaintext highlighter-rouge">P(n)</code> for all <code class="language-plaintext highlighter-rouge">n</code></li>
+</ol>
+
+<p>For loops:</p>
+
+<ol>
+  <li>initialization: the invariant holds before the loop starts</li>
+  <li>preservation: one loop iteration preserves the invariant</li>
+  <li>termination: invariant plus loop exit condition imply the target
+postcondition</li>
+</ol>
+
+<h3 id="the-formal-while-rule">The Formal While Rule</h3>
+
+<p>The classical rule for <code class="language-plaintext highlighter-rouge">while</code> loops is:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{I ∧ B} S {I}, I ∧ ¬B ⇒ Q
+────────────────────────────────
+{I} while B do S {Q}
+</code></pre></div></div>
+
+<p>Here:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">I</code> is the loop invariant</li>
+  <li><code class="language-plaintext highlighter-rouge">B</code> is the loop condition</li>
+  <li><code class="language-plaintext highlighter-rouge">S</code> is the loop body</li>
+  <li><code class="language-plaintext highlighter-rouge">Q</code> is the desired postcondition</li>
+</ul>
+
+<h3 id="understanding-through-examples">Understanding Through Examples</h3>
+
+<p><strong>Example 1: a simple counting loop</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{n &gt;= 0}
+i := 0;
+while i &lt; n do
+    i := i + 1
+{i = n}
+</code></pre></div></div>
+
+<p>Loop invariant:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>I: 0 &lt;= i &lt;= n
+</code></pre></div></div>
+
+<p>Verification outline:</p>
+
+<ol>
+  <li><strong>Initialization</strong>: after <code class="language-plaintext highlighter-rouge">i := 0</code>, <code class="language-plaintext highlighter-rouge">0 &lt;= i &lt;= n</code> holds if <code class="language-plaintext highlighter-rouge">n &gt;= 0</code></li>
+  <li><strong>Preservation</strong>: under <code class="language-plaintext highlighter-rouge">0 &lt;= i &lt;= n ∧ i &lt; n</code>, executing <code class="language-plaintext highlighter-rouge">i := i + 1</code>
+preserves <code class="language-plaintext highlighter-rouge">0 &lt;= i &lt;= n</code></li>
+  <li><strong>Exit</strong>: from <code class="language-plaintext highlighter-rouge">0 &lt;= i &lt;= n ∧ i &gt;= n</code>, we derive <code class="language-plaintext highlighter-rouge">i = n</code></li>
+</ol>
+
+<p><strong>Example 2: summing array elements</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{n &gt;= 0 ∧ n = length(a)}
+sum := 0;
+i := 0;
+while i &lt; n do
+    sum := sum + a[i];
+    i := i + 1
+{sum = Σ(k=0 to n-1) a[k]}
+</code></pre></div></div>
+
+<p>Loop invariant:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>I: 0 &lt;= i &lt;= n ∧ sum = Σ(k=0 to i-1) a[k]
+</code></pre></div></div>
+
+<p>This states that the loop has correctly accumulated the prefix processed so
+far.</p>
+
+<h3 id="techniques-for-discovering-invariants">Techniques for Discovering Invariants</h3>
+
+<p>Finding the right invariant is usually the most creative part of loop
+verification.</p>
+
+<p><strong>Technique 1: generalize the goal</strong></p>
+
+<p>If the final goal is:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>result = n!
+</code></pre></div></div>
+
+<p>then a useful invariant is often a generalization such as:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>result = i! ∧ 0 &lt;= i &lt;= n
+</code></pre></div></div>
+
+<p><strong>Technique 2: inspect concrete executions</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Initial: i=0, sum=0
+Step 1:  i=1, sum=a[0]
+Step 2:  i=2, sum=a[0]+a[1]
+Step 3:  i=3, sum=a[0]+a[1]+a[2]
+</code></pre></div></div>
+
+<p>The pattern suggests:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sum = Σ(k=0 to i-1) a[k]
+</code></pre></div></div>
+
+<p><strong>Technique 3: derive invariants from data-structure properties</strong></p>
+
+<p>For search in a binary-search tree:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>left &lt;= target &lt;= right ∧
+(target ∈ tree ⇒ left &lt;= target &lt;= right)
+</code></pre></div></div>
+
+<h3 id="analyzing-more-complex-loops">Analyzing More Complex Loops</h3>
+
+<p><strong>Nested loops</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{n &gt;= 0 ∧ m &gt;= 0}
+i := 0;
+while i &lt; n do
+    j := 0;
+    while j &lt; m do
+        matrix[i][j] := 0;
+        j := j + 1;
+    i := i + 1
+{∀i,j. 0 &lt;= i &lt; n ∧ 0 &lt;= j &lt; m ⇒ matrix[i][j] = 0}
+</code></pre></div></div>
+
+<p>Outer-loop invariant:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0 &lt;= i &lt;= n ∧
+∀i',j'. 0 &lt;= i' &lt; i ∧ 0 &lt;= j' &lt; m ⇒ matrix[i'][j'] = 0
+</code></pre></div></div>
+
+<p>Inner-loop invariant:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0 &lt;= j &lt;= m ∧
+∀j'. 0 &lt;= j' &lt; j ⇒ matrix[i][j'] = 0
+</code></pre></div></div>
+
+<p><strong>Condition-dependent loops</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>while (condition1 ∧ condition2) do
+    if B then
+        S1
+    else
+        S2
+</code></pre></div></div>
+
+<p>The invariant must be preserved by both paths through the loop body.</p>
+
+<h3 id="proving-termination">Proving Termination</h3>
+
+<p>To obtain total correctness, termination must also be proved. This is done
+with a <em>variant function</em>.</p>
+
+<p>A variant <code class="language-plaintext highlighter-rouge">V</code> should satisfy:</p>
+
+<ol>
+  <li><strong>non-negativity</strong>: <code class="language-plaintext highlighter-rouge">V &gt;= 0</code></li>
+  <li><strong>strict decrease</strong>: each loop iteration decreases <code class="language-plaintext highlighter-rouge">V</code></li>
+</ol>
+
+<p>Example: counting loop</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>V = n - i
+</code></pre></div></div>
+
+<p>Each iteration increases <code class="language-plaintext highlighter-rouge">i</code>, so <code class="language-plaintext highlighter-rouge">V</code> decreases by 1 until it reaches 0.</p>
+
+<p>Example: binary search</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>V = right - left
+</code></pre></div></div>
+
+<p>The search range shrinks on every iteration, so the variant decreases.</p>
+
+<h3 id="practical-loop-patterns">Practical Loop Patterns</h3>
+
+<p><strong>Pattern 1: linear search</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Invariant:
+  0 &lt;= i &lt;= n ∧
+  ∀k. 0 &lt;= k &lt; i ⇒ a[k] ≠ target
+Variant:
+  n - i
+</code></pre></div></div>
+
+<p><strong>Pattern 2: insertion sort</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Invariant:
+  0 &lt;= i &lt;= n ∧
+  sorted(a[0..i-1]) ∧
+  ∀k,j. 0 &lt;= k &lt; i ∧ i &lt;= j &lt; n ⇒ a[k] &lt;= a[j]
+Variant:
+  n - i
+</code></pre></div></div>
+
+<p><strong>Pattern 3: binary search</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Invariant:
+  0 &lt;= left &lt;= right &lt;= n ∧
+  (target ∈ a ⇒ left &lt;= target_index &lt; right)
+Variant:
+  right - left
+</code></pre></div></div>
+
+<h3 id="strengthening-and-weakening-invariants">Strengthening and Weakening Invariants</h3>
+
+<p>In practice, invariants often require adjustment.</p>
+
+<ul>
+  <li><strong>strengthening</strong>: add information that makes the proof easier</li>
+  <li><strong>weakening</strong>: remove information that cannot actually be preserved</li>
+</ul>
+
+<p>Example: finding the maximum element in an array</p>
+
+<p>Initial attempt:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>max = maximum(a[0..i-1])
+</code></pre></div></div>
+
+<p>Problem: this is undefined when <code class="language-plaintext highlighter-rouge">i = 0</code>.</p>
+
+<p>Refined invariant:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>i &gt; 0 ⇒ max = maximum(a[0..i-1])
+</code></pre></div></div>
+
+<h3 id="debugging-loop-proofs">Debugging Loop Proofs</h3>
+
+<p>When an invariant proof fails, practical recovery steps include:</p>
+
+<ol>
+  <li>manually executing the loop on a small example</li>
+  <li>refining boundary conditions and special cases</li>
+  <li>splitting one complex invariant into several simpler ones</li>
+</ol>
+
+<p>Loop invariants are one of the most powerful concepts in program verification.
+They capture the stable structure hidden inside repetition and make rigorous
+reasoning about loops possible.</p>
+
+<h2 id="105-arrays-and-pointers-verifying-memory-operations">10.5 Arrays and Pointers: Verifying Memory Operations</h2>
+
+<h3 id="why-memory-verification-is-complex">Why Memory Verification Is Complex</h3>
+
+<p>Arrays and pointers are indispensable in practical software, but verifying them
+is far harder than verifying basic syntax. The difficulty comes from several
+sources:</p>
+
+<ul>
+  <li><strong>aliasing</strong>: multiple pointers may refer to the same memory region</li>
+  <li><strong>shared mutable state</strong>: more than one name may update the same storage</li>
+  <li><strong>uncertain bounds</strong>: valid array ranges can depend on runtime values</li>
+  <li><strong>ownership complexity</strong>: it may be unclear which code is allowed to mutate
+which memory region</li>
+</ul>
+
+<p>Classical Hoare logic alone does not handle these issues well. That is why
+<em>separation logic</em> was introduced.</p>
+
+<h3 id="basic-verification-of-array-access">Basic Verification of Array Access</h3>
+
+<p>Start with the simplest case.</p>
+
+<p><strong>Reading from an array</strong>:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{0 &lt;= i &lt; length(a)} x := a[i] {x = a[i]}
+</code></pre></div></div>
+
+<p>Even here, a precise bounds check is part of the required precondition.</p>
+
+<p><strong>Writing to an array</strong>:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{0 &lt;= i &lt; length(a)} a[i] := x {a[i] = x ∧ ...}
+</code></pre></div></div>
+
+<p>The hard part is the omitted <code class="language-plaintext highlighter-rouge">...</code>: we also need to describe what happens to
+every element <em>other than</em> <code class="language-plaintext highlighter-rouge">a[i]</code>.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{0 &lt;= i &lt; length(a)}
+a[i] := x
+{a[i] = x ∧ ∀j. j ≠ i ⇒ a[j] = old(a[j])}
+</code></pre></div></div>
+
+<p>Here <code class="language-plaintext highlighter-rouge">old(a[j])</code> denotes the value of <code class="language-plaintext highlighter-rouge">a[j]</code> before the assignment.</p>
+
+<h3 id="the-frame-problem-and-separation-logic">The Frame Problem and Separation Logic</h3>
+
+<p>The <em>frame problem</em> is the burden of describing everything that did <em>not</em>
+change. In the array-update example, that means explicitly describing all
+unchanged elements.</p>
+
+<p>Separation logic addresses this through the idea of <em>separation</em>: memory is
+treated as a collection of disjoint heap regions.</p>
+
+<p>Core notions:</p>
+
+<ul>
+  <li><strong>empty heap</strong>: <code class="language-plaintext highlighter-rouge">emp</code></li>
+  <li><strong>points-to assertion</strong>: <code class="language-plaintext highlighter-rouge">x ↦ v</code></li>
+  <li><strong>separating conjunction</strong>: <code class="language-plaintext highlighter-rouge">P * Q</code></li>
+</ul>
+
+<p>Example:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x ↦ 5 * y ↦ 3
+</code></pre></div></div>
+
+<p>This means that <code class="language-plaintext highlighter-rouge">x</code> points to 5 and <code class="language-plaintext highlighter-rouge">y</code> points to 3 in disjoint memory
+regions.</p>
+
+<h3 id="describing-arrays-in-separation-logic">Describing Arrays in Separation Logic</h3>
+
+<p>An array can be represented as a contiguous memory segment.</p>
+
+<p><strong>Array segment</strong>:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>array[i..j) ↦ [v₁, v₂, ..., vₙ]
+</code></pre></div></div>
+
+<p>This states that <code class="language-plaintext highlighter-rouge">array[i]</code> through <code class="language-plaintext highlighter-rouge">array[j-1]</code> occupy consecutive memory and
+contain the listed values.</p>
+
+<p><strong>Array read in separation logic</strong>:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{array[0..n) ↦ [v₀, v₁, ..., vₙ₋₁] ∧ 0 &lt;= i &lt; n}
+x := array[i]
+{x = vᵢ ∧ array[0..n) ↦ [v₀, v₁, ..., vₙ₋₁]}
+</code></pre></div></div>
+
+<p><strong>Array write in separation logic</strong>:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{array[0..n) ↦ [v₀, v₁, ..., vₙ₋₁] ∧ 0 &lt;= i &lt; n}
+array[i] := w
+{array[0..n) ↦ [v₀, ..., vᵢ₋₁, w, vᵢ₊₁, ..., vₙ₋₁]}
+</code></pre></div></div>
+
+<h3 id="verifying-pointer-operations">Verifying Pointer Operations</h3>
+
+<p>Pointers introduce still more complexity. Avoiding null dereference and memory
+leak is essential.</p>
+
+<p><strong>Pointer read</strong>:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{p ↦ v ∧ p ≠ null} x := *p {x = v ∧ p ↦ v}
+</code></pre></div></div>
+
+<p><strong>Pointer write</strong>:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{p ↦ _ ∧ p ≠ null} *p := x {p ↦ x}
+</code></pre></div></div>
+
+<p><strong>Allocation</strong>:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{emp} p := malloc() {p ↦ _ ∧ p ≠ null}
+</code></pre></div></div>
+
+<p><strong>Deallocation</strong>:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{p ↦ _ ∧ p ≠ null} free(p) {emp}
+</code></pre></div></div>
+
+<h3 id="verifying-linked-structures">Verifying Linked Structures</h3>
+
+<p>Recursive data structures such as linked lists and trees are usually specified
+with <em>inductive predicates</em>.</p>
+
+<p>Linked list example:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>list(head, elements) ≡
+  (head = null ∧ elements = []) ∨
+  ∃x, next, tail. head ↦ {data: x, next: next} *
+                   list(next, tail) ∧
+                   elements = x::tail
+</code></pre></div></div>
+
+<p>This states that a list is either empty or consists of a node followed by a
+smaller list.</p>
+
+<p>Insertion at the head:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{list(head, elements)}
+newNode := malloc();
+newNode.data := x;
+newNode.next := head;
+head := newNode
+{list(head, x::elements)}
+</code></pre></div></div>
+
+<h3 id="verifying-an-array-sorting-algorithm">Verifying an Array Sorting Algorithm</h3>
+
+<p>As a practical example, consider insertion sort:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{array[0..n) ↦ input ∧ n &gt;= 0}
+for i := 1 to n-1 do
+    key := array[i];
+    j := i - 1;
+    while j &gt;= 0 ∧ array[j] &gt; key do
+        array[j+1] := array[j];
+        j := j - 1;
+    array[j+1] := key
+{array[0..n) ↦ output ∧ sorted(output) ∧ permutation(input, output)}
+</code></pre></div></div>
+
+<p>Outer-loop invariant:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 &lt;= i &lt;= n ∧
+array[0..i) ↦ partial_sorted ∧
+array[i..n) ↦ remaining ∧
+sorted(partial_sorted) ∧
+permutation(input, partial_sorted ++ remaining)
+</code></pre></div></div>
+
+<p>Inner-loop invariant:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-1 &lt;= j &lt; i ∧
+array[0..j+1) ↦ left_part ∧
+array[j+1..i+1) ↦ shifted_part ∧
+array[i+1..n) ↦ unchanged ∧
+sorted(left_part) ∧
+∀x ∈ left_part. x &lt;= key ∧
+∀x ∈ shifted_part. x &gt; key
+</code></pre></div></div>
+
+<h3 id="an-example-of-aliasing">An Example of Aliasing</h3>
+
+<p>Aliasing is a major source of proof complexity:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{array[0..n) ↦ values}
+p := &amp;array[i];
+q := &amp;array[j];
+*p := x;
+*q := y;
+{(i = j ⇒ array[i] ↦ y) ∧ (i ≠ j ⇒ array[i] ↦ x * array[j] ↦ y)}
+</code></pre></div></div>
+
+<p>If <code class="language-plaintext highlighter-rouge">i = j</code>, both pointers refer to the same cell and the final value is <code class="language-plaintext highlighter-rouge">y</code>. If
+<code class="language-plaintext highlighter-rouge">i ≠ j</code>, the two writes affect disjoint cells.</p>
+
+<p>Separation logic expresses this as:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{(i = j ⇒ array[i] ↦ _) ∧ (i ≠ j ⇒ array[i] ↦ _ * array[j] ↦ _)}
+...
+{(i = j ⇒ array[i] ↦ y) ∧ (i ≠ j ⇒ array[i] ↦ x * array[j] ↦ y)}
+</code></pre></div></div>
+
+<h3 id="ownership-and-borrowing">Ownership and Borrowing</h3>
+
+<p>Modern languages such as Rust address memory safety through <em>ownership</em>.</p>
+
+<p>Typical ownership rules are:</p>
+
+<ol>
+  <li>each memory region has a unique owner</li>
+  <li>when the owner leaves scope, memory is released automatically</li>
+  <li>at any point, there is either one mutable reference or multiple immutable
+references</li>
+</ol>
+
+<p>These rules push many memory-safety guarantees into the type system itself.</p>
+
+<h3 id="integration-with-verification-tools">Integration with Verification Tools</h3>
+
+<p>Practical memory verification often relies on dedicated tools.</p>
+
+<p><strong>Array verification in Dafny</strong>:</p>
+
+<div class="language-dafny highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">method</span> <span class="n">BinarySearch</span><span class="p">(</span><span class="n">a</span><span class="o">:</span> <span class="kt">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">key</span><span class="o">:</span> <span class="kt">int</span><span class="p">)</span> <span class="kr">returns</span> <span class="p">(</span><span class="n">index</span><span class="o">:</span> <span class="kt">int</span><span class="p">)</span>
+  <span class="kr">requires</span> <span class="n">a</span><span class="o">.</span><span class="n">Length</span> <span class="o">&gt;</span> <span class="mi">0</span>
+  <span class="kr">requires</span> <span class="kr">forall</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">::</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">a</span><span class="o">.</span><span class="n">Length</span> <span class="o">==&gt;</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+  <span class="kr">ensures</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">index</span> <span class="o">==&gt;</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="n">a</span><span class="o">.</span><span class="n">Length</span> <span class="o">&amp;&amp;</span> <span class="n">a</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">==</span> <span class="n">key</span>
+  <span class="kr">ensures</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">==&gt;</span> <span class="kr">forall</span> <span class="n">i</span> <span class="o">::</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">a</span><span class="o">.</span><span class="n">Length</span> <span class="o">==&gt;</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">key</span>
+  <span class="kr">modifies</span> <span class="n">nothing</span>
+</code></pre></div></div>
+
+<p><strong>Array verification in SPARK</strong>:</p>
+
+<div class="language-ada highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">procedure</span> <span class="nf">Binary_Search</span> <span class="p">(</span><span class="n">A</span> <span class="p">:</span> <span class="n">Integer_Array</span><span class="p">;</span> <span class="n">Key</span> <span class="p">:</span> <span class="nb">Integer</span><span class="p">;</span>
+                         <span class="n">Found</span> <span class="p">:</span> <span class="k">out</span> <span class="nb">Boolean</span><span class="p">;</span> <span class="n">Index</span> <span class="p">:</span> <span class="k">out</span> <span class="nb">Natural</span><span class="p">)</span>
+  <span class="k">with</span> <span class="n">Pre</span>  <span class="o">=&gt;</span> <span class="n">A</span><span class="p">'</span><span class="na">Length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="k">then</span>
+                 <span class="p">(</span><span class="k">for</span> <span class="k">all</span> <span class="n">I</span> <span class="k">in</span> <span class="n">A</span><span class="p">'</span><span class="na">Range</span> <span class="o">=&gt;</span>
+                    <span class="p">(</span><span class="k">for</span> <span class="k">all</span> <span class="n">J</span> <span class="k">in</span> <span class="n">I</span><span class="o">+</span><span class="mi">1</span> <span class="o">..</span> <span class="n">A</span><span class="p">'</span><span class="na">Last</span> <span class="o">=&gt;</span> <span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">A</span><span class="p">(</span><span class="n">J</span><span class="p">))),</span>
+       <span class="n">Post</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="k">if</span> <span class="n">Found</span> <span class="k">then</span> <span class="n">A</span><span class="p">(</span><span class="n">Index</span><span class="p">)</span> <span class="o">=</span> <span class="n">Key</span> <span class="k">else</span>
+                  <span class="p">(</span><span class="k">for</span> <span class="k">all</span> <span class="n">I</span> <span class="k">in</span> <span class="n">A</span><span class="p">'</span><span class="na">Range</span> <span class="o">=&gt;</span> <span class="n">A</span><span class="p">(</span><span class="n">I</span><span class="p">)</span> <span class="o">/=</span> <span class="n">Key</span><span class="p">));</span>
+</code></pre></div></div>
+
+<h3 id="practical-strategy-for-memory-verification">Practical Strategy for Memory Verification</h3>
+
+<p>Useful practical guidelines include:</p>
+
+<ol>
+  <li><strong>make ownership explicit</strong></li>
+  <li><strong>treat boundary conditions rigorously</strong></li>
+  <li><strong>analyze possible aliasing patterns up front</strong></li>
+  <li><strong>decompose complex memory operations</strong></li>
+  <li><strong>use automation where manual proof is too expensive</strong></li>
+</ol>
+
+<p>Memory verification is one of the most challenging parts of practical program
+verification, but it is also one of the most valuable in real systems.</p>
+
+<h2 id="106-practical-program-verification-tools-and-methodology">10.6 Practical Program Verification: Tools and Methodology</h2>
+
+<h3 id="bridging-theory-and-practice">Bridging Theory and Practice</h3>
+
+<p>How are the theoretical foundations of this chapter used in real projects?
+Moving from classroom examples to production systems requires tools and
+methodology that close the gap between theory and engineering reality.</p>
+
+<p>The goal of practical program verification is not theoretical perfection for
+its own sake. It is <em>economically rational improvement in trustworthiness</em>.
+Teams must use limited time and budget to verify the properties that matter
+most.</p>
+
+<h3 id="categories-of-verification-tools">Categories of Verification Tools</h3>
+
+<p>Modern tools can be divided into several broad categories.</p>
+
+<p><strong>Static-analysis tools</strong> inspect code without executing it:</p>
+
+<ul>
+  <li><strong>type checkers</strong> for type safety</li>
+  <li><strong>linters</strong> for coding-policy and basic defect checks</li>
+  <li><strong>abstract-interpretation tools</strong> for runtime-error detection</li>
+</ul>
+
+<p><strong>Contract-based verification tools</strong> work from explicit specifications:</p>
+
+<ul>
+  <li><strong>Dafny</strong></li>
+  <li><strong>SPARK</strong></li>
+  <li><strong>ACSL/Frama-C</strong></li>
+</ul>
+
+<p><strong>Proof assistants</strong> provide the strongest level of assurance, but also the
+highest learning and deployment cost:</p>
+
+<ul>
+  <li><strong>Rocq</strong></li>
+  <li><strong>Isabelle/HOL</strong></li>
+  <li><strong>Lean</strong></li>
+</ul>
+
+<h3 id="from-hoare-logic-to-mechanization">From Hoare Logic to Mechanization</h3>
+
+<p>Hoare logic and loop invariants can be used on paper, but once mechanized,
+claims, assumptions, and proofs become version-controlled assets.</p>
+
+<p>In proof assistants such as Lean, Rocq, or Isabelle, the Hoare triple itself
+can be encoded as a proposition whose proof is checked by the kernel.</p>
+
+<p>Here is a deliberately simplified Lean-style formulation:</p>
+
+<div class="language-lean highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="n">Hoare</span> <span class="err">{</span><span class="n">S</span> : <span class="kt">Type</span><span class="err">}</span> (<span class="n">P</span> : <span class="n">S</span> <span class="o">-&gt;</span> <span class="kt">Prop</span>) (<span class="n">C</span> : <span class="n">S</span> <span class="o">-&gt;</span> <span class="n">S</span>) (<span class="n">Q</span> : <span class="n">S</span> <span class="o">-&gt;</span> <span class="kt">Prop</span>) : <span class="kt">Prop</span> :=
+  <span class="n">forall</span> <span class="n">s</span> : <span class="n">S</span>, <span class="n">P</span> <span class="n">s</span> <span class="o">-&gt;</span> <span class="n">Q</span> (<span class="n">C</span> <span class="n">s</span>)
+</code></pre></div></div>
+
+<p>This perspective supports several practical design decisions:</p>
+
+<ul>
+  <li>automate the regions that lightweight tools such as Dafny can handle</li>
+  <li>reserve proof-assistant effort for the core logical arguments</li>
+  <li>delay mechanization of unstable interfaces until the abstraction boundary is
+clear</li>
+</ul>
+
+<h3 id="dafny-practical-verification-oriented-programming">Dafny: Practical Verification-Oriented Programming</h3>
+
+<p>Dafny allows specifications and implementations to live in the same language.
+It was created at Microsoft Research and is used both pedagogically and
+practically.</p>
+
+<div class="language-dafny highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">method</span> <span class="n">Max</span><span class="p">(</span><span class="n">a</span><span class="o">:</span> <span class="kt">int</span><span class="p">,</span> <span class="n">b</span><span class="o">:</span> <span class="kt">int</span><span class="p">)</span> <span class="kr">returns</span> <span class="p">(</span><span class="n">max</span><span class="o">:</span> <span class="kt">int</span><span class="p">)</span>
+  <span class="kr">ensures</span> <span class="n">max</span> <span class="o">&gt;=</span> <span class="n">a</span> <span class="o">&amp;&amp;</span> <span class="n">max</span> <span class="o">&gt;=</span> <span class="n">b</span>
+  <span class="kr">ensures</span> <span class="n">max</span> <span class="o">==</span> <span class="n">a</span> <span class="o">||</span> <span class="n">max</span> <span class="o">==</span> <span class="n">b</span>
+<span class="p">{</span>
+  <span class="kr">if</span> <span class="n">a</span> <span class="o">&gt;=</span> <span class="n">b</span> <span class="p">{</span>
+    <span class="n">max</span> <span class="o">:=</span> <span class="n">a</span><span class="p">;</span>
+  <span class="p">}</span> <span class="kr">else</span> <span class="p">{</span>
+    <span class="n">max</span> <span class="o">:=</span> <span class="n">b</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">ensures</code> clauses express the postcondition. Dafny verifies automatically
+that the implementation satisfies it.</p>
+
+<p>Loop invariants are likewise written explicitly:</p>
+
+<div class="language-dafny highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">method</span> <span class="n">Sum</span><span class="p">(</span><span class="n">arr</span><span class="o">:</span> <span class="kt">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">)</span> <span class="kr">returns</span> <span class="p">(</span><span class="n">sum</span><span class="o">:</span> <span class="kt">int</span><span class="p">)</span>
+  <span class="kr">requires</span> <span class="n">arr</span><span class="o">.</span><span class="n">Length</span> <span class="o">&gt;</span> <span class="mi">0</span>
+  <span class="kr">ensures</span> <span class="n">sum</span> <span class="o">==</span> <span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">arr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="o">...</span> <span class="o">+</span> <span class="n">arr</span><span class="p">[</span><span class="n">arr</span><span class="o">.</span><span class="n">Length</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="p">{</span>
+  <span class="n">sum</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kr">var</span> <span class="n">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kr">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="o">.</span><span class="n">Length</span>
+    <span class="kr">invariant</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">arr</span><span class="o">.</span><span class="n">Length</span>
+    <span class="kr">invariant</span> <span class="n">sum</span> <span class="o">==</span> <span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">arr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="o">...</span> <span class="o">+</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+  <span class="p">{</span>
+    <span class="n">sum</span> <span class="o">:=</span> <span class="n">sum</span> <span class="o">+</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="n">i</span> <span class="o">:=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="spark-proven-industrial-use">SPARK: Proven Industrial Use</h3>
+
+<p>SPARK is a contract-based verification technology used in safety-critical
+domains such as aerospace, rail, and automotive systems.</p>
+
+<p>Characteristics of SPARK include:</p>
+
+<ul>
+  <li>a disciplined subset of Ada</li>
+  <li>staged application from partial specifications to stronger guarantees</li>
+  <li>integration into industrial toolchains</li>
+</ul>
+
+<div class="language-ada highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">procedure</span> <span class="nf">Increment</span> <span class="p">(</span><span class="n">X</span> <span class="p">:</span> <span class="k">in</span> <span class="k">out</span> <span class="nb">Integer</span><span class="p">)</span>
+  <span class="k">with</span> <span class="n">Pre</span>  <span class="o">=&gt;</span> <span class="n">X</span> <span class="o">&lt;</span> <span class="nb">Integer</span><span class="p">'</span><span class="na">Last</span><span class="p">,</span>
+       <span class="n">Post</span> <span class="o">=&gt;</span> <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="p">'</span><span class="na">Old</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="kd">procedure</span> <span class="nf">Increment</span> <span class="p">(</span><span class="n">X</span> <span class="p">:</span> <span class="k">in</span> <span class="k">out</span> <span class="nb">Integer</span><span class="p">)</span> <span class="k">is</span>
+<span class="k">begin</span>
+   <span class="n">X</span> <span class="o">:=</span> <span class="n">X</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="k">end</span> <span class="n">Increment</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="the-reach-and-limits-of-automation">The Reach and Limits of Automation</h3>
+
+<p>Modern tools automate many proof obligations, but not all of them.</p>
+
+<p><strong>Areas that automate well</strong>:</p>
+
+<ul>
+  <li>type safety</li>
+  <li>linear arithmetic and bounds checks</li>
+  <li>simple list and array manipulations</li>
+  <li>recurring proof patterns</li>
+</ul>
+
+<p><strong>Areas that still need human guidance</strong>:</p>
+
+<ul>
+  <li>discovering nontrivial invariants</li>
+  <li>choosing proof strategies</li>
+  <li>refining an informal requirement into a formal specification</li>
+  <li>balancing proof strength against engineering cost</li>
+</ul>
+
+<p>Knowing where automation stops is part of mature verification practice.</p>
+
+<h3 id="smt-solvers">SMT Solvers</h3>
+
+<p>SMT (Satisfiability Modulo Theories) solvers are a core technology behind many
+modern verification tools. They decide satisfiability of logical formulas over
+theories such as arithmetic, arrays, and bit-vectors.</p>
+
+<p>They are especially effective for:</p>
+
+<ul>
+  <li>linear arithmetic</li>
+  <li>array reads and writes</li>
+  <li>bit-vector reasoning</li>
+  <li>quantifier-free first-order reasoning</li>
+</ul>
+
+<p>Major SMT solvers include:</p>
+
+<ul>
+  <li><strong>Z3</strong></li>
+  <li><strong>CVC4/CVC5</strong></li>
+  <li><strong>Yices</strong></li>
+</ul>
+
+<h3 id="a-practical-verification-workflow">A Practical Verification Workflow</h3>
+
+<p>A realistic project workflow often looks like this:</p>
+
+<p><strong>1. Requirements analysis and property extraction</strong></p>
+
+<ul>
+  <li>identify which properties actually need verification</li>
+  <li>prioritize safety, security, and functional correctness</li>
+</ul>
+
+<p><strong>2. Incremental formalization</strong></p>
+
+<ul>
+  <li>start from the most critical properties</li>
+  <li>express them in a machine-checkable form</li>
+  <li>validate that the formalization matches the intent</li>
+</ul>
+
+<p><strong>3. Incremental verification of the implementation</strong></p>
+
+<ul>
+  <li>unit-level verification</li>
+  <li>module-level composition</li>
+  <li>system-level verification</li>
+</ul>
+
+<p><strong>4. Analysis and refinement</strong></p>
+
+<ul>
+  <li>investigate why a proof failed</li>
+  <li>repair the code or the specification</li>
+  <li>decide on fallback techniques where full proof is too expensive</li>
+</ul>
+
+<h3 id="cost-benefit-analysis">Cost-Benefit Analysis</h3>
+
+<p>Practical program verification requires explicit assessment of cost and value.</p>
+
+<p><strong>Costs</strong>:</p>
+
+<ul>
+  <li>learning cost for the team</li>
+  <li>tool licensing and maintenance</li>
+  <li>extra development time for specifications and proofs</li>
+  <li>maintenance cost to keep code and specs aligned</li>
+</ul>
+
+<p><strong>Benefits</strong>:</p>
+
+<ul>
+  <li>earlier defect detection</li>
+  <li>reduced testing cost for verified parts</li>
+  <li>stronger assurance</li>
+  <li>improved maintainability through clearer specifications</li>
+</ul>
+
+<h3 id="a-staged-adoption-strategy">A Staged Adoption Strategy</h3>
+
+<p>Organizations usually adopt verification in stages.</p>
+
+<p><strong>Phase 1: lightweight tools</strong></p>
+
+<ul>
+  <li>static analysis</li>
+  <li>automatic policy checks</li>
+  <li>better use of the type system</li>
+</ul>
+
+<p><strong>Phase 2: contract-based programming</strong></p>
+
+<ul>
+  <li>preconditions and postconditions on important functions</li>
+  <li>unit-level proof practice</li>
+  <li>accumulation of specification-writing skill</li>
+</ul>
+
+<p><strong>Phase 3: system-level verification</strong></p>
+
+<ul>
+  <li>contracts between modules</li>
+  <li>full verification of critical algorithms</li>
+  <li>stricter assurance for safety-critical parts</li>
+</ul>
+
+<h3 id="success-factors-in-real-projects">Success Factors in Real Projects</h3>
+
+<p>Successful verification in real projects depends on three kinds of factors.</p>
+
+<p><strong>Technical factors</strong>:</p>
+
+<ul>
+  <li>choosing suitable tools</li>
+  <li>managing complexity incrementally</li>
+  <li>adopting verification-friendly designs</li>
+</ul>
+
+<p><strong>Organizational factors</strong>:</p>
+
+<ul>
+  <li>management support</li>
+  <li>team-wide skill development</li>
+  <li>willingness to invest with a long-term perspective</li>
+</ul>
+
+<p><strong>Process factors</strong>:</p>
+
+<ul>
+  <li>integration with the existing development workflow</li>
+  <li>continuous improvement</li>
+  <li>accumulation and sharing of knowledge</li>
+</ul>
+
+<p>Practical program verification succeeds when theory, tooling, and organizational
+discipline reinforce one another.</p>
+
+<hr />
+
+<h2 id="end-of-chapter-exercises">End-of-Chapter Exercises</h2>
+
+<p>Treat these as verification design drills. A worked proof sketch, verifier log,
+or short technical note is enough as long as the correctness argument is
+explicit.</p>
+
+<h3 id="basic-exercise-1-foundations-of-hoare-logic">Basic Exercise 1: Foundations of Hoare Logic</h3>
+
+<p>Construct suitable Hoare triples for the following program fragments.</p>
+
+<p><strong>Exercise 1-1: basic assignments</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x := y + 2;
+z := x * 3;
+</code></pre></div></div>
+
+<p>Target postcondition:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>z = 3 * (y + 2)
+</code></pre></div></div>
+
+<p><strong>Exercise 1-2: conditional</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if x &gt; 0 then
+    result := x
+else
+    result := -x
+</code></pre></div></div>
+
+<p>Target postcondition:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>result ≥ 0
+</code></pre></div></div>
+
+<p><strong>Exercise 1-3: simple loop</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sum := 0;
+i := 1;
+while i &lt;= n do
+    sum := sum + i;
+    i := i + 1
+</code></pre></div></div>
+
+<p>Target postcondition:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sum = n * (n + 1) / 2
+</code></pre></div></div>
+
+<p>For each exercise:</p>
+
+<ol>
+  <li>choose an appropriate precondition</li>
+  <li>identify intermediate assertions if needed</li>
+  <li>state a loop invariant when a loop is present</li>
+  <li>explain each proof step logically</li>
+</ol>
+
+<h3 id="basic-exercise-2-finding-loop-invariants">Basic Exercise 2: Finding Loop Invariants</h3>
+
+<p>For each of the following algorithms, discover a suitable loop invariant and
+prove correctness.</p>
+
+<p><strong>Exercise 2-1: linear search</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>found := false;
+i := 0;
+while i &lt; n &amp;&amp; !found do
+    if array[i] = target then
+        found := true;
+        position := i;
+    i := i + 1;
+</code></pre></div></div>
+
+<p><strong>Exercise 2-2: maximum search</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>max := array[0];
+i := 1;
+while i &lt; n do
+    if array[i] &gt; max then
+        max := array[i];
+    i := i + 1;
+</code></pre></div></div>
+
+<p><strong>Exercise 2-3: insertion sort</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for i := 1 to n-1 do
+    key := array[i];
+    j := i - 1;
+    while j &gt;= 0 &amp;&amp; array[j] &gt; key do
+        array[j+1] := array[j];
+        j := j - 1;
+    array[j+1] := key;
+</code></pre></div></div>
+
+<p>For each algorithm:</p>
+
+<ol>
+  <li>propose a suitable loop invariant</li>
+  <li>prove initialization, preservation, and termination reasoning</li>
+  <li>identify a variant function that ensures termination</li>
+</ol>
+
+<h3 id="practical-exercise-1-verifying-array-algorithms">Practical Exercise 1: Verifying Array Algorithms</h3>
+
+<p>Choose one of the following algorithms and prove its full correctness.</p>
+
+<p><strong>Option 1: binary search</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>left := 0;
+right := n - 1;
+found := false;
+while left &lt;= right &amp;&amp; !found do
+    mid := (left + right) / 2;
+    if array[mid] = target then
+        found := true;
+        position := mid;
+    else if array[mid] &lt; target then
+        left := mid + 1;
+    else
+        right := mid - 1;
+</code></pre></div></div>
+
+<p><strong>Option 2: bubble sort</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for i := 0 to n-2 do
+    for j := 0 to n-2-i do
+        if array[j] &gt; array[j+1] then
+            temp := array[j];
+            array[j] := array[j+1];
+            array[j+1] := temp;
+</code></pre></div></div>
+
+<p><strong>Option 3: quicksort (simplified)</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>procedure quicksort(array, low, high):
+    if low &lt; high then
+        pivot := partition(array, low, high);
+        quicksort(array, low, pivot - 1);
+        quicksort(array, pivot + 1, high);
+</code></pre></div></div>
+
+<p>Verification items:</p>
+
+<ol>
+  <li>clarify the precondition and postcondition</li>
+  <li>identify all required loop invariants</li>
+  <li>guarantee array-bound safety</li>
+  <li>prove functional correctness</li>
+  <li>prove termination</li>
+</ol>
+
+<h3 id="practical-exercise-2-tool-assisted-verification">Practical Exercise 2: Tool-Assisted Verification</h3>
+
+<p>Use an actual verification tool such as Dafny or SPARK to implement and verify
+the following specification:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Function specification:
+  Input: integer array array[0..n-1] (n &gt; 0)
+  Output: a Boolean telling whether the array is a palindrome
+
+  Precondition: array != null &amp;&amp; array.length &gt; 0
+  Postcondition:
+    result == true ⇔ ∀i. 0 ≤ i &lt; n ⇒ array[i] == array[n-1-i]
+</code></pre></div></div>
+
+<p>Implementation requirements:</p>
+
+<ol>
+  <li>write appropriate preconditions and postconditions</li>
+  <li>state loop invariants explicitly</li>
+  <li>guarantee array-bound safety</li>
+  <li>make the tool verification succeed automatically</li>
+</ol>
+
+<p><strong>Suggested output</strong></p>
+
+<ul>
+  <li>the full implementation</li>
+  <li>the verification-tool output</li>
+  <li>a short note explaining the proof obligations, tool findings, and how you
+resolved the main verification issues</li>
+</ul>
+
+<h3 id="advanced-exercise-partial-verification-of-a-practical-system">Advanced Exercise: Partial Verification of a Practical System</h3>
+
+<p>Choose part of a practical system and apply formal verification.</p>
+
+<p><strong>Option 1: a simple cryptographic system</strong></p>
+
+<ul>
+  <li>prove reversibility of encryption and decryption for a Caesar cipher or XOR
+cipher</li>
+  <li>validate input strings</li>
+  <li>guarantee memory safety</li>
+</ul>
+
+<p><strong>Option 2: a fundamental data structure</strong></p>
+
+<ul>
+  <li>preserve invariants of a stack, queue, or balanced tree</li>
+  <li>prove functional correctness of operations</li>
+  <li>prevent memory leaks</li>
+</ul>
+
+<p><strong>Option 3: part of a concurrent program</strong></p>
+
+<ul>
+  <li>avoid data races in a simple producer-consumer setup</li>
+  <li>prevent deadlock</li>
+  <li>preserve production-consumption consistency</li>
+</ul>
+
+<p><strong>Suggested analysis outline</strong></p>
+
+<ol>
+  <li>justify the chosen target system</li>
+  <li>identify the properties to verify</li>
+  <li>describe the formal specification</li>
+  <li>explain the verification approach</li>
+  <li>report problems found and proposed improvements</li>
+  <li>discuss obstacles to wider practical deployment</li>
+</ol>
+
+<h3 id="self-review-checklist">Self-Review Checklist</h3>
+
+<p>Use the following checklist to evaluate your result.</p>
+
+<p><strong>Accuracy</strong></p>
+
+<ul>
+  <li>correctness of the mathematical reasoning</li>
+  <li>suitability of the specification</li>
+  <li>completeness of the proof</li>
+</ul>
+
+<p><strong>Understanding</strong></p>
+
+<ul>
+  <li>correct understanding and use of the concepts</li>
+  <li>clear grasp of the essential problem structure</li>
+  <li>appropriate choice of method</li>
+</ul>
+
+<p><strong>Practicality</strong></p>
+
+<ul>
+  <li>consideration of realistic constraints</li>
+  <li>effective use of tools</li>
+  <li>applicability to real projects</li>
+</ul>
+
+<p><strong>Creativity</strong></p>
+
+<ul>
+  <li>originality of the approach</li>
+  <li>quality of handling complex problems</li>
+  <li>quality of improvement proposals</li>
+</ul>
+
+<p>Through these exercises, the goal is to acquire both the theoretical
+foundations and the practical techniques of program verification so that you
+can apply them to quality improvement in real software development.</p>
+
+                </article>
+
+                
+                <nav class="page-navigation" aria-label="Page navigation">
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+
+
+
+
+
+<nav class="book-navigation" aria-label="Page navigation">
+  <div class="chapter-nav">
+    
+      <a href="/formal-methods-book/en/chapters/chapter09/" class="nav-prev" rel="prev">
+        <span class="arrow" aria-hidden="true">←</span>
+        <span class="label">Previous</span>
+        <span class="title">Chapter 9: Fundamentals of Theorem Proving</span>
+      </a>
+    
+
+    <a href="/formal-methods-book/en/" class="nav-home">
+      <span class="label">Contents</span>
+    </a>
+
+    
+      <a href="/formal-methods-book/en/chapters/chapter11/" class="nav-next" rel="next">
+        <span class="label">Next</span>
+        <span class="title">Chapter 11: Integrating Formal Methods into Development Processes</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    
+  </div>
+</nav>
+
+<style>
+.book-navigation { margin: 2rem 0; padding: 1rem; border-top: 1px solid var(--border-color, #e5e7eb); }
+.chapter-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.nav-prev, .nav-next, .nav-home { display: flex; align-items: center; padding: 0.75rem 1.25rem; background: var(--bg-primary, #fff); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; text-decoration: none; color: inherit; }
+.nav-disabled { opacity: .5; cursor: not-allowed; background: var(--bg-tertiary, #f9fafb); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; padding: 0.75rem 1.25rem; display: flex; align-items: center; }
+.nav-prev { flex: 1; }
+.nav-next { flex: 1; justify-content: flex-end; text-align: right; }
+.nav-home { flex: 0 0 auto; justify-content: center; }
+.label { font-weight: 600; margin: 0 .25rem; }
+.title { font-size: .9rem; opacity: .8; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 768px) { .chapter-nav { flex-wrap: wrap; } .nav-prev, .nav-next { flex: 1 1 45%; } .nav-home { flex: 1 1 100%; order: -1; } .title { display: none; } }
+</style>
+
+                </nav>
+                
+
+                
+
+                <footer class="book-footer" role="contentinfo">
+                    <div class="book-footer-inner">
+                        <div class="book-footer-license">
+                            Reader-facing text: CC BY-NC-SA 4.0 / Code assets: Apache-2.0 / excluding trademarks and third-party assets
+                        </div>
+                        <div class="book-footer-links">
+                            
+                                <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener">GitHub</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/LICENSE-SCOPE.md" target="_blank" rel="noopener">License</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/COMMERCIAL.md" target="_blank" rel="noopener">Commercial</a>
+                            
+                            
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <label for="sidebar-toggle-checkbox" class="book-sidebar-overlay" id="sidebar-overlay" aria-label="Close sidebar"></label>
+
+    <script async src="/formal-methods-book/assets/js/code-copy-lightweight.js"></script>
+    <script defer src="/formal-methods-book/assets/js/theme.js"></script>
+    <script defer src="/formal-methods-book/assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var cb = document.getElementById('sidebar-toggle-checkbox');
+            var toggle = document.querySelector('.sidebar-toggle');
+            if (cb) cb.checked = false;
+            if (cb && toggle) {
+                var sync = function() {
+                    toggle.setAttribute('aria-expanded', cb.checked ? 'true' : 'false');
+                };
+                sync();
+                cb.addEventListener('change', sync);
+                toggle.addEventListener('keydown', function(e) {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        cb.checked = !cb.checked;
+                        cb.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        (function() {
+            function initTocAutoScroll() {
+                var cb = document.getElementById('sidebar-toggle-checkbox');
+                if (!cb) return;
+
+                function normalizePath(p) {
+                    var path = String(p || '').replace(/index\.html$/, '');
+                    if (path.length > 1) {
+                        path = path.replace(/\/+$/, '');
+                    }
+                    return path || '/';
+                }
+
+                function isMobileDrawer() {
+                    try {
+                        if (typeof window.matchMedia === 'function') {
+                            return window.matchMedia('(max-width: 1024px)').matches;
+                        }
+                    } catch (_) {}
+                    return typeof window.innerWidth === 'number' ? window.innerWidth <= 1024 : true;
+                }
+
+                function findActiveTocLink() {
+                    var current = normalizePath(window.location.pathname);
+                    var actives = document.querySelectorAll('a.toc-link.active');
+                    if (!actives || actives.length === 0) return null;
+
+                    for (var i = 0; i < actives.length; i++) {
+                        var a = actives[i];
+                        if (!a || !a.href) continue;
+                        try {
+                            var pathname = normalizePath(new URL(a.href).pathname);
+                            if (pathname === current) return a;
+                        } catch (_) {}
+                    }
+                    return actives[0];
+                }
+
+                function ensureActiveTocVisible() {
+                    if (!cb.checked) return;
+                    if (!isMobileDrawer()) return;
+
+                    var active = findActiveTocLink();
+                    if (!active) return;
+
+                    var sidebar = active.closest('.book-sidebar') || document.getElementById('sidebar');
+                    if (!sidebar) return;
+
+                    try {
+                        var linkRect = active.getBoundingClientRect();
+                        var sidebarRect = sidebar.getBoundingClientRect();
+                        var marginTop = 8;
+                        var marginBottom = 8;
+                        try {
+                            if (window.getComputedStyle) {
+                                var cs = window.getComputedStyle(sidebar);
+                                if (cs) {
+                                    var pt = parseFloat(cs.paddingTop);
+                                    var pb = parseFloat(cs.paddingBottom);
+                                    if (!isNaN(pt)) marginTop = pt;
+                                    if (!isNaN(pb)) marginBottom = pb;
+                                }
+                            }
+                        } catch (_) {}
+
+                        var top = sidebarRect.top + marginTop;
+                        var bottom = sidebarRect.bottom - marginBottom;
+                        var outOfView = linkRect.top < top || linkRect.bottom > bottom;
+
+                        if (outOfView && typeof active.scrollIntoView === 'function') {
+                            try {
+                                active.scrollIntoView({ block: 'center', behavior: 'auto' });
+                            } catch (e) {
+                                active.scrollIntoView();
+                            }
+                        }
+                    } catch (_) {}
+                }
+
+                function scheduleEnsure() {
+                    setTimeout(ensureActiveTocVisible, 0);
+                    setTimeout(ensureActiveTocVisible, 350);
+                }
+
+                cb.addEventListener('change', function() {
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+
+                if (cb.checked) {
+                    scheduleEnsure();
+                }
+
+                window.addEventListener('pageshow', function(e) {
+                    if (!e || !e.persisted) return;
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initTocAutoScroll);
+            } else {
+                initTocAutoScroll();
+            }
+        })();
+    </script>
+</body>
+</html>

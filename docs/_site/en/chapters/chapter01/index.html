@@ -1,0 +1,1334 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta name="author" content="太田和彦（株式会社アイティードゥ）">
+
+    <title>Chapter 1: Why Formal Methods Matter - Formal Methods: Foundations and Applications</title>
+
+    <link rel="canonical" href="https://itdojp.github.io/formal-methods-book/en/chapters/chapter01/">
+    <link rel="alternate" hreflang="ja" href="https://itdojp.github.io/formal-methods-book/chapters/chapter01/">
+    <link rel="alternate" hreflang="en" href="https://itdojp.github.io/formal-methods-book/en/chapters/chapter01/">
+    <link rel="alternate" hreflang="x-default" href="https://itdojp.github.io/formal-methods-book/">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/main.css">
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/syntax-highlighting.css">
+
+    <link rel="icon" type="image/png" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+    <link rel="apple-touch-icon" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+
+    <meta property="og:title" content="Chapter 1: Why Formal Methods Matter">
+    <meta property="og:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://itdojp.github.io/formal-methods-book/en/chapters/chapter01/">
+    <meta property="og:locale" content="en_US">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Chapter 1: Why Formal Methods Matter">
+    <meta name="twitter:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+
+    <script>
+        (function() {
+            try {
+                const k = 'book-theme';
+                const t = localStorage.getItem(k) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (_) {}
+        })();
+    </script>
+</head>
+<body>
+    
+    
+    
+    
+    
+
+    <input type="checkbox" id="sidebar-toggle-checkbox" class="sidebar-toggle-checkbox" aria-hidden="true">
+
+    <div class="book-layout">
+        <header class="book-header">
+            <div class="header-left">
+                <label for="sidebar-toggle-checkbox" class="sidebar-toggle" aria-label="Toggle sidebar" role="button" tabindex="0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </label>
+                <a href="/formal-methods-book/en/" class="header-title">
+                    <h1>Formal Methods: Foundations and Applications</h1>
+                </a>
+            </div>
+
+            <div class="header-center">
+                <div class="search-container">
+                    <input type="search"
+                           placeholder="Search..."
+                           class="search-input"
+                           id="search-input"
+                           autocomplete="off">
+                    <div class="search-results" id="search-results"></div>
+                </div>
+            </div>
+
+            <div class="header-right">
+                
+
+
+
+
+
+
+
+
+
+
+<a href="/formal-methods-book/chapters/chapter01/"
+   class="language-switcher"
+   hreflang="ja"
+   lang="ja"
+   >
+    日本語
+</a>
+
+                <button class="theme-toggle" aria-label="Toggle theme">
+                    <svg class="theme-icon theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="theme-icon theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+
+                
+            </div>
+        </header>
+
+        <aside class="book-sidebar" id="sidebar">
+            <nav class="sidebar-nav" role="navigation" aria-label="Main navigation">
+                
+
+
+
+
+
+
+
+
+
+
+<div class="sidebar-content">
+    <div class="book-info">
+        <h2 class="book-title"><a href="/formal-methods-book/en/" class="header-title">Formal Methods: Foundations and Applications</a></h2>
+        
+        <p class="book-subtitle">An Integrated Understanding of Specification, Model Checking, and Theorem Proving</p>
+        
+    </div>
+
+    <div class="toc">
+        <h3 class="toc-title">Contents</h3>
+
+        <div class="toc-section">
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/" class="toc-link ">
+                        Home
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Introduction</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/introduction/" class="toc-link ">
+                        Introduction
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Chapters</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter01/" class="toc-link active">
+                        Chapter 1: Why Formal Methods Matter
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter02/" class="toc-link ">
+                        Chapter 2: Bridging Mathematics and Programs
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter03/" class="toc-link ">
+                        Chapter 3: Foundations of Specification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter04/" class="toc-link ">
+                        Chapter 4: Introduction to Lightweight Formal Methods — Specification with Alloy
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter05/" class="toc-link ">
+                        Chapter 5: State-Based Specification — Fundamentals of Z Notation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter06/" class="toc-link ">
+                        Chapter 6: Process-Centric Specification — Concurrency with CSP
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter07/" class="toc-link ">
+                        Chapter 7: Specifying Time — Introduction to TLA+
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter08/" class="toc-link ">
+                        Chapter 8: Introduction to Model Checking
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter09/" class="toc-link ">
+                        Chapter 9: Fundamentals of Theorem Proving
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter10/" class="toc-link ">
+                        Chapter 10: Program Verification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter11/" class="toc-link ">
+                        Chapter 11: Integrating Formal Methods into Development Processes
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter12/" class="toc-link ">
+                        Chapter 12: Tools and Automation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter13/" class="toc-link ">
+                        Chapter 13: Case Studies
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Additional</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/glossary/" class="toc-link ">
+                        Glossary
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Appendices</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-a/" class="toc-link ">
+                        Appendix A: Mathematics Refresher
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-b/" class="toc-link ">
+                        Appendix B: Tool Setup and Verification Quick Start
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-c/" class="toc-link ">
+                        Appendix C: Notation Cross-Reference
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-d/" class="toc-link ">
+                        Appendix D: Exercise Guides and Self-Review Frameworks
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-e/" class="toc-link ">
+                        Appendix E: References and Further Reading Paths
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-f/" class="toc-link ">
+                        Appendix F: Practical Playbook for AI-Assisted Formal Methods
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Afterword</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/afterword/" class="toc-link ">
+                        Afterword
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="external-links">
+            
+            <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener" class="external-link">GitHub</a>
+            
+            
+        </div>
+    </div>
+</div>
+
+            </nav>
+        </aside>
+
+        <main class="book-main" id="main">
+            <div class="book-content">
+                
+                    
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb-list">
+    <li class="breadcrumb-item">
+        <a href="/formal-methods-book/en/" class="breadcrumb-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span class="sr-only">Home</span>
+        </a>
+    </li>
+
+    
+        
+    
+        
+    
+        
+            
+            
+            
+                
+                
+                <li class="breadcrumb-item">
+                    <a href="/formal-methods-book/en/chapters/" class="breadcrumb-link">
+                        
+                            Chapters
+                        
+                    </a>
+                </li>
+            
+        
+    
+        
+            
+            
+            
+                <li class="breadcrumb-item active" aria-current="page">
+                    Chapter 1: why formal methods matter
+                </li>
+            
+        
+    
+</ol>
+
+<style>
+.breadcrumb-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    font-size: 0.875rem;
+    flex-wrap: wrap;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb-item:not(:last-child)::after {
+    content: '/';
+    margin: 0 0.5rem;
+    color: var(--text-muted);
+}
+
+.breadcrumb-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.breadcrumb-link:hover {
+    color: var(--primary-color);
+}
+
+.breadcrumb-item.active {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (max-width: 768px) {
+    .breadcrumb-list {
+        font-size: 0.75rem;
+    }
+
+    .breadcrumb-item:not(:last-child)::after {
+        margin: 0 0.375rem;
+    }
+}
+</style>
+
+                
+
+                <article class="page-content">
+                    <h1 id="chapter-1-why-formal-methods-matter">Chapter 1: Why Formal Methods Matter</h1>
+
+<h2 id="11-the-growth-of-software-complexity-and-the-challenge-of-reliability">1.1 The Growth of Software Complexity and the Challenge of Reliability</h2>
+
+<p>From the moment you stopped your smartphone alarm this morning to the moment
+you started reading this page, how many software systems have you interacted
+with? An alarm app, weather forecasting, email, transportation information,
+payment services, security authentication, and countless background processes.
+Daily life now rests on a vast foundation of software systems operating out of
+sight.</p>
+
+<p>The complexity of that invisible foundation has grown exponentially over the
+past thirty years. A typical application in the 1990s ran on a single machine
+and consisted of, at most, tens of thousands of lines of code. Modern systems
+are different. When you submit one search query in a web browser, hundreds of
+servers across the world may coordinate in a fraction of a second, millions of
+lines of code may execute, multiple databases may be updated, security checks
+may run, and recommendation algorithms may be invoked.</p>
+
+<p>This complexity is not additive. As the number of system components increases,
+the interactions among them grow combinatorially. Mathematically, the number of
+possible pairwise interactions among <code class="language-plaintext highlighter-rouge">n</code> components is
+<code class="language-plaintext highlighter-rouge">C(n,2) = n(n-1)/2</code>. With ten components there are 45 possible interactions.
+With 100 components there are 4,950. With 1,000 components there are roughly
+half a million. Modern software systems often contain tens of thousands or even
+hundreds of thousands of relevant elements, so the interaction space becomes
+astronomical.</p>
+
+<p>This explosion of complexity is a foundational challenge in software
+engineering. Formal methods provide a mathematical approach to combinatorial
+explosion and a way to reason systematically about spaces of behavior that
+otherwise look unbounded.</p>
+
+<h3 id="the-nature-of-complexity-unexpected-behavior-emerges">The Nature of Complexity: Unexpected Behavior Emerges</h3>
+
+<p>What this combinatorial complexity produces is often called <em>emergent
+behavior</em>. Individual components may work correctly in isolation, yet their
+combination may produce behavior nobody anticipated.</p>
+
+<p>The 2003 Northeast blackout in North America began with a software failure in a
+control system used by an Ohio power company. The triggering fault was small.
+Its consequences were not. The disturbance propagated through interacting power
+systems and eventually affected about 50 million people. Each subsystem had
+been designed for normal operation, but their interaction produced an outcome
+that the designers had not adequately predicted.</p>
+
+<p>This phenomenon is especially visible in software systems. Software is
+inherently discrete, so a very small change can produce a radically different
+overall result. In many physical systems, small errors tend to produce small
+effects. In software, a one-bit difference can completely change the behavior
+of an entire system.</p>
+
+<h3 id="the-mathematical-nature-of-emergent-complexity">The Mathematical Nature of Emergent Complexity</h3>
+
+<p>In systems theory, emergent behavior is often described in terms of nonlinear
+interaction. The overall behavior <code class="language-plaintext highlighter-rouge">F(S)</code> of the system cannot be reduced to the
+simple sum <code class="language-plaintext highlighter-rouge">Σf(si)</code> of the behaviors of its individual components:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>F(S) ≠ Σf(si)
+</code></pre></div></div>
+
+<p>This nonlinearity is exactly the territory where formal methods become most
+valuable. Chapter 8 introduces model checking as a technique for systematically
+enumerating interactions and exploring a system’s state space. Chapter 9 then
+introduces theorem proving as a way to obtain mathematical guarantees even in
+the presence of complex interaction.</p>
+
+<h3 id="rising-social-demands-for-reliability">Rising Social Demands for Reliability</h3>
+
+<p>At the same time, society has become far more dependent on software and far
+less tolerant of its failure. If a banking system stops for an hour, the loss
+may amount to hundreds of millions of yen. A software defect in a medical
+device can directly threaten human life. In self-driving vehicles and aircraft
+control systems, software reliability affects passenger safety directly.</p>
+
+<p>This increased social dependence places software developers under a level of
+responsibility that earlier generations rarely faced. In the past, many teams
+could dismiss bugs as unfortunate but inevitable. Today, failures often carry
+legal and social consequences. Regulatory pressure has also intensified through
+frameworks such as the GDPR in Europe, medical-device regulation in the United
+States, and standards such as DO-178C in aerospace.</p>
+
+<h3 id="safety-integrity-levels-and-where-formal-methods-apply">Safety Integrity Levels and Where Formal Methods Apply</h3>
+
+<p>Safety-critical systems are often classified by criticality, but different
+standards use different schemes. IEC 61508 uses Safety Integrity Levels
+(SILs), while ISO 26262 uses Automotive Safety Integrity Levels (ASILs) for
+road vehicles. A generic SIL-oriented classification looks like this:</p>
+
+<ul>
+  <li><strong>SIL 4 (highest level)</strong>: aircraft flight control and nuclear control
+systems</li>
+  <li><strong>SIL 3</strong>: railway signaling and life-support functions in medical devices</li>
+  <li><strong>SIL 2</strong>: industrial safety interlocks and process-protection systems</li>
+  <li><strong>SIL 1</strong>: alarm and monitoring systems</li>
+</ul>
+
+<p>For higher-assurance categories such as SIL 3 and SIL 4, and for the higher
+ASIL categories in automotive systems, the use of formal methods is strongly
+recommended and, in many contexts, effectively becomes a regulatory
+expectation. Chapter 11 examines the relationship between such safety
+standards and formal methods in more detail.</p>
+
+<h3 id="the-fundamental-dilemma-between-complexity-and-reliability">The Fundamental Dilemma Between Complexity and Reliability</h3>
+
+<p>This leaves us with a fundamental dilemma. We want software systems that are
+more capable and more sophisticated. At the same time, we demand higher
+reliability from those systems. Under conventional approaches, however,
+complexity and reliability are difficult to improve together.</p>
+
+<p>Adding features increases complexity and therefore increases the number of ways
+the system can fail. Improving reliability through testing and review increases
+cost and often slows delivery. Resolving that tension requires an approach that
+is fundamentally different from ordinary empirical quality control.</p>
+
+<p>Formal methods provide one answer to that dilemma. They offer a path for
+reasoning rigorously about complex systems and for obtaining stronger
+assurance. But why mathematics? To answer that, it helps to begin with history.</p>
+
+<p><img src="/formal-methods-book/assets/images/diagrams/software-complexity-evolution.svg" alt="Figure 1-1: Exponential growth in software complexity and rising reliability demands" /></p>
+
+<h2 id="12-learning-from-history-major-failures-and-their-lessons">1.2 Learning from History: Major Failures and Their Lessons</h2>
+
+<h3 id="the-ariane-5-disaster-ambiguous-specifications-as-a-cause-of-catastrophe">The Ariane 5 Disaster: Ambiguous Specifications as a Cause of Catastrophe</h3>
+
+<p>On June 4, 1996, the first Ariane 5 launch vehicle built by the European Space
+Agency exploded 37 seconds after liftoff. It carried four expensive scientific
+satellites, and the financial loss was enormous. More important than the cost,
+however, was the loss of confidence in Europe’s space program and the waste of
+more than a decade of engineering effort.</p>
+
+<p>The immediate cause was a simple software error. The inertial reference system
+attempted to convert a 64-bit floating-point value into a 16-bit signed
+integer, and the conversion overflowed. The code responsible had been reused
+from Ariane 4, where it had never caused trouble. Why did it fail on Ariane 5?</p>
+
+<p>The answer lay in ambiguity in the specification. The documented assumptions
+about the range of the variable representing horizontal velocity were not
+sufficiently precise. Under Ariane 4 flight conditions, the value stayed within
+the 16-bit range. Ariane 5 had more powerful engines and followed a different
+trajectory. As a result, the same variable took on a larger value, and the
+overflow occurred.</p>
+
+<p>Several lessons follow from this failure. First, the fact that software has
+worked before does not imply that it is correct. Ariane 4 demonstrated success
+under particular conditions; it did not prove correctness for changed
+conditions.</p>
+
+<p>Second, ambiguous specifications can be fatal. The phrase “horizontal velocity”
+looks clear enough to a human reader, but the allowable range of values, the
+required precision, and the behavior in exceptional situations had not been
+captured rigorously. That ambiguity enabled an unexpected failure mode.</p>
+
+<h3 id="therac-25-the-absence-of-formal-specification-in-a-medical-setting">Therac-25: The Absence of Formal Specification in a Medical Setting</h3>
+
+<p>An even more serious case is the Therac-25 radiation-therapy accident, which
+occurred between 1985 and 1987. Because of software errors in the treatment
+machine, six patients received massive overdoses of radiation, and at least
+three died.</p>
+
+<p>The root problem was not merely a local programming defect. The deeper problem
+was that the safety specification for the system was incomplete. The designers
+tried to implement in software the safety protections that had previously been
+enforced by hardware in the earlier Therac-20 generation. Yet the software
+specification for safe control had never been subjected to formal verification.</p>
+
+<p>The immediate cause of the accidents was a race condition. If an operator
+entered keys in a certain sequence, the software could reach an inconsistent
+state and enable a treatment electron beam at far greater intensity than what
+was intended for diagnostic X-ray mode. The problem was difficult to reproduce,
+and early incident reports were initially dismissed as vague malfunctions.</p>
+
+<p>The lesson here is clear: in safety-critical systems, intuition and experience
+are not enough to guarantee safety. Once concurrency and asynchrony enter the
+picture, the combination of reachable states can exceed unaided human
+reasoning. Formal specification becomes a practical necessity, not an academic
+luxury.</p>
+
+<h3 id="continuity-into-the-present-the-problem-has-not-gone-away">Continuity into the Present: The Problem Has Not Gone Away</h3>
+
+<p>These incidents are not relics of an earlier era. The Boeing 737 MAX crashes,
+which became publicly central in 2018 and 2019, were modern expressions of the
+same pattern. The Maneuvering Characteristics Augmentation System (MCAS) acted
+on the basis of a single faulty sensor input and overrode pilot control.</p>
+
+<p>Here again, ambiguity in system behavior was central. The operating conditions
+for MCAS, the duration of its intervention, and its interaction with pilot
+actions were not specified with sufficient rigor. As a result, pilots faced
+system behavior they were not adequately prepared to interpret or counteract.</p>
+
+<p>The same structural pattern appears in more recent incidents as well: the Tokyo
+Stock Exchange outage on October 1, 2020, the Boeing 737 MAX software failures,
+and the 2017 Equifax data breach all reflect, at a deeper level, ambiguity in
+complex system behavior and the emergence of unexpected interactions
+(<a href="https://www.jpx.co.jp/corporate/news/news-releases/0060/20201019-01.html">JPX statement</a>,
+<a href="https://www.fsa.go.jp/news/r2/shouken/20201130-1.html">FSA statement</a>).</p>
+
+<h3 id="common-patterns-revealed-by-accident-analysis">Common Patterns Revealed by Accident Analysis</h3>
+
+<p>When we examine these incidents closely, several recurring patterns appear:</p>
+
+<ul>
+  <li><strong>Ambiguous specifications</strong>: system behavior is described in natural
+language, leaving room for incompatible interpretations.</li>
+  <li><strong>Implicit assumptions</strong>: prerequisites based on experience or intuition are
+never made explicit in the design documents.</li>
+  <li><strong>The trap of local optimization</strong>: each component works in isolation, yet
+the full system exhibits unexpected interaction.</li>
+  <li><strong>Incomplete verification</strong>: testing and review miss failures that occur only
+under rare combinations of conditions.</li>
+</ul>
+
+<p>These patterns reveal structural limits in conventional software development
+practice. Overcoming those limits is one of the core reasons formal methods are
+needed.</p>
+
+<h2 id="13-the-limits-of-conventional-methods">1.3 The Limits of Conventional Methods</h2>
+
+<h3 id="what-test-driven-development-achieves-and-where-it-stops">What Test-Driven Development Achieves and Where It Stops</h3>
+
+<p>Test-driven development (TDD) is one of the most important practices in modern
+software engineering. By writing tests before code, teams clarify expected
+behavior and often improve quality significantly. TDD has real value and many
+demonstrated successes.</p>
+
+<p>Still, TDD has structural limits. The most important is that testing does not
+prove correctness. It only checks behavior under the conditions represented by
+the chosen tests. As the Ariane 5 case showed, successful behavior in Ariane 4
+did not establish correctness for Ariane 5.</p>
+
+<p>In mathematical terms, TDD can provide <em>existential evidence</em> but not
+<em>universal proof</em>. It can show that a specific input produces a desired output.
+It cannot establish that every possible input produces a correct result.</p>
+
+<h3 id="test-coverage-and-combinatorial-explosion">Test Coverage and Combinatorial Explosion</h3>
+
+<p>In real software systems, the input space is enormous. A function that accepts
+a single 32-bit integer already has roughly 4.3 billion possible inputs. With
+multiple arguments, the combinations quickly become astronomical.</p>
+
+<p>For a function with three 32-bit integer arguments, the total number of input
+combinations is:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">(2^32)^3 ≈ 7.9 × 10^28</code></li>
+</ul>
+
+<p>That is obviously far beyond exhaustive testing. Chapter 3 introduces
+specification techniques for abstracting enormous input spaces mathematically.
+Chapter 10 later explains how techniques such as loop invariants make it
+possible to reason about unbounded repetition in a finite way.</p>
+
+<h3 id="the-human-limits-of-code-review">The Human Limits of Code Review</h3>
+
+<p>Code review improves software quality by using the collective judgment of a
+development team. Experienced reviewers can find many important issues. Yet
+human cognition is limited.</p>
+
+<p>A commonly cited rule of thumb is that people can actively keep track of only
+about seven plus or minus two items at once. Modern software systems, by
+contrast, may involve thousands or tens of thousands of variables, functions,
+and interacting conditions. No reviewer can hold all of those interactions in
+their head simultaneously.</p>
+
+<p>Concurrency and timing-related failures are particularly difficult to uncover
+through static reading alone. Therac-25 is again a good example: each fragment
+of the code could look reasonable when reviewed locally, yet the dangerous
+interaction emerged only in the right operational sequence.</p>
+
+<h3 id="the-partial-effectiveness-of-static-analysis-tools">The Partial Effectiveness of Static Analysis Tools</h3>
+
+<p>Modern static analysis has improved greatly. Compilers and analyzers can detect
+type errors, uninitialized variables, memory leaks, and many other classes of
+defect automatically.</p>
+
+<p>Even so, static analysis has limits. Most importantly, it can often analyze
+what a program <em>does</em>, but not what a program <em>should do</em>. That is, it cannot
+reliably detect a gap between the implementation and the intended
+specification.</p>
+
+<p>Static analysis must also be conservative. To avoid excessive false positives,
+tools may miss subtle defects that arise only under complex semantic
+conditions.</p>
+
+<h3 id="the-complementary-value-of-conventional-methods">The Complementary Value of Conventional Methods</h3>
+
+<p>Pointing out these limitations does not mean discarding conventional methods.
+TDD, code review, and static analysis all provide important value. The issue is
+that, by themselves, they do not scale to the full complexity of modern
+software systems.</p>
+
+<p>An analogy from civil engineering is useful here. Conventional software quality
+practices correspond to construction-site quality control: inspecting
+materials, relying on skilled workers, and managing the build process. All of
+that matters. But for a skyscraper or a long bridge, those practices are not
+enough. Structural calculation is also required. In contemporary software
+engineering, formal methods play a role similar to structural calculation.</p>
+
+<h3 id="the-mathematical-meaning-of-completeness">The Mathematical Meaning of Completeness</h3>
+
+<p>At a deeper level, the limitations of conventional methods are limitations of
+<em>completeness</em>. Testing checks only finitely many cases, not all possible ones.
+Review is bounded by human cognition. Static analysis can detect many syntactic
+and local issues, but not complete semantic correctness against an intended
+meaning.</p>
+
+<p>Formal methods aim to provide that stronger notion of completeness. A
+mathematical proof can establish that a system behaves according to its
+specification for all admissible inputs or all reachable states within a given
+model. That is a categorically stronger guarantee.</p>
+
+<p>Such completeness, however, is not free. Formal methods take time to learn,
+take effort to apply, and cannot express every requirement equally well. The
+practical goal is therefore not to replace conventional methods, but to
+complement them intelligently.</p>
+
+<h2 id="14-new-horizons-opened-by-the-mathematical-approach">1.4 New Horizons Opened by the Mathematical Approach</h2>
+
+<h3 id="rigor-as-a-new-quality-dimension">Rigor as a New Quality Dimension</h3>
+
+<p>The most important value formal methods provide is a new quality dimension:
+<em>rigor</em>. Traditional software quality is usually discussed in terms of
+functionality, performance, maintainability, and availability. Formal methods
+add mathematical correctness as a first-class concern.</p>
+
+<p>This rigor has concrete practical value. A mathematically precise
+specification reduces ambiguity and minimizes misunderstanding. Different
+developers reading the same specification can converge on the same
+interpretation. In large teams and long-running projects, that can reduce
+communication cost dramatically.</p>
+
+<h3 id="verification-at-the-design-stage-as-a-paradigm-shift">Verification at the Design Stage as a Paradigm Shift</h3>
+
+<p>Under conventional development processes, many problems are found only after
+implementation, during testing or operations. Formal methods make it possible
+to discover many problems during requirements and design. That is a profound
+shift in quality assurance.</p>
+
+<p>The economic value of early detection is substantial. A design correction may
+take hours or days. A post-implementation correction may take weeks or months.
+A production incident can affect the entire business.</p>
+
+<p>Large cloud providers such as Amazon have used TLA+ to verify distributed
+system designs before implementation. That makes it possible to uncover subtle
+concurrency flaws early and avoid large-scale failures later.</p>
+
+<h3 id="the-future-possibility-of-automation">The Future Possibility of Automation</h3>
+
+<p>Another major value of formal methods lies in automation. Once a specification
+is mathematically precise, it becomes possible to generate test cases from it.
+In some settings, it is also possible to generate implementation code
+automatically from the specification.</p>
+
+<p>This is more than efficiency. If code is generated from a trusted formal
+specification, the risk of misreading the requirement or introducing a local
+implementation error can be reduced significantly.</p>
+
+<p>Industries such as railway control and aerospace have already used
+specification-driven generation in practice. The fully automated operation of
+Paris Metro Line 14, for example, is one of the often-cited cases where formal
+methods played a major role in the development process.</p>
+
+<h3 id="proof-as-a-reusable-knowledge-asset">Proof as a Reusable Knowledge Asset</h3>
+
+<p>Proofs built through formal methods become reusable assets. Once a property has
+been proved for a design, later projects can build on that result rather than
+re-establishing everything from scratch.</p>
+
+<p>For example, if the correctness of a cryptographic algorithm or protocol is
+proved formally, every system that relies on that verified artifact benefits
+from the result. This creates a cumulative improvement in quality across the
+industry.</p>
+
+<h3 id="the-new-role-of-formal-methods-in-the-age-of-ai">The New Role of Formal Methods in the Age of AI</h3>
+
+<p>The spread of artificial intelligence and machine learning makes formal methods
+more important, not less. AI behavior is often harder to predict than that of
+traditional software. Learning-based systems can change behavior over time, and
+small changes in input can lead to large changes in output.</p>
+
+<p>In safety-critical AI systems such as autonomous vehicles, medical diagnosis,
+and financial decision support, formal methods are increasingly relevant as a
+way to constrain or verify important safety properties. At the same time,
+formal methods and AI are beginning to reinforce one another: AI can help with
+the construction of specifications, while formal methods can help establish
+safety envelopes and consistency guarantees for AI-based systems.</p>
+
+<h3 id="responsibility-for-software-as-social-infrastructure">Responsibility for Software as Social Infrastructure</h3>
+
+<p>Software is now part of society’s critical infrastructure, much like
+electricity or water. That reality imposes a new kind of responsibility on
+software engineers. Software is no longer only a vehicle for convenience. It
+is a foundation for safety, finance, communication, transportation, and public
+trust.</p>
+
+<p>Meeting that responsibility requires more than individual talent or experience.
+It requires engineering discipline grounded in mathematics. Formal methods are
+an important part of that maturation of software engineering.</p>
+
+<h3 id="the-journey-of-this-book-a-step-by-step-learning-approach">The Journey of This Book: A Step-by-Step Learning Approach</h3>
+
+<p>This book is an invitation into the world of formal methods. You will become
+comfortable with mathematical notation, develop habits of logical reasoning,
+and learn how to design complex systems more rigorously.</p>
+
+<p>The learning path is divided into four stages:</p>
+
+<p><strong>Part I (Foundations)</strong>: motivation and core concepts</p>
+<ul>
+  <li>why formal methods matter (this chapter)</li>
+  <li>the natural relationship between programming and mathematics (Chapter 2)</li>
+  <li>writing specifications that eliminate ambiguity (Chapter 3)</li>
+</ul>
+
+<p><strong>Part II (Methods)</strong>: major formal techniques</p>
+<ul>
+  <li>lightweight verification with Alloy (Chapter 4)</li>
+  <li>state-based specification with Z notation (Chapter 5)</li>
+  <li>concurrent systems with CSP (Chapter 6)</li>
+  <li>time-aware specification with TLA+ (Chapter 7)</li>
+</ul>
+
+<p><strong>Part III (Verification)</strong>: checking system correctness</p>
+<ul>
+  <li>automatic verification by model checking (Chapter 8)</li>
+  <li>rigorous proof by theorem proving (Chapter 9)</li>
+  <li>practical program verification (Chapter 10)</li>
+</ul>
+
+<p><strong>Part IV (Practice)</strong>: applying formal methods in real projects</p>
+<ul>
+  <li>integration into development processes (Chapter 11)</li>
+  <li>tool ecosystems and automation (Chapter 12)</li>
+  <li>real-world case studies (Chapter 13)</li>
+</ul>
+
+<p>At first, these topics may feel abstract. But once you acquire them, you gain
+the ability to build software that is more dependable, easier to understand,
+and easier to maintain. That is valuable both for individual careers and for
+society as a whole.</p>
+
+<h3 id="learning-outcomes-and-practical-value">Learning Outcomes and Practical Value</h3>
+
+<p>By the end of this book, you should be able to develop the following practical
+capabilities:</p>
+
+<p><strong>Technical capabilities</strong></p>
+<ul>
+  <li>writing specifications without ambiguity</li>
+  <li>verifying the safety of complex systems mathematically</li>
+  <li>analyzing the root causes of defects in a systematic way</li>
+</ul>
+
+<p><strong>Project and process capabilities</strong></p>
+<ul>
+  <li>building quality-assurance processes that work at the design stage</li>
+  <li>identifying high-risk areas before implementation</li>
+  <li>forming technical consensus with stakeholders on the basis of precise
+arguments</li>
+</ul>
+
+<p><strong>Career value</strong></p>
+<ul>
+  <li>qualifying for work on safety-critical systems</li>
+  <li>participating more effectively in advanced technical discussions</li>
+  <li>understanding the direction of next-generation software engineering</li>
+</ul>
+
+<p>The next chapter takes the first concrete step into this mathematical approach
+by examining the natural relationship between programming and mathematics.
+Formal methods are not a separate world. They are a disciplined extension of
+concepts software engineers already use every day.</p>
+
+<p><img src="/formal-methods-book/assets/images/diagrams/formal-methods-roadmap.svg" alt="Figure 1-2: A structured roadmap for learning formal methods across four parts and thirteen chapters" /></p>
+
+<hr />
+
+<h2 id="end-of-chapter-exercises">End-of-Chapter Exercises</h2>
+
+<p><strong>If you use AI while working through these exercises</strong></p>
+
+<ul>
+  <li>Treat AI output as a proposal; use verifiers to make the final judgment.</li>
+  <li>Keep a record of the prompts you used, the generated specifications and
+invariants, the verification commands and logs (including seed, depth, and
+scope), and the revision history when counterexamples were found.</li>
+  <li>See Appendix D and Appendix F for detailed templates.</li>
+</ul>
+
+<h3 id="thinking-exercise-1-complexity-analysis">Thinking Exercise 1: Complexity Analysis</h3>
+
+<p>Choose one software system that you use regularly (for example, online banking,
+a smartphone map application, or an email system) and analyze it from the
+following perspectives:</p>
+
+<ol>
+  <li><strong>Identify system components</strong>: list the major elements of the system
+(servers, databases, APIs, UI, and so on) and describe the role of each.</li>
+  <li><strong>Analyze interaction</strong>: draw the interactions among components and evaluate
+the complexity in terms of combinatorial explosion.</li>
+  <li><strong>Analyze failure modes</strong>: explain how failure in each component could affect
+the system as a whole, and consider the possibility of emergent behavior.</li>
+  <li><strong>Assess the safety integrity level</strong>: determine which SIL level the system
+would correspond to and evaluate whether formal methods are justified.</li>
+</ol>
+
+<p><strong>Suggested scope</strong>: a short memo with one diagram or table. In most cases,
+two pages or less is enough.</p>
+
+<h3 id="practical-exercise-accident-analysis-and-preventive-measures">Practical Exercise: Accident Analysis and Preventive Measures</h3>
+
+<p>Choose one of the cases introduced in this chapter (Ariane 5, Therac-25, or
+Boeing 737 MAX) and perform the following analysis:</p>
+
+<ol>
+  <li><strong>Technical root-cause analysis</strong>
+    <ul>
+      <li>Identify the direct technical cause.</li>
+      <li>Explain how ambiguity in the specification contributed to the problem.</li>
+      <li>Explain how interaction among subsystems produced an unexpected result.</li>
+    </ul>
+  </li>
+  <li><strong>Could formal methods have prevented it?</strong>
+    <ul>
+      <li>Could the issue have been exposed with the Alloy modeling introduced in
+Chapter 4?</li>
+      <li>Could the problem have been found with the model-checking techniques in
+Chapter 8?</li>
+      <li>Which properties might have been proved with the program-verification
+techniques in Chapter 10?</li>
+    </ul>
+  </li>
+  <li><strong>Lessons for the present</strong>
+    <ul>
+      <li>Could a similar issue arise in current systems?</li>
+      <li>Where do you see analogous risks in your own work?</li>
+      <li>What concrete actions would reduce that risk?</li>
+    </ul>
+  </li>
+</ol>
+
+<p><strong>Suggested scope</strong>: a short slide deck or structured memo that you could use
+in a design or incident-review discussion.</p>
+
+<h3 id="practical-exercise-quantitative-analysis-of-specification-ambiguity">Practical Exercise: Quantitative Analysis of Specification Ambiguity</h3>
+
+<p>Read the following natural-language specification and analyze its ambiguity from
+a mathematical perspective:</p>
+
+<p>“A user can log in to the system by entering a valid password. If the password
+is incorrect, an appropriate error message is displayed. For security reasons,
+consecutive failures are subject to a limit.”</p>
+
+<p><strong>Analysis tasks</strong></p>
+<ol>
+  <li><strong>Identify ambiguities</strong>: find at least ten ambiguous points and estimate
+how many plausible interpretations exist for each.</li>
+  <li><strong>Calculate implementation variation</strong>: compute the theoretical number of
+implementation patterns that arise from the ambiguities you identified.</li>
+  <li><strong>Assess risk</strong>: rate the potential security risk of each ambiguity on a
+three-level scale.</li>
+  <li><strong>Prepare for formalization</strong>: prioritize the elements that should be
+addressed using the specification techniques introduced in Chapter 3.</li>
+</ol>
+
+<p><strong>Suggested output</strong></p>
+<ul>
+  <li>an ambiguity analysis table in any format that lets you compare
+interpretations clearly</li>
+  <li>a short note explaining how you estimated the number of implementation
+variants</li>
+</ul>
+
+<h3 id="advanced-exercise-draft-an-adoption-plan-for-your-own-work">Advanced Exercise: Draft an Adoption Plan for Your Own Work</h3>
+
+<p>Consider where formal methods could be applied in your current work, or in a
+plausible future work setting:</p>
+
+<ol>
+  <li><strong>Identify candidate targets</strong>
+    <ul>
+      <li>Find the parts of your current systems where formal methods would provide
+the highest value.</li>
+      <li>Estimate the expected benefit quantitatively, such as improved quality,
+development efficiency, or reduced risk.</li>
+    </ul>
+  </li>
+  <li><strong>Create a learning plan</strong>
+    <ul>
+      <li>Select the three chapters in this book that are most relevant to your
+work.</li>
+      <li>For each of them, define a concrete action you want to try after studying
+the chapter.</li>
+      <li>Set goals for six months and one year ahead.</li>
+    </ul>
+  </li>
+  <li><strong>Prepare a proposal for your organization</strong>
+    <ul>
+      <li>Create presentation material that explains the value of formal methods to
+your manager or peers.</li>
+      <li>Build a business case that explains expected return on investment.</li>
+    </ul>
+  </li>
+</ol>
+
+<p><strong>Suggested output</strong>: a short internal proposal or presentation outline for a
+fifteen-minute discussion with peers or managers.</p>
+
+<p>These exercises are designed to deepen both your theoretical understanding of
+formal methods and your sense of their practical value. The advanced exercise,
+in particular, is intended to serve as both motivation and a roadmap for the
+rest of the book. The next chapter moves from motivation to foundations by
+showing the natural relationship between programming and mathematics.</p>
+
+                </article>
+
+                
+                <nav class="page-navigation" aria-label="Page navigation">
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+    
+    
+
+
+
+
+
+<nav class="book-navigation" aria-label="Page navigation">
+  <div class="chapter-nav">
+    
+      <a href="/formal-methods-book/en/introduction/" class="nav-prev" rel="prev">
+        <span class="arrow" aria-hidden="true">←</span>
+        <span class="label">Previous</span>
+        <span class="title">Introduction</span>
+      </a>
+    
+
+    <a href="/formal-methods-book/en/" class="nav-home">
+      <span class="label">Contents</span>
+    </a>
+
+    
+      <a href="/formal-methods-book/en/chapters/chapter02/" class="nav-next" rel="next">
+        <span class="label">Next</span>
+        <span class="title">Chapter 2: Bridging Mathematics and Programs</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    
+  </div>
+</nav>
+
+<style>
+.book-navigation { margin: 2rem 0; padding: 1rem; border-top: 1px solid var(--border-color, #e5e7eb); }
+.chapter-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.nav-prev, .nav-next, .nav-home { display: flex; align-items: center; padding: 0.75rem 1.25rem; background: var(--bg-primary, #fff); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; text-decoration: none; color: inherit; }
+.nav-disabled { opacity: .5; cursor: not-allowed; background: var(--bg-tertiary, #f9fafb); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; padding: 0.75rem 1.25rem; display: flex; align-items: center; }
+.nav-prev { flex: 1; }
+.nav-next { flex: 1; justify-content: flex-end; text-align: right; }
+.nav-home { flex: 0 0 auto; justify-content: center; }
+.label { font-weight: 600; margin: 0 .25rem; }
+.title { font-size: .9rem; opacity: .8; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 768px) { .chapter-nav { flex-wrap: wrap; } .nav-prev, .nav-next { flex: 1 1 45%; } .nav-home { flex: 1 1 100%; order: -1; } .title { display: none; } }
+</style>
+
+                </nav>
+                
+
+                
+
+                <footer class="book-footer" role="contentinfo">
+                    <div class="book-footer-inner">
+                        <div class="book-footer-license">
+                            Reader-facing text: CC BY-NC-SA 4.0 / Code assets: Apache-2.0 / excluding trademarks and third-party assets
+                        </div>
+                        <div class="book-footer-links">
+                            
+                                <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener">GitHub</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/LICENSE-SCOPE.md" target="_blank" rel="noopener">License</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/COMMERCIAL.md" target="_blank" rel="noopener">Commercial</a>
+                            
+                            
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <label for="sidebar-toggle-checkbox" class="book-sidebar-overlay" id="sidebar-overlay" aria-label="Close sidebar"></label>
+
+    <script async src="/formal-methods-book/assets/js/code-copy-lightweight.js"></script>
+    <script defer src="/formal-methods-book/assets/js/theme.js"></script>
+    <script defer src="/formal-methods-book/assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var cb = document.getElementById('sidebar-toggle-checkbox');
+            var toggle = document.querySelector('.sidebar-toggle');
+            if (cb) cb.checked = false;
+            if (cb && toggle) {
+                var sync = function() {
+                    toggle.setAttribute('aria-expanded', cb.checked ? 'true' : 'false');
+                };
+                sync();
+                cb.addEventListener('change', sync);
+                toggle.addEventListener('keydown', function(e) {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        cb.checked = !cb.checked;
+                        cb.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        (function() {
+            function initTocAutoScroll() {
+                var cb = document.getElementById('sidebar-toggle-checkbox');
+                if (!cb) return;
+
+                function normalizePath(p) {
+                    var path = String(p || '').replace(/index\.html$/, '');
+                    if (path.length > 1) {
+                        path = path.replace(/\/+$/, '');
+                    }
+                    return path || '/';
+                }
+
+                function isMobileDrawer() {
+                    try {
+                        if (typeof window.matchMedia === 'function') {
+                            return window.matchMedia('(max-width: 1024px)').matches;
+                        }
+                    } catch (_) {}
+                    return typeof window.innerWidth === 'number' ? window.innerWidth <= 1024 : true;
+                }
+
+                function findActiveTocLink() {
+                    var current = normalizePath(window.location.pathname);
+                    var actives = document.querySelectorAll('a.toc-link.active');
+                    if (!actives || actives.length === 0) return null;
+
+                    for (var i = 0; i < actives.length; i++) {
+                        var a = actives[i];
+                        if (!a || !a.href) continue;
+                        try {
+                            var pathname = normalizePath(new URL(a.href).pathname);
+                            if (pathname === current) return a;
+                        } catch (_) {}
+                    }
+                    return actives[0];
+                }
+
+                function ensureActiveTocVisible() {
+                    if (!cb.checked) return;
+                    if (!isMobileDrawer()) return;
+
+                    var active = findActiveTocLink();
+                    if (!active) return;
+
+                    var sidebar = active.closest('.book-sidebar') || document.getElementById('sidebar');
+                    if (!sidebar) return;
+
+                    try {
+                        var linkRect = active.getBoundingClientRect();
+                        var sidebarRect = sidebar.getBoundingClientRect();
+                        var marginTop = 8;
+                        var marginBottom = 8;
+                        try {
+                            if (window.getComputedStyle) {
+                                var cs = window.getComputedStyle(sidebar);
+                                if (cs) {
+                                    var pt = parseFloat(cs.paddingTop);
+                                    var pb = parseFloat(cs.paddingBottom);
+                                    if (!isNaN(pt)) marginTop = pt;
+                                    if (!isNaN(pb)) marginBottom = pb;
+                                }
+                            }
+                        } catch (_) {}
+
+                        var top = sidebarRect.top + marginTop;
+                        var bottom = sidebarRect.bottom - marginBottom;
+                        var outOfView = linkRect.top < top || linkRect.bottom > bottom;
+
+                        if (outOfView && typeof active.scrollIntoView === 'function') {
+                            try {
+                                active.scrollIntoView({ block: 'center', behavior: 'auto' });
+                            } catch (e) {
+                                active.scrollIntoView();
+                            }
+                        }
+                    } catch (_) {}
+                }
+
+                function scheduleEnsure() {
+                    setTimeout(ensureActiveTocVisible, 0);
+                    setTimeout(ensureActiveTocVisible, 350);
+                }
+
+                cb.addEventListener('change', function() {
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+
+                if (cb.checked) {
+                    scheduleEnsure();
+                }
+
+                window.addEventListener('pageshow', function(e) {
+                    if (!e || !e.persisted) return;
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initTocAutoScroll);
+            } else {
+                initTocAutoScroll();
+            }
+        })();
+    </script>
+</body>
+</html>

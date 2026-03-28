@@ -1,0 +1,2556 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta name="author" content="太田和彦（株式会社アイティードゥ）">
+
+    <title>Chapter 8: Introduction to Model Checking - Formal Methods: Foundations and Applications</title>
+
+    <link rel="canonical" href="https://itdojp.github.io/formal-methods-book/en/chapters/chapter08/">
+    <link rel="alternate" hreflang="ja" href="https://itdojp.github.io/formal-methods-book/chapters/chapter08/">
+    <link rel="alternate" hreflang="en" href="https://itdojp.github.io/formal-methods-book/en/chapters/chapter08/">
+    <link rel="alternate" hreflang="x-default" href="https://itdojp.github.io/formal-methods-book/">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/main.css">
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/syntax-highlighting.css">
+
+    <link rel="icon" type="image/png" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+    <link rel="apple-touch-icon" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+
+    <meta property="og:title" content="Chapter 8: Introduction to Model Checking">
+    <meta property="og:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://itdojp.github.io/formal-methods-book/en/chapters/chapter08/">
+    <meta property="og:locale" content="en_US">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Chapter 8: Introduction to Model Checking">
+    <meta name="twitter:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+
+    <script>
+        (function() {
+            try {
+                const k = 'book-theme';
+                const t = localStorage.getItem(k) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (_) {}
+        })();
+    </script>
+</head>
+<body>
+    
+    
+    
+    
+    
+
+    <input type="checkbox" id="sidebar-toggle-checkbox" class="sidebar-toggle-checkbox" aria-hidden="true">
+
+    <div class="book-layout">
+        <header class="book-header">
+            <div class="header-left">
+                <label for="sidebar-toggle-checkbox" class="sidebar-toggle" aria-label="Toggle sidebar" role="button" tabindex="0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </label>
+                <a href="/formal-methods-book/en/" class="header-title">
+                    <h1>Formal Methods: Foundations and Applications</h1>
+                </a>
+            </div>
+
+            <div class="header-center">
+                <div class="search-container">
+                    <input type="search"
+                           placeholder="Search..."
+                           class="search-input"
+                           id="search-input"
+                           autocomplete="off">
+                    <div class="search-results" id="search-results"></div>
+                </div>
+            </div>
+
+            <div class="header-right">
+                
+
+
+
+
+
+
+
+
+
+
+<a href="/formal-methods-book/chapters/chapter08/"
+   class="language-switcher"
+   hreflang="ja"
+   lang="ja"
+   >
+    日本語
+</a>
+
+                <button class="theme-toggle" aria-label="Toggle theme">
+                    <svg class="theme-icon theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="theme-icon theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+
+                
+            </div>
+        </header>
+
+        <aside class="book-sidebar" id="sidebar">
+            <nav class="sidebar-nav" role="navigation" aria-label="Main navigation">
+                
+
+
+
+
+
+
+
+
+
+
+<div class="sidebar-content">
+    <div class="book-info">
+        <h2 class="book-title"><a href="/formal-methods-book/en/" class="header-title">Formal Methods: Foundations and Applications</a></h2>
+        
+        <p class="book-subtitle">An Integrated Understanding of Specification, Model Checking, and Theorem Proving</p>
+        
+    </div>
+
+    <div class="toc">
+        <h3 class="toc-title">Contents</h3>
+
+        <div class="toc-section">
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/" class="toc-link ">
+                        Home
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Introduction</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/introduction/" class="toc-link ">
+                        Introduction
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Chapters</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter01/" class="toc-link ">
+                        Chapter 1: Why Formal Methods Matter
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter02/" class="toc-link ">
+                        Chapter 2: Bridging Mathematics and Programs
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter03/" class="toc-link ">
+                        Chapter 3: Foundations of Specification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter04/" class="toc-link ">
+                        Chapter 4: Introduction to Lightweight Formal Methods — Specification with Alloy
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter05/" class="toc-link ">
+                        Chapter 5: State-Based Specification — Fundamentals of Z Notation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter06/" class="toc-link ">
+                        Chapter 6: Process-Centric Specification — Concurrency with CSP
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter07/" class="toc-link ">
+                        Chapter 7: Specifying Time — Introduction to TLA+
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter08/" class="toc-link active">
+                        Chapter 8: Introduction to Model Checking
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter09/" class="toc-link ">
+                        Chapter 9: Fundamentals of Theorem Proving
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter10/" class="toc-link ">
+                        Chapter 10: Program Verification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter11/" class="toc-link ">
+                        Chapter 11: Integrating Formal Methods into Development Processes
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter12/" class="toc-link ">
+                        Chapter 12: Tools and Automation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter13/" class="toc-link ">
+                        Chapter 13: Case Studies
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Additional</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/glossary/" class="toc-link ">
+                        Glossary
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Appendices</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-a/" class="toc-link ">
+                        Appendix A: Mathematics Refresher
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-b/" class="toc-link ">
+                        Appendix B: Tool Setup and Verification Quick Start
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-c/" class="toc-link ">
+                        Appendix C: Notation Cross-Reference
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-d/" class="toc-link ">
+                        Appendix D: Exercise Guides and Self-Review Frameworks
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-e/" class="toc-link ">
+                        Appendix E: References and Further Reading Paths
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-f/" class="toc-link ">
+                        Appendix F: Practical Playbook for AI-Assisted Formal Methods
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Afterword</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/afterword/" class="toc-link ">
+                        Afterword
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="external-links">
+            
+            <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener" class="external-link">GitHub</a>
+            
+            
+        </div>
+    </div>
+</div>
+
+            </nav>
+        </aside>
+
+        <main class="book-main" id="main">
+            <div class="book-content">
+                
+                    
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb-list">
+    <li class="breadcrumb-item">
+        <a href="/formal-methods-book/en/" class="breadcrumb-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span class="sr-only">Home</span>
+        </a>
+    </li>
+
+    
+        
+    
+        
+    
+        
+            
+            
+            
+                
+                
+                <li class="breadcrumb-item">
+                    <a href="/formal-methods-book/en/chapters/" class="breadcrumb-link">
+                        
+                            Chapters
+                        
+                    </a>
+                </li>
+            
+        
+    
+        
+            
+            
+            
+                <li class="breadcrumb-item active" aria-current="page">
+                    Chapter 8: introduction to model checking
+                </li>
+            
+        
+    
+</ol>
+
+<style>
+.breadcrumb-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    font-size: 0.875rem;
+    flex-wrap: wrap;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb-item:not(:last-child)::after {
+    content: '/';
+    margin: 0 0.5rem;
+    color: var(--text-muted);
+}
+
+.breadcrumb-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.breadcrumb-link:hover {
+    color: var(--primary-color);
+}
+
+.breadcrumb-item.active {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (max-width: 768px) {
+    .breadcrumb-list {
+        font-size: 0.75rem;
+    }
+
+    .breadcrumb-item:not(:last-child)::after {
+        margin: 0 0.375rem;
+    }
+}
+</style>
+
+                
+
+                <article class="page-content">
+                    <h1 id="chapter-8-introduction-to-model-checking">Chapter 8: Introduction to Model Checking</h1>
+
+<h2 id="81-the-dream-of-automated-verification-letting-computers-prove-correctness">8.1 The Dream of Automated Verification: Letting Computers Prove Correctness</h2>
+
+<h3 id="human-limits-and-machine-capability">Human Limits and Machine Capability</h3>
+
+<p>As software systems become more complex, it becomes increasingly difficult to
+guarantee correctness through human intuition and experience alone. Developers
+write code, reviewers inspect it, and testers execute it, but subtle bugs and
+unexpected interactions still slip through.</p>
+
+<p>Model checking complements these cognitive limits with computation. It
+systematically explores <em>all possible execution paths</em> and automatically
+determines whether a specified property holds. In other words, it is a
+verification method whose exhaustiveness is beyond human capacity.</p>
+
+<p>The key innovation of model checking is the <em>automation of proof</em>. In
+traditional settings, proving system correctness was the work of specialists
+with strong mathematical intuition. In model checking, once the system model
+and the properties of interest are described, the computer carries out the
+proof attempt automatically and either confirms the property or produces a
+counterexample.</p>
+
+<h3 id="the-power-of-exhaustive-exploration">The Power of Exhaustive Exploration</h3>
+
+<p>The basic idea behind model checking is brute-force exploration of the system’s
+state space. At first glance this may appear inefficient, but in practice it is
+extremely powerful.</p>
+
+<p>Chess and shogi programs defeat human champions for essentially the same
+reason. Humans rely on intuition and experience, whereas computers examine huge
+numbers of possible moves and select the best outcome. In software
+verification, the same difference appears: where a person says “this is
+probably correct,” a model checker can say either “this is correct within the
+model” or “here is a counterexample.”</p>
+
+<h3 id="automating-formal-verification">Automating Formal Verification</h3>
+
+<p>Before model checking became practical, formal verification relied primarily on
+manual theorem proving. Experts advanced one proof obligation at a time through
+mathematical reasoning. The method was theoretically strong, but it had clear
+practical limits:</p>
+
+<ul>
+  <li><strong>Demand for expertise</strong>: advanced mathematical background was required</li>
+  <li><strong>Time and cost</strong>: large proofs often took a long time</li>
+  <li><strong>Human fallibility</strong>: hand-written proofs can themselves contain mistakes</li>
+  <li><strong>Scalability limits</strong>: large systems were difficult to handle</li>
+</ul>
+
+<p>Model checking changed the situation fundamentally. A team no longer needed to
+master every proof detail. If the system model and target properties could be
+described precisely, verification became possible.</p>
+
+<h3 id="the-educational-value-of-counterexamples">The Educational Value of Counterexamples</h3>
+
+<p>One of the most valuable features of model checking is the counterexample it
+provides when a property does not hold. Instead of returning only an abstract
+“incorrect,” it explains <em>under what circumstances the problem occurs</em>.</p>
+
+<p>For system designers, counterexamples are highly actionable:</p>
+
+<ul>
+  <li><strong>Concrete problem framing</strong>: an abstract issue becomes a concrete scenario</li>
+  <li><strong>Cause identification</strong>: the root cause can be traced</li>
+  <li><strong>Repair guidance</strong>: the failure point becomes visible</li>
+  <li><strong>Deeper understanding</strong>: system behavior becomes easier to reason about</li>
+</ul>
+
+<h3 id="improving-quality-through-early-detection">Improving Quality Through Early Detection</h3>
+
+<p>Model checking can discover problems early in development. By checking designs
+or specifications before implementation, teams can reduce the number of defects
+found only after code is written.</p>
+
+<p>The cost of fixing a bug generally rises the later it is discovered. Common
+industry estimates say that if a defect found in requirements costs 1 unit to
+fix, the same defect may cost 5 units in design, 10 in implementation, 20 in
+testing, and over 100 in production. The actual multiplier depends on the
+organization, domain, and process, but the direction is consistent.</p>
+
+<p>Early defect detection through model checking is therefore not only a technical
+advantage but also a cost-control mechanism.</p>
+
+<p><img src="/formal-methods-book/assets/images/diagrams/model-checking-process-en.svg" alt="Figure 8-1: The overall process of model checking" /></p>
+
+<h3 id="understanding-the-limits-correctly">Understanding the Limits Correctly</h3>
+
+<p>Model checking is powerful, but it is not universal. Using it effectively
+requires understanding its limits:</p>
+
+<ul>
+  <li><strong>The state-explosion problem</strong>: the number of states can grow
+exponentially, making verification difficult</li>
+  <li><strong>The need for abstraction</strong>: real systems must be abstracted into finite
+models</li>
+  <li><strong>The difficulty of property specification</strong>: teams need skill in writing
+formal properties</li>
+  <li><strong>Possible false positives and false negatives</strong>: abstraction can introduce
+behaviors that do not exist or hide ones that do</li>
+</ul>
+
+<p>Practical model checking depends on choosing an appropriate abstraction level
+and a verification strategy that matches the problem.</p>
+
+<h3 id="industrial-success-stories">Industrial Success Stories</h3>
+
+<p>Model checking is no longer only an academic technique. It has a substantial
+record in industry:</p>
+
+<ul>
+  <li><strong>Intel</strong> uses formal verification in processor design and has found bugs
+beyond the reach of conventional simulation</li>
+  <li><strong>Microsoft</strong> has applied verification to Windows drivers and reduced serious
+failures such as blue-screen crashes</li>
+  <li><strong>Amazon</strong> is well known for using TLA+ and model-checking-oriented thinking
+when designing distributed systems</li>
+  <li><strong>Airbus</strong> uses formal techniques to support assurance arguments for
+safety-critical control systems</li>
+</ul>
+
+<p>These cases show that model checking has matured from a research method into a
+practical engineering tool.</p>
+
+<h3 id="connecting-to-the-alloy-models-in-chapter-4">Connecting to the Alloy Models in Chapter 4</h3>
+
+<p>The Alloy modeling you studied in Chapter 4 is an excellent introduction to
+model checking. Alloy’s <code class="language-plaintext highlighter-rouge">check</code> command is, in essence, a small-scale form of
+model checking:</p>
+
+<p>Pseudo notation (the Chapter 4 model definitions are omitted, so this fragment
+cannot be executed as-is):</p>
+
+<pre><code class="language-alloy">// Revisiting the email-system example from Chapter 4
+assert NoUnauthorizedAccess {
+    all u: User, e: Email |
+        some e.confidential and
+        u != e.sender and u not in e.recipients and
+        u != e.confidential and
+        AdminAccess not in u.roles.permissions
+        implies
+        not canReadEmail[u, e]
+}
+check NoUnauthorizedAccess for 5 User, 5 Email, 3 Role
+</code></pre>
+
+<p>In this <code class="language-plaintext highlighter-rouge">check</code> operation, Alloy explores all possible states within the given
+scope and searches for a counterexample. That is the same core idea you study
+in this chapter.</p>
+
+<h3 id="democratizing-formal-verification">Democratizing Formal Verification</h3>
+
+<p>One of model checking’s most important contributions is the <em>democratization</em>
+of formal verification. What used to be accessible only to a small number of
+specialists has become a comparatively learnable tool for a broader range of
+engineers.</p>
+
+<p>That shift changes formal methods from a niche academic technique into a
+practical development tool. Over time, model checking is likely to become a
+standard part of software quality assurance.</p>
+
+<h2 id="82-state-spaces-and-how-to-explore-them">8.2 State Spaces and How to Explore Them</h2>
+
+<h3 id="state-space-as-a-conceptual-framework">State Space as a Conceptual Framework</h3>
+
+<p>A <em>state space</em> is the set of all states a system can possibly take. This
+mathematical abstraction lets us understand even complex software as a finite
+or countably infinite collection of points.</p>
+
+<p>Consider a running program. The program counter, variable values, memory
+contents, input/output status, and other runtime information together form the
+current state. Execution can then be understood as a trajectory through that
+state space.</p>
+
+<p>This idea is analogous to phase spaces in physics and other mathematical
+representations of dynamical systems. By recasting dynamic behavior as a static
+structure, we gain something we can analyze.</p>
+
+<h3 id="structure-of-a-state-transition-graph">Structure of a State-Transition Graph</h3>
+
+<p>The structure of a state space is usually visualized as a <em>state-transition
+graph</em>. In such a graph, nodes represent states and edges represent
+transitions.</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Initial state -&gt; State 1 -&gt; State 2 -&gt; State 3
+      |             |          |          |
+   State A -&gt;    State B -&gt; State C -&gt; State D
+      |             |          |          |
+   State X -&gt;    State Y -&gt; State Z -&gt; Final state
+</code></pre></div></div>
+
+<p>This structure lets us reason about important system properties:</p>
+
+<ul>
+  <li><strong>Reachability</strong>: can one state reach another?</li>
+  <li><strong>Cyclicity</strong>: does the system contain persistent loops?</li>
+  <li><strong>Deadlock</strong>: is there a state from which no progress is possible?</li>
+  <li><strong>Liveness</strong>: is some kind of forward movement always possible?</li>
+</ul>
+
+<h3 id="exploding-state-counts">Exploding State Counts</h3>
+
+<p>In real software systems, the number of states grows explosively. This is the
+best-known challenge in model checking: the <em>state-explosion problem</em>.</p>
+
+<p>Consider a simple example with three Boolean variables:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">a</code>, <code class="language-plaintext highlighter-rouge">b</code>, <code class="language-plaintext highlighter-rouge">c ∈ {true, false}</code></li>
+  <li>Number of possible states = <code class="language-plaintext highlighter-rouge">2^3 = 8</code></li>
+</ul>
+
+<p>If the system has ten Boolean variables:</p>
+
+<ul>
+  <li>Number of possible states = <code class="language-plaintext highlighter-rouge">2^10 = 1,024</code></li>
+</ul>
+
+<p>With 32 Boolean variables:</p>
+
+<ul>
+  <li>Number of possible states = <code class="language-plaintext highlighter-rouge">2^32 ≈ 4.3 × 10^9</code></li>
+</ul>
+
+<p>Real programs also contain integers, arrays, pointers, buffers, counters, and
+various control states. A single 64-bit integer variable already allows
+<code class="language-plaintext highlighter-rouge">2^64 ≈ 1.8 × 10^19</code> values.</p>
+
+<h3 id="reachability-analysis">Reachability Analysis</h3>
+
+<p>Not every state is reachable during actual execution. Model checking therefore
+focuses on <em>reachable states</em>, that is, states reachable from the initial
+state. This reduces the search space to some extent.</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Reachable &lt;- {InitialStates}
+Frontier &lt;- {InitialStates}
+while Frontier != {} do
+    NewStates &lt;- {}
+    for each state s in Frontier do
+        for each successor t of s do
+            if t not in Reachable then
+                NewStates &lt;- NewStates union {t}
+                Reachable &lt;- Reachable union {t}
+    Frontier &lt;- NewStates
+</code></pre></div></div>
+
+<p>This is breadth-first exploration of the reachable state space.</p>
+
+<h3 id="depth-first-versus-breadth-first-search">Depth-First Versus Breadth-First Search</h3>
+
+<p>State-space exploration typically uses one of two basic strategies.</p>
+
+<p><strong>Depth-first search (DFS)</strong>:</p>
+
+<ul>
+  <li><strong>Advantage</strong>: low memory usage</li>
+  <li><strong>Disadvantage</strong>: may fail to find the shortest counterexample</li>
+  <li><strong>Typical use</strong>: cycle detection and deadlock detection</li>
+</ul>
+
+<p><strong>Breadth-first search (BFS)</strong>:</p>
+
+<ul>
+  <li><strong>Advantage</strong>: finds the shortest counterexample</li>
+  <li><strong>Disadvantage</strong>: high memory usage</li>
+  <li><strong>Typical use</strong>: minimum-step reachability analysis</li>
+</ul>
+
+<p>Practical tools often switch strategies or combine them depending on the
+verification objective.</p>
+
+<h3 id="efficient-state-representation">Efficient State Representation</h3>
+
+<p>Representing and managing huge numbers of states efficiently is essential for
+practical model checking.</p>
+
+<p><strong>Bit-vector representation</strong>:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>State = [a:1, b:0, c:1, counter:5]
+-&gt; Bit vector = 10100101
+</code></pre></div></div>
+
+<p><strong>Hash tables</strong>:
+Visited states are typically stored in hash tables to support fast lookup.</p>
+
+<p><strong>Compression</strong>:
+Similar states or infrequent patterns can sometimes be compressed to save
+memory.</p>
+
+<h3 id="partial-order-reduction">Partial Order Reduction</h3>
+
+<p>In concurrent systems, different execution orders can lead to the same result.
+<em>Partial order reduction</em> exploits this redundancy.</p>
+
+<p>Suppose two operations <code class="language-plaintext highlighter-rouge">A</code> and <code class="language-plaintext highlighter-rouge">B</code> are independent:</p>
+
+<ul>
+  <li>execution order <code class="language-plaintext highlighter-rouge">A -&gt; B</code></li>
+  <li>execution order <code class="language-plaintext highlighter-rouge">B -&gt; A</code></li>
+</ul>
+
+<p>If both produce the same outcome, it is unnecessary to explore both. By
+keeping only a representative ordering, the tool reduces the state count.</p>
+
+<h3 id="symbolic-model-checking">Symbolic Model Checking</h3>
+
+<p>Traditional explicit-state model checking stores states one by one. Symbolic
+model checking represents <em>sets of states</em> with logical formulas, often using
+BDD (Binary Decision Diagram) structures.</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>State set {(a=1,b=0), (a=1,b=1), (a=0,b=1)}
+-&gt; BDD form: (a and not b) or (a and b) or (not a and b)
+-&gt; Reduced: a or (not a and b) = a or b
+</code></pre></div></div>
+
+<p>When the structure is favorable, symbolic methods can represent extremely
+large state sets compactly.</p>
+
+<h3 id="iterative-deepening">Iterative Deepening</h3>
+
+<p>To balance completeness and memory constraints, tools sometimes use iterative
+deepening.</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for depth = 1 to MaxDepth do
+    result = DepthLimitedSearch(depth)
+    if result = "property violation" then
+        return counterexample
+    if result = "complete" then
+        return "property verified"
+</code></pre></div></div>
+
+<p>This expands the search horizon gradually while keeping memory under control.</p>
+
+<h3 id="parallel-and-distributed-exploration">Parallel and Distributed Exploration</h3>
+
+<p>Modern multi-core processors and distributed environments make it possible to
+parallelize state-space exploration.</p>
+
+<p><strong>Work-stealing</strong>:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Each thread keeps its own stack.
+When one thread runs out of work,
+it steals work from another thread.
+</code></pre></div></div>
+
+<p><strong>Distributed hash tables</strong>:
+States are partitioned across multiple machines and explored cooperatively over
+the network.</p>
+
+<p>These techniques make it possible to verify systems that were previously too
+large to handle.</p>
+
+<h2 id="83-describing-properties-with-temporal-logic">8.3 Describing Properties with Temporal Logic</h2>
+
+<h3 id="the-challenge-of-expressing-dynamic-properties">The Challenge of Expressing Dynamic Properties</h3>
+
+<p>The correctness of a software system cannot be judged from a single snapshot.
+What matters is how the system behaves over time. Properties such as “every
+request is eventually answered,” “deadlock never occurs,” and “resources are
+distributed fairly” all concern dynamic behavior.</p>
+
+<p>Temporal logic is the language used to describe such behavior precisely.
+Ordinary logic talks about the current state. Temporal logic talks about how
+states evolve over time.</p>
+
+<h3 id="ctl-the-world-of-computation-trees">CTL: The World of Computation Trees</h3>
+
+<p>CTL (Computation Tree Logic) is one of the most widely used logics in model
+checking. It treats execution as a <em>computation tree</em>: each node is a state,
+each edge is a transition, and the branching structure represents alternative
+futures.</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>          Initial state
+         /      |      \
+     State 1  State 2  State 3
+      /  \      /  \      /  \
+    ... ...   ... ...   ... ...
+</code></pre></div></div>
+
+<p>CTL formulas combine <em>path quantifiers</em> with <em>temporal operators</em>.</p>
+
+<p><strong>Path quantifiers</strong>:</p>
+
+<ul>
+  <li><strong>A</strong> (All paths): for all execution paths</li>
+  <li><strong>E</strong> (Exists path): for at least one execution path</li>
+</ul>
+
+<p><strong>Temporal operators</strong>:</p>
+
+<ul>
+  <li><strong>X</strong> (neXt): in the next state</li>
+  <li><strong>F</strong> (Future): at some point in the future</li>
+  <li><strong>G</strong> (Globally): always</li>
+  <li><strong>U</strong> (Until): until</li>
+</ul>
+
+<h3 id="practical-ctl-examples-and-their-intuition">Practical CTL Examples and Their Intuition</h3>
+
+<p><strong>Safety</strong>:</p>
+
+<p>Pseudo notation:</p>
+
+<pre><code class="language-ctl">AG(!error)
+</code></pre>
+
+<p>“Along all execution paths, an error never occurs.”</p>
+
+<p><strong>Liveness</strong>:</p>
+
+<p>Pseudo notation:</p>
+
+<pre><code class="language-ctl">AG(request -&gt; AF(response))
+</code></pre>
+
+<p>“Along all execution paths, whenever a request exists, a response eventually
+occurs.”</p>
+
+<p><strong>Reachability</strong>:</p>
+
+<p>Pseudo notation:</p>
+
+<pre><code class="language-ctl">EF(goal_achieved)
+</code></pre>
+
+<p>“There exists an execution path on which the goal is eventually reached.”</p>
+
+<p><strong>Fairness-oriented intuition</strong>:</p>
+
+<p>Pseudo notation:</p>
+
+<pre><code class="language-ctl">AG(EF(process1_scheduled) &amp; EF(process2_scheduled))
+</code></pre>
+
+<p>“At every point, there remains a future in which both process 1 and process 2
+can eventually be scheduled.”</p>
+
+<h3 id="ltl-the-view-of-linear-time">LTL: The View of Linear Time</h3>
+
+<p>LTL (Linear Temporal Logic) takes a different perspective. It treats execution
+as a <em>single line of time</em> rather than a branching tree.</p>
+
+<p><strong>Basic LTL operators</strong>:</p>
+
+<ul>
+  <li><strong>○</strong> (Next): at the next moment</li>
+  <li><strong>◇</strong> (Eventually): eventually</li>
+  <li><strong>□</strong> (Always): always</li>
+  <li><strong>U</strong> (Until): until</li>
+</ul>
+
+<p><strong>Examples of LTL formulas</strong>:</p>
+
+<p>Pseudo notation:</p>
+
+<pre><code class="language-ltl">□(request -&gt; ◇response)
+"Always, if there is a request, there is eventually a response."
+
+□◇(process_scheduled)
+"The process is scheduled infinitely often."
+
+◇□(stable)
+"Eventually the system becomes stable and stays stable thereafter."
+</code></pre>
+
+<h3 id="differences-in-expressive-power-between-ctl-and-ltl">Differences in Expressive Power Between CTL and LTL</h3>
+
+<p>CTL and LTL are suited to different classes of properties.</p>
+
+<p><strong>A property that CTL expresses well</strong>:</p>
+
+<p>Pseudo notation:</p>
+
+<pre><code class="language-ctl">AG(EF(reset_possible))
+</code></pre>
+
+<p>“It is always the case that there exists a path to a state in which reset is
+possible.”</p>
+
+<p>This cannot be expressed directly in LTL.</p>
+
+<p><strong>A property that LTL expresses well</strong>:</p>
+
+<p>Pseudo notation:</p>
+
+<pre><code class="language-ltl">□(grant1 -&gt; (!grant2 U release1))
+</code></pre>
+
+<p>“Once process 1 is granted access, process 2 is not granted access until
+process 1 releases it.”</p>
+
+<p>This kind of ordering-oriented mutual exclusion property is much more natural
+in LTL than in CTL.</p>
+
+<h3 id="practical-property-patterns">Practical Property Patterns</h3>
+
+<p>Several property patterns appear again and again in real verification tasks.</p>
+
+<p><strong>Mutual exclusion</strong>:</p>
+
+<p>Pseudo notation:</p>
+
+<pre><code class="language-ctl">AG(!(critical1 &amp; critical2))
+</code></pre>
+
+<p>“The two processes are never in their critical sections at the same time.”</p>
+
+<p><strong>Deadlock freedom</strong>:</p>
+
+<p>Pseudo notation:</p>
+
+<pre><code class="language-ctl">AG(EX(true))
+</code></pre>
+
+<p>“From every reachable state, there is at least one next state.”</p>
+
+<p><strong>Starvation freedom</strong>:</p>
+
+<p>Pseudo notation:</p>
+
+<pre><code class="language-ltl">□(waiting -&gt; ◇served)
+</code></pre>
+
+<p>“A waiting process is eventually served.”</p>
+
+<p><strong>Ordering constraints</strong>:</p>
+
+<p>Pseudo notation:</p>
+
+<pre><code class="language-ltl">□(event_a -&gt; ○(!event_b U event_c))
+</code></pre>
+
+<p>“After event <code class="language-plaintext highlighter-rouge">a</code>, event <code class="language-plaintext highlighter-rouge">b</code> must not occur until event <code class="language-plaintext highlighter-rouge">c</code> occurs.”</p>
+
+<h3 id="hierarchical-structure-of-properties">Hierarchical Structure of Properties</h3>
+
+<p>Complex systems benefit from organizing properties hierarchically.</p>
+
+<p><strong>Level 1: Basic state validity</strong>:</p>
+
+<p>Pseudo notation:</p>
+
+<pre><code class="language-ctl">AG(valid_state)
+</code></pre>
+
+<p>“The system is always in a valid state.”</p>
+
+<p><strong>Level 2: Protocol correctness</strong>:</p>
+
+<p>Pseudo notation:</p>
+
+<pre><code class="language-ctl">AG(message_sent -&gt; AF(ack_received))
+</code></pre>
+
+<p>“Every sent message is eventually acknowledged.”</p>
+
+<p><strong>Level 3: Performance-oriented properties</strong>:</p>
+
+<p>Pseudo notation:</p>
+
+<pre><code class="language-ctl">AG(request -&gt; AF&lt;=n(response))
+</code></pre>
+
+<p>“A response arrives within at most <code class="language-plaintext highlighter-rouge">n</code> time units.”</p>
+
+<h3 id="negated-properties-and-counterexamples">Negated Properties and Counterexamples</h3>
+
+<p>Counterexamples are central to model checking.</p>
+
+<p>If <code class="language-plaintext highlighter-rouge">AG(safe)</code> does not hold:</p>
+
+<ul>
+  <li>the counterexample is a path from an initial state to an unsafe state</li>
+  <li>equivalently, some execution satisfies <code class="language-plaintext highlighter-rouge">EF(!safe)</code></li>
+</ul>
+
+<p>If <code class="language-plaintext highlighter-rouge">AF(goal)</code> does not hold:</p>
+
+<ul>
+  <li>the counterexample is an infinite path that never reaches the goal</li>
+  <li>equivalently, some execution satisfies <code class="language-plaintext highlighter-rouge">EG(!goal)</code></li>
+</ul>
+
+<h3 id="why-fairness-constraints-matter">Why Fairness Constraints Matter</h3>
+
+<p>Realistic verification often requires fairness assumptions. Without them, tools
+may spend effort on executions that are theoretically possible but irrelevant
+to the system’s intended environment.</p>
+
+<p><strong>Weak fairness (concept)</strong>: exclude executions in which an action remains
+continuously enabled from some point onward, yet is ignored forever.</p>
+
+<p><strong>Strong fairness (concept)</strong>: exclude executions in which an action becomes
+enabled infinitely often, yet is avoided every time.</p>
+
+<p>In practical tools, fairness usually appears as a constraint on the set of
+paths to be considered. In this chapter, we use the SMV-style forms
+<code class="language-plaintext highlighter-rouge">FAIRNESS</code> (justice) and <code class="language-plaintext highlighter-rouge">COMPASSION (p, q)</code> as conceptual notation. The
+surrounding module and variable declarations required by real tools are omitted
+unless stated otherwise.</p>
+
+<p>Example (NuSMV/nuXmv fairness constraints):</p>
+
+<p>Pseudo notation:</p>
+
+<pre><code class="language-smv">FAIRNESS running_i
+COMPASSION (enabled_a, executed_a)
+</code></pre>
+
+<p>Summary of the meaning:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">FAIRNESS p</code>: only evaluate paths on which <code class="language-plaintext highlighter-rouge">p</code> is true infinitely often</li>
+  <li><code class="language-plaintext highlighter-rouge">COMPASSION (p, q)</code>: only evaluate paths on which infinite occurrences of
+<code class="language-plaintext highlighter-rouge">p</code> imply infinite occurrences of <code class="language-plaintext highlighter-rouge">q</code></li>
+</ul>
+
+<p>For the temporal-logic meaning of fairness and the precise TLA+ treatment, see
+also Chapter 7, “Temporal Expressions of Fairness.”</p>
+
+<p>Minimal NuSMV/nuXmv example with <code class="language-plaintext highlighter-rouge">FAIRNESS</code> and <code class="language-plaintext highlighter-rouge">COMPASSION</code>:</p>
+
+<p>【Tool-compliant (runs as-is)】</p>
+<pre><code class="language-smv">MODULE main
+VAR
+  enabled_a : boolean;
+  executed_a : boolean;
+
+ASSIGN
+  init(enabled_a) := FALSE;
+  init(executed_a) := FALSE;
+  next(enabled_a) := !enabled_a;
+  next(executed_a) := enabled_a;
+
+FAIRNESS enabled_a
+COMPASSION (enabled_a, executed_a)
+</code></pre>
+
+<p>For a self-contained file, see <code class="language-plaintext highlighter-rouge">examples/ch08/nusmv/fairness.smv</code>.</p>
+
+<p>Notes:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">FAIRNESS enabled_a</code> limits attention to paths on which <code class="language-plaintext highlighter-rouge">enabled_a</code> is true
+infinitely often.</li>
+  <li><code class="language-plaintext highlighter-rouge">COMPASSION (enabled_a, executed_a)</code> limits attention to paths on which
+infinitely many <code class="language-plaintext highlighter-rouge">enabled_a</code> states imply infinitely many <code class="language-plaintext highlighter-rouge">executed_a</code>
+states.</li>
+  <li>In this minimal model, <code class="language-plaintext highlighter-rouge">enabled_a</code> alternates between <code class="language-plaintext highlighter-rouge">TRUE</code> and <code class="language-plaintext highlighter-rouge">FALSE</code>,
+and <code class="language-plaintext highlighter-rouge">executed_a</code> follows it with a one-step lag.</li>
+  <li>In general, fairness constraints narrow the set of explored paths. They do
+not, by themselves, state a liveness property.</li>
+</ul>
+
+<h3 id="practical-guidelines-for-writing-properties">Practical Guidelines for Writing Properties</h3>
+
+<p>Effective property descriptions usually follow a few principles:</p>
+
+<ol>
+  <li><strong>Be concrete and checkable</strong>: avoid ambiguity and refer to explicit states
+and events</li>
+  <li><strong>Refine incrementally</strong>: start with simple properties and grow toward more
+complex ones</li>
+  <li><strong>Think about counterexamples</strong>: decide whether a violating trace would
+truly indicate a defect</li>
+  <li><strong>Use realistic assumptions</strong>: avoid idealized properties that the system
+cannot actually satisfy</li>
+</ol>
+
+<h3 id="tool-specific-extensions">Tool-Specific Extensions</h3>
+
+<p>Real model-checking tools often provide practical extensions on top of standard
+temporal logic.</p>
+
+<p><strong>Example in SPIN / Promela</strong>:</p>
+
+<p>【Tool-compliant (runs as-is)】</p>
+<pre><code class="language-promela">bool critical_section = false;
+bool cs1 = false;
+bool cs2 = false;
+
+active proctype Worker() {
+    do
+    :: critical_section = true;
+       critical_section = false
+    od
+}
+
+active proctype P1() {
+    do
+    :: atomic { !cs2 -&gt; cs1 = true; cs1 = false }
+    od
+}
+
+active proctype P2() {
+    do
+    :: atomic { !cs1 -&gt; cs2 = true; cs2 = false }
+    od
+}
+
+ltl fairness { []&lt;&gt;(critical_section) }
+ltl mutual_exclusion { [](!(cs1 &amp;&amp; cs2)) }
+</code></pre>
+
+<p>For a self-contained file, see <code class="language-plaintext highlighter-rouge">examples/ch08/spin/ltl-properties.pml</code>.</p>
+
+<p><strong>Example in NuSMV / SMV</strong>:</p>
+
+<p>Pseudo notation:</p>
+
+<pre><code class="language-smv">LTLSPEC G(request -&gt; F(response))
+CTLSPEC AG(critical1 -&gt; !critical2)
+</code></pre>
+
+<p>These extensions turn theoretical temporal logic into something directly useful
+for engineering verification.</p>
+
+<h2 id="84-state-explosion-compromising-with-reality">8.4 State Explosion: Compromising with Reality</h2>
+
+<h3 id="the-mathematical-reality-of-combinatorial-explosion">The Mathematical Reality of Combinatorial Explosion</h3>
+
+<p>The state-explosion problem is the most fundamental challenge in model
+checking. Its severity is often underestimated until one looks at concrete
+numbers.</p>
+
+<p>Suppose there are <code class="language-plaintext highlighter-rouge">n</code> processes and each process has <code class="language-plaintext highlighter-rouge">k</code> local states:</p>
+
+<ul>
+  <li>total number of states = <code class="language-plaintext highlighter-rouge">k^n</code></li>
+</ul>
+
+<p>With 10 processes and 3 states each:</p>
+
+<ul>
+  <li>total number of states = <code class="language-plaintext highlighter-rouge">3^10 = 59,049</code></li>
+</ul>
+
+<p>With 20 processes and 3 states each:</p>
+
+<ul>
+  <li>total number of states = <code class="language-plaintext highlighter-rouge">3^20 ≈ 3.5 × 10^9</code></li>
+</ul>
+
+<p>If we also add time, message queues, counters, buffers, and local variables,
+the state count becomes astronomical. Even today’s fastest machines cannot
+fully enumerate such spaces in many cases.</p>
+
+<h3 id="the-physical-limit-of-memory">The Physical Limit of Memory</h3>
+
+<p>Model checking usually requires storing visited states. If each state takes 100
+bytes:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">10^6</code> states = <code class="language-plaintext highlighter-rouge">100 MB</code></li>
+  <li><code class="language-plaintext highlighter-rouge">10^9</code> states = <code class="language-plaintext highlighter-rouge">100 GB</code></li>
+  <li><code class="language-plaintext highlighter-rouge">10^12</code> states = <code class="language-plaintext highlighter-rouge">100 TB</code></li>
+</ul>
+
+<p>Handling <code class="language-plaintext highlighter-rouge">10^12</code> states would require around one hundred terabytes of memory,
+which is not a realistic target for ordinary engineering workflows.</p>
+
+<h3 id="root-causes-of-state-explosion">Root Causes of State Explosion</h3>
+
+<p>Understanding why state explosion happens helps us choose the right mitigation
+techniques.</p>
+
+<p><strong>Explosion caused by concurrency</strong>:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2 processes, each with 10 states -&gt; 100 states
+3 processes, each with 10 states -&gt; 1,000 states
+10 processes, each with 10 states -&gt; 10^10 states
+</code></pre></div></div>
+
+<p><strong>Explosion caused by data values</strong>:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 variable of type 32-bit integer -&gt; 2^32 ≈ 4.3 billion possibilities
+1 variable of type 64-bit integer -&gt; 2^64 ≈ 1.8 x 10^19 possibilities
+</code></pre></div></div>
+
+<p><strong>Explosion caused by dynamic data structures</strong>:
+Lists, trees, graphs, and other dynamic structures combine size and shape, so
+the number of states grows extremely quickly.</p>
+
+<h3 id="abstraction-strategically-omitting-detail">Abstraction: Strategically Omitting Detail</h3>
+
+<p>The most basic response to state explosion is abstraction. The idea is to omit
+details that are irrelevant to the property being checked and keep only the
+information that matters.</p>
+
+<p><strong>Data abstraction</strong>:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Concrete value: balance = 1247
+-&gt; Abstract value: balance in {zero, positive, negative}
+
+Concrete value: array[100]
+-&gt; Abstract value: array_size in {empty, small, large}
+</code></pre></div></div>
+
+<p><strong>Control abstraction</strong>:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Concrete control flow: a complex algorithm
+-&gt; Abstract control flow: success / failure
+</code></pre></div></div>
+
+<h3 id="bounded-model-checking">Bounded Model Checking</h3>
+
+<p>Bounded model checking controls explosion by limiting the search depth.</p>
+
+<p><strong>Basic idea</strong>:</p>
+
+<ul>
+  <li>explore only states reachable within <code class="language-plaintext highlighter-rouge">k</code> steps</li>
+  <li>if a violation is found within <code class="language-plaintext highlighter-rouge">k</code> steps, the answer is negative</li>
+  <li>if no violation is found, the result is only “no bug was found within this
+bound”</li>
+</ul>
+
+<p><strong>Advantages</strong>:</p>
+
+<ul>
+  <li>memory consumption is easier to control</li>
+  <li>SAT solvers and related engines can be used effectively</li>
+  <li>discovered counterexamples are often short and easy to understand</li>
+</ul>
+
+<p><strong>Limitations</strong>:</p>
+
+<ul>
+  <li>completeness is not guaranteed</li>
+  <li>choosing a good bound <code class="language-plaintext highlighter-rouge">k</code> is difficult</li>
+</ul>
+
+<h3 id="the-theory-and-practice-of-partial-order-reduction">The Theory and Practice of Partial Order Reduction</h3>
+
+<p>In concurrent systems, many action interleavings do not affect the final
+result. Partial order reduction exploits this redundancy.</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Process 1: x := x + 1
+Process 2: y := y + 1
+</code></pre></div></div>
+
+<p>These operations are independent. The orders <code class="language-plaintext highlighter-rouge">(1 -&gt; 2)</code> and <code class="language-plaintext highlighter-rouge">(2 -&gt; 1)</code> lead to
+the same result, so only one representative ordering needs to be explored.</p>
+
+<p>When there are <code class="language-plaintext highlighter-rouge">n</code> independent actions:</p>
+
+<ul>
+  <li>naive exploration can consider <code class="language-plaintext highlighter-rouge">n!</code> orders</li>
+  <li>partial order reduction may keep only one representative order</li>
+</ul>
+
+<h3 id="symbolic-model-checking-techniques">Symbolic Model-Checking Techniques</h3>
+
+<p>Symbolic model checking uses formulas to represent state sets and performs set
+operations through logic operations.</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>State set S = {(x=0,y=0), (x=0,y=1), (x=1,y=1)}
+-&gt; BDD form: (!x and !y) or (!x and y) or (x and y)
+-&gt; Reduced: !x or (x and y)
+</code></pre></div></div>
+
+<p>When BDDs are effective, exponentially large state sets can sometimes be
+handled with polynomial-size structures.</p>
+
+<p>Modern verification also relies heavily on SAT and SMT solvers. By encoding
+transitions as logical constraints and handing them to the solver, tools can
+explore large bounded spaces efficiently.</p>
+
+<h3 id="compositional-verification">Compositional Verification</h3>
+
+<p>Large systems can often be decomposed into smaller parts, verified separately,
+and then reasoned about compositionally.</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Component A: guarantees QA under assumption PA
+Component B: guarantees QB under assumption PB
+Whole system: (PA and PB) -&gt; (QA and QB)
+</code></pre></div></div>
+
+<p>This keeps each verification unit smaller while still supporting claims about
+the overall system.</p>
+
+<h3 id="iterative-refinement">Iterative Refinement</h3>
+
+<p>If an abstraction is too coarse, it may produce a <em>spurious counterexample</em>.
+One practical response is iterative refinement.</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. Verify with a coarse abstraction
+2. If a counterexample appears, check whether it is real
+3. If it is spurious, refine the abstraction
+4. Return to step 1
+</code></pre></div></div>
+
+<p>This process gradually converges toward the minimum level of detail needed for
+the target property.</p>
+
+<h3 id="parallel-and-distributed-verification">Parallel and Distributed Verification</h3>
+
+<p>Modern verification engines exploit multi-core processors and clusters.</p>
+
+<p><strong>Parallel search strategies</strong>:</p>
+
+<ul>
+  <li><strong>work stealing</strong>: each thread explores locally and load is redistributed
+dynamically</li>
+  <li><strong>hash-based partitioning</strong>: states are assigned to workers according to a
+hash</li>
+</ul>
+
+<p><strong>Distributed verification</strong>:</p>
+
+<ul>
+  <li>one verification run spans multiple machines</li>
+  <li>machines exchange state information over the network</li>
+  <li>a distributed hash table tracks visited states</li>
+</ul>
+
+<h3 id="approximate-and-probabilistic-methods">Approximate and Probabilistic Methods</h3>
+
+<p>When complete verification is too expensive, approximate methods become useful.</p>
+
+<p><strong>Random sampling</strong>:</p>
+
+<ul>
+  <li>choose execution paths randomly from the state space</li>
+  <li>estimate confidence statistically</li>
+</ul>
+
+<p><strong>Monte Carlo model checking</strong>:</p>
+
+<ul>
+  <li>search probabilistically for counterexamples</li>
+  <li>full completeness is lost, but practical runtime often improves</li>
+</ul>
+
+<h3 id="choosing-a-practical-strategy">Choosing a Practical Strategy</h3>
+
+<p>In real projects, combinations of techniques work better than any one method.</p>
+
+<p><strong>A staged approach</strong>:</p>
+
+<ol>
+  <li>use bounded model checking to find easy bugs quickly</li>
+  <li>use abstraction to verify the most important properties</li>
+  <li>add symbolic or parallel techniques when scale requires them</li>
+</ol>
+
+<p><strong>Cost-benefit analysis</strong>:</p>
+
+<ul>
+  <li>verification cost versus the value of the defects found</li>
+  <li>completeness versus acceptable runtime</li>
+  <li>automation versus the need for human intervention</li>
+</ul>
+
+<p>State explosion cannot be eliminated completely. The engineering task is to
+understand the system’s structure and choose techniques that make verification
+practical.</p>
+
+<h2 id="85-interpreting-and-using-counterexamples">8.5 Interpreting and Using Counterexamples</h2>
+
+<h3 id="counterexamples-as-a-gift">Counterexamples as a Gift</h3>
+
+<p>In model checking, a counterexample is more than an error report. It is a gift
+that reveals a hidden defect in a concrete and inspectable form. Instead of
+saying only “the specification is violated,” the tool shows <em>how</em> the problem
+arises and in <em>what sequence of states</em>.</p>
+
+<p>Skilled designers learn from counterexamples at multiple levels. They do not
+stop at “fix this bug.” They also ask why the problem was possible, which
+assumption failed, and whether similar defects exist elsewhere.</p>
+
+<h3 id="anatomy-of-a-counterexample">Anatomy of a Counterexample</h3>
+
+<p>A typical counterexample contains the following elements:</p>
+
+<ol>
+  <li><strong>Execution trace</strong>: a sequence of states from the initial state to the
+violating state</li>
+  <li><strong>State information</strong>: the values of relevant variables in each state</li>
+  <li><strong>Transition information</strong>: the action that caused each step</li>
+  <li><strong>Logical time</strong>: the position of each step in the trace</li>
+</ol>
+
+<p>Example: a mutual-exclusion violation</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>State 0: (Initial)
+  process1_state = "thinking"
+  process2_state = "thinking"
+  flag1 = false, flag2 = false
+  turn = 1
+
+State 1: (Process 1 wants to enter)
+  process1_state = "trying"
+  process2_state = "thinking"
+  flag1 = true, flag2 = false
+  turn = 1
+
+State 2: (Process 2 wants to enter)
+  process1_state = "trying"
+  process2_state = "trying"
+  flag1 = true, flag2 = true
+  turn = 1
+
+State 3: (Both enter the critical section - VIOLATION!)
+  process1_state = "critical"
+  process2_state = "critical"
+  flag1 = true, flag2 = true
+  turn = 1
+</code></pre></div></div>
+
+<h3 id="root-cause-analysis">Root-Cause Analysis</h3>
+
+<p>Finding the root cause of a counterexample requires systematic analysis.</p>
+
+<p><strong>1. Identify the symptom</strong>:</p>
+
+<ul>
+  <li>what differs from the intended behavior?</li>
+  <li>at what point does the defect become visible?</li>
+</ul>
+
+<p><strong>2. Check the preconditions</strong>:</p>
+
+<ul>
+  <li>what conditions were necessary for the failure?</li>
+  <li>why did those conditions hold?</li>
+</ul>
+
+<p><strong>3. Analyze timing</strong>:</p>
+
+<ul>
+  <li>did the failure require a specific interleaving?</li>
+  <li>would other timings cause the same issue?</li>
+</ul>
+
+<p><strong>4. Revisit design decisions</strong>:</p>
+
+<ul>
+  <li>was the underlying design assumption valid?</li>
+  <li>could another design avoid the problem entirely?</li>
+</ul>
+
+<h3 id="analyzing-deadlock-counterexamples">Analyzing Deadlock Counterexamples</h3>
+
+<p>Deadlock counterexamples are especially educational.</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>State N: (Deadlock detected)
+  Process A: waiting for Resource 2, holding Resource 1
+  Process B: waiting for Resource 1, holding Resource 2
+  Available resources: none
+  Possible transitions: none
+</code></pre></div></div>
+
+<p>Points to analyze:</p>
+
+<ul>
+  <li><strong>Formation of circular waiting</strong>: in what order were resources acquired?</li>
+  <li><strong>Avoidability</strong>: at what point could a different choice have prevented the
+deadlock?</li>
+  <li><strong>Design improvement</strong>: would resource ordering or timeouts eliminate it?</li>
+</ul>
+
+<h3 id="analyzing-temporal-property-violations">Analyzing Temporal-Property Violations</h3>
+
+<p>Violations of temporal properties often require deeper analysis.</p>
+
+<p>Example of a liveness violation: “every request is eventually answered” fails.</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Counterexample: an infinite loop that never generates a response
+State 0 -&gt; State 1 -&gt; State 2 -&gt; State 1 -&gt; State 2 -&gt; ...
+</code></pre></div></div>
+
+<p>Useful analysis steps:</p>
+
+<ul>
+  <li><strong>find the strongly connected component</strong> that forms the loop</li>
+  <li><strong>check fairness assumptions</strong> to see whether an enabled response action is
+being postponed forever</li>
+  <li><strong>inspect external conditions</strong> that may be preventing progress</li>
+</ul>
+
+<h3 id="handling-spurious-counterexamples">Handling Spurious Counterexamples</h3>
+
+<p>Abstraction can produce counterexamples that cannot occur in the real system.
+These are called <em>spurious counterexamples</em>.</p>
+
+<p>Typical signs:</p>
+
+<ul>
+  <li>they depend on information lost by abstraction</li>
+  <li>they include transitions that are impossible at implementation level</li>
+  <li>they assume unrealistic timing or impossible combinations of conditions</li>
+</ul>
+
+<p>Responses:</p>
+
+<ol>
+  <li><strong>refine the abstraction</strong> to preserve more information</li>
+  <li><strong>add constraints</strong> to remove unrealistic transitions</li>
+  <li><strong>replay the trace concretely</strong> in the original system or a more detailed
+model</li>
+</ol>
+
+<h3 id="counterexample-minimization">Counterexample Minimization</h3>
+
+<p>Long counterexamples are hard to understand, so minimization matters.</p>
+
+<p>Common techniques:</p>
+
+<ul>
+  <li><strong>binary search over the trace</strong> to remove unnecessary segments</li>
+  <li><strong>causal analysis</strong> to retain only steps directly related to the failure</li>
+  <li><strong>state projection</strong> to focus on the relevant variables only</li>
+</ul>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Original counterexample: 50 steps
+Minimized counterexample: 8 steps (only essential transitions)
+</code></pre></div></div>
+
+<h3 id="visualizing-counterexamples">Visualizing Counterexamples</h3>
+
+<p>Complex counterexamples become easier to interpret when visualized well.</p>
+
+<p><strong>State-transition view</strong>:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[State0] --action1--&gt; [State1] --action2--&gt; [State2]
+    |                     |                     |
+  var1=0               var1=1               var1=2
+  var2=false           var2=false           var2=true
+</code></pre></div></div>
+
+<p><strong>Timeline view</strong>:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Process A: |----thinking----|--trying--|--critical--|
+Process B: |----thinking----|----trying----|--critical--|
+Time:      0              5           10           15
+</code></pre></div></div>
+
+<p><strong>Message-sequence view</strong>:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Client    Server    Database
+  |         |          |
+  |--req---&gt;|          |
+  |         |--query--&gt;|
+  |         |&lt;--resp---|
+  |&lt;--err---|          |
+</code></pre></div></div>
+
+<h3 id="learning-and-improving-from-counterexamples">Learning and Improving from Counterexamples</h3>
+
+<p>The point of counterexample analysis is not only to fix one bug but to improve
+the system as a whole.</p>
+
+<p><strong>Pattern recognition</strong>:</p>
+
+<ul>
+  <li>are similar problems present elsewhere?</li>
+  <li>did the same design choice contribute to multiple issues?</li>
+  <li>is a broader design correction needed?</li>
+</ul>
+
+<p><strong>Preventive improvement</strong>:</p>
+
+<ul>
+  <li>classify the defect pattern</li>
+  <li>update design guidelines and review checklists</li>
+  <li>add new automated checks to catch similar issues earlier</li>
+</ul>
+
+<h3 id="tool-support-for-counterexample-analysis">Tool Support for Counterexample Analysis</h3>
+
+<p>Modern model-checking tools provide dedicated support for analyzing
+counterexamples.</p>
+
+<p><strong>NuSMV trace facilities</strong>:</p>
+
+<p>【Context-dependent snippet】</p>
+<pre><code class="language-smv">show_traces -v
+write_traces -o counterexample.xml
+</code></pre>
+
+<p>These commands display a counterexample trace and write it to a file.</p>
+
+<p><strong>SPIN trace facilities</strong>:</p>
+
+<p>【Tool-compliant (runs as-is)】</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spin <span class="nt">-t</span> <span class="nt">-p</span> examples/ch08/spin/producer-consumer.pml
+spin <span class="nt">-t</span> examples/ch08/spin/producer-consumer.pml
+</code></pre></div></div>
+
+<p>The first command prints a more detailed trail, and the second replays the
+trace as a simulation.</p>
+
+<p><strong>TLC trace facilities</strong>:</p>
+
+<ul>
+  <li>step-by-step display of states</li>
+  <li>inspection of variable changes</li>
+  <li>detailed presentation of the error state</li>
+</ul>
+
+<h3 id="a-counterexample-driven-development-process">A Counterexample-Driven Development Process</h3>
+
+<p>Counterexamples can be integrated into the development process as recurring
+engineering artifacts.</p>
+
+<p><strong>Counterexample database</strong>:</p>
+
+<ul>
+  <li>systematic storage of discovered counterexamples</li>
+  <li>classification and searchability</li>
+  <li>traceability of repairs and their effects</li>
+</ul>
+
+<p><strong>Regression checks</strong>:</p>
+
+<ul>
+  <li>confirm that the specific counterexample is gone</li>
+  <li>check that no new defect was introduced</li>
+  <li>evaluate performance impact of the repair</li>
+</ul>
+
+<p><strong>Education and knowledge sharing</strong>:</p>
+
+<ul>
+  <li>share recurring defect patterns</li>
+  <li>use representative traces for onboarding and training</li>
+  <li>reuse them during design reviews</li>
+</ul>
+
+<p>Counterexamples are among the most valuable outputs of model checking. Used
+well, they improve both system quality and the engineering maturity of the
+team.</p>
+
+<h2 id="86-comparing-major-tools-and-choosing-among-them">8.6 Comparing Major Tools and Choosing Among Them</h2>
+
+<h3 id="the-ecosystem-of-model-checking-tools">The Ecosystem of Model-Checking Tools</h3>
+
+<p>As model checking has matured, a wide range of tools has emerged. Each tool is
+specialized for certain problem classes or verification styles. Choosing the
+right one has a substantial effect on the success of a verification effort.</p>
+
+<h3 id="spin-a-pioneer-in-concurrent-system-verification">SPIN: A Pioneer in Concurrent-System Verification</h3>
+
+<p>SPIN, developed by Gerard Holzmann, remains one of the representative tools for
+verifying concurrent systems.</p>
+
+<p><strong>Main characteristics</strong>:</p>
+
+<ul>
+  <li><strong>Promela language</strong> specialized for describing concurrent processes</li>
+  <li><strong>partial order reduction</strong> for controlling state explosion caused by
+interleavings</li>
+  <li><strong>memory efficiency</strong> for explicit-state exploration</li>
+  <li><strong>random simulation</strong> for lightweight pre-checks before full verification</li>
+</ul>
+
+<p><strong>Example domain</strong>:</p>
+
+<p>【Tool-compliant (runs as-is)】</p>
+<pre><code class="language-promela">mtype = { msg };
+chan buffer = [1] of { mtype };
+
+active proctype Producer() {
+    do
+    :: buffer!msg -&gt; printf("Produced\n")
+    od
+}
+
+active proctype Consumer() {
+    do
+    :: buffer?msg -&gt; printf("Consumed\n")
+    od
+}
+</code></pre>
+
+<p>For a self-contained file, see <code class="language-plaintext highlighter-rouge">examples/ch08/spin/producer-consumer.pml</code>.</p>
+
+<p><strong>Advantages</strong>:</p>
+
+<ul>
+  <li>natural description of concurrency</li>
+  <li>highly optimized verification engine</li>
+  <li>long industrial track record</li>
+</ul>
+
+<p><strong>Constraints</strong>:</p>
+
+<ul>
+  <li>restricted data types compared with general-purpose languages</li>
+  <li>nontrivial learning curve</li>
+  <li>limited graphical tooling</li>
+</ul>
+
+<h3 id="nusmv-a-standard-tool-for-symbolic-verification">NuSMV: A Standard Tool for Symbolic Verification</h3>
+
+<p>NuSMV is a classic tool for symbolic model checking.</p>
+
+<p><strong>Main characteristics</strong>:</p>
+
+<ul>
+  <li><strong>BDD-based representation</strong> for large state sets</li>
+  <li><strong>CTL and LTL support</strong> for a wide range of temporal properties</li>
+  <li><strong>hierarchical modules</strong> for structured system descriptions</li>
+  <li><strong>counterexample generation</strong> for detailed diagnosis</li>
+</ul>
+
+<p><strong>Specification example</strong>:</p>
+
+<p>【Tool-compliant (runs as-is)】</p>
+<pre><code class="language-smv">MODULE main
+VAR
+    state : {idle, req, crit, exit};
+    input_req : boolean;
+    other_flag : boolean;
+
+ASSIGN
+    init(state) := idle;
+    init(input_req) := FALSE;
+    init(other_flag) := FALSE;
+    next(input_req) := {TRUE, FALSE};
+    next(other_flag) := {TRUE, FALSE};
+    next(state) := case
+        state = idle &amp; input_req : req;
+        state = req &amp; !other_flag : crit;
+        state = crit : exit;
+        state = exit : idle;
+        TRUE : state;
+    esac;
+
+LTLSPEC G(state = crit -&gt; F(state = exit))
+CTLSPEC AG(state = crit -&gt; !other_flag)
+</code></pre>
+
+<p>For a self-contained file, see <code class="language-plaintext highlighter-rouge">examples/ch08/nusmv/request-response.smv</code>.</p>
+
+<p><strong>Advantages</strong>:</p>
+
+<ul>
+  <li>declarative specification style</li>
+  <li>strong symbolic engine</li>
+  <li>broad academic and industrial use</li>
+</ul>
+
+<p><strong>Constraints</strong>:</p>
+
+<ul>
+  <li>can be memory-intensive</li>
+  <li>BDD construction may fail on some structures</li>
+  <li>limited support for highly dynamic data structures</li>
+</ul>
+
+<h3 id="tlc-the-execution-engine-for-tla">TLC: The Execution Engine for TLA+</h3>
+
+<p>TLC is the model checker dedicated to TLA+ specifications.</p>
+
+<p><strong>Main characteristics</strong>:</p>
+
+<ul>
+  <li><strong>high-level specification language</strong> close to mathematics</li>
+  <li><strong>rich data modeling</strong> with sets, functions, and sequences</li>
+  <li><strong>distributed verification</strong> across multiple machines</li>
+  <li><strong>detailed configuration control</strong> for the search</li>
+</ul>
+
+<p><strong>TLA+ specification sketch</strong>:</p>
+
+<p>Pseudo notation:</p>
+
+<pre><code class="language-tla">Init ≜ balance = [a ∈ Accounts ↦ 0]
+
+Transfer(from, to, amount) ≜
+    ∧ balance[from] ≥ amount
+    ∧ balance' = [balance EXCEPT
+        ![from] = @ - amount,
+        ![to] = @ + amount]
+
+Next ≜ ∃ from, to ∈ Accounts, amount ∈ Nat :
+    Transfer(from, to, amount)
+</code></pre>
+
+<p><strong>Advantages</strong>:</p>
+
+<ul>
+  <li>expressive specification language</li>
+  <li>strong support for abstract modeling</li>
+  <li>especially good for distributed protocols</li>
+</ul>
+
+<p><strong>Constraints</strong>:</p>
+
+<ul>
+  <li>steep learning curve</li>
+  <li>some distance from implementation code</li>
+  <li>narrower toolchain than mainstream programming languages</li>
+</ul>
+
+<h3 id="cbmc-a-practical-tool-for-software-verification">CBMC: A Practical Tool for Software Verification</h3>
+
+<p>CBMC is a bounded model checker for C and C++ programs.</p>
+
+<p><strong>Main characteristics</strong>:</p>
+
+<ul>
+  <li><strong>direct verification of real code</strong></li>
+  <li><strong>SAT-based reasoning</strong> over bounded executions</li>
+  <li><strong>concrete counterexample traces</strong></li>
+  <li><strong>industrial use</strong> in domains such as automotive and aerospace</li>
+</ul>
+
+<p><strong>Verification example</strong>:</p>
+
+<p>【Tool-compliant (runs as-is)】</p>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;assert.h&gt;</span><span class="cp">
+</span>
+<span class="k">extern</span> <span class="kt">int</span> <span class="nf">nondet_int</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">array</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+    <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">nondet_int</span><span class="p">();</span>
+
+    <span class="n">__CPROVER_assume</span><span class="p">(</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">);</span>
+    <span class="n">array</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
+
+    <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">nondet_int</span><span class="p">();</span>
+    <span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="n">nondet_int</span><span class="p">();</span>
+    <span class="n">__CPROVER_assume</span><span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="mi">1000</span><span class="p">);</span>
+    <span class="n">__CPROVER_assume</span><span class="p">(</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="mi">1000</span><span class="p">);</span>
+
+    <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">;</span>
+    <span class="n">__CPROVER_assert</span><span class="p">(</span><span class="n">sum</span> <span class="o">&gt;=</span> <span class="n">x</span> <span class="o">&amp;&amp;</span> <span class="n">sum</span> <span class="o">&gt;=</span> <span class="n">y</span><span class="p">,</span>
+                     <span class="s">"sum grows for bounded non-negative inputs"</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>For a self-contained file, see <code class="language-plaintext highlighter-rouge">examples/ch08/cbmc/array-bounds.c</code>.</p>
+
+<p><strong>Advantages</strong>:</p>
+
+<ul>
+  <li>works at implementation level</li>
+  <li>reuses existing code assets</li>
+  <li>produces concrete, actionable bug traces</li>
+</ul>
+
+<p><strong>Constraints</strong>:</p>
+
+<ul>
+  <li>bounded verification only</li>
+  <li>abstraction is still difficult for large programs</li>
+  <li>performance can degrade on very large codebases</li>
+</ul>
+
+<h3 id="uppaal-specialized-for-real-time-systems">UPPAAL: Specialized for Real-Time Systems</h3>
+
+<p>UPPAAL is a tool specialized for real-time verification.</p>
+
+<p><strong>Main characteristics</strong>:</p>
+
+<ul>
+  <li><strong>timed automata</strong> as a natural model of timing constraints</li>
+  <li><strong>graphical UI</strong> for visual state-machine modeling</li>
+  <li><strong>precise clock constraints</strong></li>
+  <li><strong>optimization support</strong> for fastest or lowest-cost paths</li>
+</ul>
+
+<p><strong>Timed-automaton sketch</strong>:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>process Task {
+    clock t;
+
+    state Idle {
+        when(trigger &amp;&amp; t &gt;= period) -&gt; Running { t := 0; }
+    }
+
+    state Running {
+        when(t &lt;= deadline) -&gt; Idle;
+        when(t &gt; deadline) -&gt; Error; // deadline violation
+    }
+}
+</code></pre></div></div>
+
+<p><strong>Advantages</strong>:</p>
+
+<ul>
+  <li>precise reasoning about real-time behavior</li>
+  <li>intuitive graphical descriptions</li>
+  <li>useful for optimization questions as well as safety questions</li>
+</ul>
+
+<p><strong>Constraints</strong>:</p>
+
+<ul>
+  <li>narrower applicability than general-purpose tools</li>
+  <li>meaningful learning cost</li>
+  <li>scale limits for very large systems</li>
+</ul>
+
+<h3 id="factors-that-determine-tool-choice">Factors That Determine Tool Choice</h3>
+
+<p>The main criteria for choosing a model-checking tool are practical.</p>
+
+<p><strong>1. Nature of the target system</strong>:</p>
+
+<ul>
+  <li><strong>concurrent systems</strong> -&gt; SPIN, TLC</li>
+  <li><strong>hardware / embedded control</strong> -&gt; NuSMV, UPPAAL</li>
+  <li><strong>software code</strong> -&gt; CBMC, Java PathFinder</li>
+  <li><strong>real-time systems</strong> -&gt; UPPAAL, TIMES</li>
+</ul>
+
+<p><strong>2. Required depth of verification</strong>:</p>
+
+<ul>
+  <li><strong>full verification where possible</strong> -&gt; symbolic methods such as NuSMV</li>
+  <li><strong>bug finding</strong> -&gt; explicit-state methods such as SPIN and TLC</li>
+  <li><strong>bounded verification</strong> -&gt; SAT-based tools such as CBMC</li>
+</ul>
+
+<p><strong>3. Technical background of the team</strong>:</p>
+
+<ul>
+  <li><strong>strong mathematical background</strong> -&gt; TLA+ / TLC</li>
+  <li><strong>programming-oriented background</strong> -&gt; CBMC, Java PathFinder</li>
+  <li><strong>modeling experience</strong> -&gt; NuSMV, UPPAAL</li>
+</ul>
+
+<p><strong>4. Project constraints</strong>:</p>
+
+<ul>
+  <li><strong>learning time</strong> -&gt; shorter with CBMC, longer with TLA+</li>
+  <li><strong>existing toolchain</strong> -&gt; integration matters</li>
+  <li><strong>performance expectations</strong> -&gt; depend on target-system scale and complexity</li>
+</ul>
+
+<h3 id="an-integrated-tool-use-strategy">An Integrated Tool-Use Strategy</h3>
+
+<p>In practice, combinations of tools are often most effective.</p>
+
+<p><strong>A staged verification strategy</strong>:</p>
+
+<ol>
+  <li><strong>design stage</strong>: use TLA+ to validate the high-level algorithm</li>
+  <li><strong>detailed design</strong>: use NuSMV for control logic</li>
+  <li><strong>implementation stage</strong>: use CBMC for real code</li>
+  <li><strong>integration stage</strong>: use SPIN for concurrent behavior</li>
+</ol>
+
+<p><strong>Complementary verification</strong>:</p>
+
+<ul>
+  <li><strong>by property type</strong>: safety with CBMC, liveness with SPIN</li>
+  <li><strong>by abstraction level</strong>: high-level with TLA+, low-level with CBMC</li>
+  <li><strong>by reasoning style</strong>: symbolic with NuSMV, explicit-state with SPIN</li>
+</ul>
+
+<h3 id="emerging-tools-and-trends">Emerging Tools and Trends</h3>
+
+<p>As verification technology evolves, new tools and frameworks continue to
+appear:</p>
+
+<ul>
+  <li><strong>CATAPULT</strong> for high-level synthesis verification</li>
+  <li><strong>SEAHORN</strong> as an LLVM-based verification framework</li>
+  <li><strong>SMACK</strong> for translating LLVM into Boogie-based workflows</li>
+  <li><strong>KLEE</strong> as a symbolic-execution engine</li>
+</ul>
+
+<p>The border between model checking, symbolic execution, theorem proving, and
+static analysis is increasingly fluid.</p>
+
+<h3 id="practical-adoption-guidelines">Practical Adoption Guidelines</h3>
+
+<p><strong>Evaluation phase</strong>:</p>
+
+<ol>
+  <li>try the tool on a small example</li>
+  <li>evaluate learning cost and expected benefit</li>
+  <li>check compatibility with the existing development process</li>
+</ol>
+
+<p><strong>Introduction phase</strong>:</p>
+
+<ol>
+  <li>run a pilot project</li>
+  <li>share knowledge within the team</li>
+  <li>expand the scope gradually</li>
+</ol>
+
+<p><strong>Institutionalization phase</strong>:</p>
+
+<ol>
+  <li>update tools regularly</li>
+  <li>accumulate reusable verification patterns</li>
+  <li>transfer the lessons to other projects</li>
+</ol>
+
+<p>The right tool choice has decisive influence on the success of model checking.
+Technical features matter, but so do team capability, project constraints, and
+long-term strategy.</p>
+
+<hr />
+
+<h2 id="end-of-chapter-exercises">End-of-Chapter Exercises</h2>
+
+<p><strong>If you use AI while working through these exercises</strong></p>
+
+<ul>
+  <li>Treat AI output as a proposal; use verifiers to make the final judgment.</li>
+  <li>Keep a record of the prompts you used, the generated specifications and
+invariants, the verification commands and logs (including seed, depth, and
+scope), and the revision history when counterexamples were found.</li>
+  <li>For detailed templates, see Appendix D and Appendix F.</li>
+</ul>
+
+<h3 id="basic-exercise-1-practicing-temporal-logic">Basic Exercise 1: Practicing Temporal Logic</h3>
+
+<p>Describe properties of the following system in both CTL and LTL.</p>
+
+<p><strong>Elevator control system</strong>:</p>
+
+<ul>
+  <li>states: <code class="language-plaintext highlighter-rouge">{idle, moving_up, moving_down, door_open}</code></li>
+  <li>events: <code class="language-plaintext highlighter-rouge">{call_button, arrive_floor, open_door, close_door}</code></li>
+</ul>
+
+<p>Properties to write:</p>
+
+<ol>
+  <li><strong>Safety</strong>: the elevator never moves while the door is open</li>
+  <li><strong>Liveness</strong>: if a call arrives, the elevator eventually arrives</li>
+  <li><strong>Fairness</strong>: every floor is served fairly</li>
+  <li><strong>Efficiency</strong>: no unnecessary movement occurs</li>
+</ol>
+
+<p>For each property:</p>
+
+<ul>
+  <li>write a CTL formula</li>
+  <li>write an LTL formula</li>
+  <li>explain which logic expresses it more naturally</li>
+</ul>
+
+<h3 id="basic-exercise-2-state-space-analysis">Basic Exercise 2: State-Space Analysis</h3>
+
+<p>Analyze the state space of the following concurrent system.</p>
+
+<p><strong>Shared-counter system with two processes</strong>:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Process 1:
+  loop: read counter -&gt; increment -&gt; write counter
+
+Process 2:
+  loop: read counter -&gt; decrement -&gt; write counter
+</code></pre></div></div>
+
+<p>Items to analyze:</p>
+
+<ol>
+  <li>calculate the number of possible states when the counter ranges from 0 to
+10</li>
+  <li>draw the state-transition graph</li>
+  <li>identify race conditions</li>
+  <li>determine whether deadlock states exist</li>
+  <li>discuss whether partial order reduction applies</li>
+</ol>
+
+<h3 id="practical-exercise-1-verification-with-spin">Practical Exercise 1: Verification with SPIN</h3>
+
+<p>Describe the readers-writers problem in Promela and verify it with SPIN.</p>
+
+<p><strong>Requirements</strong>:</p>
+
+<ul>
+  <li>multiple readers may read simultaneously</li>
+  <li>a writer must write exclusively</li>
+  <li>readers and writers must not access the resource at the same time</li>
+  <li>starvation must be avoided</li>
+</ul>
+
+<p><strong>Implementation elements</strong>:</p>
+
+<ol>
+  <li>process definitions in Promela</li>
+  <li>description of shared data structures</li>
+  <li>implementation of synchronization primitives</li>
+  <li>description of safety and liveness properties</li>
+  <li>verification with SPIN and analysis of the results</li>
+</ol>
+
+<h3 id="practical-exercise-2-verification-with-nusmv">Practical Exercise 2: Verification with NuSMV</h3>
+
+<p>Describe a traffic-light control system in NuSMV and verify it.</p>
+
+<p><strong>System specification</strong>:</p>
+
+<ul>
+  <li>north-south and east-west signals</li>
+  <li>three states per direction: red, yellow, and green</li>
+  <li>vehicle-detection sensors</li>
+  <li>pedestrian push buttons</li>
+</ul>
+
+<p><strong>Verification items</strong>:</p>
+
+<ol>
+  <li><strong>Safety</strong>: conflicting directions never become green at the same time</li>
+  <li><strong>Liveness</strong>: every direction eventually gets green</li>
+  <li><strong>Responsiveness</strong>: pedestrian requests are handled appropriately</li>
+  <li><strong>Efficiency</strong>: unnecessary signal changes are avoided</li>
+</ol>
+
+<h3 id="advanced-exercise-staged-verification-with-multiple-tools">Advanced Exercise: Staged Verification with Multiple Tools</h3>
+
+<p>Design a consensus algorithm for a distributed database and verify it
+progressively with multiple tools.</p>
+
+<p><strong>System requirements</strong>:</p>
+
+<ul>
+  <li>three database nodes</li>
+  <li>a majority-based agreement mechanism</li>
+  <li>tolerance of node failures</li>
+  <li>guaranteed data consistency</li>
+</ul>
+
+<p><strong>Staged verification process</strong>:</p>
+
+<p><strong>Phase 1: High-level design in TLA+</strong></p>
+
+<ol>
+  <li>describe the overall algorithm in TLA+</li>
+  <li>verify the basic safety and liveness properties</li>
+  <li>perform an initial check with TLC</li>
+</ol>
+
+<p><strong>Phase 2: Refinement in Promela</strong></p>
+
+<ol>
+  <li>refine the message-exchange protocol</li>
+  <li>describe concurrency and communication in more detail</li>
+  <li>verify the model with SPIN</li>
+</ol>
+
+<p><strong>Phase 3: Implementation-level verification</strong></p>
+
+<ol>
+  <li>implement the actual C or Java code</li>
+  <li>verify it with CBMC or Java PathFinder</li>
+  <li>integrate the results with unit tests</li>
+</ol>
+
+<p><strong>Integrated analysis</strong>:</p>
+
+<ul>
+  <li>classify the problems found at each stage</li>
+  <li>compare the consistency of results across tools</li>
+  <li>analyze the relationship between abstraction level and defect discovery</li>
+  <li>evaluate the overall verification strategy</li>
+</ul>
+
+<p><strong>Evaluation points</strong>:</p>
+
+<ol>
+  <li>understanding the features and suitable use cases of each tool</li>
+  <li>understanding the quality impact of staged verification</li>
+  <li>understanding the trade-off between learning cost and verification benefit</li>
+  <li>evaluating applicability to real projects</li>
+</ol>
+
+<p>Through these exercises, you should acquire both a theoretical understanding
+of model checking and the practical ability to apply it. The advanced exercise
+is especially important because it exposes you to the complexity of real
+projects and to the need for a systematic verification strategy.</p>
+
+                </article>
+
+                
+                <nav class="page-navigation" aria-label="Page navigation">
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+
+
+
+
+
+<nav class="book-navigation" aria-label="Page navigation">
+  <div class="chapter-nav">
+    
+      <a href="/formal-methods-book/en/chapters/chapter07/" class="nav-prev" rel="prev">
+        <span class="arrow" aria-hidden="true">←</span>
+        <span class="label">Previous</span>
+        <span class="title">Chapter 7: Specifying Time — Introduction to TLA+</span>
+      </a>
+    
+
+    <a href="/formal-methods-book/en/" class="nav-home">
+      <span class="label">Contents</span>
+    </a>
+
+    
+      <a href="/formal-methods-book/en/chapters/chapter09/" class="nav-next" rel="next">
+        <span class="label">Next</span>
+        <span class="title">Chapter 9: Fundamentals of Theorem Proving</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    
+  </div>
+</nav>
+
+<style>
+.book-navigation { margin: 2rem 0; padding: 1rem; border-top: 1px solid var(--border-color, #e5e7eb); }
+.chapter-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.nav-prev, .nav-next, .nav-home { display: flex; align-items: center; padding: 0.75rem 1.25rem; background: var(--bg-primary, #fff); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; text-decoration: none; color: inherit; }
+.nav-disabled { opacity: .5; cursor: not-allowed; background: var(--bg-tertiary, #f9fafb); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; padding: 0.75rem 1.25rem; display: flex; align-items: center; }
+.nav-prev { flex: 1; }
+.nav-next { flex: 1; justify-content: flex-end; text-align: right; }
+.nav-home { flex: 0 0 auto; justify-content: center; }
+.label { font-weight: 600; margin: 0 .25rem; }
+.title { font-size: .9rem; opacity: .8; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 768px) { .chapter-nav { flex-wrap: wrap; } .nav-prev, .nav-next { flex: 1 1 45%; } .nav-home { flex: 1 1 100%; order: -1; } .title { display: none; } }
+</style>
+
+                </nav>
+                
+
+                
+
+                <footer class="book-footer" role="contentinfo">
+                    <div class="book-footer-inner">
+                        <div class="book-footer-license">
+                            Reader-facing text: CC BY-NC-SA 4.0 / Code assets: Apache-2.0 / excluding trademarks and third-party assets
+                        </div>
+                        <div class="book-footer-links">
+                            
+                                <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener">GitHub</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/LICENSE-SCOPE.md" target="_blank" rel="noopener">License</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/COMMERCIAL.md" target="_blank" rel="noopener">Commercial</a>
+                            
+                            
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <label for="sidebar-toggle-checkbox" class="book-sidebar-overlay" id="sidebar-overlay" aria-label="Close sidebar"></label>
+
+    <script async src="/formal-methods-book/assets/js/code-copy-lightweight.js"></script>
+    <script defer src="/formal-methods-book/assets/js/theme.js"></script>
+    <script defer src="/formal-methods-book/assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var cb = document.getElementById('sidebar-toggle-checkbox');
+            var toggle = document.querySelector('.sidebar-toggle');
+            if (cb) cb.checked = false;
+            if (cb && toggle) {
+                var sync = function() {
+                    toggle.setAttribute('aria-expanded', cb.checked ? 'true' : 'false');
+                };
+                sync();
+                cb.addEventListener('change', sync);
+                toggle.addEventListener('keydown', function(e) {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        cb.checked = !cb.checked;
+                        cb.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        (function() {
+            function initTocAutoScroll() {
+                var cb = document.getElementById('sidebar-toggle-checkbox');
+                if (!cb) return;
+
+                function normalizePath(p) {
+                    var path = String(p || '').replace(/index\.html$/, '');
+                    if (path.length > 1) {
+                        path = path.replace(/\/+$/, '');
+                    }
+                    return path || '/';
+                }
+
+                function isMobileDrawer() {
+                    try {
+                        if (typeof window.matchMedia === 'function') {
+                            return window.matchMedia('(max-width: 1024px)').matches;
+                        }
+                    } catch (_) {}
+                    return typeof window.innerWidth === 'number' ? window.innerWidth <= 1024 : true;
+                }
+
+                function findActiveTocLink() {
+                    var current = normalizePath(window.location.pathname);
+                    var actives = document.querySelectorAll('a.toc-link.active');
+                    if (!actives || actives.length === 0) return null;
+
+                    for (var i = 0; i < actives.length; i++) {
+                        var a = actives[i];
+                        if (!a || !a.href) continue;
+                        try {
+                            var pathname = normalizePath(new URL(a.href).pathname);
+                            if (pathname === current) return a;
+                        } catch (_) {}
+                    }
+                    return actives[0];
+                }
+
+                function ensureActiveTocVisible() {
+                    if (!cb.checked) return;
+                    if (!isMobileDrawer()) return;
+
+                    var active = findActiveTocLink();
+                    if (!active) return;
+
+                    var sidebar = active.closest('.book-sidebar') || document.getElementById('sidebar');
+                    if (!sidebar) return;
+
+                    try {
+                        var linkRect = active.getBoundingClientRect();
+                        var sidebarRect = sidebar.getBoundingClientRect();
+                        var marginTop = 8;
+                        var marginBottom = 8;
+                        try {
+                            if (window.getComputedStyle) {
+                                var cs = window.getComputedStyle(sidebar);
+                                if (cs) {
+                                    var pt = parseFloat(cs.paddingTop);
+                                    var pb = parseFloat(cs.paddingBottom);
+                                    if (!isNaN(pt)) marginTop = pt;
+                                    if (!isNaN(pb)) marginBottom = pb;
+                                }
+                            }
+                        } catch (_) {}
+
+                        var top = sidebarRect.top + marginTop;
+                        var bottom = sidebarRect.bottom - marginBottom;
+                        var outOfView = linkRect.top < top || linkRect.bottom > bottom;
+
+                        if (outOfView && typeof active.scrollIntoView === 'function') {
+                            try {
+                                active.scrollIntoView({ block: 'center', behavior: 'auto' });
+                            } catch (e) {
+                                active.scrollIntoView();
+                            }
+                        }
+                    } catch (_) {}
+                }
+
+                function scheduleEnsure() {
+                    setTimeout(ensureActiveTocVisible, 0);
+                    setTimeout(ensureActiveTocVisible, 350);
+                }
+
+                cb.addEventListener('change', function() {
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+
+                if (cb.checked) {
+                    scheduleEnsure();
+                }
+
+                window.addEventListener('pageshow', function(e) {
+                    if (!e || !e.persisted) return;
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initTocAutoScroll);
+            } else {
+                initTocAutoScroll();
+            }
+        })();
+    </script>
+</body>
+</html>

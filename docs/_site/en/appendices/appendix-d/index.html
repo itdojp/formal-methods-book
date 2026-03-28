@@ -1,0 +1,2185 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta name="author" content="太田和彦（株式会社アイティードゥ）">
+
+    <title>Appendix D: Exercise Guides and Self-Review Frameworks - Formal Methods: Foundations and Applications</title>
+
+    <link rel="canonical" href="https://itdojp.github.io/formal-methods-book/en/appendices/appendix-d/">
+    <link rel="alternate" hreflang="ja" href="https://itdojp.github.io/formal-methods-book/appendices/appendix-d/">
+    <link rel="alternate" hreflang="en" href="https://itdojp.github.io/formal-methods-book/en/appendices/appendix-d/">
+    <link rel="alternate" hreflang="x-default" href="https://itdojp.github.io/formal-methods-book/">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/main.css">
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/syntax-highlighting.css">
+
+    <link rel="icon" type="image/png" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+    <link rel="apple-touch-icon" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+
+    <meta property="og:title" content="Appendix D: Exercise Guides and Self-Review Frameworks">
+    <meta property="og:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://itdojp.github.io/formal-methods-book/en/appendices/appendix-d/">
+    <meta property="og:locale" content="en_US">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Appendix D: Exercise Guides and Self-Review Frameworks">
+    <meta name="twitter:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+
+    <script>
+        (function() {
+            try {
+                const k = 'book-theme';
+                const t = localStorage.getItem(k) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (_) {}
+        })();
+    </script>
+</head>
+<body>
+    
+    
+    
+    
+    
+
+    <input type="checkbox" id="sidebar-toggle-checkbox" class="sidebar-toggle-checkbox" aria-hidden="true">
+
+    <div class="book-layout">
+        <header class="book-header">
+            <div class="header-left">
+                <label for="sidebar-toggle-checkbox" class="sidebar-toggle" aria-label="Toggle sidebar" role="button" tabindex="0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </label>
+                <a href="/formal-methods-book/en/" class="header-title">
+                    <h1>Formal Methods: Foundations and Applications</h1>
+                </a>
+            </div>
+
+            <div class="header-center">
+                <div class="search-container">
+                    <input type="search"
+                           placeholder="Search..."
+                           class="search-input"
+                           id="search-input"
+                           autocomplete="off">
+                    <div class="search-results" id="search-results"></div>
+                </div>
+            </div>
+
+            <div class="header-right">
+                
+
+
+
+
+
+
+
+
+
+
+<a href="/formal-methods-book/appendices/appendix-d/"
+   class="language-switcher"
+   hreflang="ja"
+   lang="ja"
+   >
+    日本語
+</a>
+
+                <button class="theme-toggle" aria-label="Toggle theme">
+                    <svg class="theme-icon theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="theme-icon theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+
+                
+            </div>
+        </header>
+
+        <aside class="book-sidebar" id="sidebar">
+            <nav class="sidebar-nav" role="navigation" aria-label="Main navigation">
+                
+
+
+
+
+
+
+
+
+
+
+<div class="sidebar-content">
+    <div class="book-info">
+        <h2 class="book-title"><a href="/formal-methods-book/en/" class="header-title">Formal Methods: Foundations and Applications</a></h2>
+        
+        <p class="book-subtitle">An Integrated Understanding of Specification, Model Checking, and Theorem Proving</p>
+        
+    </div>
+
+    <div class="toc">
+        <h3 class="toc-title">Contents</h3>
+
+        <div class="toc-section">
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/" class="toc-link ">
+                        Home
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Introduction</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/introduction/" class="toc-link ">
+                        Introduction
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Chapters</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter01/" class="toc-link ">
+                        Chapter 1: Why Formal Methods Matter
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter02/" class="toc-link ">
+                        Chapter 2: Bridging Mathematics and Programs
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter03/" class="toc-link ">
+                        Chapter 3: Foundations of Specification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter04/" class="toc-link ">
+                        Chapter 4: Introduction to Lightweight Formal Methods — Specification with Alloy
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter05/" class="toc-link ">
+                        Chapter 5: State-Based Specification — Fundamentals of Z Notation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter06/" class="toc-link ">
+                        Chapter 6: Process-Centric Specification — Concurrency with CSP
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter07/" class="toc-link ">
+                        Chapter 7: Specifying Time — Introduction to TLA+
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter08/" class="toc-link ">
+                        Chapter 8: Introduction to Model Checking
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter09/" class="toc-link ">
+                        Chapter 9: Fundamentals of Theorem Proving
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter10/" class="toc-link ">
+                        Chapter 10: Program Verification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter11/" class="toc-link ">
+                        Chapter 11: Integrating Formal Methods into Development Processes
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter12/" class="toc-link ">
+                        Chapter 12: Tools and Automation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter13/" class="toc-link ">
+                        Chapter 13: Case Studies
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Additional</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/glossary/" class="toc-link ">
+                        Glossary
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Appendices</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-a/" class="toc-link ">
+                        Appendix A: Mathematics Refresher
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-b/" class="toc-link ">
+                        Appendix B: Tool Setup and Verification Quick Start
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-c/" class="toc-link ">
+                        Appendix C: Notation Cross-Reference
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-d/" class="toc-link active">
+                        Appendix D: Exercise Guides and Self-Review Frameworks
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-e/" class="toc-link ">
+                        Appendix E: References and Further Reading Paths
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-f/" class="toc-link ">
+                        Appendix F: Practical Playbook for AI-Assisted Formal Methods
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Afterword</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/afterword/" class="toc-link ">
+                        Afterword
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="external-links">
+            
+            <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener" class="external-link">GitHub</a>
+            
+            
+        </div>
+    </div>
+</div>
+
+            </nav>
+        </aside>
+
+        <main class="book-main" id="main">
+            <div class="book-content">
+                
+                    
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb-list">
+    <li class="breadcrumb-item">
+        <a href="/formal-methods-book/en/" class="breadcrumb-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span class="sr-only">Home</span>
+        </a>
+    </li>
+
+    
+        
+    
+        
+    
+        
+            
+            
+            
+                
+                
+                <li class="breadcrumb-item">
+                    <a href="/formal-methods-book/en/appendices/" class="breadcrumb-link">
+                        
+                            Appendices
+                        
+                    </a>
+                </li>
+            
+        
+    
+        
+            
+            
+            
+                <li class="breadcrumb-item active" aria-current="page">
+                    Appendix d: exercise guides and self review frameworks
+                </li>
+            
+        
+    
+</ol>
+
+<style>
+.breadcrumb-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    font-size: 0.875rem;
+    flex-wrap: wrap;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb-item:not(:last-child)::after {
+    content: '/';
+    margin: 0 0.5rem;
+    color: var(--text-muted);
+}
+
+.breadcrumb-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.breadcrumb-link:hover {
+    color: var(--primary-color);
+}
+
+.breadcrumb-item.active {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (max-width: 768px) {
+    .breadcrumb-list {
+        font-size: 0.75rem;
+    }
+
+    .breadcrumb-item:not(:last-child)::after {
+        margin: 0 0.375rem;
+    }
+}
+</style>
+
+                
+
+                <article class="page-content">
+                    <h1 id="appendix-d-exercise-guides-and-self-review-frameworks">Appendix D: Exercise Guides and Self-Review Frameworks</h1>
+
+<p>This appendix provides reusable answer frameworks for the end-of-chapter exercises. Use it when you want to turn an exercise into a study note, workshop output, or review packet that another reader can inspect.
+Because end-of-chapter exercises do not usually have a single unique answer, this appendix emphasizes the <strong>solution skeleton</strong> (minimum structure), the evidence worth keeping, and the <strong>self-review criteria</strong> you can apply before treating an answer as complete.</p>
+
+<p>Notes:</p>
+<ul>
+  <li>The pseudo-scripts, log structures, and configuration examples in this appendix are illustrative. In actual practice, adjust them to the project environment and requirements.</li>
+  <li>Numerical values such as percentages, multipliers, and counts should either cite a source or explicitly state that they are illustrative.</li>
+</ul>
+
+<h2 id="d1-common-output-structures-and-self-review-criteria">D.1 Common Output Structures and Self-Review Criteria</h2>
+
+<h3 id="common-work-products-recommended">Common Work Products (Recommended)</h3>
+
+<ul>
+  <li>Problem setting: target, assumptions, and boundaries (<code class="language-plaintext highlighter-rouge">in-scope</code> / <code class="language-plaintext highlighter-rouge">out-of-scope</code>)</li>
+  <li>Specification: term definitions, preconditions, and properties such as safety, liveness, and contracts</li>
+  <li>Verification: execution commands, settings such as seed, depth, scope, and time limit, and result logs</li>
+  <li>Counterexample handling, when a counterexample appears: minimal trace, hypotheses about the cause, fix diff, and re-verification logs (see Appendix F)</li>
+</ul>
+
+<h3 id="common-self-review-criteria">Common Self-Review Criteria</h3>
+
+<ul>
+  <li>Accuracy: definitions, constraints, and reasoning are consistent</li>
+  <li>Completeness: no required viewpoint is omitted, including exceptions and boundary conditions</li>
+  <li>Consistency: terminology, symbols, and abstraction level are aligned</li>
+  <li>Reproducibility: a third party can rerun the same process by using the same commands, settings, and logs</li>
+  <li>Validity: assumptions such as environment model, failure model, and performance constraints are stated explicitly</li>
+</ul>
+
+<h2 id="d2-chapter-1">D.2 Chapter 1</h2>
+
+<h3 id="thought-exercise-1-complexity-analysis">Thought Exercise 1: Complexity Analysis</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Fix the system boundary, including external APIs, dependencies, and operations.</li>
+  <li>Enumerate components and interactions, and organize them from the viewpoint of combinatorial explosion, such as the number of states and transitions.</li>
+  <li>Identify failure modes such as partial failure, races, and specification mismatches, and provisionally define a required assurance level comparable to <code class="language-plaintext highlighter-rouge">SIL</code>.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>A component list with roles and responsibilities, plus an interaction diagram</li>
+  <li>An evaluation of how states and transitions grow, including which part explodes combinatorially</li>
+  <li>Failure modes and safety requirements, together with the basis for the <code class="language-plaintext highlighter-rouge">SIL</code>-level judgment</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The system boundary is clear, with few missing assumptions</li>
+  <li>Complexity is explained in terms of both interaction and state space</li>
+  <li>Failure modes are concrete and include operational aspects</li>
+</ul>
+
+<h3 id="practical-exercise-accident-analysis-and-preventive-measures">Practical Exercise: Accident Analysis and Preventive Measures</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Decompose the direct causes and root causes of the accident into specification, implementation, operation, and organization.</li>
+  <li>State which property was violated, such as an invariant, a contract, safety, or liveness.</li>
+  <li>Organize which abstraction level should be addressed first and whether <code class="language-plaintext highlighter-rouge">Alloy</code>, <code class="language-plaintext highlighter-rouge">TLA+</code>, or program verification is the most suitable approach.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>A cause analysis covering both technical and organizational factors, plus the contribution of specification ambiguity</li>
+  <li>A map of what could have been prevented, connected to the methods in Chapters 4, 8, and 10</li>
+  <li>Similar modern risks and practical preventive actions in business settings</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The factors of the accident are decomposed appropriately</li>
+  <li>The discussion is reduced to properties that can actually be verified</li>
+  <li>The proposal is concrete, including introduction steps, verification gates, and exception flows</li>
+</ul>
+
+<h3 id="practical-exercise-quantitative-analysis-of-specification-ambiguity">Practical Exercise: Quantitative Analysis of Specification Ambiguity</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Enumerate ambiguous words and separate the branching points in interpretation, such as limits on the number of attempts, the definition of failure, or the granularity of error messages.</li>
+  <li>Estimate implementation variants as a product of branching factors. The estimate does not have to be exact, but it should be explainable.</li>
+  <li>Evaluate security risks on three axes: attack surface, observability, and operational impact.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>A table of ambiguities with columns such as ambiguous point, interpretation candidates, branch count, and impact</li>
+  <li>A rough estimate of the total number of implementation patterns and the basis for that calculation</li>
+  <li>A prioritization of what should be fixed first through specification work, as discussed in Chapter 3</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>Ambiguities are extracted sufficiently</li>
+  <li>The basis of the estimate is explicit</li>
+  <li>Security considerations are included</li>
+</ul>
+
+<h3 id="advanced-exercise-planning-business-adoption">Advanced Exercise: Planning Business Adoption</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Choose candidate application areas where failure cost is high, specifications are ambiguous, or concurrency and distribution are present.</li>
+  <li>Select a set of roughly three chapters to study in the order that can be reproduced most directly in your own work.</li>
+  <li>Build consensus by presenting ROI, as discussed in Chapter 11, and a staged rollout across pull requests, nightly runs, and pre-release runs.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>A list of candidate application areas with scope, expected effect, and risk</li>
+  <li>A six-month to one-year learning and practice plan with deliverables and KPIs</li>
+  <li>An organizational proposal covering return on investment, guardrails, and exception flow</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>Target selection is rational</li>
+  <li>Deliverables and KPIs are concrete</li>
+  <li>The explanation to the organization is realistic</li>
+</ul>
+
+<h2 id="d3-chapter-2">D.3 Chapter 2</h2>
+
+<h3 id="reading-check-exercise-1-set-theoretic-representation-of-data-structures">Reading Check Exercise 1: Set-Theoretic Representation of Data Structures</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Define the type of <code class="language-plaintext highlighter-rouge">Student</code> as a Cartesian product such as <code class="language-plaintext highlighter-rouge">Name × Age × Courses</code>.</li>
+  <li>Make clear whether <code class="language-plaintext highlighter-rouge">Courses</code> is treated as a set, a sequence, or a multiset.</li>
+  <li>Define the relation “is enrolled in” as <code class="language-plaintext highlighter-rouge">Student ↔ Course</code>.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Student == Name × Nat × P(Course)</code> as an example when <code class="language-plaintext highlighter-rouge">Courses</code> is treated as a set</li>
+  <li><code class="language-plaintext highlighter-rouge">students ⊆ Student</code> as an example when students are treated as a set; if order matters, use a sequence instead</li>
+  <li><code class="language-plaintext highlighter-rouge">enrolled ⊆ Student × Course</code> and a membership test such as <code class="language-plaintext highlighter-rouge">⟨s,c⟩ ∈ enrolled</code></li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The type choice is consistent</li>
+  <li>Relations and functions are used appropriately</li>
+  <li>Boundaries such as ordering and duplication are stated explicitly</li>
+</ul>
+
+<h3 id="reading-check-exercise-2-logic-and-control-structure">Reading Check Exercise 2: Logic and Control Structure</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Decompose natural-language conditions into propositions such as <code class="language-plaintext highlighter-rouge">P</code>, <code class="language-plaintext highlighter-rouge">Q</code>, and so on, and translate them into logical formulas.</li>
+  <li>For quantification such as <code class="language-plaintext highlighter-rouge">∀</code> and <code class="language-plaintext highlighter-rouge">∃</code>, make the set boundary explicit, for example the set of users or products.</li>
+  <li>In implementation-level conditions, also state assumptions about <code class="language-plaintext highlighter-rouge">null</code>, unset values, and exceptions.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>Example: <code class="language-plaintext highlighter-rouge">canDrive ⇔ (age&gt;=18) ∧ hasValidLicense</code></li>
+  <li>Example: <code class="language-plaintext highlighter-rouge">canDelete ⇔ isAdmin ∨ isOwner</code></li>
+  <li>Example: <code class="language-plaintext highlighter-rouge">∀u ∈ Users : hasValidEmail(u)</code></li>
+  <li>Example: <code class="language-plaintext highlighter-rouge">∃p ∈ Products : inStock(p)</code></li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The logical formulas capture the requirements without excess or omission</li>
+  <li>Quantification ranges are explicit</li>
+  <li>Exceptions are considered when mapping the logic to implementation</li>
+</ul>
+
+<h3 id="practical-exercise-state-modeling">Practical Exercise: State Modeling</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Define the minimum set of state variables, such as inserted amount, selection, inventory, and change.</li>
+  <li>Define transitions for each input event, such as insertion, selection, and cancellation.</li>
+  <li>Build invariants around money conservation, non-negative stock, and absence of invalid transitions.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>State variables such as <code class="language-plaintext highlighter-rouge">balance</code>, <code class="language-plaintext highlighter-rouge">stock</code>, <code class="language-plaintext highlighter-rouge">selected</code>, and <code class="language-plaintext highlighter-rouge">change</code></li>
+  <li>Input set such as <code class="language-plaintext highlighter-rouge">Insert100</code>, <code class="language-plaintext highlighter-rouge">Insert500</code>, <code class="language-plaintext highlighter-rouge">SelectCola</code>, <code class="language-plaintext highlighter-rouge">SelectTea</code>, and <code class="language-plaintext highlighter-rouge">Cancel</code></li>
+  <li>Example invariants such as <code class="language-plaintext highlighter-rouge">balance&gt;=0</code>, <code class="language-plaintext highlighter-rouge">stock[item]&gt;=0</code>, and <code class="language-plaintext highlighter-rouge">purchase =&gt; balance&gt;=price</code></li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The state space and inputs are covered comprehensively</li>
+  <li>Invariants correspond to the requirements</li>
+  <li>Scenarios are consistent as transition sequences</li>
+</ul>
+
+<h3 id="advanced-exercise-concurrency-analysis">Advanced Exercise: Concurrency Analysis</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Decompose a transaction into <code class="language-plaintext highlighter-rouge">read → compute → write</code> and model those as transitions.</li>
+  <li>Enumerate interleavings and observe whether key properties such as non-negative balance and conservation are preserved.</li>
+  <li>Choose candidate constraints from exclusivity, atomic operations, retry, and ordering.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>An example showing how an interleaving causes a lost update</li>
+  <li>An inconsistency condition, for example that the final balance differs from the result of sequential execution</li>
+  <li>Candidate constraints such as locking, transactions, or <code class="language-plaintext highlighter-rouge">CAS</code></li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>Interleavings are enumerated correctly</li>
+  <li>The conditions under which inconsistency occurs are explained</li>
+  <li>The constraints are reasonable, including their side effects</li>
+</ul>
+
+<h3 id="integrated-exercise-preparation-for-formal-methods">Integrated Exercise: Preparation for Formal Methods</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>First fix sets, relations, and invariants in natural language and then map them to the selected methods.</li>
+  <li>Use the role allocation in Figure 2-2 to decide which of <code class="language-plaintext highlighter-rouge">Alloy</code>, <code class="language-plaintext highlighter-rouge">Z</code>, <code class="language-plaintext highlighter-rouge">CSP</code>, and <code class="language-plaintext highlighter-rouge">TLA+</code> is best suited to each problem.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>Exercise 1 (<code class="language-plaintext highlighter-rouge">Alloy</code>): assign entities, relations, and constraints such as “there is at least one administrator” to <code class="language-plaintext highlighter-rouge">sig</code>, <code class="language-plaintext highlighter-rouge">fact</code>, and <code class="language-plaintext highlighter-rouge">assert</code></li>
+  <li>Exercise 2 (<code class="language-plaintext highlighter-rouge">Z</code>): define state schemas and operation schemas, including both normal and error cases, and separate preconditions from postconditions</li>
+  <li>Exercise 3 (<code class="language-plaintext highlighter-rouge">CSP</code>): define processes, channels, and order constraints, and enumerate deadlock-related viewpoints</li>
+  <li>Exercise 4 (<code class="language-plaintext highlighter-rouge">TLA+</code>): describe state variables, safety, liveness, and fairness assumptions separately</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The method assignment is rational</li>
+  <li>Invariants, liveness, and exception handling are covered</li>
+  <li>The connection to the following chapters is clear, including what will actually be created next</li>
+</ul>
+
+<h2 id="d4-chapter-3">D.4 Chapter 3</h2>
+
+<h3 id="basic-understanding-exercise-1-identifying-ambiguity">Basic Understanding Exercise 1: Identifying Ambiguity</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Enumerate words whose threshold or judging party is unclear, such as “appropriately,” “too large,” or “invalid.”</li>
+  <li>Organize the effect of each interpretation on design and operations, including logs, audit, and retry handling.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>A table from ambiguous term to interpretation candidates to impact, such as false positives, false negatives, UX, and operational burden</li>
+  <li>A prioritization of the items that should be fixed first through specification work</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>Ambiguity is extracted sufficiently</li>
+  <li>The impact analysis includes implementation and operational effects</li>
+</ul>
+
+<h3 id="basic-understanding-exercise-2-writing-contracts">Basic Understanding Exercise 2: Writing Contracts</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Preconditions describe when the input is searchable, for example sortedness and value range.</li>
+  <li>Postconditions describe the property of the return value in both found and not-found cases.</li>
+  <li>Frame conditions should explicitly state what is not changed, such as the array itself.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>Precondition: <code class="language-plaintext highlighter-rouge">sorted(sorted_array)</code>, <code class="language-plaintext highlighter-rouge">sorted_array != null</code></li>
+  <li>Postcondition (found): <code class="language-plaintext highlighter-rouge">0&lt;=ret&lt;n ∧ sorted_array[ret]=target</code></li>
+  <li>Postcondition (not found): <code class="language-plaintext highlighter-rouge">ret=-1 ∧ ∀i. sorted_array[i] != target</code></li>
+  <li>Frame condition: <code class="language-plaintext highlighter-rouge">sorted_array</code> is not modified</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>Preconditions, postconditions, and frame conditions are separated</li>
+  <li>The return-value conditions are complete for both cases</li>
+</ul>
+
+<h3 id="practical-exercise-1-specifying-a-queue">Practical Exercise 1: Specifying a Queue</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Represent the state as a sequence so that FIFO is easy to express.</li>
+  <li>For each operation, define the relationship between the updated state and the return value.</li>
+  <li>Handle errors such as dequeue from an empty queue either as preconditions or as exception cases.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>State: <code class="language-plaintext highlighter-rouge">Q</code> as a sequence</li>
+  <li><code class="language-plaintext highlighter-rouge">enqueue</code>: <code class="language-plaintext highlighter-rouge">Q' = Append(Q, x)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">dequeue</code> on a non-empty queue: <code class="language-plaintext highlighter-rouge">ret = Head(Q) ∧ Q' = Tail(Q)</code></li>
+  <li>Definitions of <code class="language-plaintext highlighter-rouge">isEmpty</code>, <code class="language-plaintext highlighter-rouge">size</code>, and <code class="language-plaintext highlighter-rouge">front</code></li>
+  <li>Invariants such as <code class="language-plaintext highlighter-rouge">size(Q) &gt;= 0</code> and, where needed, element-type constraints</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>FIFO is reflected in the specification</li>
+  <li>Preconditions and exceptions are clear</li>
+  <li>The operations are mutually consistent, for example <code class="language-plaintext highlighter-rouge">front</code> and <code class="language-plaintext highlighter-rouge">dequeue</code></li>
+</ul>
+
+<h3 id="practical-exercise-2-invariants-for-an-email-system">Practical Exercise 2: Invariants for an Email System</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Define data integrity first, including referential consistency and duplicate elimination.</li>
+  <li>Separate security requirements such as credentials and access control as invariants.</li>
+  <li>Add business rules such as message ownership and movement into trash.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>Integrity examples: email addresses are unique; senders and recipients belong to the user set</li>
+  <li>Security examples: plain-text passwords are prohibited, with hashing assumed; operations require login</li>
+  <li>Rule examples: each message belongs to one of inbox, sent, or trash; duplicate message IDs are prohibited</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>Invariants are categorized clearly</li>
+  <li>Referential relationships cannot break</li>
+  <li>Exceptions such as deletion, movement, and undelivered mail are considered</li>
+</ul>
+
+<h3 id="advanced-exercise-validating-a-specification">Advanced Exercise: Validating a Specification</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Check consistency by composing operations such as <code class="language-plaintext highlighter-rouge">enqueue → dequeue</code> and confirming that no contradiction appears.</li>
+  <li>Check completeness by listing use patterns such as empty, full, and boundary cases.</li>
+  <li>Map the specification to a test strategy through boundaries, equivalence classes, and counterexamples.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>A checklist of viewpoints for reviewing the specification</li>
+  <li>Notes on implementability, such as time complexity and data structures</li>
+  <li>A skeleton for test-case design</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>Verification viewpoints are systematized</li>
+  <li>The route from specification to testing is explicit</li>
+</ul>
+
+<h2 id="d5-chapter-4">D.5 Chapter 4</h2>
+
+<h3 id="basic-exercise-1-reading-an-alloy-model">Basic Exercise 1: Reading an Alloy Model</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>State in words what multiplicities such as <code class="language-plaintext highlighter-rouge">lone</code>, <code class="language-plaintext highlighter-rouge">set</code>, and <code class="language-plaintext highlighter-rouge">one</code> mean.</li>
+  <li>Separate the roles of <code class="language-plaintext highlighter-rouge">fact</code>, which is a constraint that always holds, and <code class="language-plaintext highlighter-rouge">assert</code>, which is an explicit check target for counterexample search.</li>
+  <li>Consider missing constraints such as prohibition of self-marriage or cyclic parent-child relations.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">spouse: lone Person</code> means “at most one spouse”</li>
+  <li>Bidirectional consistency between <code class="language-plaintext highlighter-rouge">parents</code> and <code class="language-plaintext highlighter-rouge">children</code></li>
+  <li>Possible missing constraints: <code class="language-plaintext highlighter-rouge">p.spouse != p</code>, acyclicity of parent-child relations, and mutual exclusiveness of spouses, such as no bigamy</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The meaning of each constraint can be explained</li>
+  <li>Validity can be discussed in relation to the business requirement</li>
+</ul>
+
+<h3 id="basic-exercise-2-writing-constraints">Basic Exercise 2: Writing Constraints</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Separate <code class="language-plaintext highlighter-rouge">User</code>, <code class="language-plaintext highlighter-rouge">Book</code>, and <code class="language-plaintext highlighter-rouge">Loan</code>, and represent lending either as a relation or as a <code class="language-plaintext highlighter-rouge">Loan</code> entity.</li>
+  <li>Fix rules such as “at most five books” and “no overdue borrowing” as <code class="language-plaintext highlighter-rouge">fact</code>s.</li>
+  <li>You may abstract the return date, for example by replacing explicit date ordering with an overdue flag.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">sig User { loans: set Loan }</code>, <code class="language-plaintext highlighter-rouge">sig Book {}</code> and similar declarations</li>
+  <li><code class="language-plaintext highlighter-rouge">fact UniqueLoan { all b: Book | lone l: Loan | l.book = b }</code></li>
+  <li><code class="language-plaintext highlighter-rouge">fact Limit { all u: User | #u.loans &lt;= 5 }</code></li>
+  <li><code class="language-plaintext highlighter-rouge">fact Overdue { all u: User | u.overdue =&gt; no u.newLoan }</code> as an example</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>Requirements are turned into constraints without excess or omission</li>
+  <li>The assumptions of the abstraction are stated explicitly</li>
+</ul>
+
+<h3 id="practical-exercise-1-modeling-a-security-policy">Practical Exercise 1: Modeling a Security Policy</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Isolate access decisions as predicates such as <code class="language-plaintext highlighter-rouge">canRead</code> and <code class="language-plaintext highlighter-rouge">canWrite</code>.</li>
+  <li>Use <code class="language-plaintext highlighter-rouge">fact</code> for invariants and <code class="language-plaintext highlighter-rouge">assert</code> for properties that must never be violated.</li>
+  <li>State administrator privileges explicitly as exceptions, including their priority.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">sig User { groups: set Group }</code>, <code class="language-plaintext highlighter-rouge">sig File { owner: one User, mode: one Mode, sharedWith: set Group }</code></li>
+  <li><code class="language-plaintext highlighter-rouge">pred canWrite[u,f] { u=f.owner or u in Admins and f.mode=RW ... }</code></li>
+  <li><code class="language-plaintext highlighter-rouge">assert NoWriteToRO { all u,f | f.mode=RO implies not canWrite[u,f] }</code></li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The permission model is free from contradiction</li>
+  <li>The assertions correspond to the requirements</li>
+</ul>
+
+<h3 id="practical-exercise-2-model-checking-and-improvement">Practical Exercise 2: Model Checking and Improvement</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Use <code class="language-plaintext highlighter-rouge">run</code> to generate instances and identify both realistic and unrealistic cases.</li>
+  <li>Use <code class="language-plaintext highlighter-rouge">check</code> and scope changes to obtain counterexamples, starting with small scopes.</li>
+  <li>Apply fixes in the order of missing or excessive constraints, and then rerun verification and regression checks by adding assertions where needed.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>A minimal counterexample log and an explanation of what was violated</li>
+  <li>A history from hypothesis about the cause, to constraint fix, to re-verification</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>Counterexamples are handled as facts and separated from speculation</li>
+  <li>The fix is minimal and includes regression prevention</li>
+</ul>
+
+<h3 id="advanced-exercise-modeling-dynamic-behavior">Advanced Exercise: Modeling Dynamic Behavior</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Represent time or steps with something like <code class="language-plaintext highlighter-rouge">sig Time</code>, and carry state as a relation such as <code class="language-plaintext highlighter-rouge">balance: Time -&gt; Account -&gt; Int</code>.</li>
+  <li>Write operations in a form such as <code class="language-plaintext highlighter-rouge">pred Withdraw[t,t']</code> and state conservation as an invariant.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>Definitions of state variables such as balance and history, together with operations such as deposit and withdrawal</li>
+  <li>Invariants such as non-negative balance, total-amount conservation within the model boundary, and history consistency</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>State and operations are connected through time</li>
+  <li>Invariants are defined in a form that can actually be checked</li>
+</ul>
+
+<h2 id="d6-chapter-5">D.6 Chapter 5</h2>
+
+<h3 id="basic-understanding-exercise-1-reading-and-analyzing-schemas">Basic Understanding Exercise 1: Reading and Analyzing Schemas</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Read the types such as sets, relations, and partial functions, and explain the meaning of <code class="language-plaintext highlighter-rouge">dom</code> and <code class="language-plaintext highlighter-rouge">ran</code> constraints.</li>
+  <li>Decompose each constraint into referential consistency and existence guarantees.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>The types and meanings of variables such as <code class="language-plaintext highlighter-rouge">students</code>, <code class="language-plaintext highlighter-rouge">courses</code>, and <code class="language-plaintext highlighter-rouge">enrollment</code></li>
+  <li>Explanations of consistency constraints such as <code class="language-plaintext highlighter-rouge">dom enrollment ⊆ students</code></li>
+  <li>Identification of requirements that are not yet represented, such as maximum enrollment count or how to handle missing grades</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">dom</code> and <code class="language-plaintext highlighter-rouge">ran</code> are interpreted correctly</li>
+  <li>You can explain what each constraint prevents</li>
+</ul>
+
+<h3 id="basic-understanding-exercise-2-creating-operation-schemas">Basic Understanding Exercise 2: Creating Operation Schemas</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>For the normal case, separate <code class="language-plaintext highlighter-rouge">Δ State</code> and the preconditions and postconditions.</li>
+  <li>For error cases, use state-preserving schemas such as <code class="language-plaintext highlighter-rouge">Ξ State</code> and express the reason for the error through output.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>Normal case: existence check plus no-duplicate check, then update <code class="language-plaintext highlighter-rouge">enrollment</code></li>
+  <li>Error cases: separate schemas for student not found, course not found, and duplicate enrollment</li>
+  <li>Integration: define the overall behavior as a schema union of the normal and error cases</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>Normal and error cases are separated</li>
+  <li>The effect of state updates can be tracked clearly</li>
+</ul>
+
+<h3 id="practical-exercise-1-modeling-a-banking-system">Practical Exercise 1: Modeling a Banking System</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Represent customers, accounts, and transactions as sets and relations, and use invariants to express uniqueness and referential consistency.</li>
+  <li>Make transfer composable as withdrawal plus deposit.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>State such as <code class="language-plaintext highlighter-rouge">accounts</code>, <code class="language-plaintext highlighter-rouge">owners</code>, <code class="language-plaintext highlighter-rouge">balance</code>, and <code class="language-plaintext highlighter-rouge">txs</code></li>
+  <li>Invariants such as non-negative balances, unique account numbers, existing owners, and transaction referential consistency</li>
+  <li>Operations such as open, deposit, withdraw, and transfer, with preconditions, postconditions, and error handling</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The invariants correspond to the intended constraints</li>
+  <li>The operations preserve the invariants</li>
+</ul>
+
+<h3 id="practical-exercise-2-using-schema-operations">Practical Exercise 2: Using Schema Operations</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Define authentication as a common schema and compose it with each operation.</li>
+  <li>For integrating normal and error cases, unify the result type, for example as success or failure.</li>
+  <li>Express atomicity in the specification by stating that the state rolls back when an intermediate failure occurs.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>Create <code class="language-plaintext highlighter-rouge">Auth</code> and <code class="language-plaintext highlighter-rouge">Log</code> schemas and compose them with the operation schemas</li>
+  <li>Unify errors through an <code class="language-plaintext highlighter-rouge">ErrorCode</code></li>
+  <li>Compose transfer and guarantee <code class="language-plaintext highlighter-rouge">Ξ State</code> on failure</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>Schema operations are used in a reasonable place</li>
+  <li>The state under exceptions is defined clearly</li>
+</ul>
+
+<h3 id="advanced-exercise-specifying-a-real-time-system">Advanced Exercise: Specifying a Real-Time System</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Make time and timers explicit as state variables.</li>
+  <li>Fix safety properties such as “simultaneous green is forbidden” as invariants, and define liveness and fairness separately.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>State schemas for signal state, sensors, pedestrian requests, and timers</li>
+  <li>Operation schemas for transitions such as signal changes</li>
+  <li>Properties such as safety, liveness, and fairness listed in a verifiable form</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>Safety is expressed as an invariant</li>
+  <li>Time constraints are reflected in the specification</li>
+</ul>
+
+<h2 id="d7-chapter-6">D.7 Chapter 6</h2>
+
+<h3 id="basic-understanding-exercise-1-reading-csp-notation">Basic Understanding Exercise 1: Reading CSP Notation</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Explain the meaning of process, channel, and composition such as parallelism and choice.</li>
+  <li>Trace the behavior under the assumption of synchronized send/receive handshakes.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>A step-by-step interpretation of the process definitions</li>
+  <li>Synchronization points in the composition, together with examples of possible traces</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The notation is explained correctly</li>
+  <li>The explanation can be grounded in concrete traces</li>
+</ul>
+
+<h3 id="basic-understanding-exercise-2-deadlock-analysis">Basic Understanding Exercise 2: Deadlock Analysis</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Identify mutual waiting caused by both sides waiting to receive or both sides waiting to send.</li>
+  <li>Candidate avoidance strategies include agreeing on order, introducing asynchrony, and timeouts, but also explain their side effects.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>A minimal deadlock example with two processes and reverse send/receive order</li>
+  <li>Avoidance strategies and their side effects, such as order inversion, infinite buffers, or added delay</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The deadlock state can be explained</li>
+  <li>The avoidance strategy is realistic and includes side effects</li>
+</ul>
+
+<h3 id="practical-exercise-1-designing-an-atm-system">Practical Exercise 1: Designing an ATM System</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Separate <code class="language-plaintext highlighter-rouge">ATM</code>, <code class="language-plaintext highlighter-rouge">BankServer</code>, and <code class="language-plaintext highlighter-rouge">User</code> as processes and connect them through channels.</li>
+  <li>Organize safety properties such as non-negative balances and no double withdrawal separately from liveness such as eventual response.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>A decomposition into processes and the main channels</li>
+  <li>Handling of failure cases such as timeout, retry, and interruption</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The protocol order constraints are clear</li>
+  <li>Failure cases are considered</li>
+</ul>
+
+<h3 id="practical-exercise-2-using-process-composition">Practical Exercise 2: Using Process Composition</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Be careful not to allow too much behavior in the specification when composing processes.</li>
+  <li>Check properties after composition, such as absence of deadlock and reachability.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>The composition procedure and the properties that should hold afterward</li>
+  <li>A summary of the verification results</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The purpose of the composition can be explained</li>
+  <li>Side effects introduced by composition are understood</li>
+</ul>
+
+<h3 id="advanced-exercise-designing-a-distributed-system">Advanced Exercise: Designing a Distributed System</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>State assumptions about asynchronous communication, delay, and loss explicitly.</li>
+  <li>Include failure detection, retransmission, and idempotence in the design.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>A failure model and the protocol skeleton</li>
+  <li>Definitions of safety and liveness properties</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The failure model is stated explicitly</li>
+  <li>The design is connected to the intended properties</li>
+</ul>
+
+<h2 id="d8-chapter-7">D.8 Chapter 7</h2>
+
+<h3 id="basic-understanding-exercise-1-understanding-temporal-logic-notation">Basic Understanding Exercise 1: Understanding Temporal Logic Notation</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Map <code class="language-plaintext highlighter-rouge">[]</code> (“always”) and <code class="language-plaintext highlighter-rouge">&lt;&gt;</code> (“eventually”) to the corresponding requirement sentences.</li>
+  <li>Separate fairness assumptions such as <code class="language-plaintext highlighter-rouge">WF</code> and <code class="language-plaintext highlighter-rouge">SF</code> as assumptions for “eventually makes progress.”</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>Convert each property into forms such as <code class="language-plaintext highlighter-rouge">[]P</code>, <code class="language-plaintext highlighter-rouge">&lt;&gt;Q</code>, and <code class="language-plaintext highlighter-rouge">P =&gt; &lt;&gt;Q</code></li>
+  <li>Candidate fairness assumptions</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>Safety and liveness are not confused</li>
+  <li>Fairness is made explicit as an assumption</li>
+</ul>
+
+<h3 id="basic-understanding-exercise-2-writing-state-and-actions">Basic Understanding Exercise 2: Writing State and Actions</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Write variables, which represent state, separately from actions, which represent transitions.</li>
+  <li>Define <code class="language-plaintext highlighter-rouge">Init</code> and <code class="language-plaintext highlighter-rouge">Next</code>, and summarize them as <code class="language-plaintext highlighter-rouge">Spec == Init /\ [][Next]_vars</code>.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>Definitions of the state variables</li>
+  <li>Skeletons for <code class="language-plaintext highlighter-rouge">Init</code>, <code class="language-plaintext highlighter-rouge">Next</code>, and <code class="language-plaintext highlighter-rouge">Invariant</code></li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The description follows the basic TLA+ structure</li>
+  <li>Variable updates are consistent</li>
+</ul>
+
+<h3 id="practical-exercise-1-designing-a-mutual-exclusion-protocol">Practical Exercise 1: Designing a Mutual Exclusion Protocol</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Define the critical section and the mutual exclusion invariant <code class="language-plaintext highlighter-rouge">~(crit[0] /\ crit[1])</code>.</li>
+  <li>If liveness is included, review whether the fairness assumptions are too weak or too strong.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>State such as <code class="language-plaintext highlighter-rouge">flag</code>, <code class="language-plaintext highlighter-rouge">turn</code>, and the definition of <code class="language-plaintext highlighter-rouge">Next</code></li>
+  <li>The invariant for mutual exclusion and, if needed, a liveness property expressing eventual entry</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The invariant is not violated</li>
+  <li>Fairness is handled reasonably</li>
+</ul>
+
+<h3 id="practical-exercise-2-producer-consumer-problem">Practical Exercise 2: Producer-Consumer Problem</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Make the assumptions about the buffer, whether bounded or unbounded, and about backpressure explicit.</li>
+  <li>Separate safety such as no out-of-bounds access or overflow from liveness such as continued progress.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>Buffer state and operations such as <code class="language-plaintext highlighter-rouge">produce</code> and <code class="language-plaintext highlighter-rouge">consume</code></li>
+  <li>Invariants such as <code class="language-plaintext highlighter-rouge">0 &lt;= count &lt;= N</code></li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>Safety and liveness are separated clearly</li>
+  <li>The assumption of boundedness is stated explicitly</li>
+</ul>
+
+<h3 id="advanced-exercise-designing-a-distributed-system-1">Advanced Exercise: Designing a Distributed System</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>State assumptions about message delay, loss, and duplication.</li>
+  <li>Design retransmission, acknowledgments, timeout stopping conditions, and idempotence.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>A failure model and protocol</li>
+  <li>Definitions of safety, such as no duplicate processing, and liveness, such as eventual delivery</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>Assumptions and properties are consistent</li>
+  <li>The retransmission strategy includes stopping conditions</li>
+</ul>
+
+<h2 id="d9-chapter-8">D.9 Chapter 8</h2>
+
+<h3 id="basic-understanding-exercise-1-practicing-temporal-logic">Basic Understanding Exercise 1: Practicing Temporal Logic</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Reduce states and events to propositions and map them into LTL or CTL syntax.</li>
+  <li>Describe fairness and efficiency by separating assumptions from properties.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>Safety: <code class="language-plaintext highlighter-rouge">AG(door_open -&gt; AX ~moving)</code> as a CTL example, or <code class="language-plaintext highlighter-rouge">[](door_open =&gt; ~moving)</code> as an LTL example</li>
+  <li>Liveness: <code class="language-plaintext highlighter-rouge">AG(call -&gt; AF arrive)</code> as a CTL example, or <code class="language-plaintext highlighter-rouge">[](call =&gt; &lt;&gt;arrive)</code> as an LTL example</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>CTL and LTL are used appropriately</li>
+  <li>The propositionalization of states and events is consistent</li>
+</ul>
+
+<h3 id="basic-understanding-exercise-2-state-space-analysis">Basic Understanding Exercise 2: State-Space Analysis</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Estimate the number of states by multiplying counter values by the local states of each process.</li>
+  <li>Races occur when read-modify-write is split.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>A rough count of the number of states, such as values <code class="language-plaintext highlighter-rouge">0-10</code> times local states</li>
+  <li>A race example such as lost update</li>
+  <li>Conditions under which partial-order reduction is effective, namely when independent transitions can be swapped</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The method for counting states can be explained</li>
+  <li>The cause of the race is concrete</li>
+</ul>
+
+<h3 id="practical-exercise-1-verification-with-spin">Practical Exercise 1: Verification with SPIN</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Define processes such as reader and writer and the shared resource in <code class="language-plaintext highlighter-rouge">Promela</code>.</li>
+  <li>Express safety properties such as no simultaneous writes with <code class="language-plaintext highlighter-rouge">assert</code> or LTL.</li>
+  <li>During verification, preserve the seed, exploration limit, and counterexamples.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>The model in <code class="language-plaintext highlighter-rouge">Promela</code> and the properties as <code class="language-plaintext highlighter-rouge">assert</code> or LTL</li>
+  <li>A summary of the execution log and the counterexample if one appears</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The properties correspond to the requirements</li>
+  <li>Counterexamples are reproducible</li>
+</ul>
+
+<h3 id="practical-exercise-2-verification-with-nusmv">Practical Exercise 2: Verification with NuSMV</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Define state variables such as the signal state, sensors, and requests.</li>
+  <li>Write safety properties as invariants in CTL or LTL, such as the prohibition of simultaneous green.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>A <code class="language-plaintext highlighter-rouge">NuSMV</code> model and the associated properties</li>
+  <li>A summary of the verification result, including the trace if a counterexample appears</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>Safety, liveness, and responsiveness are separated</li>
+  <li>Interpretation of the counterexample is reasonable</li>
+</ul>
+
+<h3 id="advanced-exercise-staged-verification-with-multiple-tools">Advanced Exercise: Staged Verification with Multiple Tools</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>For each phase, make the abstraction level and objective explicit, including what issue is to be eliminated.</li>
+  <li>Classify counterexamples as either holes in the abstraction or actual design defects.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>Deliverables for Phases 1 to 3, such as specifications, models, and implementations, plus a classification of the issues found</li>
+  <li>A consistency check of results across the tools</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The relationship between abstraction level and discovered issues can be explained</li>
+  <li>Deliverables are reproducible</li>
+</ul>
+
+<h2 id="d10-chapter-9">D.10 Chapter 9</h2>
+
+<h3 id="basic-understanding-exercise-1-formalizing-logical-inference">Basic Understanding Exercise 1: Formalizing Logical Inference</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Symbolize propositions and map them to natural deduction rules such as introduction and elimination.</li>
+  <li>Treat inference 2 as a case in which a premise conflicts with real-world knowledge, that is, as an issue of exceptions.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>A proof tree with the rule application order and an evaluation of validity</li>
+  <li>The issue in inference 2: the premise <code class="language-plaintext highlighter-rouge">∀bird • canFly(bird)</code> is too strong for reality</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The formalization is correct</li>
+  <li>The problem can be explained as an error in the premise</li>
+</ul>
+
+<h3 id="basic-understanding-exercise-2-basic-proofs-in-rocq-formerly-coq">Basic Understanding Exercise 2: Basic Proofs in Rocq (formerly Coq)</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>The basic flow is <code class="language-plaintext highlighter-rouge">intros</code> followed by <code class="language-plaintext highlighter-rouge">split</code>, <code class="language-plaintext highlighter-rouge">left</code>, <code class="language-plaintext highlighter-rouge">right</code>, <code class="language-plaintext highlighter-rouge">destruct</code>, and <code class="language-plaintext highlighter-rouge">apply</code>.</li>
+  <li>Handle quantification with <code class="language-plaintext highlighter-rouge">intros x</code>, and build existence proofs with <code class="language-plaintext highlighter-rouge">exists x</code>.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>A proof strategy, stated as a tactic sequence</li>
+  <li>If necessary, define helper lemmas in advance, for example for the distribution of <code class="language-plaintext highlighter-rouge">forall</code></li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The proof passes</li>
+  <li>The strategy can be explained, including why those tactics were chosen</li>
+</ul>
+
+<h3 id="practical-exercise-1-proving-properties-of-data-structures">Practical Exercise 1: Proving Properties of Data Structures</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>For append and reverse, structural induction such as <code class="language-plaintext highlighter-rouge">induction l1</code> is the basic technique.</li>
+  <li>First prepare helper lemmas such as <code class="language-plaintext highlighter-rouge">length_append</code>.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">append_assoc</code>: induct on <code class="language-plaintext highlighter-rouge">l1</code>, using <code class="language-plaintext highlighter-rouge">simpl</code> and <code class="language-plaintext highlighter-rouge">rewrite</code></li>
+  <li><code class="language-plaintext highlighter-rouge">reverse_involutive</code>: use <code class="language-plaintext highlighter-rouge">reverse_append</code> as a helper lemma</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The selection of helper lemmas is reasonable</li>
+  <li>The proof remains readable and does not depend excessively on automation</li>
+</ul>
+
+<h3 id="practical-exercise-2-proving-algorithm-correctness">Practical Exercise 2: Proving Algorithm Correctness</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Prove preservation of sortedness, such as <code class="language-plaintext highlighter-rouge">insert_sorted</code>, before proving global sortedness such as <code class="language-plaintext highlighter-rouge">insertion_sort_sorted</code>.</li>
+  <li>Separate correctness into sortedness and permutation.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>A proof skeleton for <code class="language-plaintext highlighter-rouge">insert_sorted</code></li>
+  <li>A proof skeleton for <code class="language-plaintext highlighter-rouge">insertion_sort_permutation</code>, using permutation lemmas</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>Property decomposition is done appropriately</li>
+  <li>The proof is sound and passes</li>
+</ul>
+
+<h3 id="advanced-exercise-a-practical-verification-project">Advanced Exercise: A Practical Verification Project</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Keep the target small and fix the properties to be proved, such as reversibility or invariant preservation.</li>
+  <li>Define the specification in <code class="language-plaintext highlighter-rouge">Prop</code> before the implementation and shape it so that the proofs can pass.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>The chosen option and its specification, invariants, and proof plan</li>
+  <li>A summary of discovered assumptions such as boundary conditions and data-type constraints</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The scope is appropriate</li>
+  <li>There is a practical takeaway about what can be reused</li>
+</ul>
+
+<h2 id="d11-chapter-10">D.11 Chapter 10</h2>
+
+<h3 id="basic-understanding-exercise-1-hoare-logic-fundamentals">Basic Understanding Exercise 1: Hoare Logic Fundamentals</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>For assignment, reason backward by substituting into the postcondition.</li>
+  <li>For conditionals, create a Hoare triple for each branch and compose them.</li>
+  <li>For loops, define an invariant and then prove initialization, preservation, and termination.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>Task 1-1: <code class="language-plaintext highlighter-rouge">{True} x:=y+2; z:=x*3 {z=3*(y+2)}</code>; intermediate assertions may be included</li>
+  <li>Task 1-2: focus on <code class="language-plaintext highlighter-rouge">result=|x|</code> in the branches</li>
+  <li>Task 1-3: define an invariant such as <code class="language-plaintext highlighter-rouge">sum = (i-1)*i/2</code></li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The invariant is correct and the reasoning is valid</li>
+  <li>The precondition is neither too strong nor too weak</li>
+</ul>
+
+<h3 id="basic-understanding-exercise-2-finding-loop-invariants">Basic Understanding Exercise 2: Finding Loop Invariants</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Use a property over the already-processed range as the invariant.</li>
+  <li>Show termination with a variant function such as the remaining number of elements.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>Linear search: the relationship describing whether the target is absent from or present in positions before <code class="language-plaintext highlighter-rouge">i</code></li>
+  <li>Maximum search: <code class="language-plaintext highlighter-rouge">max</code> is the maximum of <code class="language-plaintext highlighter-rouge">array[0..i-1]</code></li>
+  <li>Insertion sort: in the outer loop, <code class="language-plaintext highlighter-rouge">0..i-1</code> is already sorted</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The invariant satisfies initialization, preservation, and termination</li>
+  <li>The variant function is reasonable</li>
+</ul>
+
+<h3 id="practical-exercise-1-verifying-array-operations">Practical Exercise 1: Verifying Array Operations</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Fix the specification first, with preconditions and postconditions. For sorting, that means both order and permutation.</li>
+  <li>Treat boundary conditions such as array bounds with the same importance as invariants.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>The chosen algorithm and its specification, including correctness and termination</li>
+  <li>The main invariants and the overall proof strategy</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>Properties are separated into correctness, termination, and safety</li>
+  <li>The proof can be followed clearly</li>
+</ul>
+
+<h3 id="practical-exercise-2-verification-with-a-tool">Practical Exercise 2: Verification with a Tool</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>In tools such as <code class="language-plaintext highlighter-rouge">Dafny</code>, write <code class="language-plaintext highlighter-rouge">requires</code>, <code class="language-plaintext highlighter-rouge">ensures</code>, and <code class="language-plaintext highlighter-rouge">invariant</code> clauses first.</li>
+  <li>If verification does not pass, suspect that the invariant is too weak or incomplete.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>Implementation code with specification annotations</li>
+  <li>The verification execution log</li>
+  <li>Difficulties encountered and the fixes applied, such as strengthening invariants and adding boundary conditions</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>Mechanical verification passes</li>
+  <li>The fix process can be explained when verification initially fails</li>
+</ul>
+
+<h3 id="advanced-exercise-partial-verification-of-a-practical-system">Advanced Exercise: Partial Verification of a Practical System</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Limit the target range and focus on roughly three properties.</li>
+  <li>Practical value increases if you can describe not only the specification but also the route into tests and CI integration.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>The reason for selecting the target</li>
+  <li>The properties, specification, and verification approach</li>
+  <li>The issues discovered and the improvement proposals</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The scope and properties are appropriate</li>
+  <li>Practical deployment issues are stated clearly</li>
+</ul>
+
+<h2 id="d12-chapter-11">D.12 Chapter 11</h2>
+
+<h3 id="reading-check-exercise-1-evaluating-an-adoption-strategy">Reading Check Exercise 1: Evaluating an Adoption Strategy</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Check whether the plan violates staged adoption, that is, starting small.</li>
+  <li>Reduce KPIs to measurable items such as reproduction rate, <code class="language-plaintext highlighter-rouge">MTTR</code>, and reduction of major incidents.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>The problems in the plan, such as being too large, uniformly company-wide, or evaluated only in the short term</li>
+  <li>A staged adoption proposal, such as pilot to broader rollout, together with KPIs</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The plan is revised into a realistic one</li>
+  <li>The KPIs are measurable</li>
+</ul>
+
+<h3 id="reading-check-exercise-2-organizational-culture-analysis">Reading Check Exercise 2: Organizational Culture Analysis</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Separate technical issues from cultural issues.</li>
+  <li>Break down resistance into causes such as increased workload, anxiety about evaluation, and skill differences.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>Characteristics of the current culture</li>
+  <li>Obstacles and enabling factors</li>
+  <li>A change strategy involving education, standardization, and successful early experiences</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The analysis is concrete</li>
+  <li>The measures are executable</li>
+</ul>
+
+<h3 id="practical-exercise-1-roi-analysis">Practical Exercise 1: ROI Analysis</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Base the estimate on the difference in defect-fix cost when problems are eliminated earlier in the lifecycle.</li>
+  <li>Always state assumptions explicitly and include sensitivity analysis with plus and minus variation.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>Assumptions and formulas</li>
+  <li>Comparison of introduction cost against expected reduction effect</li>
+  <li>Uncertainty tied to assumptions and the related risk</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The calculation basis can be followed</li>
+  <li>The validity of the assumptions can be explained</li>
+</ul>
+
+<h3 id="practical-exercise-2-process-integration-design">Practical Exercise 2: Process Integration Design</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Place checks across pull requests, nightly runs, and pre-release runs as in Figure 11-1.</li>
+  <li>Make artifact preservation and reproduction steps mandatory on failure.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>Gate design, including mandatory and soft gates</li>
+  <li>Exception flow, including approver, deadline, and rollback</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>Reproducibility and operations are assured</li>
+  <li>The design does not make exceptions routine</li>
+</ul>
+
+<h3 id="advanced-exercise-comprehensive-adoption-plan">Advanced Exercise: Comprehensive Adoption Plan</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Build a roadmap along three axes: people, process, and tools.</li>
+  <li>Eliminate failure patterns such as oversized introduction and tool fragmentation before they occur.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>A one-year plan including stages, deliverables, and education</li>
+  <li>Consensus building and governance</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The execution plan is staged</li>
+  <li>Governance is clear</li>
+</ul>
+
+<h2 id="d13-chapter-12">D.13 Chapter 12</h2>
+
+<h3 id="reading-check-exercise-1-tool-selection-matrix">Reading Check Exercise 1: Tool Selection Matrix</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Organize the fit between the problem domain, such as safety-critical, concurrent, or distributed work, and each method.</li>
+  <li>Include learning and operating cost and ease of CI integration as evaluation axes.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>Candidate tools and the reasons for choosing them, considering requirements, constraints, and risks</li>
+  <li>An 18-month staged plan from introduction to stable adoption</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>Evaluation axes are clear</li>
+  <li>The plan is realistic</li>
+</ul>
+
+<h3 id="reading-check-exercise-2-cicd-integration-design">Reading Check Exercise 2: CI/CD Integration Design</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>For pull requests, keep the minimum verification short, stable, and reproducible.</li>
+  <li>Use nightly runs to reduce false negatives and pre-release runs to confirm critical properties.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>Job structure for pull requests, nightly runs, and pre-release checks</li>
+  <li>Artifact preservation and exception approval</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The staging is appropriate</li>
+  <li>Counterexample handling is part of the design</li>
+</ul>
+
+<h3 id="practical-exercise-1-code-generation-strategy">Practical Exercise 1: Code Generation Strategy</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Treat generated artifacts as untrusted and close the loop with verifiers.</li>
+  <li>Keep specification diffs and implementation diffs synchronized.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>Generation targets such as specifications, tests, and contracts, plus the review viewpoints</li>
+  <li>The design of verification and CI gates</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The trust boundary is clear</li>
+  <li>Reproducibility is ensured</li>
+</ul>
+
+<h3 id="practical-exercise-2-failure-analysis-of-tool-introduction">Practical Exercise 2: Failure Analysis of Tool Introduction</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Classify failure factors into technology, process, and organization.</li>
+  <li>Turn recurrence prevention into a checklist.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>A classification of failure factors</li>
+  <li>Improvement measures such as staged rollout, templates, and CI integration</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>Cause analysis is concrete</li>
+  <li>Improvement measures are translated into operational practice</li>
+</ul>
+
+<h3 id="advanced-exercise-designing-an-integrated-toolchain">Advanced Exercise: Designing an Integrated Toolchain</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Manage deliverables across tools, including specifications, logs, and counterexamples, in a common format.</li>
+  <li>Use caching and pinned versions to preserve reproducibility.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>A toolchain configuration diagram</li>
+  <li>Pinned dependencies, artifacts, and exception flow</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>Reproducibility can be explained</li>
+  <li>Operating cost is realistic</li>
+</ul>
+
+<h2 id="d14-chapter-13">D.14 Chapter 13</h2>
+
+<h3 id="reading-check-exercise-1-comparative-analysis-of-case-studies">Reading Check Exercise 1: Comparative Analysis of Case Studies</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Build a comparison table across technical, organizational, economic, and external factors.</li>
+  <li>Separate lessons that can be copied from context-specific factors.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>A comparison table</li>
+  <li>Common success factors and differences</li>
+  <li>Viewpoints for deciding applicability</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>Comparison axes are systematic</li>
+  <li>Lessons are generalized appropriately</li>
+</ul>
+
+<h3 id="reading-check-exercise-2-industry-applicability-analysis">Reading Check Exercise 2: Industry Applicability Analysis</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Industries with stronger regulation, safety requirements, and failure models usually offer higher adoption value.</li>
+  <li>Start from areas that can be verified in small scope.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>Risks in the target industry and candidate application areas</li>
+  <li>Introduction steps and KPIs</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>Industry characteristics are reflected</li>
+  <li>Adoption is staged</li>
+</ul>
+
+<h3 id="practical-exercise-1-detailed-case-investigation">Practical Exercise 1: Detailed Case Investigation</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Reference at least three primary or quasi-primary sources and attach a citation to each claim.</li>
+  <li>Write both what was guaranteed, that is, the properties, and how it can be reproduced in a minimum setup.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>A source list</li>
+  <li>A summary of properties and reproduction steps</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>Sources are appropriate</li>
+  <li>Reproducibility is demonstrated</li>
+</ul>
+
+<h3 id="practical-exercise-2-designing-an-adoption-plan">Practical Exercise 2: Designing an Adoption Plan</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Select targets according to criticality.</li>
+  <li>Include CI integration and exception flow in the plan.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>Target selection, verification method, staged introduction, and KPIs</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>The plan is realistic</li>
+  <li>Guardrails are present</li>
+</ul>
+
+<h3 id="advanced-exercise-future-scenario-analysis">Advanced Exercise: Future Scenario Analysis</h3>
+
+<p>Hints (steps):</p>
+<ol>
+  <li>Build multiple scenarios under assumptions such as technological progress in AI and verification automation and stronger regulation.</li>
+  <li>Separate uncertainty as hypothesis, and state the basis through sources and assumptions.</li>
+</ol>
+
+<p>Model answer (outline):</p>
+<ul>
+  <li>Two or three scenarios, together with assumptions, impact, and response measures</li>
+</ul>
+
+<p>Self-review criteria:</p>
+<ul>
+  <li>Hypotheses and facts are separated</li>
+  <li>The implications are usable in practice</li>
+</ul>
+
+<h2 id="d15-documentation-template-for-ai-use-common">D.15 Documentation Template for AI Use (Common)</h2>
+
+<p>Treat AI output as a proposal, and let the verifier determine pass or fail. The
+working record should include the following.</p>
+
+<ul>
+  <li>The prompts used, including requirements and constraints</li>
+  <li>The generated specifications and invariants</li>
+  <li>Verification commands and logs, including seed, depth, scope, and elapsed time</li>
+  <li>If a counterexample appears, the fix history including the diff and the re-verification log</li>
+</ul>
+
+<p>Example record format:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Prompts Used
+...
+
+## Generated Specification
+...
+
+## Verification Log
+command: ...
+seed: ...
+depth/scope: ...
+result: ...
+
+## Counterexample and Fix
+counterexample: ...
+fix: ...
+recheck: ...
+</code></pre></div></div>
+
+                </article>
+
+                
+                <nav class="page-navigation" aria-label="Page navigation">
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+
+
+
+
+
+<nav class="book-navigation" aria-label="Page navigation">
+  <div class="chapter-nav">
+    
+      <a href="/formal-methods-book/en/appendices/appendix-c/" class="nav-prev" rel="prev">
+        <span class="arrow" aria-hidden="true">←</span>
+        <span class="label">Previous</span>
+        <span class="title">Appendix C: Notation Cross-Reference</span>
+      </a>
+    
+
+    <a href="/formal-methods-book/en/" class="nav-home">
+      <span class="label">Contents</span>
+    </a>
+
+    
+      <a href="/formal-methods-book/en/appendices/appendix-e/" class="nav-next" rel="next">
+        <span class="label">Next</span>
+        <span class="title">Appendix E: References and Further Reading Paths</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    
+  </div>
+</nav>
+
+<style>
+.book-navigation { margin: 2rem 0; padding: 1rem; border-top: 1px solid var(--border-color, #e5e7eb); }
+.chapter-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.nav-prev, .nav-next, .nav-home { display: flex; align-items: center; padding: 0.75rem 1.25rem; background: var(--bg-primary, #fff); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; text-decoration: none; color: inherit; }
+.nav-disabled { opacity: .5; cursor: not-allowed; background: var(--bg-tertiary, #f9fafb); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; padding: 0.75rem 1.25rem; display: flex; align-items: center; }
+.nav-prev { flex: 1; }
+.nav-next { flex: 1; justify-content: flex-end; text-align: right; }
+.nav-home { flex: 0 0 auto; justify-content: center; }
+.label { font-weight: 600; margin: 0 .25rem; }
+.title { font-size: .9rem; opacity: .8; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 768px) { .chapter-nav { flex-wrap: wrap; } .nav-prev, .nav-next { flex: 1 1 45%; } .nav-home { flex: 1 1 100%; order: -1; } .title { display: none; } }
+</style>
+
+                </nav>
+                
+
+                
+
+                <footer class="book-footer" role="contentinfo">
+                    <div class="book-footer-inner">
+                        <div class="book-footer-license">
+                            Reader-facing text: CC BY-NC-SA 4.0 / Code assets: Apache-2.0 / excluding trademarks and third-party assets
+                        </div>
+                        <div class="book-footer-links">
+                            
+                                <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener">GitHub</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/LICENSE-SCOPE.md" target="_blank" rel="noopener">License</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/COMMERCIAL.md" target="_blank" rel="noopener">Commercial</a>
+                            
+                            
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <label for="sidebar-toggle-checkbox" class="book-sidebar-overlay" id="sidebar-overlay" aria-label="Close sidebar"></label>
+
+    <script async src="/formal-methods-book/assets/js/code-copy-lightweight.js"></script>
+    <script defer src="/formal-methods-book/assets/js/theme.js"></script>
+    <script defer src="/formal-methods-book/assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var cb = document.getElementById('sidebar-toggle-checkbox');
+            var toggle = document.querySelector('.sidebar-toggle');
+            if (cb) cb.checked = false;
+            if (cb && toggle) {
+                var sync = function() {
+                    toggle.setAttribute('aria-expanded', cb.checked ? 'true' : 'false');
+                };
+                sync();
+                cb.addEventListener('change', sync);
+                toggle.addEventListener('keydown', function(e) {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        cb.checked = !cb.checked;
+                        cb.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        (function() {
+            function initTocAutoScroll() {
+                var cb = document.getElementById('sidebar-toggle-checkbox');
+                if (!cb) return;
+
+                function normalizePath(p) {
+                    var path = String(p || '').replace(/index\.html$/, '');
+                    if (path.length > 1) {
+                        path = path.replace(/\/+$/, '');
+                    }
+                    return path || '/';
+                }
+
+                function isMobileDrawer() {
+                    try {
+                        if (typeof window.matchMedia === 'function') {
+                            return window.matchMedia('(max-width: 1024px)').matches;
+                        }
+                    } catch (_) {}
+                    return typeof window.innerWidth === 'number' ? window.innerWidth <= 1024 : true;
+                }
+
+                function findActiveTocLink() {
+                    var current = normalizePath(window.location.pathname);
+                    var actives = document.querySelectorAll('a.toc-link.active');
+                    if (!actives || actives.length === 0) return null;
+
+                    for (var i = 0; i < actives.length; i++) {
+                        var a = actives[i];
+                        if (!a || !a.href) continue;
+                        try {
+                            var pathname = normalizePath(new URL(a.href).pathname);
+                            if (pathname === current) return a;
+                        } catch (_) {}
+                    }
+                    return actives[0];
+                }
+
+                function ensureActiveTocVisible() {
+                    if (!cb.checked) return;
+                    if (!isMobileDrawer()) return;
+
+                    var active = findActiveTocLink();
+                    if (!active) return;
+
+                    var sidebar = active.closest('.book-sidebar') || document.getElementById('sidebar');
+                    if (!sidebar) return;
+
+                    try {
+                        var linkRect = active.getBoundingClientRect();
+                        var sidebarRect = sidebar.getBoundingClientRect();
+                        var marginTop = 8;
+                        var marginBottom = 8;
+                        try {
+                            if (window.getComputedStyle) {
+                                var cs = window.getComputedStyle(sidebar);
+                                if (cs) {
+                                    var pt = parseFloat(cs.paddingTop);
+                                    var pb = parseFloat(cs.paddingBottom);
+                                    if (!isNaN(pt)) marginTop = pt;
+                                    if (!isNaN(pb)) marginBottom = pb;
+                                }
+                            }
+                        } catch (_) {}
+
+                        var top = sidebarRect.top + marginTop;
+                        var bottom = sidebarRect.bottom - marginBottom;
+                        var outOfView = linkRect.top < top || linkRect.bottom > bottom;
+
+                        if (outOfView && typeof active.scrollIntoView === 'function') {
+                            try {
+                                active.scrollIntoView({ block: 'center', behavior: 'auto' });
+                            } catch (e) {
+                                active.scrollIntoView();
+                            }
+                        }
+                    } catch (_) {}
+                }
+
+                function scheduleEnsure() {
+                    setTimeout(ensureActiveTocVisible, 0);
+                    setTimeout(ensureActiveTocVisible, 350);
+                }
+
+                cb.addEventListener('change', function() {
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+
+                if (cb.checked) {
+                    scheduleEnsure();
+                }
+
+                window.addEventListener('pageshow', function(e) {
+                    if (!e || !e.persisted) return;
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initTocAutoScroll);
+            } else {
+                initTocAutoScroll();
+            }
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1093 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta name="author" content="太田和彦（株式会社アイティードゥ）">
+
+    <title>Appendix C: Notation Cross-Reference - Formal Methods: Foundations and Applications</title>
+
+    <link rel="canonical" href="https://itdojp.github.io/formal-methods-book/en/appendices/appendix-c/">
+    <link rel="alternate" hreflang="ja" href="https://itdojp.github.io/formal-methods-book/appendices/appendix-c/">
+    <link rel="alternate" hreflang="en" href="https://itdojp.github.io/formal-methods-book/en/appendices/appendix-c/">
+    <link rel="alternate" hreflang="x-default" href="https://itdojp.github.io/formal-methods-book/">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/main.css">
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/syntax-highlighting.css">
+
+    <link rel="icon" type="image/png" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+    <link rel="apple-touch-icon" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+
+    <meta property="og:title" content="Appendix C: Notation Cross-Reference">
+    <meta property="og:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://itdojp.github.io/formal-methods-book/en/appendices/appendix-c/">
+    <meta property="og:locale" content="en_US">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Appendix C: Notation Cross-Reference">
+    <meta name="twitter:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+
+    <script>
+        (function() {
+            try {
+                const k = 'book-theme';
+                const t = localStorage.getItem(k) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (_) {}
+        })();
+    </script>
+</head>
+<body>
+    
+    
+    
+    
+    
+
+    <input type="checkbox" id="sidebar-toggle-checkbox" class="sidebar-toggle-checkbox" aria-hidden="true">
+
+    <div class="book-layout">
+        <header class="book-header">
+            <div class="header-left">
+                <label for="sidebar-toggle-checkbox" class="sidebar-toggle" aria-label="Toggle sidebar" role="button" tabindex="0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </label>
+                <a href="/formal-methods-book/en/" class="header-title">
+                    <h1>Formal Methods: Foundations and Applications</h1>
+                </a>
+            </div>
+
+            <div class="header-center">
+                <div class="search-container">
+                    <input type="search"
+                           placeholder="Search..."
+                           class="search-input"
+                           id="search-input"
+                           autocomplete="off">
+                    <div class="search-results" id="search-results"></div>
+                </div>
+            </div>
+
+            <div class="header-right">
+                
+
+
+
+
+
+
+
+
+
+
+<a href="/formal-methods-book/appendices/appendix-c/"
+   class="language-switcher"
+   hreflang="ja"
+   lang="ja"
+   >
+    日本語
+</a>
+
+                <button class="theme-toggle" aria-label="Toggle theme">
+                    <svg class="theme-icon theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="theme-icon theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+
+                
+            </div>
+        </header>
+
+        <aside class="book-sidebar" id="sidebar">
+            <nav class="sidebar-nav" role="navigation" aria-label="Main navigation">
+                
+
+
+
+
+
+
+
+
+
+
+<div class="sidebar-content">
+    <div class="book-info">
+        <h2 class="book-title"><a href="/formal-methods-book/en/" class="header-title">Formal Methods: Foundations and Applications</a></h2>
+        
+        <p class="book-subtitle">An Integrated Understanding of Specification, Model Checking, and Theorem Proving</p>
+        
+    </div>
+
+    <div class="toc">
+        <h3 class="toc-title">Contents</h3>
+
+        <div class="toc-section">
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/" class="toc-link ">
+                        Home
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Introduction</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/introduction/" class="toc-link ">
+                        Introduction
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Chapters</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter01/" class="toc-link ">
+                        Chapter 1: Why Formal Methods Matter
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter02/" class="toc-link ">
+                        Chapter 2: Bridging Mathematics and Programs
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter03/" class="toc-link ">
+                        Chapter 3: Foundations of Specification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter04/" class="toc-link ">
+                        Chapter 4: Introduction to Lightweight Formal Methods — Specification with Alloy
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter05/" class="toc-link ">
+                        Chapter 5: State-Based Specification — Fundamentals of Z Notation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter06/" class="toc-link ">
+                        Chapter 6: Process-Centric Specification — Concurrency with CSP
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter07/" class="toc-link ">
+                        Chapter 7: Specifying Time — Introduction to TLA+
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter08/" class="toc-link ">
+                        Chapter 8: Introduction to Model Checking
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter09/" class="toc-link ">
+                        Chapter 9: Fundamentals of Theorem Proving
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter10/" class="toc-link ">
+                        Chapter 10: Program Verification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter11/" class="toc-link ">
+                        Chapter 11: Integrating Formal Methods into Development Processes
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter12/" class="toc-link ">
+                        Chapter 12: Tools and Automation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter13/" class="toc-link ">
+                        Chapter 13: Case Studies
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Additional</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/glossary/" class="toc-link ">
+                        Glossary
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Appendices</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-a/" class="toc-link ">
+                        Appendix A: Mathematics Refresher
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-b/" class="toc-link ">
+                        Appendix B: Tool Setup and Verification Quick Start
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-c/" class="toc-link active">
+                        Appendix C: Notation Cross-Reference
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-d/" class="toc-link ">
+                        Appendix D: Exercise Guides and Self-Review Frameworks
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-e/" class="toc-link ">
+                        Appendix E: References and Further Reading Paths
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-f/" class="toc-link ">
+                        Appendix F: Practical Playbook for AI-Assisted Formal Methods
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Afterword</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/afterword/" class="toc-link ">
+                        Afterword
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="external-links">
+            
+            <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener" class="external-link">GitHub</a>
+            
+            
+        </div>
+    </div>
+</div>
+
+            </nav>
+        </aside>
+
+        <main class="book-main" id="main">
+            <div class="book-content">
+                
+                    
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb-list">
+    <li class="breadcrumb-item">
+        <a href="/formal-methods-book/en/" class="breadcrumb-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span class="sr-only">Home</span>
+        </a>
+    </li>
+
+    
+        
+    
+        
+    
+        
+            
+            
+            
+                
+                
+                <li class="breadcrumb-item">
+                    <a href="/formal-methods-book/en/appendices/" class="breadcrumb-link">
+                        
+                            Appendices
+                        
+                    </a>
+                </li>
+            
+        
+    
+        
+            
+            
+            
+                <li class="breadcrumb-item active" aria-current="page">
+                    Appendix c: notation cross reference
+                </li>
+            
+        
+    
+</ol>
+
+<style>
+.breadcrumb-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    font-size: 0.875rem;
+    flex-wrap: wrap;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb-item:not(:last-child)::after {
+    content: '/';
+    margin: 0 0.5rem;
+    color: var(--text-muted);
+}
+
+.breadcrumb-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.breadcrumb-link:hover {
+    color: var(--primary-color);
+}
+
+.breadcrumb-item.active {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (max-width: 768px) {
+    .breadcrumb-list {
+        font-size: 0.75rem;
+    }
+
+    .breadcrumb-item:not(:last-child)::after {
+        margin: 0 0.375rem;
+    }
+}
+</style>
+
+                
+
+                <article class="page-content">
+                    <h1 id="appendix-c-notation-cross-reference">Appendix C: Notation Cross-Reference</h1>
+
+<p>This appendix is a quick lookup guide for readers who need to recover the
+meaning of a term, compare notations across methods, or check what disciplined
+AI-assisted verification work should leave behind. For fuller definitions, use
+the main <a href="/formal-methods-book/en/glossary/">Glossary</a>. Use this appendix
+when you need a compact reference rather than a full chapter-length
+explanation.</p>
+
+<h2 id="c1-quick-reference-terms">C.1 Quick Reference Terms</h2>
+
+<ul>
+  <li><strong>invariant</strong>: a property that must always hold. If a counterexample appears, it indicates a breakdown in the specification or the implementation.</li>
+  <li><strong>safety</strong>: a property stating that something bad does not happen, for example that a double withdrawal never occurs.</li>
+  <li><strong>liveness</strong>: a property stating that something good eventually happens, for example that a request is eventually processed.</li>
+  <li><strong>refinement</strong>: the process of making an abstract specification progressively more concrete until it reaches an implementation-level specification.</li>
+  <li><strong>contract</strong>: a runtime or verification-time guard that makes preconditions and postconditions explicit.</li>
+  <li><strong>trace</strong>: a sequence of state transitions. Counterexamples are presented as traces.</li>
+  <li><strong>counterexample</strong>: a minimal execution that violates a property. It is the starting point for correcting the design.</li>
+</ul>
+
+<h2 id="c2-definition-of-done-checklist-for-ai-assisted-work">C.2 Definition of Done Checklist for AI-Assisted Work</h2>
+
+<p>In AI-assisted development, the key question is not whether AI was used, but
+whether the resulting claims are backed by verifiable evidence.</p>
+
+<ul>
+  <li>If there is a change in the specification, the corresponding formal specification has also been updated</li>
+  <li>Verification logs include the seed, depth, scope, and execution command</li>
+  <li>If a counterexample appears, the fix history and re-verification logs remain available</li>
+  <li>The reason for any exception approval, the fallback measure, and the follow-up deadline are stated explicitly</li>
+</ul>
+
+<h2 id="c3-notation-cross-reference-z--alloy--csp--tla">C.3 Notation Cross-Reference (Z / Alloy / CSP / TLA+)</h2>
+
+<p>The tables below give a minimum correspondence for how the same concept is
+expressed in each notation. They are intentionally compact and are limited to
+the notation used in this book, especially Chapter 4 on Alloy, Chapter 5 on Z,
+Chapter 6 on CSP, and Chapter 7 on TLA+.</p>
+
+<p>When reading chapter examples, three block labels matter:</p>
+
+<ul>
+  <li><strong>Tool-compliant blocks</strong> (<code class="language-plaintext highlighter-rouge">&amp;#12304;Tool-compliant (runs as-is)&amp;#12305;</code>): notation
+intended to be copied into a tool or CLI and run as-is, although
+project-specific filenames or configuration may still be required</li>
+  <li><strong>Context-dependent snippets</strong> (<code class="language-plaintext highlighter-rouge">&amp;#12304;Context-dependent snippet&amp;#12305;</code>): real
+tool syntax shown as a fragment; you still need declarations, a model, a
+harness, or surrounding context from the chapter</li>
+  <li><strong>Pseudo-notation blocks</strong> (<code class="language-plaintext highlighter-rouge">&amp;#12304;Pseudo notation&amp;#12305;</code>): explanatory notation
+that may contain mathematical symbols, omission, or output examples and
+should therefore not be pasted into a tool unchanged</li>
+</ul>
+
+<p>Notes:</p>
+<ul>
+  <li>Inside a tool-compliant block, include only strings that are valid as tool
+input. Do not mix in output examples, diagrams, or natural-language
+explanation.</li>
+  <li>If mandatory surrounding elements such as variable declarations,
+<code class="language-plaintext highlighter-rouge">MODULE main</code>, a verification harness, or an interactive context are defined
+elsewhere, the example should be treated as a context-dependent snippet.</li>
+  <li>Diagrams, output examples, and pseudocode should be treated as
+pseudo-notation.</li>
+</ul>
+
+<h3 id="c31-concept-correspondence-minimum-set">C.3.1 Concept Correspondence (Minimum Set)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Concept</th>
+      <th>Z notation (in this book)</th>
+      <th>Alloy (assuming Alloy Analyzer 6)</th>
+      <th>CSP (in this book / tools)</th>
+      <th>TLA+ (assuming TLC)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Set (type)</td>
+      <td><code class="language-plaintext highlighter-rouge">A : ℙ X</code></td>
+      <td><code class="language-plaintext highlighter-rouge">A: set X</code></td>
+      <td>Event set <code class="language-plaintext highlighter-rouge">{a, b}</code> / synchronization set <code class="language-plaintext highlighter-rouge">X</code></td>
+      <td><code class="language-plaintext highlighter-rouge">A ∈ SUBSET X</code></td>
+    </tr>
+    <tr>
+      <td>Membership</td>
+      <td><code class="language-plaintext highlighter-rouge">x ∈ A</code></td>
+      <td><code class="language-plaintext highlighter-rouge">x in A</code></td>
+      <td>Event membership <code class="language-plaintext highlighter-rouge">a ∈ X</code></td>
+      <td><code class="language-plaintext highlighter-rouge">x ∈ A</code></td>
+    </tr>
+    <tr>
+      <td>Relation</td>
+      <td><code class="language-plaintext highlighter-rouge">R : X ↔ Y</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R: X -&gt; Y</code></td>
+      <td>Usually not written directly</td>
+      <td><code class="language-plaintext highlighter-rouge">R ⊆ X × Y</code></td>
+    </tr>
+    <tr>
+      <td>Total function</td>
+      <td><code class="language-plaintext highlighter-rouge">f : X → Y</code></td>
+      <td><code class="language-plaintext highlighter-rouge">f: X -&gt; one Y</code></td>
+      <td>Usually not written directly</td>
+      <td><code class="language-plaintext highlighter-rouge">f ∈ [X -&gt; Y]</code></td>
+    </tr>
+    <tr>
+      <td>Partial function</td>
+      <td><code class="language-plaintext highlighter-rouge">f : X ⇸ Y</code></td>
+      <td><code class="language-plaintext highlighter-rouge">f: X -&gt; lone Y</code></td>
+      <td>Usually not written directly</td>
+      <td>Expressed as a partial function where needed</td>
+    </tr>
+    <tr>
+      <td>State</td>
+      <td>State schema</td>
+      <td>Model time or steps explicitly</td>
+      <td>Process, with state embedded in transitions</td>
+      <td>Variable <code class="language-plaintext highlighter-rouge">v</code> and next-state value <code class="language-plaintext highlighter-rouge">v'</code></td>
+    </tr>
+    <tr>
+      <td>Initial state</td>
+      <td><code class="language-plaintext highlighter-rouge">InitState</code></td>
+      <td><code class="language-plaintext highlighter-rouge">pred Init[...]</code></td>
+      <td>Initial process <code class="language-plaintext highlighter-rouge">P0</code></td>
+      <td><code class="language-plaintext highlighter-rouge">Init == ...</code></td>
+    </tr>
+    <tr>
+      <td>Transition / operation</td>
+      <td><code class="language-plaintext highlighter-rouge">ΔState</code></td>
+      <td><code class="language-plaintext highlighter-rouge">pred Step[s, s']</code></td>
+      <td>Prefix <code class="language-plaintext highlighter-rouge">a → P</code> (<code class="language-plaintext highlighter-rouge">a -&gt; P</code> in tools)</td>
+      <td><code class="language-plaintext highlighter-rouge">Next == ...</code></td>
+    </tr>
+    <tr>
+      <td>Invariant (safety)</td>
+      <td>Schema constraint</td>
+      <td><code class="language-plaintext highlighter-rouge">fact</code> / <code class="language-plaintext highlighter-rouge">assert</code></td>
+      <td>Refinement / assertions, depending on the tool</td>
+      <td><code class="language-plaintext highlighter-rouge">Invariant == ...</code> / <code class="language-plaintext highlighter-rouge">[]P</code></td>
+    </tr>
+    <tr>
+      <td>Liveness / fairness</td>
+      <td>Requires extension</td>
+      <td>Expressed over traces</td>
+      <td>Tool-dependent</td>
+      <td><code class="language-plaintext highlighter-rouge">&lt;&gt;P</code>, <code class="language-plaintext highlighter-rouge">WF_vars(A)</code>, <code class="language-plaintext highlighter-rouge">SF_vars(A)</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Notes:</p>
+<ul>
+  <li>Z symbols such as <code class="language-plaintext highlighter-rouge">↔</code>, <code class="language-plaintext highlighter-rouge">→</code>, <code class="language-plaintext highlighter-rouge">⇸</code>, and <code class="language-plaintext highlighter-rouge">↦</code> follow the notation system used in Chapter 5.</li>
+  <li>In the prose of this book, CSP uses mathematical symbols such as <code class="language-plaintext highlighter-rouge">→</code>, <code class="language-plaintext highlighter-rouge">□</code>, and <code class="language-plaintext highlighter-rouge">⊓</code>, while tools such as <code class="language-plaintext highlighter-rouge">FDR</code>/<code class="language-plaintext highlighter-rouge">CSPM</code> typically use <code class="language-plaintext highlighter-rouge">-&gt;</code>, <code class="language-plaintext highlighter-rouge">[]</code>, and <code class="language-plaintext highlighter-rouge">|~|</code>.</li>
+</ul>
+
+<h3 id="c32-z-notation-main-symbols-and-reading-guide">C.3.2 Z Notation: Main Symbols and Reading Guide</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Symbol</th>
+      <th>Meaning</th>
+      <th>Example reading</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">ℙ X</code></td>
+      <td>Power set</td>
+      <td>power set of <code class="language-plaintext highlighter-rouge">X</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">x ∈ A</code></td>
+      <td>Membership</td>
+      <td><code class="language-plaintext highlighter-rouge">x</code> is in <code class="language-plaintext highlighter-rouge">A</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">R : X ↔ Y</code></td>
+      <td>Relation</td>
+      <td>relation from <code class="language-plaintext highlighter-rouge">X</code> to <code class="language-plaintext highlighter-rouge">Y</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">f : X → Y</code></td>
+      <td>Total function</td>
+      <td>total function from <code class="language-plaintext highlighter-rouge">X</code> to <code class="language-plaintext highlighter-rouge">Y</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">f : X ⇸ Y</code></td>
+      <td>Partial function</td>
+      <td>partial function from <code class="language-plaintext highlighter-rouge">X</code> to <code class="language-plaintext highlighter-rouge">Y</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">x ↦ y</code></td>
+      <td>Maplet, that is, a pair</td>
+      <td><code class="language-plaintext highlighter-rouge">x</code> maps to <code class="language-plaintext highlighter-rouge">y</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">dom R</code>, <code class="language-plaintext highlighter-rouge">ran R</code></td>
+      <td>Domain / range</td>
+      <td>domain / range</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="c33-alloy-main-symbols-alloy-analyzer-6">C.3.3 Alloy: Main Symbols (Alloy Analyzer 6)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Symbol</th>
+      <th>Meaning</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">sig</code> / field</td>
+      <td>Sets and relations</td>
+      <td><code class="language-plaintext highlighter-rouge">sig User { files: set File }</code></td>
+    </tr>
+    <tr>
+      <td>Multiplicity <code class="language-plaintext highlighter-rouge">one</code> / <code class="language-plaintext highlighter-rouge">lone</code> / <code class="language-plaintext highlighter-rouge">some</code> / <code class="language-plaintext highlighter-rouge">set</code></td>
+      <td>Cardinality constraint</td>
+      <td><code class="language-plaintext highlighter-rouge">owner: one User</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">fact</code></td>
+      <td>Constraint that always holds</td>
+      <td><code class="language-plaintext highlighter-rouge">fact { ... }</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">assert</code> + <code class="language-plaintext highlighter-rouge">check</code></td>
+      <td>Property checking through counterexample search</td>
+      <td><code class="language-plaintext highlighter-rouge">check Inv for 5</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">run</code></td>
+      <td>Search for satisfying instances</td>
+      <td><code class="language-plaintext highlighter-rouge">run { ... } for 5</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">.</code>, <code class="language-plaintext highlighter-rouge">~</code>, <code class="language-plaintext highlighter-rouge">^</code></td>
+      <td>Join / transpose / transitive closure</td>
+      <td><code class="language-plaintext highlighter-rouge">u.files</code>, <code class="language-plaintext highlighter-rouge">~r</code>, <code class="language-plaintext highlighter-rouge">^parent</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="c34-csp-main-symbols-book--tools">C.3.4 CSP: Main Symbols (Book / Tools)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Concept</th>
+      <th>Book notation (mathematical)</th>
+      <th>Tool notation (representative CSPM/FDR form)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Prefix</td>
+      <td><code class="language-plaintext highlighter-rouge">a → P</code></td>
+      <td><code class="language-plaintext highlighter-rouge">a -&gt; P</code></td>
+    </tr>
+    <tr>
+      <td>External choice</td>
+      <td><code class="language-plaintext highlighter-rouge">P □ Q</code></td>
+      <td><code class="language-plaintext highlighter-rouge">P [] Q</code></td>
+    </tr>
+    <tr>
+      <td>Internal choice</td>
+      <td><code class="language-plaintext highlighter-rouge">P ⊓ Q</code></td>
+      <td><code>P &#124;~&#124; Q</code></td>
+    </tr>
+    <tr>
+      <td>Synchronous parallel with synchronization set <code class="language-plaintext highlighter-rouge">X</code></td>
+      <td><code>P [&#124; X &#124;] Q</code></td>
+      <td><code>P [&#124; X &#124;] Q</code></td>
+    </tr>
+    <tr>
+      <td>Interleaving</td>
+      <td><code>P &#124;&#124;&#124; Q</code></td>
+      <td><code>P &#124;&#124;&#124; Q</code></td>
+    </tr>
+    <tr>
+      <td>Hiding</td>
+      <td><code class="language-plaintext highlighter-rouge">P \ X</code></td>
+      <td><code class="language-plaintext highlighter-rouge">P \\ X</code></td>
+    </tr>
+    <tr>
+      <td>Renaming</td>
+      <td><code class="language-plaintext highlighter-rouge">P[[ a ← b ]]</code></td>
+      <td><code class="language-plaintext highlighter-rouge">P[[ a &lt;- b ]]</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Note: the tool notation shown here is representative only. In actual work, confirm the details against the specific tool and CSP dialect in use.</p>
+
+<h3 id="c35-tla-main-symbols-tlc">C.3.5 TLA+: Main Symbols (TLC)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Symbol</th>
+      <th>Meaning</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">v'</code></td>
+      <td>The next-state value</td>
+      <td><code class="language-plaintext highlighter-rouge">x' = x + 1</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">[]P</code> / <code class="language-plaintext highlighter-rouge">&lt;&gt;P</code></td>
+      <td>Always / eventually</td>
+      <td><code class="language-plaintext highlighter-rouge">[]Inv</code>, <code class="language-plaintext highlighter-rouge">&lt;&gt;Goal</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">WF_vars(A)</code> / <code class="language-plaintext highlighter-rouge">SF_vars(A)</code></td>
+      <td>Fairness assumptions</td>
+      <td><code class="language-plaintext highlighter-rouge">WF_vars(Next)</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">.cfg</code></td>
+      <td>TLC configuration</td>
+      <td>initial state, invariants, and exploration constraints</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Supplement:</p>
+<ul>
+  <li>Alloy is centered on finite-scope counterexample search. When modeling state transitions, time or steps are usually made explicit.</li>
+  <li>TLA+ is centered on state transitions and temporal logic. It is typically used to fix high-level properties such as invariants and liveness before implementation detail is fully developed.</li>
+  <li>Z is used to make requirements precise through state and operation schemas and then refine them toward implementation.</li>
+</ul>
+
+                </article>
+
+                
+                <nav class="page-navigation" aria-label="Page navigation">
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+
+
+
+
+
+<nav class="book-navigation" aria-label="Page navigation">
+  <div class="chapter-nav">
+    
+      <a href="/formal-methods-book/en/appendices/appendix-b/" class="nav-prev" rel="prev">
+        <span class="arrow" aria-hidden="true">←</span>
+        <span class="label">Previous</span>
+        <span class="title">Appendix B: Tool Setup and Verification Quick Start</span>
+      </a>
+    
+
+    <a href="/formal-methods-book/en/" class="nav-home">
+      <span class="label">Contents</span>
+    </a>
+
+    
+      <a href="/formal-methods-book/en/appendices/appendix-d/" class="nav-next" rel="next">
+        <span class="label">Next</span>
+        <span class="title">Appendix D: Exercise Guides and Self-Review Frameworks</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    
+  </div>
+</nav>
+
+<style>
+.book-navigation { margin: 2rem 0; padding: 1rem; border-top: 1px solid var(--border-color, #e5e7eb); }
+.chapter-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.nav-prev, .nav-next, .nav-home { display: flex; align-items: center; padding: 0.75rem 1.25rem; background: var(--bg-primary, #fff); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; text-decoration: none; color: inherit; }
+.nav-disabled { opacity: .5; cursor: not-allowed; background: var(--bg-tertiary, #f9fafb); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; padding: 0.75rem 1.25rem; display: flex; align-items: center; }
+.nav-prev { flex: 1; }
+.nav-next { flex: 1; justify-content: flex-end; text-align: right; }
+.nav-home { flex: 0 0 auto; justify-content: center; }
+.label { font-weight: 600; margin: 0 .25rem; }
+.title { font-size: .9rem; opacity: .8; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 768px) { .chapter-nav { flex-wrap: wrap; } .nav-prev, .nav-next { flex: 1 1 45%; } .nav-home { flex: 1 1 100%; order: -1; } .title { display: none; } }
+</style>
+
+                </nav>
+                
+
+                
+
+                <footer class="book-footer" role="contentinfo">
+                    <div class="book-footer-inner">
+                        <div class="book-footer-license">
+                            Reader-facing text: CC BY-NC-SA 4.0 / Code assets: Apache-2.0 / excluding trademarks and third-party assets
+                        </div>
+                        <div class="book-footer-links">
+                            
+                                <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener">GitHub</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/LICENSE-SCOPE.md" target="_blank" rel="noopener">License</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/COMMERCIAL.md" target="_blank" rel="noopener">Commercial</a>
+                            
+                            
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <label for="sidebar-toggle-checkbox" class="book-sidebar-overlay" id="sidebar-overlay" aria-label="Close sidebar"></label>
+
+    <script async src="/formal-methods-book/assets/js/code-copy-lightweight.js"></script>
+    <script defer src="/formal-methods-book/assets/js/theme.js"></script>
+    <script defer src="/formal-methods-book/assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var cb = document.getElementById('sidebar-toggle-checkbox');
+            var toggle = document.querySelector('.sidebar-toggle');
+            if (cb) cb.checked = false;
+            if (cb && toggle) {
+                var sync = function() {
+                    toggle.setAttribute('aria-expanded', cb.checked ? 'true' : 'false');
+                };
+                sync();
+                cb.addEventListener('change', sync);
+                toggle.addEventListener('keydown', function(e) {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        cb.checked = !cb.checked;
+                        cb.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        (function() {
+            function initTocAutoScroll() {
+                var cb = document.getElementById('sidebar-toggle-checkbox');
+                if (!cb) return;
+
+                function normalizePath(p) {
+                    var path = String(p || '').replace(/index\.html$/, '');
+                    if (path.length > 1) {
+                        path = path.replace(/\/+$/, '');
+                    }
+                    return path || '/';
+                }
+
+                function isMobileDrawer() {
+                    try {
+                        if (typeof window.matchMedia === 'function') {
+                            return window.matchMedia('(max-width: 1024px)').matches;
+                        }
+                    } catch (_) {}
+                    return typeof window.innerWidth === 'number' ? window.innerWidth <= 1024 : true;
+                }
+
+                function findActiveTocLink() {
+                    var current = normalizePath(window.location.pathname);
+                    var actives = document.querySelectorAll('a.toc-link.active');
+                    if (!actives || actives.length === 0) return null;
+
+                    for (var i = 0; i < actives.length; i++) {
+                        var a = actives[i];
+                        if (!a || !a.href) continue;
+                        try {
+                            var pathname = normalizePath(new URL(a.href).pathname);
+                            if (pathname === current) return a;
+                        } catch (_) {}
+                    }
+                    return actives[0];
+                }
+
+                function ensureActiveTocVisible() {
+                    if (!cb.checked) return;
+                    if (!isMobileDrawer()) return;
+
+                    var active = findActiveTocLink();
+                    if (!active) return;
+
+                    var sidebar = active.closest('.book-sidebar') || document.getElementById('sidebar');
+                    if (!sidebar) return;
+
+                    try {
+                        var linkRect = active.getBoundingClientRect();
+                        var sidebarRect = sidebar.getBoundingClientRect();
+                        var marginTop = 8;
+                        var marginBottom = 8;
+                        try {
+                            if (window.getComputedStyle) {
+                                var cs = window.getComputedStyle(sidebar);
+                                if (cs) {
+                                    var pt = parseFloat(cs.paddingTop);
+                                    var pb = parseFloat(cs.paddingBottom);
+                                    if (!isNaN(pt)) marginTop = pt;
+                                    if (!isNaN(pb)) marginBottom = pb;
+                                }
+                            }
+                        } catch (_) {}
+
+                        var top = sidebarRect.top + marginTop;
+                        var bottom = sidebarRect.bottom - marginBottom;
+                        var outOfView = linkRect.top < top || linkRect.bottom > bottom;
+
+                        if (outOfView && typeof active.scrollIntoView === 'function') {
+                            try {
+                                active.scrollIntoView({ block: 'center', behavior: 'auto' });
+                            } catch (e) {
+                                active.scrollIntoView();
+                            }
+                        }
+                    } catch (_) {}
+                }
+
+                function scheduleEnsure() {
+                    setTimeout(ensureActiveTocVisible, 0);
+                    setTimeout(ensureActiveTocVisible, 350);
+                }
+
+                cb.addEventListener('change', function() {
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+
+                if (cb.checked) {
+                    scheduleEnsure();
+                }
+
+                window.addEventListener('pageshow', function(e) {
+                    if (!e || !e.persisted) return;
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initTocAutoScroll);
+            } else {
+                initTocAutoScroll();
+            }
+        })();
+    </script>
+</body>
+</html>

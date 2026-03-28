@@ -1,0 +1,2201 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="仕様記述、模型検査、定理証明の統合的理解 - ソフトウェアの数学的設計入門">
+    <meta name="author" content="太田和彦（株式会社アイティードゥ）">
+
+    <title>付録D：演習問題解答（ヒント/模範解答/採点観点） - 形式的手法の基礎と応用</title>
+
+    <link rel="canonical" href="https://itdojp.github.io/formal-methods-book/appendices/appendix-d/">
+    <link rel="alternate" hreflang="ja" href="https://itdojp.github.io/formal-methods-book/appendices/appendix-d/">
+    <link rel="alternate" hreflang="en" href="https://itdojp.github.io/formal-methods-book/en/appendices/appendix-d/">
+    <link rel="alternate" hreflang="x-default" href="https://itdojp.github.io/formal-methods-book/">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/main.css">
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/syntax-highlighting.css">
+
+    <link rel="icon" type="image/png" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+    <link rel="apple-touch-icon" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+
+    <meta property="og:title" content="付録D：演習問題解答（ヒント/模範解答/採点観点）">
+    <meta property="og:description" content="仕様記述、模型検査、定理証明の統合的理解 - ソフトウェアの数学的設計入門">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://itdojp.github.io/formal-methods-book/appendices/appendix-d/">
+    <meta property="og:locale" content="ja_JP">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="付録D：演習問題解答（ヒント/模範解答/採点観点）">
+    <meta name="twitter:description" content="仕様記述、模型検査、定理証明の統合的理解 - ソフトウェアの数学的設計入門">
+
+    <script>
+        (function() {
+            try {
+                const k = 'book-theme';
+                const t = localStorage.getItem(k) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (_) {}
+        })();
+    </script>
+</head>
+<body>
+    
+    
+    
+    
+    
+
+    <input type="checkbox" id="sidebar-toggle-checkbox" class="sidebar-toggle-checkbox" aria-hidden="true">
+
+    <div class="book-layout">
+        <header class="book-header">
+            <div class="header-left">
+                <label for="sidebar-toggle-checkbox" class="sidebar-toggle" aria-label="サイドバーを切り替え" role="button" tabindex="0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </label>
+                <a href="/formal-methods-book/" class="header-title">
+                    <h1>形式的手法の基礎と応用</h1>
+                </a>
+            </div>
+
+            <div class="header-center">
+                <div class="search-container">
+                    <input type="search"
+                           placeholder="検索..."
+                           class="search-input"
+                           id="search-input"
+                           autocomplete="off">
+                    <div class="search-results" id="search-results"></div>
+                </div>
+            </div>
+
+            <div class="header-right">
+                
+
+
+
+
+
+
+
+
+
+
+<a href="/formal-methods-book/en/appendices/appendix-d/"
+   class="language-switcher"
+   hreflang="en"
+   lang="en"
+   >
+    English
+</a>
+
+                <button class="theme-toggle" aria-label="テーマを切り替え">
+                    <svg class="theme-icon theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="theme-icon theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+
+                
+                <a href="https://github.com/itdojp/formal-methods-book" class="github-link" target="_blank" rel="noopener" aria-label="GitHub">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
+                
+            </div>
+        </header>
+
+        <aside class="book-sidebar" id="sidebar">
+            <nav class="sidebar-nav" role="navigation" aria-label="メインナビゲーション">
+                
+
+
+
+
+
+
+
+
+
+
+<div class="sidebar-content">
+    <div class="book-info">
+        <h2 class="book-title"><a href="/formal-methods-book/" class="header-title">形式的手法の基礎と応用</a></h2>
+        
+        <p class="book-subtitle">仕様記述、模型検査、定理証明の統合的理解</p>
+        
+    </div>
+
+    <div class="toc">
+        <h3 class="toc-title">目次</h3>
+
+        <div class="toc-section">
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="/formal-methods-book/" class="toc-link ">
+                        ホーム
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">導入</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/introduction/" class="toc-link ">
+                        はじめに
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">本編</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter01/" class="toc-link ">
+                        第1章：なぜ形式的手法が必要なのか
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter02/" class="toc-link ">
+                        第2章：数学とプログラムの橋渡し
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter03/" class="toc-link ">
+                        第3章：仕様記述の基本
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter04/" class="toc-link ">
+                        第4章：軽量形式的手法入門 - Alloyで始める仕様記述
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter05/" class="toc-link ">
+                        第5章：状態ベース仕様記述 - Z記法の基礎
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter06/" class="toc-link ">
+                        第6章：プロセス中心の記述 - CSPによる並行システム
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter07/" class="toc-link ">
+                        第7章：時間を扱う仕様記述 - TLA+入門
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter08/" class="toc-link ">
+                        第8章：模型検査入門
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter09/" class="toc-link ">
+                        第9章：定理証明の基礎
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter10/" class="toc-link ">
+                        第10章：プログラム検証
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter11/" class="toc-link ">
+                        第11章：開発プロセスとの統合
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter12/" class="toc-link ">
+                        第12章：ツールと自動化
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/chapters/chapter13/" class="toc-link ">
+                        第13章：事例研究
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">追加</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/glossary/" class="toc-link ">
+                        用語集（Glossary）
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">付録</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-a/" class="toc-link ">
+                        付録A: 数学的基礎の復習
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-b/" class="toc-link ">
+                        付録B: ツールインストールガイド
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-c/" class="toc-link ">
+                        付録C: 記法対照表
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-d/" class="toc-link active">
+                        付録D: 演習問題解答
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-e/" class="toc-link ">
+                        付録E: 参考文献とWebリソース
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/appendices/appendix-f/" class="toc-link ">
+                        付録F: AI支援の実践ガイド
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">おわりに</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/afterword/" class="toc-link ">
+                        おわりに
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="external-links">
+            
+            <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener" class="external-link">GitHub</a>
+            
+            
+        </div>
+    </div>
+</div>
+
+            </nav>
+        </aside>
+
+        <main class="book-main" id="main">
+            <div class="book-content">
+                
+                    
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb-list">
+    <li class="breadcrumb-item">
+        <a href="/formal-methods-book/" class="breadcrumb-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span class="sr-only">ホーム</span>
+        </a>
+    </li>
+
+    
+        
+    
+        
+            
+            
+            
+                
+                
+                <li class="breadcrumb-item">
+                    <a href="/formal-methods-book/appendices/" class="breadcrumb-link">
+                        
+                            Appendices
+                        
+                    </a>
+                </li>
+            
+        
+    
+        
+            
+            
+            
+                <li class="breadcrumb-item active" aria-current="page">
+                    付録d：演習問題解答（ヒント/模範解答/採点観点）
+                </li>
+            
+        
+    
+</ol>
+
+<style>
+.breadcrumb-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    font-size: 0.875rem;
+    flex-wrap: wrap;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb-item:not(:last-child)::after {
+    content: '/';
+    margin: 0 0.5rem;
+    color: var(--text-muted);
+}
+
+.breadcrumb-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.breadcrumb-link:hover {
+    color: var(--primary-color);
+}
+
+.breadcrumb-item.active {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (max-width: 768px) {
+    .breadcrumb-list {
+        font-size: 0.75rem;
+    }
+
+    .breadcrumb-item:not(:last-child)::after {
+        margin: 0 0.375rem;
+    }
+}
+</style>
+
+                
+
+                <article class="page-content">
+                    <h1 id="付録d演習問題解答ヒント模範解答採点観点">付録D：演習問題解答（ヒント/模範解答/採点観点）</h1>
+
+<p>本付録は、各章末課題に対して「提出物として何を作るか」を明確にするためのテンプレート集です。
+章末課題の性質上、模範解答は一意ではないため、ここでは <strong>解答の骨子</strong>（最小構成）と <strong>採点観点（rubric）</strong> を中心に示します。</p>
+
+<p>注意事項</p>
+<ul>
+  <li>本付録の疑似スクリプト・ログ構造・設定例は例示です。実運用ではプロジェクトの環境・要件に合わせて調整してください。</li>
+  <li>数字（%/倍/件数）は出典を付与するか、例示であることを明示してください。</li>
+</ul>
+
+<h2 id="d1-共通提出物テンプレと採点観点">D.1 共通：提出物テンプレと採点観点</h2>
+
+<h3 id="共通の提出物推奨">共通の提出物（推奨）</h3>
+
+<ul>
+  <li>問題設定：対象、前提、境界（in-scope/out-of-scope）</li>
+  <li>仕様：用語定義、前提条件、性質（安全/活性/契約）</li>
+  <li>検証：実行コマンド、設定（seed/深さ/スコープ/上限時間）、結果ログ</li>
+  <li>反例対応（発生時）：最小トレース、原因仮説、修正差分、再検証ログ（付録F.8参照）</li>
+</ul>
+
+<h3 id="共通の採点観点rubric">共通の採点観点（rubric）</h3>
+
+<ul>
+  <li>正確性：定義・制約・推論が整合している</li>
+  <li>完全性：要求を満たす観点が落ちていない（例外/境界条件を含む）</li>
+  <li>一貫性：用語・記号・抽象化レベルが揃っている</li>
+  <li>再現性：第三者が同じ手順で再実行できる（コマンド・設定・ログ）</li>
+  <li>妥当性：前提条件（環境仮定、障害モデル、性能制約）が明示されている</li>
+</ul>
+
+<h2 id="d2-第1章">D.2 第1章</h2>
+
+<h3 id="思考演習1複雑性分析">思考演習1：複雑性分析</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>対象システムの境界（外部API/依存先/運用）を確定する</li>
+  <li>構成要素と相互作用を列挙し、組み合わせ爆発の観点（状態数・遷移数）で整理する</li>
+  <li>失敗モード（部分故障/競合/仕様齟齬）を洗い出し、SIL相当の要求水準を仮置きする</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>コンポーネント一覧（役割/責務）と相互作用図</li>
+  <li>状態・遷移の「増え方」の評価（どの部分が爆発するか）</li>
+  <li>失敗モードと安全性要求（SIL相当）の根拠</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>境界が明確（前提の抜けが少ない）</li>
+  <li>複雑性を「相互作用」と「状態空間」で説明できる</li>
+  <li>失敗モードが具体（運用を含む）</li>
+</ul>
+
+<h3 id="実践演習事故分析と予防策検討">実践演習：事故分析と予防策検討</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>事故の直接原因/根本原因を「仕様」「実装」「運用」「組織」に分解する</li>
+  <li>どの性質（不変/契約/安全性/活性）が破れたかを言語化する</li>
+  <li>Alloy/TLA+/プログラム検証のどれで「どの抽象度」を先に潰せるかを整理する</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>原因分析（技術/組織）と、仕様曖昧性の寄与</li>
+  <li>予防可能性のマッピング（第4/8/10章の手法に対応付け）</li>
+  <li>現代の同型リスクと、業務上の予防アクション</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>事故要因の分解が妥当</li>
+  <li>「検証可能な性質」へ落ちている</li>
+  <li>提案が具体（導入ステップ/検証ゲート/例外フロー）</li>
+</ul>
+
+<h3 id="実践演習仕様曖昧性の定量的分析">実践演習：仕様曖昧性の定量的分析</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>曖昧語を列挙し、解釈の分岐点（例：回数制限、失敗の定義、エラーメッセージ粒度）を分ける</li>
+  <li>実装バリエーションは「分岐の積」として概算する（厳密な数でなく、説明可能な見積りでよい）</li>
+  <li>セキュリティ上のリスクは、攻撃面・観測可能性・誤作動影響で三段階評価する</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>曖昧性一覧表（曖昧箇所/解釈候補/分岐数/影響）</li>
+  <li>実装パターン総数の概算と計算根拠</li>
+  <li>優先順位付け（第3章の仕様化で先に潰す項目）</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>曖昧性の抽出が十分</li>
+  <li>見積り根拠が明示されている</li>
+  <li>セキュリティ観点が入っている</li>
+</ul>
+
+<h3 id="発展演習業務適用計画の立案">発展演習：業務適用計画の立案</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>適用候補は「失敗コストが高い」「仕様が曖昧」「並行/分散がある」から選ぶ</li>
+  <li>学習する章（3章程度）の選定は「自分の業務で再現できる」順に決める</li>
+  <li>提案資料は、ROI（第11章）と段階導入（PR/夜間/リリース前）で合意形成する</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>適用候補（範囲/期待効果/リスク）の整理</li>
+  <li>6ヶ月/1年の学習と実践計画（成果物とKPI）</li>
+  <li>組織提案（投資対効果、ガードレール、例外フロー）</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>対象選定が合理的</li>
+  <li>成果物とKPIが具体</li>
+  <li>組織への説明が現実的</li>
+</ul>
+
+<h2 id="d3-第2章">D.3 第2章</h2>
+
+<h3 id="理解確認演習1データ構造の集合論的表現">理解確認演習1：データ構造の集合論的表現</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>Studentの型を直積で定義する（Name×Age×Courses）</li>
+  <li>Coursesは「集合/列/多重集合」のどれとして扱うかを明確化する</li>
+  <li>「履修している」関係を <code class="language-plaintext highlighter-rouge">Student ↔ Course</code> で定義する</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Student == Name × Nat × P(Course)</code>（例：Coursesを集合として扱う場合）</li>
+  <li><code class="language-plaintext highlighter-rouge">students ⊆ Student</code>（例：集合として扱う場合。順序が重要なら列として扱う）</li>
+  <li><code class="language-plaintext highlighter-rouge">enrolled ⊆ Student × Course</code> と所属判定 <code class="language-plaintext highlighter-rouge">⟨s,c⟩ ∈ enrolled</code></li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>型の選択が一貫している</li>
+  <li>関係/写像の使い分けが妥当</li>
+  <li>境界（順序/重複の扱い）が明示されている</li>
+</ul>
+
+<h3 id="理解確認演習2論理と制御構造">理解確認演習2：論理と制御構造</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>自然言語条件を命題（P,Q,…)へ分解し、論理式へ変換する</li>
+  <li>量化（∀/∃）は集合境界（ユーザー集合、商品集合）を明示する</li>
+  <li>実装条件式では、null/未設定/例外の扱いも前提として書く</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>例：<code class="language-plaintext highlighter-rouge">canDrive ⇔ (age&gt;=18) ∧ hasValidLicense</code></li>
+  <li>例：<code class="language-plaintext highlighter-rouge">canDelete ⇔ isAdmin ∨ isOwner</code></li>
+  <li>例：<code class="language-plaintext highlighter-rouge">∀u ∈ Users : hasValidEmail(u)</code></li>
+  <li>例：<code class="language-plaintext highlighter-rouge">∃p ∈ Products : inStock(p)</code></li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>論理式が要件を過不足なく表現</li>
+  <li>量化範囲が明示</li>
+  <li>実装への落とし込みで例外が考慮されている</li>
+</ul>
+
+<h3 id="実践演習状態モデリング">実践演習：状態モデリング</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>状態変数（投入金額、選択、在庫、返却金）を最小で定義する</li>
+  <li>入力イベント（投入/選択/キャンセル）ごとに遷移を定義する</li>
+  <li>不変条件は「金額保存」「在庫非負」「不正遷移がない」から作る</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>状態：<code class="language-plaintext highlighter-rouge">balance, stock, selected, change</code> など</li>
+  <li>入力集合：<code class="language-plaintext highlighter-rouge">Insert100|Insert500|SelectCola|SelectTea|Cancel</code> など</li>
+  <li>不変条件例：<code class="language-plaintext highlighter-rouge">balance&gt;=0</code>、<code class="language-plaintext highlighter-rouge">stock[item]&gt;=0</code>、<code class="language-plaintext highlighter-rouge">purchase =&gt; balance&gt;=price</code></li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>状態空間と入力が網羅的</li>
+  <li>不変条件が要求と対応</li>
+  <li>シナリオが遷移列として一貫している</li>
+</ul>
+
+<h3 id="発展演習並行性の分析">発展演習：並行性の分析</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>取引を「読み→計算→書き」と分解して遷移化する</li>
+  <li>インターリービングを列挙し、保存すべき性質（残高非負/保存則）を見る</li>
+  <li>制約案は「排他」「原子操作」「再試行」「順序化」から選ぶ</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>インターリービングにより lost update が起こる例の提示</li>
+  <li>不整合条件（例：最終残高が順次実行と一致しない）</li>
+  <li>制約案（ロック、トランザクション、CAS等）</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>インターリービングが正しく列挙されている</li>
+  <li>不整合の発生条件が説明できる</li>
+  <li>制約が副作用込みで妥当</li>
+</ul>
+
+<h3 id="統合演習形式的手法への準備">統合演習：形式的手法への準備</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>まず「集合・関係・不変」を自然言語で固定し、手法に写像する</li>
+  <li>Alloy/Z/CSP/TLA+のどれが何を得意とするか（図2-2）で役割分担する</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>演習1（Alloy）：エンティティ/関係/制約（管理者が少なくとも1人等）を <code class="language-plaintext highlighter-rouge">sig/fact/assert</code> に割当</li>
+  <li>演習2（Z）：状態スキーマ＋操作スキーマ（正常/エラー）を定義し、事前/事後条件を分離</li>
+  <li>演習3（CSP）：プロセス/チャネル/順序制約を定義し、デッドロック観点を列挙</li>
+  <li>演習4（TLA+）：状態変数/安全性/活性/公正性仮定を分けて記述</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>手法の割当が合理的</li>
+  <li>不変/活性/例外の観点が含まれる</li>
+  <li>後続章への接続（何を作るか）が明確</li>
+</ul>
+
+<h2 id="d4-第3章">D.4 第3章</h2>
+
+<h3 id="基礎理解演習1曖昧性の特定">基礎理解演習1：曖昧性の特定</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>「適切に」「大きすぎる」「不正な」など、閾値や判定主体が不明な語を列挙</li>
+  <li>それぞれの解釈が設計・運用（ログ/監査/再試行）に与える影響を整理</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>曖昧語→解釈候補→影響（誤検知/漏検知/UX/運用負荷）の表</li>
+  <li>仕様化で確定すべき項目の優先順位</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>曖昧性が十分に抽出されている</li>
+  <li>影響が実装/運用まで含む</li>
+</ul>
+
+<h3 id="基礎理解演習2契約の記述">基礎理解演習2：契約の記述</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>事前条件：入力が「探索可能」である条件（ソート済み、範囲）</li>
+  <li>事後条件：返り値が満たす性質（見つかる/見つからない）</li>
+  <li>フレーム条件：変更されない（配列不変）を明示</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>pre：<code class="language-plaintext highlighter-rouge">sorted(sorted_array)</code>、<code class="language-plaintext highlighter-rouge">sorted_array != null</code></li>
+  <li>post（found）：<code class="language-plaintext highlighter-rouge">0&lt;=ret&lt;n ∧ sorted_array[ret]=target</code></li>
+  <li>post（not found）：<code class="language-plaintext highlighter-rouge">ret=-1 ∧ ∀i. sorted_array[i] != target</code></li>
+  <li>frame：<code class="language-plaintext highlighter-rouge">sorted_array</code> は変更されない</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>pre/post/frame が分離されている</li>
+  <li>返り値の条件が両ケースで完結している</li>
+</ul>
+
+<h3 id="実践演習1キューの仕様化">実践演習1：キューの仕様化</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>状態は「列（sequence）」として表すとFIFOが書きやすい</li>
+  <li>操作ごとに、状態更新と戻り値の関係を定義する</li>
+  <li>エラー（空dequeue等）は事前条件か例外ケースで扱う</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>状態：<code class="language-plaintext highlighter-rouge">Q</code>（列）</li>
+  <li>enqueue：<code class="language-plaintext highlighter-rouge">Q' = Append(Q, x)</code></li>
+  <li>dequeue（非空）：<code class="language-plaintext highlighter-rouge">ret = Head(Q) ∧ Q' = Tail(Q)</code></li>
+  <li>isEmpty/size/front の定義</li>
+  <li>不変：<code class="language-plaintext highlighter-rouge">size(Q) &gt;= 0</code>、（必要なら）要素型制約</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>FIFOが仕様に反映されている</li>
+  <li>事前条件/例外が明確</li>
+  <li>操作間整合（front/dequeue）が保たれる</li>
+</ul>
+
+<h3 id="実践演習2電子メールシステムの不変条件">実践演習2：電子メールシステムの不変条件</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>データ整合性（参照一貫性、重複排除）を先に定義する</li>
+  <li>セキュリティ（認証情報、アクセス制御）を不変として切り出す</li>
+  <li>ビジネスルール（メールの所属、ゴミ箱移動等）を追加する</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>整合性例：メールアドレス一意、メッセージの送信者/受信者がユーザー集合に属する</li>
+  <li>セキュリティ例：パスワード平文禁止（ハッシュ化前提）、ログイン必須で操作可能</li>
+  <li>ルール例：メッセージは（受信/送信/ゴミ箱）のいずれかに所属、同一メッセージIDの重複禁止</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>不変がカテゴリ分けされている</li>
+  <li>参照関係が破れない</li>
+  <li>例外（削除/移動/未配達）が考慮されている</li>
+</ul>
+
+<h3 id="発展演習仕様の検証">発展演習：仕様の検証</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>一貫性：操作の合成（enqueue→dequeue等）で矛盾が出ないか</li>
+  <li>完全性：利用パターン（空/満杯/境界）を列挙</li>
+  <li>テスト戦略：仕様→テスト観点（境界/同値分割/反例）へ写像</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>仕様レビュー観点のチェックリスト</li>
+  <li>実装可能性（計算量/データ構造）に関する注記</li>
+  <li>テストケース設計の骨子</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>検証観点が体系化されている</li>
+  <li>仕様→テストが接続できている</li>
+</ul>
+
+<h2 id="d5-第4章">D.5 第4章</h2>
+
+<h3 id="基礎演習1alloyモデルの読解">基礎演習1：Alloyモデルの読解</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">lone/set/one</code> の多重度が意味する制約を言語化する</li>
+  <li><code class="language-plaintext highlighter-rouge">fact</code> は常に成立する制約、<code class="language-plaintext highlighter-rouge">assert</code> は検査対象（反例探索）として使い分ける</li>
+  <li>不足制約（自己配偶の禁止、親子循環の禁止等）を検討する</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">spouse: lone Person</code> は「高々1人の配偶者」</li>
+  <li><code class="language-plaintext highlighter-rouge">parents/children</code> の双方向整合</li>
+  <li>欠けている可能性：<code class="language-plaintext highlighter-rouge">p.spouse != p</code>、親子関係の非循環、配偶者は相互排他的（重婚禁止）など</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>各制約の意味が説明できる</li>
+  <li>妥当性（業務要件との差）を述べられる</li>
+</ul>
+
+<h3 id="基礎演習2制約の記述">基礎演習2：制約の記述</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>User/Book/Loan を分離し、貸出は関係（またはLoan）として表す</li>
+  <li>「最大5冊」「延滞不可」などのルールは fact として固定する</li>
+  <li>返却期限は抽象化（Dateの順序は省略し、期限超過フラグ等で表す）してよい</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">sig User { loans: set Loan }</code>, <code class="language-plaintext highlighter-rouge">sig Book {}</code> など</li>
+  <li><code class="language-plaintext highlighter-rouge">fact UniqueLoan { all b: Book | lone l: Loan | l.book = b }</code></li>
+  <li><code class="language-plaintext highlighter-rouge">fact Limit { all u: User | #u.loans &lt;= 5 }</code></li>
+  <li><code class="language-plaintext highlighter-rouge">fact Overdue { all u: User | u.overdue =&gt; no u.newLoan }</code>（例）</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>要求が過不足なく制約化されている</li>
+  <li>抽象化の前提が明示されている</li>
+</ul>
+
+<h3 id="実践演習1セキュリティポリシーのモデル化">実践演習1：セキュリティポリシーのモデル化</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>アクセス判定は述語 <code class="language-plaintext highlighter-rouge">canRead/canWrite</code> として切り出す</li>
+  <li>fact は不変、assert は「破れてはいけない性質」を置く</li>
+  <li>管理者特権は例外として明示する（優先順位も含む）</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">sig User { groups: set Group }</code>, <code class="language-plaintext highlighter-rouge">sig File { owner: one User, mode: one Mode, sharedWith: set Group }</code></li>
+  <li><code class="language-plaintext highlighter-rouge">pred canWrite[u,f] { u=f.owner or u in Admins and f.mode=RW ... }</code></li>
+  <li><code class="language-plaintext highlighter-rouge">assert NoWriteToRO { all u,f | f.mode=RO implies not canWrite[u,f] }</code></li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>権限モデルが矛盾しない</li>
+  <li>assertが要件と対応している</li>
+</ul>
+
+<h3 id="実践演習2模型検査と改善">実践演習2：模型検査と改善</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">run</code> でインスタンス生成→現実的/不自然な例を把握</li>
+  <li><code class="language-plaintext highlighter-rouge">check</code> とスコープ変更で反例を得る（小スコープ優先）</li>
+  <li>修正は「制約の過不足」から順に行い、再検証と回帰（assert追加）を行う</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>反例ログ（最小）と、何が破れたかの説明</li>
+  <li>原因仮説→制約修正→再検証の履歴</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>反例を事実として扱い、推測と分離できている</li>
+  <li>修正が最小で、回帰防止がある</li>
+</ul>
+
+<h3 id="発展演習動的振る舞いのモデル化">発展演習：動的振る舞いのモデル化</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>時刻（ステップ）を <code class="language-plaintext highlighter-rouge">sig Time</code> 等で表現し、状態を <code class="language-plaintext highlighter-rouge">balance: Time -&gt; Account -&gt; Int</code> などで持つ</li>
+  <li>操作を <code class="language-plaintext highlighter-rouge">pred Withdraw[t,t']</code> の形式で書き、保存則を不変として置く</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>状態変数（残高、履歴）と操作（入出金）の定義</li>
+  <li>不変：残高非負、総額保存（モデル境界内）、履歴整合</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>状態と操作が時間で接続している</li>
+  <li>不変が検証可能な形で定義されている</li>
+</ul>
+
+<h2 id="d6-第5章">D.6 第5章</h2>
+
+<h3 id="基礎理解演習1スキーマの読解と分析">基礎理解演習1：スキーマの読解と分析</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>型（集合/関係/部分関数）を読み取り、dom/ran制約の意味を説明する</li>
+  <li>制約は「参照整合」と「存在保証」に分解する</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>変数の型と意味（students/courses/enrollment等）</li>
+  <li><code class="language-plaintext highlighter-rouge">dom enrollment ⊆ students</code> 等の整合性制約の説明</li>
+  <li>表現できない要求（例：最大履修数、成績未入力の扱い等）の指摘</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>dom/ran の読み解きが正しい</li>
+  <li>制約が何を防ぐか説明できる</li>
+</ul>
+
+<h3 id="基礎理解演習2操作スキーマの作成">基礎理解演習2：操作スキーマの作成</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>正常系は <code class="language-plaintext highlighter-rouge">Δ State</code> と <code class="language-plaintext highlighter-rouge">pre/post</code> を分ける</li>
+  <li>エラー系は状態不変（<code class="language-plaintext highlighter-rouge">Ξ State</code>）とし、エラー原因を出力で示す</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>正常：存在確認＋未登録確認→enrollment更新</li>
+  <li>エラー：学生不存在/科目不存在/重複履修の各スキーマ</li>
+  <li>統合：スキーマ和（正常 ⫿ エラー）で定義</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>正常/エラーが分離されている</li>
+  <li>状態更新の影響が追跡できる</li>
+</ul>
+
+<h3 id="実践演習1銀行システムのモデル化">実践演習1：銀行システムのモデル化</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>顧客/口座/取引を集合と関係で表し、一意性/参照整合を不変に置く</li>
+  <li>送金は「引き出し+預金」として合成可能な形にする</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>状態：accounts, owners, balance, txs など</li>
+  <li>不変：残高非負、口座番号一意、所有者存在、取引参照整合</li>
+  <li>操作：開設/預金/引出/送金（事前/事後/エラー）</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>不変が制約と対応</li>
+  <li>操作が不変を保存する</li>
+</ul>
+
+<h3 id="実践演習2スキーマ演算の活用">実践演習2：スキーマ演算の活用</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>認証チェックを共通スキーマとして定義し、各操作に合成する</li>
+  <li>正常/エラー統合は「結果の型（成功/失敗）」を揃える</li>
+  <li>原子性は「途中失敗時に状態が戻る」ことを仕様で表現する</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Auth</code> / <code class="language-plaintext highlighter-rouge">Log</code> スキーマを作り、操作と合成</li>
+  <li>エラーを <code class="language-plaintext highlighter-rouge">ErrorCode</code> として統一</li>
+  <li>送金を合成し、失敗時は <code class="language-plaintext highlighter-rouge">Ξ State</code> を保証</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>演算の使い所が合理的</li>
+  <li>例外時の状態が定義されている</li>
+</ul>
+
+<h3 id="発展演習実時間システムの仕様化">発展演習：実時間システムの仕様化</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>時刻/タイマーは状態変数として明示する</li>
+  <li>安全性（同時青禁止）を不変として固定し、活性/公平性を別枠で定義する</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>信号状態、センサー、歩行者要求、タイマーの状態スキーマ</li>
+  <li>遷移（信号変更）操作スキーマ</li>
+  <li>性質（安全/活性/公平）を検証可能な形で列挙</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>安全性が不変で表現されている</li>
+  <li>時間制約が仕様に反映されている</li>
+</ul>
+
+<h2 id="d7-第6章">D.7 第6章</h2>
+
+<h3 id="基礎理解演習1csp記法の読解">基礎理解演習1：CSP記法の読解</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>プロセス/チャネル/合成（並列/選択）の意味を説明する</li>
+  <li>受送信の同期（ハンドシェイク）を前提に振る舞いを追う</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>プロセス定義の逐次解釈</li>
+  <li>合成時の同期点と、可能なトレースの例</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>記法の意味が正しく説明できる</li>
+  <li>具体トレースで説明できる</li>
+</ul>
+
+<h3 id="基礎理解演習2デッドロック分析">基礎理解演習2：デッドロック分析</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>相互待ちの原因は「双方が受信待ち/送信待ち」になる点</li>
+  <li>回避策は順序合意/非同期化/タイムアウトなど。ただし副作用も述べる</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>最小デッドロック例（2プロセス、逆順の送受）</li>
+  <li>回避策と副作用（順序逆転、無限バッファ、遅延）</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>デッドロック状態が説明できる</li>
+  <li>回避策が現実的で、副作用も言及</li>
+</ul>
+
+<h3 id="実践演習1atmシステムの設計">実践演習1：ATMシステムの設計</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>ATM/BankServer/User をプロセスとして分け、チャネルで接続する</li>
+  <li>安全性（残高非負、二重引落なし）と活性（最終応答）を整理する</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>プロセス分解と主要チャネル</li>
+  <li>失敗系（タイムアウト/再試行/中断）の扱い</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>プロトコルの順序制約が明確</li>
+  <li>失敗系の考慮がある</li>
+</ul>
+
+<h3 id="実践演習2プロセス合成の活用">実践演習2：プロセス合成の活用</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>合成は「仕様側で許す振る舞い」を増やし過ぎないように注意</li>
+  <li>合成後の性質（デッドロック不在、到達性）を確認する</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>合成手順と、合成後に成立させたい性質</li>
+  <li>検証結果の要約</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>合成の意図が説明できる</li>
+  <li>合成での副作用が把握されている</li>
+</ul>
+
+<h3 id="発展演習分散システムの設計">発展演習：分散システムの設計</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>通信の非同期/遅延/損失を仮定し、前提を明記する</li>
+  <li>失敗検知・再送・冪等性（idempotence）を設計に含める</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>障害モデルとプロトコル骨子</li>
+  <li>安全性/活性の性質定義</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>障害モデルが明示されている</li>
+  <li>設計が性質と接続している</li>
+</ul>
+
+<h2 id="d8-第7章">D.8 第7章</h2>
+
+<h3 id="基礎理解演習1時相論理の記法理解">基礎理解演習1：時相論理の記法理解</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">[]</code>（常に）と <code class="language-plaintext highlighter-rouge">&lt;&gt;</code>（いつか）を、要求の文に対応付ける</li>
+  <li>公正性（WF/SF）は「いつか進む」の前提条件として分離する</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>各性質を <code class="language-plaintext highlighter-rouge">[]P</code> / <code class="language-plaintext highlighter-rouge">&lt;&gt;Q</code> / <code class="language-plaintext highlighter-rouge">P =&gt; &lt;&gt;Q</code> 等へ変換</li>
+  <li>公正性仮定の候補</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>安全/活性が混同されていない</li>
+  <li>公正性が前提として明示されている</li>
+</ul>
+
+<h3 id="基礎理解演習2状態と行動の記述">基礎理解演習2：状態と行動の記述</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>変数（状態）とアクション（遷移）を分けて書く</li>
+  <li><code class="language-plaintext highlighter-rouge">Init</code> と <code class="language-plaintext highlighter-rouge">Next</code> を定義し、<code class="language-plaintext highlighter-rouge">Spec == Init /\ [][Next]_vars</code> にまとめる</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>状態変数の定義</li>
+  <li>Init/Next/Invariant の雛形</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>記述がTLA+の基本形に沿っている</li>
+  <li>変数更新が一貫している</li>
+</ul>
+
+<h3 id="実践演習1相互排除プロトコルの設計">実践演習1：相互排除プロトコルの設計</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>クリティカル区間の定義と、排他不変 <code class="language-plaintext highlighter-rouge">~(crit[0] /\ crit[1])</code></li>
+  <li>活性を入れる場合は公正性仮定の過不足を点検する</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>状態（flag/turn等）とNext</li>
+  <li>不変（排他）と、必要なら活性（最終的に入れる）</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>不変が破れない</li>
+  <li>公正性の扱いが妥当</li>
+</ul>
+
+<h3 id="実践演習2生産者消費者問題">実践演習2：生産者・消費者問題</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>バッファ（有界/無界）と背圧の前提を明示する</li>
+  <li>安全性（範囲外アクセス/オーバーフロー）と活性（進行）を分離する</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>バッファ状態と操作（produce/consume）</li>
+  <li>不変：<code class="language-plaintext highlighter-rouge">0 &lt;= count &lt;= N</code> 等</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>安全/活性が切り分けられている</li>
+  <li>有界性の前提が明示されている</li>
+</ul>
+
+<h3 id="発展演習分散システムの設計-1">発展演習：分散システムの設計</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>メッセージ遅延/損失/重複の前提を明記する</li>
+  <li>再送/ACK/タイムアウトの停止条件と冪等性を設計する</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>障害モデルとプロトコル</li>
+  <li>安全性（重複処理なし等）と活性（いつか到達）の定義</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>前提と性質が整合している</li>
+  <li>再送戦略が停止条件まで含む</li>
+</ul>
+
+<h2 id="d9-第8章">D.9 第8章</h2>
+
+<h3 id="基礎理解演習1時相論理の実践">基礎理解演習1：時相論理の実践</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>「状態」と「イベント」を命題に落とし、LTL/CTLの構文へ写像する</li>
+  <li>公平性や効率性は、前提と性質を分けて記述する</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>安全：<code class="language-plaintext highlighter-rouge">AG(door_open -&gt; AX ~moving)</code>（CTL例）/ <code class="language-plaintext highlighter-rouge">[](door_open =&gt; ~moving)</code>（LTL例）</li>
+  <li>活性：<code class="language-plaintext highlighter-rouge">AG(call -&gt; AF arrive)</code>（CTL例）/ <code class="language-plaintext highlighter-rouge">[](call =&gt; &lt;&gt;arrive)</code>（LTL例）</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>CTL/LTLの使い分けが妥当</li>
+  <li>命題化（状態/イベント）が一貫</li>
+</ul>
+
+<h3 id="基礎理解演習2状態空間分析">基礎理解演習2：状態空間分析</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>カウンタ値×各プロセスの局所状態で状態数を概算する</li>
+  <li>競合は read-modify-write の分割で起こる</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>状態数の概算（値0-10＋局所状態）</li>
+  <li>競合例（lost update）</li>
+  <li>部分順序簡約が効く条件（独立な遷移の交換可能性）</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>状態数の数え方が説明できる</li>
+  <li>競合の原因が具体</li>
+</ul>
+
+<h3 id="実践演習1spin-による検証">実践演習1：SPIN による検証</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>Promelaでプロセス（reader/writer）と共有資源を定義する</li>
+  <li>安全性（同時書込なし等）を <code class="language-plaintext highlighter-rouge">assert</code> や LTL で表す</li>
+  <li>検証実行では seed/探索上限/反例を保存する</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>モデル（promela）と性質（assert/LTL）</li>
+  <li>実行ログと反例（発生時）の要約</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>性質が要求と対応</li>
+  <li>反例が再現可能</li>
+</ul>
+
+<h3 id="実践演習2nusmv-による検証">実践演習2：NuSMV による検証</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>状態変数（信号状態/センサー/要求）を定義する</li>
+  <li>安全性はCTL/LTLで不変として書く（同時青禁止等）</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>NuSMVモデルと性質</li>
+  <li>検証結果の要約（反例があればトレース）</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>安全/活性/応答が分離</li>
+  <li>反例の解釈が妥当</li>
+</ul>
+
+<h3 id="発展演習複数ツールによる段階的検証">発展演習：複数ツールによる段階的検証</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>Phaseごとに抽象度と目的（何を潰すか）を明確にする</li>
+  <li>反例は「抽象化の穴」か「設計欠陥」かを分類する</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>Phase 1-3 の成果物（仕様/モデル/実装）と発見問題の分類</li>
+  <li>ツール間の結果整合の確認</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>抽象化レベルと発見問題の関係が説明できる</li>
+  <li>成果物が再現可能</li>
+</ul>
+
+<h2 id="d10-第9章">D.10 第9章</h2>
+
+<h3 id="基礎理解演習1論理推論の形式化">基礎理解演習1：論理推論の形式化</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>命題を記号化し、自然演繹規則（導入/除去）に対応付ける</li>
+  <li>推論2は「前提が現実の知識と衝突」する例（例外の扱い）として整理する</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>推論木（規則適用順）と妥当性評価</li>
+  <li>推論2の問題点：前提 <code class="language-plaintext highlighter-rouge">∀鳥. 飛べる</code> が現実に対して過強</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>形式化が正しい</li>
+  <li>問題点が「前提の誤り」として説明できる</li>
+</ul>
+
+<h3 id="基礎理解演習2rocq旧称coqでの基本証明">基礎理解演習2：Rocq（旧称Coq）での基本証明</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">intros</code> → <code class="language-plaintext highlighter-rouge">split</code>/<code class="language-plaintext highlighter-rouge">left</code>/<code class="language-plaintext highlighter-rouge">right</code> → <code class="language-plaintext highlighter-rouge">destruct</code>/<code class="language-plaintext highlighter-rouge">apply</code> の基本流れ</li>
+  <li>量化は <code class="language-plaintext highlighter-rouge">intros x</code> で取り、<code class="language-plaintext highlighter-rouge">exists</code> は <code class="language-plaintext highlighter-rouge">exists x</code> で構成する</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>証明戦略（タクティクス列）の提示</li>
+  <li>必要なら補助補題（<code class="language-plaintext highlighter-rouge">forall</code> の分配等）を先に定義</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>証明が通る</li>
+  <li>戦略が説明できる（なぜそのタクティクスか）</li>
+</ul>
+
+<h3 id="実践演習1データ構造の証明">実践演習1：データ構造の証明</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>append/reverseは構造帰納法（<code class="language-plaintext highlighter-rouge">induction l1</code> 等）が基本</li>
+  <li>先に <code class="language-plaintext highlighter-rouge">length_append</code> 等の補助補題を揃える</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">append_assoc</code>：l1に帰納、<code class="language-plaintext highlighter-rouge">simpl</code> と <code class="language-plaintext highlighter-rouge">rewrite</code> を用いる</li>
+  <li><code class="language-plaintext highlighter-rouge">reverse_involutive</code>：<code class="language-plaintext highlighter-rouge">reverse_append</code> を補助に使う</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>補助補題の選定が妥当</li>
+  <li>証明が可読（過度な自動化に依存しない）</li>
+</ul>
+
+<h3 id="実践演習2アルゴリズムの正しさ証明">実践演習2：アルゴリズムの正しさ証明</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>sortedの保存（insert_sorted）→ 全体のsorted（insertion_sort_sorted）の順で証明する</li>
+  <li>正しさは「整列性」と「順列性」を分離する</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">insert_sorted</code> の証明骨子</li>
+  <li><code class="language-plaintext highlighter-rouge">insertion_sort_permutation</code> の証明骨子（Permutation補題の利用）</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>性質分割ができている</li>
+  <li>証明が破綻せず通る</li>
+</ul>
+
+<h3 id="発展演習実用的検証プロジェクト">発展演習：実用的検証プロジェクト</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>対象を小さく切り、証明すべき性質（可逆性、不変保存等）を固定する</li>
+  <li>実装より先に仕様（Prop）を定義し、証明が通る形へ調整する</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>選択したオプションと、仕様・不変・証明計画</li>
+  <li>発見した前提（境界条件、データ型制約）の整理</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>スコープが適切</li>
+  <li>実用上の示唆（何がコピー可能か）がある</li>
+</ul>
+
+<h2 id="d11-第10章">D.11 第10章</h2>
+
+<h3 id="基礎理解演習1hoare論理の基本">基礎理解演習1：Hoare論理の基本</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>代入は代入公理（事後条件への代入）で逆算する</li>
+  <li>条件分岐は分岐ごとの三項組を作り、合成する</li>
+  <li>ループは不変条件を置き、初期化/保持/終了で示す</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>課題1-1：<code class="language-plaintext highlighter-rouge">{True} x:=y+2; z:=x*3 {z=3*(y+2)}</code>（中間条件を含めてもよい）</li>
+  <li>課題1-2：分岐で <code class="language-plaintext highlighter-rouge">result=|x|</code> を意識</li>
+  <li>課題1-3：不変 <code class="language-plaintext highlighter-rouge">sum = (i-1)*i/2</code> 等を置く</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>不変が正しく、推論が成立</li>
+  <li>事前条件が過強/過弱でない</li>
+</ul>
+
+<h3 id="基礎理解演習2ループ不変条件の発見">基礎理解演習2：ループ不変条件の発見</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>「処理済み範囲」に対する性質を不変にする</li>
+  <li>停止性は変位関数（残り要素数等）で示す</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>線形探索：<code class="language-plaintext highlighter-rouge">i</code> 未満にtargetがない/ある場合の関係</li>
+  <li>最大値探索：<code class="language-plaintext highlighter-rouge">max</code> は <code class="language-plaintext highlighter-rouge">array[0..i-1]</code> の最大</li>
+  <li>挿入ソート：外側ループで <code class="language-plaintext highlighter-rouge">0..i-1</code> が整列済み</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>不変が初期化/保持/終了を満たす</li>
+  <li>変位関数が妥当</li>
+</ul>
+
+<h3 id="実践演習1配列操作の検証">実践演習1：配列操作の検証</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>仕様（事前/事後）を最初に固定する（ソートなら順序＋順列）</li>
+  <li>境界条件（配列範囲）を不変と同等に扱う</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>選んだアルゴリズムの仕様（正しさ・停止性）</li>
+  <li>主要不変と証明手順（骨子）</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>性質分割（正しさ/停止性/安全）ができている</li>
+  <li>証明が追える</li>
+</ul>
+
+<h3 id="実践演習2ツールを用いた検証">実践演習2：ツールを用いた検証</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>Dafny等では <code class="language-plaintext highlighter-rouge">requires/ensures/invariant</code> を先に書く</li>
+  <li>検証に通らない場合は、不変の弱さ/不足を疑う</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>実装コード（仕様注釈付き）</li>
+  <li>検証実行ログ</li>
+  <li>つまずきと修正（不変強化、境界条件）</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>機械検証が通っている</li>
+  <li>失敗時の修正が説明できる</li>
+</ul>
+
+<h3 id="発展演習実用的システムの部分検証">発展演習：実用的システムの部分検証</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>対象範囲を限定し、性質を3つ程度に絞る</li>
+  <li>仕様→テスト/CIへの統合まで書けると実務価値が上がる</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>対象選定理由</li>
+  <li>性質、仕様、検証アプローチ</li>
+  <li>発見問題と改善提案</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>スコープと性質が妥当</li>
+  <li>実用化の課題が言語化されている</li>
+</ul>
+
+<h2 id="d12-第11章">D.12 第11章</h2>
+
+<h3 id="理解確認演習1導入戦略の評価">理解確認演習1：導入戦略の評価</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>段階導入（小さく始める）に反していないかを確認する</li>
+  <li>KPIは「再現率」「MTTR」「重大障害の減少」等に落とす</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>計画の問題点（過大/全社一律/短期評価）</li>
+  <li>段階導入案（パイロット→拡散）とKPI</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>現実的な計画に修正できている</li>
+  <li>KPIが測定可能</li>
+</ul>
+
+<h3 id="理解確認演習2組織文化分析">理解確認演習2：組織文化分析</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>技術課題と文化課題を分ける</li>
+  <li>抵抗の原因を「負担増」「評価不安」「スキル差」などに分解する</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>現状文化の特徴</li>
+  <li>障害要因/促進要因</li>
+  <li>変革戦略（教育、標準化、成功体験）</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>分析が具体</li>
+  <li>施策が実行可能</li>
+</ul>
+
+<h3 id="実践演習1roi分析">実践演習1：ROI分析</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>バグ修正コスト差分（上流で潰す効果）をベースに試算する</li>
+  <li>前提は必ず明示し、感度分析（±）を入れる</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>前提と算式</li>
+  <li>導入コストと削減効果の比較</li>
+  <li>不確実性（前提依存）とリスク</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>計算根拠が追える</li>
+  <li>前提の妥当性が説明できる</li>
+</ul>
+
+<h3 id="実践演習2プロセス統合設計">実践演習2：プロセス統合設計</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>PR/夜間/リリース前の段階化（図11-1）で配置する</li>
+  <li>失敗時のartifact保存と再現手順を必須にする</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>ゲート設計（強制/ソフト）</li>
+  <li>例外フロー（承認者、期限、ロールバック）</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>再現性と運用が担保されている</li>
+  <li>例外が常態化しない設計</li>
+</ul>
+
+<h3 id="発展演習包括的導入計画">発展演習：包括的導入計画</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>人材・プロセス・ツールの3軸でロードマップ化する</li>
+  <li>失敗パターン（過大導入、ツール分断）を先に潰す</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>1年計画（段階、成果物、教育）</li>
+  <li>合意形成とガバナンス</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>実行計画が段階的</li>
+  <li>ガバナンスが明確</li>
+</ul>
+
+<h2 id="d13-第12章">D.13 第12章</h2>
+
+<h3 id="理解確認演習1ツール選択マトリクス">理解確認演習1：ツール選択マトリクス</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>問題領域（安全クリティカル、並行、分散）と手法の適合を整理</li>
+  <li>学習/運用コスト、CI統合の容易さを評価軸に含める</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>ツール候補と選定理由（要件/制約/リスク）</li>
+  <li>18ヶ月の段階計画（導入→定着）</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>評価軸が明確</li>
+  <li>計画が現実的</li>
+</ul>
+
+<h3 id="理解確認演習2cicd統合設計">理解確認演習2：CI/CD統合設計</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>PRの最小検証は「短い・安定・再現可能」に寄せる</li>
+  <li>夜間で偽陰性を下げ、リリース前でクリティカル性質を確定する</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>PR/夜間/リリース前のジョブ構成</li>
+  <li>artifact保存と例外承認</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>段階化が妥当</li>
+  <li>反例の運用が設計されている</li>
+</ul>
+
+<h3 id="実践演習1コード生成戦略">実践演習1：コード生成戦略</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>生成物は「未信頼」として扱い、検証器で閉じる</li>
+  <li>仕様差分と実装差分を同期させる</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>生成対象（仕様/テスト/契約）とレビュー観点</li>
+  <li>検証とCIゲートの設計</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>信用境界が明確</li>
+  <li>再現性が確保されている</li>
+</ul>
+
+<h3 id="実践演習2ツール導入失敗の事例分析">実践演習2：ツール導入失敗の事例分析</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>失敗要因を「技術」「プロセス」「組織」で分類する</li>
+  <li>再発防止はチェックリスト化する</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>失敗要因の分類</li>
+  <li>改善策（段階導入、テンプレ、CI統合）</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>原因分析が具体</li>
+  <li>改善策が運用に落ちている</li>
+</ul>
+
+<h3 id="発展演習統合ツールチェーン設計">発展演習：統合ツールチェーン設計</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>ツール間の成果物（仕様/ログ/反例）を共通フォーマットで管理する</li>
+  <li>キャッシュ/バージョン固定で再現性を担保する</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>ツールチェーン構成図</li>
+  <li>依存固定、artifact、例外フロー</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>再現可能性が説明できる</li>
+  <li>運用コストが現実的</li>
+</ul>
+
+<h2 id="d14-第13章">D.14 第13章</h2>
+
+<h3 id="理解確認演習1事例比較分析">理解確認演習1：事例比較分析</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>技術/組織/経済/外部要因で比較表に落とす</li>
+  <li>「コピー可能な教訓」と「固有事情」を分離する</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>比較表</li>
+  <li>共通成功要因と差異</li>
+  <li>適用判断の観点</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>比較軸が体系的</li>
+  <li>教訓が一般化されている</li>
+</ul>
+
+<h3 id="理解確認演習2業界適用可能性分析">理解確認演習2：業界適用可能性分析</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>規制/安全要求/障害モデルが強い業界ほど適用価値が高い</li>
+  <li>まず「小さく検証できる領域」から入る</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>対象業界のリスクと、適用候補領域</li>
+  <li>導入ステップとKPI</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>業界特性が反映されている</li>
+  <li>導入が段階的</li>
+</ul>
+
+<h3 id="実践演習1事例詳細調査">実践演習1：事例詳細調査</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>一次・準一次情報を最低3件参照し、主張に出典を付与する</li>
+  <li>何を保証したか（性質）と、どう再現できるか（最小セット）を書く</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>出典リスト</li>
+  <li>性質と再現手順の要約</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>出典が適切</li>
+  <li>再現可能性が示されている</li>
+</ul>
+
+<h3 id="実践演習2導入計画策定">実践演習2：導入計画策定</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>重要性（クリティカル度）で対象を選別する</li>
+  <li>CI統合と例外フローを計画に含める</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>対象選定、検証手法、段階導入、KPI</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>計画が現実的</li>
+  <li>ガードレールがある</li>
+</ul>
+
+<h3 id="発展演習未来シナリオ分析">発展演習：未来シナリオ分析</h3>
+
+<p>ヒント（段階）</p>
+<ol>
+  <li>技術進歩（AI/検証自動化）と規制強化を前提にシナリオを複数作る</li>
+  <li>不確実性は仮説として分離し、根拠（出典/前提）を併記する</li>
+</ol>
+
+<p>模範解答（骨子）</p>
+<ul>
+  <li>シナリオ2-3本と、前提・影響・対応策</li>
+</ul>
+
+<p>採点観点</p>
+<ul>
+  <li>仮説と事実が分離</li>
+  <li>示唆が実務に落ちる</li>
+</ul>
+
+<h2 id="d15-ai利用時の提出テンプレ共通">D.15 AI利用時の提出テンプレ（共通）</h2>
+
+<p>AIの出力は「提案」として扱い、合否は検証器で判定します。提出物は以下を満たしてください。</p>
+
+<ul>
+  <li>使用したプロンプト（要件/制約を含む）</li>
+  <li>生成された仕様・不変条件</li>
+  <li>検証コマンドとログ（seed/深さ/スコープ/所要時間）</li>
+  <li>反例が出た場合の修正履歴（差分と再検証ログ）</li>
+</ul>
+
+<p>提出フォーマット（例）:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## 使用プロンプト
+...
+
+## 生成された仕様
+...
+
+## 検証ログ
+command: ...
+seed: ...
+depth/scope: ...
+result: ...
+
+## 反例と修正
+counterexample: ...
+fix: ...
+recheck: ...
+</code></pre></div></div>
+
+                </article>
+
+                
+                <nav class="page-navigation" aria-label="ページナビゲーション">
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+
+
+
+
+
+<nav class="book-navigation" aria-label="ページナビゲーション">
+  <div class="chapter-nav">
+    
+      <a href="/formal-methods-book/appendices/appendix-c/" class="nav-prev" rel="prev">
+        <span class="arrow" aria-hidden="true">←</span>
+        <span class="label">前へ</span>
+        <span class="title">付録C: 記法対照表</span>
+      </a>
+    
+
+    <a href="/formal-methods-book/" class="nav-home">
+      <span class="label">目次へ</span>
+    </a>
+
+    
+      <a href="/formal-methods-book/appendices/appendix-e/" class="nav-next" rel="next">
+        <span class="label">次へ</span>
+        <span class="title">付録E: 参考文献とWebリソース</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    
+  </div>
+</nav>
+
+<style>
+.book-navigation { margin: 2rem 0; padding: 1rem; border-top: 1px solid var(--border-color, #e5e7eb); }
+.chapter-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.nav-prev, .nav-next, .nav-home { display: flex; align-items: center; padding: 0.75rem 1.25rem; background: var(--bg-primary, #fff); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; text-decoration: none; color: inherit; }
+.nav-disabled { opacity: .5; cursor: not-allowed; background: var(--bg-tertiary, #f9fafb); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; padding: 0.75rem 1.25rem; display: flex; align-items: center; }
+.nav-prev { flex: 1; }
+.nav-next { flex: 1; justify-content: flex-end; text-align: right; }
+.nav-home { flex: 0 0 auto; justify-content: center; }
+.label { font-weight: 600; margin: 0 .25rem; }
+.title { font-size: .9rem; opacity: .8; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 768px) { .chapter-nav { flex-wrap: wrap; } .nav-prev, .nav-next { flex: 1 1 45%; } .nav-home { flex: 1 1 100%; order: -1; } .title { display: none; } }
+</style>
+
+                </nav>
+                
+
+                
+                <div class="edit-page">
+                    <a href="https://github.com/itdojp/formal-methods-book/edit/main/src/ja/appendices/appendix-d.md"
+                       target="_blank"
+                       rel="noopener"
+                       class="edit-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                            <path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4Z"></path>
+                        </svg>
+                        GitHub で原稿を編集
+                    </a>
+                </div>
+                
+
+                <footer class="book-footer" role="contentinfo">
+                    <div class="book-footer-inner">
+                        <div class="book-footer-license">
+                            本文: CC BY-NC-SA 4.0 / コード資産: Apache-2.0 / 商標・第三者資産を除く
+                        </div>
+                        <div class="book-footer-links">
+                            
+                                <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener">GitHub</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/LICENSE-SCOPE.md" target="_blank" rel="noopener">ライセンス</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/COMMERCIAL.md" target="_blank" rel="noopener">商用利用</a>
+                            
+                            
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <label for="sidebar-toggle-checkbox" class="book-sidebar-overlay" id="sidebar-overlay" aria-label="サイドバーを閉じる"></label>
+
+    <script async src="/formal-methods-book/assets/js/code-copy-lightweight.js"></script>
+    <script defer src="/formal-methods-book/assets/js/theme.js"></script>
+    <script defer src="/formal-methods-book/assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var cb = document.getElementById('sidebar-toggle-checkbox');
+            var toggle = document.querySelector('.sidebar-toggle');
+            if (cb) cb.checked = false;
+            if (cb && toggle) {
+                var sync = function() {
+                    toggle.setAttribute('aria-expanded', cb.checked ? 'true' : 'false');
+                };
+                sync();
+                cb.addEventListener('change', sync);
+                toggle.addEventListener('keydown', function(e) {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        cb.checked = !cb.checked;
+                        cb.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        (function() {
+            function initTocAutoScroll() {
+                var cb = document.getElementById('sidebar-toggle-checkbox');
+                if (!cb) return;
+
+                function normalizePath(p) {
+                    var path = String(p || '').replace(/index\.html$/, '');
+                    if (path.length > 1) {
+                        path = path.replace(/\/+$/, '');
+                    }
+                    return path || '/';
+                }
+
+                function isMobileDrawer() {
+                    try {
+                        if (typeof window.matchMedia === 'function') {
+                            return window.matchMedia('(max-width: 1024px)').matches;
+                        }
+                    } catch (_) {}
+                    return typeof window.innerWidth === 'number' ? window.innerWidth <= 1024 : true;
+                }
+
+                function findActiveTocLink() {
+                    var current = normalizePath(window.location.pathname);
+                    var actives = document.querySelectorAll('a.toc-link.active');
+                    if (!actives || actives.length === 0) return null;
+
+                    for (var i = 0; i < actives.length; i++) {
+                        var a = actives[i];
+                        if (!a || !a.href) continue;
+                        try {
+                            var pathname = normalizePath(new URL(a.href).pathname);
+                            if (pathname === current) return a;
+                        } catch (_) {}
+                    }
+                    return actives[0];
+                }
+
+                function ensureActiveTocVisible() {
+                    if (!cb.checked) return;
+                    if (!isMobileDrawer()) return;
+
+                    var active = findActiveTocLink();
+                    if (!active) return;
+
+                    var sidebar = active.closest('.book-sidebar') || document.getElementById('sidebar');
+                    if (!sidebar) return;
+
+                    try {
+                        var linkRect = active.getBoundingClientRect();
+                        var sidebarRect = sidebar.getBoundingClientRect();
+                        var marginTop = 8;
+                        var marginBottom = 8;
+                        try {
+                            if (window.getComputedStyle) {
+                                var cs = window.getComputedStyle(sidebar);
+                                if (cs) {
+                                    var pt = parseFloat(cs.paddingTop);
+                                    var pb = parseFloat(cs.paddingBottom);
+                                    if (!isNaN(pt)) marginTop = pt;
+                                    if (!isNaN(pb)) marginBottom = pb;
+                                }
+                            }
+                        } catch (_) {}
+
+                        var top = sidebarRect.top + marginTop;
+                        var bottom = sidebarRect.bottom - marginBottom;
+                        var outOfView = linkRect.top < top || linkRect.bottom > bottom;
+
+                        if (outOfView && typeof active.scrollIntoView === 'function') {
+                            try {
+                                active.scrollIntoView({ block: 'center', behavior: 'auto' });
+                            } catch (e) {
+                                active.scrollIntoView();
+                            }
+                        }
+                    } catch (_) {}
+                }
+
+                function scheduleEnsure() {
+                    setTimeout(ensureActiveTocVisible, 0);
+                    setTimeout(ensureActiveTocVisible, 350);
+                }
+
+                cb.addEventListener('change', function() {
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+
+                if (cb.checked) {
+                    scheduleEnsure();
+                }
+
+                window.addEventListener('pageshow', function(e) {
+                    if (!e || !e.persisted) return;
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initTocAutoScroll);
+            } else {
+                initTocAutoScroll();
+            }
+        })();
+    </script>
+</body>
+</html>

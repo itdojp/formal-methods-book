@@ -1,0 +1,976 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta name="author" content="太田和彦（株式会社アイティードゥ）">
+
+    <title>Glossary - Formal Methods: Foundations and Applications</title>
+
+    <link rel="canonical" href="https://itdojp.github.io/formal-methods-book/en/glossary/">
+    <link rel="alternate" hreflang="ja" href="https://itdojp.github.io/formal-methods-book/glossary/">
+    <link rel="alternate" hreflang="en" href="https://itdojp.github.io/formal-methods-book/en/glossary/">
+    <link rel="alternate" hreflang="x-default" href="https://itdojp.github.io/formal-methods-book/">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/main.css">
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/syntax-highlighting.css">
+
+    <link rel="icon" type="image/png" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+    <link rel="apple-touch-icon" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+
+    <meta property="og:title" content="Glossary">
+    <meta property="og:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://itdojp.github.io/formal-methods-book/en/glossary/">
+    <meta property="og:locale" content="en_US">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Glossary">
+    <meta name="twitter:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+
+    <script>
+        (function() {
+            try {
+                const k = 'book-theme';
+                const t = localStorage.getItem(k) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (_) {}
+        })();
+    </script>
+</head>
+<body>
+    
+    
+    
+    
+    
+
+    <input type="checkbox" id="sidebar-toggle-checkbox" class="sidebar-toggle-checkbox" aria-hidden="true">
+
+    <div class="book-layout">
+        <header class="book-header">
+            <div class="header-left">
+                <label for="sidebar-toggle-checkbox" class="sidebar-toggle" aria-label="Toggle sidebar" role="button" tabindex="0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </label>
+                <a href="/formal-methods-book/en/" class="header-title">
+                    <h1>Formal Methods: Foundations and Applications</h1>
+                </a>
+            </div>
+
+            <div class="header-center">
+                <div class="search-container">
+                    <input type="search"
+                           placeholder="Search..."
+                           class="search-input"
+                           id="search-input"
+                           autocomplete="off">
+                    <div class="search-results" id="search-results"></div>
+                </div>
+            </div>
+
+            <div class="header-right">
+                
+
+
+
+
+
+
+
+
+
+
+<a href="/formal-methods-book/glossary/"
+   class="language-switcher"
+   hreflang="ja"
+   lang="ja"
+   >
+    日本語
+</a>
+
+                <button class="theme-toggle" aria-label="Toggle theme">
+                    <svg class="theme-icon theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="theme-icon theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+
+                
+            </div>
+        </header>
+
+        <aside class="book-sidebar" id="sidebar">
+            <nav class="sidebar-nav" role="navigation" aria-label="Main navigation">
+                
+
+
+
+
+
+
+
+
+
+
+<div class="sidebar-content">
+    <div class="book-info">
+        <h2 class="book-title"><a href="/formal-methods-book/en/" class="header-title">Formal Methods: Foundations and Applications</a></h2>
+        
+        <p class="book-subtitle">An Integrated Understanding of Specification, Model Checking, and Theorem Proving</p>
+        
+    </div>
+
+    <div class="toc">
+        <h3 class="toc-title">Contents</h3>
+
+        <div class="toc-section">
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/" class="toc-link ">
+                        Home
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Introduction</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/introduction/" class="toc-link ">
+                        Introduction
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Chapters</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter01/" class="toc-link ">
+                        Chapter 1: Why Formal Methods Matter
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter02/" class="toc-link ">
+                        Chapter 2: Bridging Mathematics and Programs
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter03/" class="toc-link ">
+                        Chapter 3: Foundations of Specification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter04/" class="toc-link ">
+                        Chapter 4: Introduction to Lightweight Formal Methods — Specification with Alloy
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter05/" class="toc-link ">
+                        Chapter 5: State-Based Specification — Fundamentals of Z Notation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter06/" class="toc-link ">
+                        Chapter 6: Process-Centric Specification — Concurrency with CSP
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter07/" class="toc-link ">
+                        Chapter 7: Specifying Time — Introduction to TLA+
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter08/" class="toc-link ">
+                        Chapter 8: Introduction to Model Checking
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter09/" class="toc-link ">
+                        Chapter 9: Fundamentals of Theorem Proving
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter10/" class="toc-link ">
+                        Chapter 10: Program Verification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter11/" class="toc-link ">
+                        Chapter 11: Integrating Formal Methods into Development Processes
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter12/" class="toc-link ">
+                        Chapter 12: Tools and Automation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter13/" class="toc-link ">
+                        Chapter 13: Case Studies
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Additional</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/glossary/" class="toc-link active">
+                        Glossary
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Appendices</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-a/" class="toc-link ">
+                        Appendix A: Mathematics Refresher
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-b/" class="toc-link ">
+                        Appendix B: Tool Setup and Verification Quick Start
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-c/" class="toc-link ">
+                        Appendix C: Notation Cross-Reference
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-d/" class="toc-link ">
+                        Appendix D: Exercise Guides and Self-Review Frameworks
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-e/" class="toc-link ">
+                        Appendix E: References and Further Reading Paths
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-f/" class="toc-link ">
+                        Appendix F: Practical Playbook for AI-Assisted Formal Methods
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Afterword</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/afterword/" class="toc-link ">
+                        Afterword
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="external-links">
+            
+            <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener" class="external-link">GitHub</a>
+            
+            
+        </div>
+    </div>
+</div>
+
+            </nav>
+        </aside>
+
+        <main class="book-main" id="main">
+            <div class="book-content">
+                
+                    
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb-list">
+    <li class="breadcrumb-item">
+        <a href="/formal-methods-book/en/" class="breadcrumb-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span class="sr-only">Home</span>
+        </a>
+    </li>
+
+    
+        
+    
+        
+    
+        
+            
+            
+            
+                <li class="breadcrumb-item active" aria-current="page">
+                    Glossary
+                </li>
+            
+        
+    
+</ol>
+
+<style>
+.breadcrumb-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    font-size: 0.875rem;
+    flex-wrap: wrap;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb-item:not(:last-child)::after {
+    content: '/';
+    margin: 0 0.5rem;
+    color: var(--text-muted);
+}
+
+.breadcrumb-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.breadcrumb-link:hover {
+    color: var(--primary-color);
+}
+
+.breadcrumb-item.active {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (max-width: 768px) {
+    .breadcrumb-list {
+        font-size: 0.75rem;
+    }
+
+    .breadcrumb-item:not(:last-child)::after {
+        margin: 0 0.375rem;
+    }
+}
+</style>
+
+                
+
+                <article class="page-content">
+                    <h1 id="glossary">Glossary</h1>
+
+<p>This glossary collects technical terms and abbreviations that appear repeatedly
+throughout the book. The definitions prioritize the way each term is used in
+this book. When stricter distinctions matter, refer to the appendices or to
+primary sources.</p>
+
+<h2 id="how-to-use-this-glossary">How to Use This Glossary</h2>
+
+<p>This glossary is designed for fast re-entry. If you return to the book after a
+break, use it to recover the meaning of a term, re-establish the distinction
+between similar ideas, and jump back to the relevant chapter. Definitions are
+kept short on purpose. When the technical boundary matters, the listed chapter
+should be treated as the primary explanation. Use Appendix B when the term is
+mainly about tool setup, Appendix C when the issue is notation, and Appendix E
+when you need primary sources.</p>
+
+<h2 id="0-acronyms">0) Acronyms</h2>
+
+<ul>
+  <li><strong>SAT</strong>: Satisfiability. The satisfiability problem for propositional logic.
+Some tools such as Alloy reduce internal checks to SAT solving.</li>
+  <li><strong>SMT</strong>: Satisfiability Modulo Theories. A framework that combines
+satisfiability checking with theories such as equality, arithmetic, and
+arrays.</li>
+  <li><strong>LTL / CTL</strong>: Linear Temporal Logic and Computation Tree Logic. Temporal
+logics used to describe properties in model checking.</li>
+  <li><strong>CI</strong>: Continuous Integration. Automated validation gates used for pull
+requests, nightly checks, and release preparation.</li>
+  <li><strong>HOL</strong>: Higher-Order Logic. A family of logics used by systems such as
+Isabelle/HOL.</li>
+  <li><strong>RMW</strong>: Read-Modify-Write. A common concurrent update pattern that can lead
+to lost updates.</li>
+</ul>
+
+<h2 id="a">A</h2>
+
+<p><strong>Abstraction</strong>: The act of omitting details in order to focus on the
+properties relevant to reasoning or verification. A useful model is abstract
+enough to be analyzable but concrete enough to preserve the question being
+asked. See Chapters 3, 4, and 8.</p>
+
+<p><strong>Alloy</strong>: A representative lightweight formal-methods tool. It combines a
+relational modeling language with an analyzer that searches for counterexamples.
+See Chapter 4.</p>
+
+<p><strong>Apalache</strong>: An SMT-based checker for TLA+ specifications. It is useful when
+you want symbolic or bounded exploration in addition to TLC’s explicit-state
+model checking. See Chapters 7, 8, and Appendix B.</p>
+
+<p><strong>Assertion</strong>: A statement of a property that should hold. In Alloy this is
+expressed with <code class="language-plaintext highlighter-rouge">assert</code>; in program verification it can also mean an explicit
+check embedded in an implementation. See Chapters 4 and 10.</p>
+
+<h2 id="b">B</h2>
+
+<p><strong>BDD (Binary Decision Diagram)</strong>: A data structure for representing Boolean
+functions efficiently. It is used in symbolic model checking. See Chapter 8.</p>
+
+<h2 id="c">C</h2>
+
+<p><strong>Contract</strong>: An explicit statement of what must hold before an operation and
+what is guaranteed after it. Contracts often make preconditions and
+postconditions visible to both implementers and reviewers. See Chapters 3 and
+10.</p>
+
+<p><strong>Counterexample</strong>: A concrete execution, trace, or state assignment that
+shows why a claimed property does not hold. In practice, counterexamples are
+often the most valuable output of a verifier because they direct debugging and
+model revision. See Chapters 4, 7, and 8.</p>
+
+<p><strong>CSP (Communicating Sequential Processes)</strong>: A framework for describing
+concurrent systems as compositions of processes and communication events. See
+Chapter 6.</p>
+
+<p><strong>CTL (Computation Tree Logic)</strong>: A branching-time temporal logic used to
+express reachability and branching properties. See Chapter 8.</p>
+
+<p><strong>Curry-Howard correspondence</strong>: The view that propositions correspond to
+types, and proofs correspond to programs. See Chapter 9.</p>
+
+<h2 id="d">D</h2>
+
+<p><strong>Dafny</strong>: A verification-oriented programming language and toolchain for
+writing implementations together with contracts, invariants, and proofs. See
+Chapters 9, 10, and 12.</p>
+
+<p><strong>Deadlock</strong>: A state in which multiple processes wait on one another and no
+further progress is possible. See Chapters 6 and 8.</p>
+
+<h2 id="f">F</h2>
+
+<p><strong>Fairness</strong>: An assumption about scheduling or progress used when reasoning
+about liveness. If it is too strong, a property may appear to hold only because
+of the assumption. See Chapter 7.</p>
+
+<p><strong>Formal specification</strong>: A mathematically precise description of required
+system behavior. Its purpose is to reduce ambiguity, expose hidden assumptions,
+and support systematic analysis. See Chapters 3-7.</p>
+
+<h2 id="h">H</h2>
+
+<p><strong>Hoare logic</strong>: A logical system for reasoning about program correctness using
+preconditions, commands, and postconditions. See Chapter 10.</p>
+
+<p><strong>Hoare triple</strong>: An expression of the form <code class="language-plaintext highlighter-rouge">{P} S {Q}</code>, where <code class="language-plaintext highlighter-rouge">P</code> is a
+precondition, <code class="language-plaintext highlighter-rouge">S</code> is a program fragment, and <code class="language-plaintext highlighter-rouge">Q</code> is a postcondition. See
+Chapter 10.</p>
+
+<h2 id="i">I</h2>
+
+<p><strong>Invariant</strong>: A property that must always hold. In model checking, violations
+are typically shown as counterexamples. See Chapters 3, 7, and 8.</p>
+
+<p><strong>Isabelle/HOL</strong>: A proof assistant centered on higher-order logic. It is often
+used for mechanized proofs, proof documentation, and larger proof libraries.
+See Chapters 9 and 10.</p>
+
+<h2 id="l">L</h2>
+
+<p><strong>Lean 4</strong>: A proof assistant and programming language based on dependent type
+theory. In this book, it is presented as an engineering option for maintainable
+proof assets rather than as the only proof workflow. See Chapter 9 and
+Appendix B.</p>
+
+<p><strong>Liveness</strong>: A property stating that “something good eventually happens.”
+Liveness claims are often sensitive to assumptions such as fairness. See
+Chapter 8.</p>
+
+<p><strong>LTL (Linear Temporal Logic)</strong>: A temporal logic for expressing properties
+along a single line of time. See Chapters 7 and 8.</p>
+
+<p><strong>Loop invariant</strong>: A condition that remains true during every iteration of a
+loop. It is central to proving partial and total correctness. See Chapter 10.</p>
+
+<h2 id="m">M</h2>
+
+<p><strong>Model checking</strong>: A technique that explores a system’s state space and
+automatically determines whether a property holds. See Chapter 8.</p>
+
+<h2 id="p">P</h2>
+
+<p><strong>Partial correctness</strong>: The property that if a program terminates, the result
+satisfies the required postcondition. It does not by itself prove termination.
+See Chapter 10.</p>
+
+<p><strong>Postcondition</strong>: A condition that must hold after an operation or program
+fragment finishes, assuming the precondition held at the start. See Chapters 3
+and 10.</p>
+
+<p><strong>Precondition</strong>: A condition that must hold before an operation or program
+fragment starts for the promised result to be valid. See Chapters 3 and 10.</p>
+
+<p><strong>Proof assistant</strong>: A software system that supports the construction and
+checking of formal proofs. Examples discussed in this book include Rocq, Lean,
+and Isabelle/HOL. See Chapters 9 and 12.</p>
+
+<p><strong>Proof obligation</strong>: A logical claim that must be discharged for a proof or
+verification argument to go through. Tools may generate proof obligations
+automatically from contracts, invariants, or program structure. See Chapters 8,
+9, and 10.</p>
+
+<p><strong>Promela</strong>: The modeling language used by SPIN for concurrent systems. It is
+suited to describing processes, communication, and interleavings. See Chapters
+6 and 8.</p>
+
+<h2 id="r">R</h2>
+
+<p><strong>Refinement</strong>: The process of turning an abstract specification into a more
+concrete design or implementation while preserving the essential properties of
+the original specification. See Chapters 3, 5, and 10.</p>
+
+<p><strong>Rocq</strong>: The proof assistant formerly known as Coq. It is based on type
+theory and is used in this book as a representative environment for
+mechanized proofs. See Chapters 9, 10, and Appendix E.</p>
+
+<h2 id="s">S</h2>
+
+<p><strong>Safety</strong>: A property stating that “something bad never happens.” Such
+properties are often expressed as invariants. See Chapter 8.</p>
+
+<p><strong>Schema</strong>: In Z notation, a structured unit that groups declarations and
+constraints. Schemas are used to describe states, operations, and related
+conditions. See Chapter 5.</p>
+
+<p><strong>Specification</strong>: A precise statement of what a system must do, independent of
+how that behavior is implemented. In this book, specification is the bridge
+between informal requirements and verifiable properties. See Chapters 3-7.</p>
+
+<p><strong>SPIN</strong>: A model checker for concurrent systems centered on the Promela
+language. See Chapters 6 and 8.</p>
+
+<p><strong>State space</strong>: The set of states a system can take. Its size is a central
+concern in verification. See Chapter 8.</p>
+
+<p><strong>State explosion problem</strong>: The problem that the number of reachable states
+can grow exponentially, making verification difficult. See Chapter 8.</p>
+
+<p><strong>State transition</strong>: A change from one system state to another caused by an
+operation, command, or event. State-transition thinking is central to TLA+,
+model checking, and many verification arguments in this book. See Chapters 7,
+8, and 10.</p>
+
+<h2 id="t">T</h2>
+
+<p><strong>TLA+</strong>: A specification language for distributed and concurrent systems based
+on state transitions and temporal logic. See Chapter 7.</p>
+
+<p><strong>Temporal logic</strong>: A family of logics used to describe how properties evolve
+over time. LTL and CTL are representative examples discussed in this book. See
+Chapters 7 and 8.</p>
+
+<p><strong>Theorem proving</strong>: A style of verification that establishes correctness by
+constructing a proof rather than exhaustively exploring a state space. See
+Chapter 9.</p>
+
+<p><strong>TLC</strong>: The model checker for TLA+ specifications. See Chapters 7 and 8.</p>
+
+<p><strong>Total correctness</strong>: The claim that a program not only satisfies the required
+postcondition when it terminates, but also does terminate. See Chapter 10.</p>
+
+<p><strong>Trace</strong>: A sequence of state transitions. Counterexamples are often presented
+as traces. See Chapter 8.</p>
+
+<p><strong>Type theory</strong>: A logical foundation used by many proof assistants, where
+types and propositions are closely connected. It is central to Rocq, Lean, and
+the discussion in Chapter 9. See Chapter 9.</p>
+
+<h2 id="v">V</h2>
+
+<p><strong>Verification condition</strong>: A logical obligation generated from a program or
+specification that must be proved for a correctness claim to hold. See Chapter
+10.</p>
+
+<h2 id="z">Z</h2>
+
+<p><strong>Z notation</strong>: A state-based formal specification language that uses schemas
+to describe states and operations. See Chapter 5.</p>
+
+<h2 id="related-links">Related Links</h2>
+
+<ul>
+  <li><a href="/formal-methods-book/en/appendices/appendix-a/">Appendix A: Mathematics Refresher</a></li>
+  <li><a href="/formal-methods-book/en/appendices/appendix-b/">Appendix B: Tool Setup and Verification Quick Start</a></li>
+  <li><a href="/formal-methods-book/en/appendices/appendix-c/">Appendix C: Notation Cross-Reference</a></li>
+  <li><a href="/formal-methods-book/en/appendices/appendix-e/">Appendix E: References and Further Reading Paths</a></li>
+</ul>
+
+                </article>
+
+                
+                <nav class="page-navigation" aria-label="Page navigation">
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+
+
+
+
+
+<nav class="book-navigation" aria-label="Page navigation">
+  <div class="chapter-nav">
+    
+      <a href="/formal-methods-book/en/chapters/chapter13/" class="nav-prev" rel="prev">
+        <span class="arrow" aria-hidden="true">←</span>
+        <span class="label">Previous</span>
+        <span class="title">Chapter 13: Case Studies</span>
+      </a>
+    
+
+    <a href="/formal-methods-book/en/" class="nav-home">
+      <span class="label">Contents</span>
+    </a>
+
+    
+      <a href="/formal-methods-book/en/appendices/appendix-a/" class="nav-next" rel="next">
+        <span class="label">Next</span>
+        <span class="title">Appendix A: Mathematics Refresher</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    
+  </div>
+</nav>
+
+<style>
+.book-navigation { margin: 2rem 0; padding: 1rem; border-top: 1px solid var(--border-color, #e5e7eb); }
+.chapter-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.nav-prev, .nav-next, .nav-home { display: flex; align-items: center; padding: 0.75rem 1.25rem; background: var(--bg-primary, #fff); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; text-decoration: none; color: inherit; }
+.nav-disabled { opacity: .5; cursor: not-allowed; background: var(--bg-tertiary, #f9fafb); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; padding: 0.75rem 1.25rem; display: flex; align-items: center; }
+.nav-prev { flex: 1; }
+.nav-next { flex: 1; justify-content: flex-end; text-align: right; }
+.nav-home { flex: 0 0 auto; justify-content: center; }
+.label { font-weight: 600; margin: 0 .25rem; }
+.title { font-size: .9rem; opacity: .8; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 768px) { .chapter-nav { flex-wrap: wrap; } .nav-prev, .nav-next { flex: 1 1 45%; } .nav-home { flex: 1 1 100%; order: -1; } .title { display: none; } }
+</style>
+
+                </nav>
+                
+
+                
+
+                <footer class="book-footer" role="contentinfo">
+                    <div class="book-footer-inner">
+                        <div class="book-footer-license">
+                            Reader-facing text: CC BY-NC-SA 4.0 / Code assets: Apache-2.0 / excluding trademarks and third-party assets
+                        </div>
+                        <div class="book-footer-links">
+                            
+                                <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener">GitHub</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/LICENSE-SCOPE.md" target="_blank" rel="noopener">License</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/COMMERCIAL.md" target="_blank" rel="noopener">Commercial</a>
+                            
+                            
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <label for="sidebar-toggle-checkbox" class="book-sidebar-overlay" id="sidebar-overlay" aria-label="Close sidebar"></label>
+
+    <script async src="/formal-methods-book/assets/js/code-copy-lightweight.js"></script>
+    <script defer src="/formal-methods-book/assets/js/theme.js"></script>
+    <script defer src="/formal-methods-book/assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var cb = document.getElementById('sidebar-toggle-checkbox');
+            var toggle = document.querySelector('.sidebar-toggle');
+            if (cb) cb.checked = false;
+            if (cb && toggle) {
+                var sync = function() {
+                    toggle.setAttribute('aria-expanded', cb.checked ? 'true' : 'false');
+                };
+                sync();
+                cb.addEventListener('change', sync);
+                toggle.addEventListener('keydown', function(e) {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        cb.checked = !cb.checked;
+                        cb.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        (function() {
+            function initTocAutoScroll() {
+                var cb = document.getElementById('sidebar-toggle-checkbox');
+                if (!cb) return;
+
+                function normalizePath(p) {
+                    var path = String(p || '').replace(/index\.html$/, '');
+                    if (path.length > 1) {
+                        path = path.replace(/\/+$/, '');
+                    }
+                    return path || '/';
+                }
+
+                function isMobileDrawer() {
+                    try {
+                        if (typeof window.matchMedia === 'function') {
+                            return window.matchMedia('(max-width: 1024px)').matches;
+                        }
+                    } catch (_) {}
+                    return typeof window.innerWidth === 'number' ? window.innerWidth <= 1024 : true;
+                }
+
+                function findActiveTocLink() {
+                    var current = normalizePath(window.location.pathname);
+                    var actives = document.querySelectorAll('a.toc-link.active');
+                    if (!actives || actives.length === 0) return null;
+
+                    for (var i = 0; i < actives.length; i++) {
+                        var a = actives[i];
+                        if (!a || !a.href) continue;
+                        try {
+                            var pathname = normalizePath(new URL(a.href).pathname);
+                            if (pathname === current) return a;
+                        } catch (_) {}
+                    }
+                    return actives[0];
+                }
+
+                function ensureActiveTocVisible() {
+                    if (!cb.checked) return;
+                    if (!isMobileDrawer()) return;
+
+                    var active = findActiveTocLink();
+                    if (!active) return;
+
+                    var sidebar = active.closest('.book-sidebar') || document.getElementById('sidebar');
+                    if (!sidebar) return;
+
+                    try {
+                        var linkRect = active.getBoundingClientRect();
+                        var sidebarRect = sidebar.getBoundingClientRect();
+                        var marginTop = 8;
+                        var marginBottom = 8;
+                        try {
+                            if (window.getComputedStyle) {
+                                var cs = window.getComputedStyle(sidebar);
+                                if (cs) {
+                                    var pt = parseFloat(cs.paddingTop);
+                                    var pb = parseFloat(cs.paddingBottom);
+                                    if (!isNaN(pt)) marginTop = pt;
+                                    if (!isNaN(pb)) marginBottom = pb;
+                                }
+                            }
+                        } catch (_) {}
+
+                        var top = sidebarRect.top + marginTop;
+                        var bottom = sidebarRect.bottom - marginBottom;
+                        var outOfView = linkRect.top < top || linkRect.bottom > bottom;
+
+                        if (outOfView && typeof active.scrollIntoView === 'function') {
+                            try {
+                                active.scrollIntoView({ block: 'center', behavior: 'auto' });
+                            } catch (e) {
+                                active.scrollIntoView();
+                            }
+                        }
+                    } catch (_) {}
+                }
+
+                function scheduleEnsure() {
+                    setTimeout(ensureActiveTocVisible, 0);
+                    setTimeout(ensureActiveTocVisible, 350);
+                }
+
+                cb.addEventListener('change', function() {
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+
+                if (cb.checked) {
+                    scheduleEnsure();
+                }
+
+                window.addEventListener('pageshow', function(e) {
+                    if (!e || !e.persisted) return;
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initTocAutoScroll);
+            } else {
+                initTocAutoScroll();
+            }
+        })();
+    </script>
+</body>
+</html>

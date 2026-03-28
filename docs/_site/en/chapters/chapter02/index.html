@@ -1,0 +1,1592 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta name="author" content="太田和彦（株式会社アイティードゥ）">
+
+    <title>Chapter 2: Bridging Mathematics and Programs - Formal Methods: Foundations and Applications</title>
+
+    <link rel="canonical" href="https://itdojp.github.io/formal-methods-book/en/chapters/chapter02/">
+    <link rel="alternate" hreflang="ja" href="https://itdojp.github.io/formal-methods-book/chapters/chapter02/">
+    <link rel="alternate" hreflang="en" href="https://itdojp.github.io/formal-methods-book/en/chapters/chapter02/">
+    <link rel="alternate" hreflang="x-default" href="https://itdojp.github.io/formal-methods-book/">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/main.css">
+    <link rel="stylesheet" href="/formal-methods-book/assets/css/syntax-highlighting.css">
+
+    <link rel="icon" type="image/png" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+    <link rel="apple-touch-icon" sizes="48x48" href="/formal-methods-book/assets/images/itdo_logo_48x48_blue.png">
+
+    <meta property="og:title" content="Chapter 2: Bridging Mathematics and Programs">
+    <meta property="og:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://itdojp.github.io/formal-methods-book/en/chapters/chapter02/">
+    <meta property="og:locale" content="en_US">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Chapter 2: Bridging Mathematics and Programs">
+    <meta name="twitter:description" content="A practical introduction to mathematically rigorous software design, specification, model checking, and theorem proving.">
+
+    <script>
+        (function() {
+            try {
+                const k = 'book-theme';
+                const t = localStorage.getItem(k) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (_) {}
+        })();
+    </script>
+</head>
+<body>
+    
+    
+    
+    
+    
+
+    <input type="checkbox" id="sidebar-toggle-checkbox" class="sidebar-toggle-checkbox" aria-hidden="true">
+
+    <div class="book-layout">
+        <header class="book-header">
+            <div class="header-left">
+                <label for="sidebar-toggle-checkbox" class="sidebar-toggle" aria-label="Toggle sidebar" role="button" tabindex="0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </label>
+                <a href="/formal-methods-book/en/" class="header-title">
+                    <h1>Formal Methods: Foundations and Applications</h1>
+                </a>
+            </div>
+
+            <div class="header-center">
+                <div class="search-container">
+                    <input type="search"
+                           placeholder="Search..."
+                           class="search-input"
+                           id="search-input"
+                           autocomplete="off">
+                    <div class="search-results" id="search-results"></div>
+                </div>
+            </div>
+
+            <div class="header-right">
+                
+
+
+
+
+
+
+
+
+
+
+<a href="/formal-methods-book/chapters/chapter02/"
+   class="language-switcher"
+   hreflang="ja"
+   lang="ja"
+   >
+    日本語
+</a>
+
+                <button class="theme-toggle" aria-label="Toggle theme">
+                    <svg class="theme-icon theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="theme-icon theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+
+                
+            </div>
+        </header>
+
+        <aside class="book-sidebar" id="sidebar">
+            <nav class="sidebar-nav" role="navigation" aria-label="Main navigation">
+                
+
+
+
+
+
+
+
+
+
+
+<div class="sidebar-content">
+    <div class="book-info">
+        <h2 class="book-title"><a href="/formal-methods-book/en/" class="header-title">Formal Methods: Foundations and Applications</a></h2>
+        
+        <p class="book-subtitle">An Integrated Understanding of Specification, Model Checking, and Theorem Proving</p>
+        
+    </div>
+
+    <div class="toc">
+        <h3 class="toc-title">Contents</h3>
+
+        <div class="toc-section">
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/" class="toc-link ">
+                        Home
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Introduction</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/introduction/" class="toc-link ">
+                        Introduction
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Chapters</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter01/" class="toc-link ">
+                        Chapter 1: Why Formal Methods Matter
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter02/" class="toc-link active">
+                        Chapter 2: Bridging Mathematics and Programs
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter03/" class="toc-link ">
+                        Chapter 3: Foundations of Specification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter04/" class="toc-link ">
+                        Chapter 4: Introduction to Lightweight Formal Methods — Specification with Alloy
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter05/" class="toc-link ">
+                        Chapter 5: State-Based Specification — Fundamentals of Z Notation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter06/" class="toc-link ">
+                        Chapter 6: Process-Centric Specification — Concurrency with CSP
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter07/" class="toc-link ">
+                        Chapter 7: Specifying Time — Introduction to TLA+
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter08/" class="toc-link ">
+                        Chapter 8: Introduction to Model Checking
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter09/" class="toc-link ">
+                        Chapter 9: Fundamentals of Theorem Proving
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter10/" class="toc-link ">
+                        Chapter 10: Program Verification
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter11/" class="toc-link ">
+                        Chapter 11: Integrating Formal Methods into Development Processes
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter12/" class="toc-link ">
+                        Chapter 12: Tools and Automation
+                    </a>
+                </li>
+                
+                <li class="toc-item toc-chapter">
+                    <a href="/formal-methods-book/en/chapters/chapter13/" class="toc-link ">
+                        Chapter 13: Case Studies
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Additional</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/glossary/" class="toc-link ">
+                        Glossary
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Appendices</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-a/" class="toc-link ">
+                        Appendix A: Mathematics Refresher
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-b/" class="toc-link ">
+                        Appendix B: Tool Setup and Verification Quick Start
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-c/" class="toc-link ">
+                        Appendix C: Notation Cross-Reference
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-d/" class="toc-link ">
+                        Appendix D: Exercise Guides and Self-Review Frameworks
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-e/" class="toc-link ">
+                        Appendix E: References and Further Reading Paths
+                    </a>
+                </li>
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/appendices/appendix-f/" class="toc-link ">
+                        Appendix F: Practical Playbook for AI-Assisted Formal Methods
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="toc-section">
+            <h4 class="toc-section-title">Afterword</h4>
+            <ul class="toc-list">
+                
+                <li class="toc-item">
+                    <a href="/formal-methods-book/en/afterword/" class="toc-link ">
+                        Afterword
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="external-links">
+            
+            <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener" class="external-link">GitHub</a>
+            
+            
+        </div>
+    </div>
+</div>
+
+            </nav>
+        </aside>
+
+        <main class="book-main" id="main">
+            <div class="book-content">
+                
+                    
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb-list">
+    <li class="breadcrumb-item">
+        <a href="/formal-methods-book/en/" class="breadcrumb-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span class="sr-only">Home</span>
+        </a>
+    </li>
+
+    
+        
+    
+        
+    
+        
+            
+            
+            
+                
+                
+                <li class="breadcrumb-item">
+                    <a href="/formal-methods-book/en/chapters/" class="breadcrumb-link">
+                        
+                            Chapters
+                        
+                    </a>
+                </li>
+            
+        
+    
+        
+            
+            
+            
+                <li class="breadcrumb-item active" aria-current="page">
+                    Chapter 2: bridging mathematics and programs
+                </li>
+            
+        
+    
+</ol>
+
+<style>
+.breadcrumb-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    font-size: 0.875rem;
+    flex-wrap: wrap;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb-item:not(:last-child)::after {
+    content: '/';
+    margin: 0 0.5rem;
+    color: var(--text-muted);
+}
+
+.breadcrumb-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.breadcrumb-link:hover {
+    color: var(--primary-color);
+}
+
+.breadcrumb-item.active {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (max-width: 768px) {
+    .breadcrumb-list {
+        font-size: 0.75rem;
+    }
+
+    .breadcrumb-item:not(:last-child)::after {
+        margin: 0 0.375rem;
+    }
+}
+</style>
+
+                
+
+                <article class="page-content">
+                    <h1 id="chapter-2-bridging-mathematics-and-programs">Chapter 2: Bridging Mathematics and Programs</h1>
+
+<h2 id="21-the-mathematical-structure-hidden-in-programming">2.1 The Mathematical Structure Hidden in Programming</h2>
+
+<p>Many people say, “I am not good at mathematics, but I like programming.” Yet
+programming itself is already deeply mathematical. When you declare variables,
+define functions, write conditionals, or construct loops, you are already using
+mathematical ideas, whether you notice it or not.</p>
+
+<p>Realizing that fact is one of the first steps toward formal methods. Formal
+methods are not a completely foreign world. They extend ideas that programmers
+already use and make them more explicit and more rigorous.</p>
+
+<p>This chapter clarifies the correspondence between basic programming concepts and
+their mathematical counterparts. The goal is to build a natural bridge to the
+formal specification techniques introduced from Chapter 3 onward. In
+particular, the mathematical foundations used in Alloy, Z notation, CSP, and
+TLA+ are introduced through concepts that should already be familiar from
+ordinary programming. To provide a high-level view of the methods discussed in
+this book, the chapter also refers to a comparison matrix of representative
+formal techniques (Figure 2-2).</p>
+
+<p><img src="/formal-methods-book/assets/images/diagrams/programming-math-correspondence.svg" alt="Figure 2-1: Correspondence between programming concepts and mathematical concepts" /></p>
+
+<p><img src="/formal-methods-book/assets/images/diagrams/formal-methods-comparison-matrix.svg" alt="Figure 2-2: Comparison matrix of major formal methods" /></p>
+
+<h3 id="variables-as-mathematical-objects-with-names">Variables as Mathematical Objects with Names</h3>
+
+<p>One of the first concepts most programmers learn is the variable. But why is it
+called a variable? What is the relationship between the <code class="language-plaintext highlighter-rouge">x</code> and <code class="language-plaintext highlighter-rouge">y</code> in the
+equation <code class="language-plaintext highlighter-rouge">y = 2x + 1</code> and the <code class="language-plaintext highlighter-rouge">count</code> in <code class="language-plaintext highlighter-rouge">int count = 0</code>?</p>
+
+<p>At a deeper level, both are instances of the same mathematical idea. Just as a
+mathematical variable ranges over a set of possible values, a program variable
+also ranges over a set of values. A variable of type <code class="language-plaintext highlighter-rouge">int</code> ranges over the set
+of integers, while a variable of type <code class="language-plaintext highlighter-rouge">boolean</code> ranges over the two-element set
+<code class="language-plaintext highlighter-rouge">{true, false}</code>.</p>
+
+<p>If we push this idea further, program execution itself can be understood as the
+process of assigning values to variables over time. If the value of a variable
+<code class="language-plaintext highlighter-rouge">x</code> at time <code class="language-plaintext highlighter-rouge">t</code> is written as <code class="language-plaintext highlighter-rouge">x(t)</code>, then execution can be described as a
+function over time.</p>
+
+<p>That viewpoint becomes a foundation for Chapter 7, where TLA+ represents system
+states as tuples of variable values and treats state change as a temporal
+structure. It also supports the techniques in Chapter 10, where the evolution
+of variable values is tracked mathematically in order to prove program
+correctness.</p>
+
+<h3 id="functions-abstraction-of-the-relationship-between-input-and-output">Functions: Abstraction of the Relationship Between Input and Output</h3>
+
+<p>Program functions and mathematical functions are, at their core, the same kind
+of object. They accept inputs, perform a transformation, and produce outputs.
+The mathematical function <code class="language-plaintext highlighter-rouge">f(x) = x²</code> and the program function
+<code class="language-plaintext highlighter-rouge">square(x) { return x * x; }</code> use different notation, but they express the same
+idea.</p>
+
+<p>Programming functions, however, often have something mathematics usually hides:
+side effects. A function may write to a file, update a screen, modify shared
+state, or trigger communication with another system. Even these side effects
+can be described mathematically if we view a function as an operation that
+transforms system state.</p>
+
+<p>This perspective becomes central in Chapter 5 on Z notation, where operations
+are described rigorously as transformations from a pre-state to a post-state.
+It also appears again in Chapter 10, where Hoare logic expresses the
+correctness of state-changing programs by means of preconditions and
+postconditions.</p>
+
+<h3 id="control-structures-as-embodied-logic">Control Structures as Embodied Logic</h3>
+
+<p>Control structures such as conditionals and loops are embodiments of logical
+concepts. A conditional corresponds to implication, while looping is closely
+related to recursive definition and mathematical induction.</p>
+
+<p>Consider the following simple conditional:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if (age &gt;= 18) {
+    status = "adult";
+} else {
+    status = "minor";
+}
+</code></pre></div></div>
+
+<p>In logical terms, the same idea can be expressed as: “If the age is at least
+18, the status is adult; otherwise the status is minor.”</p>
+
+<p>In mathematical notation, this becomes:
+<code class="language-plaintext highlighter-rouge">status = (age ≥ 18) ? "adult" : "minor"</code></p>
+
+<p>Loops are more complex, but they can also be described mathematically. A
+<code class="language-plaintext highlighter-rouge">for</code> loop corresponds to a sequence or indexed definition, while a <code class="language-plaintext highlighter-rouge">while</code>
+loop can be understood as an iterative search constrained by a logical
+condition.</p>
+
+<h3 id="data-structures-as-implementations-of-sets-and-relations">Data Structures as Implementations of Sets and Relations</h3>
+
+<p>Arrays, lists, dictionaries, and graphs are all implementations of mathematical
+structures. Arrays can be viewed as ordered collections, dictionaries as
+functions from keys to values, and graphs as explicit representations of
+relations.</p>
+
+<p>The array <code class="language-plaintext highlighter-rouge">[1, 3, 5, 7, 9]</code>, for example, can be understood as a function from
+the index set <code class="language-plaintext highlighter-rouge">{0, 1, 2, 3, 4}</code> to the value set <code class="language-plaintext highlighter-rouge">{1, 3, 5, 7, 9}</code>. That is,
+it represents a function such as <code class="language-plaintext highlighter-rouge">f(0) = 1</code>, <code class="language-plaintext highlighter-rouge">f(1) = 3</code>, and so on.</p>
+
+<p>Associative arrays make this interpretation even clearer. The structure
+<code class="language-plaintext highlighter-rouge">{"name": "Alice", "age": 30}</code> is a function from the key set
+<code class="language-plaintext highlighter-rouge">{"name", "age"}</code> to a set of values.</p>
+
+<p>These ideas become central in Chapter 4, where Alloy represents all data using
+sets and relations. They also reappear in Chapter 5, where states can be
+understood as mappings from variable names to values and where set-theoretic
+operations become practical specification tools.</p>
+
+<h3 id="type-systems-as-practical-applications-of-set-theory">Type Systems as Practical Applications of Set Theory</h3>
+
+<p>The type system of a programming language is a practical application of set
+theory. A type defines a set of values, and type checking confirms whether a
+value belongs to the set expected by an operation.</p>
+
+<p>An <code class="language-plaintext highlighter-rouge">int</code> type denotes the set of integers; a <code class="language-plaintext highlighter-rouge">string</code> type denotes the set of
+strings. Type safety is the guarantee that only values from the correct set are
+passed where they are expected. Mathematically, this is the clarification of
+the domain of a function.</p>
+
+<p>More advanced type systems such as generics, algebraic data types, and
+dependent types go further. They show how close programming can move toward
+explicit mathematical structure.</p>
+
+<h3 id="error-handling-as-mathematical-description-of-exceptional-cases">Error Handling as Mathematical Description of Exceptional Cases</h3>
+
+<p>Error handling and exceptions can also be described mathematically. If the
+result of a function is modeled as “either a normal value or an exceptional
+case,” then errors become part of the function’s formal behavior.</p>
+
+<p>Consider a function <code class="language-plaintext highlighter-rouge">divide(a, b)</code>. It is not defined when <code class="language-plaintext highlighter-rouge">b = 0</code>.
+Mathematically, the domain of the function is the set of input pairs <code class="language-plaintext highlighter-rouge">(a, b)</code>
+for which <code class="language-plaintext highlighter-rouge">b ≠ 0</code>. A division-by-zero exception in a program corresponds to an
+attempt to apply the function outside its domain.</p>
+
+<h2 id="22-expressing-correctness-mathematically">2.2 Expressing Correctness Mathematically</h2>
+
+<h3 id="from-intuitive-correctness-to-formal-correctness">From Intuitive Correctness to Formal Correctness</h3>
+
+<p>Programmers constantly try to write correct programs. But what exactly does
+“correct” mean? Does it mean that the code compiles? That it behaves as
+expected? That it contains no bugs? Formal methods begin by sharpening such
+intuitive notions into a mathematically precise concept of correctness.</p>
+
+<p>At its core, program correctness is a relationship between specification and
+implementation. The specification defines what a program is supposed to do; the
+implementation defines what it actually does. Correctness is the correspondence
+between the two.</p>
+
+<h3 id="a-specification-as-a-promise">A Specification as a Promise</h3>
+
+<p>A useful analogy is a cooking recipe. A recipe specifies ingredients, steps,
+and an expected result. Instructions such as “saute the onions until golden”
+and “cook over high heat for three minutes” are already attempts at precise
+specification.</p>
+
+<p>Program specifications work in the same way. A statement such as “accept a
+username and password as input, and return <code class="language-plaintext highlighter-rouge">true</code> if authentication succeeds
+and <code class="language-plaintext highlighter-rouge">false</code> otherwise” specifies inputs, outputs, and intended behavior.</p>
+
+<p>Yet natural-language specifications, like recipes, are ambiguous. What exactly
+counts as “golden”? Under what exact conditions does “authentication succeed”?
+Natural language is useful, but it leaves room for interpretation.</p>
+
+<h3 id="the-power-of-mathematical-specification">The Power of Mathematical Specification</h3>
+
+<p>A mathematical specification removes that ambiguity. For an authentication
+function, one possible specification is:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>authenticate: String × String → Boolean
+Precondition: username and password are non-empty strings
+Postcondition:
+  - if (username, password) is a valid combination, the result is true
+  - otherwise, the result is false
+  - the contents of the database are unchanged
+</code></pre></div></div>
+
+<p>This is far more explicit than a purely informal description. It makes the type
+of the function clear, identifies the precondition, and states the guarantees
+the function must satisfy.</p>
+
+<h3 id="correspondence-with-the-implementation">Correspondence with the Implementation</h3>
+
+<p>Implementation means writing code that satisfies the specification. But what
+does “satisfies” mean? In formal methods, this is the notion of conformance.</p>
+
+<p>An implementation conforms to a specification if, mathematically speaking, the
+following conditions hold:</p>
+
+<ol>
+  <li>for every input that satisfies the precondition, the implementation
+terminates;</li>
+  <li>the output satisfies the postcondition; and</li>
+  <li>the implementation does not produce any side effects that the specification
+forbids.</li>
+</ol>
+
+<p>This definition may sound abstract, but it is concrete enough to be verified.</p>
+
+<h3 id="partial-correctness-and-total-correctness">Partial Correctness and Total Correctness</h3>
+
+<p>There are two major aspects of correctness: partial correctness and total
+correctness.</p>
+
+<p>Partial correctness means that if the program terminates, the result is
+correct. It does not rule out the possibility of an infinite loop or a crash.</p>
+
+<p>Total correctness strengthens this by adding termination: the program must both
+terminate and produce a correct result.</p>
+
+<p>Consider the following function:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>function factorial(n) {
+    if (n &lt;= 1) return 1;
+    return n * factorial(n - 1);
+}
+</code></pre></div></div>
+
+<p>Its partial correctness says that, when <code class="language-plaintext highlighter-rouge">n</code> is a natural number, the result is
+<code class="language-plaintext highlighter-rouge">n!</code>. Total correctness additionally requires proof that the function always
+terminates for such inputs.</p>
+
+<h3 id="invariants-as-promises-about-the-system">Invariants as Promises About the System</h3>
+
+<p>Another key concept is the invariant. An invariant is a property that must hold
+throughout execution.</p>
+
+<p>In a banking system, for example, a useful invariant might be: “the sum of all
+account balances is equal to total deposits minus total withdrawals.” No matter
+which valid operations occur, that property should remain true.</p>
+
+<p>Invariants capture system consistency. Database integrity constraints, class
+invariants in object-oriented programming, and synchronization conditions in
+concurrent systems are all examples of invariants.</p>
+
+<h3 id="the-hierarchical-nature-of-specifications">The Hierarchical Nature of Specifications</h3>
+
+<p>In real systems, specifications are hierarchical. There is a specification for
+the whole system, specifications for individual modules, and specifications for
+functions or operations.</p>
+
+<p>This hierarchy is essential for managing complexity. By choosing appropriate
+levels of abstraction, we can reason about large systems in a human-manageable
+way. Formal methods provide techniques for writing and proving such layered
+specifications rigorously.</p>
+
+<h2 id="23-set-theory-a-language-for-describing-the-world-of-programs">2.3 Set Theory: A Language for Describing the World of Programs</h2>
+
+<h3 id="the-essence-of-data-collections-of-elements">The Essence of Data: Collections of Elements</h3>
+
+<p>Data in programs is, at its essence, a collection of elements. Integers,
+strings, records, and objects are all elements of some set. Set theory gives us
+the mathematical language for talking about such collections precisely.</p>
+
+<p>Its basic concepts are intuitive. A set is a collection, and an element is a
+member of that collection. In programming terms, a type corresponds naturally
+to a set, and a value corresponds to an element. The type <code class="language-plaintext highlighter-rouge">int</code> is the set of
+integers; <code class="language-plaintext highlighter-rouge">boolean</code> is the two-element set <code class="language-plaintext highlighter-rouge">{true, false}</code>.</p>
+
+<h3 id="set-operations-as-mathematical-descriptions-of-data-manipulation">Set Operations as Mathematical Descriptions of Data Manipulation</h3>
+
+<p>Many common data operations can be understood as set operations. Union,
+intersection, and difference correspond to familiar program behavior such as
+combining collections, filtering them, or removing elements.</p>
+
+<p>Suppose we have two user groups:</p>
+
+<ul>
+  <li>administrators: <code class="language-plaintext highlighter-rouge">{Alice, Bob, Charlie}</code></li>
+  <li>developers: <code class="language-plaintext highlighter-rouge">{Bob, David, Eve}</code></li>
+</ul>
+
+<p>Then:</p>
+
+<ul>
+  <li>the union is “users who belong to either group”:
+<code class="language-plaintext highlighter-rouge">{Alice, Bob, Charlie, David, Eve}</code>;</li>
+  <li>the intersection is “users who belong to both groups”: <code class="language-plaintext highlighter-rouge">{Bob}</code>;</li>
+  <li>the difference is “administrators who are not developers”:
+<code class="language-plaintext highlighter-rouge">{Alice, Charlie}</code>.</li>
+</ul>
+
+<p>These are mathematical descriptions of operations such as list merging,
+membership filtering, and query evaluation.</p>
+
+<h3 id="relations-connections-between-elements">Relations: Connections Between Elements</h3>
+
+<p>Another important set-theoretic concept is the relation. A relation expresses
+which elements of one set are connected to elements of another.</p>
+
+<p>Database tables provide a familiar example. The enrollment relation between the
+set of students and the set of courses can be represented as a subset of the
+Cartesian product of those two sets.</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Students = {Alice, Bob, Charlie}
+Courses = {Mathematics, Physics, Chemistry}
+Enrollment = {
+  (Alice, Mathematics),
+  (Alice, Physics),
+  (Bob, Mathematics),
+  (Charlie, Chemistry)
+}
+</code></pre></div></div>
+
+<h3 id="functions-as-special-relations">Functions as Special Relations</h3>
+
+<p>A function is a relation with an additional property: each input has exactly
+one associated output. Program functions are implementations of that
+mathematical idea.</p>
+
+<p>Two important attributes of a function are its domain and codomain. The domain
+is the set of inputs for which the function is defined. The codomain describes
+the class of outputs it may produce. Many runtime errors can be understood as
+attempts to apply a function outside its domain.</p>
+
+<p>The square-root function <code class="language-plaintext highlighter-rouge">sqrt</code>, for example, has the nonnegative reals as its
+ordinary domain. Applying it to a negative input produces a problem precisely
+because the value lies outside that domain.</p>
+
+<h3 id="order-relations-comparison-and-sorting">Order Relations: Comparison and Sorting</h3>
+
+<p>Comparison is one of the most common operations in programming. Numerical
+comparison, lexicographic ordering of strings, and temporal ordering of dates
+are all examples of order relations.</p>
+
+<p>An order relation defines how elements of a set can be compared. Mathematically
+it is characterized by properties such as reflexivity (<code class="language-plaintext highlighter-rouge">a ≤ a</code>), antisymmetry
+(<code class="language-plaintext highlighter-rouge">a ≤ b</code> and <code class="language-plaintext highlighter-rouge">b ≤ a</code> imply <code class="language-plaintext highlighter-rouge">a = b</code>), and transitivity (<code class="language-plaintext highlighter-rouge">a ≤ b</code> and <code class="language-plaintext highlighter-rouge">b ≤ c</code>
+imply <code class="language-plaintext highlighter-rouge">a ≤ c</code>).</p>
+
+<p>Sorting algorithms rely on such relations. To prove a sort correct, we must
+confirm that the relation being used really behaves like an order.</p>
+
+<h3 id="cartesian-products-the-structure-of-composite-data">Cartesian Products: The Structure of Composite Data</h3>
+
+<p>Composite data types such as tuples, records, and structures can be described
+mathematically as Cartesian products. If <code class="language-plaintext highlighter-rouge">A</code> and <code class="language-plaintext highlighter-rouge">B</code> are sets, the Cartesian
+product <code class="language-plaintext highlighter-rouge">A × B</code> is the set of ordered pairs <code class="language-plaintext highlighter-rouge">(a, b)</code>.</p>
+
+<p>For example, a coordinate type can be written as:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Point = {(x, y) | x ∈ Real, y ∈ Real}
+</code></pre></div></div>
+
+<p>This is the product <code class="language-plaintext highlighter-rouge">Real × Real</code>.</p>
+
+<p>A slightly more complex example is user information:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>User = Name × Age × Email
+Name = String
+Age = Natural
+Email = String
+</code></pre></div></div>
+
+<p>In this way, composite program data can be described as products of simpler
+types.</p>
+
+<h3 id="power-sets-the-set-of-choices">Power Sets: The Set of Choices</h3>
+
+<p>The power set <code class="language-plaintext highlighter-rouge">P(A)</code> of a set <code class="language-plaintext highlighter-rouge">A</code> is the set of all subsets of <code class="language-plaintext highlighter-rouge">A</code>. This is
+very useful in programming whenever we need to describe combinations of options
+or permissions.</p>
+
+<p>For example, if the basic permission set is <code class="language-plaintext highlighter-rouge">{read, write, execute}</code>, then the
+possible permission combinations are elements of its power set:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>P({read, write, execute}) = {
+  {}, {read}, {write}, {execute},
+  {read, write}, {read, execute}, {write, execute},
+  {read, write, execute}
+}
+</code></pre></div></div>
+
+<p>Bit flags, feature combinations, and configuration choices can all be
+understood through this idea.</p>
+
+<h2 id="24-logic-a-language-for-talking-about-program-properties">2.4 Logic: A Language for Talking About Program Properties</h2>
+
+<h3 id="propositions-sentences-with-truth-values">Propositions: Sentences with Truth Values</h3>
+
+<p>Programming constantly involves judgment: “is the user authenticated?”, “is the
+index in range?”, “does the file exist?” In logic, such statements are treated
+as propositions.</p>
+
+<p>A proposition is a sentence that has a truth value: true or false. Boolean
+variables and conditional expressions in programs are concrete realizations of
+propositions. Propositional logic provides the rules for combining them into
+more complex conditions.</p>
+
+<h3 id="logical-operators-combining-conditions">Logical Operators: Combining Conditions</h3>
+
+<p>The operators AND (<code class="language-plaintext highlighter-rouge">&amp;&amp;</code>), OR (<code class="language-plaintext highlighter-rouge">||</code>), and NOT (<code class="language-plaintext highlighter-rouge">!</code>) are direct realizations of
+logical operators.</p>
+
+<ul>
+  <li>conjunction (AND): <code class="language-plaintext highlighter-rouge">P ∧ Q</code> is true exactly when both <code class="language-plaintext highlighter-rouge">P</code> and <code class="language-plaintext highlighter-rouge">Q</code> are true;</li>
+  <li>disjunction (OR): <code class="language-plaintext highlighter-rouge">P ∨ Q</code> is true when at least one of <code class="language-plaintext highlighter-rouge">P</code> or <code class="language-plaintext highlighter-rouge">Q</code> is true;</li>
+  <li>negation (NOT): <code class="language-plaintext highlighter-rouge">¬P</code> is true when <code class="language-plaintext highlighter-rouge">P</code> is false.</li>
+</ul>
+
+<p>These operators are completely defined by truth tables. Complex conditions in
+programs are built from these basic logical ingredients.</p>
+
+<h3 id="implication-relationships-between-conditions">Implication: Relationships Between Conditions</h3>
+
+<p>One of the most important ideas in program logic is implication. The statement
+“if A, then B” is written <code class="language-plaintext highlighter-rouge">A → B</code>. It means that whenever <code class="language-plaintext highlighter-rouge">A</code> is true, <code class="language-plaintext highlighter-rouge">B</code> is
+also true.</p>
+
+<p>A conditional branch is a concrete implementation of implication:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if (user.isAuthenticated()) {
+    return secretData;
+}
+</code></pre></div></div>
+
+<p>This expresses the idea: “if the user is authenticated, then access to secret
+data is permitted.”</p>
+
+<h3 id="predicate-logic-a-more-expressive-form-of-logic">Predicate Logic: A More Expressive Form of Logic</h3>
+
+<p>Propositional logic alone cannot express everything we need. Statements such
+as “every user has a valid email address” or “there exists at least one
+administrator” require quantifiers and therefore belong to predicate logic.</p>
+
+<ul>
+  <li>universal quantifier (<code class="language-plaintext highlighter-rouge">∀</code>): “for all”</li>
+  <li>existential quantifier (<code class="language-plaintext highlighter-rouge">∃</code>): “there exists”</li>
+</ul>
+
+<p>Examples:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">∀x ∈ Users. hasValidEmail(x)</code> means every user has a valid email address.</li>
+  <li><code class="language-plaintext highlighter-rouge">∃x ∈ Users. isAdmin(x)</code> means there exists at least one administrator.</li>
+</ul>
+
+<p>Predicate logic becomes especially important in Chapter 3 and then reappears in
+Alloy, Z notation, model checking, and theorem proving.</p>
+
+<h3 id="logic-and-control-structures">Logic and Control Structures</h3>
+
+<p>Program control structures correspond closely to logical structure.</p>
+
+<p>Conditional execution corresponds to implication:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if (condition) { action() }
+≡ condition → action()
+</code></pre></div></div>
+
+<p>Loops can be related to quantified or repeated structure:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for (item in collection) { process(item) }
+≡ ∀item ∈ collection. process(item)
+</code></pre></div></div>
+
+<p>Exception handling can be viewed as a logical decomposition of normal and error
+cases:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>try { normalAction() } catch { errorAction() }
+≡ (normalAction() ∧ ¬error) ∨ (errorAction() ∧ error)
+</code></pre></div></div>
+
+<h3 id="logical-inference-proving-program-properties">Logical Inference: Proving Program Properties</h3>
+
+<p>Rules of logical inference form the basis of program proof. Two representative
+examples are:</p>
+
+<p>Modus ponens:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>P → Q, P
+---------
+    Q
+</code></pre></div></div>
+
+<p>Hypothetical syllogism:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>P → Q, Q → R
+-------------
+    P → R
+</code></pre></div></div>
+
+<p>Using such rules, we can prove more complex properties step by step.</p>
+
+<h3 id="logical-equivalence-optimizing-conditions">Logical Equivalence: Optimizing Conditions</h3>
+
+<p>Logical equivalence is useful when simplifying or optimizing conditions in
+programs. De Morgan’s laws, distributive laws, and associative laws all help
+rewrite conditions into forms that are easier to understand or implement.</p>
+
+<p>De Morgan’s laws:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>¬(P ∧ Q) ≡ (¬P ∨ ¬Q)
+¬(P ∨ Q) ≡ (¬P ∧ ¬Q)
+</code></pre></div></div>
+
+<p>In program notation:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>!(a &amp;&amp; b) ≡ (!a || !b)
+!(a || b) ≡ (!a &amp;&amp; !b)
+</code></pre></div></div>
+
+<h2 id="25-state-and-change-mathematical-modeling-of-dynamic-systems">2.5 State and Change: Mathematical Modeling of Dynamic Systems</h2>
+
+<h3 id="the-deeper-idea-of-state">The Deeper Idea of State</h3>
+
+<p>At a fundamental level, program execution is a succession of state changes.
+Making the notion of state explicit is essential for understanding dynamic
+systems.</p>
+
+<p>The state of a system is a complete description of all information relevant to
+its behavior at a given moment. In a program, that may include variable values,
+memory contents, file-system state, network connections, and other factors that
+affect behavior.</p>
+
+<p>Mathematically, a state is represented as an element of a state space. The
+state space <code class="language-plaintext highlighter-rouge">S</code> is the set of all possible states the system may assume.</p>
+
+<h3 id="state-transitions-mathematical-description-of-change">State Transitions: Mathematical Description of Change</h3>
+
+<p>Execution-driven state change can be represented as a state transition.
+Mathematically, a transition can be modeled as a function on the state space.</p>
+
+<p>A transition function <code class="language-plaintext highlighter-rouge">δ: S × I → S</code> takes a current state <code class="language-plaintext highlighter-rouge">s ∈ S</code> and an input
+<code class="language-plaintext highlighter-rouge">i ∈ I</code>, and returns the next state <code class="language-plaintext highlighter-rouge">s' ∈ S</code>, where <code class="language-plaintext highlighter-rouge">I</code> is the set of possible
+inputs.</p>
+
+<p><img src="/formal-methods-book/assets/images/diagrams/state-transition-model.svg" alt="Figure 2-3: A state-transition model using a bank-account system as an example" /></p>
+
+<p>For a simple counter:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>State space S = Integer
+Input set I = {increment, decrement, reset}
+Transition function:
+  δ(n, increment) = n + 1
+  δ(n, decrement) = n - 1
+  δ(n, reset) = 0
+</code></pre></div></div>
+
+<h3 id="abstracting-state-to-manage-complexity">Abstracting State to Manage Complexity</h3>
+
+<p>Real program state spaces are enormous. Even a 64-bit memory abstraction
+already suggests an enormous number of possibilities, far beyond what humans
+can reason about directly.</p>
+
+<p>That is why abstraction matters. We identify the parts of the state that matter
+for the properties we care about and omit irrelevant detail. This produces a
+manageable abstract state space.</p>
+
+<p>For example, when modeling a user session in a web application:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Concrete state: every in-memory byte, TCP-connection details, and so on
+Abstract state: {logged_out, logged_in, admin_session}
+</code></pre></div></div>
+
+<p>Through abstraction, billions of concrete states may be represented by only a
+few meaningful abstract states.</p>
+
+<h3 id="invariants-as-constraints-on-state">Invariants as Constraints on State</h3>
+
+<p>Not every theoretical state is valid. Systems usually have properties that must
+always hold. These are invariants.</p>
+
+<p>If <code class="language-plaintext highlighter-rouge">Valid ⊆ S</code> is the set of valid states, an invariant expresses the
+requirement that execution should stay within <code class="language-plaintext highlighter-rouge">Valid</code>.</p>
+
+<p>For a banking system:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>State: a tuple of account balances (balance1, balance2, ..., balanceN)
+Invariant: ∀i. balancei ≥ 0
+</code></pre></div></div>
+
+<h3 id="properties-of-state-transitions">Properties of State Transitions</h3>
+
+<p>State transitions themselves have important properties:</p>
+
+<ul>
+  <li><strong>determinism</strong>: the same state and input always produce the same next state;</li>
+  <li><strong>totality</strong>: every state/input pair has a defined next state; and</li>
+  <li><strong>partiality</strong>: some state/input pairs do not have a defined next state and
+instead represent error cases.</li>
+</ul>
+
+<p>Exception handling and error management are practical mechanisms for dealing
+with partiality.</p>
+
+<h3 id="state-models-of-concurrent-systems">State Models of Concurrent Systems</h3>
+
+<p>In a single-process system, state transitions are sequential. In a concurrent
+system, several transitions may become possible at once, which makes the state
+model far more complex.</p>
+
+<p>The state of a concurrent system can often be represented as the product of the
+states of its components:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>S = S1 × S2 × ... × SN
+</code></pre></div></div>
+
+<p>Yet not every combination is actually reachable. Synchronization constraints
+and mutual exclusion reduce the set of feasible combined states.</p>
+
+<h3 id="interleaving-mathematical-description-of-concurrent-execution">Interleaving: Mathematical Description of Concurrent Execution</h3>
+
+<p>Concurrent execution can often be understood through interleaving: combining
+the operations of each process along one time axis.</p>
+
+<p>If process <code class="language-plaintext highlighter-rouge">P1</code> performs <code class="language-plaintext highlighter-rouge">[a, b]</code> and process <code class="language-plaintext highlighter-rouge">P2</code> performs <code class="language-plaintext highlighter-rouge">[x, y]</code>, possible
+interleavings include:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[a, b, x, y]
+[a, x, b, y]
+[a, x, y, b]
+[x, a, b, y]
+[x, a, y, b]
+[x, y, a, b]
+</code></pre></div></div>
+
+<p>This combinatorial explosion is one of the roots of concurrency complexity.
+Chapter 6 studies CSP as a mathematical language for concurrency, while
+Chapter 7 studies TLA+ as a way to describe more complex distributed behavior
+using temporal logic.</p>
+
+<h3 id="exploring-the-state-space">Exploring the State Space</h3>
+
+<p>Much verification in formal methods is ultimately based on exploring the state
+space. Starting from an initial state, we follow all possible transitions and
+inspect all reachable states.</p>
+
+<p>This allows us to check properties such as:</p>
+
+<ul>
+  <li>whether an invariant can be violated;</li>
+  <li>whether a deadlock state can be reached;</li>
+  <li>whether a desired target state is reachable; and</li>
+  <li>whether a bad state is unreachable.</li>
+</ul>
+
+<h3 id="treating-time-discrete-and-continuous-models">Treating Time: Discrete and Continuous Models</h3>
+
+<p>Program systems may be modeled either in discrete time or in continuous time.</p>
+
+<p>In a discrete-time model, time is represented as a sequence such as
+<code class="language-plaintext highlighter-rouge">{0, 1, 2, ...}</code>, and the state at each point is defined explicitly. Many
+software systems can be modeled effectively in this way.</p>
+
+<p>In a continuous-time model, the state evolves over a real-valued time axis.
+Such models become important in real-time systems and physical simulation.</p>
+
+<hr />
+
+<h2 id="end-of-chapter-exercises">End-of-Chapter Exercises</h2>
+
+<p><strong>If you use AI while working through these exercises</strong></p>
+<ul>
+  <li>Treat AI output as a proposal; use verifiers to determine correctness.</li>
+  <li>Keep a record of the prompts you used, the generated specifications and
+invariants, the verification commands and logs (including seed, depth, and
+scope), and the revision history when counterexamples were found.</li>
+  <li>See Appendix D and Appendix F for detailed templates.</li>
+</ul>
+
+<h3 id="exercise-1-set-theoretic-representation-of-a-data-structure">Exercise 1: Set-Theoretic Representation of a Data Structure</h3>
+
+<p>Represent the following data structure in set-theoretic terms:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Student</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">,</span> <span class="n">courses</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>        <span class="c1"># string
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>          <span class="c1"># integer
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">courses</span> <span class="o">=</span> <span class="n">courses</span>  <span class="c1"># list of strings
+</span>
+<span class="n">students</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">Student</span><span class="p">(</span><span class="s">"Alice"</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="p">[</span><span class="s">"Math"</span><span class="p">,</span> <span class="s">"Physics"</span><span class="p">]),</span>
+    <span class="n">Student</span><span class="p">(</span><span class="s">"Bob"</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="p">[</span><span class="s">"Chemistry"</span><span class="p">,</span> <span class="s">"Biology"</span><span class="p">]),</span>
+<span class="p">]</span>
+</code></pre></div></div>
+
+<ol>
+  <li>Express the type of the <code class="language-plaintext highlighter-rouge">Student</code> class as a Cartesian product.</li>
+  <li>Express the type of the <code class="language-plaintext highlighter-rouge">courses</code> field as a power set.</li>
+  <li>Express the type of the <code class="language-plaintext highlighter-rouge">students</code> list as a set.</li>
+  <li>Define a relation that determines whether a particular student is enrolled
+in a particular course.</li>
+</ol>
+
+<h3 id="exercise-2-logic-and-control-structures">Exercise 2: Logic and Control Structures</h3>
+
+<p>Express the following natural-language conditions as logical formulas, and then
+write them as program conditions:</p>
+
+<ol>
+  <li>“A person may drive only if they are at least 18 years old and have a valid
+license.”</li>
+  <li>“A file may be deleted if the user is an administrator or the file owner.”</li>
+  <li>“Every user has a valid email address.”</li>
+  <li>“At least one product is still in stock.”</li>
+</ol>
+
+<h3 id="practical-exercise-state-modeling">Practical Exercise: State Modeling</h3>
+
+<p>Model a simple vending machine as a state-transition system.</p>
+
+<p>Include the following actions:</p>
+<ul>
+  <li>inserting coins (100 yen and 500 yen)</li>
+  <li>selecting a product (cola for 150 yen, tea for 100 yen)</li>
+  <li>canceling a transaction and returning the inserted money</li>
+  <li>calculating change</li>
+</ul>
+
+<p>Requirements:</p>
+<ol>
+  <li>define the state space;</li>
+  <li>define the input set;</li>
+  <li>define the transition function;</li>
+  <li>identify at least three invariants; and</li>
+  <li>show a state-transition sequence for a normal purchase scenario.</li>
+</ol>
+
+<h3 id="advanced-exercise-analysis-of-concurrency">Advanced Exercise: Analysis of Concurrency</h3>
+
+<p>Consider the following bank-transfer system:</p>
+
+<p>Pseudo notation:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Account A: balance = 1000
+Account B: balance = 500
+
+Transaction 1: A → B (300 yen)
+Transaction 2: B → A (200 yen)
+</code></pre></div></div>
+
+<p>If both transactions run concurrently:</p>
+
+<ol>
+  <li>define the state transitions for each transaction;</li>
+  <li>enumerate all possible interleavings;</li>
+  <li>calculate the result of each execution order;</li>
+  <li>analyze whether inconsistency can arise; and</li>
+  <li>propose constraints that would prevent inconsistency.</li>
+</ol>
+
+<h3 id="integrated-exercise-preparing-for-formal-methods">Integrated Exercise: Preparing for Formal Methods</h3>
+
+<p>The following exercises are designed as a bridge into the formal methods
+covered from Chapter 3 onward:</p>
+
+<h4 id="exercise-1-preparing-for-alloy-modeling">Exercise 1: Preparing for Alloy Modeling</h4>
+
+<p>Analyze the user-management subsystem of a web application from the following
+perspectives:</p>
+
+<ol>
+  <li><strong>Identify entities</strong>: define basic elements such as <code class="language-plaintext highlighter-rouge">User</code>, <code class="language-plaintext highlighter-rouge">Role</code>, and
+<code class="language-plaintext highlighter-rouge">Permission</code> as sets.</li>
+  <li><strong>Describe relations</strong>: express mathematically relations such as “a user has
+a role” and “a role has permissions.”</li>
+  <li><strong>Formalize constraints</strong>: express business rules such as “there must be at
+least one administrator” in predicate logic.</li>
+  <li><strong>Identify invariants</strong>: express the properties that must always hold in the
+system.</li>
+</ol>
+
+<p><strong>Why this exercise matters</strong>: it prepares the modeling mindset used in
+Chapter 4.</p>
+
+<h4 id="exercise-2-preparing-for-z-notation">Exercise 2: Preparing for Z Notation</h4>
+
+<p>Analyze the basic operations of a bank-account system as state transformations:</p>
+
+<ol>
+  <li><strong>State schema</strong>: define the account state, including balance and account
+number, as a set of variables.</li>
+  <li><strong>Operation schemas</strong>: describe deposit, withdrawal, and transfer using
+preconditions and postconditions.</li>
+  <li><strong>Error handling</strong>: formalize exceptional situations such as insufficient
+funds.</li>
+  <li><strong>Operation composition</strong>: describe compound operations built from multiple
+basic operations.</li>
+</ol>
+
+<p><strong>Why this exercise matters</strong>: it prepares the state-and-operation viewpoint
+used in Chapter 5.</p>
+
+<h4 id="exercise-3-foundations-of-csp-concurrency">Exercise 3: Foundations of CSP Concurrency</h4>
+
+<p>Analyze client-server communication in a chat system:</p>
+
+<ol>
+  <li><strong>Identify processes</strong>: describe the client, server, and message queue as
+concurrent processes.</li>
+  <li><strong>Communication channels</strong>: express synchronized send/receive behavior
+mathematically.</li>
+  <li><strong>Protocol design</strong>: specify ordering constraints for login, message
+sending, and logout.</li>
+  <li><strong>Deadlock analysis</strong>: identify possible concurrency problems.</li>
+</ol>
+
+<p><strong>Why this exercise matters</strong>: it prepares the concurrency viewpoint used in
+Chapter 6.</p>
+
+<h4 id="exercise-4-foundations-of-tla-temporal-logic">Exercise 4: Foundations of TLA+ Temporal Logic</h4>
+
+<p>Analyze the consistency of a distributed file system from a temporal
+perspective:</p>
+
+<ol>
+  <li><strong>State variables</strong>: define file versions and replica state as functions of
+time.</li>
+  <li><strong>Safety properties</strong>: express timeless safety properties such as “data is
+not lost” and “consistency is preserved.”</li>
+  <li><strong>Liveness properties</strong>: express progress properties such as “a request is
+eventually processed.”</li>
+  <li><strong>Temporal constraints</strong>: express time-dependent constraints such as update
+order and timeout behavior.</li>
+</ol>
+
+<p><strong>Why this exercise matters</strong>: it prepares the temporal and distributed-systems
+viewpoint used in Chapter 7.</p>
+
+<p>Through these exercises, you can develop a firm foundation for the formal
+specification techniques introduced from Chapter 3 onward by making the
+correspondence between programming concepts and mathematical concepts explicit.
+The next chapter builds on those concepts to show how to write specifications
+that eliminate ambiguity.</p>
+
+                </article>
+
+                
+                <nav class="page-navigation" aria-label="Page navigation">
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+    
+    
+
+
+
+
+
+<nav class="book-navigation" aria-label="Page navigation">
+  <div class="chapter-nav">
+    
+      <a href="/formal-methods-book/en/chapters/chapter01/" class="nav-prev" rel="prev">
+        <span class="arrow" aria-hidden="true">←</span>
+        <span class="label">Previous</span>
+        <span class="title">Chapter 1: Why Formal Methods Matter</span>
+      </a>
+    
+
+    <a href="/formal-methods-book/en/" class="nav-home">
+      <span class="label">Contents</span>
+    </a>
+
+    
+      <a href="/formal-methods-book/en/chapters/chapter03/" class="nav-next" rel="next">
+        <span class="label">Next</span>
+        <span class="title">Chapter 3: Foundations of Specification</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    
+  </div>
+</nav>
+
+<style>
+.book-navigation { margin: 2rem 0; padding: 1rem; border-top: 1px solid var(--border-color, #e5e7eb); }
+.chapter-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.nav-prev, .nav-next, .nav-home { display: flex; align-items: center; padding: 0.75rem 1.25rem; background: var(--bg-primary, #fff); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; text-decoration: none; color: inherit; }
+.nav-disabled { opacity: .5; cursor: not-allowed; background: var(--bg-tertiary, #f9fafb); border: 1px solid var(--border-color, #e5e7eb); border-radius: 6px; padding: 0.75rem 1.25rem; display: flex; align-items: center; }
+.nav-prev { flex: 1; }
+.nav-next { flex: 1; justify-content: flex-end; text-align: right; }
+.nav-home { flex: 0 0 auto; justify-content: center; }
+.label { font-weight: 600; margin: 0 .25rem; }
+.title { font-size: .9rem; opacity: .8; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 768px) { .chapter-nav { flex-wrap: wrap; } .nav-prev, .nav-next { flex: 1 1 45%; } .nav-home { flex: 1 1 100%; order: -1; } .title { display: none; } }
+</style>
+
+                </nav>
+                
+
+                
+
+                <footer class="book-footer" role="contentinfo">
+                    <div class="book-footer-inner">
+                        <div class="book-footer-license">
+                            Reader-facing text: CC BY-NC-SA 4.0 / Code assets: Apache-2.0 / excluding trademarks and third-party assets
+                        </div>
+                        <div class="book-footer-links">
+                            
+                                <a href="https://github.com/itdojp/formal-methods-book" target="_blank" rel="noopener">GitHub</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/LICENSE-SCOPE.md" target="_blank" rel="noopener">License</a>
+                                <a href="https://github.com/itdojp/formal-methods-book/blob/main/COMMERCIAL.md" target="_blank" rel="noopener">Commercial</a>
+                            
+                            
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <label for="sidebar-toggle-checkbox" class="book-sidebar-overlay" id="sidebar-overlay" aria-label="Close sidebar"></label>
+
+    <script async src="/formal-methods-book/assets/js/code-copy-lightweight.js"></script>
+    <script defer src="/formal-methods-book/assets/js/theme.js"></script>
+    <script defer src="/formal-methods-book/assets/js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var cb = document.getElementById('sidebar-toggle-checkbox');
+            var toggle = document.querySelector('.sidebar-toggle');
+            if (cb) cb.checked = false;
+            if (cb && toggle) {
+                var sync = function() {
+                    toggle.setAttribute('aria-expanded', cb.checked ? 'true' : 'false');
+                };
+                sync();
+                cb.addEventListener('change', sync);
+                toggle.addEventListener('keydown', function(e) {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        cb.checked = !cb.checked;
+                        cb.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        (function() {
+            function initTocAutoScroll() {
+                var cb = document.getElementById('sidebar-toggle-checkbox');
+                if (!cb) return;
+
+                function normalizePath(p) {
+                    var path = String(p || '').replace(/index\.html$/, '');
+                    if (path.length > 1) {
+                        path = path.replace(/\/+$/, '');
+                    }
+                    return path || '/';
+                }
+
+                function isMobileDrawer() {
+                    try {
+                        if (typeof window.matchMedia === 'function') {
+                            return window.matchMedia('(max-width: 1024px)').matches;
+                        }
+                    } catch (_) {}
+                    return typeof window.innerWidth === 'number' ? window.innerWidth <= 1024 : true;
+                }
+
+                function findActiveTocLink() {
+                    var current = normalizePath(window.location.pathname);
+                    var actives = document.querySelectorAll('a.toc-link.active');
+                    if (!actives || actives.length === 0) return null;
+
+                    for (var i = 0; i < actives.length; i++) {
+                        var a = actives[i];
+                        if (!a || !a.href) continue;
+                        try {
+                            var pathname = normalizePath(new URL(a.href).pathname);
+                            if (pathname === current) return a;
+                        } catch (_) {}
+                    }
+                    return actives[0];
+                }
+
+                function ensureActiveTocVisible() {
+                    if (!cb.checked) return;
+                    if (!isMobileDrawer()) return;
+
+                    var active = findActiveTocLink();
+                    if (!active) return;
+
+                    var sidebar = active.closest('.book-sidebar') || document.getElementById('sidebar');
+                    if (!sidebar) return;
+
+                    try {
+                        var linkRect = active.getBoundingClientRect();
+                        var sidebarRect = sidebar.getBoundingClientRect();
+                        var marginTop = 8;
+                        var marginBottom = 8;
+                        try {
+                            if (window.getComputedStyle) {
+                                var cs = window.getComputedStyle(sidebar);
+                                if (cs) {
+                                    var pt = parseFloat(cs.paddingTop);
+                                    var pb = parseFloat(cs.paddingBottom);
+                                    if (!isNaN(pt)) marginTop = pt;
+                                    if (!isNaN(pb)) marginBottom = pb;
+                                }
+                            }
+                        } catch (_) {}
+
+                        var top = sidebarRect.top + marginTop;
+                        var bottom = sidebarRect.bottom - marginBottom;
+                        var outOfView = linkRect.top < top || linkRect.bottom > bottom;
+
+                        if (outOfView && typeof active.scrollIntoView === 'function') {
+                            try {
+                                active.scrollIntoView({ block: 'center', behavior: 'auto' });
+                            } catch (e) {
+                                active.scrollIntoView();
+                            }
+                        }
+                    } catch (_) {}
+                }
+
+                function scheduleEnsure() {
+                    setTimeout(ensureActiveTocVisible, 0);
+                    setTimeout(ensureActiveTocVisible, 350);
+                }
+
+                cb.addEventListener('change', function() {
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+
+                if (cb.checked) {
+                    scheduleEnsure();
+                }
+
+                window.addEventListener('pageshow', function(e) {
+                    if (!e || !e.persisted) return;
+                    if (!cb.checked) return;
+                    scheduleEnsure();
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initTocAutoScroll);
+            } else {
+                initTocAutoScroll();
+            }
+        })();
+    </script>
+</body>
+</html>
