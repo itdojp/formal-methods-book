@@ -113,7 +113,7 @@
 
 - 公開ページ: [GitHub Pages](https://itdojp.github.io/formal-methods-book/)
 - リポジトリ: [GitHub]({{ repo_url }})
-- 更新確認先: [コミット履歴]({{ repo_url }}/commits/{{ repo_branch }}/)、[Pull Requests]({{ repo_url }}/pulls)
+- 更新確認先: [コミット履歴]({{ repo_url }}/commits/{{ repo_branch }}/)、[PR 一覧]({{ repo_url }}/pulls)
 - 付録Eは一次情報や関連資料の入口、付録Fは AI支援併用時の注意点の入口として使ってください。
 
 ## ライセンス
