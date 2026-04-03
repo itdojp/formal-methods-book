@@ -36,9 +36,8 @@ source_path: "src/ja/index.md"
 
 ## 学習導線の補足
 
-- 全体像の把握には、[第1章の学習ロードマップ]({{ '/chapters/chapter01/' | relative_url }}) を起点にすると、部ごとの役割が追いやすい。
+- 学習順の決め方や章末の `summary` / `nextSteps` の使い方は、上の「概念マップ」の案内を参照する。
 - 用語の意味や略語は [用語集（Glossary）]({{ '/glossary/' | relative_url }}) で確認し、記法や構文の差分は [付録C: 記法対照表]({{ '/appendices/appendix-c/' | relative_url }}) で確認する。
-- 長い章を読むときは、[第9章]({{ '/chapters/chapter09/' | relative_url }}) など章末に `summary` と `nextSteps` が用意されている章では、先にそれらを確認して、必要な戻り先と次の読解順を固定する。
 
 ## 安全に使うための注意
 
