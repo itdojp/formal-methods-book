@@ -26,6 +26,17 @@
 - 検証技術やツール運用に関心が高い読者は、第III部（模型検査・定理証明・プログラム検証）を軸に読み、前後の章を必要に応じて行き来する形で活用してほしい。
 - 実務への適用を検討している読者は、第IV部（事例研究・適用パターン）を中心に読みつつ、関係する基礎章を併せて確認することで、自組織への導入シナリオをイメージしやすくなる。
 
+## 学習導線の補足
+
+- 全体像の把握には、[第1章の学習ロードマップ]({{ '/chapters/chapter01/' | relative_url }}) を起点にすると、部ごとの役割が追いやすい。
+- 用語の意味や略語は [用語集（Glossary）]({{ '/glossary/' | relative_url }}) で確認し、記法や構文の差分は [付録C: 記法対照表]({{ '/appendices/appendix-c/' | relative_url }}) で確認する。
+- 長い章を読むときは、[第9章]({{ '/chapters/chapter09/' | relative_url }}) など章末に `summary` と `nextSteps` が用意されている章では、先にそれらを確認して、必要な戻り先と次の読解順を固定する。
+
+## 安全に使うための注意
+
+- 形式仕様、模型検査、定理証明の結果は、前提条件と抽象化の置き方に依存します。検証結果だけでシステム全体の安全性や完全性を断定しないでください。
+- 実務へ適用する場合は、検証対象の範囲、未検証の前提、環境差分をレビューや設計文書に残し、関係者の合意を取ってから利用してください。
+- ツールの構文やオプションは変わるため、付録Bや第8章〜第12章の手順を再利用する前に、利用中ツールの公式ドキュメントを確認してください。
 
 ## 想定読者
 
@@ -101,19 +112,9 @@
 
 ## 利用と更新情報
 
-<!-- markdownlint-disable MD034 -->
-{% assign repo_url = site.github.repository_url | default: site.repository_url | default: site.repository.github | default: site.repository %}
-{% if repo_url and repo_url != '' %}
-{% unless repo_url contains 'http' %}
-{% assign repo_url = 'https://github.com/' | append: repo_url %}
-{% endunless %}
-{% endif %}
-{% assign repo_branch = site.repository_branch | default: 'main' %}
-<!-- markdownlint-enable MD034 -->
-
 - 公開ページ: [GitHub Pages](https://itdojp.github.io/formal-methods-book/)
-- リポジトリ: [GitHub]({{ repo_url }})
-- 更新確認先: [コミット履歴]({{ repo_url }}/commits/{{ repo_branch }}/)、[PR 一覧]({{ repo_url }}/pulls)
+- リポジトリ: [GitHub](https://github.com/itdojp/formal-methods-book)
+- 更新確認先: [コミット履歴](https://github.com/itdojp/formal-methods-book/commits/main/)、[PR 一覧](https://github.com/itdojp/formal-methods-book/pulls)
 - 付録Eは一次情報や関連資料の入口、付録Fは AI支援併用時の注意点の入口として使ってください。
 
 ## ライセンス
