@@ -25,6 +25,26 @@ incrementally, and how to read verification results critically.
 These questions are answered through comparative chapters, small but concrete
 examples, and later chapters on adoption, tooling, and case studies.
 
+## Connecting Formal Methods to Test Strategy
+
+Formal methods do not replace testing. They make requirements, invariants,
+counterexamples, and proof obligations explicit so that testing and review can
+focus on the right risks. For each pull request or design review, record the
+following responsibility split.
+
+| Activity | Primary responsibility | Connection to formal methods | Evidence to keep in the PR |
+| --- | --- | --- | --- |
+| Tests / evals / benchmarks | Check observable implementation behavior for selected inputs and scenarios | Derive boundary cases, equivalence classes, and regression cases from specifications and counterexamples | Commands, data set, expected result, and failure logs |
+| Static analysis / types / contracts | Detect syntax, type, data-flow, and local contract violations early | Map preconditions, postconditions, and invariants onto code boundaries | Target, rule set, and any justified exception |
+| Model checking | Explore safety, liveness, and deadlock properties within an explicit state space | Use Alloy, TLA+, CSP, or a similar model to inspect an abstraction | Scope, depth, seed, checked property, and counterexample trace |
+| Theorem proving / program verification | Prove stronger correctness claims under stated assumptions | Manage proof obligations with Hoare logic, Dafny, Rocq, Lean, or related tools | Theorem statement, assumptions, target, and any unproved part |
+| Human review | Judge assumptions, abstractions, uncovered behavior, and operational risk | Review requirement validity and cost-benefit beyond what verifiers can decide | Change decision, residual risk, and rationale for methods not used |
+
+Use this table together with
+[Appendix F: Practical Playbook for AI-Assisted Formal Methods]({{ '/en/appendices/appendix-f/' | relative_url }}).
+When AI drafts specifications or invariants, keep final judgment separated
+between verifiers, CI, and human review.
+
 ## Intended Audience
 
 This book is written for the following readers:
