@@ -192,3 +192,20 @@ When a change includes AI-generated artifacts, turn those artifacts into verifia
 - When a failure occurs, logs and counterexamples are saved as artifacts and remain reproducible
 - Conditions for exceptions, such as skipped verification, and the approval flow are defined
 - Tool versions are fixed, and caching and reproducibility are preserved
+
+## F.10 Responsibility Split with Test Strategy and PR Evidence
+
+When AI helps draft specifications, tests, and proof sketches at the same time,
+it can become unclear which activity justified which claim. Keep the
+responsibilities and evidence separated in each PR.
+
+| Perspective | What to check | Evidence to keep |
+| --- | --- | --- |
+| Specification delta | Which requirement, term, state, event, or invariant changed | Before/after specification, related issue, and non-goals |
+| Test delta | Whether the specification delta produced new or changed tests, evals, or benchmarks | Commands, input data, expected results, and failure logs |
+| Verification delta | Whether checked Alloy/TLA+/Dafny properties correspond to the specification delta | Property name, scope, depth, seed, and tool version |
+| Review delta | Whether uncovered behavior, abstractions, exception approvals, and operational impact were reviewed | Review thread, residual risk, and rationale for methods not used |
+
+Turn counterexamples found by formal methods into test cases, and treat defects
+found by tests as possible missing specifications or invariants. Do not use
+only one of them as the final basis for quality assurance.
