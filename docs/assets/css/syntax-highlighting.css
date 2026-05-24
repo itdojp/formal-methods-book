@@ -9,6 +9,8 @@ pre {
     overflow-x: auto;
     margin: 1.5rem 0;
     position: relative;
+    max-width: 100%;
+    min-width: 0;
 }
 
 code {
@@ -29,6 +31,8 @@ code {
 /* Line Numbers */
 .highlight {
     position: relative;
+    max-width: 100%;
+    min-width: 0;
 }
 
 .highlight pre {
@@ -179,6 +183,8 @@ pre[data-lang]::before {
 /* Copy Button */
 .code-block-wrapper {
     position: relative;
+    max-width: 100%;
+    min-width: 0;
 }
 
 .copy-button {
