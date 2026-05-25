@@ -32,8 +32,9 @@ Markdown で執筆し、日本語版を `docs/`、英語版を `docs/en/` に公
   - bilingual build / deploy の運用基準は `BILINGUAL-WORKFLOW.md` を参照してください。
   - 章（`docs/chapters/*`）は Jekyll フロントマターを含むため本ビルダーでは変更しません。
 - 推奨チェック: `npm test`
-  - `markdownlint`、構造lint、リンクチェックをまとめて実行します。
+  - メタデータ整合性、`markdownlint`、構造lint、リンクチェックをまとめて実行します。
 - 個別実行:
+  - メタデータ整合性: `npm run check:metadata`
   - Lint: `npm run lint`
   - 構造lint: `npm run lint-structure`
   - リンク: `npm run check-links`

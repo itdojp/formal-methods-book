@@ -98,6 +98,9 @@ structure:
     - id: "appendix-e"
       title: "付録E：参考文献とWebリソース"
       path: "/appendices/appendix-e/"
+    - id: "appendix-f"
+      title: "付録F：AI支援の実践ガイド"
+      path: "/appendices/appendix-f/"
 
 
 

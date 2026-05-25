@@ -46,6 +46,9 @@ jobs:
       - name: Bilingual integrity check
         run: npm run qa:bilingual
 
+      - name: Check publish metadata consistency
+        run: npm run check:metadata
+
       - name: Determine scan directory
         id: scan
         shell: bash
