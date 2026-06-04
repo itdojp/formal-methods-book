@@ -17,6 +17,8 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: '20'
-      - run: npm ci || npm i
+          cache: npm
+      - run: npm ci
       - run: npm run build:all
       - run: npm test
+      - run: npm audit

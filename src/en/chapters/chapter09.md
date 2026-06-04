@@ -1789,7 +1789,7 @@ into the same proof-engineering discipline.
 ### A Brief Comparison of Rocq, Isabelle, and Lean
 
 | Viewpoint | Rocq (formerly Coq) | Isabelle/HOL | Lean 4 |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | Foundation | Type theory (CoC family) | Higher-order logic (HOL) | Dependent type theory |
 | Description style | Proof terms + tactics | Structured proof + automation | `term-style` + `tactic-style` |
 | Strengths | Integration of proofs and programs, extraction | Strong automation, strong tool integration, strong document workflow | Reuse through `mathlib4`, modern developer experience |

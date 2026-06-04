@@ -27,17 +27,26 @@ Markdown で執筆し、日本語版を `docs/`、英語版を `docs/en/` に公
 ## セットアップとビルド
 
 - 依存（任意）: Node.js 20+
+- セットアップ: `npm ci`
 - ビルド: `npm run build`
   - 現行のビルドスクリプトは repository 管理下の公開物を更新します。
   - bilingual build / deploy の運用基準は `BILINGUAL-WORKFLOW.md` を参照してください。
   - 章（`docs/chapters/*`）は Jekyll フロントマターを含むため本ビルダーでは変更しません。
 - 推奨チェック: `npm test`
   - メタデータ整合性、`markdownlint`、構造lint、リンクチェックをまとめて実行します。
+- 依存関係監査: `npm audit`
 - 個別実行:
   - メタデータ整合性: `npm run check:metadata`
   - Lint: `npm run lint`
   - 構造lint: `npm run lint-structure`
   - リンク: `npm run check-links`
+
+```bash
+npm ci
+npm run build
+npm test
+npm audit
+```
 
 ## 執筆ルール（抜粋）
 
