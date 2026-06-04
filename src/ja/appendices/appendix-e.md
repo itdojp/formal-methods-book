@@ -169,7 +169,7 @@
 - 一次・準一次情報：
   - AWS Security Blog：<https://aws.amazon.com/blogs/security/automated-reasoning-and-amazon-s2n/>
   - Galois（SAWでの検証例）：<https://www.galois.com/articles/verifying-s2n-hmac-with-saw>
-  - CAV 2018（s2n/SAWの報告、PDF）：<http://www0.cs.ucl.ac.uk/staff/b.cook/CAV18_s2n.pdf>
+  - CAV 2018（s2n/SAWの報告、Springer chapter）：<https://doi.org/10.1007/978-3-319-96142-2_26>
   - s2n-tls（GitHub）：<https://github.com/aws/s2n-tls>
 
 ### 産業界におけるTLA+活用
