@@ -26,7 +26,7 @@ Markdown で執筆し、日本語版を `docs/`、英語版を `docs/en/` に公
 
 ## セットアップとビルド
 
-- 依存（任意）: Node.js 20+
+- 依存（任意）: Node.js 20.18.1+（QA 依存の `cheerio` / `undici` が要求する最低バージョン）
 - セットアップ: `npm ci`
 - ビルド: `npm run build`
   - 現行のビルドスクリプトは repository 管理下の公開物を更新します。
