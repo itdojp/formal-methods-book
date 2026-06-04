@@ -1,0 +1,7 @@
+{
+  "ignorePatterns": [
+    {
+      "pattern": "^https://people\\.csail\\.mit\\.edu/dnj/publications/alloy-journal\\.pdf$"
+    }
+  ]
+}
