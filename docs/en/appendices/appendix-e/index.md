@@ -191,7 +191,7 @@ As of January 2026, it reflects naming changes and current mainstream references
 - Primary and quasi-primary sources:
   - `AWS Security Blog`: <https://aws.amazon.com/blogs/security/automated-reasoning-and-amazon-s2n/>
   - Galois (verification example with `SAW`): <https://www.galois.com/articles/verifying-s2n-hmac-with-saw>
-  - `CAV 2018` (`s2n`/`SAW` report, PDF): <http://www0.cs.ucl.ac.uk/staff/b.cook/CAV18_s2n.pdf>
+  - `CAV 2018` (`s2n`/`SAW` report, Springer chapter): <https://doi.org/10.1007/978-3-319-96142-2_26>
   - `s2n-tls` (`GitHub`): <https://github.com/aws/s2n-tls>
 
 ### Industrial use of TLA+

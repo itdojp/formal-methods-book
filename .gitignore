@@ -7,5 +7,14 @@ tools/.tmp/
 # Common local dependencies
 node_modules/
 
+# Jekyll / GitHub Pages local builds
+_site/
+docs/_site/
+.jekyll-cache/
+.jekyll-metadata
+.bundle/
+vendor/bundle/
+Gemfile.lock
+
 # OS/editor noise
 .DS_Store

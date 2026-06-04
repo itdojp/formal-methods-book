@@ -66,7 +66,7 @@ Notes:
 ### C.3.1 Concept Correspondence (Minimum Set)
 
 | Concept | Z notation (in this book) | Alloy (assuming Alloy Analyzer 6) | CSP (in this book / tools) | TLA+ (assuming TLC) |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | Set (type) | `A : ℙ X` | `A: set X` | Event set `{a, b}` / synchronization set `X` | `A ∈ SUBSET X` |
 | Membership | `x ∈ A` | `x in A` | Event membership `a ∈ X` | `x ∈ A` |
 | Relation | `R : X ↔ Y` | `R: X -> Y` | Usually not written directly | `R ⊆ X × Y` |
@@ -85,7 +85,7 @@ Notes:
 ### C.3.2 Z Notation: Main Symbols and Reading Guide
 
 | Symbol | Meaning | Example reading |
-|---|---|---|
+| --- | --- | --- |
 | `ℙ X` | Power set | power set of `X` |
 | `x ∈ A` | Membership | `x` is in `A` |
 | `R : X ↔ Y` | Relation | relation from `X` to `Y` |
@@ -97,7 +97,7 @@ Notes:
 ### C.3.3 Alloy: Main Symbols (Alloy Analyzer 6)
 
 | Symbol | Meaning | Example |
-|---|---|---|
+| --- | --- | --- |
 | `sig` / field | Sets and relations | `sig User { files: set File }` |
 | Multiplicity `one` / `lone` / `some` / `set` | Cardinality constraint | `owner: one User` |
 | `fact` | Constraint that always holds | `fact { ... }` |
@@ -108,7 +108,7 @@ Notes:
 ### C.3.4 CSP: Main Symbols (Book / Tools)
 
 | Concept | Book notation (mathematical) | Tool notation (representative CSPM/FDR form) |
-|---|---|---|
+| --- | --- | --- |
 | Prefix | `a → P` | `a -> P` |
 | External choice | `P □ Q` | `P [] Q` |
 | Internal choice | `P ⊓ Q` | <code>P &#124;~&#124; Q</code> |
@@ -122,7 +122,7 @@ Note: the tool notation shown here is representative only. In actual work, confi
 ### C.3.5 TLA+: Main Symbols (TLC)
 
 | Symbol | Meaning | Example |
-|---|---|---|
+| --- | --- | --- |
 | `v'` | The next-state value | `x' = x + 1` |
 | `[]P` / `<>P` | Always / eventually | `[]Inv`, `<>Goal` |
 | `WF_vars(A)` / `SF_vars(A)` | Fairness assumptions | `WF_vars(Next)` |
