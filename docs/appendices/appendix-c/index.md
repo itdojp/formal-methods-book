@@ -52,9 +52,9 @@ AI支援開発では、出力の正当性を検証器で担保することが前
 | 関係 | `R : X ↔ Y` | `R: X -> Y` | （通常は直接は書かない） | `R ⊆ X × Y` |
 | 全関数 | `f : X → Y` | `f: X -> one Y` | （通常は直接は書かない） | `f ∈ [X -> Y]` |
 | 部分関数 | `f : X ⇸ Y` | `f: X -> lone Y` | （通常は直接は書かない） | （必要なら部分関数として表現） |
-| 状態 | 状態スキーマ | 時刻（ステップ）を明示してモデル化 | プロセス（状態は遷移に埋め込む） | 変数 `v` と次状態 `v'` |
-| 初期状態 | `InitState` | `pred Init[...]` | 初期プロセス `P0` | `Init == ...` |
-| 遷移/操作 | `ΔState` | `pred Step[s, s']` | 前置 `a → P`（ツールでは `a -> P`） | `Next == ...` |
+| 状態 | 状態スキーマ | Alloy 6 では `var sig` / `var` field、旧スタイルでは時刻（ステップ）を明示 | プロセス（状態は遷移に埋め込む） | 変数 `v` と次状態 `v'` |
+| 初期状態 | `InitState` | `fact init { ... }` または `pred Init[...]` | 初期プロセス `P0` | `Init == ...` |
+| 遷移/操作 | `ΔState` | `Trash' = Trash + f` のようにprimeで次状態を参照 | 前置 `a → P`（ツールでは `a -> P`） | `Next == ...` |
 | 不変条件（安全性） | スキーマ制約 | `fact` / `assert` | refinement / assertions（ツール依存） | `Invariant == ...` / `[]P` |
 | 活性/公平性 | （拡張が必要） | （トレース上で表現） | （ツール依存） | `<>P`, `WF_vars(A)`, `SF_vars(A)` |
 
@@ -84,6 +84,15 @@ AI支援開発では、出力の正当性を検証器で担保することが前
 | `assert` + `check` | 性質検証（反例探索） | `check Inv for 5` |
 | `run` | 充足例探索 | `run { ... } for 5` |
 | `.` / `~` / `^` | 結合/転置/推移閉包 | `u.files`, `~r`, `^parent` |
+| `var` | 状態により変化するシグネチャ/フィールド | `var sig Trash in File {}` |
+| `'`（prime） | 次状態の値 | `Trash' = Trash + f` |
+| `always` / `eventually` | 常に / いつか | `always Inv`, `eventually some Done` |
+| `once` | 過去に一度でも成立 | `restore[f] implies once delete[f]` |
+| `after` / `until` | 次状態 / ある条件まで継続 | `after P`, `P until Q` |
+| `for ... steps` | トレース長の探索範囲 | `check Inv for 3 but 6 steps` |
+
+補足：Alloy 6 の時相演算子はトレース上で評価されます。
+Visualizer や CLI の結果を読むときは、得られた lasso trace、シグネチャのスコープ、`steps` の範囲を合わせて記録してください。
 
 ### C.3.4 CSP：主要記号（本文/ツール）
 

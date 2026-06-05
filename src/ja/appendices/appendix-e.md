@@ -17,6 +17,9 @@
 - 推奨読者：第4章（Alloy）、第8章（模型検査の考え方）
 - 一次情報：
   - 公式サイト：<https://alloytools.org/>
+  - Alloy 6 概要（`var`、prime、temporal operator、steps、lasso trace）：<https://alloytools.org/alloy6.html>
+  - Alloy Documentation：<https://alloy.readthedocs.io/>
+  - Practical Alloy: A temporal logic primer：<https://practicalalloy.github.io/chapters/behavioral-topics/topics/temporal-logic/index.html>
   - リリース（Alloy 6.x）：<https://github.com/AlloyTools/org.alloytools.alloy/releases>
 
 ### TLA+（TLC）
