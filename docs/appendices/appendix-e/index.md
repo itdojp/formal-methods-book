@@ -34,7 +34,7 @@ source_path: "src/ja/appendices/appendix-e.md"
 - 用途：分散システム/並行システムの状態遷移仕様と、探索による検証（TLC）。新規導入では Toolbox だけでなく、VS Code 拡張と CLI 実行も確認する。
 - 推奨読者：第7章（TLA+）、第8章（模型検査）、第12章（ツールと自動化）
 - 一次情報：
-  - TLA+公式（Lamportサイト）：<https://lamport.azurewebsites.net/tla/tla.html>
+  - TLA+公式（Lamportサイト）：<https://lamport.org/tla/tla.html>
   - TLA+ Documentation and Tools Guide：<https://docs.tlapl.us/>
   - TLA+ VS Code拡張：<https://marketplace.visualstudio.com/items?itemName=tlaplus.vscode-ide>
   - Current Versions of the TLA+ Tools：<https://github.com/tlaplus/tlaplus/blob/master/general/docs/current-tools.md>
@@ -259,7 +259,7 @@ source_path: "src/ja/appendices/appendix-e.md"
 
 - 推奨読者：第7章（TLA+）、第13章（事例研究）
 - 一次・準一次情報：
-  - Lamport（Industrial use of TLA+）：<https://lamport.azurewebsites.net/tla/industrial-use.html>
+  - Lamport（Industrial use of TLA+）：<https://lamport.org/tla/industrial-use.html>
   - Microsoft Learn（Cosmos DBの分散実装と整合性、TLA+仕様への導線）：<https://learn.microsoft.com/en-us/azure/cosmos-db/global-dist-under-the-hood>
   - Azure Cosmos DB（TLA+高レベル仕様）：<https://github.com/Azure/azure-cosmos-tla>
   - Microsoft Research（Cosmos DBの整合性保証に関するTLA+仕様、動画）：<https://www.microsoft.com/en-us/research/video/tla-specifications-of-the-consistency-guarantees-provided-by-cosmos-db/>
