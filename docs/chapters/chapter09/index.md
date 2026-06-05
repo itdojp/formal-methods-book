@@ -1637,12 +1637,12 @@ Lean 4 には、証明を「式（term）として書く」スタイルと、「
 | --- | --- | --- | --- |
 | 基盤 | 型理論（CoC系） | 高階論理（HOL） | 依存型理論 |
 | 記述 | 証明項 + tactic | 構造化証明 + 自動化 | term-style + tactic-style |
-| 強み | 証明とプログラム統合、抽出等 | 自動化/ツール統合、文書化 | mathlib4による資産再利用、現代的な開発体験 |
+| 強み | 証明とプログラム統合、抽出等 | 自動化/ツール統合、文書化 | mathlib（mathlib4）による資産再利用、現代的な開発体験 |
 | 向く場面 | 厳密な仕様/実装の統合開発 | 大規模理論の整理、工学的証明 | 既存資産を活用した形式化、継続運用 |
 
 （注：いずれも「最終判定は小さな信頼核」が共通で、周辺自動化は信頼核の外側に置かれます。）
 
-### mathlib4：再利用可能な証明資産
+### mathlib（mathlib4）：再利用可能な証明資産
 
 Lean 4 では mathlib がコミュニティ主導の形式化数学ライブラリとして機能し、数学・計算機科学の定理や定義を再利用できます。
 公式サイトでも Mathlib は Lean の主要な use case として扱われ、研究数学だけでなくアルゴリズム正しさ、暗号プロトコル、科学計算、AI安全性検証の基盤になり得るものとして紹介されています。
@@ -1664,7 +1664,7 @@ Lean 4 は「すべてを定理証明で覆う」ための道具ではなく、A
 - Lean 公式: <https://lean-lang.org/>
 - Lean 4（GitHub）: <https://github.com/leanprover/lean4>
 - Mathlib use case: <https://lean-lang.org/use-cases/mathlib>
-- mathlib4: <https://github.com/leanprover-community/mathlib4>
+- mathlib4 GitHub: <https://github.com/leanprover-community/mathlib4>
 
 ---
 
