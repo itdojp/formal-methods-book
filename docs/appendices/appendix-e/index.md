@@ -124,7 +124,7 @@ source_path: "src/ja/appendices/appendix-e.md"
 - 一次情報：
   - ドキュメント：<https://agda.readthedocs.io/en/latest/>
 
-## 4) プログラム検証（Dafny / Frama-C / CBMC / VeriFast / SPARK）
+## 4) プログラム検証（Dafny / Frama-C / CBMC / VeriFast / SPARK / Rust検証ツール）
 
 ### Dafny
 
@@ -161,6 +161,46 @@ source_path: "src/ja/appendices/appendix-e.md"
 - 推奨読者：第11章（導入戦略）、第12章（ツール統合）
 - 一次情報：
   - 公式サイト：<https://www.adacore.com/sparkpro>
+
+### Kani Rust Verifier
+
+- 用途：Rustコードの模型検査、proof harness、assertion、panic、overflow、`unsafe` 周辺の検査
+- 推奨読者：第8章（模型検査）、第10章（プログラム検証）、第12章（CI）
+- 一次情報：
+  - 公式ドキュメント：<https://model-checking.github.io/kani/>
+  - GitHub：<https://github.com/model-checking/kani>
+
+### Verus
+
+- 用途：Rust風の仕様・証明記法とSMTにより、低レベルシステムコードの機能的正しさを検証する
+- 推奨読者：第9章（型と証明）、第10章（プログラム検証）
+- 一次情報：
+  - Verus Tutorial and Reference：<https://verus-lang.github.io/verus/guide/>
+  - GitHub：<https://github.com/verus-lang/verus>
+
+### Creusot
+
+- 用途：RustコードをWhy3系の検証条件へ接続し、panic、overflow、未定義動作、仕様適合性を演繹検証する
+- 推奨読者：第10章（プログラム検証）、第12章（証明義務管理）
+- 一次情報：
+  - 公式サイト：<https://creusot.rs/>
+  - GitHub：<https://github.com/creusot-rs/creusot>
+
+### Prusti
+
+- 用途：Viper検証基盤に基づくRust向け契約検証、panic/overflow/事前条件/事後条件/ループ不変条件の検査
+- 推奨読者：第10章（プログラム検証）
+- 一次情報：
+  - User guide：<https://viperproject.github.io/prusti-dev/user-guide/>
+  - GitHub：<https://github.com/viperproject/prusti-dev>
+
+### Aeneas
+
+- 用途：RustプログラムをCharon/LLBC経由で F*、Rocq/Coq、HOL4、Lean などの証明支援系へ接続する
+- 推奨読者：第9章（証明支援系）、第10章（プログラム検証）
+- 一次情報：
+  - 公式サイト：<https://aeneasverif.github.io/>
+  - GitHub：<https://github.com/AeneasVerif/aeneas>
 
 ## 5) SMT標準とソルバー（SMT-LIB / Z3 / cvc5）
 

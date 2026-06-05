@@ -28,6 +28,8 @@ source_path: "src/ja/glossary/index.md"
 
 **アサーション（Assertion）**：成立すべき性質を表明する文。Alloyでは `assert`、プログラム検証では実装上のチェック点として用いる。→第4章/第10章
 
+**Aeneas**：Rustプログラムを Charon/LLBC 経由で F*、Rocq/Coq、HOL4、Lean などの証明支援系へ接続する検証ツールチェーン。変換対象と未対応機能を確認して使う。→第10章
+
 ## B
 
 **BDD（Binary Decision Diagram）**：論理関数を効率的に表現するデータ構造。シンボリック模型検査で使用される。→第8章
@@ -39,6 +41,8 @@ source_path: "src/ja/glossary/index.md"
 **CTL（Computation Tree Logic）**：分岐時間論理の一種。到達性や分岐の性質を表現する。→第8章
 
 **cvc5**：CVC4 の後継で、SMT と SyGuS を扱うオープンソースの自動定理証明器/SMTソルバー。検証ツールのバックエンドとして使う場合は、バージョン、timeout、`unknown`、ログをCI証跡として残す。→第10章/第12章
+
+**Creusot**：Rust向け演繹検証器。RustコードをWhy3系の検証条件へ接続し、panic、overflow、仕様適合性などを検査する。→第10章
 
 **カリー・ハワード対応**：命題と型、証明とプログラムが対応するという見方。→第9章
 
@@ -58,6 +62,10 @@ source_path: "src/ja/glossary/index.md"
 
 **Hoare三項組**：`{P} S {Q}` の形式。Pが事前条件、Sがプログラム、Qが事後条件。→第10章
 
+## K
+
+**Kani**：Rust向け模型検査器。`#[kani::proof]` harness、assertion、panic、overflow、`unsafe` 周辺を検査できるが、結果は探索境界と到達範囲に依存する。→第10章/第12章
+
 ## L
 
 **LTL（Linear Temporal Logic）**：線形時間論理。時間の流れに沿った性質を表現する。→第7章/第8章
@@ -69,6 +77,10 @@ source_path: "src/ja/glossary/index.md"
 **模型検査（Model Checking）**：システムの状態空間を探索し、性質の成立可否を自動判定する手法。→第8章
 
 **有界探索（Bounded analysis）**：要素数、探索深さ、steps などの境界を固定し、その範囲で反例や証跡を探す方法。境界外の一般性は別途検討する。→第4章/第8章
+
+## P
+
+**Prusti**：Viper検証基盤に基づくRust向け契約検証器。safe Rust の事前条件、事後条件、ループ不変条件、panic/overflowの検査を扱う。→第10章
 
 ## Q
 
@@ -103,6 +115,10 @@ source_path: "src/ja/glossary/index.md"
 ## U
 
 **unknown**：SMTソルバーや検証器が、与えられた設定・制限時間・論理断片では結論を返せなかった状態。成功でも反例なしでもなく、CIでは調査対象として扱う。→第12章
+
+## V
+
+**Verus**：Rust風の仕様・証明記法とSMTを用いて、低レベルシステムコードの機能的正しさや不変条件を静的に検証するツール。→第10章
 
 ## Z
 
