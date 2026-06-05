@@ -1203,7 +1203,7 @@ Alloyは伝統的に「静的構造（関係）」の整合性確認に強い一
 
 - `var`：シグネチャ/フィールドを「状態によって変化するもの」として宣言する
 - `'`（prime）：次状態の値を参照する（例：`Trash' = Trash + f`）
-- temporal operator：`always`（常に）、`eventually`（いつか）、`after`（次状態）、`until`（ある条件まで継続）など
+- temporal operator：`always`（常に）、`eventually`（いつか）、`once`（過去に一度でも）、`after`（次状態）、`until`（ある条件まで継続）など
 - `n steps` / `M .. N steps`：探索するトレース長の上限または範囲を指定する。`for N steps` は厳密に N 遷移だけを調べる指定ではない
 
 Alloy 6 のインスタンスは、単一の静的構造だけでなく、状態列としてのトレースを表します。

@@ -87,6 +87,7 @@ AI支援開発では、出力の正当性を検証器で担保することが前
 | `var` | 状態により変化するシグネチャ/フィールド | `var sig Trash in File {}` |
 | `'`（prime） | 次状態の値 | `Trash' = Trash + f` |
 | `always` / `eventually` | 常に / いつか | `always Inv`, `eventually some Done` |
+| `once` | 過去に一度でも成立 | `restore[f] implies once delete[f]` |
 | `after` / `until` | 次状態 / ある条件まで継続 | `after P`, `P until Q` |
 | `for ... steps` | トレース長の探索範囲 | `check Inv for 3 but 6 steps` |
 
