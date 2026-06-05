@@ -347,7 +347,7 @@ Quint は `typecheck`、`test`、`verify` を分け、`quint verify` が Apalach
 | 記録項目 | TLA+ / TLC | Apalache | Quint |
 | --- | --- | --- | --- |
 | バージョン | `tla2tools.jar` のタグ / SHA | Apalache リリース、Java、SMTソルバ | `@informalsystems/quint` のバージョン、backend |
-| モデル設定 | `.cfg`、定数、対称性、状態制約 | `--length` / `--max-steps`、init / next / invariant | `--invariant`、`--max-steps`、backend、seed |
+| モデル設定 | `.cfg`、定数、対称性、状態制約 | `--length`、init / next / invariant | `--invariant`、`--max-steps`、backend、seed |
 | 証跡 | TLC ログ、状態数、反例 trace | NoError / counterexample、SMT関連ログ | typecheck / test / verify 結果、ITF trace など |
 | PRで確認すること | 仕様変更と `.cfg` 変更が同じ意図か | 境界がIssue/PR本文に書かれているか | Quint仕様がTLA+学習や既存仕様を置き換えすぎていないか |
 
