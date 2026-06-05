@@ -27,7 +27,7 @@
 - 用途：分散システム/並行システムの状態遷移仕様と、探索による検証（TLC）。新規導入では Toolbox だけでなく、VS Code 拡張と CLI 実行も確認する。
 - 推奨読者：第7章（TLA+）、第8章（模型検査）、第12章（ツールと自動化）
 - 一次情報：
-  - TLA+公式（Lamportサイト）：<https://lamport.azurewebsites.net/tla/tla.html>
+  - TLA+公式（Lamportサイト）：<https://lamport.org/tla/tla.html>
   - TLA+ Documentation and Tools Guide：<https://docs.tlapl.us/>
   - TLA+ VS Code拡張：<https://marketplace.visualstudio.com/items?itemName=tlaplus.vscode-ide>
   - Current Versions of the TLA+ Tools：<https://github.com/tlaplus/tlaplus/blob/master/general/docs/current-tools.md>
@@ -93,6 +93,7 @@
 - 推奨読者：第9章（定理証明の基礎）
 - 一次情報：
   - 公式サイト：<https://rocq-prover.org/>
+  - changelog：<https://rocq-prover.org/changelog>
   - リリース（例：9.0.0）：<https://rocq-prover.org/releases/9.0.0>
 
 ### Lean（Lean 4）
@@ -101,7 +102,9 @@
 - 推奨読者：第9章（定理証明の基礎）
 - 一次情報：
   - 公式サイト：<https://lean-lang.org/>
+  - Mathlib use case：<https://lean-lang.org/use-cases/mathlib>
   - GitHub（Lean 4）：<https://github.com/leanprover/lean4>
+  - mathlib4：<https://github.com/leanprover-community/mathlib4>
 
 ### Isabelle
 
@@ -249,7 +252,7 @@
 
 - 推奨読者：第7章（TLA+）、第13章（事例研究）
 - 一次・準一次情報：
-  - Lamport（Industrial use of TLA+）：<https://lamport.azurewebsites.net/tla/industrial-use.html>
+  - Lamport（Industrial use of TLA+）：<https://lamport.org/tla/industrial-use.html>
   - Microsoft Learn（Cosmos DBの分散実装と整合性、TLA+仕様への導線）：<https://learn.microsoft.com/en-us/azure/cosmos-db/global-dist-under-the-hood>
   - Azure Cosmos DB（TLA+高レベル仕様）：<https://github.com/Azure/azure-cosmos-tla>
   - Microsoft Research（Cosmos DBの整合性保証に関するTLA+仕様、動画）：<https://www.microsoft.com/en-us/research/video/tla-specifications-of-the-consistency-guarantees-provided-by-cosmos-db/>
@@ -261,7 +264,12 @@ LLMは、仕様/証明/反例解釈の「草案生成」や「探索支援」に
 本書では、LLM出力を「未信頼入力」として扱い、必ず機械検証（模型検査/型チェック/SMT等）で閉じる運用を推奨する。
 
 - 代表的実装・評価基盤：
+  - LeanDojo-v2：<https://leandojo.org/leandojo.html>
+  - LeanDojo docs：<https://leandojo.readthedocs.io/>
   - Lean Copilot：<https://github.com/lean-dojo/LeanCopilot>
+  - AlphaProof / AlphaGeometry 2 announcement：<https://deepmind.google/blog/ai-solves-imo-problems-at-silver-medal-level/>
+  - AlphaProof Nature paper：<https://www.nature.com/articles/s41586-025-09833-y>
+  - DeepSeek-Prover-V2（arXiv）：<https://arxiv.org/abs/2504.21801>
   - ProofGym（NeurIPS 2025）：<https://neurips.cc/virtual/2025/131121>
   - APOLLO（arXiv）：<https://arxiv.org/html/2505.05758v5>
   - 自然言語→形式言語（例：EMNLP 2025、PDF）：<https://aclanthology.org/2025.emnlp-main.1586v2.pdf>
