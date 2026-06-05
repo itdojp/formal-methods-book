@@ -24,6 +24,7 @@ source_path: "src/ja/appendices/appendix-b.md"
 - Dafny（検証器）
 
 補足：
+- Quint CLI は、TLA+意味論に基づく型付き仕様言語をCIに載せる選択肢である。ただし本リポジトリの最小セットには含めず、導入する場合は公式手順に従ってバージョンを固定する。
 - Rocq/Isabelle等の定理証明器は依存が大きいため、本付録では一次情報リンク（付録E）を主とする。
 - Lean 4 は、本書の導線として **最小構成のみ**を本付録末尾に示す（Optional）。
 
@@ -82,6 +83,32 @@ bash tools/dafny-verify.sh examples/dafny/Abs.dfy
   - `tools/bootstrap.sh` が取得するDafnyはLinux向け配布物のため、macOSでは公式配布物（macOS向け）か `dotnet tool` を利用する
 - Linux：
   - ディストリ依存でJavaパッケージ名が異なる（例：Ubuntu/Debianは `openjdk-17-jre`）
+
+## TLA+ / Apalache / Quint のエディタ・CLI導線（Optional）
+
+本リポジトリでは `tools/bootstrap.sh` が TLC (`tla2tools.jar`) と Apalache を取得し、次のラッパーでログと成果物を `.artifacts/` に保存する。
+
+```bash
+# TLC: .cfg、workers、depth、seed、timeoutを明示できる
+bash tools/tlc-run.sh --config examples/tla/QueueBounded.cfg --workers 1 --seed 202606 --time-limit 120 examples/tla/QueueBounded.tla
+
+# Apalache: init/next/invariantと探索長を明示する
+bash tools/apalache-check.sh --config examples/apalache/Counter.cfg --length 10 --init Init --next Next --inv Inv examples/apalache/Counter.tla
+```
+
+TLA+をエディタで編集する場合は、VS Code拡張を利用しつつ、拡張、Java、`tla2tools.jar`、`.cfg` の版をPR本文に記録する。
+Quint を導入する場合は、`@informalsystems/quint` のバージョンを `package.json` / lockfile / コンテナ定義等で固定し、`typecheck`、`test`、`verify` を分けてCIに組み込む。
+次の断片は導入例であり、本リポジトリではまだ実行対象として固定していない。
+
+```bash
+npm install --save-dev @informalsystems/quint@<固定バージョン>
+npx quint typecheck specs/example.qnt
+npx quint test specs/example.qnt --seed 202606
+npx quint verify specs/example.qnt --invariant=Inv --max-steps=10 --out-itf .artifacts/quint/example.itf.json
+```
+
+`quint verify` は既定で Apalache を使い、必要に応じて `--backend=tlc` で TLC を使う。
+結果を「仕様全体の証明」とは扱わず、対象仕様、backend、境界、seed、timeout、反例 trace の保存場所を合わせて確認する。
 
 ## Lean 4 環境構築（最小構成 / Optional）
 

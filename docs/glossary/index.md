@@ -23,6 +23,8 @@ source_path: "src/ja/glossary/index.md"
 
 **Alloy 6**：Alloy に `var`、prime、時相演算子、`steps` 指定を導入し、関係モデル上で状態遷移トレースを直接探索しやすくした系列。→第4章
 
+**Apalache**：TLA+仕様をSMTにエンコードして有界模型検査や不変条件検査を行う検査器。TLCの上位互換ではなく、構文サポート、有限構造、探索境界、SMTソルバ依存を確認して使う。→第7章/第8章/第12章
+
 **アサーション（Assertion）**：成立すべき性質を表明する文。Alloyでは `assert`、プログラム検証では実装上のチェック点として用いる。→第4章/第10章
 
 ## B
@@ -64,6 +66,10 @@ source_path: "src/ja/glossary/index.md"
 **模型検査（Model Checking）**：システムの状態空間を探索し、性質の成立可否を自動判定する手法。→第8章
 
 **有界探索（Bounded analysis）**：要素数、探索深さ、steps などの境界を固定し、その範囲で反例や証跡を探す方法。境界外の一般性は別途検討する。→第4章/第8章
+
+## Q
+
+**Quint**：TLA+の意味論に基づく型付き仕様言語。CLI、REPL、simulation、`verify` により Apalache / TLC と連携できるが、TLA+本体や既存教材の完全な置換ではない。→第7章/第8章/第12章
 
 ## S
 

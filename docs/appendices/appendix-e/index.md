@@ -8,7 +8,7 @@ source_path: "src/ja/appendices/appendix-e.md"
 # 付録E：参考文献とWebリソース（一次情報への導線）
 
 本付録は、本文で扱った形式的手法・ツールについて、**一次情報（公式サイト/公式リポジトリ/公式ドキュメント/公式リリース）**へ到達するための索引である。  
-2026-01 時点で、名称変更・主流ツールの更新（例：Coq→Rocq、CVC4→cvc5、Alloy 6 系、TLA+の Apalache 等）を反映している。
+2026-06 時点で、名称変更・主流ツールの更新（例：Coq→Rocq、CVC4→cvc5、Alloy 6 系、TLA+の Apalache / Quint 等）を反映している。
 
 ## 数値の出典ポリシー（本書共通）
 
@@ -31,11 +31,25 @@ source_path: "src/ja/appendices/appendix-e.md"
 
 ### TLA+（TLC）
 
-- 用途：分散システム/並行システムの状態遷移仕様と、探索による検証（TLC）
-- 推奨読者：第7章（TLA+）、第8章（模型検査）
+- 用途：分散システム/並行システムの状態遷移仕様と、探索による検証（TLC）。新規導入では Toolbox だけでなく、VS Code 拡張と CLI 実行も確認する。
+- 推奨読者：第7章（TLA+）、第8章（模型検査）、第12章（ツールと自動化）
 - 一次情報：
   - TLA+公式（Lamportサイト）：<https://lamport.azurewebsites.net/tla/tla.html>
+  - TLA+ Documentation and Tools Guide：<https://docs.tlapl.us/>
+  - TLA+ VS Code拡張：<https://marketplace.visualstudio.com/items?itemName=tlaplus.vscode-ide>
+  - Current Versions of the TLA+ Tools：<https://github.com/tlaplus/tlaplus/blob/master/general/docs/current-tools.md>
   - tlaplus/tlaplus リリース（tla2tools.jar）：<https://github.com/tlaplus/tlaplus/releases>
+
+### Quint（TLA+意味論に基づく型付き仕様言語）
+
+- 用途：TLA的な状態機械仕様を、型付きでプログラミング言語に近い構文として記述し、CLI / REPL / simulation / model checking に接続する
+- 推奨読者：第7章（TLA+）、第8章（模型検査）、第12章（CI）
+- 注意：TLA+ 本体の置換ではなく、TLA+ の考え方をエンジニアに導入しやすくする表層言語として扱う
+- 一次情報：
+  - Quint Documentation：<https://quint.sh/docs/lang>
+  - Quint CLI Manual：<https://quint.sh/docs/quint>
+  - Quint Design principles：<https://quint.sh/docs/design-principles>
+  - Quint Model Checkers：<https://quint.sh/docs/model-checkers>
 
 ### Z（Z記法）
 
@@ -60,6 +74,8 @@ source_path: "src/ja/appendices/appendix-e.md"
 - 推奨読者：第7章（TLA+）、第8章（模型検査）、第12章（ツールと自動化）
 - 一次情報：
   - 公式サイト：<https://apalache-mc.org/>
+  - Documentation：<https://apalache-mc.org/docs/>
+  - Running the Tool：<https://apalache-mc.org/docs/apalache/running.html>
   - GitHub（リリース/配布物）：<https://github.com/apalache-mc/apalache/releases>
 
 ### SPIN（Promela）
