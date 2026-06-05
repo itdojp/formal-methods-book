@@ -100,6 +100,7 @@ source_path: "src/ja/appendices/appendix-e.md"
 - 推奨読者：第9章（定理証明の基礎）
 - 一次情報：
   - 公式サイト：<https://rocq-prover.org/>
+  - changelog：<https://rocq-prover.org/changelog>
   - リリース（例：9.0.0）：<https://rocq-prover.org/releases/9.0.0>
 
 ### Lean（Lean 4）
@@ -108,7 +109,9 @@ source_path: "src/ja/appendices/appendix-e.md"
 - 推奨読者：第9章（定理証明の基礎）
 - 一次情報：
   - 公式サイト：<https://lean-lang.org/>
+  - Mathlib use case：<https://lean-lang.org/use-cases/mathlib>
   - GitHub（Lean 4）：<https://github.com/leanprover/lean4>
+  - mathlib4：<https://github.com/leanprover-community/mathlib4>
 
 ### Isabelle
 
@@ -268,7 +271,12 @@ LLMは、仕様/証明/反例解釈の「草案生成」や「探索支援」に
 本書では、LLM出力を「未信頼入力」として扱い、必ず機械検証（模型検査/型チェック/SMT等）で閉じる運用を推奨する。
 
 - 代表的実装・評価基盤：
+  - LeanDojo-v2：<https://leandojo.org/leandojo.html>
+  - LeanDojo docs：<https://leandojo.readthedocs.io/>
   - Lean Copilot：<https://github.com/lean-dojo/LeanCopilot>
+  - AlphaProof / AlphaGeometry 2 announcement：<https://deepmind.google/blog/ai-solves-imo-problems-at-silver-medal-level/>
+  - AlphaProof Nature paper：<https://www.nature.com/articles/s41586-025-09833-y>
+  - DeepSeek-Prover-V2（arXiv）：<https://arxiv.org/abs/2504.21801>
   - ProofGym（NeurIPS 2025）：<https://neurips.cc/virtual/2025/131121>
   - APOLLO（arXiv）：<https://arxiv.org/html/2505.05758v5>
   - 自然言語→形式言語（例：EMNLP 2025、PDF）：<https://aclanthology.org/2025.emnlp-main.1586v2.pdf>
