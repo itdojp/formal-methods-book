@@ -162,20 +162,34 @@ source_path: "src/ja/appendices/appendix-e.md"
 - 一次情報：
   - 公式サイト：<https://www.adacore.com/sparkpro>
 
-## 5) SMTソルバー（Z3 / cvc5）
+## 5) SMT標準とソルバー（SMT-LIB / Z3 / cvc5）
+
+### SMT-LIB
+
+- 用途：SMTソルバーへ論理式、理論、ベンチマーク、検査対象を渡す標準形式
+- 推奨読者：第10章（プログラム検証）、第12章（ツールと自動化）
+- 注意：SMT-LIB v3 は予備提案であり、現行の SMT-LIB 2.7 や各ツールの実務運用を直ちに置き換えるものではない
+- 一次情報：
+  - SMT-LIB Standard Language（Version 2.7）：<https://smt-lib.org/language.shtml>
+  - SMT-LIB Version 3.0 - Preliminary Proposal：<https://smt-lib.org/version3.shtml>
 
 ### Z3
 
 - 用途：制約充足/定理証明の基盤（多くの検証器のバックエンド）
 - 推奨読者：第10章（プログラム検証）、第12章（ツールと自動化）
 - 一次情報：
+  - Z3 Guide：<https://microsoft.github.io/z3guide/>
+  - Programming Z3：<https://theory.stanford.edu/~nikolaj/programmingz3.html>
+  - GitHub：<https://github.com/Z3Prover/z3>
   - GitHub（リリース）：<https://github.com/Z3Prover/z3/releases>
 
 ### cvc5（CVC系列の後継。旧：CVC4）
 
-- 用途：SMTソルバー（検証器バックエンドとして利用されることが多い）
+- 用途：SMTソルバーおよび SyGuS エンジン（検証器バックエンドとして利用されることが多い）
 - 推奨読者：第10章（プログラム検証）、第12章（ツールと自動化）
 - 一次情報：
+  - 公式サイト：<https://cvc5.github.io/>
+  - 公式ドキュメント：<https://cvc5.github.io/docs/>
   - GitHub：<https://github.com/cvc5/cvc5>
   - GitHub（リリース）：<https://github.com/cvc5/cvc5/releases>
   - Python bindings（必要時）：<https://pypi.org/project/cvc5/>
