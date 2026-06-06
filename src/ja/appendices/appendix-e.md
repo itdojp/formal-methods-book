@@ -258,6 +258,40 @@
   - Microsoft Research（Cosmos DBの整合性保証に関するTLA+仕様、動画）：<https://www.microsoft.com/en-us/research/video/tla-specifications-of-the-consistency-guarantees-provided-by-cosmos-db/>
   - Hackett（ICSE SEIP 2023、PDF）：<https://fhackett.com/files/icse-seip-23-inconsistency.pdf>
 
+### Cedar / AWS（認可ポリシー検証）
+
+- 推奨読者：第13章（事例研究）、第11章（導入戦略）、第12章（ツール連携）
+- 一次・準一次情報：
+  - Cedar open source announcement：<https://aws.amazon.com/about-aws/whats-new/2023/05/cedar-open-source-language-access-control/>
+  - Amazon Verified Permissions：<https://aws.amazon.com/verified-permissions/>
+  - Cedar Analysis announcement：<https://aws.amazon.com/blogs/opensource/introducing-cedar-analysis-open-source-tools-for-verifying-authorization-policies/>
+  - How we built Cedar（Amazon Science）：<https://www.amazon.science/blog/how-we-built-cedar-with-automated-reasoning-and-differential-testing>
+  - Lean use case: Cedar：<https://lean-lang.org/use-cases/cedar/>
+  - Cedar Policy：<https://www.cedarpolicy.com/>
+  - Cedar GitHub organization：<https://github.com/cedar-policy>
+
+### Amazon Bedrock Guardrails Automated Reasoning checks
+
+- 推奨読者：第13章（事例研究）、付録F（AI支援運用）
+- 注意：LLMそのものの正しさ証明ではなく、LLM出力を形式化されたポリシー/ドメイン知識に照らして検査する事例として扱う。対応リージョン、対応言語、API、制限事項は変わるため公式ドキュメントを確認する。
+- 一次情報：
+  - GA announcement：<https://aws.amazon.com/about-aws/whats-new/2025/08/automated-reasoning-checks-amazon-bedrock-guardrails/>
+  - User Guide：<https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-automated-reasoning-checks.html>
+  - Guardrails overview：<https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html>
+
+### スマートコントラクト検証（Ethereum / Move / Certora）
+
+- 推奨読者：第10章（プログラム検証）、第12章（自動化）、第13章（事例研究）
+- 注意：仕様が誤っていれば、検証は誤った仕様への適合性を示すだけである。探索境界、ソルバーの `unknown`、タイムアウト、未モデル化の環境、外部オラクル、アップグレード権限を証跡に残す。
+- 一次情報：
+  - Ethereum formal verification：<https://ethereum.org/developers/docs/smart-contracts/formal-verification/>
+  - Solidity SMTChecker：<https://docs.soliditylang.org/en/latest/smtchecker.html>
+  - Aptos Move Prover：<https://aptos.dev/build/smart-contracts/prover>
+  - Certora Prover open source announcement：<https://www.certora.com/blog/certora-goes-open-source>
+  - Certora Prover GitHub：<https://github.com/Certora/CertoraProver>
+  - Certora User Guide：<https://docs.certora.com/en/latest/docs/user-guide/index.html>
+  - Certora Verification Language：<https://docs.certora.com/en/latest/docs/cvl/index.html>
+
 ## 7) AI×形式手法（LLM支援：位置づけと注意点）
 
 LLMは、仕様/証明/反例解釈の「草案生成」や「探索支援」に有用である一方、**最終保証の根拠にはならない**。  
@@ -267,6 +301,7 @@ LLMは、仕様/証明/反例解釈の「草案生成」や「探索支援」に
   - LeanDojo-v2：<https://leandojo.org/leandojo.html>
   - LeanDojo docs：<https://leandojo.readthedocs.io/>
   - Lean Copilot：<https://github.com/lean-dojo/LeanCopilot>
+  - Amazon Bedrock Guardrails Automated Reasoning checks：<https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-automated-reasoning-checks.html>
   - AlphaProof / AlphaGeometry 2 announcement：<https://deepmind.google/blog/ai-solves-imo-problems-at-silver-medal-level/>
   - AlphaProof Nature paper：<https://www.nature.com/articles/s41586-025-09833-y>
   - DeepSeek-Prover-V2（arXiv）：<https://arxiv.org/abs/2504.21801>
