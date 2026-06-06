@@ -1878,5 +1878,5 @@ Theorem linearizability : forall operations,
 
 ## 章末まとめ
 
-- `summary`: 定理証明は、補題分割・帰納法・場合分け・計算の活用を組み合わせて進める。
-- `nextSteps`: 次は [第10章：プログラム検証]({{ '/chapters/chapter10/' | relative_url }}) に進み、必要に応じて [用語集（Glossary）]({{ '/glossary/' | relative_url }}) と [付録C: 記法対照表]({{ '/appendices/appendix-c/' | relative_url }}) を参照する。
+- `summary`: 定理証明は、補題分割・帰納法・場合分け・計算の活用に加え、Lean 4 / Rocq のカーネルによる検査、ライブラリ依存、未完了穴、LLM支援証明の信頼境界を合わせて管理する。
+- `nextSteps`: 次は [第10章：プログラム検証]({{ '/chapters/chapter10/' | relative_url }}) に進み、必要に応じて [付録F: AI支援の実践ガイド]({{ '/appendices/appendix-f/' | relative_url }})、[用語集（Glossary）]({{ '/glossary/' | relative_url }})、[付録C: 記法対照表]({{ '/appendices/appendix-c/' | relative_url }}) を参照する。

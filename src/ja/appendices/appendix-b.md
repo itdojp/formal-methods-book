@@ -135,6 +135,33 @@ lake build
 - elan: <https://github.com/leanprover/elan>
 - VS Code Lean 4 拡張: <https://github.com/leanprover/vscode-lean4>
 
+## 主要ツール別の導入メモ（最小導線）
+
+個別ツールは更新頻度が高いため、本書では完全なインストール手順を固定しない。
+導入時は付録Eの一次情報を起点に、次の三点をPR本文またはCI設定に残す。
+
+1. 公式ドキュメントまたは公式リリースへのリンク
+2. 実行したバージョン確認コマンドと結果
+3. CIで固定した依存（バイナリ、jar、npm package、opam switch、Rust toolchain、solver、timeout、seed）
+
+| 領域 | ツール | 導入・確認の最小方針 |
+| --- | --- | --- |
+| Alloy | Alloy 6 Analyzer | 公式リリースから jar を固定し、`java -jar ...` で起動確認する。CIでは jar のURL、SHAまたはバージョン、`steps`、scope を記録する。 |
+| TLA+ | TLC / VS Code 拡張 | `tla2tools.jar`、Java、`.cfg`、workers、seed、timeout を記録する。VS Code拡張は編集支援であり、CIではCLI再実行を正本にする。 |
+| TLA+周辺 | Apalache | 配布zipまたはコンテナを固定し、`apalache-mc version` 相当の出力、探索長、init/next/invariant、solver設定を記録する。 |
+| TLA+周辺 | Quint | `@informalsystems/quint` を `package.json` / lockfile で固定し、`typecheck`、`test`、`verify` を分ける。backend（Apalache/TLC）と出力traceの保存先を記録する。 |
+| 定理証明 | Lean 4 / Lake / mathlib | `elan` で toolchain を固定し、`lake build` をCIで再実行する。`lean-toolchain`、`lake-manifest.json`、mathlibのrevisionを証跡に含める。 |
+| 定理証明 | Rocq | 公式リリース/パッケージ手順を使い、Rocq/Coq互換コマンド名、opam switch、ライブラリ版を記録する。`Admitted.` や不要な公理はCIで棚卸しする。 |
+| Rust検証 | Kani | `cargo kani` または公式手順で導入し、`kani --version` 相当、Rust toolchain、proof harness、unwind/探索境界を記録する。 |
+| Rust検証 | Verus | 公式配布またはソースビルドのrevision、`verus --version` 相当、Rust toolchain、Z3版、未証明 `assume` を記録する。 |
+| Rust検証 | Creusot | 公式ガイドに従い、Creusot、Why3、SMTソルバー、Rust toolchain、loop invariant / variant、ghost codeの扱いを記録する。 |
+| Rust検証 | Prusti | Prusti/Viper、Rust toolchain、事前条件・事後条件・ループ不変条件、counterexample出力を記録する。 |
+| Rust検証 | Aeneas | 変換対象のRust subset、Charon/LLBC、接続先（F*、Rocq、HOL4、Lean等）、生成物のrevisionを記録する。 |
+| SMT | cvc5 / Z3 | solver単体の版、呼び出し元ツール、timeout、`unknown` の扱いを記録する。solver差し替え時は結果差分をレビュー対象にする。 |
+
+Cedar、Bedrock Guardrails、スマートコントラクト検証のようなクラウド/産業ツールは、CLI手順よりもサービス仕様の変化が大きい。
+導入メモでは、対象API、リージョン、対応言語、ポリシー/仕様の版、検証対象コミット、実行ログを中心に残す。
+
 ## CI（自動実行）
 
 GitHub Actions では `.github/workflows/formal-checks.yml` で、PR向け（軽量）と夜間向け（深い探索）のジョブを提供している。  
