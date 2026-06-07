@@ -5,8 +5,16 @@
 
 /* Hidden checkbox for state management */
 .sidebar-toggle-checkbox {
-  position: absolute;
-  left: -9999px;
+  position: fixed;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
   opacity: 0;
 }
 
@@ -48,6 +56,13 @@ html {
     background: var(--bg-primary);
     border-right: 1px solid var(--border-color);
     box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+    /*
+     * main.css imports this file before declaring the default desktop sidebar
+     * transform. Keep the closed drawer state important so the later desktop
+     * `transform: translateX(0)` rule cannot leave the TOC covering content
+     * on mobile and portrait tablet widths. The checked/open rule below is
+     * more specific and also important, so the menu button still opens it.
+     */
     z-index: 999 !important;
     transform: translateX(-100%) !important;
     visibility: hidden;
