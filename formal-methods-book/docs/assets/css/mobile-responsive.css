@@ -48,14 +48,19 @@ html {
     background: var(--bg-primary);
     border-right: 1px solid var(--border-color);
     box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
-    z-index: 1000;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
+    z-index: 999 !important;
+    transform: translateX(-100%) !important;
+    visibility: hidden;
+    transition:
+      transform 0.3s ease,
+      visibility 0s linear 0.3s !important;
   }
 
   /* Show sidebar when toggled */
   .sidebar-toggle-checkbox:checked ~ .book-layout .book-sidebar {
     transform: translateX(0) !important;
+    visibility: visible;
+    transition: transform 0.3s ease !important;
   }
   
   /* Ensure sidebar content is interactive */
