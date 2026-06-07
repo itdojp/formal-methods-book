@@ -5,6 +5,15 @@
     },
     {
       "pattern": "^https://spinroot\\.com/spin/whatispin\\.html$"
+    },
+    {
+      "pattern": "^https://docs\\.tlapl\\.us/$"
+    },
+    {
+      "pattern": "^https://docs\\.aws\\.amazon\\.com/bedrock/latest/userguide/guardrails-automated-reasoning-checks\\.html$"
+    },
+    {
+      "pattern": "^https://docs\\.aws\\.amazon\\.com/bedrock/latest/userguide/guardrails\\.html$"
     }
   ]
 }
