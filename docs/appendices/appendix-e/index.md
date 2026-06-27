@@ -7,8 +7,8 @@ source_path: "src/ja/appendices/appendix-e.md"
 ---
 # 付録E：参考文献とWebリソース（一次情報への導線）
 
-本付録は、本文で扱った形式的手法・ツールについて、**一次情報（公式サイト/公式リポジトリ/公式ドキュメント/公式リリース）**へ到達するための索引である。  
-2026-06 時点で、名称変更・主流ツールの更新（例：Coq→Rocq、CVC4→cvc5、Alloy 6 系、TLA+の Apalache / Quint 等）を反映している。
+本付録は、本文で扱った形式的手法・ツールについて、**一次情報（公式サイト/公式リポジトリ/公式ドキュメント/公式リリース）**へ到達するための索引である。
+2026-06 時点で、名称変更・主流ツールの更新（例：Coq→Rocq、CVC4→cvc5、Alloy 6 系、TLA+ の Apalache / Quint 等）を反映している。
 
 ## 数値の出典ポリシー（本書共通）
 
@@ -34,13 +34,13 @@ source_path: "src/ja/appendices/appendix-e.md"
 - 用途：分散システム/並行システムの状態遷移仕様と、探索による検証（TLC）。新規導入では Toolbox だけでなく、VS Code 拡張と CLI 実行も確認する。
 - 推奨読者：第7章（TLA+）、第8章（模型検査）、第12章（ツールと自動化）
 - 一次情報：
-  - TLA+公式（Lamportサイト）：<https://lamport.org/tla/tla.html>
+  - TLA+ 公式（Lamportサイト）：<https://lamport.org/tla/tla.html>
   - TLA+ Documentation and Tools Guide：<https://docs.tlapl.us/>
   - TLA+ VS Code拡張：<https://marketplace.visualstudio.com/items?itemName=tlaplus.vscode-ide>
   - Current Versions of the TLA+ Tools：<https://github.com/tlaplus/tlaplus/blob/master/general/docs/current-tools.md>
   - tlaplus/tlaplus リリース（tla2tools.jar）：<https://github.com/tlaplus/tlaplus/releases>
 
-### Quint（TLA+意味論に基づく型付き仕様言語）
+### Quint（TLA+ 意味論に基づく型付き仕様言語）
 
 - 用途：TLA的な状態機械仕様を、型付きでプログラミング言語に近い構文として記述し、CLI / REPL / simulation / model checking に接続する
 - 推奨読者：第7章（TLA+）、第8章（模型検査）、第12章（CI）
@@ -68,9 +68,9 @@ source_path: "src/ja/appendices/appendix-e.md"
 
 ## 2) 模型検査（TLC / Apalache / SPIN / NuSMV）
 
-### Apalache（TLA+の追加検査：SMTベース）
+### Apalache（TLA+ の追加検査：SMT ベース）
 
-- 用途：TLA+仕様に対して、SMTベースの探索/制約解決で性質検査を行う（TLCと棲み分け）
+- 用途：TLA+ 仕様に対して、SMT ベースの探索/制約解決で性質検査を行う（TLC と棲み分け）
 - 推奨読者：第7章（TLA+）、第8章（模型検査）、第12章（ツールと自動化）
 - 一次情報：
   - 公式サイト：<https://apalache-mc.org/>
@@ -131,7 +131,7 @@ source_path: "src/ja/appendices/appendix-e.md"
 
 ### Dafny
 
-- 用途：仕様（契約）と検証を統合し、SMTと組み合わせて自動検証を行う
+- 用途：仕様（契約）と検証を統合し、SMT と組み合わせて自動検証を行う
 - 推奨読者：第10章（プログラム検証）、第12章（自動化）
 - 一次情報：
   - 公式サイト：<https://dafny.org/>
@@ -175,7 +175,7 @@ source_path: "src/ja/appendices/appendix-e.md"
 
 ### Verus
 
-- 用途：Rust風の仕様・証明記法とSMTにより、低レベルシステムコードの機能的正しさを検証する
+- 用途：Rust風の仕様・証明記法と SMT により、低レベルシステムコードの機能的正しさを検証する
 - 推奨読者：第9章（型と証明）、第10章（プログラム検証）
 - 一次情報：
   - Verus Tutorial and Reference：<https://verus-lang.github.io/verus/guide/>
@@ -205,11 +205,11 @@ source_path: "src/ja/appendices/appendix-e.md"
   - 公式サイト：<https://aeneasverif.github.io/>
   - GitHub：<https://github.com/AeneasVerif/aeneas>
 
-## 5) SMT標準とソルバー（SMT-LIB / Z3 / cvc5）
+## 5) SMT 標準とソルバー（SMT-LIB / Z3 / cvc5）
 
 ### SMT-LIB
 
-- 用途：SMTソルバーへ論理式、理論、ベンチマーク、検査対象を渡す標準形式
+- 用途：SMT ソルバーへ論理式、理論、ベンチマーク、検査対象を渡す標準形式
 - 推奨読者：第10章（プログラム検証）、第12章（ツールと自動化）
 - 注意：SMT-LIB v3 は予備提案であり、現行の SMT-LIB 2.7 や各ツールの実務運用を直ちに置き換えるものではない
 - 一次情報：
@@ -228,7 +228,7 @@ source_path: "src/ja/appendices/appendix-e.md"
 
 ### cvc5（CVC系列の後継。旧：CVC4）
 
-- 用途：SMTソルバーおよび SyGuS エンジン（検証器バックエンドとして利用されることが多い）
+- 用途：SMT ソルバーおよび SyGuS エンジン（検証器バックエンドとして利用されることが多い）
 - 推奨読者：第10章（プログラム検証）、第12章（ツールと自動化）
 - 一次情報：
   - 公式サイト：<https://cvc5.github.io/>
@@ -255,14 +255,14 @@ source_path: "src/ja/appendices/appendix-e.md"
   - CAV 2018（s2n/SAWの報告、Springer chapter）：<https://doi.org/10.1007/978-3-319-96142-2_26>
   - s2n-tls（GitHub）：<https://github.com/aws/s2n-tls>
 
-### 産業界におけるTLA+活用
+### 産業界における TLA+ 活用
 
 - 推奨読者：第7章（TLA+）、第13章（事例研究）
 - 一次・準一次情報：
   - Lamport（Industrial use of TLA+）：<https://lamport.org/tla/industrial-use.html>
-  - Microsoft Learn（Cosmos DBの分散実装と整合性、TLA+仕様への導線）：<https://learn.microsoft.com/en-us/azure/cosmos-db/global-dist-under-the-hood>
-  - Azure Cosmos DB（TLA+高レベル仕様）：<https://github.com/Azure/azure-cosmos-tla>
-  - Microsoft Research（Cosmos DBの整合性保証に関するTLA+仕様、動画）：<https://www.microsoft.com/en-us/research/video/tla-specifications-of-the-consistency-guarantees-provided-by-cosmos-db/>
+  - Microsoft Learn（Cosmos DB の分散実装と整合性、TLA+ 仕様への導線）：<https://learn.microsoft.com/en-us/azure/cosmos-db/global-dist-under-the-hood>
+  - Azure Cosmos DB（TLA+ 高レベル仕様）：<https://github.com/Azure/azure-cosmos-tla>
+  - Microsoft Research（Cosmos DB の整合性保証に関する TLA+ 仕様、動画）：<https://www.microsoft.com/en-us/research/video/tla-specifications-of-the-consistency-guarantees-provided-by-cosmos-db/>
   - Hackett（ICSE SEIP 2023、PDF）：<https://fhackett.com/files/icse-seip-23-inconsistency.pdf>
 
 ### Cedar / AWS（認可ポリシー検証）
@@ -279,8 +279,8 @@ source_path: "src/ja/appendices/appendix-e.md"
 
 ### Amazon Bedrock Guardrails Automated Reasoning checks
 
-- 推奨読者：第13章（事例研究）、付録F（AI支援運用）
-- 注意：LLMそのものの正しさ証明ではなく、LLM出力を形式化されたポリシー/ドメイン知識に照らして検査する事例として扱う。対応リージョン、対応言語、API、制限事項は変わるため公式ドキュメントを確認する。
+- 推奨読者：第13章（事例研究）、付録F（AI 支援運用）
+- 注意：LLM そのものの正しさ証明ではなく、LLM 出力を形式化されたポリシー/ドメイン知識に照らして検査する事例として扱う。対応リージョン、対応言語、API、制限事項は変わるため公式ドキュメントを確認する。
 - 一次情報：
   - GA announcement：<https://aws.amazon.com/about-aws/whats-new/2025/08/automated-reasoning-checks-amazon-bedrock-guardrails/>
   - User Guide：<https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-automated-reasoning-checks.html>
@@ -299,10 +299,10 @@ source_path: "src/ja/appendices/appendix-e.md"
   - Certora User Guide：<https://docs.certora.com/en/latest/docs/user-guide/index.html>
   - Certora Verification Language：<https://docs.certora.com/en/latest/docs/cvl/index.html>
 
-## 7) AI×形式手法（LLM支援：位置づけと注意点）
+## 7) AI×形式手法（LLM 支援：位置づけと注意点）
 
-LLMは、仕様/証明/反例解釈の「草案生成」や「探索支援」に有用である一方、**最終保証の根拠にはならない**。  
-本書では、LLM出力を「未信頼入力」として扱い、必ず機械検証（模型検査/型チェック/SMT等）で閉じる運用を推奨する。
+LLM は、仕様/証明/反例解釈の「草案生成」や「探索支援」に有用である一方、**最終保証の根拠にはならない**。
+本書では、LLM 出力を「未信頼入力」として扱い、必ず機械検証（模型検査/型チェック/SMT 等）で閉じる運用を推奨する。
 
 - 代表的実装・評価基盤：
   - LeanDojo-v2：<https://leandojo.org/leandojo.html>

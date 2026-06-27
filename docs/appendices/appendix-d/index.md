@@ -176,7 +176,7 @@ source_path: "src/ja/appendices/appendix-d.md"
 
 ヒント（段階）
 1. まず「集合・関係・不変」を自然言語で固定し、手法に写像する
-2. Alloy/Z/CSP/TLA+のどれが何を得意とするか（図2-2）で役割分担する
+2. Alloy/Z/CSP/TLA+ のどれが何を得意とするか（図2-2）で役割分担する
 
 模範解答（骨子）
 - 演習1（Alloy）：エンティティ/関係/制約（管理者が少なくとも1人等）を `sig/fact/assert` に割当
@@ -276,7 +276,7 @@ source_path: "src/ja/appendices/appendix-d.md"
 
 ## D.5 第4章
 
-### 基礎演習1：Alloyモデルの読解
+### 基礎演習1：Alloy モデルの読解
 
 ヒント（段階）
 1. `lone/set/one` の多重度が意味する制約を言語化する
@@ -531,7 +531,7 @@ source_path: "src/ja/appendices/appendix-d.md"
 - Init/Next/Invariant の雛形
 
 採点観点
-- 記述がTLA+の基本形に沿っている
+- 記述が TLA+ の基本形に沿っている
 - 変数更新が一貫している
 
 ### 実践演習1：相互排除プロトコルの設計
@@ -629,7 +629,7 @@ source_path: "src/ja/appendices/appendix-d.md"
 2. 安全性はCTL/LTLで不変として書く（同時青禁止等）
 
 模範解答（骨子）
-- NuSMVモデルと性質
+- NuSMV モデルと性質
 - 検証結果の要約（反例があればトレース）
 
 採点観点
@@ -666,7 +666,7 @@ source_path: "src/ja/appendices/appendix-d.md"
 - 形式化が正しい
 - 問題点が「前提の誤り」として説明できる
 
-### 基礎理解演習2：Rocq（旧称Coq）での基本証明
+### 基礎理解演習2：Rocq（旧称 Coq）での基本証明
 
 ヒント（段階）
 1. `intros` → `split`/`left`/`right` → `destruct`/`apply` の基本流れ
@@ -724,7 +724,7 @@ source_path: "src/ja/appendices/appendix-d.md"
 
 ## D.11 第10章
 
-### 基礎理解演習1：Hoare論理の基本
+### 基礎理解演習1：Hoare 論理の基本
 
 ヒント（段階）
 1. 代入は代入公理（事後条件への代入）で逆算する
@@ -772,7 +772,7 @@ source_path: "src/ja/appendices/appendix-d.md"
 ### 実践演習2：ツールを用いた検証
 
 ヒント（段階）
-1. Dafny等では `requires/ensures/invariant` を先に書く
+1. Dafny 等では `requires/ensures/invariant` を先に書く
 2. 検証に通らない場合は、不変の弱さ/不足を疑う
 
 模範解答（骨子）
@@ -788,7 +788,7 @@ source_path: "src/ja/appendices/appendix-d.md"
 
 ヒント（段階）
 1. 対象範囲を限定し、性質を3つ程度に絞る
-2. 仕様→テスト/CIへの統合まで書けると実務価値が上がる
+2. 仕様→テスト/CI への統合まで書けると実務価値が上がる
 
 模範解答（骨子）
 - 対象選定理由
@@ -879,7 +879,7 @@ source_path: "src/ja/appendices/appendix-d.md"
 
 ヒント（段階）
 1. 問題領域（安全クリティカル、並行、分散）と手法の適合を整理
-2. 学習/運用コスト、CI統合の容易さを評価軸に含める
+2. 学習/運用コスト、CI 統合の容易さを評価軸に含める
 
 模範解答（骨子）
 - ツール候補と選定理由（要件/制約/リスク）
@@ -892,7 +892,7 @@ source_path: "src/ja/appendices/appendix-d.md"
 ### 理解確認演習2：CI/CD統合設計
 
 ヒント（段階）
-1. PRの最小検証は「短い・安定・再現可能」に寄せる
+1. PR の最小検証は「短い・安定・再現可能」に寄せる
 2. 夜間で偽陰性を下げ、リリース前でクリティカル性質を確定する
 
 模範解答（骨子）
@@ -911,7 +911,7 @@ source_path: "src/ja/appendices/appendix-d.md"
 
 模範解答（骨子）
 - 生成対象（仕様/テスト/契約）とレビュー観点
-- 検証とCIゲートの設計
+- 検証と CI ゲートの設計
 
 採点観点
 - 信用境界が明確
@@ -925,7 +925,7 @@ source_path: "src/ja/appendices/appendix-d.md"
 
 模範解答（骨子）
 - 失敗要因の分類
-- 改善策（段階導入、テンプレ、CI統合）
+- 改善策（段階導入、テンプレ、CI 統合）
 
 採点観点
 - 原因分析が具体
@@ -994,7 +994,7 @@ source_path: "src/ja/appendices/appendix-d.md"
 
 ヒント（段階）
 1. 重要性（クリティカル度）で対象を選別する
-2. CI統合と例外フローを計画に含める
+2. CI 統合と例外フローを計画に含める
 
 模範解答（骨子）
 - 対象選定、検証手法、段階導入、KPI
@@ -1016,9 +1016,9 @@ source_path: "src/ja/appendices/appendix-d.md"
 - 仮説と事実が分離
 - 示唆が実務に落ちる
 
-## D.15 AI利用時の提出テンプレ（共通）
+## D.15 AI 利用時の提出テンプレ（共通）
 
-AIの出力は「提案」として扱い、合否は検証器で判定します。提出物は以下を満たしてください。
+AI の出力は「提案」として扱い、合否は検証器で判定します。提出物は以下を満たしてください。
 
 - 使用したプロンプト（要件/制約を含む）
 - 生成された仕様・不変条件
