@@ -47,17 +47,17 @@ source_path: "src/ja/index.md"
 
 ## テスト戦略との接続
 
-形式的手法はテストを置き換えるものではなく、仕様・不変条件・反例・証明義務を通じて、テストで確認すべき観点を明確にするための補助線でもあります。PRや設計レビューでは、少なくとも次の責務分界を明示してください。
+形式的手法はテストを置き換えるものではなく、仕様・不変条件・反例・証明義務を通じて、テストで確認すべき観点を明確にするための補助線でもあります。PR や設計レビューでは、少なくとも次の責務分界を明示してください。
 
-| 活動 | 主な責務 | 形式手法との接続 | PRで残す証跡 |
+| 活動 | 主な責務 | 形式手法との接続 | PR で残す証跡 |
 | --- | --- | --- | --- |
 | テスト / eval / benchmark | 選んだ入力・シナリオで実装の観測可能な振る舞いを確認する | 仕様や反例から境界値、同値クラス、回帰ケースを作る | 実行コマンド、対象データ、期待結果、失敗時ログ |
 | 静的解析 / 型 / 契約 | 構文、型、局所的な制約違反を早期に検出する | 事前条件、事後条件、不変条件をコード境界へ写像する | 解析対象、ルールセット、例外理由 |
 | 模型検査 | 明示した状態空間で安全性・活性・デッドロックを探索する | Alloy / TLA+ / CSP などで抽象モデルを検査する | スコープ、深さ、seed、検査した性質、反例トレース |
-| 定理証明 / プログラム検証 | 前提条件のもとで一般性の高い正しさを証明する | Hoare論理、Dafny、Rocq、Leanなどで証明義務を管理する | 定理文、前提、証明対象、未証明部分 |
+| 定理証明 / プログラム検証 | 前提条件のもとで一般性の高い正しさを証明する | Hoare 論理、Dafny、Rocq、Lean などで証明義務を管理する | 定理文、前提、証明対象、未証明部分 |
 | 人間のレビュー | 前提、抽象化、未検証範囲、運用リスクを判断する | 検証器が扱えない要求妥当性や費用対効果を確認する | 変更判断、残リスク、採用しなかった手法の理由 |
 
-この表は、[付録F: AI支援の実践ガイド]({{ '/appendices/appendix-f/' | relative_url }}) のPR証跡チェックと併用してください。AI支援で仕様や不変条件を生成する場合も、最終判断は検証器、CI、人間のレビューに分離して残します。
+この表は、[付録F: AI 支援の実践ガイド]({{ '/appendices/appendix-f/' | relative_url }}) の PR 証跡チェックと併用してください。AI 支援で仕様や不変条件を生成する場合も、最終判断は検証器、CI、人間のレビューに分離して残します。
 
 ## 想定読者
 
@@ -102,10 +102,10 @@ source_path: "src/ja/index.md"
 
 ### 第II部　手法編：主要な形式的手法の理解
 
-- [第4章 軽量形式的手法入門 - Alloyで始める仕様記述]({{ '/chapters/chapter04/' | relative_url }})
+- [第4章 軽量形式的手法入門 - Alloy で始める仕様記述]({{ '/chapters/chapter04/' | relative_url }})
 - [第5章 状態ベース仕様記述 - Z記法の基礎]({{ '/chapters/chapter05/' | relative_url }})
 - [第6章 プロセス中心の記述 - CSPによる並行システム]({{ '/chapters/chapter06/' | relative_url }})
-- [第7章 時間を扱う仕様記述 - TLA+入門]({{ '/chapters/chapter07/' | relative_url }})
+- [第7章 時間を扱う仕様記述 - TLA+ 入門]({{ '/chapters/chapter07/' | relative_url }})
 
 ### 第III部　検証編：システムの正しさの確認
 
@@ -128,7 +128,7 @@ source_path: "src/ja/index.md"
 - [付録C: 記法対照表]({{ '/appendices/appendix-c/' | relative_url }})
 - [付録D: 演習問題解答]({{ '/appendices/appendix-d/' | relative_url }})
 - [付録E: 参考文献とWebリソース]({{ '/appendices/appendix-e/' | relative_url }})
-- [付録F: AI支援の実践ガイド]({{ '/appendices/appendix-f/' | relative_url }})
+- [付録F: AI 支援の実践ガイド]({{ '/appendices/appendix-f/' | relative_url }})
 - [おわりに]({{ '/afterword/' | relative_url }})
 
 ## 利用と更新情報
@@ -136,7 +136,7 @@ source_path: "src/ja/index.md"
 - 公開ページ: [GitHub Pages](https://itdojp.github.io/formal-methods-book/)
 - リポジトリ: [GitHub](https://github.com/itdojp/formal-methods-book)
 - 更新確認先: [コミット履歴](https://github.com/itdojp/formal-methods-book/commits/main/)、[PR 一覧](https://github.com/itdojp/formal-methods-book/pulls)
-- 付録Eは一次情報や関連資料の入口、付録Fは AI支援併用時の注意点の入口として使ってください。
+- 付録Eは一次情報や関連資料の入口、付録Fは AI 支援併用時の注意点の入口として使ってください。
 
 ## ライセンス
 

@@ -38,8 +38,8 @@
       },
       {
         "id": "chapter04",
-        "title": "第4章：軽量形式的手法入門 - Alloyで始める仕様記述",
-        "description": "Alloyの世界観、関係中心のモデリングと検証の実践"
+        "title": "第4章：軽量形式的手法入門 - Alloy で始める仕様記述",
+        "description": "Alloy の世界観、関係中心のモデリングと検証の実践"
       },
       {
         "id": "chapter05",
@@ -53,7 +53,7 @@
       },
       {
         "id": "chapter07",
-        "title": "第7章：時間を扱う仕様記述 - TLA+入門",
+        "title": "第7章：時間を扱う仕様記述 - TLA+ 入門",
         "description": "分散システムの複雑さ、時相論理による動的性質の表現"
       },
       {
@@ -64,12 +64,12 @@
       {
         "id": "chapter09",
         "title": "第9章：定理証明の基礎",
-        "description": "証明の機械化、型理論とCoqによる証明支援系の実践"
+        "description": "証明の機械化、型理論と Coq による証明支援系の実践"
       },
       {
         "id": "chapter10",
         "title": "第10章：プログラム検証",
-        "description": "Hoare論理によるプログラムの正しさ、ループ不変条件と配列操作の検証"
+        "description": "Hoare 論理によるプログラムの正しさ、ループ不変条件と配列操作の検証"
       },
       {
         "id": "chapter11",
@@ -84,7 +84,7 @@
       {
         "id": "chapter13",
         "title": "第13章：事例研究",
-        "description": "パリ地下鉄14号線、Amazon s2n、マイクロソフトTLA+適用事例の詳細分析"
+        "description": "パリ地下鉄14号線、Amazon s2n、マイクロソフト TLA+ 適用事例の詳細分析"
       }
     ],
     "appendices": [
@@ -96,12 +96,12 @@
       {
         "id": "appendix-b",
         "title": "付録B：ツールインストールガイド",
-        "description": "Alloy Analyzer、TLC、SPIN、Coq等のインストール手順とトラブルシューティング"
+        "description": "Alloy Analyzer、TLC、SPIN、Coq 等のインストール手順とトラブルシューティング"
       },
       {
         "id": "appendix-c",
         "title": "付録C：記法対照表",
-        "description": "Z記法、Alloy、TLA+等の記号や構文の一覧表"
+        "description": "Z記法、Alloy、TLA+ 等の記号や構文の一覧表"
       },
       {
         "id": "appendix-d",
@@ -115,7 +115,7 @@
       },
       {
         "id": "appendix-f",
-        "title": "付録F：AI支援の実践ガイド",
+        "title": "付録F：AI 支援の実践ガイド",
         "description": "AI を執筆・調査・検証補助に使う際の運用ガイドラインとレビュー観点"
       }
     ]

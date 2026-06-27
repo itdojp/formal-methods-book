@@ -38,5 +38,11 @@
   "homepage": "https://itdojp.github.io/formal-methods-book/",
   "bugs": {
     "url": "https://github.com/itdojp/formal-methods-book/issues"
+  },
+  "overrides": {
+    "js-yaml": "4.3.0",
+    "markdown-it": "14.2.0",
+    "linkify-it": "5.0.1",
+    "undici": "7.28.0"
   }
 }

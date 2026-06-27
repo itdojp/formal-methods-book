@@ -11,9 +11,9 @@ source_path: "src/ja/glossary/index.md"
 
 ## 0) 略語（Acronyms）
 
-- **SAT**：命題充足可能性問題（Satisfiability）。Alloy等が内部で利用することがある。
+- **SAT**：命題充足可能性問題（Satisfiability）。Alloy 等が内部で利用することがある。
 - **SMT**：充足可能性の判定を、等式/算術/配列などの理論と統合して扱う枠組み（Satisfiability Modulo Theories）。
-- **SMT-LIB**：SMTソルバーへ問題を渡すための標準形式。2026年時点の公式標準は 2.7 系で、v3 は予備提案として扱う。
+- **SMT-LIB**：SMT ソルバーへ問題を渡すための標準形式。2026年時点の公式標準は 2.7 系で、v3 は予備提案として扱う。
 - **LTL / CTL**：時相論理（Linear Temporal Logic / Computation Tree Logic）。模型検査で性質を記述する。
 - **CI**：継続的インテグレーション（Continuous Integration）。PR/夜間/リリース前の検証ゲートに利用する。
 - **RMW**：Read-Modify-Write。並行実行で競合（lost update）を生む典型パターン。
@@ -28,13 +28,13 @@ source_path: "src/ja/glossary/index.md"
 
 **AlphaGeometry 2**：Google DeepMind の幾何問題向け neuro-symbolic システム。AlphaProof と同じく、対象領域、形式化、計算資源、評価条件の制約を確認して読む。→第9章
 
-**Apalache**：TLA+仕様をSMTにエンコードして有界模型検査や不変条件検査を行う検査器。TLCの上位互換ではなく、構文サポート、有限構造、探索境界、SMTソルバ依存を確認して使う。→第7章/第8章/第12章
+**Apalache**：TLA+ 仕様を SMT にエンコードして有界模型検査や不変条件検査を行う検査器。TLC の上位互換ではなく、構文サポート、有限構造、探索境界、SMT ソルバ依存を確認して使う。→第7章/第8章/第12章
 
-**アサーション（Assertion）**：成立すべき性質を表明する文。Alloyでは `assert`、プログラム検証では実装上のチェック点として用いる。→第4章/第10章
+**アサーション（Assertion）**：成立すべき性質を表明する文。Alloy では `assert`、プログラム検証では実装上のチェック点として用いる。→第4章/第10章
 
 **Aeneas**：Rustプログラムを Charon/LLBC 経由で F*、Rocq/Coq、HOL4、Lean などの証明支援系へ接続する検証ツールチェーン。変換対象と未対応機能を確認して使う。→第10章
 
-**Amazon Bedrock Guardrails Automated Reasoning checks**：LLM出力を、形式化されたポリシーやドメイン知識に照らして検査する Amazon Bedrock Guardrails の機能。LLMそのものの正しさ証明ではなく、ポリシー範囲、自然言語から論理への変換、対応言語、API制限を確認して使う。→第13章/付録E
+**Amazon Bedrock Guardrails Automated Reasoning checks**：LLM 出力を、形式化されたポリシーやドメイン知識に照らして検査する Amazon Bedrock Guardrails の機能。LLM そのものの正しさ証明ではなく、ポリシー範囲、自然言語から論理への変換、対応言語、API制限を確認して使う。→第13章/付録E
 
 **Amazon Verified Permissions**：Cedar ポリシー言語を利用する AWS のマネージド認可サービス。認可ロジックをアプリケーションから分離し、細粒度の権限管理と監査を行う文脈で扱う。→第13章/付録E
 
@@ -46,15 +46,15 @@ source_path: "src/ja/glossary/index.md"
 
 **Cedar**：アプリケーションの認可ロジックをポリシーとして分離して記述するためのオープンソースの言語および認可エンジン。何をポリシー、評価器、解析変換器として検証しているかを区別して扱う。→第13章/付録E
 
-**Cedar Analysis**：Cedar ポリシーを数理式へ変換し、SMTソルバーで等価性、意図しない許可、冗長・矛盾などを解析するツールキット。解析結果の保証範囲は、形式化された Cedar ポリシーと変換の範囲に依存する。→第13章/付録E
+**Cedar Analysis**：Cedar ポリシーを数理式へ変換し、SMT ソルバーで等価性、意図しない許可、冗長・矛盾などを解析するツールキット。解析結果の保証範囲は、形式化された Cedar ポリシーと変換の範囲に依存する。→第13章/付録E
 
-**Certora Prover**：スマートコントラクトと CVL などの仕様ルールを検証条件へ変換し、SMTソルバーで証明または反例を得る形式検証ツール。仕様ルールの妥当性と未モデル化範囲を別途レビューする。→第13章/付録E
+**Certora Prover**：スマートコントラクトと CVL などの仕様ルールを検証条件へ変換し、SMT ソルバーで証明または反例を得る形式検証ツール。仕様ルールの妥当性と未モデル化範囲を別途レビューする。→第13章/付録E
 
 **CSP（Communicating Sequential Processes）**：並行システムを、プロセスと通信の合成として表現する枠組み。→第6章
 
 **CTL（Computation Tree Logic）**：分岐時間論理の一種。到達性や分岐の性質を表現する。→第8章
 
-**cvc5**：CVC4 の後継で、SMT と SyGuS を扱うオープンソースの自動定理証明器/SMTソルバー。検証ツールのバックエンドとして使う場合は、バージョン、timeout、`unknown`、ログをCI証跡として残す。→第10章/第12章
+**cvc5**：CVC4 の後継で、SMT と SyGuS を扱うオープンソースの自動定理証明器/SMT ソルバー。検証ツールのバックエンドとして使う場合は、バージョン、timeout、`unknown`、ログを CI 証跡として残す。→第10章/第12章
 
 **Creusot**：Rust向け演繹検証器。RustコードをWhy3系の検証条件へ接続し、panic、overflow、仕様適合性などを検査する。→第10章
 
@@ -78,9 +78,9 @@ source_path: "src/ja/glossary/index.md"
 
 ## H
 
-**Hoare論理**：プログラムの正しさを推論するための論理体系。事前条件・プログラム・事後条件の三項組で表現する。→第10章
+**Hoare 論理**：プログラムの正しさを推論するための論理体系。事前条件・プログラム・事後条件の三項組で表現する。→第10章
 
-**Hoare三項組**：`{P} S {Q}` の形式。Pが事前条件、Sがプログラム、Qが事後条件。→第10章
+**Hoare 三項組**：`{P} S {Q}` の形式。Pが事前条件、Sがプログラム、Qが事後条件。→第10章
 
 **harness / proof harness**：検証対象関数を特定条件で呼び出し、assertionや不変条件を検査するための検証入口。テスト harness と似ているが、Kani などでは探索範囲内の全入力に対する模型検査の入口になる。→第10章/付録C
 
@@ -106,11 +106,11 @@ source_path: "src/ja/glossary/index.md"
 
 **模型検査（Model Checking）**：システムの状態空間を探索し、性質の成立可否を自動判定する手法。→第8章
 
-**明示的状態探索（Explicit-state search）**：状態を具体的に列挙して探索する模型検査の方式。TLCのような探索では、状態数、fingerprint、workers、探索深さを証跡として残す。→第8章/第12章
+**明示的状態探索（Explicit-state search）**：状態を具体的に列挙して探索する模型検査の方式。TLC のような探索では、状態数、fingerprint、workers、探索深さを証跡として残す。→第8章/第12章
 
 **有界探索（Bounded analysis）**：要素数、探索深さ、steps などの境界を固定し、その範囲で反例や証跡を探す方法。境界外の一般性は別途検討する。→第4章/第8章
 
-**有界模型検査（Bounded Model Checking）**：遷移回数や入力範囲を有限に制限し、その範囲で性質違反を探索する模型検査。Alloyの`steps`、Apalache/Kaniの探索境界などは、一般証明ではなく境界付き結果として読む。→第4章/第8章/第12章
+**有界模型検査（Bounded Model Checking）**：遷移回数や入力範囲を有限に制限し、その範囲で性質違反を探索する模型検査。Alloy の`steps`、Apalache/Kaniの探索境界などは、一般証明ではなく境界付き結果として読む。→第4章/第8章/第12章
 
 ## P
 
@@ -118,17 +118,17 @@ source_path: "src/ja/glossary/index.md"
 
 ## Q
 
-**Quint**：TLA+の意味論に基づく型付き仕様言語。CLI、REPL、simulation、`verify` により Apalache / TLC と連携できるが、TLA+本体や既存教材の完全な置換ではない。→第7章/第8章/第12章
+**Quint**：TLA+ の意味論に基づく型付き仕様言語。CLI、REPL、simulation、`verify` により Apalache / TLC と連携できるが、TLA+ 本体や既存教材の完全な置換ではない。→第7章/第8章/第12章
 
 ## R
 
-**Rocq（旧称Coq）**：依存型理論に基づく証明支援系。2025年以降は The Rocq Prover が公式名称だが、既存資料では Coq 名も残るため併記して扱う。→第9章
+**Rocq（旧称 Coq）**：依存型理論に基づく証明支援系。2025年以降は The Rocq Prover が公式名称だが、既存資料では Coq 名も残るため併記して扱う。→第9章
 
 ## S
 
-**記号的模型検査（Symbolic model checking）**：状態を明示列挙せず、論理式やSMT/BDDなどの記号表現で状態集合や遷移を扱う模型検査。ソルバー、抽象化、timeout、`unknown` の扱いを証跡に含める。→第8章/第12章
+**記号的模型検査（Symbolic model checking）**：状態を明示列挙せず、論理式や SMT/BDDなどの記号表現で状態集合や遷移を扱う模型検査。ソルバー、抽象化、timeout、`unknown` の扱いを証跡に含める。→第8章/第12章
 
-**sorry / admit**：Lean や Rocq 系で証明を一時的に未完了にするために使われることがある穴埋め。CIでは失敗または例外台帳対象として扱う。→第9章/第12章/付録F
+**sorry / admit**：Lean や Rocq 系で証明を一時的に未完了にするために使われることがある穴埋め。CI では失敗または例外台帳対象として扱う。→第9章/第12章/付録F
 
 **Solidity SMTChecker**：Solidity の形式検証機能。`require` を仮定、`assert` を証明対象として扱い、反例、警告、`unknown` を確認する。仕様が目的に合っているかは別途レビューする。→第13章/付録E
 
@@ -152,7 +152,7 @@ source_path: "src/ja/glossary/index.md"
 
 **TLA+**：分散・並行システムを状態遷移と時相論理で記述する仕様言語。→第7章
 
-**TLC**：TLA+仕様の模型検査器。→第7章/第8章
+**TLC**：TLA+ 仕様の模型検査器。→第7章/第8章
 
 **トレース（Trace）**：状態遷移の列。反例はトレースとして提示される。→第4章/第8章
 
@@ -160,15 +160,15 @@ source_path: "src/ja/glossary/index.md"
 
 ## U
 
-**unknown**：SMTソルバーや検証器が、与えられた設定・制限時間・論理断片では結論を返せなかった状態。成功でも反例なしでもなく、CIでは調査対象として扱う。→第12章
+**unknown**：SMT ソルバーや検証器が、与えられた設定・制限時間・論理断片では結論を返せなかった状態。成功でも反例なしでもなく、CI では調査対象として扱う。→第12章
 
 ## V
 
-**Verus**：Rust風の仕様・証明記法とSMTを用いて、低レベルシステムコードの機能的正しさや不変条件を静的に検証するツール。→第10章
+**Verus**：Rust風の仕様・証明記法と SMT を用いて、低レベルシステムコードの機能的正しさや不変条件を静的に検証するツール。→第10章
 
 ## Z
 
-**Z3**：Microsoft Research 由来の定理証明器/SMTソルバー。多くの検証・解析ツールでバックエンドまたはAPIとして使われる。→第10章/第12章
+**Z3**：Microsoft Research 由来の定理証明器/SMT ソルバー。多くの検証・解析ツールでバックエンドまたはAPIとして使われる。→第10章/第12章
 
 **Z記法**：状態ベースの形式仕様記述言語。スキーマで状態と操作を表現する。→第5章
 
