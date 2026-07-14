@@ -95,7 +95,7 @@ jobs:
           path: ${{ runner.temp }}/layout-risk-report.json
           if-no-files-found: ignore
       - name: Setup Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
 
       - name: Build (Jekyll; GitHub Pages compatible)
         uses: actions/jekyll-build-pages@v1
