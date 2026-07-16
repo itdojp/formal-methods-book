@@ -3,6 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const { resolveSourcePage } = require('./publication-metadata');
+const { addGlossaryTermAnchors } = require('./search-index');
 const {
   insertTranslationNotice,
   loadTranslationManifest,
@@ -114,8 +115,10 @@ function renderPublicationPage({
   repoRoot,
   sourcePath,
   translationStatus,
+  isGlossary = false,
 }) {
-  let rendered = translationStatus ? insertTranslationNotice(content, translationStatus) : content;
+  let rendered = isGlossary ? addGlossaryTermAnchors(content) : content;
+  rendered = translationStatus ? insertTranslationNotice(rendered, translationStatus) : rendered;
   rendered = rewriteExampleLinksForPublication(rendered);
   rendered = rewriteAssetLinksForPublication(rendered, { repoRoot, outputFile });
   const title = metadata?.title || readMarkdownTitle(rendered, path.basename(sourcePath, '.md'));
@@ -180,6 +183,7 @@ function renderEditionPages(repoRoot, model, locale) {
       repoRoot,
       sourcePath,
       translationStatus,
+      isGlossary: page.section === 'specialPages' && page.id === 'glossary',
     }));
   }
   const expectedPageCount = 1

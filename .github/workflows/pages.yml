@@ -46,6 +46,9 @@ jobs:
           source: ./docs
           destination: ./_site
 
+      - name: Search index and anchor smoke check
+        run: node scripts/check-search-index.js --site _site
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5
         with:

@@ -38,6 +38,7 @@ reader-facing な本文系コンテンツの商用利用を希望する場合は
 - `book-config.json` は repository manifest であり、edition 個別の本文メタデータは `book-config.ja.json` / `book-config.en.json` で管理します。
 - 章・付録の title / description / order / URL、special page、part、locale UI label は edition config を正本とします。`docs/_config.yml`、`docs/_data/navigation.yml`、`docs/_data/locales.yml`、`mobile-config.*.json`、`docs/_includes/generated/**` は生成物なので直接編集しません。
 - `docs/**` の reader-facing Markdown は `src/<locale>/**` から生成します。本文修正で `docs/**` を直接編集せず、source を変更して `npm run build:all` を実行してください。
+- `docs/assets/search-index.{ja,en}.json` と用語集の公開term anchorも生成物です。別名を変更するときは `search-aliases.json` を編集し、`npm run build:all` と `npm run check:search-index` を実行してください。
 - 全英語 reader page の翻訳状態は `translation-status.json` が正本です。状態定義、90日再確認、checkpoint commit の作成方法は `BILINGUAL-WORKFLOW.md` に従ってください。
 
 ## 🧭 変更種別ごとの指針

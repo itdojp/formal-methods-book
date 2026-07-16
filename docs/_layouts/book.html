@@ -139,12 +139,31 @@
 
             <div class="header-center">
                 <div class="search-container">
+                    <label for="search-input" class="visually-hidden">{{ locale_data.labels.search_label }}</label>
                     <input type="search"
                            placeholder="{{ locale_data.labels.search_placeholder }}"
                            class="search-input"
                            id="search-input"
-                           autocomplete="off">
-                    <div class="search-results" id="search-results"></div>
+                           autocomplete="off"
+                           maxlength="128"
+                           role="combobox"
+                           aria-label="{{ locale_data.labels.search_label }}"
+                           aria-autocomplete="list"
+                           aria-expanded="false"
+                           aria-controls="search-results"
+                           aria-describedby="search-status"
+                           data-locale="{{ page_locale }}"
+                           data-index-url="{{ '/assets/search-index.' | append: page_locale | append: '.json' | relative_url }}"
+                           data-loading-label="{{ locale_data.labels.search_loading | escape }}"
+                           data-no-results-label="{{ locale_data.labels.search_no_results | escape }}"
+                           data-load-error-label="{{ locale_data.labels.search_load_error | escape }}"
+                           data-result-count-label="{{ locale_data.labels.search_result_count | escape }}">
+                    <div class="search-results"
+                         id="search-results"
+                         role="listbox"
+                         aria-label="{{ locale_data.labels.search_results }}"
+                         hidden></div>
+                    <div class="visually-hidden" id="search-status" aria-live="polite" aria-atomic="true"></div>
                 </div>
             </div>
 

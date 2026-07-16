@@ -21,10 +21,14 @@ Markdown で執筆し、日本語版を `docs/`、英語版を `docs/en/` に公
   - edition ごとの title / description / order / URL / locale UI metadata の source-of-truth
 - `translation-status.json`:
   - 全英語 reader page の source / translation commit、digest、`synced | partial | stale`、確認日、追跡 Issue の正本
+- `search-aliases.json`:
+  - 全書籍検索で正規用語と別名を結ぶ機械可読な正本
 - `publication-config.json`:
   - Jekyll / mobile の言語非依存 static policy
 - `docs/_config.yml` / `docs/_data/{navigation,locales}.yml` / `mobile-config.*.json`:
   - edition config と publication config から生成する公開メタデータ。直接編集しない
+- `docs/assets/search-index.{ja,en}.json`:
+  - JA/EN の reader-facing source と metadata から生成する全書籍検索 index。直接編集しない
 - `BILINGUAL-WORKFLOW.md`:
   - source-of-truth / translation / release policy
 - `package.json`:
@@ -47,6 +51,7 @@ Markdown で執筆し、日本語版を `docs/`、英語版を `docs/en/` に公
   - source → publish renderer unit test: `npm run test:publication-build`
   - translation status / structural contract unit test: `npm run test:bilingual-integrity`
   - bilingual QA と JSON report: `npm run qa:bilingual`
+  - 全書籍検索 index のunit/schema/determinism検査: `npm run check:search-index`
   - status、見出し level / numbered ID 順序 inventory: `npm run qa:bilingual:inventory`
   - TLA+ 意味論・対象 source/publish 整合: `npm run check:tla-semantics`
   - 模型検査・論理・CAP/FLP の保証境界: `npm run check:guarantees`
@@ -71,6 +76,18 @@ npm audit
 本文は `src/<locale>/**` だけを編集し、`docs/**` の reader-facing Markdown は `npm run build:all` で再生成します。章・付録の title、description、order、path、part、special page、locale UI label を変更するときは、対象の `book-config.<locale>.json` だけを編集します。Jekyll / mobile の言語非依存設定は `publication-config.json` を編集します。生成対象の手編集や古い生成結果は byte-for-byte checker と CI の generated-artifact check が検出します。
 
 英語版の公開ページには `translation-status.json` から status、監査対象の日本語 commit、確認日、追跡 Issue を生成します。`synced` は意味確認済みかつ機械構造契約一致、`partial` は監査済みの既知差分あり、`stale` は監査後の内容変更ありを表します。詳細な状態定義と checkpoint commit の更新手順は `BILINGUAL-WORKFLOW.md`、CI report は `.artifacts/translation-status/report.json` を参照してください。
+
+## 全書籍検索
+
+`npm run build:all` は、トップ、はじめに、全章、全付録、用語集、おわりにを見出し単位で解析し、`docs/assets/search-index.ja.json` と `docs/assets/search-index.en.json` を決定的に生成します。front matter、非公開HTML comment、Liquid制御行、fenced codeはindex対象外です。用語集の太字termには公開生成時にstable anchorを付け、別名は `search-aliases.json` からentryへ展開します。
+
+browserは現在localeのindexを検索欄の初回focus/input時に遅延取得します。初回ページ表示では約1 MiBのlocale indexを取得しません。結果は章、見出し、snippetを表示し、該当fragmentへ遷移します。描画はDOM APIと`textContent`だけを使用し、ArrowUp/Down、Home/End、Enter、Escapeとcombobox/listbox ARIA契約を備えます。
+
+`npm run check:search-index` はschema、対象23ページ、alias、URL、determinism、4 MiB/localeの非圧縮size budget、browser ranking/keyboard/XSS境界を検査します。Jekyll build後は次を実行し、全entryのpage/fragment実在性と公開assetを確認します。
+
+```bash
+node scripts/check-search-index.js --site _site
+```
 
 ## 依存関係と Book QA の管理
 
