@@ -809,7 +809,7 @@ artifactの`attack-trace.json`は、一つの`ResponseSent`に対して二つの
 
 [examples/tamarin/replay-challenge/replay-fixed.spthy](../../../examples/tamarin/replay-challenge/replay-fixed.spthy)は未処理challengeをlinear factに変更し、最初の受理で消費します。
 [examples/tamarin/replay-challenge/expected-fixed.json](../../../examples/tamarin/replay-challenge/expected-fixed.json)では、同じ四つのlemmaがすべて`verified`になります。
-二つのモデルの目的、前提、実行方法は[example README](../../../examples/tamarin/replay-challenge/README.md)にも記録しています。
+二つのモデルの目的、前提、実行方法は[examples/tamarin/replay-challenge/README.md](../../../examples/tamarin/replay-challenge/README.md)にも記録しています。
 
 | モデル | `Executable` | `Shared_Key_Secrecy` | `Response_Authentication` | `No_Replay` | 期待outcome |
 | --- | --- | --- | --- | --- | --- |

@@ -423,7 +423,7 @@ The [examples/tamarin/replay-challenge/replay-flawed.spthy](../../../examples/ta
 Its [examples/tamarin/replay-challenge/expected-flawed.json](../../../examples/tamarin/replay-challenge/expected-flawed.json) verifies executability, shared-key secrecy, and response authentication, but falsifies `No_Replay`.
 The retained attack graph shows two `ResponseAccepted` events following one `ResponseSent` event.
 The [examples/tamarin/replay-challenge/replay-fixed.spthy](../../../examples/tamarin/replay-challenge/replay-fixed.spthy) uses a linear challenge fact that the first acceptance consumes; its [examples/tamarin/replay-challenge/expected-fixed.json](../../../examples/tamarin/replay-challenge/expected-fixed.json) verifies all four stated lemmas.
-The [example README](../../../examples/tamarin/replay-challenge/README.md) records the teaching assumptions and commands.
+The [examples/tamarin/replay-challenge/README.md](../../../examples/tamarin/replay-challenge/README.md) records the teaching assumptions and commands.
 
 | Model | `Executable` | `Shared_Key_Secrecy` | `Response_Authentication` | `No_Replay` | Expected outcome |
 | --- | --- | --- | --- | --- | --- |
