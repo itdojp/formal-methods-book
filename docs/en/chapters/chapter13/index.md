@@ -6,13 +6,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/chapters/chapter13.md"
 translation_status: "partial"
-translation_source_commit: "dbe99897e679469f15eb58d9c29a2d9ee175283e"
+translation_source_commit: "5476db441b31e4fb72287cc59ea684d30e1a5008"
 translation_reviewed_at: "2026-07-16"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Chapter 13: Case Studies
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`dbe99897e679`](https://github.com/itdojp/formal-methods-book/commit/dbe99897e679469f15eb58d9c29a2d9ee175283e) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`5476db441b31`](https://github.com/itdojp/formal-methods-book/commit/5476db441b31e4fb72287cc59ea684d30e1a5008) on 2026-07-16.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 ## 13.1 Methodology for Case Studies: Learning from Success and Failure
@@ -438,7 +438,7 @@ The [examples/tamarin/replay-challenge/replay-flawed.spthy](https://github.com/i
 Its [examples/tamarin/replay-challenge/expected-flawed.json](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/tamarin/replay-challenge/expected-flawed.json) verifies executability, shared-key secrecy, and response authentication, but falsifies `No_Replay`.
 The retained attack graph shows two `ResponseAccepted` events following one `ResponseSent` event.
 The [examples/tamarin/replay-challenge/replay-fixed.spthy](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/tamarin/replay-challenge/replay-fixed.spthy) uses a linear challenge fact that the first acceptance consumes; its [examples/tamarin/replay-challenge/expected-fixed.json](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/tamarin/replay-challenge/expected-fixed.json) verifies all four stated lemmas.
-The [example README](../../../examples/tamarin/replay-challenge/README.md) records the teaching assumptions and commands.
+The [examples/tamarin/replay-challenge/README.md](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/tamarin/replay-challenge/README.md) records the teaching assumptions and commands.
 
 | Model | `Executable` | `Shared_Key_Secrecy` | `Response_Authentication` | `No_Replay` | Expected outcome |
 | --- | --- | --- | --- | --- | --- |
