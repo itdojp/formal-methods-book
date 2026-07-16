@@ -6,14 +6,14 @@ locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-e.md"
 translation_status: "partial"
-translation_source_commit: "53c0ef469bd9f010dd84a83cbdcbde898976df00"
+translation_source_commit: "c023d05b5094099bd2d6cbaac283e8da1094a0e9"
 translation_reviewed_at: "2026-07-16"
-translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/323"
+translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Appendix E: References and Further Reading Paths
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`53c0ef469bd9`](https://github.com/itdojp/formal-methods-book/commit/53c0ef469bd9f010dd84a83cbdcbde898976df00) on 2026-07-16.
-> Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/323).
+> **Translation status: Partial.** Reviewed against Japanese source commit [`c023d05b5094`](https://github.com/itdojp/formal-methods-book/commit/c023d05b5094099bd2d6cbaac283e8da1094a0e9) on 2026-07-16.
+> Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 This appendix is a **reader-facing guide to primary sources** for the methods, tools, and case studies introduced in the main text. Use it when you want to deepen a chapter, verify a claim against an official source, or decide which tool family to study next.  
 As of July 2026, it reflects naming changes and current mainstream references such as `Coq` → `Rocq`, `CVC4` → `cvc5`, the `Alloy 6` series, and `Apalache` in the TLA+ ecosystem.

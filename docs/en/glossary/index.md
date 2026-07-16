@@ -7,12 +7,12 @@ source_path: "src/en/glossary/index.md"
 translation_status: "partial"
 translation_source_commit: "53c0ef469bd9f010dd84a83cbdcbde898976df00"
 translation_reviewed_at: "2026-07-16"
-translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/323"
+translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Glossary
 
 > **Translation status: Partial.** Reviewed against Japanese source commit [`53c0ef469bd9`](https://github.com/itdojp/formal-methods-book/commit/53c0ef469bd9f010dd84a83cbdcbde898976df00) on 2026-07-16.
-> Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/323).
+> Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 This glossary collects technical terms and abbreviations that appear repeatedly
 throughout the book. The definitions prioritize the way each term is used in

@@ -39,7 +39,7 @@
       "translation_sha256": "08dd9d6f3ebf29f0baa02763bb76b4bd01499b2ad406ee24b25eb506bd8b0f8c",
       "status": "partial",
       "reviewed_at": "2026-07-16",
-      "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/323",
+      "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
       "notes": "PRISM 4.10.1 nightly, checksum, license, and non-redistribution guidance was semantically reviewed across JA/EN; pre-existing heading level/order, code fence, and table-shape differences remain"
     },
     "appendices/appendix-c.md": {
@@ -51,7 +51,7 @@
       "translation_sha256": "b7960e9a59285aafb451af75a499519e679b95ee4701be9a8d08bbd9aaba8d8b",
       "status": "partial",
       "reviewed_at": "2026-07-16",
-      "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/323",
+      "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
       "notes": "The new C.3.9 probabilistic-property correspondence was semantically reviewed across JA/EN; pre-existing heading level/order, numbered-heading, and table-shape differences remain"
     },
     "appendices/appendix-d.md": {
@@ -69,14 +69,14 @@
     "appendices/appendix-e.md": {
       "source_path": "src/ja/appendices/appendix-e.md",
       "translation_path": "src/en/appendices/appendix-e.md",
-      "source_commit": "53c0ef469bd9f010dd84a83cbdcbde898976df00",
-      "translated_commit": "53c0ef469bd9f010dd84a83cbdcbde898976df00",
-      "source_sha256": "a65a80266242915fa63ff2fb5191a1e110d5be78105a9b8ab47cbed717b5daeb",
-      "translation_sha256": "c65116b510df1f900eab6f73fdc926a5497a8433633636db74ac1c2b1d7ec45c",
+      "source_commit": "c023d05b5094099bd2d6cbaac283e8da1094a0e9",
+      "translated_commit": "c023d05b5094099bd2d6cbaac283e8da1094a0e9",
+      "source_sha256": "a9530895d60df7d86552b45d868a40e3aefea80b203044cf6ebc1799c36b6177",
+      "translation_sha256": "7b366d26a69d118a74017951afba7e85d51a66a587f198ff131c5783359fd208",
       "status": "partial",
       "reviewed_at": "2026-07-16",
-      "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/323",
-      "notes": "PRISM official primary-source and execution-boundary entries were semantically reviewed across JA/EN; the broader appendix still has heading differences and Japanese-only external references"
+      "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
+      "notes": "PRISM primary-source/execution-boundary entries and the CZT source-repository link were re-reviewed across JA/EN; the broader appendix still has heading differences and Japanese-only external references"
     },
     "appendices/appendix-f.md": {
       "source_path": "src/ja/appendices/appendix-f.md",
@@ -183,7 +183,7 @@
       "translation_sha256": "71b370486d0eaff84c9d4641b531503753717e0125fd13b6a3560f37b49a4c96",
       "status": "partial",
       "reviewed_at": "2026-07-16",
-      "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/323",
+      "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
       "notes": "The probabilistic and quantitative model-checking section and executable PRISM contract were semantically reviewed across JA/EN; pre-existing heading, code-fence, table, and strict-label differences remain elsewhere in the chapter"
     },
     "chapters/chapter09.md": {
@@ -231,7 +231,7 @@
       "translation_sha256": "57dd7363e9001746a5595cc97929bb9399f0e52246364aa91f649068fc84d6b2",
       "status": "partial",
       "reviewed_at": "2026-07-16",
-      "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/323",
+      "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
       "notes": "The PRISM nightly-matrix reference was semantically reviewed across JA/EN; pre-existing heading, numbered-heading, code-fence, table, tool-label, and example-path differences remain"
     },
     "chapters/chapter13.md": {
@@ -255,7 +255,7 @@
       "translation_sha256": "63dcea7531aa2749663f61f95ecf4893aae584b296e0751e44d2718dfbd83148",
       "status": "partial",
       "reviewed_at": "2026-07-16",
-      "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/323",
+      "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
       "notes": "PRISM, probabilistic model checking, reward, scheduler, and statistical-model-checking definitions were semantically reviewed across JA/EN; pre-existing heading-structure differences remain"
     },
     "index.md": {
