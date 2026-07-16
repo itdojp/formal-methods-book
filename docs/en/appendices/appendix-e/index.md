@@ -77,7 +77,7 @@ environment, or result for it.
 - Purpose: rigorously describing state-based specifications with sets, relations, and mappings so they can serve as a basis for review and verification
 - Best after reading: Chapter 5, "State-Based Specification — Fundamentals of Z Notation"
 - Primary sources (implementations and tools):
-  - Community Z Tools (`CZT`): <https://czt.sourceforge.net/>
+  - Community Z Tools (`CZT`) source repository: <https://github.com/community-z-users/czt>
   - `SourceForge` (`CZT` project): <https://sourceforge.net/projects/czt/>
 
 ### CSP

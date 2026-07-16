@@ -13452,7 +13452,7 @@
       "chapter": "Appendix E: References and Further Reading Paths",
       "heading": "Z (Z notation)",
       "url": "/formal-methods-book/en/appendices/appendix-e/#z-z-notation",
-      "text": "Purpose: rigorously describing state-based specifications with sets, relations, and mappings so they can serve as a basis for review and verification Best after reading: Chapter 5, \"State-Based Specification — Fundamentals of Z Notation\" Primary sources (implementations and tools): Community Z Tools (CZT): SourceForge (CZT project):",
+      "text": "Purpose: rigorously describing state-based specifications with sets, relations, and mappings so they can serve as a basis for review and verification Best after reading: Chapter 5, \"State-Based Specification — Fundamentals of Z Notation\" Primary sources (implementations and tools): Community Z Tools (CZT) source repository: SourceForge (CZT project):",
       "aliases": []
     },
     {
