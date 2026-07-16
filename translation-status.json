@@ -75,8 +75,8 @@
       "translation_sha256": "6323b36a33acd88bd1452256eb5c7a836e8cc611fddbce3004571b82a9779442",
       "status": "partial",
       "reviewed_at": "2026-07-16",
-      "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/347",
-      "notes": "CZT primary-source links were re-reviewed in both editions; heading level/order differs; 54 Japanese external reference link(s) are absent from English"
+      "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
+      "notes": "heading level/order differs; 54 Japanese external reference link(s) are absent from English"
     },
     "appendices/appendix-f.md": {
       "source_path": "src/ja/appendices/appendix-f.md",
