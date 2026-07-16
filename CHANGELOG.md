@@ -1,50 +1,25 @@
 # Changelog
 
-All notable changes to this book-publishing-template will be documented in this file.
+本書の reader-facing content、実行例、検証・公開基盤に対する主要な変更を記録します。
+記載形式は [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) を基準とします。
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+現在の書籍メタデータ上の版は `1.0.0` です。tag、GitHub Release、公開版、source commit を同期する次回 release は Issue #319 で確定します。本ファイルだけで未公開版を公開済みとは扱いません。
 
 ## [Unreleased]
 
-### Added
-- CHANGELOG.md to track template changes and improvements
-- Status indicators in README.md for template integration tracking
-- Template version tracking system
-- index.md template for better content generation
-- Custom index.md support from project root
-
 ### Changed
-- README.md structure improved with better organization
-- Enhanced documentation for template usage
-- Navigation addition logic for introduction/afterword sections (now skipped by default)
-- index.md generation now properly uses author information from book-config.json
 
-### Fixed
-- Introduction and afterword sections no longer get duplicate navigation
-- Author name properly displayed in generated index.md
-- Better handling of custom index.md files
+- TLA+、模型検査、論理、CAP、FLP の保証範囲と成立条件を精密化
+- 「そのまま動く」例を、固定 tool version、command、期待結果、CI lane、標準 artifact を持つ 12 件の manifest contract へ移行
+- JavaScript 依存の再現性を root `package-lock.json` と clean-checkout の `npm ci` に一元化
+- Book QA で利用する外部 `book-formatter` を監査済み commit SHA pin として文書化
 
-## Template Integration Checklist
+### Removed
 
-When integrating this template into a book project, track your progress:
+- Git 管理されていた `node_modules/**` と Jekyll 生成物 `docs/_site/**`
+- 本書で利用していない book-publishing-template の移行、引継ぎ、比較、preview、sample config、未実装 PDF/EPUB 手順
+- 参照されていない重複 asset subtree と旧テンプレート用 screenshot / CSS / JavaScript
 
-✅ **GitHub Actions**: Latest workflow configurations  
-✅ **Build System**: PDF/EPUB support, content validation  
-✅ **Configuration**: Spell checking, Japanese text linting  
-✅ **Documentation**: Comprehensive setup guides  
-✅ **Security**: Proper token management and permissions  
+### Quality
 
-## Template Usage Notes
-
-This template provides:
-- 🚀 **Single Repository System**: Simple setup with GitHub Pages from /docs folder
-- 📝 **Markdown-based**: Write in Markdown with full LaTeX math support
-- 🎨 **Beautiful Output**: Clean, responsive design with syntax highlighting
-- 🔧 **Incremental Builds**: Fast rebuilds by processing only changed files
-- 🔒 **Private Content**: Automatic filtering of private comments and drafts
-- 🌍 **Multi-platform**: GitHub Pages, Zenn, and Kindle support
-
-## Migration History
-
-Record your template integration steps here for future reference and troubleshooting.
+- tracked 生成物、旧テンプレート残骸、formatter pin drift、存在しない npm script の案内を検出する repository hygiene gate を追加

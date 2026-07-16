@@ -1,1 +1,0 @@
-Sitemap: https://itdojp.github.io/formal-methods-book/sitemap.xml

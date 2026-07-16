@@ -54,6 +54,15 @@ npm test
 npm audit
 ```
 
+## 依存関係と Book QA の管理
+
+- root の JavaScript 依存関係の正本は `package.json` と `package-lock.json` です。`node_modules/` は `npm ci` が生成するローカル成果物であり、Git へ追加しません。
+- CI、Pages、ローカル検証はいずれも tracked `node_modules/` に依存せず、clean checkout から `npm ci` で復元します。依存を変更した PR では lockfile の差分と `npm audit` の結果を確認します。
+- Book QA は `.github/workflows/book-qa.yml` で外部リポジトリ `itdojp/book-formatter` の監査済み commit `69eb5c12f5a750b65614bc9bbbc3d7abd5aa6f6c` を固定 checkout します。mutable な `main` や major tag は使用しません。
+- formatter pin を更新するときは、旧 SHA と候補 SHA の CLI、schema、warning/failure 条件、artifact、同期安全性、依存監査を比較し、代表的な書籍で pilot してから、このリポジトリでは formatter pin だけの PR として更新します。workflow の `ref` と本節の SHA は同じ commit に保ちます。
+
+リポジトリ衛生契約は `npm run check:repository-hygiene` で検証します。tracked 生成依存物、Jekyll の `_site`、旧テンプレート文書、formatter pin の文書 drift、存在しない npm script の案内を検出します。
+
 ## 実行可能 example と CI
 
 `examples/example-manifest.json` は、本文の strict tool label と自己完結した asset、固定ツール版、実行 command、期待 exit code/stdout marker、CI lane を結ぶ正本です。現在の inventory は Alloy 4件、TLC 1件、Apalache 1件、Dafny 1件、SPIN 2件、NuSMV 2件、CBMC 1件の計12件です。

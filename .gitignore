@@ -6,6 +6,7 @@ tools/.tmp/
 
 # Common local dependencies
 node_modules/
+npm-debug.log*
 
 # Jekyll / GitHub Pages local builds
 _site/
