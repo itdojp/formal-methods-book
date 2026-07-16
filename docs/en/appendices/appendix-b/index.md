@@ -6,13 +6,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-b.md"
 translation_status: "partial"
-translation_source_commit: "4c528522f6a4cda22043a64361360cc3850d0fb9"
+translation_source_commit: "f71c3a404722bd8980aec02ec09e6643ea7a4c01"
 translation_reviewed_at: "2026-07-16"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Appendix B: Tool Setup and Verification Quick Start
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`4c528522f6a4`](https://github.com/itdojp/formal-methods-book/commit/4c528522f6a4cda22043a64361360cc3850d0fb9) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`f71c3a404722`](https://github.com/itdojp/formal-methods-book/commit/f71c3a404722bd8980aec02ec09e6643ea7a4c01) on 2026-07-16.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 This appendix gives the shortest reproducible path to running the book's companion examples. It prioritizes **reproducibility (minimizing environment differences)** over local customization.
@@ -34,7 +34,7 @@ You do not need every tool before you begin reading. By following this appendix,
 Notes:
 - Theorem provers such as `Rocq` and `Isabelle` have larger dependency footprints, so this appendix primarily points to primary sources for them in Appendix E.
 - `Lean 4` is included here only as a **minimal setup** at the end of the appendix as an optional path through the book.
-- SPIN, NuSMV, CBMC, Quint, PRISM, Tamarin, and SymbiYosys belong to the `nightly` lane, and this issue also documents one `cvc5` + `Carcara` proof-certificate recheck path there. Additional prerequisites for source builds and archive-layout validation are listed below.
+- SPIN, NuSMV, CBMC, Quint, PRISM, Tamarin, and SymbiYosys belong to the `nightly` lane, and this appendix also documents one `cvc5` + `Carcara` proof-certificate recheck path there. Additional prerequisites for source builds and archive-layout validation are listed below.
 
 ## Tool Lane Inventory and Execution Guarantee {#tool-lane-inventory}
 
