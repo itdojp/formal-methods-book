@@ -29,6 +29,8 @@ Markdown で執筆し、日本語版を `docs/`、英語版を `docs/en/` に公
   - edition config と publication config から生成する公開メタデータ。直接編集しない
 - `docs/assets/search-index.{ja,en}.json`:
   - JA/EN の reader-facing source と metadata から生成する全書籍検索 index。直接編集しない
+- `docs/build-provenance.json`:
+  - Jekyll build時の一時dataから生成する公開provenance endpoint。release version、exact source commit、build時刻、Pages runを機械可読に公開する
 - `BILINGUAL-WORKFLOW.md`:
   - source-of-truth / translation / release policy
 - `package.json`:
@@ -88,6 +90,23 @@ browserは現在localeのindexを検索欄の初回focus/input時に遅延取得
 ```bash
 node scripts/check-search-index.js --site _site
 ```
+
+## Releaseと公開provenance
+
+書籍版の正本は`book-config.json`の`project.version`です。JA/EN edition config、`package.json` / lock、生成済みJekyll config、検索indexは`npm run check:metadata`で同じ版へ固定します。書籍向け版番号の運用、tag / GitHub Release、rollbackは[`RELEASING.md`](RELEASING.md)を参照してください。
+
+PagesとBook QAはJekyll build直前に`npm run generate:provenance`を実行します。生成される`docs/_data/build_provenance.json`はbuild入力でありGit管理しません。各reader pageのfooter/metaと`/build-provenance.json`には、版、40桁source SHA、UTC build時刻、Pages run URLを出力します。`release_tag` / `release_url` とreleaseリンク/metaを出力するのは、監査対象の`v<version>` tagがそのsource commitを正確に指すbuildだけです。未tagのmain buildでは両JSON fieldを`null`とし、release表示を省略します。
+
+ローカルではrun IDを持たないため、生成dataの検査とJekyll buildを分けて実行します。`--site`を使う46 reader page / 公開JSON検査は、実在する`GITHUB_RUN_ID`を持つPages / Book QA内のCI専用契約です。
+
+```bash
+npm run generate:provenance
+npm run check:provenance
+BUNDLE_GEMFILE=docs/Gemfile bundle exec jekyll build --source docs --destination _site
+node scripts/check-search-index.js --site _site
+```
+
+正式releaseでは、merge後のmain commitへtagを付け、そのcommitをtargetにGitHub Releaseを作成します。PDF / EPUBは生成pipelineがないため、現行release artifactには含めません。
 
 ## 依存関係と Book QA の管理
 

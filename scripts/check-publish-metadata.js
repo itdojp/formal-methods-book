@@ -227,6 +227,7 @@ const packageJson = readJson('package.json');
 const packageLock = readJson('package-lock.json');
 const docsConfig = readYaml('docs/_config.yml');
 const navigation = readYaml('docs/_data/navigation.yml');
+const changelog = readText('CHANGELOG.md');
 let publicationModel;
 try {
   publicationModel = loadPublicationModel(process.cwd());
@@ -246,6 +247,9 @@ try {
 }
 
 assertEqual(manifest.project?.id, repoName, 'book-config.json project.id');
+const projectVersion = manifest.project?.version || '';
+const hasCanonicalVersion = /^\d+\.\d+\.\d+$/.test(projectVersion);
+assertEqual(hasCanonicalVersion, true, 'book-config.json project.version format');
 assertEqual(manifest.project?.version, jaConfig.version, 'book-config.json project.version vs ja version');
 assertEqual(manifest.project?.version, enConfig.version, 'book-config.json project.version vs en version');
 assertEqual(normalizeRepositoryUrl(manifest.repository?.url), githubUrl, 'book-config.json repository.url');
@@ -258,9 +262,18 @@ assertEqual(packageJson.homepage, pagesUrl, 'package.json homepage');
 assertEqual(packageJson.bugs?.url, issuesUrl, 'package.json bugs.url');
 assertEqual(
   packageJson.scripts?.['check:metadata'],
-  'npm run test:metadata-renderer && npm run test:publication-build && node scripts/check-publish-metadata.js',
+  'npm run test:metadata-renderer && npm run test:publication-build && npm run test:provenance && node scripts/check-publish-metadata.js',
   'package.json scripts.check:metadata',
 );
+assertEqual(packageJson.scripts?.['generate:provenance'], 'node scripts/generate-build-provenance.js', 'package.json scripts.generate:provenance');
+assertEqual(packageJson.scripts?.['check:provenance'], 'node scripts/check-build-provenance.js', 'package.json scripts.check:provenance');
+
+if (hasCanonicalVersion) {
+  const releaseNotesPath = `RELEASE_NOTES/v${projectVersion}.md`;
+  assertEqual(fs.existsSync(releaseNotesPath), true, `${releaseNotesPath} exists`);
+  const escapedVersion = projectVersion.replace(/\./g, '\\.');
+  assertEqual(new RegExp(`^## \\[${escapedVersion}\\] - \\d{4}-\\d{2}-\\d{2}$`, 'm').test(changelog), true, 'CHANGELOG current release heading');
+}
 
 assertEqual(packageLock.name, packageJson.name, 'package-lock.json name');
 assertEqual(packageLock.version, packageJson.version, 'package-lock.json version');

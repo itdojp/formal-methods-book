@@ -11,6 +11,7 @@ npm-debug.log*
 # Jekyll / GitHub Pages local builds
 _site/
 docs/_site/
+docs/_data/build_provenance.json
 .jekyll-cache/
 .jekyll-metadata
 .bundle/

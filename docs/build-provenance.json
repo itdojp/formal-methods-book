@@ -1,0 +1,5 @@
+---
+layout: null
+permalink: /build-provenance.json
+---
+{{ site.data.build_provenance | jsonify }}

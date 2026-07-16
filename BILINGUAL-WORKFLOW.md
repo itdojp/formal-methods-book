@@ -79,11 +79,15 @@ commit SHA と内容 digest を自己参照させないため、本文変更と 
 ## Release Policy
 
 - release branch / Pages publish の基準は `main` とします。
+- 書籍版はソフトウェアAPIの互換性ではなく、読者への変更規模で運用します。誤字・リンク・技術的誤記は`1.0.x`相当、章・節・事例・tool導線の追加は`1.1.x`相当、章構成・対象読者・教育方針の大幅変更はmajor versionとします。
+- 版の正本は`book-config.json`の`project.version`です。edition config、package / lock、Jekyll config、検索indexは同じ版でなければreleaseできません。
 - 公開対象は日本語版 `docs/` と英語版 `docs/en/` の組です。
 - 章構成やナビゲーションに影響する変更は、`book-config.json`、edition config、公開先パスの整合が取れてから release 対象にします。
 - 英語版が追従中で同期遅延を許容する場合は、対応 issue を open にし、PR または release note で明示します。
 - 翻訳監査の有効期間は `reviewed_at` から90日です。期限を超えた `synced` は再確認するか `stale` とし、`partial` / `stale` は release 前に追跡 Issue、公開 banner、JSON report artifact が揃っていることを確認します。
 - release 証跡には `.artifacts/translation-status/report.json` の status counts と partial / stale 一覧を含めます。silent partial / stale は release しません。
+- Pages buildはexact main SHA、UTC build時刻、Pages run、release tagを各reader pageと`/build-provenance.json`へ出力します。GitHub Releaseのtag target、公開provenanceの`source_commit`、mainのrelease commitを一致させます。
+- preflight、tag / Release作成、provenance asset、検証、rollbackの手順は`RELEASING.md`を正本とします。PDF / EPUBは生成pipelineと検証契約がある場合だけrelease assetに含めます。
 - `shared/` の追加・削除は両 edition に影響し得るため、片方だけの都合で破壊的変更を入れません。
 
 ## Pull Request Checklist

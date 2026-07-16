@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "project": "formal-methods-book",
-  "projectVersion": "1.0.0",
+  "projectVersion": "1.1.0",
   "locale": "en",
   "entryCount": 1112,
   "entries": [
@@ -14,7 +14,7 @@
       "chapter": "Formal Methods: Foundations and Applications",
       "heading": "Formal Methods: Foundations and Applications",
       "url": "/formal-methods-book/en/#formal-methods-foundations-and-applications",
-      "text": "Translation status: Partial. Reviewed against Japanese source commit 83d031100ae7 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. Formal methods are often presented in one of two unhelpful ways: as abstract mathematics with little engineering payoff, or as tool manuals that explain commands without explaining why the method matters. This book takes a third path. It treats specification, model checking, theorem proving, and program verification as one engineering discipline for building dependable software. The goal is not to turn every reader into a verification specialist. The goal is to help readers decide where formal methods pay off, how to adopt them incrementally, and how to read verification results critically.",
+      "text": "Translation status: Partial. Reviewed against Japanese source commit e056b7afda64 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. Formal methods are often presented in one of two unhelpful ways: as abstract mathematics with little engineering payoff, or as tool manuals that explain commands without explaining why the method matters. This book takes a third path. It treats specification, model checking, theorem proving, and program verification as one engineering discipline for building dependable software. The goal is not to turn every reader into a verification specialist. The goal is to help readers decide where formal methods pay off, how to adopt them incrementally, and how to read verification results critically.",
       "aliases": [
         "模型検査",
         "モデル検査"
