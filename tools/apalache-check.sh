@@ -4,7 +4,7 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 # Ensure tools are available.
-bash "$REPO_ROOT/tools/bootstrap.sh" >/dev/null
+bash "$REPO_ROOT/tools/bootstrap.sh" --tool apalache
 
 : "${APALACHE_VERSION:=0.52.1}"
 APALACHE_BIN="$REPO_ROOT/tools/.cache/apalache-${APALACHE_VERSION}/bin/apalache-mc"

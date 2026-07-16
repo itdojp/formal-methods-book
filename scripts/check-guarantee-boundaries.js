@@ -51,11 +51,17 @@ function stripEnglishTranslationMetadata(content) {
   );
 }
 
+function normalizeGeneratedBody(content) {
+  return content
+    .replace(/\[(examples\/[A-Za-z0-9_./-]+)\]\([^)]+\)/g, '[$1](example-link:$1)')
+    .trimEnd();
+}
+
 function requireGeneratedMatch(sourcePath, publicPath, locale) {
   let source = read(sourcePath);
   if (locale === 'en') source = stripEnglishTranslationMetadata(source);
   const published = stripFrontMatter(read(publicPath));
-  if (source.trimEnd() !== published.trimEnd()) {
+  if (normalizeGeneratedBody(source) !== normalizeGeneratedBody(published)) {
     errors.push({
       filePath: publicPath,
       line: 1,
@@ -104,6 +110,10 @@ function runSelfTest() {
         '> Japanese source of truth: `src/ja/chapter.md`\n\nBody\n',
     ),
     '# Chapter\n\nBody\n',
+  );
+  assert.strictEqual(
+    normalizeGeneratedBody('[examples/a.smv](../../../examples/a.smv)'),
+    normalizeGeneratedBody('[examples/a.smv](https://example.invalid/revision/examples/a.smv)'),
   );
   console.log('OK: assurance-boundary checker self-tests passed.');
 }

@@ -4,7 +4,7 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 # Ensure tools are available.
-bash "$REPO_ROOT/tools/bootstrap.sh" >/dev/null
+bash "$REPO_ROOT/tools/bootstrap.sh" --tool dafny
 
 : "${DAFNY_VERSION:=4.11.0}"
 DAFNY_BIN="$REPO_ROOT/tools/.cache/dafny-${DAFNY_VERSION}/DafnyDriver"

@@ -12,12 +12,20 @@
     "qa:bilingual": "node scripts/check-bilingual-integrity.js",
     "test": "npm run lint && npm run lint-structure && npm run check-links",
     "lint": "markdownlint 'src/ja/**/*.md' 'src/en/**/*.md' --ignore src/ja/appendices/appendices_draft.md --ignore src/en/appendices/appendices_draft.md",
-    "lint-structure": "npm run check:metadata && node scripts/check-tool-blocks.js && node scripts/check-tool-example-links.js && npm run check:tla-semantics && npm run check:guarantees && node scripts/check-manuscript-guardrails.js docs && npm run qa:bilingual",
+    "lint-structure": "npm run check:metadata && npm run check:tool-blocks && npm run check:example-manifest && npm run check:example-runner && npm run check:tool-cli && npm run check:example-workflow && npm run check:tla-semantics && npm run check:guarantees && node scripts/check-manuscript-guardrails.js docs && npm run qa:bilingual",
     "check-links": "markdown-link-check -c .markdown-link-check.json -q -p src/ja/index.md && markdown-link-check -c .markdown-link-check.json -q -p src/ja/glossary/index.md && markdown-link-check -c .markdown-link-check.json -q -p src/ja/chapters/*.md && markdown-link-check -c .markdown-link-check.json -q -p src/ja/appendices/appendix-*.md && markdown-link-check -c .markdown-link-check.json -q -p src/ja/introduction/index.md && markdown-link-check -c .markdown-link-check.json -q -p src/ja/afterword/index.md && markdown-link-check -c .markdown-link-check.json -q -p src/en/index.md && markdown-link-check -c .markdown-link-check.json -q -p src/en/glossary/index.md && markdown-link-check -c .markdown-link-check.json -q -p src/en/chapters/*.md && markdown-link-check -c .markdown-link-check.json -q -p src/en/appendices/appendix-*.md && markdown-link-check -c .markdown-link-check.json -q -p src/en/introduction/index.md && markdown-link-check -c .markdown-link-check.json -q -p src/en/afterword/index.md && markdown-link-check -c .markdown-link-check.json -q -p docs/index.md && markdown-link-check -c .markdown-link-check.json -q -p docs/afterword/index.md && markdown-link-check -c .markdown-link-check.json -q -p docs/en/index.md && markdown-link-check -c .markdown-link-check.json -q -p docs/en/afterword/index.md",
     "deploy": "gh-pages -d docs",
     "check:metadata": "node scripts/check-publish-metadata.js",
     "check:tla-semantics": "node scripts/check-tla-semantics.js --self-test && node scripts/check-tla-semantics.js",
-    "check:guarantees": "node scripts/check-guarantee-boundaries.js --self-test && node scripts/check-guarantee-boundaries.js"
+    "check:guarantees": "node scripts/check-guarantee-boundaries.js --self-test && node scripts/check-guarantee-boundaries.js",
+    "check:tool-blocks": "node scripts/check-tool-blocks.js --self-test && node scripts/check-tool-blocks.js",
+    "check:example-manifest": "node scripts/check-tool-example-links.js --self-test && node scripts/check-tool-example-links.js",
+    "check:example-manifest:self-test": "node scripts/check-tool-example-links.js --self-test",
+    "check:example-runner": "node scripts/test-example-runner.js",
+    "check:tool-cli": "node scripts/test-tool-cli-arguments.js",
+    "check:example-workflow": "node scripts/check-example-workflow.js --self-test && node scripts/check-example-workflow.js",
+    "examples:pr-quick": "bash examples/ci/pr-quick-check.sh",
+    "examples:nightly": "node scripts/run-example-manifest.js --lane nightly"
   },
   "keywords": [
     "book",

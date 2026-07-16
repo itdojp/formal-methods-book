@@ -484,7 +484,7 @@ S = S1 × S2 × ... × SN
 
 以下のプログラムのデータ構造を集合論的に表現してください：
 
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```python
 class Student:
     def __init__(self, name, age, courses):

@@ -108,7 +108,7 @@ elaborate types.
 
 **Examples of basic types**:
 
-【ツール準拠（そのまま動く）】
+【Context-dependent snippet】
 ```z
 [Person, BookID, Date]
 ```
@@ -118,7 +118,7 @@ primitive elements that we do not decompose any further.
 
 **Examples of constructed types**:
 
-【ツール準拠（そのまま動く）】
+【Context-dependent snippet】
 ```z
 Name == seq Char
 Status ::= available | borrowed | reserved
@@ -143,7 +143,7 @@ Set-theoretic operators are natural and powerful in software specification.
 
 **Practical example: library stock management**
 
-【ツール準拠（そのまま動く）】
+【Context-dependent snippet】
 ```z
 availableBooks == allBooks \ borrowedBooks
 overdueBooks == {b: borrowedBooks | dueDate(b) < today}
@@ -637,7 +637,7 @@ of specification.
 When multiple operations are combined, their order and dependency have to be
 made explicit.
 
-【ツール準拠（そのまま動く）】
+【Context-dependent snippet】
 ```z
 BookReservationProcess ≙
   CheckAvailability ⨾
@@ -721,7 +721,7 @@ This schema allows one of several payment mechanisms.
 
 Many real operations consist of several stages executed in sequence.
 
-【ツール準拠（そのまま動く）】
+【Context-dependent snippet】
 ```z
 CompleteBooking ≙
   ValidateRequest ⨾
@@ -776,7 +776,7 @@ A more concrete example:
 
 Some operations conceptually run in parallel.
 
-【ツール準拠（そのまま動く）】
+【Context-dependent snippet】
 ```z
 ParallelProcessing ≙
   DatabaseUpdate ∥
@@ -793,7 +793,7 @@ operations.
 
 **Abstract level**:
 
-【ツール準拠（そのまま動く）】
+【Context-dependent snippet】
 ```z
 PaymentProcess ≙
   ValidatePayment ⨾
@@ -864,7 +864,7 @@ SecureOperation[X] ≙
 
 This generic pattern adds security control to an arbitrary operation `X`.
 
-【ツール準拠（そのまま動く）】
+【Context-dependent snippet】
 ```z
 SecureFileAccess ≙ SecureOperation[ReadFile]
 SecureDataModification ≙ SecureOperation[UpdateDatabase]
@@ -923,7 +923,7 @@ We can model the system state in stages.
 
 **Basic type definitions**:
 
-【ツール準拠（そのまま動く）】
+【Context-dependent snippet】
 ```z
 [FloorNumber, PassengerID, Time]
 

@@ -1,0 +1,281 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "id": "alloy-collection",
+      "tool": "alloy",
+      "version": "6.2.0",
+      "chapter": "chapter04",
+      "anchor": "executable-example-contracts",
+      "references": [
+        "src/ja/chapters/chapter04.md",
+        "src/en/chapters/chapter04.md",
+        "docs/chapters/chapter04/index.md",
+        "docs/en/chapters/chapter04/index.md"
+      ],
+      "assets": [
+        "examples/alloy/collection.als"
+      ],
+      "config": null,
+      "command": "bash tools/alloy-check.sh --out-dir .artifacts/manifest/alloy-collection/tool-output --verbose examples/alloy/collection.als",
+      "lane": "pr-quick",
+      "expected": {
+        "exitCode": 0,
+        "stdoutMarker": "Alloy exec: examples/alloy/collection.als"
+      }
+    },
+    {
+      "id": "alloy-university-enrollment",
+      "tool": "alloy",
+      "version": "6.2.0",
+      "chapter": "chapter04",
+      "anchor": "executable-example-contracts",
+      "references": [
+        "src/ja/chapters/chapter04.md",
+        "src/en/chapters/chapter04.md",
+        "docs/chapters/chapter04/index.md",
+        "docs/en/chapters/chapter04/index.md"
+      ],
+      "assets": [
+        "examples/ch04/university-enrollment.als"
+      ],
+      "config": null,
+      "command": "bash tools/alloy-check.sh --out-dir .artifacts/manifest/alloy-university-enrollment/tool-output --verbose examples/ch04/university-enrollment.als",
+      "lane": "pr-quick",
+      "expected": {
+        "exitCode": 0,
+        "stdoutMarker": "Alloy exec: examples/ch04/university-enrollment.als"
+      }
+    },
+    {
+      "id": "alloy-leader-election",
+      "tool": "alloy",
+      "version": "6.2.0",
+      "chapter": "chapter04",
+      "anchor": "executable-example-contracts",
+      "references": [
+        "src/ja/chapters/chapter04.md",
+        "src/en/chapters/chapter04.md",
+        "docs/chapters/chapter04/index.md",
+        "docs/en/chapters/chapter04/index.md"
+      ],
+      "assets": [
+        "examples/ch04/leader-election.als"
+      ],
+      "config": null,
+      "command": "bash tools/alloy-check.sh --out-dir .artifacts/manifest/alloy-leader-election/tool-output --verbose examples/ch04/leader-election.als",
+      "lane": "pr-quick",
+      "expected": {
+        "exitCode": 0,
+        "stdoutMarker": "Alloy exec: examples/ch04/leader-election.als"
+      }
+    },
+    {
+      "id": "alloy-trash-temporal",
+      "tool": "alloy",
+      "version": "6.2.0",
+      "chapter": "chapter04",
+      "anchor": "executable-example-contracts",
+      "references": [
+        "src/ja/chapters/chapter04.md",
+        "src/en/chapters/chapter04.md",
+        "docs/chapters/chapter04/index.md",
+        "docs/en/chapters/chapter04/index.md"
+      ],
+      "assets": [
+        "examples/alloy/trash-temporal.als"
+      ],
+      "config": null,
+      "command": "bash tools/alloy-check.sh --out-dir .artifacts/manifest/alloy-trash-temporal/tool-output --verbose examples/alloy/trash-temporal.als",
+      "lane": "pr-quick",
+      "expected": {
+        "exitCode": 0,
+        "stdoutMarker": "Alloy exec: examples/alloy/trash-temporal.als"
+      }
+    },
+    {
+      "id": "tlc-queue-bounded",
+      "tool": "tlc",
+      "version": "1.7.4",
+      "chapter": "chapter07",
+      "anchor": "tla-executable-example-contracts",
+      "references": [
+        "src/ja/chapters/chapter07.md",
+        "src/en/chapters/chapter07.md",
+        "docs/chapters/chapter07/index.md",
+        "docs/en/chapters/chapter07/index.md"
+      ],
+      "assets": [
+        "examples/tla/QueueBounded.tla"
+      ],
+      "config": "examples/tla/QueueBounded.cfg",
+      "command": "bash tools/tlc-run.sh --out-dir .artifacts/manifest/tlc-queue-bounded/tool-output --config examples/tla/QueueBounded.cfg --time-limit 60 examples/tla/QueueBounded.tla",
+      "lane": "pr-quick",
+      "expected": {
+        "exitCode": 0,
+        "stdoutMarker": "Model checking completed. No error has been found."
+      }
+    },
+    {
+      "id": "apalache-counter",
+      "tool": "apalache",
+      "version": "0.52.1",
+      "chapter": "chapter07",
+      "anchor": "tla-executable-example-contracts",
+      "references": [
+        "src/ja/chapters/chapter07.md",
+        "src/en/chapters/chapter07.md",
+        "docs/chapters/chapter07/index.md",
+        "docs/en/chapters/chapter07/index.md"
+      ],
+      "assets": [
+        "examples/apalache/Counter.tla"
+      ],
+      "config": "examples/apalache/Counter.cfg",
+      "command": "bash tools/apalache-check.sh --out-dir .artifacts/manifest/apalache-counter/tool-output --config examples/apalache/Counter.cfg --length 10 --init Init --next Next --inv Inv examples/apalache/Counter.tla",
+      "lane": "pr-quick",
+      "expected": {
+        "exitCode": 0,
+        "stdoutMarker": "Checker reports no error up to computation length 10"
+      }
+    },
+    {
+      "id": "dafny-abs",
+      "tool": "dafny",
+      "version": "4.11.0",
+      "chapter": "chapter09",
+      "anchor": "dafny-executable-example-contracts",
+      "references": [
+        "src/ja/chapters/chapter09.md",
+        "src/en/chapters/chapter09.md",
+        "docs/chapters/chapter09/index.md",
+        "docs/en/chapters/chapter09/index.md"
+      ],
+      "assets": [
+        "examples/dafny/Abs.dfy"
+      ],
+      "config": null,
+      "command": "bash tools/dafny-verify.sh examples/dafny/Abs.dfy",
+      "lane": "pr-quick",
+      "expected": {
+        "exitCode": 0,
+        "stdoutMarker": "Dafny program verifier finished with 1 verified, 0 errors"
+      }
+    },
+    {
+      "id": "spin-ltl-properties",
+      "tool": "spin",
+      "version": "6.5.2",
+      "chapter": "chapter08",
+      "anchor": "model-checker-executable-example-contracts",
+      "references": [
+        "src/ja/chapters/chapter08.md",
+        "src/en/chapters/chapter08.md",
+        "docs/chapters/chapter08/index.md",
+        "docs/en/chapters/chapter08/index.md"
+      ],
+      "assets": [
+        "examples/ch08/spin/ltl-properties.pml"
+      ],
+      "config": null,
+      "command": "bash tools/spin-check.sh --out-dir .artifacts/manifest/spin-ltl-properties/tool-output --claim mutual_exclusion examples/ch08/spin/ltl-properties.pml",
+      "lane": "nightly",
+      "expected": {
+        "exitCode": 0,
+        "stdoutMarker": "errors: 0"
+      }
+    },
+    {
+      "id": "spin-producer-consumer",
+      "tool": "spin",
+      "version": "6.5.2",
+      "chapter": "chapter08",
+      "anchor": "model-checker-executable-example-contracts",
+      "references": [
+        "src/ja/chapters/chapter08.md",
+        "src/en/chapters/chapter08.md",
+        "docs/chapters/chapter08/index.md",
+        "docs/en/chapters/chapter08/index.md"
+      ],
+      "assets": [
+        "examples/ch08/spin/producer-consumer.pml"
+      ],
+      "config": null,
+      "command": "bash tools/spin-check.sh --out-dir .artifacts/manifest/spin-producer-consumer/tool-output examples/ch08/spin/producer-consumer.pml",
+      "lane": "nightly",
+      "expected": {
+        "exitCode": 0,
+        "stdoutMarker": "errors: 0"
+      }
+    },
+    {
+      "id": "nusmv-fairness",
+      "tool": "nusmv",
+      "version": "2.7.1",
+      "chapter": "chapter08",
+      "anchor": "model-checker-executable-example-contracts",
+      "references": [
+        "src/ja/chapters/chapter08.md",
+        "src/en/chapters/chapter08.md",
+        "docs/chapters/chapter08/index.md",
+        "docs/en/chapters/chapter08/index.md"
+      ],
+      "assets": [
+        "examples/ch08/nusmv/fairness.smv"
+      ],
+      "config": null,
+      "command": "bash tools/nusmv-check.sh examples/ch08/nusmv/fairness.smv",
+      "lane": "nightly",
+      "expected": {
+        "exitCode": 0,
+        "stdoutMarker": "is true"
+      }
+    },
+    {
+      "id": "nusmv-request-response",
+      "tool": "nusmv",
+      "version": "2.7.1",
+      "chapter": "chapter08",
+      "anchor": "model-checker-executable-example-contracts",
+      "references": [
+        "src/ja/chapters/chapter08.md",
+        "src/en/chapters/chapter08.md",
+        "docs/chapters/chapter08/index.md",
+        "docs/en/chapters/chapter08/index.md"
+      ],
+      "assets": [
+        "examples/ch08/nusmv/request-response.smv"
+      ],
+      "config": null,
+      "command": "bash tools/nusmv-check.sh examples/ch08/nusmv/request-response.smv",
+      "lane": "nightly",
+      "expected": {
+        "exitCode": 0,
+        "stdoutMarker": "is false"
+      }
+    },
+    {
+      "id": "cbmc-array-bounds",
+      "tool": "cbmc",
+      "version": "6.10.0",
+      "chapter": "chapter08",
+      "anchor": "model-checker-executable-example-contracts",
+      "references": [
+        "src/ja/chapters/chapter08.md",
+        "src/en/chapters/chapter08.md",
+        "docs/chapters/chapter08/index.md",
+        "docs/en/chapters/chapter08/index.md"
+      ],
+      "assets": [
+        "examples/ch08/cbmc/array-bounds.c"
+      ],
+      "config": null,
+      "command": "bash tools/cbmc-check.sh examples/ch08/cbmc/array-bounds.c",
+      "lane": "nightly",
+      "expected": {
+        "exitCode": 0,
+        "stdoutMarker": "VERIFICATION SUCCESSFUL"
+      }
+    }
+  ]
+}

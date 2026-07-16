@@ -165,7 +165,7 @@ Real systems often contain many interacting processes. CSP uses *channels* to
 structure that interaction. A channel is an abstract route over which messages
 move between processes.
 
-【ツール準拠（そのまま動く）】
+【Context-dependent snippet】
 ```csp
 channel in, out : {0..1}
 
@@ -215,7 +215,7 @@ RANDOM = heads → SUCCESS ⊓ tails → FAILURE
 
 **Parallel composition**: multiple processes run concurrently.
 
-【ツール準拠（そのまま動く）】
+【Context-dependent snippet】
 ```csp
 PROCESS1 = a -> PROCESS1
 PROCESS2 = b -> PROCESS2
@@ -265,14 +265,14 @@ processes. Understanding these primitives is the foundation of the notation.
 **`STOP`**: a process that does nothing and cannot proceed, representing a
 deadlock state.
 
-【ツール準拠（そのまま動く）】
+【Context-dependent snippet】
 ```csp
 STOP
 ```
 
 **`SKIP`**: a process that terminates successfully.
 
-【ツール準拠（そのまま動く）】
+【Context-dependent snippet】
 ```csp
 SKIP
 ```
@@ -342,7 +342,7 @@ The family of operators for parallel composition is central to CSP.
 
 **Independent parallel (`|||`)**: processes run independently.
 
-【ツール準拠（そのまま動く）】
+【Context-dependent snippet】
 ```csp
 PRINTER = print_job -> PRINTER
 SCANNER = scan_doc -> SCANNER
@@ -356,7 +356,7 @@ These processes do not interact and may proceed independently.
 **Synchronized parallel (`[| X |]`)**: processes synchronize on a chosen set of
 events.
 
-【ツール準拠（そのまま動く）】
+【Context-dependent snippet】
 ```csp
 CUSTOMER = arrive -> order -> pay -> leave -> CUSTOMER
 CASHIER = greet -> order -> pay -> CASHIER
@@ -440,7 +440,7 @@ This defines `N` worker processes running concurrently.
 To conceal internal events from the external interface, CSP provides the hiding
 operator (`\`).
 
-【ツール準拠（そのまま動く）】
+【Context-dependent snippet】
 ```csp
 INTERNAL_PROCESS = internal_event1 -> internal_event2 -> external_event -> INTERNAL_PROCESS
 PUBLIC_INTERFACE = INTERNAL_PROCESS \ {internal_event1, internal_event2}
@@ -453,7 +453,7 @@ This exposes only the public behavior while suppressing internal details.
 CSP also supports renaming, which is useful for reusing generic processes in a
 more specific setting.
 
-【ツール準拠（そのまま動く）】
+【Context-dependent snippet】
 ```csp
 channel in, out : {0..1}
 channel input, output : {0..1}
@@ -506,7 +506,7 @@ RECEIVER = ch?x → process.x → RECEIVER
 
 **Synchronous communication**: send and receive occur together.
 
-【ツール準拠（そのまま動く）】
+【Context-dependent snippet】
 ```csp
 channel ch : {0..1}
 

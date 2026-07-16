@@ -525,7 +525,7 @@ COMPASSION (enabled_a, executed_a)
 公平性の概念・TLA+ での厳密な定義は、[第7章の公平性の時相的表現]({{ '/chapters/chapter07/#公平性の時相的表現' | relative_url }})も参照してください。
 
 最小例（NuSMV/nuXmv の FAIRNESS / COMPASSION 使用）:
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```smv
 MODULE main
 VAR
@@ -571,7 +571,7 @@ COMPASSION (enabled_a, executed_a)
 実際の模型検査ツールでは、標準的な時相論理に加えて、実用的な拡張が提供されることがあります。
 
 **SPIN（Promela）での例（進捗・無飢餓の性質）［LTL例］**：
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```promela
 bool critical_section = false;
 bool cs1 = false;
@@ -1013,7 +1013,7 @@ write_traces -o counterexample.xml
 上から順に、反例の表示（`show_traces -v`）と保存（`write_traces -o counterexample.xml`）です。
 
 **SPIN の反例機能**：
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```bash
 spin -t -p examples/ch08/spin/producer-consumer.pml
 spin -t examples/ch08/spin/producer-consumer.pml
@@ -1064,7 +1064,7 @@ SPIN は、Gerard Holzmannにより開発された、並行システム検証の
 - **ランダムシミュレーション**: 検証前の予備検査
 
 **適用領域**：
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```promela
 mtype = { msg };
 chan buffer = [1] of { mtype };
@@ -1104,7 +1104,7 @@ NuSMV は、シンボリック模型検査の先駆的なツールです。
 - **反例生成**: 詳細な診断情報
 
 **仕様記述例**：
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```smv
 MODULE main
 VAR
@@ -1203,7 +1203,7 @@ CBMCは、C/C++プログラムの有界模型検査ツールです。
 - **産業標準**: 自動車・航空宇宙業界での活用
 
 **検証例**：
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```c
 #include <assert.h>
 
@@ -1237,6 +1237,47 @@ int main(void) {
 - 有界検証のみ
 - 抽象化の困難さ
 - 大規模プログラムでの性能問題
+
+### 実行可能例の契約 {#model-checker-executable-example-contracts}
+
+本章の SPIN / NuSMV / CBMC の短い断片は、構文が実ツールに近くても、起動オプション、生成物、周辺モデルを伴って読む**文脈依存スニペット**です。CI が実行保証するのは、JA/EN 共通の canonical asset を `examples/ch08/**` から取得し、manifest runner 経由で呼び出す次の契約ブロックだけです。
+
+リポジトリ全体では `pr-quick` と `nightly` を分けており、この節の契約は `nightly` 側に載せて PR 時間を抑えます。標準化した実行証跡は `.artifacts/manifest/<id>/` に集約する前提とし、本文の短い断片ではなく同一リビジョンの `examples/ch08/**` を取得してください。
+
+- `spin-ltl-properties`: 正本 asset は [examples/ch08/spin/ltl-properties.pml](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/ch08/spin/ltl-properties.pml)、lane は `nightly`、固定バージョンは `SPIN 6.5.2`、期待成功マーカーは `errors: 0` です。取得時は同一コミットの [examples/ch08/spin/ltl-properties.pml](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/ch08/spin/ltl-properties.pml) を正本としてください。
+<!-- example-contract: spin-ltl-properties -->
+【ツール準拠（そのまま動く）】
+```bash
+node scripts/run-example-manifest.js --id spin-ltl-properties
+```
+
+- `spin-producer-consumer`: 正本 asset は [examples/ch08/spin/producer-consumer.pml](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/ch08/spin/producer-consumer.pml)、lane は `nightly`、固定バージョンは `SPIN 6.5.2`、期待成功マーカーは `errors: 0` です。取得時は本文抜粋ではなく [examples/ch08/spin/producer-consumer.pml](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/ch08/spin/producer-consumer.pml) を同一リビジョンで取得します。
+<!-- example-contract: spin-producer-consumer -->
+【ツール準拠（そのまま動く）】
+```bash
+node scripts/run-example-manifest.js --id spin-producer-consumer
+```
+
+- `nusmv-fairness`: 正本 asset は [examples/ch08/nusmv/fairness.smv](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/ch08/nusmv/fairness.smv)、lane は `nightly`、固定バージョンは `NuSMV 2.7.1`、期待成功マーカーは `-- is true` です。取得時は JA/EN 共通の [examples/ch08/nusmv/fairness.smv](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/ch08/nusmv/fairness.smv) を使ってください。
+<!-- example-contract: nusmv-fairness -->
+【ツール準拠（そのまま動く）】
+```bash
+node scripts/run-example-manifest.js --id nusmv-fairness
+```
+
+- `nusmv-request-response`: 正本 asset は [examples/ch08/nusmv/request-response.smv](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/ch08/nusmv/request-response.smv)、lane は `nightly`、固定バージョンは `NuSMV 2.7.1`、期待結果は意図した反例を示す `-- is false` です（NuSMV プロセス自体は正常終了します）。取得時は同一コミットの [examples/ch08/nusmv/request-response.smv](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/ch08/nusmv/request-response.smv) を正本としてください。
+<!-- example-contract: nusmv-request-response -->
+【ツール準拠（そのまま動く）】
+```bash
+node scripts/run-example-manifest.js --id nusmv-request-response
+```
+
+- `cbmc-array-bounds`: 正本 asset は [examples/ch08/cbmc/array-bounds.c](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/ch08/cbmc/array-bounds.c)、lane は `nightly`、固定バージョンは `CBMC 6.10.0`、期待成功マーカーは `VERIFICATION SUCCESSFUL` です。取得時は本文中の C 断片ではなく [examples/ch08/cbmc/array-bounds.c](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/ch08/cbmc/array-bounds.c) を同一リビジョンで再利用します。
+<!-- example-contract: cbmc-array-bounds -->
+【ツール準拠（そのまま動く）】
+```bash
+node scripts/run-example-manifest.js --id cbmc-array-bounds
+```
 
 ### UPPAAL：リアルタイムシステム専用
 

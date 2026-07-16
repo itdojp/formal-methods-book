@@ -50,6 +50,15 @@ function stripEnglishTranslationMetadata(content) {
   );
 }
 
+function rewriteExampleLinksForPublication(content) {
+  const revision = "{{site.github.build_revision|default:'main'}}";
+  return content.replace(
+    /\[(examples\/[A-Za-z0-9_./-]+)\]\([^)]+\)/g,
+    (_, repositoryPath) =>
+      `[${repositoryPath}](https://github.com/itdojp/formal-methods-book/blob/${revision}/${repositoryPath})`,
+  );
+}
+
 function wrapWithFrontMatter({ title, locale, sourcePath }, content) {
   const lines = [
     '---',
@@ -148,6 +157,7 @@ function buildEdition(locale) {
     if (locale === 'en') {
       content = stripEnglishTranslationMetadata(content);
     }
+    content = rewriteExampleLinksForPublication(content);
     const title = readMarkdownTitle(content, path.basename(relativePath, '.md'));
     const wrapped = wrapWithFrontMatter({
       title,

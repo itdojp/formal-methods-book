@@ -1,4 +1,4 @@
-# Local tool outputs and caches
+# Manifest runner output and local tool caches/build workspace
 .artifacts/
 _apalache-out/
 tools/.cache/

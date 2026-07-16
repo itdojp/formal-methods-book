@@ -1473,6 +1473,19 @@ method BinarySearch(a: array<int>, key: int) returns (index: int)
 }
 ```
 
+### 実行可能例の契約 {#dafny-executable-example-contracts}
+
+この節の Dafny 断片は、契約の考え方を説明するための**文脈依存スニペット**です。CI が実行保証するのは、JA/EN 共通の canonical asset を [examples/dafny/Abs.dfy](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/dafny/Abs.dfy) から取得し、manifest runner で起動する次の契約ブロックだけです。
+
+本章の契約は `pr-quick` 側に載り、`nightly` は別ツールの重い検査を受け持ちます。標準化したログ、command、exit code、stdout/stderr は `.artifacts/manifest/<id>/` に保存する前提とし、再現時は本文断片ではなく同一リビジョンの [examples/dafny/Abs.dfy](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/dafny/Abs.dfy) を取得してください。
+
+- `dafny-abs`: 正本 asset は [examples/dafny/Abs.dfy](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/dafny/Abs.dfy)、lane は `pr-quick`、固定バージョンは `Dafny 4.11.0`、期待成功マーカーは `Dafny program verifier finished with 1 verified, 0 errors` です。取得時は JA/EN で共通化された [examples/dafny/Abs.dfy](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/dafny/Abs.dfy) を正本としてください。
+<!-- example-contract: dafny-abs -->
+【ツール準拠（そのまま動く）】
+```bash
+node scripts/run-example-manifest.js --id dafny-abs
+```
+
 ### SPARK：Adaの検証サブセット
 
 SPARKは、Adaのサブセットに契約ベースの仕様を追加した言語です。航空宇宙産業で広く使用されています。

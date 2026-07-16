@@ -26,6 +26,7 @@ You do not need every tool before you begin reading. By following this appendix,
 Notes:
 - Theorem provers such as `Rocq` and `Isabelle` have larger dependency footprints, so this appendix primarily points to primary sources for them in Appendix E.
 - `Lean 4` is included here only as a **minimal setup** at the end of the appendix as an optional path through the book.
+- SPIN, NuSMV, and CBMC belong to the `nightly` lane and require the additional Ubuntu 24.04 x86-64 prerequisites described below.
 
 ## Recommended: devcontainer (Fastest Reproducible Path)
 
@@ -72,6 +73,28 @@ If any command fails, check the Java version, shell environment, and the primary
 - `curl` and `unzip`
 
 Use the same flow as in the devcontainer: run `bash tools/bootstrap.sh` to fetch the required files, then execute the scripts under `tools/*.sh`.
+
+### Additional prerequisites for the nightly lane (Ubuntu 24.04 x86-64)
+
+`node scripts/run-example-manifest.js --lane nightly` executes SPIN 6.5.2, NuSMV 2.7.1, and CBMC 6.10.0. In addition to the minimum tool set, it needs the build prerequisites below. NuSMV is built locally from the official source archive, while CBMC is extracted from the pinned Ubuntu 24.04 x86-64 deb, so this procedure targets that environment or a compatible one.
+
+```bash
+sudo apt-get update
+sudo apt-get install --yes \
+  bison build-essential flex g++ gcc m4 patch pkg-config \
+  python3 python3-venv xz-utils
+
+python3 -m venv tools/.tmp/nusmv-build-tools
+tools/.tmp/nusmv-build-tools/bin/pip install \
+  --disable-pip-version-check \
+  --require-hashes \
+  --requirement tools/nusmv-build-requirements.txt
+
+PATH="$PWD/tools/.tmp/nusmv-build-tools/bin:$PATH" \
+  node scripts/run-example-manifest.js --lane nightly
+```
+
+The downloaded tools are pinned by commit/version and SHA-256, and the Meson/Ninja packages are pinned by hashes in the requirements file. On native macOS, native Windows, or a different CPU architecture, use an Ubuntu 24.04 x86-64 container, WSL2, or the GitHub Actions `workflow_dispatch` instead of treating this lane as locally portable.
 
 ### OS-specific Notes (Key Points)
 

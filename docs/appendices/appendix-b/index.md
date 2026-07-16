@@ -27,6 +27,7 @@ source_path: "src/ja/appendices/appendix-b.md"
 - Quint CLI は、TLA+ 意味論に基づく型付き仕様言語を CI に載せる選択肢である。ただし本リポジトリの最小セットには含めず、導入する場合は公式手順に従ってバージョンを固定する。
 - Rocq/Isabelle等の定理証明器は依存が大きいため、本付録では一次情報リンク（付録E）を主とする。
 - Lean 4 は、本書の導線として **最小構成のみ**を本付録末尾に示す（Optional）。
+- SPIN / NuSMV / CBMC は `nightly` lane の対象であり、後述する Ubuntu 24.04 x86-64 向け追加前提を満たす場合に実行する。
 
 ## 推奨：devcontainer（コンテナ手順）
 
@@ -72,6 +73,28 @@ bash tools/dafny-verify.sh examples/dafny/Abs.dfy
 - `curl` / `unzip`
 
 手順は devcontainer と同じで、`bash tools/bootstrap.sh` で必要物を取得し、`tools/*.sh` を実行する。
+
+### nightly lane の追加前提（Ubuntu 24.04 x86-64）
+
+`node scripts/run-example-manifest.js --lane nightly` は SPIN 6.5.2、NuSMV 2.7.1、CBMC 6.10.0 を実行する。最小セットとは別に、次のビルド前提が必要である。NuSMV は公式 source archive をローカル build し、CBMC は Ubuntu 24.04 x86-64 用の固定 deb を展開するため、この手順は同環境または互換環境を対象とする。
+
+```bash
+sudo apt-get update
+sudo apt-get install --yes \
+  bison build-essential flex g++ gcc m4 patch pkg-config \
+  python3 python3-venv xz-utils
+
+python3 -m venv tools/.tmp/nusmv-build-tools
+tools/.tmp/nusmv-build-tools/bin/pip install \
+  --disable-pip-version-check \
+  --require-hashes \
+  --requirement tools/nusmv-build-requirements.txt
+
+PATH="$PWD/tools/.tmp/nusmv-build-tools/bin:$PATH" \
+  node scripts/run-example-manifest.js --lane nightly
+```
+
+取得物は commit/version と SHA-256、Meson/Ninja は requirements の package hash で固定される。macOS、Windows ネイティブ、異なる CPU architecture ではこの lane を直接再現せず、Ubuntu 24.04 x86-64 のコンテナ、WSL2、または GitHub Actions の `workflow_dispatch` を使う。
 
 ### OS差分（要点）
 

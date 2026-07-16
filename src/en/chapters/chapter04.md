@@ -120,7 +120,7 @@ create `Student` objects and `Course` objects, and give a student object an
 attribute such as an enrollment list. In Alloy, we instead describe the sets
 `Student` and `Course` and the relation `enrollment`.
 
-【Tool-compliant (runs as-is)】
+【Context-dependent snippet】
 ```alloy
 sig Student {
     enrollment: set Course
@@ -281,7 +281,7 @@ fact DatabaseConsistency {
 To learn Alloy modeling, let us begin with a familiar example: an address-book
 system. Even this small example captures the basic syntax and habits of Alloy.
 
-【Tool-compliant (runs as-is)】
+【Context-dependent snippet】
 ```alloy
 module AddressBook
 
@@ -389,7 +389,7 @@ with `util/ordering`.
 
 Let us move to a more realistic example: access control for an email system.
 
-【Tool-compliant (runs as-is)】
+【Context-dependent snippet】
 ```alloy
 module EmailSecurity
 
@@ -447,7 +447,7 @@ combine to form a precise security model.
 
 The next example includes richer business logic.
 
-【Tool-compliant (runs as-is)】
+【Context-dependent snippet】
 ```alloy
 module OnlineBookstore
 
@@ -535,7 +535,7 @@ order consistency, and state changes over time.
 As a more advanced example, we can model a leader-election algorithm in a
 distributed system.
 
-【Tool-compliant (runs as-is)】
+【Context-dependent snippet】
 ```alloy
 module LeaderElection
 
@@ -636,7 +636,7 @@ development process.
 
 Real systems contain multiple kinds of entities connected in nontrivial ways.
 
-【Tool-compliant (runs as-is)】
+【Context-dependent snippet】
 ```alloy
 sig User {
     owns: set File,
@@ -699,7 +699,7 @@ Large models should be built in stages.
 
 **Stage 1**: basic entities and relations
 
-【Tool-compliant (runs as-is)】
+【Context-dependent snippet】
 ```alloy
 sig File {}
 
@@ -710,7 +710,7 @@ sig User {
 
 **Stage 2**: add constraints
 
-【Tool-compliant (runs as-is)】
+【Context-dependent snippet】
 ```alloy
 sig File {}
 
@@ -725,7 +725,7 @@ fact UniqueOwner {
 
 **Stage 3**: introduce richer relations
 
-【Tool-compliant (runs as-is)】
+【Context-dependent snippet】
 ```alloy
 sig File {}
 
@@ -819,7 +819,7 @@ Alloy also relies heavily on set operators.
 
 Banking example:
 
-【Tool-compliant (runs as-is)】
+【Context-dependent snippet】
 ```alloy
 sig Account {
     owner: one Customer,
@@ -849,7 +849,7 @@ fact BankingRules {
 
 Alloy can also express dynamic behavior and time-dependent requirements.
 
-【Tool-compliant (runs as-is)】
+【Context-dependent snippet】
 ```alloy
 sig State {
     next: lone State,
@@ -885,7 +885,7 @@ fact SessionLifecycle {
 
 Alloy is particularly well suited to the description of security policies.
 
-【Tool-compliant (runs as-is)】
+【Context-dependent snippet】
 ```alloy
 sig Subject {
     roles: set Role,
@@ -1027,7 +1027,7 @@ found, the analyzer shows a concrete instance.
 
 Consider the following model:
 
-【Tool-compliant (runs as-is)】
+【Context-dependent snippet】
 ```alloy
 sig User {
     files: set File,
@@ -1122,7 +1122,7 @@ Practical use of Alloy usually follows an iterative cycle.
 
 **1. Build the initial model**
 
-【Tool-compliant (runs as-is)】
+【Context-dependent snippet】
 ```alloy
 sig Document {
     owner: one User,
@@ -1211,7 +1211,7 @@ be reproducible for readers unless they intentionally override
 mutable subset `Trash`. Delete and restore operations are described as
 transitions, and a simple safety property is checked.
 
-【Tool-compliant (runs as-is)】
+【Context-dependent snippet】
 ```alloy
 sig File {}
 
@@ -1249,7 +1249,7 @@ check restoreAfterDelete for 3 but 6 steps
 
 Command-line execution:
 
-【Tool-compliant (runs as-is)】
+【Context-dependent snippet】
 ```bash
 bash tools/bootstrap.sh
 bash tools/alloy-check.sh --verbose examples/alloy/trash-temporal.als
@@ -1269,6 +1269,40 @@ Generated artifacts:
 - To visualize it in the GUI, run `java -jar tools/.cache/alloy-6.2.0.jar gui`
   and step through the states interactively.
 
+### Executable Example Contracts {#executable-example-contracts}
+
+The Alloy fragments in this chapter are **context-dependent snippets** that must be read together with the surrounding explanation, declarations, and scope choices. CI-backed executability is limited to the contract blocks below, which call the shared JA/EN canonical assets under `examples/**` through the manifest runner.
+
+Repository-wide, `pr-quick` and `nightly` are separated, and the Alloy contracts in this chapter define the `pr-quick` baseline. Normalized execution evidence is expected under `.artifacts/manifest/<id>/`, and readers should retrieve the canonical files from the same repository revision instead of copying inline snippets in isolation.
+
+- `alloy-collection`: canonical asset [examples/alloy/collection.als](../../../examples/alloy/collection.als); lane `pr-quick`; pinned version `Alloy 6.2.0`; expected success marker `Alloy exec: examples/alloy/collection.als`; `run$1-solution-0.md` is also generated as an execution artifact. Retrieve [examples/alloy/collection.als](../../../examples/alloy/collection.als) from the same commit as the manuscript.
+<!-- example-contract: alloy-collection -->
+【Tool-compliant (runs as-is)】
+```bash
+node scripts/run-example-manifest.js --id alloy-collection
+```
+
+- `alloy-university-enrollment`: canonical asset [examples/ch04/university-enrollment.als](../../../examples/ch04/university-enrollment.als); lane `pr-quick`; pinned version `Alloy 6.2.0`; expected success marker `Alloy exec: examples/ch04/university-enrollment.als`; `run$1-solution-0.md` is also generated as an execution artifact. Retrieve the self-contained file from [examples/ch04/university-enrollment.als](../../../examples/ch04/university-enrollment.als) in the same revision.
+<!-- example-contract: alloy-university-enrollment -->
+【Tool-compliant (runs as-is)】
+```bash
+node scripts/run-example-manifest.js --id alloy-university-enrollment
+```
+
+- `alloy-leader-election`: canonical asset [examples/ch04/leader-election.als](../../../examples/ch04/leader-election.als); lane `pr-quick`; pinned version `Alloy 6.2.0`; expected success marker `Alloy exec: examples/ch04/leader-election.als`; the three solution files are also generated as execution artifacts. Retrieve the shared JA/EN source file from [examples/ch04/leader-election.als](../../../examples/ch04/leader-election.als).
+<!-- example-contract: alloy-leader-election -->
+【Tool-compliant (runs as-is)】
+```bash
+node scripts/run-example-manifest.js --id alloy-leader-election
+```
+
+- `alloy-trash-temporal`: canonical asset [examples/alloy/trash-temporal.als](../../../examples/alloy/trash-temporal.als); lane `pr-quick`; pinned version `Alloy 6.2.0`; expected success marker `Alloy exec: examples/alloy/trash-temporal.als`; `example-solution-0.md` is also generated as an execution artifact. Retrieve [examples/alloy/trash-temporal.als](../../../examples/alloy/trash-temporal.als) from the same repository revision rather than copying the inline excerpt alone.
+<!-- example-contract: alloy-trash-temporal -->
+【Tool-compliant (runs as-is)】
+```bash
+node scripts/run-example-manifest.js --id alloy-trash-temporal
+```
+
 ## 4.7 Learning from Counterexamples: The Design Improvement Cycle
 
 ### The Educational Value of Counterexamples
@@ -1287,7 +1321,7 @@ Let us trace an improvement cycle for a file access-control system.
 
 **Initial design**:
 
-【Tool-compliant (runs as-is)】
+【Context-dependent snippet】
 ```alloy
 sig User {
     owns: set File,
@@ -1335,7 +1369,7 @@ to the designer's intent, but under the current facts it is legal.
 
 **Improved design**:
 
-【Tool-compliant (runs as-is)】
+【Context-dependent snippet】
 ```alloy
 sig User {
     owns: set File
@@ -1381,7 +1415,7 @@ management problem, a group-based model may be more appropriate.
 
 **Improved group-based model**:
 
-【Tool-compliant (runs as-is)】
+【Context-dependent snippet】
 ```alloy
 sig User {
     owns: set File,
@@ -1423,7 +1457,7 @@ check GroupAccessControl for 4
 
 Counterexamples can also reveal temporal design problems.
 
-【Tool-compliant (runs as-is)】
+【Context-dependent snippet】
 ```alloy
 open util/ordering[Time]
 
@@ -1463,7 +1497,7 @@ user. Whether that is acceptable depends on the intended policy.
 
 Alloy can also help predict performance risks.
 
-【Tool-compliant (runs as-is)】
+【Context-dependent snippet】
 ```alloy
 sig Database {
     tables: set Table,
@@ -1551,7 +1585,7 @@ effective tools for improving a design.
 Read the following Alloy model and explain the system structure and constraints
 that it represents.
 
-【Tool-compliant (runs as-is)】
+【Context-dependent snippet】
 ```alloy
 sig Person {
     spouse: lone Person,

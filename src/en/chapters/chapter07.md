@@ -962,7 +962,7 @@ control techniques therefore matter.
 
 **Using symmetry**:
 
-【ツール準拠（そのまま動く）】
+【Context-dependent snippet】
 ```tla
 SYMMETRY Permutations(Accounts)
 ```
@@ -1058,21 +1058,21 @@ Several practical techniques improve TLC performance.
 
 **Parallel execution**:
 
-【ツール準拠（そのまま動く）】
+【Context-dependent snippet】
 ```bash
 tlc -workers 8 BankingSystem.tla
 ```
 
 **Memory tuning**:
 
-【ツール準拠（そのまま動く）】
+【Context-dependent snippet】
 ```bash
 tlc -Xmx8g -XX:+UseG1GC BankingSystem.tla
 ```
 
 **Checkpointing**:
 
-【ツール準拠（そのまま動く）】
+【Context-dependent snippet】
 ```bash
 tlc -checkpoint 60 BankingSystem.tla
 ```
@@ -1112,6 +1112,26 @@ TLC also has clear limitations.
 
 Practical use of TLC depends on extracting the maximum value within those
 constraints.
+
+### Executable Example Contracts {#tla-executable-example-contracts}
+
+The TLA+ fragments in this chapter, especially formulas such as `WF_vars(Action)` and abstract `Next` sketches, remain **context-dependent snippets** unless they are paired with the surrounding `VARIABLES`, `Spec`, and configuration file. CI-backed executability is limited to the contract blocks below, which invoke the shared JA/EN canonical assets under `examples/**` through the manifest runner.
+
+These chapter-level contracts define the `pr-quick` baseline, while `nightly` reruns the same canonical assets with deeper exploration settings. Normalized logs, commands, exit codes, stdout, and stderr are expected under `.artifacts/manifest/<id>/`, and readers should retrieve the `examples/**` files from the same repository revision instead of copying inline snippets alone.
+
+- `tlc-queue-bounded`: canonical assets [examples/tla/QueueBounded.tla](../../../examples/tla/QueueBounded.tla) and [examples/tla/QueueBounded.cfg](../../../examples/tla/QueueBounded.cfg); lane `pr-quick`; pinned version `TLC 1.7.4`; expected success marker `Model checking completed. No error has been found.`. Retrieve both the specification and its `.cfg` from the same repository revision.
+<!-- example-contract: tlc-queue-bounded -->
+【Tool-compliant (runs as-is)】
+```bash
+node scripts/run-example-manifest.js --id tlc-queue-bounded
+```
+
+- `apalache-counter`: canonical assets [examples/apalache/Counter.tla](../../../examples/apalache/Counter.tla) and [examples/apalache/Counter.cfg](../../../examples/apalache/Counter.cfg); lane `pr-quick`; pinned version `Apalache 0.52.1`; expected success marker `Checker reports no error up to computation length 10`. Retrieve the whole `examples/apalache/` pair from the same commit instead of copying the inline sketch alone.
+<!-- example-contract: apalache-counter -->
+【Tool-compliant (runs as-is)】
+```bash
+node scripts/run-example-manifest.js --id apalache-counter
+```
 
 ## 7.6 Applying TLA+ to the Real World: A Distributed Consensus Algorithm
 
@@ -1171,7 +1191,7 @@ Its central concepts include:
 
 A TLA+ model of Raft can make all of these pieces explicit.
 
-【ツール準拠（そのまま動く）】
+【Context-dependent snippet】
 ```tla
 VARIABLES
   \* Persistent state on all servers

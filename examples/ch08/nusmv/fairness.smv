@@ -11,3 +11,5 @@ ASSIGN
 
 FAIRNESS enabled_a
 COMPASSION (enabled_a, executed_a)
+
+LTLSPEC G (enabled_a -> X executed_a)

@@ -1,0 +1,5 @@
+# GitHub-hosted ubuntu-24.04 x86-64 nightly builder only.
+meson==1.7.2 \
+    --hash=sha256:82c6818dc81743c96de3a458f06175776ebfde4081195ea31ea6971838f25e38
+ninja==1.11.1.4 \
+    --hash=sha256:096487995473320de7f65d622c3f1d16c3ad174797602218ca8c967f51ec38a0
