@@ -58,6 +58,30 @@ try {
 NODE
 
 command -v timeout >/dev/null 2>&1 || { echo 'cvc5 proof check requires coreutils timeout' >&2; exit 2; }
+
+mkdir -p "$out_dir"
+if [[ ! -d "$out_dir" || -L "$out_dir" ]]; then
+  echo 'cvc5 --out-dir must be a regular directory' >&2
+  exit 2
+fi
+results_json="$out_dir/results.json"
+summary_log="$out_dir/summary.log"
+certificate="$out_dir/certificate.alethe"
+unexpected_output="$(find "$out_dir" -mindepth 1 -maxdepth 1 \
+  ! -name 'results.json' ! -name 'summary.log' ! -name 'certificate.alethe' \
+  -print -quit)"
+if [[ -n "$unexpected_output" ]]; then
+  echo "cvc5 --out-dir must be empty or contain only prior cvc5 outputs: $unexpected_output" >&2
+  exit 2
+fi
+for output_file in "$results_json" "$summary_log" "$certificate"; do
+  if [[ -d "$output_file" && ! -L "$output_file" ]]; then
+    echo "cvc5 prior output path must not be a directory: $output_file" >&2
+    exit 2
+  fi
+  rm -f -- "$output_file"
+done
+
 bash "$REPO_ROOT/tools/bootstrap.sh" --tool cvc5
 version="$(tool_manifest_field cvc5 version)"
 checker_version="$(tool_manifest_field cvc5 checkerVersion)"
@@ -67,14 +91,9 @@ cvc5_bin="$REPO_ROOT/tools/.cache/cvc5-${version}/bin/cvc5"
 carcara_bin="$REPO_ROOT/tools/.tmp/carcara-${checker_version}/target/release/carcara"
 [[ -x "$cvc5_bin" && -x "$carcara_bin" ]] || { echo 'cvc5 or Carcara binary missing after bootstrap' >&2; exit 1; }
 
-rm -rf "$out_dir"
-mkdir -p "$out_dir"
 work_dir="$(mktemp -d "$REPO_ROOT/tools/.tmp/cvc5-proof-XXXXXX")"
 solver_raw="$work_dir/cvc5.raw"
 checker_raw="$work_dir/carcara.raw"
-results_json="$out_dir/results.json"
-summary_log="$out_dir/summary.log"
-certificate="$out_dir/certificate.alethe"
 cleanup() { rm -rf "$work_dir"; }
 trap cleanup EXIT
 

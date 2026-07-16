@@ -172,6 +172,12 @@ function validateToolManifest(manifest, options = {}) {
       ].some((value) => value !== undefined);
       if (hasCvc5CheckerDependency) {
         if (tool.id !== 'cvc5') add('checker provenance fields are currently reserved for cvc5', id);
+        if (tool.rustToolchain === undefined) {
+          add('checker provenance fields require rustToolchain', id);
+        }
+        if (tool.rustToolchainManifest === undefined) {
+          add('checker provenance fields require rustToolchainManifest', id);
+        }
         if (typeof tool.checkerVersion !== 'string' || tool.checkerVersion.trim() === '') {
           add('checkerVersion は空でない string である必要があります', id);
         }

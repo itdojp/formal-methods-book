@@ -3,6 +3,7 @@
 const { spawnSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
+const { loadToolManifest, validateToolManifest } = require('./tool-manifest');
 
 const repoRoot = path.resolve(__dirname, '..');
 
@@ -217,6 +218,38 @@ try {
   fs.rmSync(sbyFixture, { recursive: true, force: true });
 }
 
+const sharedOutput = path.join(repoRoot, '.artifacts', 'tests', 'cvc5-shared-output');
+const unrelatedOutput = path.join(sharedOutput, 'unrelated.txt');
+try {
+  fs.mkdirSync(sharedOutput, { recursive: true });
+  fs.writeFileSync(unrelatedOutput, 'preserve me\n');
+  const result = spawnSync('bash', [
+    'tools/cvc5-proof-check.sh',
+    '--out-dir', path.relative(repoRoot, sharedOutput),
+    'examples/proof-certificates/qf-uf-bool-contradiction.smt2',
+  ], { cwd: repoRoot, encoding: 'utf8' });
+  const output = `${result.stdout || ''}${result.stderr || ''}`;
+  if (result.status !== 2 || !output.includes('must be empty or contain only prior cvc5 outputs')) {
+    throw new Error(`shared cvc5 output directory was not rejected before bootstrap:\n${output}`);
+  }
+  if (fs.readFileSync(unrelatedOutput, 'utf8') !== 'preserve me\n') {
+    throw new Error('cvc5 wrapper modified an unrelated artifact');
+  }
+} finally {
+  fs.rmSync(sharedOutput, { recursive: true, force: true });
+}
+
+const { manifest: validToolManifest } = loadToolManifest(repoRoot);
+for (const field of ['rustToolchain', 'rustToolchainManifest']) {
+  const fixture = JSON.parse(JSON.stringify(validToolManifest));
+  const cvc5 = fixture.tools.find((tool) => tool.id === 'cvc5');
+  delete cvc5[field];
+  const errors = validateToolManifest(fixture, { rootDir: repoRoot, checkFiles: false });
+  if (!errors.some((error) => error.message.includes(`checker provenance fields require ${field}`))) {
+    throw new Error(`cvc5 checker manifest accepted missing ${field}`);
+  }
+}
+
 const bulkFields = spawnSync('node', [
   'scripts/tool-manifest.js',
   'fields',
@@ -239,4 +272,4 @@ if (standaloneHelper.status !== 0 || standaloneHelper.stdout.trim() !== '6.2.0')
   throw new Error(`standalone tool manifest helper failed:\n${standaloneHelper.stdout}${standaloneHelper.stderr}`);
 }
 
-console.log(`Tool CLI argument tests passed (${cases.length} negative cases + credential/SBY-config/bulk/standalone helpers).`);
+console.log(`Tool CLI argument tests passed (${cases.length} negative cases + output-dir/manifest/credential/SBY-config/bulk/standalone helpers).`);
