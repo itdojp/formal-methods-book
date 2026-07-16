@@ -89,78 +89,8 @@ if [[ $status -ne 0 ]]; then
   exit "$status"
 fi
 
-node - "$raw_output" "$result_json" "$version" "$expected_results" <<'NODE'
-'use strict';
-
-const fs = require('fs');
-
-const inputPath = process.argv[2];
-const outputPath = process.argv[3];
-const expectedVersion = process.argv[4];
-const contractPath = process.argv[5];
-const text = fs.readFileSync(inputPath, 'utf8');
-const contract = JSON.parse(fs.readFileSync(contractPath, 'utf8'));
-if (contract.schemaVersion !== 1
-    || typeof contract.modelType !== 'string'
-    || contract.engine !== 'explicit'
-    || !Number.isFinite(contract.tolerance)
-    || contract.tolerance <= 0
-    || contract.tolerance > 1e-6
-    || !Array.isArray(contract.results)
-    || contract.results.length === 0) {
-  throw new Error('Invalid PRISM expected-results contract');
-}
-const escapedVersion = expectedVersion.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-const escapedModelType = contract.modelType.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-if (!new RegExp(`^Version:\\s+${escapedVersion}$`, 'm').test(text)
-    || !new RegExp(`^Type:\\s+${escapedModelType}$`, 'm').test(text)) {
-  throw new Error('PRISM version/model type marker is missing');
-}
-
-const actual = Array.from(text.matchAll(/^Result:\s+([^\r\n]+)$/gm), (match) => match[1].trim());
-if (actual.length !== contract.results.length) {
-  throw new Error(`Expected ${contract.results.length} PRISM results, found ${actual.length}`);
-}
-
-const numberFrom = (value) => {
-  const numeric = Number(value.replace(/\s+\(.*\)$/, ''));
-  if (!Number.isFinite(numeric)) throw new Error(`Expected numeric PRISM result, got: ${value}`);
-  return numeric;
-};
-const results = contract.results.map((item, index) => {
-  if (!item || typeof item.property !== 'string' || item.property.length === 0
-      || !['boolean', 'number'].includes(typeof item.expected)) {
-    throw new Error(`Invalid expected result at index ${index}`);
-  }
-  let actualValue;
-  if (typeof item.expected === 'boolean') {
-    if (!/^(?:true|false)$/.test(actual[index])) {
-      throw new Error(`Expected boolean PRISM result at index ${index}, got: ${actual[index]}`);
-    }
-    actualValue = actual[index] === 'true';
-    if (actualValue !== item.expected) {
-      throw new Error(`Boolean result mismatch for ${item.property}: ${actualValue}`);
-    }
-  } else {
-    actualValue = numberFrom(actual[index]);
-    if (Math.abs(actualValue - item.expected) > contract.tolerance) {
-      throw new Error(`Numeric result mismatch for ${item.property}: ${actualValue}`);
-    }
-  }
-  return { property: item.property, expected: item.expected, actual: actualValue };
-});
-
-const report = {
-  schemaVersion: 1,
-  tool: 'PRISM',
-  toolVersion: expectedVersion,
-  modelType: contract.modelType,
-  engine: contract.engine,
-  tolerance: contract.tolerance,
-  results,
-};
-fs.writeFileSync(outputPath, `${JSON.stringify(report, null, 2)}\n`, 'utf8');
-NODE
+node "$REPO_ROOT/scripts/validate-prism-results.js" \
+  "$raw_output" "$result_json" "$version" "$expected_results"
 
 result_count="$(node -e 'const fs=require("fs"); const value=JSON.parse(fs.readFileSync(process.argv[1], "utf8")); process.stdout.write(String(value.results.length))' "$expected_results")"
 echo "PRISM result contract passed: $result_count properties"

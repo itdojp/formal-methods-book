@@ -31,7 +31,7 @@
     "check:example-manifest": "node scripts/check-tool-example-links.js --self-test && node scripts/check-tool-example-links.js",
     "check:example-manifest:self-test": "node scripts/check-tool-example-links.js --self-test",
     "check:example-runner": "node scripts/test-example-runner.js",
-    "check:tool-cli": "node scripts/test-tool-cli-arguments.js",
+    "check:tool-cli": "node scripts/test-tool-cli-arguments.js && node scripts/test-prism-results.js",
     "check:matrix-plan": "node scripts/plan-formal-matrix.js --self-test && node scripts/plan-formal-matrix.js --event schedule --lane nightly --tool all",
     "check:example-workflow": "node scripts/check-example-workflow.js --self-test && node scripts/check-example-workflow.js",
     "examples:pr-quick": "bash examples/ci/pr-quick-check.sh",
