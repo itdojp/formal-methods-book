@@ -16,6 +16,7 @@ const {
   renderEditionPages,
   writeEditionPages,
 } = require('./lib/publication-build');
+const { writeSearchIndex } = require('./lib/search-index');
 
 const repoRoot = path.resolve(__dirname, '..');
 const target = process.argv[2] || 'all';
@@ -31,6 +32,8 @@ function buildEdition(locale) {
   const pages = renderEditionPages(repoRoot, publicationModel, locale);
   writeEditionPages(repoRoot, publicationModel, locale, pages);
   console.log(`Built ${pages.size} ${locale} pages into ${publicationModel.manifest.editions[locale].publishRoot}.`);
+  const search = writeSearchIndex(repoRoot, publicationModel, locale, pages);
+  console.log(`Built ${search.entries} ${locale} search entries (${search.bytes} bytes) in ${search.elapsedMs.toFixed(1)} ms at ${search.outputPath}.`);
 }
 
 const publicationModel = loadPublicationModel(repoRoot);

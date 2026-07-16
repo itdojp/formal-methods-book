@@ -61,6 +61,7 @@ function addEnglishTranslationStatus(content, sourcePath) {
 
 function normalizeGeneratedBody(content) {
   return content
+    .replace(/^<span id="glossary-[^"]+" class="search-term-anchor" aria-hidden="true"><\/span>/gm, '')
     .replace(/\[(examples\/[A-Za-z0-9_./-]+)\]\([^)]+\)/g, '[$1](example-link:$1)')
     .trimEnd();
 }
@@ -115,6 +116,10 @@ function runSelfTest() {
   assert.strictEqual(
     normalizeGeneratedBody('[examples/a.smv](../../../examples/a.smv)'),
     normalizeGeneratedBody('[examples/a.smv](https://example.invalid/revision/examples/a.smv)'),
+  );
+  assert.strictEqual(
+    normalizeGeneratedBody('<span id="glossary-model-checking" class="search-term-anchor" aria-hidden="true"></span>**Model checking**'),
+    normalizeGeneratedBody('**Model checking**'),
   );
   console.log('OK: assurance-boundary checker self-tests passed.');
 }

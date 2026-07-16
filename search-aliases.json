@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "groups": [
+    {
+      "id": "tla-plus",
+      "terms": [
+        "TLA+",
+        "TLA Plus"
+      ]
+    },
+    {
+      "id": "rocq-coq",
+      "terms": [
+        "Rocq",
+        "Coq",
+        "The Rocq Prover"
+      ]
+    },
+    {
+      "id": "model-checking",
+      "terms": [
+        "模型検査",
+        "モデル検査",
+        "model checking"
+      ]
+    },
+    {
+      "id": "weak-fairness",
+      "terms": [
+        "WF",
+        "弱公平性",
+        "weak fairness"
+      ]
+    },
+    {
+      "id": "strong-fairness",
+      "terms": [
+        "SF",
+        "強公平性",
+        "strong fairness"
+      ]
+    }
+  ]
+}

@@ -106,6 +106,7 @@ function addEnglishTranslationStatus(content, sourcePath) {
 
 function normalizeBody(content) {
   return content
+    .replace(/^<span id="glossary-[^"]+" class="search-term-anchor" aria-hidden="true"><\/span>/gm, '')
     .replace(/\[(examples\/[A-Za-z0-9_./-]+)\]\([^)]+\)/g, '[$1](example-link:$1)')
     .replace(/\r\n/g, '\n')
     .trimEnd();
@@ -132,6 +133,10 @@ function runSelfTest() {
   assert.strictEqual(
     normalizeBody('[examples/a.tla](../../../examples/a.tla)'),
     normalizeBody('[examples/a.tla](https://example.invalid/revision/examples/a.tla)'),
+  );
+  assert.strictEqual(
+    normalizeBody('<span id="glossary-tla" class="search-term-anchor" aria-hidden="true"></span>**TLA+**'),
+    normalizeBody('**TLA+**'),
   );
 
   for (const [labelIndex, label] of toolCompliantLabels.entries()) {

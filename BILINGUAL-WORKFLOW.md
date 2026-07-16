@@ -16,11 +16,13 @@
 | `book-config.ja.json` | 日本語版メタデータ | 章構成・説明・ UX 設定の日本語版定義 |
 | `book-config.en.json` | 英語版メタデータ | 英語版定義。`book-config.ja.json` と構造整合を保つ |
 | `translation-status.json` | 翻訳状態 manifest | 全英語 reader page の監査 snapshot、状態、確認日、追跡 Issue |
+| `search-aliases.json` | 検索別名 manifest | JA/ENで正規用語へ到達するためのlocale-neutral alias群 |
 | `publication-config.json` | 公開 static policy | Jekyll / mobile の言語非依存設定 |
 | `docs/_config.yml` / `docs/_data/*.yml` | Jekyll metadata | edition / publication config から生成し、直接編集しない |
 | `mobile-config.ja.json` | 日本語版 mobile 設定 | edition / publication config から生成する `docs/` 向け設定 |
 | `mobile-config.en.json` | 英語版 mobile 設定 | edition / publication config から生成する `docs/en/` 向け設定 |
 | `docs/_includes/generated/**` | 公開トップ目次 | edition config から生成し、`src/*/index.md` から include する |
+| `docs/assets/search-index.{ja,en}.json` | 公開検索 index | edition metadataと生成済みreader pageから決定的生成し、直接編集しない |
 
 ## Source of Truth
 
@@ -31,6 +33,7 @@
 - `book-config.json` は manifest であり、本文メタデータの正本ではありません。edition ごとの本文メタデータは `book-config.ja.json` / `book-config.en.json` に置きます。
 - title、description、order、path、part、special page、locale UI label は edition config を正本とし、`npm run build:all` で navigation、Jekyll metadata、mobile config、トップ目次へ反映します。
 - Jekyll / mobile の言語非依存 static policy は `publication-config.json` を正本とします。生成済み YAML / JSON / include は手編集しません。
+- 検索別名は `search-aliases.json` を正本とし、locale別indexは `npm run build:all` で再生成します。検索indexや用語集の公開anchorを直接編集しません。
 - `docs/**` と `docs/en/**` の reader-facing Markdown はすべて生成物です。本文は `src/<locale>/**` だけを編集し、`npm run build:<locale>` または `npm run build:all` で公開物へ反映します。
 - builder は front matter、source path、locale、公開用 asset link、同一 revision の example link を決定的に付与・変換します。公開物だけの変更は正本へ逆流させません。
 

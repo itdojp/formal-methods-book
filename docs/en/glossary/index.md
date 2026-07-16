@@ -47,249 +47,249 @@ when you need primary sources.
 
 ## A
 
-**Abstraction**: The act of omitting details in order to focus on the
+<span id="glossary-abstraction" class="search-term-anchor" aria-hidden="true"></span>**Abstraction**: The act of omitting details in order to focus on the
 properties relevant to reasoning or verification. A useful model is abstract
 enough to be analyzable but concrete enough to preserve the question being
 asked. See Chapters 3, 4, and 8.
 
-**Alloy**: A representative lightweight formal-methods tool. It combines a
+<span id="glossary-alloy" class="search-term-anchor" aria-hidden="true"></span>**Alloy**: A representative lightweight formal-methods tool. It combines a
 relational modeling language with an analyzer that searches for counterexamples.
 See Chapter 4.
 
-**Apalache**: An SMT-based checker for TLA+ specifications. It is useful when
+<span id="glossary-apalache" class="search-term-anchor" aria-hidden="true"></span>**Apalache**: An SMT-based checker for TLA+ specifications. It is useful when
 you want symbolic or bounded exploration in addition to TLC's explicit-state
 model checking. See Chapters 7, 8, and Appendix B.
 
-**Assertion**: A statement of a property that should hold. In Alloy this is
+<span id="glossary-assertion" class="search-term-anchor" aria-hidden="true"></span>**Assertion**: A statement of a property that should hold. In Alloy this is
 expressed with `assert`; in program verification it can also mean an explicit
 check embedded in an implementation. See Chapters 4 and 10.
 
 ## B
 
-**BDD (Binary Decision Diagram)**: A data structure for representing Boolean
+<span id="glossary-bdd-binary-decision-diagram" class="search-term-anchor" aria-hidden="true"></span>**BDD (Binary Decision Diagram)**: A data structure for representing Boolean
 functions efficiently. It is used in symbolic model checking. See Chapter 8.
 
 ## C
 
-**CAP theorem**: In an asynchronous model that permits messages to be lost by
+<span id="glossary-cap-theorem" class="search-term-anchor" aria-hidden="true"></span>**CAP theorem**: In an asynchronous model that permits messages to be lost by
 a network partition, linearizable consistency and availability for every
 request to a non-failing node cannot both be guaranteed during that partition.
 It is not a rule to choose one of three letters at all times. See Chapter 7 and
 Appendix E.
 
-**Completeness**: A metaproperty relating a deductive system to a semantics:
+<span id="glossary-completeness" class="search-term-anchor" aria-hidden="true"></span>**Completeness**: A metaproperty relating a deductive system to a semantics:
 every formula valid in that semantics is derivable. Completeness of
 first-order logic for its standard semantics must not be generalized without
 qualification to higher-order logic or dependent type theory. See Chapter 9.
 
-**Contract**: An explicit statement of what must hold before an operation and
+<span id="glossary-contract" class="search-term-anchor" aria-hidden="true"></span>**Contract**: An explicit statement of what must hold before an operation and
 what is guaranteed after it. Contracts often make preconditions and
 postconditions visible to both implementers and reviewers. See Chapters 3 and
 10.
 
-**Counterexample**: A concrete execution, trace, or state assignment that
+<span id="glossary-counterexample" class="search-term-anchor" aria-hidden="true"></span>**Counterexample**: A concrete execution, trace, or state assignment that
 shows why a claimed property does not hold. In practice, counterexamples are
 often the most valuable output of a verifier because they direct debugging and
 model revision. See Chapters 4, 7, and 8.
 
-**CSP (Communicating Sequential Processes)**: A framework for describing
+<span id="glossary-csp-communicating-sequential-processes" class="search-term-anchor" aria-hidden="true"></span>**CSP (Communicating Sequential Processes)**: A framework for describing
 concurrent systems as compositions of processes and communication events. See
 Chapter 6.
 
-**CTL (Computation Tree Logic)**: A branching-time temporal logic used to
+<span id="glossary-ctl-computation-tree-logic" class="search-term-anchor" aria-hidden="true"></span>**CTL (Computation Tree Logic)**: A branching-time temporal logic used to
 express reachability and branching properties. See Chapter 8.
 
-**Curry-Howard correspondence**: The view that propositions correspond to
+<span id="glossary-curry-howard-correspondence" class="search-term-anchor" aria-hidden="true"></span>**Curry-Howard correspondence**: The view that propositions correspond to
 types, and proofs correspond to programs. See Chapter 9.
 
 ## D
 
-**Dafny**: A verification-oriented programming language and toolchain for
+<span id="glossary-dafny" class="search-term-anchor" aria-hidden="true"></span>**Dafny**: A verification-oriented programming language and toolchain for
 writing implementations together with contracts, invariants, and proofs. See
 Chapters 9, 10, and 12.
 
-**Deadlock**: A state in which multiple processes wait on one another and no
+<span id="glossary-deadlock" class="search-term-anchor" aria-hidden="true"></span>**Deadlock**: A state in which multiple processes wait on one another and no
 further progress is possible. See Chapters 6 and 8.
 
 ## F
 
-**FLP impossibility result**: Under complete asynchrony, deterministic
+<span id="glossary-flp-impossibility-result" class="search-term-anchor" aria-hidden="true"></span>**FLP impossibility result**: Under complete asynchrony, deterministic
 processes, and at most one crash-stop failure, no consensus protocol guarantees
 termination in every admissible execution. Partial synchrony, failure
 detectors, and randomization address the problem by changing assumptions. See
 Chapter 7 and Appendix E.
 
-**Fairness**: An assumption about action selection used when reasoning about
+<span id="glossary-fairness" class="search-term-anchor" aria-hidden="true"></span>**Fairness**: An assumption about action selection used when reasoning about
 liveness. In TLA+, weak fairness rules out ignoring an action that remains
 continuously enabled, while strong fairness also covers an action enabled
 infinitely often. It is an assumption on behaviors, not a guarantee that the
 implementation's scheduler is fair; an overly strong assumption can make a
 liveness claim appear to hold only because of that assumption. See Chapter 7.
 
-**Formal specification**: A mathematically precise description of required
+<span id="glossary-formal-specification" class="search-term-anchor" aria-hidden="true"></span>**Formal specification**: A mathematically precise description of required
 system behavior. Its purpose is to reduce ambiguity, expose hidden assumptions,
 and support systematic analysis. See Chapters 3-7.
 
 ## H
 
-**Hoare logic**: A logical system for reasoning about program correctness using
+<span id="glossary-hoare-logic" class="search-term-anchor" aria-hidden="true"></span>**Hoare logic**: A logical system for reasoning about program correctness using
 preconditions, commands, and postconditions. See Chapter 10.
 
-**Hoare triple**: An expression of the form `{P} S {Q}`, where `P` is a
+<span id="glossary-hoare-triple" class="search-term-anchor" aria-hidden="true"></span>**Hoare triple**: An expression of the form `{P} S {Q}`, where `P` is a
 precondition, `S` is a program fragment, and `Q` is a postcondition. See
 Chapter 10.
 
 ## I
 
-**Invariant**: A property that must always hold. In model checking, violations
+<span id="glossary-invariant" class="search-term-anchor" aria-hidden="true"></span>**Invariant**: A property that must always hold. In model checking, violations
 are typically shown as counterexamples. See Chapters 3, 7, and 8.
 
-**Isabelle/HOL**: A proof assistant centered on higher-order logic. It is often
+<span id="glossary-isabellehol" class="search-term-anchor" aria-hidden="true"></span>**Isabelle/HOL**: A proof assistant centered on higher-order logic. It is often
 used for mechanized proofs, proof documentation, and larger proof libraries.
 See Chapters 9 and 10.
 
 ## L
 
-**Lean 4**: A proof assistant and programming language based on dependent type
+<span id="glossary-lean-4" class="search-term-anchor" aria-hidden="true"></span>**Lean 4**: A proof assistant and programming language based on dependent type
 theory. In this book, it is presented as an engineering option for maintainable
 proof assets rather than as the only proof workflow. See Chapter 9 and
 Appendix B.
 
-**Liveness**: A property stating that “something good eventually happens.”
+<span id="glossary-liveness" class="search-term-anchor" aria-hidden="true"></span>**Liveness**: A property stating that “something good eventually happens.”
 Liveness claims are often sensitive to assumptions such as fairness. See
 Chapter 8.
 
-**LTL (Linear Temporal Logic)**: A temporal logic for expressing properties
+<span id="glossary-ltl-linear-temporal-logic" class="search-term-anchor" aria-hidden="true"></span>**LTL (Linear Temporal Logic)**: A temporal logic for expressing properties
 along a single line of time. See Chapters 7 and 8.
 
-**Loop invariant**: A condition that remains true during every iteration of a
+<span id="glossary-loop-invariant" class="search-term-anchor" aria-hidden="true"></span>**Loop invariant**: A condition that remains true during every iteration of a
 loop. It is central to proving partial and total correctness. See Chapter 10.
 
 ## M
 
-**Model checking**: A technique that explores the state space of a specified
+<span id="glossary-model-checking" class="search-term-anchor" aria-hidden="true"></span>**Model checking**: A technique that explores the state space of a specified
 model and checks selected properties. Exhaustiveness is relative to the model,
 property, search configuration, fairness, and completion status; it is not a
 claim about every behavior of the real system. See Chapter 8.
 
 ## P
 
-**Partial correctness**: The property that if a program terminates, the result
+<span id="glossary-partial-correctness" class="search-term-anchor" aria-hidden="true"></span>**Partial correctness**: The property that if a program terminates, the result
 satisfies the required postcondition. It does not by itself prove termination.
 See Chapter 10.
 
-**Postcondition**: A condition that must hold after an operation or program
+<span id="glossary-postcondition" class="search-term-anchor" aria-hidden="true"></span>**Postcondition**: A condition that must hold after an operation or program
 fragment finishes, assuming the precondition held at the start. See Chapters 3
 and 10.
 
-**Precondition**: A condition that must hold before an operation or program
+<span id="glossary-precondition" class="search-term-anchor" aria-hidden="true"></span>**Precondition**: A condition that must hold before an operation or program
 fragment starts for the promised result to be valid. See Chapters 3 and 10.
 
-**Prime notation (TLA+)**: Notation used inside an action to relate two states:
+<span id="glossary-prime-notation-tla" class="search-term-anchor" aria-hidden="true"></span>**Prime notation (TLA+)**: Notation used inside an action to relate two states:
 `x` is the current-state value and `x'` is the next-state value. It is distinct
 from the LTL next-time operator `X` / `○`. See Chapter 7.
 
-**Proof assistant**: A software system that supports the construction and
+<span id="glossary-proof-assistant" class="search-term-anchor" aria-hidden="true"></span>**Proof assistant**: A software system that supports the construction and
 checking of formal proofs. Examples discussed in this book include Rocq, Lean,
 and Isabelle/HOL. See Chapters 9 and 12.
 
-**Proof obligation**: A logical claim that must be discharged for a proof or
+<span id="glossary-proof-obligation" class="search-term-anchor" aria-hidden="true"></span>**Proof obligation**: A logical claim that must be discharged for a proof or
 verification argument to go through. Tools may generate proof obligations
 automatically from contracts, invariants, or program structure. See Chapters 8,
 9, and 10.
 
-**Promela**: The modeling language used by SPIN for concurrent systems. It is
+<span id="glossary-promela" class="search-term-anchor" aria-hidden="true"></span>**Promela**: The modeling language used by SPIN for concurrent systems. It is
 suited to describing processes, communication, and interleavings. See Chapters
 6 and 8.
 
 ## R
 
-**Refinement**: The process of developing a concrete specification while
+<span id="glossary-refinement" class="search-term-anchor" aria-hidden="true"></span>**Refinement**: The process of developing a concrete specification while
 proving that, after applying a refinement mapping and hiding internal variables,
 its behavior satisfies the abstract specification. Conceptually, the
 implication runs as `ConcreteSpec => AbstractSpec`. See Chapters 3, 5, and 7.
 
-**Rocq**: The proof assistant formerly known as Coq. It is based on type
+<span id="glossary-rocq" class="search-term-anchor" aria-hidden="true"></span>**Rocq**: The proof assistant formerly known as Coq. It is based on type
 theory and is used in this book as a representative environment for
 mechanized proofs. See Chapters 9, 10, and Appendix E.
 
 ## S
 
-**Soundness**: A metaproperty relating a deductive system to a semantics: every
+<span id="glossary-soundness" class="search-term-anchor" aria-hidden="true"></span>**Soundness**: A metaproperty relating a deductive system to a semantics: every
 derivable formula is valid in that semantics. The relevant logic and semantics
 must be stated. See Chapter 9.
 
-**Safety**: A property stating that “something bad never happens.” Such
+<span id="glossary-safety" class="search-term-anchor" aria-hidden="true"></span>**Safety**: A property stating that “something bad never happens.” Such
 properties are often expressed as invariants. See Chapter 8.
 
-**Schema**: In Z notation, a structured unit that groups declarations and
+<span id="glossary-schema" class="search-term-anchor" aria-hidden="true"></span>**Schema**: In Z notation, a structured unit that groups declarations and
 constraints. Schemas are used to describe states, operations, and related
 conditions. See Chapter 5.
 
-**Specification**: A precise statement of what a system must do, independent of
+<span id="glossary-specification" class="search-term-anchor" aria-hidden="true"></span>**Specification**: A precise statement of what a system must do, independent of
 how that behavior is implemented. In this book, specification is the bridge
 between informal requirements and verifiable properties. See Chapters 3-7.
 
-**SPIN**: A model checker for concurrent systems centered on the Promela
+<span id="glossary-spin" class="search-term-anchor" aria-hidden="true"></span>**SPIN**: A model checker for concurrent systems centered on the Promela
 language. See Chapters 6 and 8.
 
-**State space**: The set of states a system can take. Its size is a central
+<span id="glossary-state-space" class="search-term-anchor" aria-hidden="true"></span>**State space**: The set of states a system can take. Its size is a central
 concern in verification. See Chapter 8.
 
-**State explosion problem**: The problem that the number of reachable states
+<span id="glossary-state-explosion-problem" class="search-term-anchor" aria-hidden="true"></span>**State explosion problem**: The problem that the number of reachable states
 can grow exponentially, making verification difficult. See Chapter 8.
 
-**State transition**: A change from one system state to another caused by an
+<span id="glossary-state-transition" class="search-term-anchor" aria-hidden="true"></span>**State transition**: A change from one system state to another caused by an
 operation, command, or event. State-transition thinking is central to TLA+,
 model checking, and many verification arguments in this book. See Chapters 7,
 8, and 10.
 
 ## T
 
-**TLA+**: A specification language for distributed and concurrent systems. It
+<span id="glossary-tla" class="search-term-anchor" aria-hidden="true"></span>**TLA+**: A specification language for distributed and concurrent systems. It
 uses actions to relate current and next states and temporal formulas to describe
 complete behaviors, normally in a stuttering-permitting form. Prime notation is
 not the LTL next-time operator. See Chapter 7.
 
-**Temporal logic**: A family of logics used to describe how properties evolve
+<span id="glossary-temporal-logic" class="search-term-anchor" aria-hidden="true"></span>**Temporal logic**: A family of logics used to describe how properties evolve
 over time. LTL and CTL are representative examples; in TLA+, `[]`, `<>`, and
 `~>` describe behavior properties, while prime notation belongs to actions.
 See Chapters 7 and 8.
 
-**Theorem proving**: A style of verification that establishes correctness by
+<span id="glossary-theorem-proving" class="search-term-anchor" aria-hidden="true"></span>**Theorem proving**: A style of verification that establishes correctness by
 constructing a proof rather than exhaustively exploring a state space. See
 Chapter 9.
 
-**TLC**: An explicit-state model checker that enumerates reachable states of a
+<span id="glossary-tlc" class="search-term-anchor" aria-hidden="true"></span>**TLC**: An explicit-state model checker that enumerates reachable states of a
 concrete finite model of a TLA+ specification. TLA+ has no conventional static
 type system; predicates commonly named `TypeOK` or `TypeInvariant` assert that
 values belong to expected sets. Results depend on the `.cfg`, properties,
 fairness, state constraints, and completion status. See Chapters 7 and 8.
 
-**Trusted kernel**: The small core that checks proof terms under the
+<span id="glossary-trusted-kernel" class="search-term-anchor" aria-hidden="true"></span>**Trusted kernel**: The small core that checks proof terms under the
 foundational logic and current environment. The wider trusted computing base
 can also include added axioms, unfinished holes, unchecked solver paths,
 extraction, and code generation. See Chapter 9.
 
-**Total correctness**: The claim that a program not only satisfies the required
+<span id="glossary-total-correctness" class="search-term-anchor" aria-hidden="true"></span>**Total correctness**: The claim that a program not only satisfies the required
 postcondition when it terminates, but also does terminate. See Chapter 10.
 
-**Trace**: A sequence of state transitions. Counterexamples are often presented
+<span id="glossary-trace" class="search-term-anchor" aria-hidden="true"></span>**Trace**: A sequence of state transitions. Counterexamples are often presented
 as traces. See Chapter 8.
 
-**Type theory**: A logical foundation used by many proof assistants, where
+<span id="glossary-type-theory" class="search-term-anchor" aria-hidden="true"></span>**Type theory**: A logical foundation used by many proof assistants, where
 types and propositions are closely connected. It is central to Rocq, Lean, and
 the discussion in Chapter 9. See Chapter 9.
 
 ## V
 
-**Verification condition**: A logical obligation generated from a program or
+<span id="glossary-verification-condition" class="search-term-anchor" aria-hidden="true"></span>**Verification condition**: A logical obligation generated from a program or
 specification that must be proved for a correctness claim to hold. See Chapter
 10.
 
 ## Z
 
-**Z notation**: A state-based formal specification language that uses schemas
+<span id="glossary-z-notation" class="search-term-anchor" aria-hidden="true"></span>**Z notation**: A state-based formal specification language that uses schemas
 to describe states and operations. See Chapter 5.
 
 ## Related Links

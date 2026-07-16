@@ -114,6 +114,18 @@
     box-sizing: border-box;
 }
 
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
 html {
     font-size: 16px;
     scroll-behavior: smooth;
@@ -423,10 +435,84 @@ a:hover {
     max-height: 400px;
     overflow-y: auto;
     display: none;
+    z-index: 1100;
 }
 
 .search-results.active {
     display: block;
+}
+
+.search-result-item {
+    display: block;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.search-result-item:last-child {
+    border-bottom: 0;
+}
+
+.search-result-item:hover,
+.search-result-item.selected,
+.search-result-item[aria-selected="true"] {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    text-decoration: none;
+}
+
+.search-result-item:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: -2px;
+}
+
+.search-result-context,
+.search-result-title,
+.search-result-snippet {
+    display: block;
+}
+
+.search-result-context {
+    margin-bottom: 0.125rem;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+.search-result-title {
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+}
+
+.search-result-snippet {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.search-no-results {
+    padding: 1rem;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.search-results mark {
+    padding: 0.0625rem 0;
+    border-radius: 2px;
+    background: rgba(255, 235, 59, 0.4);
+    color: inherit;
+}
+
+[data-theme="dark"] .search-results mark {
+    background: rgba(255, 235, 59, 0.2);
+}
+
+.search-term-anchor {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    scroll-margin-top: calc(var(--header-height) + 1rem);
 }
 
 /* Buttons */

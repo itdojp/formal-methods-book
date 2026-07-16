@@ -10,6 +10,12 @@ ja:
     close_sidebar: サイドバーを閉じる
     toggle_theme: テーマを切り替え
     search_placeholder: 検索...
+    search_label: 書籍全体を検索
+    search_results: 検索結果
+    search_loading: 検索インデックスを読み込んでいます
+    search_no_results: 一致する結果がありません
+    search_load_error: 検索インデックスを読み込めませんでした
+    search_result_count: "{count}件の結果"
     toc_title: 目次
     main_navigation: メインナビゲーション
     page_navigation: ページナビゲーション
@@ -43,6 +49,12 @@ en:
     close_sidebar: Close sidebar
     toggle_theme: Toggle theme
     search_placeholder: Search...
+    search_label: Search the whole book
+    search_results: Search results
+    search_loading: Loading the search index
+    search_no_results: No matching results
+    search_load_error: The search index could not be loaded
+    search_result_count: "{count} results"
     toc_title: Contents
     main_navigation: Main navigation
     page_navigation: Page navigation

@@ -114,6 +114,9 @@ jobs:
           source: ./${{ steps.scan.outputs.dir }}
           destination: ./_site
 
+      - name: Search index and anchor smoke check
+        run: node scripts/check-search-index.js --site _site
+
       - name: Smoke check built site (top + navigation + assets)
         shell: bash
         run: |
@@ -256,6 +259,8 @@ jobs:
             "assets/js/theme.js",
             "assets/js/search.js",
             "assets/js/code-copy-lightweight.js",
+            "assets/search-index.ja.json",
+            "assets/search-index.en.json",
           ]
           missing_assets = [
             a
