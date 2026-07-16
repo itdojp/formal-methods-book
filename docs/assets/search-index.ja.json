@@ -14334,7 +14334,7 @@
       "chapter": "付録E：参考文献とWebリソース",
       "heading": "Z（Z記法）",
       "url": "/formal-methods-book/appendices/appendix-e/#zz記法",
-      "text": "用途：状態ベース仕様（集合/関係/写像）を厳密に記述し、レビューや検証の基盤にする 推奨読者：第5章（Z記法） 一次情報（実装・ツール）： Community Z Tools (CZT)： SourceForge（CZTプロジェクト）：",
+      "text": "用途：状態ベース仕様（集合/関係/写像）を厳密に記述し、レビューや検証の基盤にする 推奨読者：第5章（Z記法） 一次情報（実装・ツール）： Community Z Tools (CZT) source repository： SourceForge（CZTプロジェクト）：",
       "aliases": []
     },
     {

@@ -71,7 +71,7 @@ Alloy、TLC、Apalache、Dafny は `pr-quick`、SPIN、NuSMV、CBMC、Quint、PR
 - 用途：状態ベース仕様（集合/関係/写像）を厳密に記述し、レビューや検証の基盤にする
 - 推奨読者：第5章（Z記法）
 - 一次情報（実装・ツール）：
-  - Community Z Tools (CZT)：<https://czt.sourceforge.net/>
+  - Community Z Tools (CZT) source repository：<https://github.com/community-z-users/czt>
   - SourceForge（CZTプロジェクト）：<https://sourceforge.net/projects/czt/>
 
 ### CSP
