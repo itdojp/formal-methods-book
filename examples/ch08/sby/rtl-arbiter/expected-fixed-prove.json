@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "task": "prove",
+  "mode": "prove",
+  "depth": 6,
+  "status": "PASS",
+  "result": "proved",
+  "trace": {
+    "required": false
+  }
+}

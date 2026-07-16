@@ -7,7 +7,7 @@
 
 本付録への掲載は、リポジトリでの実行保証を意味しない。実行状態の正本は
 `tools/tool-manifest.json` と[付録Bの lane inventory]({{ '/appendices/appendix-b/#tool-lane-inventory' | relative_url }})である。
-Alloy、TLC、Apalache、Dafny は `pr-quick`、SPIN、NuSMV、CBMC、Quint、PRISM は
+Alloy、TLC、Apalache、Dafny は `pr-quick`、SPIN、NuSMV、CBMC、Quint、PRISM、Tamarin、SymbiYosys は
 `nightly`、Kani は明示的な `optional/manual` で検証する。それ以外の掲載ツールは
 `documentation-only` であり、本書は固定バージョン、実行環境、実行結果を保証しない。
 
@@ -73,7 +73,7 @@ Alloy、TLC、Apalache、Dafny は `pr-quick`、SPIN、NuSMV、CBMC、Quint、PR
 - 一次情報（ツール例）：
   - FDR（CSP模型検査ツール情報）：<https://www.cs.ox.ac.uk/projects/fdr/>
 
-## 2) 模型検査（TLC / Apalache / SPIN / NuSMV / PRISM）
+## 2) 模型検査（TLC / Apalache / SPIN / NuSMV / PRISM / SymbiYosys）
 
 ### Apalache（TLA+ の追加検査：SMT ベース）
 
@@ -120,6 +120,22 @@ Alloy、TLC、Apalache、Dafny は `pr-quick`、SPIN、NuSMV、CBMC、Quint、PR
   - 通常のmodel checking：<https://www.prismmodelchecker.org/manual/RunningPRISM/ModelChecking>
   - Statistical model checking：<https://www.prismmodelchecker.org/manual/RunningPRISM/StatisticalModelChecking>
   - 公式case studies：<https://www.prismmodelchecker.org/casestudies/>
+
+### SymbiYosys（open-source RTL formal verification）
+
+- 用途：SystemVerilog RTLに対するBMC、k-inductionによるsafety proof、cover reachabilityとcycle trace生成
+- 推奨読者：第8章（RTL形式検証）、付録B（nightly実行）、付録C（`assert` / `assume` / `cover`の概念対応）
+- 実行境界：本書のnightly契約はOSS CAD Suite 20260716の公式Linux x64 assetとSHA-256、SBY `v0.67-4-gfea6e46`、Yosys `0.67+40`、Bitwuzla `0.9.1`、`smtbmc` engine、depth 6を固定する。CI artifactやPagesへsuite binaryを再配布しない。
+- 保証境界：結果はYosysが受理したSystemVerilog formal subset、RTL、clock/reset/environment assumptions、property、mode、depth、backendに相対的である。CDC、timing、physical/analog behavior、synthesis後netlist、SystemVerilog Assertions全体を自動的には保証しない。
+- 一次情報：
+  - SymbiYosys公式repository：<https://github.com/YosysHQ/sby>
+  - SymbiYosys公式documentation：<https://symbiyosys.readthedocs.io/en/latest/>
+  - Quickstart：<https://symbiyosys.readthedocs.io/en/latest/quickstart.html>
+  - Reference（mode / engine / task / artifact）：<https://symbiyosys.readthedocs.io/en/latest/reference.html>
+  - Yosys公式repository：<https://github.com/YosysHQ/yosys>
+  - OSS CAD Suite公式repository：<https://github.com/YosysHQ/oss-cad-suite-build>
+  - OSS CAD Suite 2026-07-16公式release：<https://github.com/YosysHQ/oss-cad-suite-build/releases/tag/2026-07-16>
+  - Bitwuzla公式repository：<https://github.com/bitwuzla/bitwuzla>
 
 ### Tamarin Prover（active adversary下のsymbolic protocol verification）
 

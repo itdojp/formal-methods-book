@@ -166,3 +166,22 @@ This table is only the minimum bridge needed to read the Chapter 13 example.
 
 Distinguish non-injective correspondence such as `Response_Authentication` from an injective property that maps each send to at most one acceptance.
 Do not reinterpret symbolic `verified` as an unconditional proof of an implementation or of computational cryptographic security.
+
+### C.3.11 SymbiYosys: Minimal Correspondence for Synchronous RTL Formal Verification
+
+SymbiYosys transforms RTL and properties through Yosys and runs BMC, proof, or reachability tasks with a selected engine and solver.
+This table is the minimum bridge needed for the Chapter 8 arbiter example, not a syntax reference for all of SystemVerilog Assertions.
+
+| RTL / formal concept | Chapter 8 expression | Checking meaning | Evidence to retain |
+| --- | --- | --- | --- |
+| Clock edge | `always_ff @(posedge clk)` | One step of the register transition system | Clock, mode, depth |
+| Reset contract | `assume` `rst` only at the first edge | Restrict the environment to the intended initialization sequence | Reset polarity, asserted duration, assumption |
+| Safety property | `assert(!(grant0 && grant1))` | Forbid simultaneous grants | Property location, PASS / FAIL |
+| Environment constraint | `assume(...)` | Restrict input traces enumerated by the solver | Every assumption and its rationale |
+| Reachability target | `cover(...)` | Find one execution that reaches an interesting state | Reach step, witness VCD |
+| BMC | `mode bmc`, `depth 6` | Search for assertion violations within six steps | Bound, counterexample VCD |
+| k-induction | `mode prove`, `depth 6` | Check the base case and temporal induction | Status of both phases, engine |
+| Sampled prior value | `$past(req0)` | Request value at the preceding clock edge | Guard for the first sample |
+
+An `assert` can pass vacuously when an over-strong `assume` removes the defective trace.
+Use `cover` to confirm important environment conditions such as simultaneous requests, and do not treat an unreachable cover as a safety success.

@@ -129,6 +129,23 @@ function validateToolManifest(manifest, options = {}) {
       if (!Array.isArray(tool.platforms) || tool.platforms.length === 0) {
         add('executable tool には1件以上の platform が必要です', id);
       }
+      const hasSbySuiteDependency = [
+        tool.suiteVersion,
+        tool.suiteCommit,
+        tool.yosysVersion,
+        tool.yosysCommit,
+        tool.bitwuzlaVersion,
+        tool.bitwuzlaCommit,
+      ].some((value) => value !== undefined);
+      if (hasSbySuiteDependency) {
+        if (!/^\d{8}$/.test(tool.suiteVersion || '')) add('suiteVersion は YYYYMMDD 形式である必要があります', id);
+        for (const field of ['commit', 'suiteCommit', 'yosysCommit', 'bitwuzlaCommit']) {
+          if (!/^[0-9a-f]{40}$/.test(tool[field] || '')) add(`${field} は40桁 lowercase hex である必要があります`, id);
+        }
+        for (const field of ['yosysVersion', 'bitwuzlaVersion']) {
+          if (typeof tool[field] !== 'string' || tool[field].trim() === '') add(`${field} は空でない string である必要があります`, id);
+        }
+      }
       if (tool.rustToolchain !== undefined) {
         if (typeof tool.rustToolchain !== 'string' || tool.rustToolchain.trim() === '') {
           add('rustToolchain は空でない string である必要があります', id);

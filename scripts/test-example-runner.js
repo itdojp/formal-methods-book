@@ -42,6 +42,12 @@ function makeToolManifest(maxOutputBytes = 1024 * 1024) {
         sha256: '1'.repeat(64),
       },
       embeddedCbmcVersion: '6.8.0',
+      suiteVersion: 'fixture-suite',
+      suiteCommit: '2'.repeat(40),
+      yosysVersion: 'fixture-yosys',
+      yosysCommit: '3'.repeat(40),
+      bitwuzlaVersion: 'fixture-bitwuzla',
+      bitwuzlaCommit: '4'.repeat(40),
       wrapper: 'tools/alloy-check.sh',
       distribution: { url: 'https://example.invalid/alloy.jar', sha256: '0'.repeat(64) },
       platforms: ['fixture'],
@@ -95,9 +101,19 @@ function main() {
     assert.deepStrictEqual(successMetadata.toolDependencies, {
       rustToolchain: 'nightly-fixture',
       embeddedCbmcVersion: '6.8.0',
+      suiteVersion: 'fixture-suite',
+      suiteCommit: '2'.repeat(40),
+      yosysVersion: 'fixture-yosys',
+      yosysCommit: '3'.repeat(40),
+      bitwuzlaVersion: 'fixture-bitwuzla',
+      bitwuzlaCommit: '4'.repeat(40),
       rustToolchainManifest: {
         url: 'https://static.rust-lang.org/dist/fixture/channel-rust-nightly.toml',
         sha256: '1'.repeat(64),
+      },
+      suiteDistribution: {
+        url: 'https://example.invalid/alloy.jar',
+        sha256: '0'.repeat(64),
       },
     });
     assert.strictEqual(successMetadata.actual.exitCode, 0);

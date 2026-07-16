@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "task": "cover",
+  "mode": "cover",
+  "depth": 6,
+  "status": "PASS",
+  "result": "covered",
+  "trace": {
+    "required": true,
+    "kind": "cover",
+    "step": 3
+  }
+}

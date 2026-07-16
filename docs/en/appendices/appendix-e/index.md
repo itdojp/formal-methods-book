@@ -6,13 +6,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-e.md"
 translation_status: "partial"
-translation_source_commit: "dbe99897e679469f15eb58d9c29a2d9ee175283e"
+translation_source_commit: "5b852a65db6c70440b98a6648136fd5c55e00e7a"
 translation_reviewed_at: "2026-07-16"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Appendix E: References and Further Reading Paths
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`dbe99897e679`](https://github.com/itdojp/formal-methods-book/commit/dbe99897e679469f15eb58d9c29a2d9ee175283e) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`5b852a65db6c`](https://github.com/itdojp/formal-methods-book/commit/5b852a65db6c70440b98a6648136fd5c55e00e7a) on 2026-07-16.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 This appendix is a **reader-facing guide to primary sources** for the methods, tools, and case studies introduced in the main text. Use it when you want to deepen a chapter, verify a claim against an official source, or decide which tool family to study next.  
@@ -22,7 +22,7 @@ As of July 2026, it reflects naming changes and current mainstream references su
 
 Listing a tool in this appendix does not mean that the repository executes or guarantees it. The sources of truth are
 `tools/tool-manifest.json` and the [lane inventory in Appendix B]({{ '/appendices/appendix-b/#tool-lane-inventory' | relative_url }}).
-Alloy, TLC, Apalache, and Dafny run in `pr-quick`; SPIN, NuSMV, CBMC, Quint, and PRISM run in
+Alloy, TLC, Apalache, and Dafny run in `pr-quick`; SPIN, NuSMV, CBMC, Quint, PRISM, Tamarin, and SymbiYosys run in
 `nightly`; and Kani runs only through explicit `optional/manual` dispatch. Every other tool
 listed here is `documentation-only`: the book does not guarantee a pinned version, execution
 environment, or result for it.
@@ -87,7 +87,7 @@ environment, or result for it.
 - Primary sources (tool example):
   - `FDR` (information on the CSP model checker): <https://www.cs.ox.ac.uk/projects/fdr/>
 
-## 2) Model Checking and State-Space Exploration (TLC / Apalache / SPIN / NuSMV / PRISM)
+## 2) Model Checking and State-Space Exploration (TLC / Apalache / SPIN / NuSMV / PRISM / SymbiYosys)
 
 ### Apalache (Additional checking for TLA+, SMT-based)
 
@@ -132,6 +132,22 @@ environment, or result for it.
   - Ordinary model checking: <https://www.prismmodelchecker.org/manual/RunningPRISM/ModelChecking>
   - Statistical model checking: <https://www.prismmodelchecker.org/manual/RunningPRISM/StatisticalModelChecking>
   - Official case studies: <https://www.prismmodelchecker.org/casestudies/>
+
+### SymbiYosys (Open-Source RTL Formal Verification)
+
+- Purpose: BMC, k-induction safety proofs, cover reachability, and cycle-trace generation for SystemVerilog RTL
+- Best after reading: Chapter 8 on RTL formal verification, Appendix B on the nightly path, and Appendix C on the conceptual roles of `assert`, `assume`, and `cover`
+- Execution boundary: the book's nightly contract pins the official OSS CAD Suite 20260716 Linux x64 asset and SHA-256, SBY `v0.67-4-gfea6e46`, Yosys `0.67+40`, Bitwuzla `0.9.1`, the `smtbmc` engine, and depth 6. CI artifacts and Pages do not redistribute the suite binaries.
+- Assurance boundary: results are relative to the SystemVerilog formal subset accepted by Yosys, the RTL, clock/reset/environment assumptions, properties, mode, depth, and backend. They do not automatically establish correctness of clock-domain crossings, timing, physical or analog behavior, a post-synthesis netlist, or all of SystemVerilog Assertions.
+- Primary sources:
+  - Official SymbiYosys repository: <https://github.com/YosysHQ/sby>
+  - Official SymbiYosys documentation: <https://symbiyosys.readthedocs.io/en/latest/>
+  - Quickstart: <https://symbiyosys.readthedocs.io/en/latest/quickstart.html>
+  - Reference for modes, engines, tasks, and artifacts: <https://symbiyosys.readthedocs.io/en/latest/reference.html>
+  - Official Yosys repository: <https://github.com/YosysHQ/yosys>
+  - Official OSS CAD Suite repository: <https://github.com/YosysHQ/oss-cad-suite-build>
+  - Official OSS CAD Suite 2026-07-16 release: <https://github.com/YosysHQ/oss-cad-suite-build/releases/tag/2026-07-16>
+  - Official Bitwuzla repository: <https://github.com/bitwuzla/bitwuzla>
 
 ### Tamarin Prover (Symbolic Protocol Verification under an Active Adversary)
 

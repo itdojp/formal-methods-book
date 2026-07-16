@@ -285,6 +285,42 @@
       }
     },
     {
+      "id": "sby",
+      "name": "SymbiYosys (sby)",
+      "aliases": [
+        "SymbiYosys",
+        "SymbiYosys (sby)",
+        "sby"
+      ],
+      "lane": "nightly",
+      "reason": {
+        "ja": "約733 MBの固定OSS CAD Suiteを取得し、RTLのBMC、k-induction、coverをtool単位nightlyで再現する。",
+        "en": "Downloads an approximately 733 MB pinned OSS CAD Suite and reproduces RTL BMC, k-induction, and cover tasks in an isolated nightly tool job."
+      },
+      "version": "v0.67-4-gfea6e46",
+      "wrapper": "tools/sby-check.sh",
+      "distribution": {
+        "url": "https://github.com/YosysHQ/oss-cad-suite-build/releases/download/2026-07-16/oss-cad-suite-linux-x64-20260716.tgz",
+        "sha256": "3e041570d0bd4c94c4fa56dd148c27e959f3992c8251038bcfa8913af4c09703"
+      },
+      "platforms": [
+        "ubuntu-x86_64"
+      ],
+      "sources": [
+        "https://github.com/YosysHQ/oss-cad-suite-build/releases/tag/2026-07-16",
+        "https://github.com/YosysHQ/sby",
+        "https://github.com/YosysHQ/yosys",
+        "https://github.com/bitwuzla/bitwuzla"
+      ],
+      "commit": "fea6e467d067b3ea84b6b5ac08cd48beb59f0d42",
+      "suiteVersion": "20260716",
+      "suiteCommit": "55dd70cdfc9a5d76711806f2822300c0755c2a5b",
+      "yosysVersion": "0.67+40",
+      "yosysCommit": "45ea2b8d6c6e94b06ff39b0117f0961ae5c16561",
+      "bitwuzlaVersion": "0.9.1",
+      "bitwuzlaCommit": "8d1eb01093ae54d9b4586456b69c3bf31000a4c2"
+    },
+    {
       "id": "kani",
       "name": "Kani Rust Verifier",
       "aliases": [

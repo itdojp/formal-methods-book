@@ -7,3 +7,4 @@
 - `nusmv/fairness.smv`: NuSMV/nuXmv の FAIRNESS / COMPASSION 例
 - `nusmv/request-response.smv`: NuSMV/nuXmv の LTLSPEC / CTLSPEC 例
 - `cbmc/array-bounds.c`: CBMC の配列境界 / 仮定 / アサーション例
+- `sby/rtl-arbiter/`: SymbiYosys の flawed/fixed 2-request RTL arbiter（BMC反例、帰納証明、cover）

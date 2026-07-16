@@ -6,13 +6,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-c.md"
 translation_status: "partial"
-translation_source_commit: "dbe99897e679469f15eb58d9c29a2d9ee175283e"
+translation_source_commit: "5b852a65db6c70440b98a6648136fd5c55e00e7a"
 translation_reviewed_at: "2026-07-16"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Appendix C: Notation Cross-Reference
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`dbe99897e679`](https://github.com/itdojp/formal-methods-book/commit/dbe99897e679469f15eb58d9c29a2d9ee175283e) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`5b852a65db6c`](https://github.com/itdojp/formal-methods-book/commit/5b852a65db6c70440b98a6648136fd5c55e00e7a) on 2026-07-16.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 This appendix is a quick lookup guide for readers who need to recover the
@@ -181,3 +181,22 @@ This table is only the minimum bridge needed to read the Chapter 13 example.
 
 Distinguish non-injective correspondence such as `Response_Authentication` from an injective property that maps each send to at most one acceptance.
 Do not reinterpret symbolic `verified` as an unconditional proof of an implementation or of computational cryptographic security.
+
+### C.3.11 SymbiYosys: Minimal Correspondence for Synchronous RTL Formal Verification
+
+SymbiYosys transforms RTL and properties through Yosys and runs BMC, proof, or reachability tasks with a selected engine and solver.
+This table is the minimum bridge needed for the Chapter 8 arbiter example, not a syntax reference for all of SystemVerilog Assertions.
+
+| RTL / formal concept | Chapter 8 expression | Checking meaning | Evidence to retain |
+| --- | --- | --- | --- |
+| Clock edge | `always_ff @(posedge clk)` | One step of the register transition system | Clock, mode, depth |
+| Reset contract | `assume` `rst` only at the first edge | Restrict the environment to the intended initialization sequence | Reset polarity, asserted duration, assumption |
+| Safety property | `assert(!(grant0 && grant1))` | Forbid simultaneous grants | Property location, PASS / FAIL |
+| Environment constraint | `assume(...)` | Restrict input traces enumerated by the solver | Every assumption and its rationale |
+| Reachability target | `cover(...)` | Find one execution that reaches an interesting state | Reach step, witness VCD |
+| BMC | `mode bmc`, `depth 6` | Search for assertion violations within six steps | Bound, counterexample VCD |
+| k-induction | `mode prove`, `depth 6` | Check the base case and temporal induction | Status of both phases, engine |
+| Sampled prior value | `$past(req0)` | Request value at the preceding clock edge | Guard for the first sample |
+
+An `assert` can pass vacuously when an over-strong `assume` removes the defective trace.
+Use `cover` to confirm important environment conditions such as simultaneous requests, and do not treat an unreachable cover as a safety success.

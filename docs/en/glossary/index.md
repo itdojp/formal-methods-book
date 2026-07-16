@@ -5,13 +5,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/glossary/index.md"
 translation_status: "partial"
-translation_source_commit: "dbe99897e679469f15eb58d9c29a2d9ee175283e"
+translation_source_commit: "5b852a65db6c70440b98a6648136fd5c55e00e7a"
 translation_reviewed_at: "2026-07-16"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Glossary
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`dbe99897e679`](https://github.com/itdojp/formal-methods-book/commit/dbe99897e679469f15eb58d9c29a2d9ee175283e) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`5b852a65db6c`](https://github.com/itdojp/formal-methods-book/commit/5b852a65db6c70440b98a6648136fd5c55e00e7a) on 2026-07-16.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 This glossary collects technical terms and abbreviations that appear repeatedly
@@ -68,6 +68,12 @@ See Chapter 4.
 <span id="glossary-apalache" class="search-term-anchor" aria-hidden="true"></span>**Apalache**: An SMT-based checker for TLA+ specifications. It is useful when
 you want symbolic or bounded exploration in addition to TLC's explicit-state
 model checking. See Chapters 7, 8, and Appendix B.
+
+<span id="glossary-assume--assert--cover-rtl-formal" class="search-term-anchor" aria-hidden="true"></span>**Assume / assert / cover (RTL formal)**: `assume` restricts the environment
+traces under analysis, `assert` states a property that must not fail on those
+traces, and `cover` searches for one trace reaching a condition. Review
+over-strong assumptions for vacuity, and do not interpret cover reachability as
+a safety proof. See Chapter 8 and Appendix C.
 
 <span id="glossary-assertion" class="search-term-anchor" aria-hidden="true"></span>**Assertion**: A statement of a property that should hold. In Alloy this is
 expressed with `assert`; in program verification it can also mean an explicit
@@ -158,6 +164,14 @@ are typically shown as counterexamples. See Chapters 3, 7, and 8.
 <span id="glossary-isabellehol" class="search-term-anchor" aria-hidden="true"></span>**Isabelle/HOL**: A proof assistant centered on higher-order logic. It is often
 used for mechanized proofs, proof documentation, and larger proof libraries.
 See Chapters 9 and 10.
+
+## K
+
+<span id="glossary-k-induction" class="search-term-anchor" aria-hidden="true"></span>**K-induction**: A proof method combining finite base cases with an induction
+step stating that if the property holds for `k` steps, it also holds at the
+next step. Success is relative to initialization, the transition relation,
+properties, assumptions, and engine configuration. See Chapter 8 and Appendix
+C.
 
 ## L
 
@@ -269,6 +283,11 @@ between informal requirements and verifiable properties. See Chapters 3-7.
 <span id="glossary-spin" class="search-term-anchor" aria-hidden="true"></span>**SPIN**: A model checker for concurrent systems centered on the Promela
 language. See Chapters 6 and 8.
 
+<span id="glossary-symbiyosys-sby" class="search-term-anchor" aria-hidden="true"></span>**SymbiYosys (sby)**: A front end for an open-source RTL formal flow centered
+on Yosys. It connects BMC, prove, and cover tasks to engines and backends;
+results are relative to the RTL, properties, assumptions, mode, depth, and
+toolchain. See Chapter 8 and Appendices B and E.
+
 <span id="glossary-state-space" class="search-term-anchor" aria-hidden="true"></span>**State space**: The set of states a system can take. Its size is a central
 concern in verification. See Chapter 8.
 
@@ -321,6 +340,12 @@ types and propositions are closely connected. It is central to Rocq, Lean, and
 the discussion in Chapter 9. See Chapter 9.
 
 ## V
+
+<span id="glossary-vacuity" class="search-term-anchor" aria-hidden="true"></span>**Vacuity**: A property can hold trivially because an over-strong assumption
+or unreachable premise removed the executions that mattered, rather than
+because the intended behavior was established. Assumption review and
+meaningful cover targets help expose this failure mode. See Chapter 8 and
+Appendix C.
 
 <span id="glossary-verification-condition" class="search-term-anchor" aria-hidden="true"></span>**Verification condition**: A logical obligation generated from a program or
 specification that must be proved for a correctness claim to hold. See Chapter

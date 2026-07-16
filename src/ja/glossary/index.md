@@ -25,6 +25,8 @@
 
 **Apalache**：TLA+ 仕様を SMT にエンコードして有界模型検査や不変条件検査を行う検査器。TLC の上位互換ではなく、構文サポート、有限構造、探索境界、SMT ソルバ依存を確認して使う。→第7章/第8章/第12章
 
+**assume / assert / cover（RTL formal）**：`assume`は対象環境traceを制限し、`assert`は全対象traceで破れてはならない性質を置き、`cover`は条件へ到達するtraceを一つ探す。強すぎる`assume`による空虚性と、`cover`を安全性証明と誤読することを避ける。→第8章/付録C
+
 **アサーション（Assertion）**：成立すべき性質を表明する文。Alloy では `assert`、プログラム検証では実装上のチェック点として用いる。→第4章/第10章
 
 **Aeneas**：Rustプログラムを Charon/LLBC 経由で F*、Rocq/Coq、HOL4、Lean などの証明支援系へ接続する検証ツールチェーン。変換対象と未対応機能を確認して使う。→第10章
@@ -92,6 +94,8 @@
 ## K
 
 **Kani**：Rust向け模型検査器。`#[kani::proof]` harness、assertion、panic、overflow、`unsafe` 周辺を検査できるが、結果は探索境界と到達範囲に依存する。→第10章/第12章
+
+**k-induction**：有限のbase caseと、性質がk step成り立つなら次stepでも成り立つという帰納stepを組み合わせる証明法。成功は初期化、transition relation、property、assumption、engine設定に相対的である。→第8章/付録C
 
 ## L
 
@@ -161,6 +165,8 @@
 
 **SPIN**：Promela言語による並行システムの模型検査ツール。→第6章/第8章
 
+**SymbiYosys（sby）**：Yosysを中心とするopen-source RTL formal flowのfront end。BMC、prove、coverをengine/backendへ接続し、結果はRTL、property、assumption、mode、depth、toolchainに相対的である。→第8章/付録B/付録E
+
 **SMT-LIB v3**：SMT-LIB 3.0 の予備提案。高階論理、ポリモーフィズム、依存型的な方向を含むが、SMT-LIB 2.x を直ちに置き換えるものではない。→第12章
 
 **状態空間（State Space）**：システムが取りうる状態の集合。状態爆発が主要課題。→第8章
@@ -188,6 +194,8 @@
 **unknown**：SMT ソルバーや検証器が、与えられた設定・制限時間・論理断片では結論を返せなかった状態。成功でも反例なしでもなく、CI では調査対象として扱う。→第12章
 
 ## V
+
+**vacuity（空虚性）**：性質が実質的な対象traceを検査したからではなく、強すぎる仮定や到達不能な前提によって自明に成立する状態。assumption reviewと意味のあるcoverで検出を補助する。→第8章/付録C
 
 **Verus**：Rust風の仕様・証明記法と SMT を用いて、低レベルシステムコードの機能的正しさや不変条件を静的に検証するツール。→第10章
 
