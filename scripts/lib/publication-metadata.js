@@ -153,7 +153,7 @@ function validatePublicationModel(model) {
   if (!localeIds.includes(manifest.project?.defaultEdition)) {
     errors.push('book-config.json project.defaultEdition must name an edition');
   }
-  if (localeIds.length < 2) errors.push('book-config.json must define at least two editions');
+  if (localeIds.length !== 2) errors.push('book-config.json must define exactly two editions');
   if (!repositoryIdentity(manifest.repository?.url)) {
     errors.push('book-config.json repository.url must be an owner/repository GitHub URL');
   }
@@ -220,6 +220,7 @@ function validatePublicationModel(model) {
     if (config.version !== manifest.project?.version) errors.push(`${label} version must match project.version`);
     if (config.language !== manifestEdition.language) errors.push(`${label} language must match manifest edition`);
     if (config.edition?.id !== locale) errors.push(`${label} edition.id must equal ${locale}`);
+    if (!isNonEmptyString(config.edition?.locale)) errors.push(`${label} edition.locale: non-empty string required`);
     if (config.edition?.label !== manifestEdition.label) errors.push(`${label} edition.label must match manifest edition`);
     if (config.edition?.sourceRoot !== manifestEdition.sourceRoot) errors.push(`${label} edition.sourceRoot drift`);
     if (config.edition?.publishRoot !== manifestEdition.publishRoot) errors.push(`${label} edition.publishRoot drift`);

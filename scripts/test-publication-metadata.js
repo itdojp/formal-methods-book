@@ -40,6 +40,13 @@ test('current canonical model is valid', () => {
   assert.deepStrictEqual(validatePublicationModel(model), []);
 });
 
+test('publication model remains explicitly bilingual', () => {
+  const invalid = clone(model);
+  invalid.manifest.editions.fr = clone(invalid.manifest.editions.en);
+  const errors = validatePublicationModel(invalid);
+  assert(errors.some((message) => message.includes('must define exactly two editions')));
+});
+
 test('renderer is deterministic and covers every declared artifact', () => {
   const first = artifactObject(renderGeneratedArtifacts(model));
   const second = artifactObject(renderGeneratedArtifacts(model));
@@ -157,12 +164,14 @@ test('exactly the default edition is the source of truth', () => {
   invalid.editions.en.edition.sourceOfTruth = true;
   invalid.editions.en.edition.translationOf = 'fr';
   invalid.editions.en.edition.label = 'Bad label';
+  invalid.editions.en.edition.locale = '';
   const errors = validatePublicationModel(invalid);
   assert(errors.some((message) => message.includes('editions.en.sourceOfTruth must be false')));
   assert(errors.some((message) => message.includes('editions.en.translationOf must be "ja"')));
   assert(errors.some((message) => message.includes('edition.sourceOfTruth must be false')));
   assert(errors.some((message) => message.includes('edition.translationOf must be "ja"')));
   assert(errors.some((message) => message.includes('edition.label must match manifest edition')));
+  assert(errors.some((message) => message.includes('edition.locale: non-empty string required')));
 });
 
-console.log('Publication metadata renderer tests passed (10 cases).');
+console.log('Publication metadata renderer tests passed (11 cases).');
