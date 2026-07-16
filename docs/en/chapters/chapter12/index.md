@@ -6,13 +6,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/chapters/chapter12.md"
 translation_status: "partial"
-translation_source_commit: "db8521438cae31d82c569e807af1f1cf8e1437f3"
+translation_source_commit: "c38670fbeb731a9fc4e8adf43a45994809342983"
 translation_reviewed_at: "2026-07-16"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Chapter 12: Tools and Automation
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`db8521438cae`](https://github.com/itdojp/formal-methods-book/commit/db8521438cae31d82c569e807af1f1cf8e1437f3) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`c38670fbeb73`](https://github.com/itdojp/formal-methods-book/commit/c38670fbeb731a9fc4e8adf43a45994809342983) on 2026-07-16.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 ## 12.1 An Overview of the Tool Ecosystem
