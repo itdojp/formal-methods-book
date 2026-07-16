@@ -9,6 +9,7 @@ const { renderEditionPages } = require('./lib/publication-build');
 const {
   addGlossaryTermAnchors,
   baseKramdownId,
+  containsAliasTerm,
   parseMarkdownSections,
   renderSearchIndex,
   serializeSearchIndex,
@@ -28,6 +29,11 @@ assert.strictEqual(
   baseKramdownId('LTLの基本例（安全性・活性）{: #ltl-basic-examples }'),
   'ltlの基本例安全性活性-ltl-basic-examples-',
 );
+assert.strictEqual(containsAliasTerm('successful workflow', 'SF'), false);
+assert.strictEqual(containsAliasTerm('satisfy the requirement', 'SF'), false);
+assert.strictEqual(containsAliasTerm('WF_vars(Action)', 'WF'), true);
+assert.strictEqual(containsAliasTerm('Rocq is the current name', 'Coq'), false);
+assert.strictEqual(containsAliasTerm('Rocq / Coq migration', 'Coq'), true);
 
 const usedIds = new Set();
 assert.strictEqual(uniqueKramdownId('Challenges and Limits', usedIds), 'challenges-and-limits');
@@ -118,6 +124,18 @@ assert.throws(() => browserSearch.validateIndexPayload({
   entryCount: 1,
   entries: [{ id: 'bad', locale: 'ja', url: null }],
 }, 'ja'), /Invalid search index entry scope/u);
+const validEntryFixture = {
+  id: 'bounded', locale: 'ja', pageId: 'chapter01', section: 'chapters', title: 'bounded',
+  chapter: '第1章', heading: 'bounded', text: 'bounded', aliases: [],
+  url: '/formal-methods-book/chapters/chapter01/#bounded',
+};
+assert.throws(() => browserSearch.validateIndexPayload({
+  schemaVersion: 1,
+  project: 'formal-methods-book',
+  locale: 'ja',
+  entryCount: 20001,
+  entries: Array(20001).fill(validEntryFixture),
+}, 'ja'), /entry limit exceeded/u);
 assert.strictEqual(
   browserSearch.searchEntries(sampleEntries, `${'x'.repeat(128)}LeanDojo`, 'ja').length,
   0,

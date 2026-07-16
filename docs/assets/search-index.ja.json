@@ -4619,7 +4619,9 @@
       "text": "TLA+ では、状態述語と action で状態遷移を記述し、時相式で振る舞い全体の性質を記述します。振る舞い上の性質を読む基本記号と、活性を扱う際に用いる公平性は次のとおりです。 []P（常に）: すべての状態で P が成り立つ <>P（いつか）: ある将来の状態で P が成り立つ P > Q（leads-to）: P が成り立つたびに、その後いつか Q が成り立つ。[](P => <>Q) の略記 WFvars(A) / SFvars(A): action A に対する弱公平性／強公平性の仮定 本文では □ / ◇ も数学的な表示として使いますが、TLA+ の入力では [] / <> と書きます。 【擬似記法】 最初の式はプロセスが無限に何度も準備状態になること、2番目はシステムがいつか安定して以後ずっと安定すること、3番目は要求が成り立つたびに応答へ到達することを表します。",
       "aliases": [
         "TLA Plus",
+        "WF",
         "weak fairness",
+        "SF",
         "strong fairness"
       ]
     },
@@ -5030,7 +5032,8 @@
       "aliases": [
         "TLA Plus",
         "モデル検査",
-        "model checking"
+        "model checking",
+        "SF"
       ]
     },
     {
@@ -5360,9 +5363,7 @@
       "aliases": [
         "TLA Plus",
         "模型検査",
-        "モデル検査",
-        "弱公平性",
-        "weak fairness"
+        "モデル検査"
       ]
     },
     {
@@ -6674,9 +6675,7 @@
       "text": "本章の SPIN / NuSMV / CBMC の短い断片は、構文が実ツールに近くても、起動オプション、生成物、周辺モデルを伴って読む文脈依存スニペットです。CI が実行保証するのは、JA/EN 共通の canonical asset を examples/ch08/ から取得し、manifest runner 経由で呼び出す次の契約ブロックだけです。 リポジトリ全体では pr-quick と nightly を分けており、この節の契約は nightly 側に載せて PR 時間を抑えます。標準化した実行証跡は .artifacts/manifest// に集約する前提とし、本文の短い断片ではなく同一リビジョンの examples/ch08/ を取得してください。 spin-ltl-properties: 正本 asset は examples/ch08/spin/ltl-properties.pml、lane は nightly、固定バージョンは SPIN 6.5.2、期待成功マーカーは errors: 0 です。取得時は同一コミットの examples/ch08/spin/ltl-properties.pml を正本としてください。 【ツール準拠（そのまま動く）】 spin-producer-consumer: 正本 asset は examples/ch08/spin/producer-consumer.pml、lane は nightly、固定バージョンは SPIN 6.5.2、期待成功マーカーは errors: 0 です。取得時は本文抜粋ではなく examples/ch08/spin/producer-consumer.pml を同一リビジョンで取得します。 【ツール準拠（そのまま動く）】 nusmv-fairness: 正本 asset は examples/ch08/nusmv/fairness.smv、lane は nightly、固定バージョンは NuSMV 2.7.1、期待成功マーカーは -- is true です。取得時は JA/EN 共通の examples/ch08/nusmv/fairness.smv を使ってください。 【ツール準拠（そのまま動く）】 nusmv-request-response: 正本 asset は examples/ch08/nusmv/request-response.smv、lane は nightly、固定バージョンは NuSMV 2.7.1、期待結果は意図した反例を示す -- is false です（NuSMV プロセス自体は正常終了します）。取得時は同一コミットの examples/ch08/nusmv/request-response.smv を正本としてください。 【ツール準拠（そのまま動く）】 cbmc-array-bounds: 正本 asset は examples/ch08/cbmc/array-bounds.c、lane は nightly、固定バージョンは CBMC 6.10.0、期待成功マーカーは VERIFICATION SUCCESSFUL です。取得時は本文中の C 断片ではなく examples/ch08/cbmc/array-bounds.c を同一リビジョンで再利用します。 【ツール準拠（そのまま動く）】",
       "aliases": [
         "モデル検査",
-        "model checking",
-        "強公平性",
-        "strong fairness"
+        "model checking"
       ]
     },
     {
@@ -8937,10 +8936,7 @@
       "heading": "SMT ソルバーの活用",
       "url": "/formal-methods-book/chapters/chapter10/#smt-ソルバーの活用",
       "text": "SMT（Satisfiability Modulo Theories）ソルバーは、現代のプログラム検証ツールの中核技術です。SMT ソルバーは、論理式の充足可能性を自動的に判定し、多くの検証条件を自動的に処理できます。 SMT ソルバーが得意な問題： 線形算術の不等式 配列の読み書き操作 ビットベクトル演算 量詞を含まない一階論理 主要な SMT ソルバー： Z3：マイクロソフトが開発、多くのツールで使用 CVC4/CVC5：スタンフォード大学で開発 Yices：SRIインターナショナルで開発",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "7ae8453aa173fd69",
@@ -11613,9 +11609,7 @@
       "text": "SAT：命題充足可能性問題（Satisfiability）。Alloy 等が内部で利用することがある。 SMT：充足可能性の判定を、等式/算術/配列などの理論と統合して扱う枠組み（Satisfiability Modulo Theories）。 SMT-LIB：SMT ソルバーへ問題を渡すための標準形式。2026年時点の公式標準は 2.7 系で、v3 は予備提案として扱う。 LTL / CTL：時相論理（Linear Temporal Logic / Computation Tree Logic）。模型検査で性質を記述する。 CI：継続的インテグレーション（Continuous Integration）。PR/夜間/リリース前の検証ゲートに利用する。 RMW：Read-Modify-Write。並行実行で競合（lost update）を生む典型パターン。",
       "aliases": [
         "モデル検査",
-        "model checking",
-        "強公平性",
-        "strong fairness"
+        "model checking"
       ]
     },
     {
@@ -13055,11 +13049,7 @@
       "url": "/formal-methods-book/appendices/appendix-c/#c31-概念の対応最小セット",
       "text": "概念 · Z記法（本書） · Alloy（Alloy Analyzer 6想定） · CSP（本書/ツール） · TLA+（TLC 想定） --- · --- · --- · --- · --- 集合（型） · A : ℙ X · A: set X · 事象集合 {a, b} / 同期集合 X · A ∈ SUBSET X 要素所属 · x ∈ A · x in A · （事象）a ∈ X · x ∈ A 関係 · R : X ↔ Y · R: X -> Y · （通常は直接は書かない） · R ⊆ X × Y 全関数 · f : X → Y · f: X -> one Y · （通常は直接は書かない） · f ∈ [X -> Y] 部分関数 · f : X ⇸ Y · f: X -> lone Y · （通常は直接は書かない） · （必要なら部分関数として表現） 状態 · 状態スキーマ · Alloy 6 では var sig / var field、旧スタイルでは時刻（ステップ）を明示 · プロセス（状態は遷移に埋め込む） · 変数 v と次状態 v' 初期状態 · InitState · fact init { ... } または pred Init[...] · 初期プロセス P0 · Init == ... 遷移/操作 · ΔState · Trash' = Trash + f のようにprimeで次状態を参照 · 前置 a → P（ツールでは a -> P） · Next == ... 不変条件（安全性） · スキーマ制約 · fact / assert · refinement / assertions（ツール依存） · Invariant == ... / []P 活性/公平性 · （拡張が必要） · （トレース上で表現） · （ツール依存） · <>P, P > Q, WFvars(A), SFvars(A) 注記： Zの ↔/→/⇸/↦ は第5章の記号体系に合わせています。 CSPは本文では数学記法として →, □, ⊓ を用い、ツール（FDR/CSPM）では代表的に ->, [], · · を用います。",
       "aliases": [
-        "TLA Plus",
-        "弱公平性",
-        "weak fairness",
-        "強公平性",
-        "strong fairness"
+        "TLA Plus"
       ]
     },
     {
@@ -13110,8 +13100,7 @@
       "text": "記号 · 意味 · 例 --- · --- · --- v' · action 内で参照する次状態の値（LTL の X / ○ とは別） · x' = x + 1 []P / <>P · 常に / いつか · []Inv, <>Goal P > Q · P が成り立つたびに、その後いつか Q が成り立つ · request > response WFvars(A) / SFvars(A) · action A に対する弱 / 強公平性仮定 · WFvars(Receive) .cfg · TLC 設定 · 初期状態/不変条件/探索制約 WFvars(A) / SFvars(A) は vars と Next の subaction である action A の宣言、および Init /\\ [][Next]vars を含む仕様の文脈を必要とするため、単独では「そのまま動く」例ではありません。refinement の説明用含意も、refinement mapping と隠蔽を具体化するまでは擬似記法です。 補足： Alloy は有限範囲の反例探索が中心。状態遷移を扱う場合は、時間（ステップ）を明示してモデル化する TLA+ は状態遷移と時相論理が中心。action のプライムで現在状態と次状態を関係づけ、[] / <> / > と公平性で振る舞いの性質を記述する Zは状態/操作（スキーマ）で要件を厳密化し、実装へ詳細化する",
       "aliases": [
         "TLA Plus",
-        "弱公平性",
-        "weak fairness",
+        "SF",
         "strong fairness"
       ]
     },

@@ -6,6 +6,7 @@ const path = require('path');
 
 const SEARCH_INDEX_SCHEMA_VERSION = 1;
 const SEARCH_INDEX_MAX_BYTES = 4 * 1024 * 1024;
+const SEARCH_INDEX_MAX_ENTRIES = 20000;
 
 function toPosix(filePath) {
   return filePath.split(path.sep).join('/');
@@ -33,6 +34,21 @@ function normalizeSearchText(value) {
     .toLocaleLowerCase('en-US')
     .replace(/\s+/g, ' ')
     .trim();
+}
+
+function escapeRegex(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/gu, '\\$&');
+}
+
+function containsAliasTerm(haystack, term) {
+  const normalizedHaystack = normalizeSearchText(haystack);
+  const normalizedTerm = normalizeSearchText(term);
+  if (!normalizedTerm) return false;
+  if (/^[a-z0-9]{1,3}$/u.test(normalizedTerm)) {
+    return new RegExp(`(?:^|[^\\p{L}\\p{N}])${escapeRegex(normalizedTerm)}(?:$|[^\\p{L}\\p{N}])`, 'u')
+      .test(normalizedHaystack);
+  }
+  return normalizedHaystack.includes(normalizedTerm);
 }
 
 function stripInlineMarkdown(value) {
@@ -270,12 +286,12 @@ function pageDescriptors(model, locale) {
 }
 
 function aliasesForEntry(entry, aliasManifest) {
-  const haystack = normalizeSearchText(`${entry.title} ${entry.chapter} ${entry.heading} ${entry.text}`);
+  const haystack = `${entry.title} ${entry.chapter} ${entry.heading} ${entry.text}`;
   const aliases = [];
   for (const group of aliasManifest.groups) {
-    if (!group.terms.some((term) => haystack.includes(normalizeSearchText(term)))) continue;
+    if (!group.terms.some((term) => containsAliasTerm(haystack, term))) continue;
     for (const term of group.terms) {
-      if (!haystack.includes(normalizeSearchText(term)) && !aliases.includes(term)) aliases.push(term);
+      if (!containsAliasTerm(haystack, term) && !aliases.includes(term)) aliases.push(term);
     }
   }
   return aliases;
@@ -344,9 +360,11 @@ function writeSearchIndex(repoRoot, model, locale, pages) {
 
 module.exports = {
   SEARCH_INDEX_MAX_BYTES,
+  SEARCH_INDEX_MAX_ENTRIES,
   SEARCH_INDEX_SCHEMA_VERSION,
   addGlossaryTermAnchors,
   baseKramdownId,
+  containsAliasTerm,
   glossaryTermId,
   loadAliasManifest,
   normalizeSearchText,

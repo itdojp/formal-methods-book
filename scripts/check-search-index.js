@@ -6,6 +6,7 @@ const path = require('path');
 const { loadPublicationModel } = require('./lib/publication-metadata');
 const { renderEditionPages } = require('./lib/publication-build');
 const {
+  SEARCH_INDEX_MAX_ENTRIES,
   SEARCH_INDEX_MAX_BYTES,
   pageDescriptors,
   renderSearchIndex,
@@ -43,6 +44,9 @@ function validateIndex(index, locale, expectedPages, errors) {
     return;
   }
   if (index.entryCount !== index.entries.length) errors.push(`${locale}: entryCount mismatch`);
+  if (index.entries.length > SEARCH_INDEX_MAX_ENTRIES) {
+    errors.push(`${locale}: ${index.entries.length} entries exceed the ${SEARCH_INDEX_MAX_ENTRIES} browser limit`);
+  }
 
   const ids = new Set();
   const urls = new Set();
@@ -108,11 +112,15 @@ function checkGenerated() {
   ]) {
     if (!layout.includes(marker) && marker !== 'aria-activedescendant') errors.push(`layout: missing ${marker}`);
   }
+  if (!layout.includes('maxlength="128"')) errors.push('layout: search query maxlength must remain 128');
   const browserSource = fs.readFileSync(path.join(repoRoot, 'docs/assets/js/search.js'), 'utf8');
   for (const marker of ['aria-activedescendant', 'ArrowDown', 'ArrowUp', 'Enter', 'Escape', 'fetchFunction']) {
     if (!browserSource.includes(marker)) errors.push(`search.js: missing ${marker}`);
   }
   if (/\.innerHTML\s*=|insertAdjacentHTML/u.test(browserSource)) errors.push('search.js: unsafe HTML-string rendering is forbidden');
+  if (!browserSource.includes(`const MAX_INDEX_ENTRIES = ${SEARCH_INDEX_MAX_ENTRIES};`)) {
+    errors.push(`search.js: browser entry limit must remain ${SEARCH_INDEX_MAX_ENTRIES}`);
+  }
   if (Buffer.byteLength(browserSource) > 64 * 1024) errors.push('search.js: initial-load asset exceeds 64 KiB budget');
 
   fail(errors);
@@ -179,6 +187,7 @@ function checkSite(siteArgument) {
     const localePath = locale === 'ja' ? '' : '/en';
     for (const marker of [
       '<nav class="sidebar-nav"',
+      'maxlength="128"',
       `data-index-url="/${model.manifest.project.id}/assets/search-index.${locale}.json"`,
       `href="/${model.manifest.project.id}${localePath}/glossary/"`,
     ]) {

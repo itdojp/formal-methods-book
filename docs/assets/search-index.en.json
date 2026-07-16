@@ -183,10 +183,7 @@
       "heading": "Introduction",
       "url": "/formal-methods-book/en/introduction/#introduction",
       "text": "Translation status: Partial. Reviewed against Japanese source commit 83d031100ae7 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. Many books on formal methods force readers into one of two unsatisfying choices. Some stay close to mathematics and never fully explain the engineering payoff. Others focus on a single tool and never show how that tool fits into the broader landscape. This book is written for readers who need a third option: a rigorous but practical guide to formal methods as an engineering discipline.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "06f88ee5863786a4",
@@ -470,10 +467,7 @@
       "heading": "What Test-Driven Development Achieves and Where It Stops",
       "url": "/formal-methods-book/en/chapters/chapter01/#what-test-driven-development-achieves-and-where-it-stops",
       "text": "Test-driven development (TDD) is one of the most important practices in modern software engineering. By writing tests before code, teams clarify expected behavior and often improve quality significantly. TDD has real value and many demonstrated successes. Still, TDD has structural limits. The most important is that testing does not prove correctness. It only checks behavior under the conditions represented by the chosen tests. As the Ariane 5 case showed, successful behavior in Ariane 4 did not establish correctness for Ariane 5. In mathematical terms, TDD can provide existential evidence but not universal proof. It can show that a specific input produces a desired output. It cannot establish that every possible input produces a correct result.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "70b529f05bc4f9f0",
@@ -759,10 +753,7 @@
       "heading": "Functions: Abstraction of the Relationship Between Input and Output",
       "url": "/formal-methods-book/en/chapters/chapter02/#functions-abstraction-of-the-relationship-between-input-and-output",
       "text": "Program functions and mathematical functions are, at their core, the same kind of object. They accept inputs, perform a transformation, and produce outputs. The mathematical function f(x) = x² and the program function square(x) { return x x; } use different notation, but they express the same idea. Programming functions, however, often have something mathematics usually hides: side effects. A function may write to a file, update a screen, modify shared state, or trigger communication with another system. Even these side effects can be described mathematically if we view a function as an operation that transforms system state. This perspective becomes central in Chapter 5 on Z notation, where operations are described rigorously as transformations from a pre-state to a post-state. It also appears again in Chapter 10, where Hoare logic expresses the correctness of state-changing programs by means of preconditions and postconditions.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "92c8dc8af40ab931",
@@ -858,10 +849,7 @@
       "heading": "The Power of Mathematical Specification",
       "url": "/formal-methods-book/en/chapters/chapter02/#the-power-of-mathematical-specification",
       "text": "A mathematical specification removes that ambiguity. For an authentication function, one possible specification is: Pseudo notation: This is far more explicit than a purely informal description. It makes the type of the function clear, identifies the precondition, and states the guarantees the function must satisfy.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "edf700b32d612276",
@@ -873,10 +861,7 @@
       "heading": "Correspondence with the Implementation",
       "url": "/formal-methods-book/en/chapters/chapter02/#correspondence-with-the-implementation",
       "text": "Implementation means writing code that satisfies the specification. But what does \"satisfies\" mean? In formal methods, this is the notion of conformance. An implementation conforms to a specification if, mathematically speaking, the following conditions hold: for every input that satisfies the precondition, the implementation terminates; the output satisfies the postcondition; and the implementation does not produce any side effects that the specification forbids. This definition may sound abstract, but it is concrete enough to be verified.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "b56fc1b0f48d2688",
@@ -1289,10 +1274,7 @@
       "heading": "Advanced Exercise: Analysis of Concurrency",
       "url": "/formal-methods-book/en/chapters/chapter02/#advanced-exercise-analysis-of-concurrency",
       "text": "Consider the following bank-transfer system: Pseudo notation: If both transactions run concurrently: define the state transitions for each transaction; enumerate all possible interleavings; calculate the result of each execution order; analyze whether inconsistency can arise; and propose constraints that would prevent inconsistency.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "173a2361098534d3",
@@ -1328,10 +1310,7 @@
       "heading": "Exercise 2: Preparing for Z Notation",
       "url": "/formal-methods-book/en/chapters/chapter02/#exercise-2-preparing-for-z-notation",
       "text": "Analyze the basic operations of a bank-account system as state transformations: State schema: define the account state, including balance and account number, as a set of variables. Operation schemas: describe deposit, withdrawal, and transfer using preconditions and postconditions. Error handling: formalize exceptional situations such as insufficient funds. Operation composition: describe compound operations built from multiple basic operations. Why this exercise matters: it prepares the state-and-operation viewpoint used in Chapter 5.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "358e39d224460524",
@@ -1549,10 +1528,7 @@
       "heading": "Preconditions: Assumptions of an Operation",
       "url": "/formal-methods-book/en/chapters/chapter03/#preconditions-assumptions-of-an-operation",
       "text": "A precondition is a condition that must hold for an operation to work correctly. It defines the range within which the operation makes its promise. Consider an operation that retrieves an element from an array. Pseudo notation: This precondition defines the caller's responsibility. If the caller invokes the operation without satisfying these conditions, the behavior of the operation is no longer guaranteed. Designing preconditions involves an important trade-off. Strict preconditions: simplify the implementation, but increase the burden on the caller Lenient preconditions: make the operation easier to use, but make the implementation more complex That trade-off reflects the overall design philosophy of the system. Defensive programming tends to prefer lenient preconditions, while Design by Contract usually prefers stricter ones.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "f390accd75fe6851",
@@ -1564,10 +1540,7 @@
       "heading": "Postconditions: Guarantees of an Operation",
       "url": "/formal-methods-book/en/chapters/chapter03/#postconditions-guarantees-of-an-operation",
       "text": "A postcondition is a condition that must hold after an operation completes. It defines the value the operation promises to provide. Continuing the array element retrieval example: Pseudo notation: A postcondition defines the implementer's responsibility. An implementation that fails to satisfy it violates the contract. When writing postconditions, it is important to state both what changes and what does not change. In this example, the specification guarantees not only that the returned value is correct, but also that the array itself remains unchanged.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "43703b67d4cf501b",
@@ -1639,10 +1612,7 @@
       "heading": "The Essential Meaning of Invariants",
       "url": "/formal-methods-book/en/chapters/chapter03/#the-essential-meaning-of-invariants",
       "text": "An invariant is a property that the system must always satisfy. It is one of the system's basic promises and a constraint that must not be broken by any valid operation. A useful analogy from the physical world is conservation of energy. Whatever physical process occurs, the total amount of energy is preserved. Software systems likewise have properties that should remain true regardless of which operation is performed. Invariants are a way of guaranteeing consistency. They appear at many levels, including database integrity constraints, object-state constraints, and system-wide resource constraints.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "aac63c3cce1beacb",
@@ -1978,10 +1948,7 @@
       "heading": "Advanced Exercise: Validating a Specification",
       "url": "/formal-methods-book/en/chapters/chapter03/#advanced-exercise-validating-a-specification",
       "text": "For the queue specification you created, perform the following checks. Consistency check: does any contradiction arise from combining different operations? Completeness check: are all expected usage patterns covered? Implementability check: is an efficient implementation satisfying the specification possible? Test strategy: what test cases are required if testing is derived from this specification? Working through these exercises should build practical skill in formal specification writing. The next chapter introduces Alloy as a concrete tool and shows how to automate parts of specification analysis and verification.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "eaa759f8754a28d5",
@@ -2065,10 +2032,7 @@
       "heading": "Background at MIT and Its Lasting Influence",
       "url": "/formal-methods-book/en/chapters/chapter04/#background-at-mit-and-its-lasting-influence",
       "text": "Alloy was developed by the Software Design Group at MIT. Daniel Jackson argued that many software failures are not implementation problems but conceptual design problems. According to this view, the decisive mistakes are often made before any code is written. That insight shaped Alloy. It is specialized for modeling the essential structure and behavior of a system without committing to implementation details. It intentionally stays away from programming-language details, low-level optimization, and concrete algorithms, and instead focuses on high-level design questions such as what the system does and which constraints it must satisfy.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "83cbc3e926a6a747",
@@ -2080,10 +2044,7 @@
       "heading": "Adoption in Industry and Successful Use Cases",
       "url": "/formal-methods-book/en/chapters/chapter04/#adoption-in-industry-and-successful-use-cases",
       "text": "Alloy began as an academic tool, but it is now used in practice as well, especially for finding specification holes and consistency violations early by means of bounded checking during design. What Alloy Analyzer provides is bounded exploration within a given scope. The guarantee is therefore only that no counterexample exists within that scope. If you want to claim a more general result, you need an additional argument for why the chosen abstraction and scope are adequate, for example by appealing to the small-scope hypothesis. References (primary or official sources): Alloy Tools (official): Daniel Jackson, \\\"Alloy: A lightweight object modelling notation\\\" (2002): Figure 4-1: The overall Alloy approach to lightweight formal methods",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "ba1f0a80114735b7",
@@ -2436,9 +2397,7 @@
       "text": "Alloy Analyzer is the tool that actually explores the model. It applies model checking within the chosen scope, searching all possible instances in that bounded space and reporting constraint violations or unexpected behavior. The basic workflow is: Generate instances: produce structures that satisfy the facts. Check properties: test whether a target property holds. Find counterexamples: if the property fails, produce a concrete failing instance. Analyze results: use the result to improve the model.",
       "aliases": [
         "模型検査",
-        "モデル検査",
-        "強公平性",
-        "strong fairness"
+        "モデル検査"
       ]
     },
     {
@@ -2451,10 +2410,7 @@
       "heading": "First Check: Generating Instances",
       "url": "/formal-methods-book/en/chapters/chapter04/#first-check-generating-instances",
       "text": "The first step is often to confirm that the model has meaningful instances. Using the address-book example: 【Context-dependent snippet】 The command run checks whether an instance satisfying the constraints exists. The scope for 3 means that the exploration may use at most three atoms of the relevant signatures.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "1ccb2f19ff2bd741",
@@ -2466,10 +2422,7 @@
       "heading": "Assertions: Checking Properties",
       "url": "/formal-methods-book/en/chapters/chapter04/#assertions-checking-properties",
       "text": "The keyword assert lets us state properties that the model is expected to satisfy. 【Context-dependent snippet】 The command check looks for a counterexample to the assertion. If one is found, the analyzer shows a concrete instance.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "e42886d47091c8d6",
@@ -2553,10 +2506,7 @@
       "heading": "Example: The Trash Model",
       "url": "/formal-methods-book/en/chapters/chapter04/#example-the-trash-model",
       "text": "examples/alloy/trash-temporal.als is a minimal model with a set File and a mutable subset Trash. Delete and restore operations are described as transitions, and a simple safety property is checked. 【Context-dependent snippet】 Command-line execution: 【Context-dependent snippet】 How to read the results: run checks for the existence of a trace. SAT means that a trace satisfying the condition exists. check looks for a counterexample. UNSAT means that no counterexample was found within the given scope and step bound. It does not mean that a general proof has been established outside those bounds. Generated artifacts: The trace is written to .artifacts/alloy/trash-temporal/example-solution-0.md. To visualize it in the GUI, run java -jar tools/.cache/alloy-6.2.0.jar gui and step through the states interactively.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "f002d895bff247b0",
@@ -2688,10 +2638,7 @@
       "heading": "Basic Exercise 2: Writing Constraints",
       "url": "/formal-methods-book/en/chapters/chapter04/#basic-exercise-2-writing-constraints",
       "text": "For an online library system, write Alloy constraints satisfying the following requirements. Requirements: A user may borrow multiple books. A book may not be lent to multiple people at the same time. A user may borrow at most five books. A user with overdue items may not borrow new books. Every book has a due date. Define the necessary signatures and facts.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "385d478a1f851871",
@@ -2703,10 +2650,7 @@
       "heading": "Practical Exercise 1: Modeling a Security Policy",
       "url": "/formal-methods-book/en/chapters/chapter04/#practical-exercise-1-modeling-a-security-policy",
       "text": "Model a file access-control system in Alloy that satisfies the following requirements. Functional requirements: Users can own files. Files are either read-only or read-write. Groups can be created and users can be added to them. Files can be shared with groups. Security requirements: The owner can always access the file. Group members can access only files shared with that group. Writing to a read-only file is forbidden. Administrators can access all files. Tasks: Define appropriate signatures. Write facts for the constraints. Write assertions for the security properties. Verify them using check.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "7210c00a31d0d767",
@@ -2781,10 +2725,7 @@
       "heading": "A State-Centered Worldview",
       "url": "/formal-methods-book/en/chapters/chapter05/#a-state-centered-worldview",
       "text": "The defining feature of Z notation is its state-centered worldview. A system is understood as a combination of state and operations that transform that state. This viewpoint is close to database design and state-machine thinking. When we think in state-centered terms, we first identify the information the system must carry, namely its state variables. Next, we define invariants over those variables. Only then do we describe the operations that change the state. That order matters. It is impossible to discuss whether an operation is correct unless the valid states of the system are already understood. Consider a library system. A conventional object-oriented approach may start from a Book object or a Member object. Z begins elsewhere: what is the state of the library? Which books exist, which are on loan, and who has borrowed which book? Those pieces of information and their relations define the system state.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "e915cbb12f9af23b",
@@ -3048,10 +2989,7 @@
       "heading": "Operations as State Transformations",
       "url": "/formal-methods-book/en/chapters/chapter05/#operations-as-state-transformations",
       "text": "In Z notation, an operation is understood as a state transformation. It defines the mathematical relation between a pre-state and a post-state. That viewpoint makes it possible to reason rigorously about correctness and about how operations interact. An operation schema describes the current state, the next state, any inputs, and any outputs. It makes explicit not only what the operation changes, but also what it leaves unchanged.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "fb6f3771b07998b0",
@@ -3183,10 +3121,7 @@
       "heading": "Schema Composition",
       "url": "/formal-methods-book/en/chapters/chapter05/#schema-composition",
       "text": "The most basic schema-calculus operation is composition through logical operators. Composition by conjunction (∧): 【擬似記法】 This defines an operation that must satisfy both the authentication constraint and the system-operation constraint. Composition by disjunction (∨): 【擬似記法】 This schema allows one of several payment mechanisms.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "13e3fcfbb050b00c",
@@ -3474,10 +3409,7 @@
       "heading": "Practical Exercise 1: Modeling a Banking System",
       "url": "/formal-methods-book/en/chapters/chapter05/#practical-exercise-1-modeling-a-banking-system",
       "text": "Model a banking system in Z notation that satisfies the following requirements. Basic elements: customers (name, address, phone number); accounts (account number, balance, type, owner); and transactions (transaction ID, account, amount, timestamp, type). Constraints: account balances are non-negative; every account has an owner; transactions apply only to existing accounts; and account numbers are unique. Operations: opening an account; depositing money; withdrawing money; and transferring funds between accounts. Tasks: define the state schema; define the operation schema for each operation; and identify the key invariants.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "c0066607413bfdad",
@@ -3489,10 +3421,7 @@
       "heading": "Practical Exercise 2: Using Schema Calculus",
       "url": "/formal-methods-book/en/chapters/chapter05/#practical-exercise-2-using-schema-calculus",
       "text": "For the banking system from the previous exercise, use schema calculus to achieve the following goals. Define secure operations add authentication checks to every operation; automate logging. Integrate error handling combine normal and error cases consistently; define a uniform error response style. Represent transaction atomicity express transfer as a composition of withdrawal and deposit; handle rollback when an error occurs midway.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "ed8f330296e2a3f1",
@@ -3732,10 +3661,7 @@
       "heading": "Primitive Processes",
       "url": "/formal-methods-book/en/chapters/chapter06/#primitive-processes",
       "text": "All the richer systems described in CSP are built from a small number of basic processes. Understanding these primitives is the foundation of the notation. STOP: a process that does nothing and cannot proceed, representing a deadlock state. 【Context-dependent snippet】 SKIP: a process that terminates successfully. 【Context-dependent snippet】 Simple event processes: 【擬似記法】 These primitives are like notes in music: by combining a small vocabulary, we obtain rich behavior.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "386574423d07feff",
@@ -4326,10 +4252,7 @@
       "heading": "Practical Exercise 1: Designing an ATM System",
       "url": "/formal-methods-book/en/chapters/chapter06/#practical-exercise-1-designing-an-atm-system",
       "text": "Model an ATM system in CSP satisfying the following requirements. Basic functions: card insertion and PIN entry; balance inquiry, withdrawal, and deposit; and receipt printing and card ejection. Concurrency requirements: multiple ATMs access the same banking system; each ATM serves at most one customer at a time; and access to the central banking system must be controlled safely. Safety requirements: prevent unauthorized access; reject withdrawals when funds are insufficient; and stop safely under network failure. Tasks: define the main processes; define the resource-management mechanism; integrate error handling; and compose the whole system.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "900f5a6549327a8d",
@@ -4577,8 +4500,7 @@
       "text": "TLA+ uses temporal logic to express dynamic properties of behavior. TLA+ uses state predicates and actions to describe transitions, then temporal formulas to describe properties of complete behaviors. The basic notation for behavior properties, together with the fairness assumptions used for liveness, is: []P (always): P holds in every state; <>P (eventually): P holds in some future state; P > Q (leads-to): whenever P holds, Q eventually follows, an abbreviation for [](P => <>Q); and WFvars(A) / SFvars(A): weak and strong fairness assumptions for action A. This book also uses □ / ◇ as mathematical typography, while TLA+ input uses [] / <>. 【Pseudo notation】 The first formula says that the process becomes ready infinitely often. The second says that the system eventually reaches a stable condition and stays there. The third says that each state satisfying request is eventually followed by one satisfying response.",
       "aliases": [
         "TLA Plus",
-        "弱公平性",
-        "weak fairness",
+        "SF",
         "強公平性"
       ]
     },
@@ -4777,9 +4699,7 @@
       "url": "/formal-methods-book/en/chapters/chapter07/#the-complexity-of-a-transfer-operation",
       "text": "Transfers are more complex because several parts of the state must be updated consistently. 【擬似記法】",
       "aliases": [
-        "TLA Plus",
-        "強公平性",
-        "strong fairness"
+        "TLA Plus"
       ]
     },
     {
@@ -4807,9 +4727,7 @@
       "url": "/formal-methods-book/en/chapters/chapter07/#nondeterministic-choice",
       "text": "A TLA+ next-state relation often combines many possible actions. 【擬似記法】 The system may take any of these actions, provided the chosen action's constraints are satisfied.",
       "aliases": [
-        "TLA Plus",
-        "強公平性",
-        "strong fairness"
+        "TLA Plus"
       ]
     },
     {
@@ -5139,9 +5057,7 @@
       "aliases": [
         "TLA Plus",
         "模型検査",
-        "モデル検査",
-        "強公平性",
-        "strong fairness"
+        "モデル検査"
       ]
     },
     {
@@ -5327,9 +5243,7 @@
       "aliases": [
         "TLA Plus",
         "模型検査",
-        "モデル検査",
-        "弱公平性",
-        "weak fairness"
+        "モデル検査"
       ]
     },
     {
@@ -5371,9 +5285,7 @@
       "url": "/formal-methods-book/en/chapters/chapter07/#a-formal-definition-of-consensus",
       "text": "A distributed consensus algorithm is expected to satisfy three standard properties. Agreement: any nodes that decide must decide the same value. Validity: the chosen value must have been proposed by some node. Termination: all non-faulty nodes eventually decide. In TLA+, we can express them as follows. 【擬似記法】",
       "aliases": [
-        "TLA Plus",
-        "強公平性",
-        "strong fairness"
+        "TLA Plus"
       ]
     },
     {
@@ -5457,9 +5369,7 @@
       "url": "/formal-methods-book/en/chapters/chapter07/#safety-guarantees",
       "text": "Raft should satisfy several important safety invariants. 【擬似記法】",
       "aliases": [
-        "TLA Plus",
-        "強公平性",
-        "strong fairness"
+        "TLA Plus"
       ]
     },
     {
@@ -5487,9 +5397,7 @@
       "url": "/formal-methods-book/en/chapters/chapter07/#liveness-guarantees",
       "text": "Raft also aims to satisfy progress properties, subject to fairness and network assumptions. 【擬似記法】",
       "aliases": [
-        "TLA Plus",
-        "強公平性",
-        "strong fairness"
+        "TLA Plus"
       ]
     },
     {
@@ -6053,9 +5961,7 @@
       "text": "Counterexamples are central to model checking. If AG(safe) does not hold: the counterexample is a path from an initial state to an unsafe state equivalently, some execution satisfies EF(!safe) If AF(goal) does not hold: the counterexample is an infinite path that never reaches the goal equivalently, some execution satisfies EG(!goal)",
       "aliases": [
         "模型検査",
-        "モデル検査",
-        "強公平性",
-        "strong fairness"
+        "モデル検査"
       ]
     },
     {
@@ -6090,9 +5996,7 @@
       "text": "Effective property descriptions usually follow a few principles: Be concrete and checkable: avoid ambiguity and refer to explicit states and events Refine incrementally: start with simple properties and grow toward more complex ones Think about counterexamples: decide whether a violating trace would truly indicate a defect Use realistic assumptions: avoid idealized properties that the system cannot actually satisfy",
       "aliases": [
         "模型検査",
-        "モデル検査",
-        "強公平性",
-        "strong fairness"
+        "モデル検査"
       ]
     },
     {
@@ -6588,9 +6492,7 @@
       "text": "The short SPIN, NuSMV, and CBMC fragments in this chapter are context-dependent snippets, even when their syntax matches the real tools, because execution still depends on launch options, generated artifacts, and surrounding model context. CI-backed executability is limited to the contract blocks below, which retrieve the shared JA/EN canonical assets from examples/ch08/ through the manifest runner. Repository-wide, pr-quick and nightly are separated, and the contracts in this section stay on nightly to keep pull-request latency controlled. Normalized execution evidence is expected under .artifacts/manifest//, and readers should retrieve the canonical files from the same repository revision instead of copying the short inline fragments by themselves. spin-ltl-properties: canonical asset examples/ch08/spin/ltl-properties.pml; lane nightly; pinned version SPIN 6.5.2; expected success marker errors: 0. Retrieve examples/ch08/spin/ltl-properties.pml from the same commit as the manuscript. 【Tool-compliant (runs as-is)】 spin-producer-consumer: canonical asset examples/ch08/spin/producer-consumer.pml; lane nightly; pinned version SPIN 6.5.2; expected success marker errors: 0. Retrieve the self-contained Promela source from examples/ch08/spin/producer-consumer.pml in the same revision. 【Tool-compliant (runs as-is)】 nusmv-fairness: canonical asset examples/ch08/nusmv/fairness.smv; lane nightly; pinned version NuSMV 2.7.1; expected success marker -- is true. Retrieve the shared JA/EN asset from examples/ch08/nusmv/fairness.smv. 【Tool-compliant (runs as-is)】 nusmv-request-response: canonical asset examples/ch08/nusmv/request-response.smv; lane nightly; pinned version NuSMV 2.7.1; expected result -- is false, representing the intentional counterexample while the NuSMV process itself exits successfully. Retrieve examples/ch08/nusmv/request-response.smv from the same repository revision. 【Tool-compliant (runs as-is)】 cbmc-array-bounds: canonical asset examples/ch08/cbmc/array-bounds.c; lane nightly; pinned version CBMC 6.10.0; expected success marker VERIFICATION SUCCESSFUL. Retrieve the full source file from examples/ch08/cbmc/array-bounds.c instead of copying the inline excerpt alone. 【Tool-compliant (runs as-is)】",
       "aliases": [
         "模型検査",
-        "モデル検査",
-        "強公平性",
-        "strong fairness"
+        "モデル検査"
       ]
     },
     {
@@ -6686,9 +6588,7 @@
       "text": "Evaluation phase: try the tool on a small example evaluate learning cost and expected benefit check compatibility with the existing development process Introduction phase: run a pilot project share knowledge within the team expand the scope gradually Institutionalization phase: update tools regularly accumulate reusable verification patterns transfer the lessons to other projects The right tool choice has decisive influence on the success of model checking. Technical features matter, but so do team capability, project constraints, and long-term strategy.",
       "aliases": [
         "模型検査",
-        "モデル検査",
-        "強公平性",
-        "strong fairness"
+        "モデル検査"
       ]
     },
     {
@@ -6879,10 +6779,7 @@
       "heading": "Constructive Mathematics and Classical Mathematics",
       "url": "/formal-methods-book/en/chapters/chapter09/#constructive-mathematics-and-classical-mathematics",
       "text": "Proof assistants often work in a constructive mathematics setting. In constructive reasoning, an existence proof should provide an actual construction. Classical proof: \"√2 is irrational.\" One may prove this by contradiction. Constructive proof: \"Algorithm A produces, for every input n, an output satisfying property P.\" The proof defines A and then proves its correctness. Constructive proofs may allow algorithms with computational content to be extracted. Claims about the generated executable also require a trust argument for the extractor, code generator, compiler, and runtime.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "fd8dc1ac3e40bab0",
@@ -7044,10 +6941,7 @@
       "heading": "Reasoning with Equality",
       "url": "/formal-methods-book/en/chapters/chapter09/#reasoning-with-equality",
       "text": "Equality is central in mathematics and program verification. It satisfies the familiar principles: Reflexivity: Symmetry: Transitivity: Substitution:",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "582ace6eb6846f6b",
@@ -7134,10 +7028,7 @@
       "heading": "The Evolution of the Concept of a Type",
       "url": "/formal-methods-book/en/chapters/chapter09/#the-evolution-of-the-concept-of-a-type",
       "text": "In early programming languages, a type was mostly a description of memory layout. Type theory transformed that idea. A type became a way to express logical properties of programs. In modern type theory, types and programs are deeply linked. Writing a correct program and proving a theorem become instances of the same general activity. This is one of the most elegant unifications in computer science.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "5d0ad4ab4d51e32a",
@@ -8049,10 +7940,7 @@
       "heading": "Where Verification Fits in the Evolution of Quality Assurance",
       "url": "/formal-methods-book/en/chapters/chapter10/#where-verification-fits-in-the-evolution-of-quality-assurance",
       "text": "Traditional software quality assurance has relied mainly on testing: unit tests, integration tests, system tests, and acceptance tests. These methods remain important and continue to contribute substantially to quality. Figure 10-1: The correctness-verification pyramid and the relationship between assurance and verification cost Testing, however, has an inherent limitation. It can confirm behavior for particular inputs, but it cannot guarantee correctness for all possible inputs. As Edsger Dijkstra famously put it, testing can show the presence of bugs, not their absence. Program verification addresses that limit. By means of mathematical proof, it can guarantee that a program satisfies its specification for every possible execution considered by the model. That is a genuine shift in the quality assurance paradigm.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "318cf37bdc359a92",
@@ -8101,9 +7989,7 @@
       "url": "/formal-methods-book/en/chapters/chapter10/#the-relationship-to-formal-specifications",
       "text": "Program verification is closely connected to the formal specification methods introduced earlier in the book. A system may first be described in Z, Alloy, or TLA+, and then implemented in a programming language. Verification then proves that the implementation satisfies the specification. This relationship is not one-way. During verification, incompleteness or ambiguity in the specification is often discovered. Verification therefore improves both the code and the specification.",
       "aliases": [
-        "TLA Plus",
-        "強公平性",
-        "strong fairness"
+        "TLA Plus"
       ]
     },
     {
@@ -8188,10 +8074,7 @@
       "heading": "Hoare Triples: The Basic Unit of Program Reasoning",
       "url": "/formal-methods-book/en/chapters/chapter10/#hoare-triples-the-basic-unit-of-program-reasoning",
       "text": "The basic form of Hoare logic is the Hoare triple: Here: P is the precondition S is the program statement Q is the postcondition The meaning is: if the initial state satisfies P, then after executing S, the final state satisfies Q. This describes partial correctness; termination is not yet guaranteed.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "e046308bdcf652e5",
@@ -8215,10 +8098,7 @@
       "heading": "Weakest Preconditions and Strongest Postconditions",
       "url": "/formal-methods-book/en/chapters/chapter10/#weakest-preconditions-and-strongest-postconditions",
       "text": "Two important concepts underpin Hoare logic: weakest precondition WP(S, Q): the weakest condition sufficient to guarantee postcondition Q after running S strongest postcondition SP(P, S): the strongest property guaranteed after running S from a state satisfying P Example: To end with x > 10, the input state must satisfy x > 9. Another example: These notions are fundamental for verification-condition generation and proof automation.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "d4083be1661521b4",
@@ -8530,10 +8410,7 @@
       "heading": "Proving Termination",
       "url": "/formal-methods-book/en/chapters/chapter10/#proving-termination",
       "text": "To obtain total correctness, termination must also be proved. This is done with a variant function. A variant V should satisfy: non-negativity: V >= 0 strict decrease: each loop iteration decreases V Example: counting loop Each iteration increases i, so V decreases by 1 until it reaches 0. Example: binary search The search range shrinks on every iteration, so the variant decreases.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "a95a63e1eaa5fe93",
@@ -8779,10 +8656,7 @@
       "heading": "Dafny: Practical Verification-Oriented Programming",
       "url": "/formal-methods-book/en/chapters/chapter10/#dafny-practical-verification-oriented-programming",
       "text": "Dafny allows specifications and implementations to live in the same language. It was created at Microsoft Research and is used both pedagogically and practically. The ensures clauses express the postcondition. Dafny verifies automatically that the implementation satisfies it. Loop invariants are likewise written explicitly:",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "ba9403d70f2d89b6",
@@ -8818,10 +8692,7 @@
       "heading": "SMT Solvers",
       "url": "/formal-methods-book/en/chapters/chapter10/#smt-solvers",
       "text": "SMT (Satisfiability Modulo Theories) solvers are a core technology behind many modern verification tools. They decide satisfiability of logical formulas over theories such as arithmetic, arrays, and bit-vectors. They are especially effective for: linear arithmetic array reads and writes bit-vector reasoning quantifier-free first-order reasoning Major SMT solvers include: Z3 CVC4/CVC5 Yices",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "7daa17a81ee2a221",
@@ -8869,10 +8740,7 @@
       "heading": "Success Factors in Real Projects",
       "url": "/formal-methods-book/en/chapters/chapter10/#success-factors-in-real-projects",
       "text": "Successful verification in real projects depends on three kinds of factors. Technical factors: choosing suitable tools managing complexity incrementally adopting verification-friendly designs Organizational factors: management support team-wide skill development willingness to invest with a long-term perspective Process factors: integration with the existing development workflow continuous improvement accumulation and sharing of knowledge Practical program verification succeeds when theory, tooling, and organizational discipline reinforce one another.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "14c287e65eff538f",
@@ -8992,10 +8860,7 @@
       "heading": "The Gap Between Ideals and Reality",
       "url": "/formal-methods-book/en/chapters/chapter11/#the-gap-between-ideals-and-reality",
       "text": "The formal methods introduced in the earlier chapters are mathematically elegant and theoretically satisfying. Real software projects, however, are not executed in ideal conditions. Budgets are limited, schedules are tight, team skill levels vary, legacy systems must be integrated, and requirements change. Whether formal methods succeed in practice depends on how well they are applied under these constraints. The ideal is \"complete proof of every program.\" The practical objective is \"efficient assurance of the properties that matter most.\" Accepting that shift in perspective is the starting point for realistic adoption.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "c9197128c3404e26",
@@ -9079,10 +8944,7 @@
       "heading": "Measuring ROI",
       "url": "/formal-methods-book/en/chapters/chapter11/#measuring-roi",
       "text": "Formal methods require investment: tools, education, additional design effort, and often temporary slowdown. Measuring return on that investment is therefore important. Quantitative indicators: number and severity of defects discovered reduction in testing effort reduction in post-release incidents improvement in maintenance or repair efficiency Qualitative indicators: improved understandability of code and specifications improved clarity of intent improved confidence within the team improved customer trust and satisfaction",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "dfe8df73c282aa14",
@@ -9118,10 +8980,7 @@
       "heading": "Why Starting Small Is Strategically Important",
       "url": "/formal-methods-book/en/chapters/chapter11/#why-starting-small-is-strategically-important",
       "text": "\"Start small\" is not merely cautious advice. It is a strategic necessity. Attempting organization-wide transformation in one move often fails due to technical difficulty, organizational resistance, and lack of available resources. Beginning with a small success allows the organization to accumulate value in stages: learning opportunities in a low-risk environment trust building through visible outcomes skill growth through practice tool familiarity without large-scale disruption",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "02b6ec074d4717c1",
@@ -9145,10 +9004,7 @@
       "heading": "Stage 1: Proof of Concept",
       "url": "/formal-methods-book/en/chapters/chapter11/#stage-1-proof-of-concept",
       "text": "The goal of Stage 1 is not perfection. The goal is to prove that formal methods can be applied successfully in the organization at all. Typical scope: verification of one important function or algorithm formalization of one small security-critical module verified reimplementation of a defect-prone area Typical parameters: duration: two to four weeks participants: one or two technical leaders deliverables: working formal specification, verified implementation, and a short results report At this stage, feasibility matters more than exhaustiveness.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "53a2f4d2af757c17",
@@ -9172,10 +9028,7 @@
       "heading": "Stage 3: Department-Level Rollout",
       "url": "/formal-methods-book/en/chapters/chapter11/#stage-3-department-level-rollout",
       "text": "Once limited use is successful, the next step is rollout at departmental scale. At this stage, process definition and people development become more important than the mechanics of any one proof. Typical scope: gradual use of formal methods in new departmental projects targeted formalization of critical parts of existing systems departmental standardization of selected methods Typical parameters: duration: six months to one year participants: a department-scale technical organization deliverables: standards, education materials, and a common toolset The key challenge here is sustainability.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "87d4a4a230d38964",
@@ -9439,10 +9292,7 @@
       "heading": "Collaboration with External Experts",
       "url": "/formal-methods-book/en/chapters/chapter11/#collaboration-with-external-experts",
       "text": "When internal skill is still limited, effective collaboration with outside specialists becomes important. Typical patterns include: Ensuring knowledge transfer: one-on-one mentoring pair work between specialists and internal engineers systematic documentation of specialist knowledge",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "293decd576029d93",
@@ -9586,10 +9436,7 @@
       "heading": "11.6 Transforming Organizational Culture",
       "url": "/formal-methods-book/en/chapters/chapter11/#116-transforming-organizational-culture",
       "text": "11.6 Transforming Organizational Culture",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "e4f6543acb20dc72",
@@ -9601,10 +9448,7 @@
       "heading": "A Cultural Shift Beyond Technical Change",
       "url": "/formal-methods-book/en/chapters/chapter11/#a-cultural-shift-beyond-technical-change",
       "text": "Successful adoption of formal methods is not just a technical upgrade. It is a change in values, working habits, and decision-making norms. Moving from \"working code is enough\" to \"code should also be explainable and verifiable\" requires cultural change. This kind of change is slower than tool learning. Individuals may acquire new technical skills in months. Organizations often need years to absorb a new quality culture. But once such a culture is established, it can become a durable source of competitive advantage.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "a8ddf3e1ec085b9f",
@@ -9616,10 +9460,7 @@
       "heading": "Understanding the Current Culture",
       "url": "/formal-methods-book/en/chapters/chapter11/#understanding-the-current-culture",
       "text": "Effective transformation begins with understanding the culture that already exists. Many organizations operate with value patterns such as: strong preference for speed preference for practical results over theory decision-making based heavily on senior experience quality management centered on reacting to problems after they appear These are not inherently bad values, but some of them can conflict with the discipline required by formal methods. It is also useful to examine the decision-making style of the organization: are arguments data-driven, experience-driven, or authority-driven? is the organization risk-tolerant or stability-oriented? are short-term results valued more than long-term capability? is quality defined minimally or aspirationally?",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "ad9fa053939a3871",
@@ -9643,10 +9484,7 @@
       "heading": "Developing Change Leaders",
       "url": "/formal-methods-book/en/chapters/chapter11/#developing-change-leaders",
       "text": "Cultural transformation needs internal champions. Technical champions should have: deep practical understanding of formal methods technical credibility ability to teach and guide others Typical responsibilities: answer technical questions share concrete examples and patterns evaluate tools and methods Organizational champions should have: experience in organizational change strong communication with management ability to plan and track rollout Typical responsibilities: design the transformation plan remove organizational obstacles report outcomes to leadership Both kinds of leaders matter. One without the other is rarely enough.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "d9e88bf506cc7de1",
@@ -9670,10 +9508,7 @@
       "heading": "A Staged Process of Cultural Transformation",
       "url": "/formal-methods-book/en/chapters/chapter11/#a-staged-process-of-cultural-transformation",
       "text": "Cultural change itself usually proceeds in phases. Stage 1: awareness and understanding (0 to 6 months): executive briefings sharing of external success stories internal training on basic concepts Stage 2: experimentation and learning (6 to 12 months): pilot projects expert support measurement and sharing of early outcomes Stage 3: adoption and spread (1 to 2 years): department-level standardization development of internal experts optimization of process integration Stage 4: integration and stabilization (2 to 3 years): enterprise-level establishment integration into onboarding and education continuous improvement mechanisms",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "67e79f1ed3ed02b2",
@@ -9685,10 +9520,7 @@
       "heading": "Indicators of Successful Cultural Change",
       "url": "/formal-methods-book/en/chapters/chapter11/#indicators-of-successful-cultural-change",
       "text": "Useful quantitative indicators include: adoption rate across projects participation in training and internal study groups proportion of engineers with baseline competence employee satisfaction with the new practices Useful qualitative indicators include: increase in self-directed learning increase in cross-team knowledge exchange increase in improvement proposals visible persistence of continuous-improvement behavior",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "6e48cb2a31c17596",
@@ -9736,10 +9568,7 @@
       "heading": "Comprehension Exercise 2: Organizational-Culture Analysis",
       "url": "/formal-methods-book/en/chapters/chapter11/#comprehension-exercise-2-organizational-culture-analysis",
       "text": "Analyze your own organization, or a realistic hypothetical one, from the perspective of introducing formal methods. Items to analyze: Current technical culture decision-making style risk tolerance quality philosophy attitude toward learning Obstacles to change individual resistance factors team-level obstacles organizational constraints Enablers of change existing strengths likely internal change agents possible support mechanisms Cultural transformation strategy staged change plan resistance-reduction measures actions that promote success Suggested analysis outline summarize the current culture in one or two paragraphs identify the main adoption blockers and likely enablers propose a staged cultural change strategy with concrete actions",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "76a5ee0e735210d8",
@@ -9862,10 +9691,7 @@
       "heading": "Evaluating the ROI of Tool Investments",
       "url": "/formal-methods-book/en/chapters/chapter12/#evaluating-the-roi-of-tool-investments",
       "text": "Investment in tools should be judged in terms of business value, not just technical curiosity. Direct effects: Quantifiable gains such as shorter development time, earlier bug detection, and reduced testing effort. Indirect effects: Long-term value such as better design quality, accumulation of reusable knowledge, and improvement in team capability. Opportunity cost: Compare the outcome of investing in tool adoption with the outcome of investing the same resources in other improvement efforts. Risk reduction: Estimate the value of avoiding potential risks such as severe defects, costly redesign, or lower customer satisfaction. It is important to evaluate tool investment from all of these perspectives and align the decision with the organization’s strategic goals.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "9e48775f327d972a",
@@ -9939,10 +9765,7 @@
       "heading": "Typical Problems During Introduction and How to Address Them",
       "url": "/formal-methods-book/en/chapters/chapter12/#typical-problems-during-introduction-and-how-to-address-them",
       "text": "Real deployments often encounter unexpected issues, so it is important to prepare mitigations in advance. Underestimating the learning cost: A tool may look easy in a vendor demo, but mastering it in practice often takes much longer than expected. Adoption therefore needs a realistic learning plan and a staged capability-building strategy. Scalability problems: A tool may work well on a small example but show performance or usability problems on a real project. Pre-adoption scalability testing and fallback options are important. Conflict with the existing toolchain: A new tool may interfere with existing development tools and produce unexpected failures. A staged rollout and a rollback plan are necessary. Mismanaging expectations: Overestimating what a tool can do creates disappointment and can lead to abandonment. Adoption needs realistic goals and incremental results. Recognizing these problems in advance and preparing appropriate responses can substantially increase the probability of successful adoption.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "d6472764b2fe4e9a",
@@ -10050,10 +9873,7 @@
       "heading": "The Possibilities and Limits of Generating Code from Formal Specifications",
       "url": "/formal-methods-book/en/chapters/chapter12/#the-possibilities-and-limits-of-generating-code-from-formal-specifications",
       "text": "Automatically generating code from formal specifications is one of the most appealing applications of formal methods, but it is important to understand both its possibilities and its limits accurately. Where fully automatic generation fits: High-quality code generation is possible in areas where the relevant mathematical properties are clearly defined and the implementation options are constrained. Examples include protocol stacks, state machines, data transformation logic, and constraint checking. In these areas, the abstraction level of the specification is relatively close to the abstraction level of the implementation, which makes mechanical transformation feasible. The value of partial assistance: Even when complete code generation is unrealistic, there is still substantial value in partial assistance such as generating code skeletons, interface definitions, or test cases. These forms of assistance help prevent omissions and inconsistencies during implementation. Quality constraints on generated code: Automatically generated code usually prioritizes correctness over readability and maintainability. Performance optimization and platform-specific adaptation are also limited. Teams therefore need to decide whether generated code should be used as-is or refined manually.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "22191d3a3b6a21c4",
@@ -10089,10 +9909,7 @@
       "heading": "Integrating with Quality Assurance Processes",
       "url": "/formal-methods-book/en/chapters/chapter12/#integrating-with-quality-assurance-processes",
       "text": "Quality assurance for generated code requires an approach that differs from ordinary manual implementation. Verifying the generation process: Validate the correctness of the code generator itself. That includes checking generation rules, template validity, and the soundness of transformation algorithms. Inspecting generated code: Apply static analysis, dynamic testing, and performance measurement to automatically generated code to confirm that it satisfies the required quality level. Ensuring traceability: Make it possible to trace each element of the specification to the part of the generated code it affects. This makes it easier to analyze failures and to determine the impact of requirement changes. Automating regression tests: When specification changes regenerate code, automatically rerun regression tests so that the effect of those changes can be validated quickly and quality can be preserved continuously.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "f8f7483f206d39cf",
@@ -10104,10 +9921,7 @@
       "heading": "The Stepwise Evolution of Implementation Support",
       "url": "/formal-methods-book/en/chapters/chapter12/#the-stepwise-evolution-of-implementation-support",
       "text": "Capabilities for code generation and implementation support are most realistic when developed in stages. Stage 1: Skeleton generation Generate the structural parts of the implementation, such as class definitions, interface definitions, and method signatures. This helps preserve consistency and completeness. Stage 2: Constraint-check generation Automatically generate checks for preconditions, postconditions, and invariants so that runtime validation can support implementation correctness. Stage 3: Business-logic generation Automatically generate implementation for regular patterns such as CRUD operations, data transformation, and state transitions. This can significantly improve development efficiency. Stage 4: Optimized code generation Generate optimized code that accounts for performance requirements and platform characteristics. In advanced cases, this can exceed the quality of manual implementation.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "4a20b1594ca398e2",
@@ -10119,10 +9933,7 @@
       "heading": "Success Factors and Cautions in Adoption",
       "url": "/formal-methods-book/en/chapters/chapter12/#success-factors-and-cautions-in-adoption",
       "text": "It is important to understand both the factors that support successful adoption and the pitfalls that need to be managed. Setting realistic expectations: Expecting code generation to eliminate programming entirely leads to disappointment and abandonment. Teams need concrete goals centered on productivity improvement and quality gains. Introducing it in stages: Instead of attempting full-system adoption at once, build confidence by succeeding in a limited area and then expanding the scope gradually. Managing skill requirements: Using code generation effectively requires both the ability to write formal specifications and the operational knowledge needed to maintain the generation tools. Training and capability development therefore need to be planned explicitly. Considering maintainability: Design with the maintainability of generated code in mind, including readability, ease of debugging, and extensibility. Quality standards should assume long-term operation. If these factors are managed carefully, code generation and implementation support can become a powerful means of increasing the capability of a development team.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "5217eca7376b46c9",
@@ -10233,10 +10044,7 @@
       "heading": "12.6 Successful Tool Adoption Patterns and How to Avoid Failure",
       "url": "/formal-methods-book/en/chapters/chapter12/#126-successful-tool-adoption-patterns-and-how-to-avoid-failure",
       "text": "12.6 Successful Tool Adoption Patterns and How to Avoid Failure",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "022ca9a615e3b3ec",
@@ -10248,10 +10056,7 @@
       "heading": "Common Patterns in Successful Introductions",
       "url": "/formal-methods-book/en/chapters/chapter12/#common-patterns-in-successful-introductions",
       "text": "When tool introduction efforts for formal methods are compared across many organizations, successful projects show clear common patterns. Understanding those patterns materially improves the probability of success. Starting from a concrete problem: Successful adoption begins with a specific and pressing problem. The motivation is not “we want to try a new technology,” but rather a concrete business need such as improving quality, increasing development efficiency, or meeting regulatory requirements. Starting with a small proof of value: Instead of attempting large-scale adoption immediately, successful organizations start with a limited proof of value. Early success helps build trust inside the organization, and the scope can then be expanded step by step. This small-scale trial should validate not just technical feasibility, but also organizational acceptability. Collaboration between experts and practitioners: Success usually depends on a combination of outside specialists with deep technical knowledge and in-house practitioners who understand the realities of the organization. Experts alone tend to propose solutions that do not fit local constraints, while practitioners alone may not reach enough technical depth. Continuing to invest in learning: Tool adoption needs to be treated not as a one-time event, but as a continuous process of learning and improvement. That requires ongoing investment in education, training, and refinement rather than only an initial setup budget.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "c8c977edf4be1356",
@@ -10287,10 +10092,7 @@
       "heading": "Long-Term Strategy for Sustaining and Evolving the Practice",
       "url": "/formal-methods-book/en/chapters/chapter12/#long-term-strategy-for-sustaining-and-evolving-the-practice",
       "text": "Successful adoption depends not only on initial rollout, but also on long-term sustainment and growth. Accumulating knowledge inside the organization: Gradually reduce dependence on external experts and build internal expertise. The goal is not dependence on a few individuals, but institutional capability. Evaluating tools continuously: Review the benefits and problems of the adopted tools on a regular basis, and consider migration or extension when better options emerge. Continuous improvement needs to track the evolution of technology. Connecting with the community: Maintain links with external formal-methods communities to keep collecting current practices, case studies, and technical developments. An isolated effort tends to stagnate. Passing knowledge to the next generation: Create structures for transferring formal-methods knowledge and experience to newer members so that staff movement or turnover does not erase organizational capability.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "ed65952b0dcd07ab",
@@ -10302,10 +10104,7 @@
       "heading": "Continuously Measuring Return on Investment",
       "url": "/formal-methods-book/en/chapters/chapter12/#continuously-measuring-return-on-investment",
       "text": "The return on investment from tool adoption should be measured continuously and used to drive improvement. Defining quantitative metrics: Set measurable indicators such as defect discovery rate, development efficiency, testing effort, and post-release incident rate, and compare the before-and-after state. Evaluating qualitative value: Also establish a way to assess important but less easily quantified value, such as improved design quality, deeper shared understanding inside the team, and higher customer confidence. Managing ongoing cost: Track continuing costs such as tool licenses, education, training, and operational maintenance accurately, and compare them against the benefits obtained. Executing improvement actions: Use the measured results to expand the areas that are effective and to revise or reduce the areas that are not. By understanding these success patterns and avoiding these failure modes, an organization can introduce formal-methods tools more successfully and convert that adoption into long-term competitive advantage.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "ff33100ef617f71e",
@@ -10413,10 +10212,7 @@
       "heading": "The Value and Significance of Case Studies",
       "url": "/formal-methods-book/en/chapters/chapter13/#the-value-and-significance-of-case-studies",
       "text": "A theoretical understanding of formal methods is important, but real progress in applying them depends on learning from both successful and unsuccessful cases. Case studies bridge the gap between theory and practice and provide practical knowledge. That matters especially in a comparatively young technical field such as formal methods, where many of the actual difficulties and effective countermeasures do not become visible from textbook knowledge alone. The value of case studies lies in understanding context. Even when the same technique is used, its effect and its challenges vary greatly depending on the organization, the problem domain, the technical constraints, and the historical moment in which it is adopted. Successful cases show how a technique can be applied effectively, while unsuccessful cases reveal the pitfalls that should be avoided.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "7ca9cefd1b2fcab4",
@@ -10488,10 +10284,7 @@
       "heading": "A Framework for Learning",
       "url": "/formal-methods-book/en/chapters/chapter13/#a-framework-for-learning",
       "text": "To learn effectively from case studies, the following framework is useful. Pattern recognition: Identify patterns shared by successful cases and patterns shared by failed cases, and extract principles that can be generalized. Condition analysis: Analyze in detail the conditions under which a given outcome was achieved and consider whether those conditions can be reproduced elsewhere. Constraint understanding: Understand the technical, organizational, and economic constraints in each case, and evaluate applicability under different constraints. Innovative elements: Identify novel approaches and unique ideas in each case, and examine whether they can be transferred to other settings.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "6f2372c5961281f7",
@@ -10503,10 +10296,7 @@
       "heading": "Applying the Lessons in Practice",
       "url": "/formal-methods-book/en/chapters/chapter13/#applying-the-lessons-in-practice",
       "text": "The following guidelines are useful when applying case-study knowledge to real projects. Assess similarity: Evaluate the similarity between your situation and the case from multiple angles, and separate what can be transferred from what cannot. Plan adaptation: Consider what changes are needed to adapt the success factors of the case to your own context. Evaluate risk: Assess the risk that the failure factors seen in the case will emerge in your own environment, and prepare preventive measures. Experiment incrementally: Apply what you learned first in small-scale experiments, and then use those results to decide whether a broader rollout is justified. The following sections apply this analytical framework to concrete cases. Each case comes from a different industry, uses a different technical approach, and sits in a different organizational context. Together they provide a useful basis for understanding both the diversity of formal-methods applications and the challenges involved.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "7ef8a334cde6861f",
@@ -10530,10 +10320,7 @@
       "heading": "Project Overview and Background",
       "url": "/formal-methods-book/en/chapters/chapter13/#project-overview-and-background",
       "text": "Paris Métro Line 14, the Météor line, opened in 1998 as one of the earliest large-scale fully automated metro lines in the world. The project attracted international attention as a representative case in which formal methods were applied successfully to a large-scale safety-critical system. Formalization and Scope of Assurance (Summary) Formalized target: the states, operations, and safety constraints of train control, including minimum distance and speed limits Methods and tools: the B-Method, including refinement, proof obligations, proof support, and the code-generation toolchain Verification targets: safety invariants, consistency of refinement, and, within the limits of publicly available information, avoidance of deadlock and livelock Guarantees obtained: properties expressed in the formal model and proof obligations were preserved for the proofs and generated artifacts, within the range of public information Out of scope and assumptions: the physical environment, sensor failures, and operating procedures were not fully formalized and therefore had to be covered by separate safety design and testing The central technical challenge was fully driverless operation. In conventional metro systems, the driver bears the final responsibility for safety. On Line 14, every safety decision had to be made by software. That requirement called for a level of confidence that ordinary test-centered quality assurance could not provide. The project lasted for roughly 15 years, with a total development cost of about 200 million euros. Development involved multiple organizations, including RATP, Siemens, and Matra, working in an international collaboration structure.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "f3d7f973b6619b0e",
@@ -10557,10 +10344,7 @@
       "heading": "Development Process and Tool Usage",
       "url": "/formal-methods-book/en/chapters/chapter13/#development-process-and-tool-usage",
       "text": "Stepwise refinement process: The transition from abstract specification to implementation was performed in several stages. By formally proving the correctness of the transformation at each stage, the project established confidence in the final implementation. To enable parallel development, the system was decomposed into modules with relatively high independence. Contracts at the module boundaries, that is, interface specifications, were defined strictly so that interactions between modules could be controlled. Use of the toolchain: An integrated environment known as B-Toolkit was used to support specification, proof, and code generation in a single workflow. That toolchain made it possible to semi-automate the path from specification to executable code. Proof-support tooling was used to construct mathematical proofs of critical safety properties. Fully automatic proving remained difficult, but much of the proof work could be automated, allowing engineers to concentrate on the important proof strategies.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "f48d6ebcacd8a00b",
@@ -10572,10 +10356,7 @@
       "heading": "Technical Results and Challenges",
       "url": "/formal-methods-book/en/chapters/chapter13/#technical-results-and-challenges",
       "text": "Successful technical elements: The largest result was clarification of the specification. Ambiguous requirements expressed in natural language were converted into mathematically precise specifications, which made design contradictions and incompleteness visible early. Systematic structuring of the design made it possible to organize a highly complex system into a form engineers could understand. The hierarchical decomposition helped individual engineers focus on their assigned part without being overwhelmed by the full complexity. Improved quality was also observed quantitatively. Compared with earlier metro systems, software-related failures were reduced by roughly 75 percent. Difficulties and limits: The biggest challenge was the high learning cost. Learning the B-Method took months, and effective use generally required more than a year of experience. In the early project phases, insufficient expertise reduced development efficiency. Tool limitations also created difficulties. Compared with current tools, 1990s tools were limited in functionality and often struggled with performance and usability on large systems. There were also limits to what could reasonably be formalized. Parts of the system—especially those involving human operation or interaction with the physical environment—were difficult or inappropriate to formalize and therefore required a combination of formal and conventional methods.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "2a67dbe319a8124b",
@@ -10623,10 +10404,7 @@
       "heading": "Implications for the Present Day",
       "url": "/formal-methods-book/en/chapters/chapter13/#implications-for-the-present-day",
       "text": "Using technical progress: Compared with the 1990s, formal-methods tools have improved dramatically. At the current state of technology, many of the difficulties faced in the Line 14 project would be easier to address. The combination of formal methods with AI may also improve proof automation and specification quality, reducing learning cost and improving the efficiency of application. Expanding application areas: The successful Line 14 model is relevant to newer domains such as autonomous vehicles, drone control, and smart cities. The staged refinement approach established there is also relevant to modern challenges such as IoT and distributed systems. The Paris Métro Line 14 project remains a landmark case showing that formal methods can be applied successfully to a large and complex system. It achieved comprehensive success not only technically, but also organizationally, economically, and socially, and it remains an important milestone in the practical adoption of formal methods.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "03bb82e59f2c84be",
@@ -10710,10 +10488,7 @@
       "heading": "Trade-Offs with Performance",
       "url": "/formal-methods-book/en/chapters/chapter13/#trade-offs-with-performance",
       "text": "Design decisions that favored verifiability: The project deliberately favored verifiability over maximum performance optimization. Simpler, more provable implementations were preferred over more complex high-performance ones. At the same time, the library still had to satisfy the baseline performance requirements of AWS, so the design balanced practical usability against verification needs. Constraints on optimization: Common optimization techniques, such as loop unrolling or aggressive branch optimization, can make formal verification harder. s2n therefore used optimization only where verifiability could still be preserved. The requirement of constant-time execution ruled out many ordinary optimization techniques. This is a textbook example of the trade-off between security and performance.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "337c262b7e24eabd",
@@ -10816,9 +10591,7 @@
       "url": "/formal-methods-book/en/chapters/chapter13/#major-application-cases",
       "text": "Azure Service Fabric: Service Fabric is a distributed execution platform underpinning parts of Azure. It manages service placement, load balancing, and failure recovery across clusters containing thousands of nodes. By writing TLA+ specifications, Microsoft verified the correctness of complex cluster-management algorithms. In particular, they used the approach to design and validate algorithms that prevent data loss and service stoppage during node failures. Cosmos DB: Cosmos DB is a globally distributed database service. It manages data across geographically distributed regions while balancing consistency, availability, and partition tolerance. TLA+ was used to verify the correctness of complicated replication protocols. In particular, Microsoft analyzed in detail how consistency levels should be adjusted when network partitions occur. Xbox Live matchmaking: The Xbox Live matchmaking service provides real-time game matching for millions of concurrent users. It needs to satisfy fairness, efficiency, and scalability at the same time. TLA+ was used to verify designs that guaranteed both fairness and efficiency in the matchmaking algorithm. Particular attention was paid to preventing performance degradation under high load.",
       "aliases": [
-        "TLA Plus",
-        "強公平性",
-        "strong fairness"
+        "TLA Plus"
       ]
     },
     {
@@ -10918,9 +10691,7 @@
       "url": "/formal-methods-book/en/chapters/chapter13/#analysis-of-the-success-factors",
       "text": "Management understanding: A major foundation of success was that Microsoft’s technical leadership understood the long-term value of formal methods and continued investing in them. Staged introduction: Instead of applying TLA+ everywhere at once, Microsoft widened the scope gradually by accumulating successful cases. That supported organizational acceptance. A focus on practicality: Rather than pursuing academic perfection, the organization emphasized limited but concrete practical value. That made continued internal support easier to sustain.",
       "aliases": [
-        "TLA Plus",
-        "強公平性",
-        "strong fairness"
+        "TLA Plus"
       ]
     },
     {
@@ -10961,9 +10732,7 @@
       "text": "The automotive industry is one of the most successful domains for the practical use of formal methods. Automotive electronic control systems are safety-critical systems that directly affect human life, and conventional testing-centered quality assurance alone cannot provide sufficient confidence. The growth of autonomous-driving technology has made software both more important and more complex. Formalization and Scope of Assurance (Summary) Formalized target: control logic expressed as state and data flow, together with safety requirements such as invariants, boundary conditions, and degraded-mode behavior Methods and tools: executable models such as SCADE/Lustre and Simulink, combined with analysis and verification techniques including static analysis, model checking, and proof support Verification targets: absence of runtime errors, soundness of numeric and boundary behavior, safety of state transitions, and safety under degraded conditions Guarantees obtained: within the abstraction level of the model or code handled by the tools and under the stated assumptions, the specified properties were either shown to hold or counterexamples were obtained Out of scope and assumptions: physical-environment models, assumptions about sensor failure, and behaviors that can only be confirmed through real-vehicle testing still needed separate safety processes The influence of ISO 26262: ISO 26262, which came into force in 2011, organized safety requirements for automotive electronic systems into a coherent international standard. The standard recommends or requires the use of formal methods depending on the ASIL (Automotive Safety Integrity Level). At ASIL-D, the highest safety level, formal specification and formal verification are strongly recommended and in practice often treated as close to mandatory. This accelerated adoption across the automotive industry. Growing complexity: Modern cars contain more than 100 ECUs (Electronic Control Units) and run over 100 million lines of software code in total. These systems interact tightly and must achieve real-time behavior together with high reliability.",
       "aliases": [
         "模型検査",
-        "モデル検査",
-        "強公平性",
-        "strong fairness"
+        "モデル検査"
       ]
     },
     {
@@ -11012,10 +10781,7 @@
       "heading": "Practice at Tier 1 Suppliers",
       "url": "/formal-methods-book/en/chapters/chapter13/#practice-at-tier-1-suppliers",
       "text": "Integrated ECU development at Denso: Denso has established an AUTOSAR-compliant formal development approach for ECUs that integrate multiple functions. When multiple safety-critical functions such as braking, steering, and engine control are executed on a single ECU, Denso uses formal verification to analyze both independence and safe interaction between those functions. In particular, it proves the absence of race conditions on shared resources such as CPU, memory, and communication buses, and it verifies satisfaction of real-time constraints. Bosch’s ADAS platform: In advanced driver-assistance systems (ADAS), Bosch develops systems that integrate signals from multiple sensors—such as cameras, radar, and LiDAR—to make appropriate control decisions. Formal methods are used to design and verify algorithms for evaluating sensor reliability and for making safe control decisions under uncertainty.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "cc4e91099a9163c1",
@@ -11027,10 +10793,7 @@
       "heading": "Transformation of the Development Process",
       "url": "/formal-methods-book/en/chapters/chapter13/#transformation-of-the-development-process",
       "text": "Establishing model-based development: The automotive industry has been shifting from code-centered development to model-centered development. With tools such as SCADE and MATLAB/Simulink, automatic code generation from executable models has become standard practice. This shift makes it possible to verify systems earlier in the design phase and significantly reduces the cost of discovering and correcting problems late in development. Formalizing the V-model process: The traditional V-model development process—from requirements definition to design, implementation, and testing—has been extended with formal verification. Formalizing the artifacts at each stage improves both traceability and quality assurance across the full process.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "414707f44ab3e797",
@@ -11091,9 +10854,7 @@
       "url": "/formal-methods-book/en/chapters/chapter13/#common-patterns-extracted-from-the-successful-cases",
       "text": "When the cases discussed so far—Paris Métro Line 14, Amazon s2n, Microsoft’s use of TLA+, and automotive control systems—are analyzed side by side, clear common patterns emerge. A clear problem definition and motivation: In every successful case, formal methods were introduced to solve a concrete problem. On the Paris Métro project, the issue was fully autonomous operation. In s2n, it was removal of security vulnerabilities. At Microsoft, it was the design quality of distributed systems. In automotive systems, it was the need to assure safety. In each case, the triggering issue was concrete and urgent. This is a critical lesson. Formal methods do not achieve organizational success on the basis of academic interest alone. Their real power emerges when they are tied to clear business value or social value. Staged and strategic introduction: Every successful case used a staged introduction strategy. Rather than tackling the most complex problem from the start, each organization began with clearer and more manageable problems and only then expanded the scope. For Paris Métro Line 14, development began with basic control logic and gradually extended to more complex integrated control. At Microsoft, use began from individual interest, moved through small project successes, and eventually became part of organizational strategy. Appropriate technical choice and realistic expectations: Successful cases did not choose the theoretically “best” technique in the abstract. They chose the method that best fit the situation. Practicality mattered more than perfection, and the selected technique matched both the problem domain and the organization’s maturity. The methods differed—B-Method, SAW, TLA+, and SCADE—but all were selected because they fit the target problem and the technical maturity of the organization.",
       "aliases": [
-        "TLA Plus",
-        "強公平性",
-        "strong fairness"
+        "TLA Plus"
       ]
     },
     {
@@ -11106,10 +10867,7 @@
       "heading": "Learning from Failure Patterns",
       "url": "/formal-methods-book/en/chapters/chapter13/#learning-from-failure-patterns",
       "text": "Just as successful cases are instructive, unsuccessful cases also provide important lessons. Many failures share common causes. The limits of a technology-first approach: Projects often fail when they choose the newest or most theoretically sophisticated technology while neglecting organizational readiness and real-world constraints. Technical excellence and practical success do not necessarily correlate. Excessive expectations and short-term evaluation: When organizations set unrealistic expectations for formal methods and demand dramatic short-term improvements, early difficulty often leads to abandonment. The value of formal methods often appears over a longer horizon. Neglect of change management: If attention is focused only on technical issues while organizational culture and human factors are neglected, technical success may still fail to become sustained organizational practice.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "7c78cae4f3db6d89",
@@ -11145,10 +10903,7 @@
       "heading": "Systematizing Organizational Success Factors",
       "url": "/formal-methods-book/en/chapters/chapter13/#systematizing-organizational-success-factors",
       "text": "The importance of leadership: Without exception, successful cases involve strong commitment from both technical and organizational leaders. It is essential to sustain support through short-term difficulty and pursue long-term value creation. Talent development and knowledge management: A suitable talent-development strategy is indispensable. Sustainable use depends on moving from dependence on external experts to internal capability, and from individual knowledge to organizational knowledge. Stepwise realization of value: It is more effective to accumulate small value incrementally than to attempt to realize all the value at once. Early successes help secure internal support and continued investment.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "961e254c04653dd2",
@@ -11184,10 +10939,7 @@
       "heading": "Directions for Future Research and Development",
       "url": "/formal-methods-book/en/chapters/chapter13/#directions-for-future-research-and-development",
       "text": "The importance of interdisciplinary research: Further progress in formal methods will require not only computer science, but also mathematics, logic, cognitive science, and sociology. Work is needed not just on technical questions, but also on human-computer collaboration, integration with social systems, and ethical considerations. Strengthening industry-academia collaboration: To bridge the gap between theory and practice, stronger collaboration between industry and academia is essential. Mechanisms are needed both for research grounded in real industrial problems and for transferring research outcomes back into practice. Promoting international cooperation: The development and diffusion of formal methods cannot be achieved by a single country or a single organization alone. International cooperation is needed through standardization, researcher exchange, and technology transfer.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "cd4ba9d94ad498b4",
@@ -11199,10 +10951,7 @@
       "heading": "Conclusion: Expectations for the Future of Formal Methods",
       "url": "/formal-methods-book/en/chapters/chapter13/#conclusion-expectations-for-the-future-of-formal-methods",
       "text": "What these case studies make clear is that formal methods are not merely an academic topic. They are practical techniques for solving real and complex problems. At the same time, successful use depends on appropriate technical choice, organizational preparation, staged introduction, and continuous improvement. As digitalization advances and software becomes even more socially important, demand for formal methods is likely to keep increasing. At the same time, the progress of AI may make formal methods easier to apply and available to a much wider range of organizations and individuals. The important point is not to treat formal methods as a universal solution. Their value comes from understanding both their strengths and their limits and using them effectively in the right places. If organizations learn from these successful cases and adapt the lessons to their own situation, they can improve software quality and create broader social value.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "7cd25e9b61ab2dfc",
@@ -11314,9 +11063,7 @@
       "text": "SAT: Satisfiability. The satisfiability problem for propositional logic. Some tools such as Alloy reduce internal checks to SAT solving. SMT: Satisfiability Modulo Theories. A framework that combines satisfiability checking with theories such as equality, arithmetic, and arrays. LTL / CTL: Linear Temporal Logic and Computation Tree Logic. Temporal logics used to describe properties in model checking. CI: Continuous Integration. Automated validation gates used for pull requests, nightly checks, and release preparation. HOL: Higher-Order Logic. A family of logics used by systems such as Isabelle/HOL. RMW: Read-Modify-Write. A common concurrent update pattern that can lead to lost updates.",
       "aliases": [
         "模型検査",
-        "モデル検査",
-        "強公平性",
-        "strong fairness"
+        "モデル検査"
       ]
     },
     {
@@ -11780,10 +11527,7 @@
       "heading": "Partial correctness",
       "url": "/formal-methods-book/en/glossary/#glossary-partial-correctness",
       "text": "The property that if a program terminates, the result satisfies the required postcondition. It does not by itself prove termination. See Chapter 10.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "ac71e9e01e133dc6",
@@ -11884,10 +11628,7 @@
       "heading": "Refinement",
       "url": "/formal-methods-book/en/glossary/#glossary-refinement",
       "text": "The process of developing a concrete specification while proving that, after applying a refinement mapping and hiding internal variables, its behavior satisfies the abstract specification. Conceptually, the implication runs as ConcreteSpec => AbstractSpec. See Chapters 3, 5, and 7.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "03bc99d650c6b4be",
@@ -12103,10 +11844,7 @@
       "heading": "Total correctness",
       "url": "/formal-methods-book/en/glossary/#glossary-total-correctness",
       "text": "The claim that a program not only satisfies the required postcondition when it terminates, but also does terminate. See Chapter 10.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "8b00922564646a0d",
@@ -12303,10 +12041,7 @@
       "heading": "Equivalence relations",
       "url": "/formal-methods-book/en/appendices/appendix-a/#equivalence-relations",
       "text": "An equivalence relation is a relation that satisfies the following three properties: Reflexivity: ∀x • x x Symmetry: ∀x, y • x y ⇒ y x Transitivity: ∀x, y, z • x y ∧ y z ⇒ x z Equivalence relations are used when we want to treat multiple things as “the same,” for example when dealing with identifiers, normalization, or abstraction.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "deb4442a45e3c6d3",
@@ -12499,10 +12234,7 @@
       "heading": "C.1 Quick Reference Terms",
       "url": "/formal-methods-book/en/appendices/appendix-c/#c1-quick-reference-terms",
       "text": "invariant: a property that must always hold. If a counterexample appears, it indicates a breakdown in the specification or the implementation. safety: a property stating that something bad does not happen, for example that a double withdrawal never occurs. liveness: a property stating that something good eventually happens, for example that a request is eventually processed. refinement: the process of developing a concrete specification while proving that, after applying a refinement mapping and hiding internal variables, its behavior satisfies the abstract specification. Conceptually, the implication runs as ConcreteSpec => AbstractSpec. contract: a runtime or verification-time guard that makes preconditions and postconditions explicit. trace: a sequence of state transitions. Counterexamples are presented as traces. counterexample: a minimal execution that violates a property. It is the starting point for correcting the design.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "495aa307eb252fe5",
@@ -12541,11 +12273,7 @@
       "url": "/formal-methods-book/en/appendices/appendix-c/#c31-concept-correspondence-minimum-set",
       "text": "Concept · Z notation (in this book) · Alloy (assuming Alloy Analyzer 6) · CSP (in this book / tools) · TLA+ (assuming TLC) --- · --- · --- · --- · --- Set (type) · A : ℙ X · A: set X · Event set {a, b} / synchronization set X · A ∈ SUBSET X Membership · x ∈ A · x in A · Event membership a ∈ X · x ∈ A Relation · R : X ↔ Y · R: X -> Y · Usually not written directly · R ⊆ X × Y Total function · f : X → Y · f: X -> one Y · Usually not written directly · f ∈ [X -> Y] Partial function · f : X ⇸ Y · f: X -> lone Y · Usually not written directly · Expressed as a partial function where needed State · State schema · Model time or steps explicitly · Process, with state embedded in transitions · Variable v and next-state value v' Initial state · InitState · pred Init[...] · Initial process P0 · Init == ... Transition / operation · ΔState · pred Step[s, s'] · Prefix a → P (a -> P in tools) · Next == ... Invariant (safety) · Schema constraint · fact / assert · Refinement / assertions, depending on the tool · Invariant == ... / []P Liveness / fairness · Requires extension · Expressed over traces · Tool-dependent · <>P, P > Q, WFvars(A), SFvars(A) Notes: Z symbols such as ↔, →, ⇸, and ↦ follow the notation system used in Chapter 5. In the prose of this book, CSP uses mathematical symbols such as →, □, and ⊓, while tools such as FDR/CSPM typically use ->, [], and · · .",
       "aliases": [
-        "TLA Plus",
-        "弱公平性",
-        "weak fairness",
-        "強公平性",
-        "strong fairness"
+        "TLA Plus"
       ]
     },
     {
@@ -12570,10 +12298,7 @@
       "heading": "C.3.3 Alloy: Main Symbols (Alloy Analyzer 6)",
       "url": "/formal-methods-book/en/appendices/appendix-c/#c33-alloy-main-symbols-alloy-analyzer-6",
       "text": "Symbol · Meaning · Example --- · --- · --- sig / field · Sets and relations · sig User { files: set File } Multiplicity one / lone / some / set · Cardinality constraint · owner: one User fact · Constraint that always holds · fact { ... } assert + check · Property checking through counterexample search · check Inv for 5 run · Search for satisfying instances · run { ... } for 5 ., , ^ · Join / transpose / transitive closure · u.files, r, ^parent",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "671c3bcc9c02f8d6",
@@ -12599,8 +12324,7 @@
       "text": "Symbol · Meaning · Example --- · --- · --- v' · The next-state value used inside an action; distinct from LTL X / ○ · x' = x + 1 []P / <>P · Always / eventually · []Inv, <>Goal P > Q · Whenever P holds, Q eventually follows · request > response WFvars(A) / SFvars(A) · Weak / strong fairness assumptions for action A · WFvars(Receive) .cfg · TLC configuration · initial state, invariants, and exploration constraints WFvars(A) and SFvars(A) require declarations for vars and action A, with A defined as a subaction of Next, plus a specification context such as Init /\\ [][Next]vars; they are not complete runs-as-is examples on their own. A refinement implication is also pseudo-notation until the refinement mapping and hiding boundary are made explicit. Supplement: Alloy is centered on finite-scope counterexample search. When modeling state transitions, time or steps are usually made explicit. TLA+ is centered on state transitions and temporal logic. Primes relate current and next states inside actions, while [], <>, >, and fairness describe properties of behaviors. Z is used to make requirements precise through state and operation schemas and then refine them toward implementation.",
       "aliases": [
         "TLA Plus",
-        "弱公平性",
-        "weak fairness",
+        "SF",
         "強公平性"
       ]
     },
@@ -12981,10 +12705,7 @@
       "heading": "Practical Exercise 1: Modeling a Banking System",
       "url": "/formal-methods-book/en/appendices/appendix-d/#practical-exercise-1-modeling-a-banking-system",
       "text": "Hints (steps): Represent customers, accounts, and transactions as sets and relations, and use invariants to express uniqueness and referential consistency. Make transfer composable as withdrawal plus deposit. Model answer (outline): State such as accounts, owners, balance, and txs Invariants such as non-negative balances, unique account numbers, existing owners, and transaction referential consistency Operations such as open, deposit, withdraw, and transfer, with preconditions, postconditions, and error handling Self-review criteria: The invariants correspond to the intended constraints The operations preserve the invariants",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "8faad650786b6ec5",
@@ -12996,10 +12717,7 @@
       "heading": "Practical Exercise 2: Using Schema Operations",
       "url": "/formal-methods-book/en/appendices/appendix-d/#practical-exercise-2-using-schema-operations",
       "text": "Hints (steps): Define authentication as a common schema and compose it with each operation. For integrating normal and error cases, unify the result type, for example as success or failure. Express atomicity in the specification by stating that the state rolls back when an intermediate failure occurs. Model answer (outline): Create Auth and Log schemas and compose them with the operation schemas Unify errors through an ErrorCode Compose transfer and guarantee Ξ State on failure Self-review criteria: Schema operations are used in a reasonable place The state under exceptions is defined clearly",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "799441ffee7088fd",
@@ -13344,10 +13062,7 @@
       "heading": "Basic Understanding Exercise 2: Finding Loop Invariants",
       "url": "/formal-methods-book/en/appendices/appendix-d/#basic-understanding-exercise-2-finding-loop-invariants",
       "text": "Hints (steps): Use a property over the already-processed range as the invariant. Show termination with a variant function such as the remaining number of elements. Model answer (outline): Linear search: the relationship describing whether the target is absent from or present in positions before i Maximum search: max is the maximum of array[0..i-1] Insertion sort: in the outer loop, 0..i-1 is already sorted Self-review criteria: The invariant satisfies initialization, preservation, and termination The variant function is reasonable",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "56af591192dab221",
@@ -13419,10 +13134,7 @@
       "heading": "Reading Check Exercise 2: Organizational Culture Analysis",
       "url": "/formal-methods-book/en/appendices/appendix-d/#reading-check-exercise-2-organizational-culture-analysis",
       "text": "Hints (steps): Separate technical issues from cultural issues. Break down resistance into causes such as increased workload, anxiety about evaluation, and skill differences. Model answer (outline): Characteristics of the current culture Obstacles and enabling factors A change strategy involving education, standardization, and successful early experiences Self-review criteria: The analysis is concrete The measures are executable",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "a4044e502f97585c",
@@ -14325,10 +14037,7 @@
       "heading": "Adopt Gradually, but Adopt Deliberately",
       "url": "/formal-methods-book/en/afterword/#adopt-gradually-but-adopt-deliberately",
       "text": "One of the recurring lessons in this book is that successful adoption is rarely all-or-nothing. Most teams do not start by verifying an entire product. They start by formalizing one protocol, one concurrency-sensitive component, or one safety-critical workflow. The important point is not to keep the scope small forever. The important point is to choose the first target deliberately: select a part of the system where ambiguity is expensive, failures are costly, or concurrency makes testing alone unreliable.",
-      "aliases": [
-        "強公平性",
-        "strong fairness"
-      ]
+      "aliases": []
     },
     {
       "id": "96139ce880044d3b",
