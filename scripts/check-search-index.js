@@ -166,7 +166,7 @@ function checkSite(siteArgument) {
     }
   }
 
-  for (const relative of ['index.html', 'en/index.html']) {
+  for (const [relative, locale] of [['index.html', 'ja'], ['en/index.html', 'en']]) {
     const file = path.join(siteRoot, relative);
     if (!fs.existsSync(file)) {
       errors.push(`site: missing ${relative}`);
@@ -176,6 +176,16 @@ function checkSite(siteArgument) {
     for (const marker of ['role="combobox"', 'role="listbox"', 'aria-live="polite"', 'data-index-url=']) {
       if (!html.includes(marker)) errors.push(`${relative}: missing search marker ${marker}`);
     }
+    const localePath = locale === 'ja' ? '' : '/en';
+    for (const marker of [
+      '<nav class="sidebar-nav"',
+      `data-index-url="/${model.manifest.project.id}/assets/search-index.${locale}.json"`,
+      `href="/${model.manifest.project.id}${localePath}/glossary/"`,
+    ]) {
+      if (!html.includes(marker)) errors.push(`${relative}: JS-independent navigation marker is missing: ${marker}`);
+    }
+    const glossaryFile = path.join(siteRoot, locale === 'ja' ? 'glossary/index.html' : 'en/glossary/index.html');
+    if (!fs.existsSync(glossaryFile)) errors.push(`${relative}: JS-independent glossary page is missing`);
   }
   for (const asset of ['assets/js/search.js', 'assets/css/main.css', 'assets/search-index.ja.json', 'assets/search-index.en.json']) {
     const file = path.join(siteRoot, asset);
