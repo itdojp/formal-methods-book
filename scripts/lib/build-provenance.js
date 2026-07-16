@@ -80,7 +80,7 @@ function detectReleaseTag(repoRoot, manifest, sourceCommit, execute = execFileSy
 }
 
 function assertRepository(manifest) {
-  const raw = String(manifest?.repository?.url || '').trim().replace(/\.git$/, '').replace(/\/+$/, '');
+  const raw = String(manifest?.repository?.url || '').trim().replace(/\/+$/, '').replace(/\.git$/, '');
   if (raw !== GITHUB_URL) {
     throw new Error(`book-config.json repository.url must be ${GITHUB_URL} with an optional .git suffix`);
   }

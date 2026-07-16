@@ -54,6 +54,9 @@ assert(!sameJsonValue(first, { ...reordered, version: '9.9.9' }), 'semantic JSON
 const repositoryWithoutGit = JSON.parse(JSON.stringify(manifest));
 repositoryWithoutGit.repository.url = 'https://github.com/itdojp/formal-methods-book';
 assert.doesNotThrow(() => createBuildProvenance({ ...input, manifest: repositoryWithoutGit }));
+const repositoryWithGitAndSlash = JSON.parse(JSON.stringify(manifest));
+repositoryWithGitAndSlash.repository.url = 'https://github.com/itdojp/formal-methods-book.git/';
+assert.doesNotThrow(() => createBuildProvenance({ ...input, manifest: repositoryWithGitAndSlash }));
 const wrongRepository = JSON.parse(JSON.stringify(manifest));
 wrongRepository.repository.url = 'https://github.com/itdojp/other-book.git';
 assert.throws(() => createBuildProvenance({ ...input, manifest: wrongRepository }), /optional \.git suffix/);
