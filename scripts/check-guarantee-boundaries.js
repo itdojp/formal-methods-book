@@ -77,7 +77,7 @@ function requireSharedSectionMatch(sourcePath, publicPath, startMarker, endMarke
     });
     return;
   }
-  const section = source.slice(start, end);
+  const section = source.slice(start, end + endMarker.length);
   if (!published.includes(section)) {
     errors.push({
       filePath: publicPath,
