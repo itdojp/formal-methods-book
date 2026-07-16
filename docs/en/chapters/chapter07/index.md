@@ -1,11 +1,12 @@
 ---
 layout: book
-title: "Chapter 7: Specifying Time: Introduction to TLA+"
+title: "Chapter 7: Specifying Time — Introduction to TLA+"
+description: "Dynamic system properties with temporal logic and TLA+."
 locale: "en"
 lang: "en"
 source_path: "src/en/chapters/chapter07.md"
 ---
-# Chapter 7: Specifying Time: Introduction to TLA+
+# Chapter 7: Specifying Time — Introduction to TLA+
 
 ## 7.1 The Challenge of Distributed Systems: Time and State Become Complex
 

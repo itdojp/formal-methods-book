@@ -117,41 +117,7 @@ concepts carefully. Advanced mathematics is not required.
 
 ## Table of Contents
 
-- [Introduction]({{ '/en/introduction/' | relative_url }})
-- [Glossary]({{ '/en/glossary/' | relative_url }})
-
-### Part I: Foundations
-
-- establishes why formal methods matter, where intuition breaks down, and what
-  conceptual tools the rest of the book depends on
-- [Chapter 1: Why Formal Methods Matter]({{ '/en/chapters/chapter01/' | relative_url }})
-- [Chapter 2: Bridging Mathematics and Programs]({{ '/en/chapters/chapter02/' | relative_url }})
-- [Chapter 3: Foundations of Specification]({{ '/en/chapters/chapter03/' | relative_url }})
-
-### Part II: Methods
-
-- introduces representative specification styles so that readers can compare
-  modeling choices rather than memorize isolated syntax
-- [Chapter 4: Introduction to Lightweight Formal Methods — Specification with Alloy]({{ '/en/chapters/chapter04/' | relative_url }})
-- [Chapter 5: State-Based Specification — Fundamentals of Z Notation]({{ '/en/chapters/chapter05/' | relative_url }})
-- [Chapter 6: Process-Centric Specification — Concurrency with CSP]({{ '/en/chapters/chapter06/' | relative_url }})
-- [Chapter 7: Specifying Time — Introduction to TLA+]({{ '/en/chapters/chapter07/' | relative_url }})
-
-### Part III: Verification
-
-- explains how properties are checked, proved, or derived, and where each
-  verification style provides practical value
-- [Chapter 8: Introduction to Model Checking]({{ '/en/chapters/chapter08/' | relative_url }})
-- [Chapter 9: Fundamentals of Theorem Proving]({{ '/en/chapters/chapter09/' | relative_url }})
-- [Chapter 10: Program Verification]({{ '/en/chapters/chapter10/' | relative_url }})
-
-### Part IV: Practice
-
-- moves from theory to engineering practice: process integration, tools,
-  automation, and case studies
-- [Chapter 11: Integrating Formal Methods into Development Processes]({{ '/en/chapters/chapter11/' | relative_url }})
-- [Chapter 12: Tools and Automation]({{ '/en/chapters/chapter12/' | relative_url }})
-- [Chapter 13: Case Studies]({{ '/en/chapters/chapter13/' | relative_url }})
+{% include generated/toc-main-en.md %}
 
 For hints, self-review checkpoints, and sample solution structures for the
 end-of-chapter exercises, see
@@ -163,13 +129,7 @@ On a second pass through the book, use Appendices C-F as the main reference
 set: C for notation, D for exercise scaffolding, E for primary sources, and F
 for AI-assisted working methods.
 
-- [Appendix A: Mathematics Refresher]({{ '/en/appendices/appendix-a/' | relative_url }})
-- [Appendix B: Tool Setup and Verification Quick Start]({{ '/en/appendices/appendix-b/' | relative_url }})
-- [Appendix C: Notation Cross-Reference]({{ '/en/appendices/appendix-c/' | relative_url }})
-- [Appendix D: Exercise Guides and Self-Review Frameworks]({{ '/en/appendices/appendix-d/' | relative_url }})
-- [Appendix E: References and Further Reading Paths]({{ '/en/appendices/appendix-e/' | relative_url }})
-- [Appendix F: Practical Playbook for AI-Assisted Formal Methods]({{ '/en/appendices/appendix-f/' | relative_url }})
-- [Afterword]({{ '/en/afterword/' | relative_url }})
+{% include generated/toc-appendices-en.md %}
 
 ## Using This Book as a Reference
 

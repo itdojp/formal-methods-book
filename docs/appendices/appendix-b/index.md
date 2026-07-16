@@ -1,6 +1,7 @@
 ---
 layout: book
 title: "付録B：ツールインストールガイド"
+description: "Alloy Analyzer、TLC、SPIN、Coq 等のインストール手順とトラブルシューティング"
 locale: "ja"
 lang: "ja"
 source_path: "src/ja/appendices/appendix-b.md"

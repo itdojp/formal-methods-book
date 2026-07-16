@@ -1,6 +1,7 @@
 ---
 layout: book
 title: "Appendix D: Exercise Guides and Self-Review Frameworks"
+description: "Reusable answer structures and self-review criteria for the end-of-chapter exercises."
 locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-d.md"

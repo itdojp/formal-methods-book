@@ -18,7 +18,11 @@ Markdown で執筆し、日本語版を `docs/`、英語版を `docs/en/` に公
 - `book-config.json`:
   - repository manifest。edition 構成と policy の入口
 - `book-config.ja.json` / `book-config.en.json`:
-  - edition ごとの目次メタデータ
+  - edition ごとの title / description / order / URL / locale UI metadata の source-of-truth
+- `publication-config.json`:
+  - Jekyll / mobile の言語非依存 static policy
+- `docs/_config.yml` / `docs/_data/{navigation,locales}.yml` / `mobile-config.*.json`:
+  - edition config と publication config から生成する公開メタデータ。直接編集しない
 - `BILINGUAL-WORKFLOW.md`:
   - source-of-truth / translation / release policy
 - `package.json`:
@@ -29,14 +33,16 @@ Markdown で執筆し、日本語版を `docs/`、英語版を `docs/en/` に公
 - 依存（任意）: Node.js 20.18.1+（QA 依存の `cheerio` / `undici` が要求する最低バージョン）
 - セットアップ: `npm ci`
 - ビルド: `npm run build`
-  - 現行のビルドスクリプトは repository 管理下の公開物を更新します。
+  - 現行のビルドスクリプトは、最初に公開メタデータを生成し、その後 repository 管理下の公開物を更新します。
   - bilingual build / deploy の運用基準は `BILINGUAL-WORKFLOW.md` を参照してください。
-  - 章（`docs/chapters/*`）は Jekyll フロントマターを含むため本ビルダーでは変更しません。
+  - 日本語章（`docs/chapters/*`）の source 生成は #316 まで移行中のため、本ビルダーではまだ変更しません。
 - 推奨チェック: `npm test`
   - メタデータ整合性、`markdownlint`、構造lint、リンクチェックをまとめて実行します。
 - 依存関係監査: `npm audit`
 - 個別実行:
   - メタデータ整合性: `npm run check:metadata`
+  - 公開メタデータ生成: `npm run generate:metadata`
+  - metadata renderer unit test: `npm run test:metadata-renderer`
   - TLA+ 意味論・対象 source/publish 整合: `npm run check:tla-semantics`
   - 模型検査・論理・CAP/FLP の保証境界: `npm run check:guarantees`
   - 実行可能 example manifest: `npm run check:example-manifest`
@@ -53,6 +59,8 @@ npm run build
 npm test
 npm audit
 ```
+
+章・付録の title、description、order、path、part、special page、locale UI label を変更するときは、対象の `book-config.<locale>.json` だけを編集し、`npm run build:all` で派生物を更新します。Jekyll / mobile の言語非依存設定は `publication-config.json` を編集します。生成対象の手編集や古い生成結果は `npm run check:metadata` と CI の generated-artifact check が検出します。
 
 ## 依存関係と Book QA の管理
 

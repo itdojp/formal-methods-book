@@ -20,12 +20,12 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build:all
-      - name: Verify generated documentation is committed
+      - name: Verify generated publication artifacts are committed
         run: |
-          status="$(git status --porcelain --untracked-files=all -- docs)"
+          status="$(git status --porcelain --untracked-files=all -- docs mobile-config.ja.json mobile-config.en.json)"
           if [ -n "$status" ]; then
             printf '%s\n' "$status"
-            echo "Generated documentation is not fully committed." >&2
+            echo "Generated publication artifacts are not fully committed." >&2
             exit 1
           fi
       - run: npm test

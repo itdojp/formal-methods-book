@@ -1,4 +1,4 @@
-# Appendix A: Refresher on Mathematical Foundations
+# Appendix A: Mathematics Refresher
 
 This appendix collects the minimum set of mathematical notation that appears repeatedly in this book as a quick reference. It is not intended to be a full set of lecture notes. It is a cheat sheet for reading the main chapters and writing specifications, especially Chapter 4 on Alloy, Chapter 5 on Z, Chapter 6 on CSP, and Chapter 7 on TLA+.
 

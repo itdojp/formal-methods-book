@@ -1,6 +1,7 @@
 ---
 layout: book
 title: "Chapter 1: Why Formal Methods Matter"
+description: "Why modern software needs mathematically grounded reasoning, with lessons from failures and safety expectations."
 locale: "en"
 lang: "en"
 source_path: "src/en/chapters/chapter01.md"

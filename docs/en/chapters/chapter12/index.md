@@ -1,6 +1,7 @@
 ---
 layout: book
 title: "Chapter 12: Tools and Automation"
+description: "Tool ecosystems, CI integration, and operational automation."
 locale: "en"
 lang: "en"
 source_path: "src/en/chapters/chapter12.md"

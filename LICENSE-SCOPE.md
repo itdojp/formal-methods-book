@@ -25,6 +25,8 @@
 - `docs/glossary/**`
 - `docs/introduction/**`
 - `docs/index.md`
+- `docs/_config.yml`
+- `docs/_includes/generated/**`
 - `src/**`
 - `glossary-terms.md`
 - `glossary.json`
@@ -43,7 +45,7 @@
 
 - `.devcontainer/**`
 - `.github/**`
-- `docs/_includes/**`
+- `docs/_includes/**`（reader-facing metadata を含む `docs/_includes/generated/**` を除く）
 - `docs/_layouts/**`
 - `docs/assets/css/**`
 - `docs/assets/js/**`
@@ -59,6 +61,7 @@
 - `README.md`
 - `package-lock.json`
 - `package.json`
+- `publication-config.json`
 
 ## `docs/_data/**` の監査結果
 

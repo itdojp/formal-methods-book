@@ -3,11 +3,18 @@
   Bilingual builder.
   - JA publish root stays at docs/
   - EN publish root stays at docs/en/
+  - Publication metadata is generated from edition configs before content
   - JA chapters remain hand-maintained under docs/chapters/
   - EN public pages are generated from src/en/** skeletons
 */
 const fs = require('fs');
 const path = require('path');
+const {
+  loadPublicationModel,
+  renderGeneratedArtifacts,
+  resolveSourcePage,
+  writeGeneratedArtifacts,
+} = require('./lib/publication-metadata');
 
 const repoRoot = path.resolve(__dirname, '..');
 const manifestPath = path.join(repoRoot, 'book-config.json');
@@ -59,11 +66,12 @@ function rewriteExampleLinksForPublication(content) {
   );
 }
 
-function wrapWithFrontMatter({ title, locale, sourcePath }, content) {
+function wrapWithFrontMatter({ title, description, locale, sourcePath }, content) {
   const lines = [
     '---',
     'layout: book',
     `title: "${escapeYaml(title)}"`,
+    ...(description ? [`description: "${escapeYaml(description)}"`] : []),
     `locale: "${locale}"`,
     `lang: "${locale}"`,
     `source_path: "${sourcePath}"`,
@@ -71,33 +79,6 @@ function wrapWithFrontMatter({ title, locale, sourcePath }, content) {
     ''
   ];
   return `${lines.join('\n')}${content.trimEnd()}\n`;
-}
-
-function mapOutputFile(locale, relativePath) {
-  const publishRoot = path.join(repoRoot, editions[locale].publishRoot);
-  const posixPath = relativePath.split(path.sep).join('/');
-
-  if (posixPath === 'index.md') {
-    return path.join(publishRoot, 'index.md');
-  }
-  if (posixPath === 'glossary/index.md') {
-    return path.join(publishRoot, 'glossary', 'index.md');
-  }
-  if (posixPath === 'introduction/index.md') {
-    return path.join(publishRoot, 'introduction', 'index.md');
-  }
-  if (posixPath === 'afterword/index.md') {
-    return path.join(publishRoot, 'afterword', 'index.md');
-  }
-  if (/^chapters\/chapter\d+\.md$/.test(posixPath)) {
-    const chapterId = path.basename(posixPath, '.md');
-    return path.join(publishRoot, 'chapters', chapterId, 'index.md');
-  }
-  if (/^appendices\/appendix-[a-z]\.md$/.test(posixPath)) {
-    const appendixId = path.basename(posixPath, '.md');
-    return path.join(publishRoot, 'appendices', appendixId, 'index.md');
-  }
-  return null;
 }
 
 function shouldBuildFile(locale, relativePath) {
@@ -150,17 +131,20 @@ function buildEdition(locale) {
     const relativePath = path.relative(sourceRoot, sourceFile);
     if (!shouldBuildFile(locale, relativePath)) continue;
 
-    const outputFile = mapOutputFile(locale, relativePath);
-    if (!outputFile) continue;
+    const page = resolveSourcePage(publicationModel.editions[locale], relativePath);
+    if (!page) continue;
+    const outputFile = path.join(publishRoot, ...page.outputSegments);
 
     let content = fs.readFileSync(sourceFile, 'utf8');
     if (locale === 'en') {
       content = stripEnglishTranslationMetadata(content);
     }
     content = rewriteExampleLinksForPublication(content);
-    const title = readMarkdownTitle(content, path.basename(relativePath, '.md'));
+    const canonicalMetadata = page.metadata;
+    const title = canonicalMetadata?.title || readMarkdownTitle(content, path.basename(relativePath, '.md'));
     const wrapped = wrapWithFrontMatter({
       title,
+      description: canonicalMetadata?.description,
       locale,
       sourcePath: path.join(edition.sourceRoot, relativePath).split(path.sep).join('/'),
     }, content);
@@ -171,6 +155,9 @@ function buildEdition(locale) {
 
   console.log(`Built ${locale} edition into ${edition.publishRoot}.`);
 }
+
+const publicationModel = loadPublicationModel(repoRoot);
+writeGeneratedArtifacts(repoRoot, renderGeneratedArtifacts(publicationModel));
 
 if (target === 'all') {
   buildEdition('ja');

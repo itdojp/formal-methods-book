@@ -1,9 +1,218 @@
 {
+  "_generated": {
+    "by": "scripts/generate-publication-metadata.js",
+    "sources": [
+      "book-config.json",
+      "book-config.en.json",
+      "publication-config.json"
+    ]
+  },
   "edition": {
     "id": "en",
     "locale": "en-US",
     "contentRoot": "docs/en",
     "languageSwitcherTarget": "ja"
+  },
+  "content": {
+    "parts": [
+      {
+        "id": "part-i",
+        "title": "Part I: Foundations",
+        "description": "establishes why formal methods matter, where intuition breaks down, and what conceptual tools the rest of the book depends on",
+        "order": 1
+      },
+      {
+        "id": "part-ii",
+        "title": "Part II: Methods",
+        "description": "introduces representative specification styles so that readers can compare modeling choices rather than memorize isolated syntax",
+        "order": 2
+      },
+      {
+        "id": "part-iii",
+        "title": "Part III: Verification",
+        "description": "explains how properties are checked, proved, or derived, and where each verification style provides practical value",
+        "order": 3
+      },
+      {
+        "id": "part-iv",
+        "title": "Part IV: Practice",
+        "description": "moves from theory to engineering practice: process integration, tools, automation, and case studies",
+        "order": 4
+      }
+    ],
+    "specialPages": [
+      {
+        "id": "introduction",
+        "section": "introduction",
+        "title": "Introduction",
+        "path": "/en/introduction/",
+        "order": 0
+      },
+      {
+        "id": "glossary",
+        "section": "additional",
+        "title": "Glossary",
+        "path": "/en/glossary/",
+        "order": 14
+      },
+      {
+        "id": "afterword",
+        "section": "afterword",
+        "title": "Afterword",
+        "path": "/en/afterword/",
+        "order": 21
+      }
+    ],
+    "chapters": [
+      {
+        "id": "chapter01",
+        "title": "Chapter 1: Why Formal Methods Matter",
+        "description": "Why modern software needs mathematically grounded reasoning, with lessons from failures and safety expectations.",
+        "path": "/en/chapters/chapter01/",
+        "order": 1,
+        "part": "part-i"
+      },
+      {
+        "id": "chapter02",
+        "title": "Chapter 2: Bridging Mathematics and Programs",
+        "description": "How mathematical thinking connects to programming, with models of state and change.",
+        "path": "/en/chapters/chapter02/",
+        "order": 2,
+        "part": "part-i"
+      },
+      {
+        "id": "chapter03",
+        "title": "Chapter 3: Foundations of Specification",
+        "description": "From ambiguity in natural language to precise specifications with preconditions, postconditions, and invariants.",
+        "path": "/en/chapters/chapter03/",
+        "order": 3,
+        "part": "part-i"
+      },
+      {
+        "id": "chapter04",
+        "title": "Chapter 4: Introduction to Lightweight Formal Methods — Specification with Alloy",
+        "description": "Alloy's modeling style and practical verification with relational reasoning.",
+        "path": "/en/chapters/chapter04/",
+        "order": 4,
+        "part": "part-ii"
+      },
+      {
+        "id": "chapter05",
+        "title": "Chapter 5: State-Based Specification — Fundamentals of Z Notation",
+        "description": "States, schemas, and precise specification in Z notation.",
+        "path": "/en/chapters/chapter05/",
+        "order": 5,
+        "part": "part-ii"
+      },
+      {
+        "id": "chapter06",
+        "title": "Chapter 6: Process-Centric Specification — Concurrency with CSP",
+        "description": "Concurrency, communication, and deadlock analysis with CSP.",
+        "path": "/en/chapters/chapter06/",
+        "order": 6,
+        "part": "part-ii"
+      },
+      {
+        "id": "chapter07",
+        "title": "Chapter 7: Specifying Time — Introduction to TLA+",
+        "description": "Dynamic system properties with temporal logic and TLA+.",
+        "path": "/en/chapters/chapter07/",
+        "order": 7,
+        "part": "part-ii"
+      },
+      {
+        "id": "chapter08",
+        "title": "Chapter 8: Introduction to Model Checking",
+        "description": "Automated verification, state-space exploration, and counterexamples.",
+        "path": "/en/chapters/chapter08/",
+        "order": 8,
+        "part": "part-iii"
+      },
+      {
+        "id": "chapter09",
+        "title": "Chapter 9: Fundamentals of Theorem Proving",
+        "description": "Mechanized proof, type theory, and proof assistants such as Coq.",
+        "path": "/en/chapters/chapter09/",
+        "order": 9,
+        "part": "part-iii"
+      },
+      {
+        "id": "chapter10",
+        "title": "Chapter 10: Program Verification",
+        "description": "Program correctness with Hoare logic, loop invariants, and verified reasoning about arrays.",
+        "path": "/en/chapters/chapter10/",
+        "order": 10,
+        "part": "part-iii"
+      },
+      {
+        "id": "chapter11",
+        "title": "Chapter 11: Integrating Formal Methods into Development Processes",
+        "description": "Incremental adoption strategies and organizational integration.",
+        "path": "/en/chapters/chapter11/",
+        "order": 11,
+        "part": "part-iv"
+      },
+      {
+        "id": "chapter12",
+        "title": "Chapter 12: Tools and Automation",
+        "description": "Tool ecosystems, CI integration, and operational automation.",
+        "path": "/en/chapters/chapter12/",
+        "order": 12,
+        "part": "part-iv"
+      },
+      {
+        "id": "chapter13",
+        "title": "Chapter 13: Case Studies",
+        "description": "Detailed studies of industrial adoption, including rail, security, and large-scale distributed systems.",
+        "path": "/en/chapters/chapter13/",
+        "order": 13,
+        "part": "part-iv"
+      }
+    ],
+    "appendices": [
+      {
+        "id": "appendix-a",
+        "title": "Appendix A: Mathematics Refresher",
+        "description": "A concise review of sets, logic, and functions.",
+        "path": "/en/appendices/appendix-a/",
+        "order": 15
+      },
+      {
+        "id": "appendix-b",
+        "title": "Appendix B: Tool Setup and Verification Quick Start",
+        "description": "The shortest reproducible path to running the companion examples for Alloy, TLC, Apalache, Dafny, and Lean 4.",
+        "path": "/en/appendices/appendix-b/",
+        "order": 16
+      },
+      {
+        "id": "appendix-c",
+        "title": "Appendix C: Notation Cross-Reference",
+        "description": "A comparison of symbols and syntax across Z, Alloy, TLA+, and related notations.",
+        "path": "/en/appendices/appendix-c/",
+        "order": 17
+      },
+      {
+        "id": "appendix-d",
+        "title": "Appendix D: Exercise Guides and Self-Review Frameworks",
+        "description": "Reusable answer structures and self-review criteria for the end-of-chapter exercises.",
+        "path": "/en/appendices/appendix-d/",
+        "order": 18
+      },
+      {
+        "id": "appendix-e",
+        "title": "Appendix E: References and Further Reading Paths",
+        "description": "Primary sources and chapter-aligned paths for deeper follow-up reading.",
+        "path": "/en/appendices/appendix-e/",
+        "order": 19
+      },
+      {
+        "id": "appendix-f",
+        "title": "Appendix F: Practical Playbook for AI-Assisted Formal Methods",
+        "description": "A workflow playbook for using AI assistance while preserving verification evidence and reviewability.",
+        "path": "/en/appendices/appendix-f/",
+        "order": 20
+      }
+    ]
   },
   "performance": {
     "lazyLoading": true,

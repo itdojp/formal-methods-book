@@ -20,6 +20,7 @@ formal-methods-book/
 ├── book-config.json         # Repository/edition manifest
 ├── book-config.ja.json      # Japanese edition metadata
 ├── book-config.en.json      # English edition metadata
+├── publication-config.json  # Locale-neutral Jekyll/mobile policy
 ├── scripts/build.js         # Bilingual publish-tree builder
 └── package.json             # QA/build commands
 ```
@@ -35,6 +36,8 @@ formal-methods-book/
 npm ci                       # Restore the package-lock.json dependency graph
 npm start                    # Build and serve docs/ on localhost:4321
 npm run build:all            # Build both publish trees
+npm run generate:metadata    # Regenerate Jekyll/navigation/mobile/TOC metadata
+npm run check:metadata       # Validate canonical and generated metadata
 npm run deploy               # Publish docs/ with gh-pages (manual fallback)
 ```
 

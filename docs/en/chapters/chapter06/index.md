@@ -1,11 +1,12 @@
 ---
 layout: book
-title: "Chapter 6: Process-Centric Description: Concurrent Systems with CSP"
+title: "Chapter 6: Process-Centric Specification — Concurrency with CSP"
+description: "Concurrency, communication, and deadlock analysis with CSP."
 locale: "en"
 lang: "en"
 source_path: "src/en/chapters/chapter06.md"
 ---
-# Chapter 6: Process-Centric Description: Concurrent Systems with CSP
+# Chapter 6: Process-Centric Specification — Concurrency with CSP
 
 This chapter uses two kinds of code examples.
 

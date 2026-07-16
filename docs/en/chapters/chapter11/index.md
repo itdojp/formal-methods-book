@@ -1,6 +1,7 @@
 ---
 layout: book
 title: "Chapter 11: Integrating Formal Methods into Development Processes"
+description: "Incremental adoption strategies and organizational integration."
 locale: "en"
 lang: "en"
 source_path: "src/en/chapters/chapter11.md"

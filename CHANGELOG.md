@@ -13,6 +13,7 @@
 - 「そのまま動く」例を、固定 tool version、command、期待結果、CI lane、標準 artifact を持つ 12 件の manifest contract へ移行
 - JavaScript 依存の再現性を root `package-lock.json` と clean-checkout の `npm ci` に一元化
 - Book QA で利用する外部 `book-formatter` を監査済み commit SHA pin として文書化
+- edition config を章・付録・special page・part・locale UI metadata の正本とし、Jekyll config、navigation、mobile config、トップ目次を決定的に生成
 
 ### Removed
 
@@ -23,3 +24,4 @@
 ### Quality
 
 - tracked 生成物、旧テンプレート残骸、formatter pin drift、存在しない npm script の案内を検出する repository hygiene gate を追加
+- title / description / order / path、JA/EN 1:1 対応、生成物の完全一致を検証する publication metadata renderer test / CI gate を追加

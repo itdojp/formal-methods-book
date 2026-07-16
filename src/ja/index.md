@@ -84,45 +84,13 @@
 
 ## 目次
 
-- [はじめに]({{ '/introduction/' | relative_url }})
-- [用語集（Glossary）]({{ '/glossary/' | relative_url }})
-
-### 第I部　基礎編：形式的手法の基盤
-
-- [第1章 なぜ形式的手法が必要なのか]({{ '/chapters/chapter01/' | relative_url }})
-- [第2章 数学とプログラムの橋渡し]({{ '/chapters/chapter02/' | relative_url }})
-- [第3章 仕様記述の基本]({{ '/chapters/chapter03/' | relative_url }})
-
-### 第II部　手法編：主要な形式的手法の理解
-
-- [第4章 軽量形式的手法入門 - Alloy で始める仕様記述]({{ '/chapters/chapter04/' | relative_url }})
-- [第5章 状態ベース仕様記述 - Z記法の基礎]({{ '/chapters/chapter05/' | relative_url }})
-- [第6章 プロセス中心の記述 - CSPによる並行システム]({{ '/chapters/chapter06/' | relative_url }})
-- [第7章 時間を扱う仕様記述 - TLA+ 入門]({{ '/chapters/chapter07/' | relative_url }})
-
-### 第III部　検証編：システムの正しさの確認
-
-- [第8章 模型検査入門]({{ '/chapters/chapter08/' | relative_url }})
-- [第9章 定理証明の基礎]({{ '/chapters/chapter09/' | relative_url }})
-- [第10章 プログラム検証]({{ '/chapters/chapter10/' | relative_url }})
-
-### 第IV部　実践編：実際のプロジェクトでの活用
-
-- [第11章 開発プロセスとの統合]({{ '/chapters/chapter11/' | relative_url }})
-- [第12章 ツールと自動化]({{ '/chapters/chapter12/' | relative_url }})
-- [第13章 事例研究]({{ '/chapters/chapter13/' | relative_url }})
+{% include generated/toc-main-ja.md %}
 
 補足: 各章末の演習についての解答の骨子・採点観点は、[付録D: 演習問題解答]({{ '/appendices/appendix-d/' | relative_url }})を参照してください。
 
 ## 付録
 
-- [付録A: 数学的基礎の復習]({{ '/appendices/appendix-a/' | relative_url }})
-- [付録B: ツールインストールガイド]({{ '/appendices/appendix-b/' | relative_url }})
-- [付録C: 記法対照表]({{ '/appendices/appendix-c/' | relative_url }})
-- [付録D: 演習問題解答]({{ '/appendices/appendix-d/' | relative_url }})
-- [付録E: 参考文献とWebリソース]({{ '/appendices/appendix-e/' | relative_url }})
-- [付録F: AI 支援の実践ガイド]({{ '/appendices/appendix-f/' | relative_url }})
-- [おわりに]({{ '/afterword/' | relative_url }})
+{% include generated/toc-appendices-ja.md %}
 
 ## 利用と更新情報
 

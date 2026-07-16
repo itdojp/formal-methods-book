@@ -1,6 +1,7 @@
 ---
 layout: book
 title: "付録A：数学的基礎の復習"
+description: "集合論、論理、関数といった数学的基礎の簡潔な復習資料"
 locale: "ja"
 lang: "ja"
 source_path: "src/ja/appendices/appendix-a.md"

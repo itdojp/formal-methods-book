@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "1.0",
+  "jekyll": {
+    "organization": "株式会社アイティードゥ",
+    "markdown": "kramdown",
+    "highlighter": "rouge",
+    "plugins": [
+      "jekyll-feed",
+      "jekyll-sitemap",
+      "jekyll-seo-tag"
+    ],
+    "exclude": [
+      "node_modules/",
+      "package.json",
+      "package-lock.json",
+      "scripts/",
+      "tests/",
+      "README.md",
+      "src/"
+    ],
+    "kramdown": {
+      "input": "GFM",
+      "syntax_highlighter": "rouge"
+    },
+    "defaults": [
+      {
+        "scope": {
+          "path": "",
+          "type": "pages"
+        },
+        "values": {
+          "layout": "book",
+          "locale": "ja",
+          "lang": "ja"
+        }
+      },
+      {
+        "scope": {
+          "path": "en",
+          "type": "pages"
+        },
+        "values": {
+          "layout": "book",
+          "locale": "en",
+          "lang": "en"
+        }
+      }
+    ],
+    "permalink": "pretty"
+  },
+  "mobile": {
+    "performance": {
+      "lazyLoading": true,
+      "prefetch": true,
+      "compression": true
+    },
+    "navigation": {
+      "swipeGestures": true,
+      "hamburgerMenu": true,
+      "stickyHeader": true
+    },
+    "typography": {
+      "scaleFactor": 1,
+      "lineHeight": 1.6,
+      "fontSize": "16px"
+    },
+    "layout": {
+      "sidebar": "overlay",
+      "breakpoints": {
+        "mobile": "768px",
+        "tablet": "1024px",
+        "desktop": "1200px"
+      }
+    }
+  }
+}

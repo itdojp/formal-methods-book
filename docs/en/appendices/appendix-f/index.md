@@ -1,6 +1,7 @@
 ---
 layout: book
 title: "Appendix F: Practical Playbook for AI-Assisted Formal Methods"
+description: "A workflow playbook for using AI assistance while preserving verification evidence and reviewability."
 locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-f.md"
