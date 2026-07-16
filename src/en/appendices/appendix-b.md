@@ -19,7 +19,7 @@ You do not need every tool before you begin reading. By following this appendix,
 Notes:
 - Theorem provers such as `Rocq` and `Isabelle` have larger dependency footprints, so this appendix primarily points to primary sources for them in Appendix E.
 - `Lean 4` is included here only as a **minimal setup** at the end of the appendix as an optional path through the book.
-- SPIN, NuSMV, CBMC, Quint, PRISM, Tamarin, and SymbiYosys belong to the `nightly` lane, and this issue also documents one `cvc5` + `Carcara` proof-certificate recheck path there. Additional prerequisites for source builds and archive-layout validation are listed below.
+- SPIN, NuSMV, CBMC, Quint, PRISM, Tamarin, and SymbiYosys belong to the `nightly` lane, and this appendix also documents one `cvc5` + `Carcara` proof-certificate recheck path there. Additional prerequisites for source builds and archive-layout validation are listed below.
 
 ## Tool Lane Inventory and Execution Guarantee {#tool-lane-inventory}
 

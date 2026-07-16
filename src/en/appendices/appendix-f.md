@@ -26,7 +26,7 @@ These assumptions matter because the workflow in this appendix is designed to pr
 
 If this boundary is broken, errors from AI flow directly into errors in quality assurance.
 
-## F.2.1 Recheck Flow for Encoded Claims
+### F.2.1 Recheck Flow for Encoded Claims
 
 `LLM / agent` → `human review of requirements, terms, and encoding` →
 `solver / prover` → `model / witness or proof certificate` →
