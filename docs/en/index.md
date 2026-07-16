@@ -6,13 +6,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/index.md"
 translation_status: "partial"
-translation_source_commit: "261d5aa6e896effd2f27daa78e71c67a2d251d52"
+translation_source_commit: "e056b7afda649ff35ae182d4e649037e3c03c5f6"
 translation_reviewed_at: "2026-07-16"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Formal Methods: Foundations and Applications
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`261d5aa6e896`](https://github.com/itdojp/formal-methods-book/commit/261d5aa6e896effd2f27daa78e71c67a2d251d52) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`e056b7afda64`](https://github.com/itdojp/formal-methods-book/commit/e056b7afda649ff35ae182d4e649037e3c03c5f6) on 2026-07-16.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 Formal methods are often presented in one of two unhelpful ways: as abstract

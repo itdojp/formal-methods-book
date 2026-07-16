@@ -261,9 +261,9 @@
     "index.md": {
       "source_path": "src/ja/index.md",
       "translation_path": "src/en/index.md",
-      "source_commit": "261d5aa6e896effd2f27daa78e71c67a2d251d52",
+      "source_commit": "e056b7afda649ff35ae182d4e649037e3c03c5f6",
       "translated_commit": "f95634f31d9623c3212d6b9849679178e77fee78",
-      "source_sha256": "299cec5643b763e34e02d178afc898c0d3779602c41e50dd29b8148bd82d937d",
+      "source_sha256": "6e8b2c96cfb86ae6d7d68af7518731b0886d4ec3b37f47cabbfd5b802a0b5b07",
       "translation_sha256": "ff575dd985b6a4f263dd0f16412a9296bcacbdc8c9399e60f11a31358beaccb4",
       "status": "partial",
       "reviewed_at": "2026-07-16",
