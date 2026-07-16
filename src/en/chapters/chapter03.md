@@ -1,8 +1,5 @@
 # Chapter 3: Foundations of Specification
 
-> Translation status: full draft  
-> Japanese source of truth: `src/ja/chapters/chapter03.md`
-
 ## 3.1 What a Specification Is: A Bridge Between Ideals and Reality
 
 ### The Essential Role of Specifications

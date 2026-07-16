@@ -1,8 +1,5 @@
 # Appendix D: Exercise Guides and Self-Review Frameworks
 
-> Translation status: full draft  
-> Japanese source of truth: `src/ja/appendices/appendix-d.md`
-
 This appendix provides reusable answer frameworks for the end-of-chapter exercises. Use it when you want to turn an exercise into a study note, workshop output, or review packet that another reader can inspect.
 Because end-of-chapter exercises do not usually have a single unique answer, this appendix emphasizes the **solution skeleton** (minimum structure), the evidence worth keeping, and the **self-review criteria** you can apply before treating an answer as complete.
 

@@ -1,8 +1,5 @@
 # Appendix C: Notation Cross-Reference
 
-> Translation status: full draft  
-> Japanese source of truth: `src/ja/appendices/appendix-c.md`
-
 This appendix is a quick lookup guide for readers who need to recover the
 meaning of a term, compare notations across methods, or check what disciplined
 AI-assisted verification work should leave behind. For fuller definitions, use
