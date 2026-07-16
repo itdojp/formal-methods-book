@@ -208,7 +208,7 @@ As of January 2026, it reflects naming changes and current mainstream references
   - Fischer, Lynch, and Paterson, FLP: <https://groups.csail.mit.edu/tds/papers/Lynch/jacm85.pdf>
   - Dwork, Lynch, and Stockmeyer, partial synchrony: <https://groups.csail.mit.edu/tds/papers/Lynch/jacm88.pdf>
   - Chandra and Toueg, unreliable failure detectors: <https://www.cs.utexas.edu/~lorenzo/corsi/cs380d/papers/p225-chandra.pdf>
-  - Ben-Or, randomized asynchronous agreement: <https://homepage.cs.uiowa.edu/~ghosh/BenOr.pdf>
+  - Ben-Or, randomized asynchronous agreement: <https://www.cs.cornell.edu/courses/cs5414/2017fa/papers/p27-ben-or.pdf>
 
 ## 7) Industrial Case Studies and Adoption Evidence
 
