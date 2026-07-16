@@ -36,6 +36,10 @@ if [[ -z "$out_dir" ]]; then
 elif [[ "$out_dir" != /* ]]; then
   out_dir="$REPO_ROOT/$out_dir"
 fi
+if ! command -v cc >/dev/null 2>&1; then
+  echo 'Required command not found: cc (install build-essential)' >&2
+  exit 2
+fi
 model="$(cd "$(dirname "$model")" && pwd)/$(basename "$model")"
 work_dir="$out_dir/work"
 rm -rf "$work_dir"

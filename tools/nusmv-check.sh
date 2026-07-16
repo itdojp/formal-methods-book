@@ -27,4 +27,8 @@ if [[ -d "$NUSMV_DIR/lib" ]]; then
 fi
 
 echo "NuSMV: $model"
-LD_LIBRARY_PATH="${library_path}${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" "$NUSMV_BIN" "$model"
+if [[ -n "$library_path" ]]; then
+  LD_LIBRARY_PATH="${library_path}${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" "$NUSMV_BIN" "$model"
+else
+  "$NUSMV_BIN" "$model"
+fi
