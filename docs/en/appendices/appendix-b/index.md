@@ -6,13 +6,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-b.md"
 translation_status: "partial"
-translation_source_commit: "f71c3a404722bd8980aec02ec09e6643ea7a4c01"
+translation_source_commit: "a4be778350d24c089d00bdce6d31fd736cc6cf1e"
 translation_reviewed_at: "2026-07-16"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Appendix B: Tool Setup and Verification Quick Start
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`f71c3a404722`](https://github.com/itdojp/formal-methods-book/commit/f71c3a404722bd8980aec02ec09e6643ea7a4c01) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`a4be778350d2`](https://github.com/itdojp/formal-methods-book/commit/a4be778350d24c089d00bdce6d31fd736cc6cf1e) on 2026-07-16.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 This appendix gives the shortest reproducible path to running the book's companion examples. It prioritizes **reproducibility (minimizing environment differences)** over local customization.
@@ -83,7 +83,7 @@ Indirect use of an embedded solver does not constitute a standalone execution gu
 | Prusti / Viper | documentation-only | — | Rust/Viper toolchain and executable asset are not pinned. |
 | Aeneas / Charon | documentation-only | — | No pinned end-to-end contract including a proof target. |
 | Z3 | documentation-only | — | Indirect use by other tools is not counted as a standalone solver guarantee. |
-| cvc5 / CVC4 | nightly | 1.3.4 | Rebuilds a pinned solver and independent Alethe checker nightly to recheck an UNSAT certificate. |
+| cvc5 / CVC4 | nightly | 1.3.4 | Verifies and re-extracts a pinned official solver asset, rebuilds an independent Alethe checker from source nightly, and rechecks an UNSAT certificate. |
 | Yices | documentation-only | — | Reference-only; no pinned executable asset. |
 | MathSAT | documentation-only | — | Reference-only; licensing/distribution environment is not pinned. |
 | SCADE | documentation-only | — | Commercial/GUI toolchain; not a mandatory CI dependency. |

@@ -33,14 +33,14 @@
     "appendices/appendix-b.md": {
       "source_path": "src/ja/appendices/appendix-b.md",
       "translation_path": "src/en/appendices/appendix-b.md",
-      "source_commit": "f71c3a404722bd8980aec02ec09e6643ea7a4c01",
-      "translated_commit": "f71c3a404722bd8980aec02ec09e6643ea7a4c01",
-      "source_sha256": "8c0e1db8ae9f97b14893fa125d59464bb49ca7321bb880cff54648f39ccd52fa",
-      "translation_sha256": "81e918aa1d8ea7a2ff5e176fca22164bdc6b62fcce57af8383bb1e127810e08a",
+      "source_commit": "a4be778350d24c089d00bdce6d31fd736cc6cf1e",
+      "translated_commit": "a4be778350d24c089d00bdce6d31fd736cc6cf1e",
+      "source_sha256": "68a102c1f49eedb316753cd06cc944c57c368443a6dcb95e6c4f63200deb5cc4",
+      "translation_sha256": "8ef6de68060f307abd07261e8637d9bc50d65694121befd07201ffbd69c37240",
       "status": "partial",
       "reviewed_at": "2026-07-16",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "The cvc5 1.3.4 / Alethe / Carcara compatibility commit, bounded archive/output handling, Rust provenance sentinel, installed compiler commit/host verification, nightly lane, artifact, and non-redistribution guidance was semantically reviewed across JA/EN; pre-existing heading level/order, code-fence, and table-shape differences remain"
+      "notes": "The cvc5 1.3.4 official static asset / Alethe / source-built Carcara compatibility commit, inclusive bounded output handling, Rust provenance sentinel, installed compiler commit/host verification, nightly lane, artifact, and non-redistribution guidance was semantically reviewed across JA/EN; pre-existing heading level/order, code-fence, and table-shape differences remain"
     },
     "appendices/appendix-c.md": {
       "source_path": "src/ja/appendices/appendix-c.md",
