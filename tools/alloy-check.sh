@@ -4,7 +4,7 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 # Ensure tools are available.
-bash "$REPO_ROOT/tools/bootstrap.sh" >/dev/null
+bash "$REPO_ROOT/tools/bootstrap.sh" --tool alloy
 
 : "${ALLOY_VERSION:=6.2.0}"
 ALLOY_JAR="$REPO_ROOT/tools/.cache/alloy-${ALLOY_VERSION}.jar"

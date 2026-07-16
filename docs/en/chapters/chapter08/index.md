@@ -636,7 +636,7 @@ also Chapter 7, "Temporal Expressions of Fairness."
 
 Minimal NuSMV/nuXmv example with `FAIRNESS` and `COMPASSION`:
 
-【Tool-compliant (runs as-is)】
+【Context-dependent snippet】
 ```smv
 MODULE main
 VAR
@@ -687,7 +687,7 @@ temporal logic.
 
 **Example in SPIN / Promela**:
 
-【Tool-compliant (runs as-is)】
+【Context-dependent snippet】
 ```promela
 bool critical_section = false;
 bool cs1 = false;
@@ -1192,7 +1192,7 @@ These commands display a counterexample trace and write it to a file.
 
 **SPIN trace facilities**:
 
-【Tool-compliant (runs as-is)】
+【Context-dependent snippet】
 ```bash
 spin -t -p examples/ch08/spin/producer-consumer.pml
 spin -t examples/ch08/spin/producer-consumer.pml
@@ -1257,7 +1257,7 @@ verifying concurrent systems.
 
 **Example domain**:
 
-【Tool-compliant (runs as-is)】
+【Context-dependent snippet】
 ```promela
 mtype = { msg };
 chan buffer = [1] of { mtype };
@@ -1302,7 +1302,7 @@ NuSMV is a classic tool for symbolic model checking.
 
 **Specification example**:
 
-【Tool-compliant (runs as-is)】
+【Context-dependent snippet】
 ```smv
 MODULE main
 VAR
@@ -1400,7 +1400,7 @@ CBMC is a bounded model checker for C and C++ programs.
 
 **Verification example**:
 
-【Tool-compliant (runs as-is)】
+【Context-dependent snippet】
 ```c
 #include <assert.h>
 
@@ -1438,6 +1438,47 @@ For a self-contained file, see `examples/ch08/cbmc/array-bounds.c`.
 - bounded verification only
 - abstraction is still difficult for large programs
 - performance can degrade on very large codebases
+
+### Executable Example Contracts {#model-checker-executable-example-contracts}
+
+The short SPIN, NuSMV, and CBMC fragments in this chapter are **context-dependent snippets**, even when their syntax matches the real tools, because execution still depends on launch options, generated artifacts, and surrounding model context. CI-backed executability is limited to the contract blocks below, which retrieve the shared JA/EN canonical assets from `examples/ch08/**` through the manifest runner.
+
+Repository-wide, `pr-quick` and `nightly` are separated, and the contracts in this section stay on `nightly` to keep pull-request latency controlled. Normalized execution evidence is expected under `.artifacts/manifest/<id>/`, and readers should retrieve the canonical files from the same repository revision instead of copying the short inline fragments by themselves.
+
+- `spin-ltl-properties`: canonical asset [examples/ch08/spin/ltl-properties.pml](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/ch08/spin/ltl-properties.pml); lane `nightly`; pinned version `SPIN 6.5.2`; expected success marker `errors: 0`. Retrieve [examples/ch08/spin/ltl-properties.pml](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/ch08/spin/ltl-properties.pml) from the same commit as the manuscript.
+<!-- example-contract: spin-ltl-properties -->
+【Tool-compliant (runs as-is)】
+```bash
+node scripts/run-example-manifest.js --id spin-ltl-properties
+```
+
+- `spin-producer-consumer`: canonical asset [examples/ch08/spin/producer-consumer.pml](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/ch08/spin/producer-consumer.pml); lane `nightly`; pinned version `SPIN 6.5.2`; expected success marker `errors: 0`. Retrieve the self-contained Promela source from [examples/ch08/spin/producer-consumer.pml](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/ch08/spin/producer-consumer.pml) in the same revision.
+<!-- example-contract: spin-producer-consumer -->
+【Tool-compliant (runs as-is)】
+```bash
+node scripts/run-example-manifest.js --id spin-producer-consumer
+```
+
+- `nusmv-fairness`: canonical asset [examples/ch08/nusmv/fairness.smv](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/ch08/nusmv/fairness.smv); lane `nightly`; pinned version `NuSMV 2.7.1`; expected success marker `-- is true`. Retrieve the shared JA/EN asset from [examples/ch08/nusmv/fairness.smv](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/ch08/nusmv/fairness.smv).
+<!-- example-contract: nusmv-fairness -->
+【Tool-compliant (runs as-is)】
+```bash
+node scripts/run-example-manifest.js --id nusmv-fairness
+```
+
+- `nusmv-request-response`: canonical asset [examples/ch08/nusmv/request-response.smv](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/ch08/nusmv/request-response.smv); lane `nightly`; pinned version `NuSMV 2.7.1`; expected result `-- is false`, representing the intentional counterexample while the NuSMV process itself exits successfully. Retrieve [examples/ch08/nusmv/request-response.smv](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/ch08/nusmv/request-response.smv) from the same repository revision.
+<!-- example-contract: nusmv-request-response -->
+【Tool-compliant (runs as-is)】
+```bash
+node scripts/run-example-manifest.js --id nusmv-request-response
+```
+
+- `cbmc-array-bounds`: canonical asset [examples/ch08/cbmc/array-bounds.c](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/ch08/cbmc/array-bounds.c); lane `nightly`; pinned version `CBMC 6.10.0`; expected success marker `VERIFICATION SUCCESSFUL`. Retrieve the full source file from [examples/ch08/cbmc/array-bounds.c](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/ch08/cbmc/array-bounds.c) instead of copying the inline excerpt alone.
+<!-- example-contract: cbmc-array-bounds -->
+【Tool-compliant (runs as-is)】
+```bash
+node scripts/run-example-manifest.js --id cbmc-array-bounds
+```
 
 ### UPPAAL: Specialized for Real-Time Systems
 

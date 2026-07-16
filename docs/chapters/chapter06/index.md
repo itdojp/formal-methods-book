@@ -132,7 +132,7 @@ SYSTEM = CUSTOMER [| {order, pay} |] CASHIER
 
 実用的なシステムでは、多数のプロセスが相互作用します。CSPでは、「チャネル」という概念により、この複雑性を管理します。チャネルは、特定のプロセス間での通信経路を表現します。
 
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```csp
 channel in, out : {0..1}
 
@@ -175,7 +175,7 @@ RANDOM = heads → SUCCESS ⊓ tails → FAILURE
 ```
 
 **並行合成（||）**: 複数のプロセスの並行実行
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```csp
 PROCESS1 = a -> PROCESS1
 PROCESS2 = b -> PROCESS2
@@ -215,13 +215,13 @@ RELIABLE_SERVICE =
 CSPのすべての複雑なシステムは、少数の基本的なプロセスから構築されます。これらのプリミティブプロセスを理解することが、CSP全体の理解の基礎となります。
 
 **STOP**: 何もしないプロセス（デッドロック）
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```csp
 STOP
 ```
 
 **SKIP**: 正常終了するプロセス
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```csp
 SKIP
 ```
@@ -282,7 +282,7 @@ BUFFER = size < MAX & input?x → add.x → BUFFER
 複数のプロセスを並行実行させるための演算子群は、CSPの核心的な機能です。
 
 **独立並行（|||）**: 完全に独立した並行実行
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```csp
 PRINTER = print_job -> PRINTER
 SCANNER = scan_doc -> SCANNER
@@ -294,7 +294,7 @@ SYSTEM = PRINTER ||| SCANNER ||| KEYBOARD
 プロセス間に相互作用はなく、完全に並行して動作します。
 
 **同期並行（[| X |]）**: 指定された事象での同期
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```csp
 CUSTOMER = arrive -> order -> pay -> leave -> CUSTOMER
 CASHIER = greet -> order -> pay -> CASHIER
@@ -371,7 +371,7 @@ N個のワーカープロセスが並行して動作します。
 
 内部的な事象を外部から見えなくするため、隠蔽演算子（\）を使います。
 
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```csp
 INTERNAL_PROCESS = internal_event1 -> internal_event2 -> external_event -> INTERNAL_PROCESS
 PUBLIC_INTERFACE = INTERNAL_PROCESS \ {internal_event1, internal_event2}
@@ -383,7 +383,7 @@ PUBLIC_INTERFACE = INTERNAL_PROCESS \ {internal_event1, internal_event2}
 
 プロセスの再利用のため、事象名を変更する演算子があります。
 
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```csp
 channel in, out : {0..1}
 channel input, output : {0..1}
@@ -430,7 +430,7 @@ RECEIVER = ch?x → process.x → RECEIVER
 ```
 
 **同期通信**: 送信と受信が同時に発生
-【ツール準拠（そのまま動く）】
+【文脈依存スニペット】
 ```csp
 channel ch : {0..1}
 

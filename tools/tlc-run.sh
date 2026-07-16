@@ -4,7 +4,7 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 # Ensure tools are available.
-bash "$REPO_ROOT/tools/bootstrap.sh" >/dev/null
+bash "$REPO_ROOT/tools/bootstrap.sh" --tool tlc
 
 : "${TLA_VERSION:=1.7.4}"
 TLA_JAR="$REPO_ROOT/tools/.cache/tla2tools-${TLA_VERSION}.jar"

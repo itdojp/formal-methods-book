@@ -1614,6 +1614,19 @@ method BinarySearch(a: array<int>, key: int) returns (index: int)
 
 Here the verification conditions are written alongside the implementation.
 
+### Executable Example Contracts {#dafny-executable-example-contracts}
+
+The Dafny fragment in this section is a **context-dependent snippet** used to explain the style of contract-oriented verification. CI-backed executability is limited to the contract block below, which retrieves the shared JA/EN canonical asset from [examples/dafny/Abs.dfy](../../../examples/dafny/Abs.dfy) through the manifest runner.
+
+This chapter-level contract belongs to `pr-quick`, while `nightly` carries the heavier checks for other tools. Normalized logs, commands, exit codes, stdout, and stderr are expected under `.artifacts/manifest/<id>/`, and readers should reproduce the example from the canonical file at the same repository revision instead of copying the inline excerpt alone.
+
+- `dafny-abs`: canonical asset [examples/dafny/Abs.dfy](../../../examples/dafny/Abs.dfy); lane `pr-quick`; pinned version `Dafny 4.11.0`; expected success marker `Dafny program verifier finished with 1 verified, 0 errors`. Retrieve the shared JA/EN source file from [examples/dafny/Abs.dfy](../../../examples/dafny/Abs.dfy) in the same commit.
+<!-- example-contract: dafny-abs -->
+【Tool-compliant (runs as-is)】
+```bash
+node scripts/run-example-manifest.js --id dafny-abs
+```
+
 ### SPARK: A Verifiable Subset of Ada
 
 SPARK is a verifiable subset of Ada with contract-based specification. It is

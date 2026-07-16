@@ -2,7 +2,7 @@ name: Formal checks
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [main]
   schedule:
     - cron: "0 2 * * *"
   workflow_dispatch: {}
@@ -15,58 +15,85 @@ permissions:
 
 jobs:
   pr-quick:
+    timeout-minutes: 20
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: "17"
-      - name: Cache formal tools
+          java-version: '17'
+      - name: Cache manifest toolchain
         uses: actions/cache@v5
         with:
           path: tools/.cache
-          key: formal-tools-${{ runner.os }}-alloy6.2.0-tla1.7.4-apalache0.52.1-dafny4.11.0
-      - name: Minimal formal checks
+          key: formal-tools-${{ runner.os }}-${{ runner.arch }}-pr-quick-${{ hashFiles('examples/example-manifest.json', 'tools/bootstrap.sh') }}
+      - name: Run pr-quick manifest lane
         run: bash examples/ci/pr-quick-check.sh
-      - name: Upload artifacts (counterexamples, logs)
+      - name: Upload manifest artifacts
         if: always()
         uses: actions/upload-artifact@v7
         with:
           name: formal-artifacts-pr
-          path: .artifacts
+          path: .artifacts/manifest
+          if-no-files-found: warn
 
   nightly-deep:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: "17"
-      - name: Cache formal tools
+          java-version: '17'
+      - name: Install nightly source-build prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes \
+            bison \
+            build-essential \
+            flex \
+            g++ \
+            gcc \
+            m4 \
+            patch \
+            pkg-config \
+            python3 \
+            python3-venv \
+            xz-utils
+          python3 -m venv tools/.tmp/nusmv-build-tools
+          tools/.tmp/nusmv-build-tools/bin/pip install \
+            --disable-pip-version-check \
+            --require-hashes \
+            --requirement tools/nusmv-build-requirements.txt
+          echo "$GITHUB_WORKSPACE/tools/.tmp/nusmv-build-tools/bin" >> "$GITHUB_PATH"
+      - name: Cache manifest toolchain
         uses: actions/cache@v5
         with:
           path: tools/.cache
-          key: formal-tools-${{ runner.os }}-alloy6.2.0-tla1.7.4-apalache0.52.1-dafny4.11.0
-      - name: Bootstrap toolchain
-        run: bash tools/bootstrap.sh
+          key: formal-tools-${{ runner.os }}-${{ runner.arch }}-nightly-${{ hashFiles('examples/example-manifest.json', 'tools/bootstrap.sh', 'tools/nusmv-build-requirements.txt') }}
       - name: Deep Alloy checks (more solutions)
-        run: |
-          bash tools/alloy-check.sh --repeat 10 examples/alloy/collection.als
+        run: bash tools/alloy-check.sh --repeat 10 examples/alloy/collection.als
       - name: Deep TLC checks (higher depth)
-        run: |
-          bash tools/tlc-run.sh --config examples/tla/QueueBounded.cfg --depth 50 --time-limit 300 examples/tla/QueueBounded.tla
-      - name: Apalache checks (bounded length)
-        run: |
-          bash tools/apalache-check.sh --config examples/apalache/Counter.cfg --length 50 --init Init --next Next --inv Inv examples/apalache/Counter.tla
+        run: bash tools/tlc-run.sh --config examples/tla/QueueBounded.cfg --depth 50 --time-limit 300 examples/tla/QueueBounded.tla
+      - name: Deep Apalache checks (bounded length)
+        run: bash tools/apalache-check.sh --config examples/apalache/Counter.cfg --length 50 --init Init --next Next --inv Inv examples/apalache/Counter.tla
       - name: Dafny verification
-        run: |
-          bash tools/dafny-verify.sh examples/dafny/Abs.dfy
-      - name: Upload artifacts (counterexamples, logs)
+        run: bash tools/dafny-verify.sh examples/dafny/Abs.dfy
+      - name: Run nightly manifest lane
+        run: node scripts/run-example-manifest.js --lane nightly
+      - name: Upload manifest artifacts
         if: always()
         uses: actions/upload-artifact@v7
         with:
           name: formal-artifacts-nightly
           path: .artifacts
+          if-no-files-found: warn

@@ -95,7 +95,10 @@ function stripEnglishTranslationMetadata(content) {
 }
 
 function normalizeBody(content) {
-  return content.replace(/\r\n/g, '\n').trimEnd();
+  return content
+    .replace(/\[(examples\/[A-Za-z0-9_./-]+)\]\([^)]+\)/g, '[$1](example-link:$1)')
+    .replace(/\r\n/g, '\n')
+    .trimEnd();
 }
 
 function requireGeneratedMatch(sourcePath, publicPath, locale) {
@@ -122,6 +125,10 @@ function runSelfTest() {
         '> Japanese source of truth: `src/ja/chapter.md`\n\nBody\n',
     ),
     '# Chapter\n\nBody\n',
+  );
+  assert.strictEqual(
+    normalizeBody('[examples/a.tla](../../../examples/a.tla)'),
+    normalizeBody('[examples/a.tla](https://example.invalid/revision/examples/a.tla)'),
   );
 
   for (const [labelIndex, label] of toolCompliantLabels.entries()) {

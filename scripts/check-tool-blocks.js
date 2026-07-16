@@ -3,6 +3,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { loadManifest, runnerCommand } = require('./example-manifest');
 
 const CODE_LABEL_VARIANTS = [
   {
@@ -127,14 +128,52 @@ function reportError(filePath, lineNumber, message) {
   console.error(`::error file=${filePath},line=${lineNumber}::${safeMessage}`);
 }
 
-function checkFile(filePath) {
+function checkFile(filePath, manifestIds) {
   const content = fs.readFileSync(filePath, 'utf8');
   const lines = content.split(/\r?\n/);
   const errors = [];
+  const registrationsInFile = new Map();
 
   let sawCodeLabelInFile = null;
   let codeBlockCountInFile = 0;
   for (let i = 0; i < lines.length; i++) {
+    if (lines[i].includes('example-contract:')) {
+      const registrationMatch = lines[i].trim().match(
+        /^<!-- example-contract: ([a-z0-9]+(?:-[a-z0-9]+)*) -->$/,
+      );
+      if (!registrationMatch) {
+        errors.push({
+          line: i + 1,
+          message: 'example contract comment は <!-- example-contract: ID --> の完全一致形式で記述してください',
+        });
+      } else {
+        const registrationId = registrationMatch[1];
+        const previousLine = registrationsInFile.get(registrationId);
+        if (previousLine) {
+          errors.push({
+            line: i + 1,
+            message: `example contract ID が同じファイル内で重複しています: ${registrationId} (first line ${previousLine})`,
+          });
+        } else {
+          registrationsInFile.set(registrationId, i + 1);
+        }
+        const nextLabel = i + 1 < lines.length ? getStandaloneCodeLabel(lines[i + 1]) : null;
+        const nextVariant = nextLabel ? getLabelVariant(nextLabel) : null;
+        if (!nextVariant || nextVariant.kind !== 'tool') {
+          errors.push({
+            line: i + 1,
+            message: `example contract ${registrationId} の直後に strict tool label がありません`,
+          });
+        }
+        if (!manifestIds.has(registrationId)) {
+          errors.push({
+            line: i + 1,
+            message: `example contract ID が manifest に存在しません: ${registrationId}`,
+          });
+        }
+      }
+    }
+
     const codeLabelInLine = findCodeLabelInLine(lines[i]);
     if (codeLabelInLine && sawCodeLabelInFile === null) {
       sawCodeLabelInFile = { line: i + 1, label: codeLabelInLine };
@@ -156,6 +195,29 @@ function checkFile(filePath) {
     const pseudoLabel = getPseudoLabelForCodeLabel(standaloneCodeLabel);
     const labelVariant = getLabelVariant(standaloneCodeLabel);
     const isStrictToolLabel = labelVariant && labelVariant.kind === 'tool';
+    let registrationId = null;
+    if (isStrictToolLabel) {
+      const previousLine = i > 0 ? lines[i - 1].trim() : '';
+      const registrationMatch = previousLine.match(
+        /^<!-- example-contract: ([a-z0-9]+(?:-[a-z0-9]+)*) -->$/,
+      );
+      if (!registrationMatch) {
+        errors.push({
+          line: i + 1,
+          message:
+            `${standaloneCodeLabel} の直前に <!-- example-contract: ID --> がありません。` +
+            'strict label は manifest entry に必ず登録してください',
+        });
+      } else {
+        registrationId = registrationMatch[1];
+        if (!manifestIds.has(registrationId)) {
+          errors.push({
+            line: i,
+            message: `example contract ID が manifest に存在しません: ${registrationId}`,
+          });
+        }
+      }
+    }
 
     let fenceStartLine = i + 1;
     while (fenceStartLine < lines.length && lines[fenceStartLine].trim() === '') {
@@ -181,6 +243,15 @@ function checkFile(filePath) {
     const fenceHeader = lines[fenceStartLine].trim();
     const fenceLang = fenceHeader.slice(3).trim().toLowerCase();
 
+    if (isStrictToolLabel && fenceLang !== 'bash') {
+      errors.push({
+        line: fenceStartLine + 1,
+        message:
+          `${standaloneCodeLabel} の登録済み実行契約は bash fence である必要があります。` +
+          '実体コードは examples/** に置き、manifest runner を呼び出してください',
+      });
+    }
+
     if (isStrictToolLabel && STRICT_TOOL_DISALLOWED_FENCE_LANGS.has(fenceLang)) {
       const contextLabel = getContextLabelForCodeLabel(standaloneCodeLabel);
       errors.push({
@@ -203,6 +274,7 @@ function checkFile(filePath) {
     let alloyBooleanMisuseLine = null;
     let sawAlloyBooleanOpen = false;
     let sawAlloyBoolType = false;
+    const fenceBodyLines = [];
     for (; fenceEndLine < lines.length; fenceEndLine++) {
       if (lines[fenceEndLine].trim() === '```') {
         foundEnd = true;
@@ -210,6 +282,7 @@ function checkFile(filePath) {
       }
 
       const line = lines[fenceEndLine];
+      fenceBodyLines.push(line);
 
       if (
         naturalLanguageQuoteLine === null &&
@@ -318,6 +391,19 @@ function checkFile(filePath) {
       continue;
     }
 
+    if (isStrictToolLabel && registrationId !== null) {
+      const commandLines = fenceBodyLines.map((line) => line.trim()).filter(Boolean);
+      const expectedCommand = runnerCommand(registrationId);
+      if (commandLines.length !== 1 || commandLines[0] !== expectedCommand) {
+        errors.push({
+          line: fenceStartLine + 2,
+          message:
+            `example contract ${registrationId} の bash command は次の1行と完全一致する必要があります: ` +
+            expectedCommand,
+        });
+      }
+    }
+
     i = fenceEndLine;
   }
 
@@ -333,12 +419,104 @@ function checkFile(filePath) {
   return errors;
 }
 
+function runSelfTest() {
+  const parent = path.join(process.cwd(), 'tools', '.tmp');
+  fs.mkdirSync(parent, { recursive: true });
+  const root = fs.mkdtempSync(path.join(parent, 'tool-block-self-test-'));
+  const manifestIds = new Set(['alloy-valid']);
+  const fixtures = [
+    {
+      name: 'valid strict registration',
+      expected: null,
+      content: [
+        '<!-- example-contract: alloy-valid -->',
+        '【Tool-compliant (runs as-is)】',
+        '```bash',
+        'node scripts/run-example-manifest.js --id alloy-valid',
+        '```',
+      ].join('\n'),
+    },
+    {
+      name: 'missing registration',
+      expected: '直前に <!-- example-contract: ID --> がありません',
+      content: [
+        '【Tool-compliant (runs as-is)】',
+        '```bash',
+        'node scripts/run-example-manifest.js --id alloy-valid',
+        '```',
+      ].join('\n'),
+    },
+    {
+      name: 'unknown registration',
+      expected: 'manifest に存在しません',
+      content: [
+        '<!-- example-contract: missing-id -->',
+        '【Tool-compliant (runs as-is)】',
+        '```bash',
+        'node scripts/run-example-manifest.js --id missing-id',
+        '```',
+      ].join('\n'),
+    },
+    {
+      name: 'wrong runner command',
+      expected: 'bash command は次の1行と完全一致',
+      content: [
+        '<!-- example-contract: alloy-valid -->',
+        '【Tool-compliant (runs as-is)】',
+        '```bash',
+        'bash tools/alloy-check.sh examples/alloy/valid.als',
+        '```',
+      ].join('\n'),
+    },
+  ];
+
+  try {
+    for (let index = 0; index < fixtures.length; index += 1) {
+      const fixture = fixtures[index];
+      const filePath = path.join(root, `${index}.md`);
+      fs.writeFileSync(filePath, `${fixture.content}\n`);
+      const errors = checkFile(filePath, manifestIds);
+      if (fixture.expected === null && errors.length !== 0) {
+        throw new Error(`${fixture.name}: unexpected errors: ${errors.map((e) => e.message).join(' | ')}`);
+      }
+      if (fixture.expected && !errors.some((error) => error.message.includes(fixture.expected))) {
+        throw new Error(`${fixture.name}: expected diagnostic not found: ${fixture.expected}`);
+      }
+      console.log(`PASS: ${fixture.name}`);
+    }
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+  console.log('OK: tool block registration self-tests passed.');
+}
+
 function main() {
+  if (process.argv.includes('--self-test')) {
+    runSelfTest();
+    return;
+  }
+  if (process.argv.length > 2) {
+    console.error('Usage: node scripts/check-tool-blocks.js [--self-test]');
+    process.exitCode = 2;
+    return;
+  }
+
+  let manifest;
+  try {
+    ({ manifest } = loadManifest(process.cwd()));
+  } catch (error) {
+    reportError('examples/example-manifest.json', 1, error.message);
+    process.exitCode = 1;
+    return;
+  }
+  const manifestIds = new Set(
+    Array.isArray(manifest.examples) ? manifest.examples.map((entry) => entry && entry.id).filter(Boolean) : [],
+  );
   const files = getTrackedMarkdownFiles();
   const allErrors = [];
 
   for (const filePath of files) {
-    const errors = checkFile(filePath);
+    const errors = checkFile(filePath, manifestIds);
     for (const e of errors) {
       allErrors.push({ filePath, ...e });
     }
