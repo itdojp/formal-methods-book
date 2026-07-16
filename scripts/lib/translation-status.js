@@ -139,16 +139,57 @@ function validateTranslationManifest(manifest, publicationModel) {
 }
 
 function extractMarkdownDestinations(content) {
+  const visibleContent = content
+    .split(/\r?\n/)
+    .reduce((state, line) => {
+      const fenceMatch = line.match(/^ {0,3}(`{3,}|~{3,})(.*)$/);
+      if (fenceMatch) {
+        const marker = fenceMatch[1];
+        if (!state.fence) {
+          state.fence = { character: marker[0], length: marker.length };
+        } else if (marker[0] === state.fence.character && marker.length >= state.fence.length) {
+          state.fence = null;
+        }
+        state.lines.push('');
+        return state;
+      }
+      if (state.fence) {
+        state.lines.push('');
+        return state;
+      }
+
+      let visibleLine = line;
+      for (let offset = 0; offset < visibleLine.length;) {
+        if (visibleLine[offset] !== '`') {
+          offset += 1;
+          continue;
+        }
+        let runEnd = offset;
+        while (visibleLine[runEnd] === '`') runEnd += 1;
+        const marker = visibleLine.slice(offset, runEnd);
+        const closing = visibleLine.indexOf(marker, runEnd);
+        if (closing < 0) break;
+        visibleLine = `${visibleLine.slice(0, offset)}${' '.repeat(closing + marker.length - offset)}`
+          + visibleLine.slice(closing + marker.length);
+        offset = closing + marker.length;
+      }
+      state.lines.push(visibleLine);
+      return state;
+    }, { fence: null, lines: [] })
+    .lines
+    .join('\n')
+    .replace(/<!--[\s\S]*?-->/g, '');
+
   const destinations = [];
   let offset = 0;
-  while (offset < content.length) {
-    const start = content.indexOf('](', offset);
+  while (offset < visibleContent.length) {
+    const start = visibleContent.indexOf('](', offset);
     if (start < 0) break;
     let depth = 1;
     let escaped = false;
     let index = start + 2;
-    for (; index < content.length; index += 1) {
-      const character = content[index];
+    for (; index < visibleContent.length; index += 1) {
+      const character = visibleContent[index];
       if (escaped) {
         escaped = false;
         continue;
@@ -164,7 +205,7 @@ function extractMarkdownDestinations(content) {
       }
     }
     if (depth === 0) {
-      let destination = content.slice(start + 2, index).trim();
+      let destination = visibleContent.slice(start + 2, index).trim();
       if (destination.startsWith('<')) {
         const closingBracket = destination.indexOf('>');
         destination = closingBracket >= 0
@@ -179,7 +220,10 @@ function extractMarkdownDestinations(content) {
       break;
     }
   }
-  for (const match of content.matchAll(/<((?:https):\/\/[^>]+)>/g)) destinations.push(match[1]);
+  for (const match of visibleContent.matchAll(/^ {0,3}\[[^\]\r\n]+\]:[ \t]*(?:<([^>\r\n]+)>|(\S+))/gm)) {
+    destinations.push(match[1] || match[2]);
+  }
+  for (const match of visibleContent.matchAll(/<((?:https):\/\/[^>]+)>/g)) destinations.push(match[1]);
   return [...new Set(destinations)];
 }
 
@@ -282,6 +326,18 @@ function defaultReadCommitFile(repoRoot, commit, filePath) {
   });
 }
 
+function defaultIsCommitAncestor(repoRoot, commit) {
+  try {
+    execFileSync('git', ['merge-base', '--is-ancestor', commit, 'HEAD'], {
+      cwd: repoRoot,
+      stdio: ['ignore', 'ignore', 'pipe'],
+    });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 function daysBetween(dateString, now) {
   const reviewed = new Date(`${dateString}T00:00:00Z`);
   return Math.floor((now.getTime() - reviewed.getTime()) / 86400000);
@@ -293,11 +349,13 @@ function evaluateTranslationStatus({
   manifest,
   now = new Date(),
   readCommitFile = defaultReadCommitFile,
+  isCommitAncestor = defaultIsCommitAncestor,
 }) {
   const errors = validateTranslationManifest(manifest, publicationModel);
   const warnings = [];
   const pages = [];
   if (errors.length > 0) return { errors, warnings, pages, summary: {} };
+  const ancestorCache = new Map();
 
   for (const [relativePath, entry] of Object.entries(manifest.pages).sort(([left], [right]) => left.localeCompare(right))) {
     const pageErrors = [];
@@ -310,6 +368,14 @@ function evaluateTranslationStatus({
     const currentTranslationDigest = sha256(translationContent);
     const sourceChanged = currentSourceDigest !== entry.source_sha256;
     const translationChanged = currentTranslationDigest !== entry.translation_sha256;
+
+    for (const [label, commit] of [
+      ['source_commit', entry.source_commit],
+      ['translated_commit', entry.translated_commit],
+    ]) {
+      if (!ancestorCache.has(commit)) ancestorCache.set(commit, isCommitAncestor(repoRoot, commit));
+      if (!ancestorCache.get(commit)) pageErrors.push(`${label} is not an ancestor of HEAD`);
+    }
 
     try {
       if (sha256(readCommitFile(repoRoot, entry.source_commit, entry.source_path)) !== entry.source_sha256) {
@@ -368,7 +434,9 @@ function evaluateTranslationStatus({
       source_commit: entry.source_commit,
       translated_commit: entry.translated_commit,
       reviewed_at: entry.reviewed_at,
+      reviewed_by: entry.reviewed_by || null,
       tracking_issue: entry.tracking_issue || null,
+      notes: entry.notes || null,
       source_changed: sourceChanged,
       translation_changed: translationChanged,
       mismatches,

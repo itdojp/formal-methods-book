@@ -93,6 +93,7 @@ function evaluate({ source, translation, currentSource = source, currentTranslat
       if (!content) throw new Error('fixture snapshot not found');
       return content;
     },
+    isCommitAncestor: () => true,
   });
 }
 
@@ -179,6 +180,25 @@ try {
     assert(result.errors.some((message) => message.includes('mark stale or re-review')));
   });
 
+  test('tracked snapshot commits must remain ancestors of HEAD', () => {
+    const source = '# S\n';
+    const translation = '# T\n';
+    fs.rmSync(testRoot, { recursive: true, force: true });
+    fs.mkdirSync(path.join(testRoot, 'src', 'ja'), { recursive: true });
+    fs.mkdirSync(path.join(testRoot, 'src', 'en'), { recursive: true });
+    fs.writeFileSync(path.join(testRoot, 'src', 'ja', 'index.md'), source);
+    fs.writeFileSync(path.join(testRoot, 'src', 'en', 'index.md'), translation);
+    const result = evaluateTranslationStatus({
+      repoRoot: testRoot,
+      publicationModel: fixtureModel(),
+      manifest: fixtureManifest(source, translation),
+      now: new Date('2026-07-16T12:00:00Z'),
+      readCommitFile: (_root, commit) => Buffer.from(commit === SOURCE_COMMIT ? source : translation),
+      isCommitAncestor: (_root, commit) => commit !== TRANSLATED_COMMIT,
+    });
+    assert(result.errors.some((message) => message.includes('translated_commit is not an ancestor of HEAD')));
+  });
+
   test('legacy free-text status header is rejected', () => {
     const text = '# T\n\n> Translation status: draft\n> Japanese source of truth: src/ja/index.md\n';
     const result = evaluate({ source: '# S\n\nBody.\n', translation: text });
@@ -199,6 +219,7 @@ try {
       manifest: fixtureManifest(source, translation),
       now: new Date('2026-10-15T12:00:00Z'),
       readCommitFile: (_root, commit) => Buffer.from(commit === SOURCE_COMMIT ? source : translation),
+      isCommitAncestor: () => true,
     });
     assert(result.errors.some((message) => message.includes('exceeds max_sync_age_days')));
   });
@@ -227,6 +248,17 @@ try {
     );
   });
 
+  test('Markdown destination parser ignores code and includes reference definitions', () => {
+    assert.deepStrictEqual(
+      extractMarkdownDestinations(
+        '```markdown\n[ignored](https://example.test/fence)\n```\n'
+          + '`[ignored](https://example.test/code-span)`\n'
+          + '[reference][primary]\n\n[primary]: <https://example.test/reference> "title"\n',
+      ),
+      ['https://example.test/reference'],
+    );
+  });
+
   test('feature comparison has a stable seven-dimension contract', () => {
     const source = analyzeMarkdown(
       '# S\n\n## 1.1 A\n\n```js\nx\n```\n\n| A | B |\n| --- | --- |\n'
@@ -247,4 +279,4 @@ try {
   fs.rmSync(testRoot, { recursive: true, force: true });
 }
 
-console.log('Bilingual integrity tests passed (16 cases).');
+console.log('Bilingual integrity tests passed (18 cases).');

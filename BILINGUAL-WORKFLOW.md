@@ -71,7 +71,7 @@ commit SHA と内容 digest を自己参照させないため、本文変更と 
 2. 監査対象の source / translation 内容を checkpoint commit にする。
 3. checkpoint commit の `git show <sha>:<path>` と現在ファイルが一致することを確認し、`translation-status.json` の commit、digest、状態、確認日、追跡 Issue を更新する。
 4. `npm run build:all`、`npm run qa:bilingual`、`npm test` を実行し、生成済み公開物と report を確認する。
-5. checkpoint commit が `main` から到達可能になる merge 方法を使用する。manifest が参照する commit を squash / rebase で消失させない。
+5. checkpoint commit が `main` から到達可能になる merge 方法を使用する。manifest が参照する commit を squash / rebase で消失させない。QA は参照 commit が現在の `HEAD` の祖先であることを検査し、merge 後の `main` でも再検査する。
 
 ## Release Policy
 
