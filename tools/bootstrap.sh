@@ -18,20 +18,21 @@ mkdir -p "$CACHE_DIR" "$TMP_DIR"
 
 manifest_output="$(tool_manifest_fields \
   alloy.version tlc.version apalache.version dafny.version spin.version \
-  spin.commit nusmv.version cbmc.version quint.version prism.version tamarin.version kani.version \
+  spin.commit nusmv.version cbmc.version quint.version prism.version tamarin.version sby.version kani.version \
   tamarin.commit tamarin.maudeVersion tamarin.maudeCommit \
+  sby.commit sby.suiteVersion sby.suiteCommit sby.yosysVersion sby.yosysCommit sby.bitwuzlaVersion sby.bitwuzlaCommit \
   kani.rustToolchain kani.rustToolchainManifest.url kani.rustToolchainManifest.sha256 \
   alloy.distribution.url tlc.distribution.url apalache.distribution.url \
   dafny.distribution.url spin.distribution.url nusmv.distribution.url \
   cbmc.distribution.url quint.distribution.url prism.distribution.url \
-  tamarin.distribution.url tamarin.maudeDistribution.url kani.distribution.url \
+  tamarin.distribution.url tamarin.maudeDistribution.url sby.distribution.url kani.distribution.url \
   alloy.distribution.sha256 tlc.distribution.sha256 apalache.distribution.sha256 \
   dafny.distribution.sha256 spin.distribution.sha256 nusmv.distribution.sha256 \
   cbmc.distribution.sha256 quint.distribution.sha256 prism.distribution.sha256 \
-  tamarin.distribution.sha256 tamarin.maudeDistribution.sha256 kani.distribution.sha256)"
+  tamarin.distribution.sha256 tamarin.maudeDistribution.sha256 sby.distribution.sha256 kani.distribution.sha256)"
 mapfile -t manifest_values <<< "$manifest_output"
-if [[ ${#manifest_values[@]} -ne 42 ]]; then
-  echo "Unexpected bootstrap field count: ${#manifest_values[@]} (expected 42)" >&2
+if [[ ${#manifest_values[@]} -ne 52 ]]; then
+  echo "Unexpected bootstrap field count: ${#manifest_values[@]} (expected 52)" >&2
   exit 2
 fi
 manifest_index=0
@@ -51,10 +52,18 @@ next_manifest_value CBMC_VERSION
 next_manifest_value QUINT_VERSION
 next_manifest_value PRISM_VERSION
 next_manifest_value TAMARIN_VERSION
+next_manifest_value SBY_VERSION
 next_manifest_value KANI_VERSION
 next_manifest_value TAMARIN_COMMIT
 next_manifest_value TAMARIN_MAUDE_VERSION
 next_manifest_value TAMARIN_MAUDE_COMMIT
+next_manifest_value SBY_COMMIT
+next_manifest_value SBY_SUITE_VERSION
+next_manifest_value SBY_SUITE_COMMIT
+next_manifest_value SBY_YOSYS_VERSION
+next_manifest_value SBY_YOSYS_COMMIT
+next_manifest_value SBY_BITWUZLA_VERSION
+next_manifest_value SBY_BITWUZLA_COMMIT
 next_manifest_value KANI_RUST_TOOLCHAIN
 next_manifest_value KANI_RUST_MANIFEST_URL
 next_manifest_value KANI_RUST_MANIFEST_SHA256
@@ -69,6 +78,7 @@ next_manifest_value QUINT_URL
 next_manifest_value PRISM_URL
 next_manifest_value TAMARIN_URL
 next_manifest_value TAMARIN_MAUDE_URL
+next_manifest_value SBY_URL
 next_manifest_value KANI_URL
 next_manifest_value ALLOY_SHA256
 next_manifest_value TLA_SHA256
@@ -81,6 +91,7 @@ next_manifest_value QUINT_SHA256
 next_manifest_value PRISM_TAR_SHA256
 next_manifest_value TAMARIN_TAR_SHA256
 next_manifest_value TAMARIN_MAUDE_ZIP_SHA256
+next_manifest_value SBY_TAR_SHA256
 next_manifest_value KANI_TAR_SHA256
 unset manifest_output manifest_values manifest_index
 
@@ -96,6 +107,7 @@ PRISM_DIR="$CACHE_DIR/prism-${PRISM_VERSION}"
 TAMARIN_DIR="$CACHE_DIR/tamarin-${TAMARIN_VERSION}"
 TAMARIN_BIN="$TAMARIN_DIR/tamarin-prover"
 TAMARIN_MAUDE_DIR="$CACHE_DIR/maude-${TAMARIN_MAUDE_VERSION}"
+SBY_SUITE_DIR="$TMP_DIR/oss-cad-suite-${SBY_SUITE_VERSION}"
 TAMARIN_MAUDE_BIN="$TAMARIN_MAUDE_DIR/maude"
 KANI_DIR="$CACHE_DIR/kani-${KANI_VERSION}"
 KANI_RUSTUP_HOME="$CACHE_DIR/kani-rustup-${KANI_RUST_TOOLCHAIN}"
@@ -104,6 +116,7 @@ KANI_ARCHIVE="$CACHE_DIR/downloads/kani-${KANI_VERSION}-x86_64-unknown-linux-gnu
 PRISM_ARCHIVE="$CACHE_DIR/downloads/prism-${PRISM_VERSION}-linux64-x86.tar.gz"
 TAMARIN_ARCHIVE="$CACHE_DIR/downloads/tamarin-prover-${TAMARIN_VERSION}-linux64-ubuntu.tar.gz"
 TAMARIN_MAUDE_ARCHIVE="$CACHE_DIR/downloads/maude-${TAMARIN_MAUDE_VERSION}-linux-x86_64.zip"
+SBY_ARCHIVE="$CACHE_DIR/downloads/oss-cad-suite-linux-x64-${SBY_SUITE_VERSION}.tgz"
 KANI_RUST_MANIFEST="$CACHE_DIR/downloads/$(basename "$KANI_RUST_MANIFEST_URL")"
 
 usage() {
@@ -548,6 +561,119 @@ ensure_tamarin() {
   fi
 }
 
+ensure_sby() {
+  require_command python3 python3
+  require_command timeout coreutils
+  mkdir -p "$(dirname "$SBY_ARCHIVE")"
+  # The archive is the only reusable SBY cache object.  Never trust an
+  # extracted tree: validate and regenerate it on every bootstrap invocation.
+  download "$SBY_URL" "$SBY_ARCHIVE" "$SBY_TAR_SHA256"
+  rm -rf "$SBY_SUITE_DIR"
+  mkdir -p "$SBY_SUITE_DIR"
+
+  python3 - "$SBY_ARCHIVE" "$SBY_SUITE_DIR" <<'PYTHON'
+import os
+import posixpath
+import sys
+import tarfile
+from pathlib import Path
+
+archive, destination = map(Path, sys.argv[1:])
+root = 'oss-cad-suite'
+seen = set()
+entries = []
+
+def unsafe(name):
+    return (not name or name.startswith('/') or '\\' in name or
+            posixpath.normpath(name) != name or name == '..' or name.startswith('../'))
+
+def link_target_is_safe(member):
+    target = member.linkname
+    if not target or target.startswith('/') or '\\' in target:
+        return False
+    candidate = posixpath.normpath(posixpath.join(posixpath.dirname(member.name), target))
+    return candidate == root or candidate.startswith(root + '/')
+
+with tarfile.open(archive, 'r:gz') as tar:
+    for member in tar.getmembers():
+        name = member.name.rstrip('/')
+        if unsafe(name) or not (name == root or name.startswith(root + '/')):
+            raise SystemExit(f'Unsafe OSS CAD Suite archive path: {member.name!r}')
+        if name in seen:
+            raise SystemExit(f'Duplicate OSS CAD Suite archive path: {member.name!r}')
+        seen.add(name)
+        if member.isdir() or member.isreg():
+            pass
+        elif member.issym():
+            if not link_target_is_safe(member):
+                raise SystemExit(f'Unsafe OSS CAD Suite archive link: {member.name!r} -> {member.linkname!r}')
+        else:
+            raise SystemExit(f'Unsupported OSS CAD Suite archive member type: {member.name!r}')
+        entries.append(member)
+    if not any(member.name.rstrip('/') == root for member in entries):
+        raise SystemExit('OSS CAD Suite archive must contain exactly the oss-cad-suite root')
+    # Every member was path- and link-validated above before extraction.
+    tar.extractall(destination, members=entries, filter='data')
+
+suite = destination / root
+if not suite.is_dir() or suite.is_symlink():
+    raise SystemExit('OSS CAD Suite extraction did not produce a regular oss-cad-suite root')
+PYTHON
+  local suite_root="$SBY_SUITE_DIR/oss-cad-suite"
+  local version_file="$suite_root/VERSION"
+  local sby_bin="$suite_root/bin/sby"
+  local yosys_bin="$suite_root/bin/yosys"
+  local bitwuzla_bin="$suite_root/bin/bitwuzla"
+  if [[ ! -f "$version_file" || -L "$version_file" || ! -x "$sby_bin" || ! -x "$yosys_bin" || ! -x "$bitwuzla_bin" ]]; then
+    echo 'OSS CAD Suite archive did not contain the expected VERSION and executable layout' >&2
+    return 1
+  fi
+  if ! grep -Fxq "$SBY_SUITE_VERSION" "$version_file"; then
+    echo "OSS CAD Suite VERSION did not match manifest: $SBY_SUITE_VERSION" >&2
+    return 1
+  fi
+  local sby_output yosys_output bitwuzla_output
+  sby_output="$($sby_bin --version 2>&1)"
+  yosys_output="$($yosys_bin -V 2>&1)"
+  bitwuzla_output="$($bitwuzla_bin --version 2>&1)"
+  if ! grep -Fq "SBY $SBY_VERSION" <<< "$sby_output"; then
+    echo 'SymbiYosys version/commit did not match the manifest' >&2
+    printf '%s\n' "$sby_output" >&2
+    return 1
+  fi
+  if ! grep -Fq "Yosys $SBY_YOSYS_VERSION" <<< "$yosys_output"; then
+    echo 'Yosys version/commit did not match the manifest' >&2
+    printf '%s\n' "$yosys_output" >&2
+    return 1
+  fi
+  if [[ "$bitwuzla_output" != "$SBY_BITWUZLA_VERSION" ]]; then
+    echo 'Bitwuzla version/commit did not match the manifest' >&2
+    printf '%s\n' "$bitwuzla_output" >&2
+    return 1
+  fi
+  # The suite records source provenance in bundled license headers. Require a
+  # component-labelled header for each pinned source commit, rather than
+  # accepting an unrelated occurrence elsewhere in the extracted tree.
+  local component commit component_pattern header
+  for component in sby yosys bitwuzla; do
+    case "$component" in
+      sby) commit="$SBY_COMMIT"; component_pattern='sby|symbiyosys' ;;
+      yosys) commit="$SBY_YOSYS_COMMIT"; component_pattern='yosys' ;;
+      bitwuzla) commit="$SBY_BITWUZLA_COMMIT"; component_pattern='bitwuzla' ;;
+    esac
+    header="$(while IFS= read -r -d '' candidate; do
+      if grep -Eiq "$component_pattern" "$candidate" && grep -Fq "$commit" "$candidate"; then
+        printf '%s\n' "$candidate"
+        break
+      fi
+    done < <(find "$suite_root" -type f \( -iname '*license*' -o -iname '*copying*' -o -iname '*notice*' \) -print0))"
+    if [[ -z "$header" ]]; then
+      echo "Bundled license header did not bind $component to source commit $commit" >&2
+      return 1
+    fi
+  done
+}
+
 ensure_kani() {
   local bin="$KANI_DIR/bin/kani-driver"
   require_command rustup rustup
@@ -592,6 +718,7 @@ for selected_tool in "${selected_tools[@]}"; do
     quint) ensure_quint; installed+=("Quint ${QUINT_VERSION}") ;;
     prism) ensure_prism; installed+=("PRISM ${PRISM_VERSION}") ;;
     tamarin) ensure_tamarin; installed+=("Tamarin ${TAMARIN_VERSION} (Maude ${TAMARIN_MAUDE_VERSION})") ;;
+    sby) ensure_sby; installed+=("SymbiYosys ${SBY_VERSION} (OSS CAD Suite ${SBY_SUITE_VERSION})") ;;
     kani) ensure_kani; installed+=("Kani ${KANI_VERSION} (${KANI_RUST_TOOLCHAIN})") ;;
     *)
       echo "Unknown tool: $selected_tool" >&2

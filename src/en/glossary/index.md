@@ -55,6 +55,12 @@ See Chapter 4.
 you want symbolic or bounded exploration in addition to TLC's explicit-state
 model checking. See Chapters 7, 8, and Appendix B.
 
+**Assume / assert / cover (RTL formal)**: `assume` restricts the environment
+traces under analysis, `assert` states a property that must not fail on those
+traces, and `cover` searches for one trace reaching a condition. Review
+over-strong assumptions for vacuity, and do not interpret cover reachability as
+a safety proof. See Chapter 8 and Appendix C.
+
 **Assertion**: A statement of a property that should hold. In Alloy this is
 expressed with `assert`; in program verification it can also mean an explicit
 check embedded in an implementation. See Chapters 4 and 10.
@@ -144,6 +150,14 @@ are typically shown as counterexamples. See Chapters 3, 7, and 8.
 **Isabelle/HOL**: A proof assistant centered on higher-order logic. It is often
 used for mechanized proofs, proof documentation, and larger proof libraries.
 See Chapters 9 and 10.
+
+## K
+
+**K-induction**: A proof method combining finite base cases with an induction
+step stating that if the property holds for `k` steps, it also holds at the
+next step. Success is relative to initialization, the transition relation,
+properties, assumptions, and engine configuration. See Chapter 8 and Appendix
+C.
 
 ## L
 
@@ -255,6 +269,11 @@ between informal requirements and verifiable properties. See Chapters 3-7.
 **SPIN**: A model checker for concurrent systems centered on the Promela
 language. See Chapters 6 and 8.
 
+**SymbiYosys (sby)**: A front end for an open-source RTL formal flow centered
+on Yosys. It connects BMC, prove, and cover tasks to engines and backends;
+results are relative to the RTL, properties, assumptions, mode, depth, and
+toolchain. See Chapter 8 and Appendices B and E.
+
 **State space**: The set of states a system can take. Its size is a central
 concern in verification. See Chapter 8.
 
@@ -307,6 +326,12 @@ types and propositions are closely connected. It is central to Rocq, Lean, and
 the discussion in Chapter 9. See Chapter 9.
 
 ## V
+
+**Vacuity**: A property can hold trivially because an over-strong assumption
+or unreachable premise removed the executions that mattered, rather than
+because the intended behavior was established. Assumption review and
+meaningful cover targets help expose this failure mode. See Chapter 8 and
+Appendix C.
 
 **Verification condition**: A logical obligation generated from a program or
 specification that must be proved for a correctness claim to hold. See Chapter

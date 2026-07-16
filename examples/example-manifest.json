@@ -588,6 +588,102 @@
         "depth": 1,
         "bound": "CBMC unwind bound 1 with unwinding checks"
       }
+    },
+    {
+      "tool": "sby",
+      "chapter": "chapter08",
+      "anchor": "rtl-formal-verification-symbiyosys",
+      "references": [
+        "src/ja/chapters/chapter08.md",
+        "src/en/chapters/chapter08.md",
+        "docs/chapters/chapter08/index.md",
+        "docs/en/chapters/chapter08/index.md"
+      ],
+      "lane": "nightly",
+      "limits": {
+        "timeoutSeconds": 300,
+        "memoryMiB": 6144,
+        "seed": null,
+        "scope": "two unconstrained requests; reset asserted only at the initial cycle and deasserted afterwards",
+        "depth": 6,
+        "bound": "SymbiYosys smtbmc bitwuzla at depth 6"
+      },
+      "id": "sby-rtl-arbiter-flawed-bmc",
+      "assets": [
+        "examples/ch08/sby/rtl-arbiter/arbiter-flawed.sv",
+        "examples/ch08/sby/rtl-arbiter/expected-flawed-bmc.json"
+      ],
+      "config": "examples/ch08/sby/rtl-arbiter/arbiter-flawed.sby",
+      "command": "bash tools/sby-check.sh --out-dir .artifacts/manifest/sby-rtl-arbiter-flawed-bmc/tool-output --config examples/ch08/sby/rtl-arbiter/arbiter-flawed.sby --task bmc --time-limit 240 examples/ch08/sby/rtl-arbiter/arbiter-flawed.sv examples/ch08/sby/rtl-arbiter/expected-flawed-bmc.json",
+      "expected": {
+        "exitCode": 0,
+        "stdoutMarker": "SBY result contract passed: counterexample (bmc depth 6)",
+        "outcome": "counterexample"
+      }
+    },
+    {
+      "tool": "sby",
+      "chapter": "chapter08",
+      "anchor": "rtl-formal-verification-symbiyosys",
+      "references": [
+        "src/ja/chapters/chapter08.md",
+        "src/en/chapters/chapter08.md",
+        "docs/chapters/chapter08/index.md",
+        "docs/en/chapters/chapter08/index.md"
+      ],
+      "lane": "nightly",
+      "limits": {
+        "timeoutSeconds": 300,
+        "memoryMiB": 6144,
+        "seed": null,
+        "scope": "two unconstrained requests; reset asserted only at the initial cycle and deasserted afterwards",
+        "depth": 6,
+        "bound": "SymbiYosys smtbmc bitwuzla at depth 6"
+      },
+      "id": "sby-rtl-arbiter-fixed-prove",
+      "assets": [
+        "examples/ch08/sby/rtl-arbiter/arbiter-fixed.sv",
+        "examples/ch08/sby/rtl-arbiter/expected-fixed-prove.json"
+      ],
+      "config": "examples/ch08/sby/rtl-arbiter/arbiter-fixed.sby",
+      "command": "bash tools/sby-check.sh --out-dir .artifacts/manifest/sby-rtl-arbiter-fixed-prove/tool-output --config examples/ch08/sby/rtl-arbiter/arbiter-fixed.sby --task prove --time-limit 240 examples/ch08/sby/rtl-arbiter/arbiter-fixed.sv examples/ch08/sby/rtl-arbiter/expected-fixed-prove.json",
+      "expected": {
+        "exitCode": 0,
+        "stdoutMarker": "SBY result contract passed: proved (prove depth 6)",
+        "outcome": "success"
+      }
+    },
+    {
+      "tool": "sby",
+      "chapter": "chapter08",
+      "anchor": "rtl-formal-verification-symbiyosys",
+      "references": [
+        "src/ja/chapters/chapter08.md",
+        "src/en/chapters/chapter08.md",
+        "docs/chapters/chapter08/index.md",
+        "docs/en/chapters/chapter08/index.md"
+      ],
+      "lane": "nightly",
+      "limits": {
+        "timeoutSeconds": 300,
+        "memoryMiB": 6144,
+        "seed": null,
+        "scope": "two unconstrained requests; reset asserted only at the initial cycle and deasserted afterwards",
+        "depth": 6,
+        "bound": "SymbiYosys smtbmc bitwuzla at depth 6"
+      },
+      "id": "sby-rtl-arbiter-fixed-cover",
+      "assets": [
+        "examples/ch08/sby/rtl-arbiter/arbiter-fixed.sv",
+        "examples/ch08/sby/rtl-arbiter/expected-fixed-cover.json"
+      ],
+      "config": "examples/ch08/sby/rtl-arbiter/arbiter-fixed.sby",
+      "command": "bash tools/sby-check.sh --out-dir .artifacts/manifest/sby-rtl-arbiter-fixed-cover/tool-output --config examples/ch08/sby/rtl-arbiter/arbiter-fixed.sby --task cover --time-limit 240 examples/ch08/sby/rtl-arbiter/arbiter-fixed.sv examples/ch08/sby/rtl-arbiter/expected-fixed-cover.json",
+      "expected": {
+        "exitCode": 0,
+        "stdoutMarker": "SBY result contract passed: covered (cover depth 6)",
+        "outcome": "success"
+      }
     }
   ]
 }

@@ -25,6 +25,7 @@ const TOOL_WRAPPERS = Object.freeze({
   quint: 'tools/quint-check.sh',
   prism: 'tools/prism-check.sh',
   tamarin: 'tools/tamarin-check.sh',
+  sby: 'tools/sby-check.sh',
   kani: 'tools/kani-check.sh',
 });
 const TOOL_OPTION_CONTRACTS = Object.freeze({
@@ -74,6 +75,15 @@ const TOOL_OPTION_CONTRACTS = Object.freeze({
     flags: new Set(),
     values: {
       '--out-dir': 'artifact',
+      '--time-limit': { type: 'positiveInteger', max: 900 },
+    },
+  },
+  sby: {
+    flags: new Set(),
+    values: {
+      '--out-dir': 'artifact',
+      '--config': 'config',
+      '--task': { type: 'enum', values: ['bmc', 'prove', 'cover'] },
       '--time-limit': { type: 'positiveInteger', max: 900 },
     },
   },
@@ -182,6 +192,10 @@ function parseManifestCommand(entry) {
       if (!/^\d+$/.test(value)) throw new Error(`${token} は0以上の整数にしてください`);
       if (typeof valueContract === 'object' && Number(value) > valueContract.max) {
         throw new Error(`${token} は ${valueContract.max} 以下にしてください`);
+      }
+    } else if (valueType === 'enum') {
+      if (!Array.isArray(valueContract.values) || !valueContract.values.includes(value)) {
+        throw new Error(`${token} の値が許可されていません: ${value}`);
       }
     } else if (valueType === 'identifier') {
       if (!/^[A-Za-z_][A-Za-z0-9_-]*$/.test(value)) throw new Error(`${token} の識別子が不正です`);
@@ -342,11 +356,21 @@ function validateManifest(manifest, options = {}) {
           add(`asset path が不正です: ${String(asset)}`, id);
           continue;
         }
-        const previousId = assets.get(asset);
-        if (previousId && previousId !== entry.id) {
-          add(`asset が複数 ID に登録されています: ${asset} (${previousId})`, id);
-        } else {
-          assets.set(asset, entry.id);
+        const previous = assets.get(asset);
+        if (previous && previous.id !== entry.id) {
+          const sameContractFamily = previous.tool === entry.tool
+            && previous.chapter === entry.chapter
+            && previous.anchor === entry.anchor;
+          if (!sameContractFamily) {
+            add(`asset が異なる contract family の複数 ID に登録されています: ${asset} (${previous.id})`, id);
+          }
+        } else if (!previous) {
+          assets.set(asset, {
+            id: entry.id,
+            tool: entry.tool,
+            chapter: entry.chapter,
+            anchor: entry.anchor,
+          });
         }
         if (checkFiles) {
           const absoluteAsset = path.join(rootDir, asset);

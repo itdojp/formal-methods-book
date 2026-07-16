@@ -76,6 +76,26 @@ const cases = [
     expected: 'Missing or invalid value for --time-limit',
   },
   {
+    command: 'tools/sby-check.sh',
+    args: ['--config'],
+    expected: 'Missing value for --config',
+  },
+  {
+    command: 'tools/sby-check.sh',
+    args: ['--task', 'invalid'],
+    expected: 'Missing or invalid value for --task',
+  },
+  {
+    command: 'tools/sby-check.sh',
+    args: ['--time-limit', '901'],
+    expected: 'Missing or invalid value for --time-limit',
+  },
+  {
+    command: 'tools/sby-check.sh',
+    args: ['--out-dir', '../../outside', '--config', 'examples/ch08/sby/rtl-arbiter/arbiter-flawed.sby', '--task', 'bmc', 'examples/ch08/sby/rtl-arbiter/arbiter-flawed.sv', 'examples/ch08/sby/rtl-arbiter/expected-flawed-bmc.json'],
+    expected: 'SBY --out-dir must be under the repository .artifacts directory',
+  },
+  {
     command: 'tools/kani-check.sh',
     args: ['--harness'],
     expected: 'Missing value for --harness',
@@ -134,6 +154,54 @@ try {
   fs.rmSync(tamarinFixture, { recursive: true, force: true });
 }
 
+const sbyFixtureParent = path.join(repoRoot, 'tools', '.tmp');
+fs.mkdirSync(sbyFixtureParent, { recursive: true });
+const sbyFixture = fs.mkdtempSync(path.join(sbyFixtureParent, 'sby-cli-test-'));
+try {
+  const source = path.join(sbyFixture, 'arbiter.sv');
+  const config = path.join(sbyFixture, 'malicious.sby');
+  const expected = path.join(sbyFixture, 'expected.json');
+  fs.writeFileSync(source, 'module arbiter; endmodule\n');
+  fs.copyFileSync(path.join(repoRoot, 'examples/ch08/sby/rtl-arbiter/expected-flawed-bmc.json'), expected);
+  fs.writeFileSync(config, [
+    '[tasks]',
+    'bmc',
+    '',
+    '[options]',
+    'bmc: mode bmc',
+    'bmc: depth 6',
+    '',
+    '[engines]',
+    'bmc: smtbmc bitwuzla',
+    '',
+    '[script]',
+    'read -formal -sv arbiter.sv',
+    'prep -top arbiter',
+    '! touch should-not-run',
+    '',
+    '[files]',
+    'arbiter.sv',
+    '',
+  ].join('\n'));
+  const result = spawnSync('bash', [
+    'tools/sby-check.sh',
+    '--config', path.relative(repoRoot, config),
+    '--task', 'bmc',
+    path.relative(repoRoot, source),
+    path.relative(repoRoot, expected),
+  ], { cwd: repoRoot, encoding: 'utf8' });
+  const output = `${result.stdout || ''}${result.stderr || ''}`;
+  if (result.status !== 2 || !output.includes('SBY [script] does not match the allowlisted teaching profile')) {
+    throw new Error(`SBY shell escape was not rejected before bootstrap:\n${output}`);
+  }
+  if (fs.existsSync(path.join(repoRoot, 'should-not-run'))) {
+    fs.rmSync(path.join(repoRoot, 'should-not-run'), { force: true });
+    throw new Error('SBY shell escape fixture unexpectedly executed');
+  }
+} finally {
+  fs.rmSync(sbyFixture, { recursive: true, force: true });
+}
+
 const bulkFields = spawnSync('node', [
   'scripts/tool-manifest.js',
   'fields',
@@ -156,4 +224,4 @@ if (standaloneHelper.status !== 0 || standaloneHelper.stdout.trim() !== '6.2.0')
   throw new Error(`standalone tool manifest helper failed:\n${standaloneHelper.stdout}${standaloneHelper.stderr}`);
 }
 
-console.log(`Tool CLI argument tests passed (${cases.length} negative cases + credential/bulk/standalone helpers).`);
+console.log(`Tool CLI argument tests passed (${cases.length} negative cases + credential/SBY-config/bulk/standalone helpers).`);

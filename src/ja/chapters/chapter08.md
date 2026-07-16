@@ -1293,6 +1293,73 @@ int main(void) {
 - 抽象化の困難さ
 - 大規模プログラムでの性能問題
 
+### SymbiYosys：RTLの形式検証 {#rtl-formal-verification-symbiyosys}
+
+ソフトウェアの模型検査と同じ考え方は、同期回路のRTLにも適用できます。
+SymbiYosys（CLI名`sby`）はYosysを中心とするopen-source formal flowのfront endであり、SystemVerilog RTLとformal propertyをbackend solverへ渡します。
+本書の自己完結例は、2本のrequestを受ける同期式arbiterについて「二つのgrantが同時に立たない」という安全性を検査します。
+
+**RTLを遷移系として読む**
+
+- **clock**：`always_ff @(posedge clk)`の1回を1 stepとして、registerの現在値と次値を関係づけます。
+- **reset**：例では最初のclock edgeだけ`rst`をassertし、それ以降はdeassertする環境契約を`assume`します。resetなしの任意初期値を暗黙に証明対象へ混ぜません。
+- **有限bit vector**：`logic`やregisterは固定幅です。算術を追加するときは、overflow、切捨て、signednessもpropertyと同じ幅の意味論で確認します。
+- **cycle trace**：反例や到達witnessはcycleごとのinput、register、outputとしてVCDへ保存されます。`$past(req0)`は前のclock edgeでsampleした値を指します。
+
+このflowで使う三つのproperty constructは役割が異なります。
+
+| construct | 読み方 | 誤用した場合の影響 |
+| --- | --- | --- |
+| `assert(P)` | 対象実行で`P`が破れないことを検査する | 弱すぎるpropertyなら重要な欠陥を問わない |
+| `assume(A)` | 対象とする環境実行を`A`に制限する | 強すぎる仮定は欠陥のあるinput traceを除外する |
+| `cover(C)` | `C`へ到達する実行が存在するかを探す | 到達しても安全性や全実行の正しさは証明しない |
+
+**BMC、prove、coverの違い**
+
+1. 欠陥版を`mode bmc`、depth 6で検査すると、両requestを同時に受けた次cycleで両grantが立つ反例をstep 3までに得ます。この`FAIL`は意図した教材結果であり、一般証明ではなく深さ6以内のbug発見です。
+2. 修正版を`mode prove`、depth 6で検査すると、同じ安全性についてbase caseとtemporal inductionの両方が`PASS`します。これは当該RTL、property、assumption、Yosys変換、backendの範囲に相対的なk-induction結果です。
+3. 同じ修正版を`mode cover`で検査し、両requestが同時に入力された次cycleに優先側だけがgrantされるwitnessを得ます。安全性証明とは別に、関心のある環境入力が仮定で排除されていないことを確認します。
+
+正本は次の共通assetです。本文の抜粋やVCDだけではなく、同一repository revisionのRTL、設定、期待結果を組として取得してください。
+
+- [examples/ch08/sby/rtl-arbiter/arbiter-flawed.sv](../../../examples/ch08/sby/rtl-arbiter/arbiter-flawed.sv)
+- [examples/ch08/sby/rtl-arbiter/arbiter-fixed.sv](../../../examples/ch08/sby/rtl-arbiter/arbiter-fixed.sv)
+- [examples/ch08/sby/rtl-arbiter/arbiter-flawed.sby](../../../examples/ch08/sby/rtl-arbiter/arbiter-flawed.sby)
+- [examples/ch08/sby/rtl-arbiter/arbiter-fixed.sby](../../../examples/ch08/sby/rtl-arbiter/arbiter-fixed.sby)
+- [examples/ch08/sby/rtl-arbiter/expected-flawed-bmc.json](../../../examples/ch08/sby/rtl-arbiter/expected-flawed-bmc.json)
+- [examples/ch08/sby/rtl-arbiter/expected-fixed-prove.json](../../../examples/ch08/sby/rtl-arbiter/expected-fixed-prove.json)
+- [examples/ch08/sby/rtl-arbiter/expected-fixed-cover.json](../../../examples/ch08/sby/rtl-arbiter/expected-fixed-cover.json)
+- [examples/ch08/sby/rtl-arbiter/README.md](../../../examples/ch08/sby/rtl-arbiter/README.md)
+
+<!-- example-contract: sby-rtl-arbiter-flawed-bmc -->
+【ツール準拠（そのまま動く）】
+```bash
+node scripts/run-example-manifest.js --id sby-rtl-arbiter-flawed-bmc
+```
+
+<!-- example-contract: sby-rtl-arbiter-fixed-prove -->
+【ツール準拠（そのまま動く）】
+```bash
+node scripts/run-example-manifest.js --id sby-rtl-arbiter-fixed-prove
+```
+
+<!-- example-contract: sby-rtl-arbiter-fixed-cover -->
+【ツール準拠（そのまま動く）】
+```bash
+node scripts/run-example-manifest.js --id sby-rtl-arbiter-fixed-cover
+```
+
+三契約は`nightly` laneでOSS CAD Suite 20260716、SBY `v0.67-4-gfea6e46`、Yosys `0.67+40`、Bitwuzla `0.9.1`、depth 6を固定します。
+成果物にはmode、depth、timeout、tool/backendのversionとcommit、正規化結果、欠陥版のcounterexample VCDまたはcover witness VCDを残し、約733 MBのsuite archiveと展開後binaryは含めません。
+
+**空虚性と過剰制約**
+
+たとえば`assume(!(req0 && req1))`を追加すれば、欠陥版の相互排除assertionは通る可能性があります。
+しかし、それはarbiterを直したのではなく、まさに検査したい同時requestを環境から削除しただけです。
+`assert`と意味のある`cover`を対にし、assumptionを一つずつレビューし、coverが到達不能になった変更を成功扱いしないことで、この種のvacuityを検出しやすくします。
+
+> **保証境界**：この契約が扱うのは、Yosysが受理するSystemVerilog formal subset、記載したclock/reset/環境仮定、固定したpropertyとsolver設定です。SystemVerilog Assertions全体、CDC、timing closure、synthesis後netlist、physical/analog behavior、commercial EDA flowを検証したことにはなりません。
+
 ### 実行可能例の契約 {#model-checker-executable-example-contracts}
 
 本章の SPIN / NuSMV / CBMC の短い断片は、構文が実ツールに近くても、起動オプション、生成物、周辺モデルを伴って読む**文脈依存スニペット**です。CI が実行保証するのは、JA/EN 共通の canonical asset を `examples/ch08/**` から取得し、manifest runner 経由で呼び出す次の契約ブロックだけです。

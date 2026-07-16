@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "task": "bmc",
+  "mode": "bmc",
+  "depth": 6,
+  "status": "FAIL",
+  "result": "counterexample",
+  "trace": {
+    "required": true,
+    "kind": "counterexample",
+    "step": 3
+  }
+}

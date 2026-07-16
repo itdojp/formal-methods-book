@@ -7,6 +7,7 @@
 
 ### Added
 
+- #325 第8章、付録、用語集にSymbiYosysによる同期RTL形式検証を追加し、欠陥arbiterのBMC反例、修正版のk-induction、cover witnessをOSS CAD Suite 20260716・Bitwuzla 0.9.1・固定digestのnightly契約で再実行できるようにしました。
 - #324 第13章、付録、用語集にTamarin Prover 1.12.0によるDolev–Yao攻撃者下のsymbolic protocol verificationを追加し、再送欠陥と修正版をMaude 3.5.1・固定digest・nightly artifact契約で再実行できるようにしました。
 - #323 第8章、付録、用語集にPRISM 4.10.1による確率的・定量的模型検査を追加し、bounded retry DTMCの到達確率、閾値、定常確率、期待costを固定digestのnightly契約で再実行できるようにしました。
 

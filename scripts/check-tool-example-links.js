@@ -384,6 +384,35 @@ function runSelfTest() {
       }
       console.log(`PASS: ${test.name}`);
     }
+
+    const sharedRoot = path.join(selfTestRoot, 'shared-asset');
+    const sharedManifest = writeFixture(sharedRoot);
+    const sharedEntry = {
+      ...sharedManifest.examples[0],
+      id: 'alloy-valid-second',
+      references: [...sharedManifest.examples[0].references],
+      assets: [...sharedManifest.examples[0].assets],
+      limits: { ...sharedManifest.examples[0].limits },
+      expected: { ...sharedManifest.examples[0].expected },
+    };
+    sharedManifest.examples.push(sharedEntry);
+    const sharedToolManifest = loadToolManifest(sharedRoot).manifest;
+    let sharedErrors = validateManifest(sharedManifest, {
+      rootDir: sharedRoot,
+      toolManifest: sharedToolManifest,
+    });
+    if (sharedErrors.some((error) => error.message.includes('contract family'))) {
+      throw new Error('same contract family must be allowed to share an asset');
+    }
+    sharedEntry.anchor = 'other-contract-family';
+    sharedErrors = validateManifest(sharedManifest, {
+      rootDir: sharedRoot,
+      toolManifest: sharedToolManifest,
+    });
+    if (!sharedErrors.some((error) => error.message.includes('異なる contract family'))) {
+      throw new Error('cross-contract-family asset sharing must be rejected');
+    }
+    console.log('PASS: shared asset is limited to one contract family');
   } finally {
     fs.rmSync(selfTestRoot, { recursive: true, force: true });
   }
