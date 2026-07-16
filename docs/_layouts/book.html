@@ -250,15 +250,15 @@
                                  data-book-version="{{ book_version | escape }}"{% if build_provenance %}
                                  data-source-commit="{{ build_provenance.source_commit | escape }}"
                                  data-generated-at="{{ build_provenance.generated_at | escape }}"{% endif %}>
-                                <span>{{ locale_data.labels.release_version }} {{ book_version }}</span>
+                                <span>{{ locale_data.labels.release_version | escape }} {{ book_version | escape }}</span>
                                 {% if build_provenance %}
                                     {% assign source_short = build_provenance.source_commit | slice: 0, 7 %}
-                                    <a href="{{ build_provenance.release_url | escape }}">{{ locale_data.labels.release }} {{ build_provenance.release_tag }}</a>
-                                    <a href="{{ build_provenance.source_url | escape }}">{{ locale_data.labels.source_commit }} {{ source_short }}</a>
+                                    <a href="{{ build_provenance.release_url | escape }}">{{ locale_data.labels.release | escape }} {{ build_provenance.release_tag | escape }}</a>
+                                    <a href="{{ build_provenance.source_url | escape }}">{{ locale_data.labels.source_commit | escape }} {{ source_short | escape }}</a>
                                     {% if build_provenance.pages_run_url %}
-                                        <a href="{{ build_provenance.pages_run_url | escape }}">{{ locale_data.labels.pages_build }}</a>
+                                        <a href="{{ build_provenance.pages_run_url | escape }}">{{ locale_data.labels.pages_build | escape }}</a>
                                     {% endif %}
-                                    <time datetime="{{ build_provenance.generated_at | escape }}">{{ build_provenance.generated_at | date: '%Y-%m-%d' }}</time>
+                                    <time datetime="{{ build_provenance.generated_at | escape }}">{{ build_provenance.generated_at | date: '%Y-%m-%d' | escape }}</time>
                                 {% endif %}
                             </div>
                         </div>
