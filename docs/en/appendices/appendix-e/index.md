@@ -46,7 +46,7 @@ As of January 2026, it reflects naming changes and current mainstream references
 - Purpose: writing state-transition specifications for distributed and concurrent systems and verifying them by exploration with `TLC`
 - Best after reading: Chapter 7, "Specifying Time — Introduction to TLA+"; Chapter 8, "Introduction to Model Checking"
 - Primary sources:
-  - Official TLA+ page (Lamport site): <https://lamport.org/tla/tla.html>
+  - Official TLA+ page (Lamport site): <https://lamport.azurewebsites.net/tla/tla.html>
   - TLA+2 (current-version and documentation status): <https://lamport.azurewebsites.net/tla/tla2.html>
   - Leslie Lamport, *Specifying Systems*: <https://lamport.azurewebsites.net/tla/book.html>
   - TLA+ Hyperbook: <https://lamport.azurewebsites.net/tla/hyperbook.html>
@@ -201,7 +201,7 @@ As of January 2026, it reflects naming changes and current mainstream references
 
 - Best after reading: Chapter 7, "Specifying Time — Introduction to TLA+"; Chapter 13, "Case Studies"
 - Primary and quasi-primary sources:
-  - Lamport (`Industrial use of TLA+`): <https://lamport.org/tla/industrial-use.html>
+  - Lamport (`Industrial use of TLA+`): <https://lamport.azurewebsites.net/tla/industrial-use.html>
   - `Microsoft Learn` (distributed implementation and consistency in `Cosmos DB`, with a path to TLA+ specifications): <https://learn.microsoft.com/en-us/azure/cosmos-db/global-dist-under-the-hood>
   - `Azure Cosmos DB` (high-level TLA+ specifications): <https://github.com/Azure/azure-cosmos-tla>
   - `Microsoft Research` (video on TLA+ specifications for `Cosmos DB` consistency guarantees): <https://www.microsoft.com/en-us/research/video/tla-specifications-of-the-consistency-guarantees-provided-by-cosmos-db/>
