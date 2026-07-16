@@ -36,7 +36,17 @@ assert.deepStrictEqual(validatePrismResults(output(), contract, '4.10.1'), [
 assert.throws(
   () => validatePrismResults(output('P=? [ F "success" ]'), contract, '4.10.1'),
   /PRISM property mismatch at index 0/,
-  'a semantically different property must fail even when its result is identical',
+  'a semantically different property must fail before result interpretation',
+);
+
+const sameValueNumericSwap = output().replace(
+  'Model checking: S=? [ "success" ]',
+  'Model checking: P=? [ F "success" ]',
+);
+assert.throws(
+  () => validatePrismResults(sameValueNumericSwap, contract, '4.10.1'),
+  /PRISM property mismatch at index 1/,
+  'a numeric property swap must fail even when both properties evaluate to 0.992',
 );
 
 assert.throws(
