@@ -349,7 +349,7 @@ Theorem proving delivers a high level of assurance, but runtime, dependency mana
 The companion repository applies this separation in `.github/workflows/formal-checks.yml`.
 Pull requests pass the base/head diff to `examples/ci/pr-quick-check.sh`, which selects only entries related through manifest assets, references, configuration, or wrappers; shared infrastructure changes fail safely to the complete quick lane.
 For schedules and manual runs, `scripts/plan-formal-matrix.js` creates an allowlisted plan from the tool manifest, and `tool-matrix` executes it with `fail-fast: false` so that one tool failure does not suppress other logs.
-The nightly plan covers deep profiles for Alloy, TLC, Apalache, and Dafny plus SPIN, NuSMV, CBMC, and Quint; Kani runs only when the `optional` lane is selected explicitly through `workflow_dispatch`.
+The nightly plan covers deep profiles for Alloy, TLC, Apalache, and Dafny plus SPIN, NuSMV, CBMC, Quint, and PRISM; Kani runs only when the `optional` lane is selected explicitly through `workflow_dispatch`.
 Each artifact records the version, command, input hash, exit code, stdout/stderr, and stated resource bounds, while distinguishing `success`, `counterexample`, `unknown`, `timeout`, and `resource-exhausted`.
 Here, `memoryMiB` is a declared CI-capacity budget rather than an OS/cgroup-enforced limit. The runner can classify enforced timeouts and detectable output excess, but an OOM kill may surface as `tool-error` or a runner failure.
 

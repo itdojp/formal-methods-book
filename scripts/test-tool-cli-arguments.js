@@ -42,6 +42,19 @@ const cases = [
     expected: 'Missing value for --seed',
   },
   {
+    command: 'tools/prism-check.sh',
+    args: ['--out-dir'],
+    expected: 'Missing value for --out-dir',
+  },
+  {
+    command: 'tools/prism-check.sh',
+    args: [
+      'examples/prism/retry-communication/retry-communication.pm',
+      'examples/prism/retry-communication/retry-communication.props',
+    ],
+    expected: 'PRISM expected-results contract not found',
+  },
+  {
     command: 'tools/kani-check.sh',
     args: ['--harness'],
     expected: 'Missing value for --harness',

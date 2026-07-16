@@ -54,6 +54,8 @@
 
 **デッドロック** - 複数のプロセスが互いに待機し合って進行できない状態。→第6章
 
+**DTMC / CTMC / MDP** - 離散stepの確率分布、連続時間の遷移rate、非決定的choiceと確率分布の組合せを表す確率模型。→第8章,付録C
+
 ## F
 
 **FLP 不可能性定理** - 完全非同期、決定論的プロセス、最大一つの停止故障の下で、すべての許容実行における合意の終了を保証できないという結果。部分同期、故障検出器、乱択は仮定を変更する。→第7章,付録E
@@ -102,6 +104,10 @@
 
 ## P
 
+**PRISM** - DTMC、CTMC、MDPの確率的到達可能性、定常確率、閾値、期待rewardを検査する模型検査器。→第8章,付録B,付録E
+
+**確率的模型検査（Probabilistic model checking）** - 確率またはrateを持つ状態遷移模型について、到達確率、閾値、定常確率、期待rewardを計算・判定する手法。→第8章
+
 **Prusti** - Viper検証基盤に基づくRust向け契約検証器。safe Rust の事前条件、事後条件、ループ不変条件、panic/overflowの検査を扱う。→第10章
 
 ## Q
@@ -110,11 +116,17 @@
 
 ## R
 
+**reward property** - 状態や遷移へ付けたattempt数、時間、energy、cost等について、累積値や到達までの期待値を問う確率property。→第8章,付録C
+
 **Rocq（旧称Coq）** - 依存型理論に基づく証明支援系。2025年以降は The Rocq Prover が公式名称だが、既存資料では Coq 名も残るため併記して扱う。→第9章
 
 ## S
 
 **健全性（Soundness）** - 対象の演繹系で証明可能な式が、対象意味論で妥当であるというメタ性質。→第9章
+
+**scheduler / adversary** - MDPの非決定的choiceを解消する方策。最良・最悪の確率や期待値はschedulerのclassと`min` / `max`の向きに依存する。→第8章,付録C
+
+**statistical model checking** - ランダムpathの標本からpropertyを近似する手法。sample数、信頼度、誤差幅、最大path長に依存する。→第8章
 
 **記号的模型検査（Symbolic model checking）** - 状態を明示列挙せず、論理式やSMT/BDDなどの記号表現で状態集合や遷移を扱う模型検査。ソルバー、抽象化、timeout、`unknown` の扱いを証跡に含める。→第8章,第12章
 

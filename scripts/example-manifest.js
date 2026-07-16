@@ -23,6 +23,7 @@ const TOOL_WRAPPERS = Object.freeze({
   nusmv: 'tools/nusmv-check.sh',
   cbmc: 'tools/cbmc-check.sh',
   quint: 'tools/quint-check.sh',
+  prism: 'tools/prism-check.sh',
   kani: 'tools/kani-check.sh',
 });
 const TOOL_OPTION_CONTRACTS = Object.freeze({
@@ -63,6 +64,10 @@ const TOOL_OPTION_CONTRACTS = Object.freeze({
       '--seed': { type: 'nonNegativeInteger', max: Number.MAX_SAFE_INTEGER },
       '--max-samples': { type: 'positiveInteger', max: 10000 },
     },
+  },
+  prism: {
+    flags: new Set(),
+    values: { '--out-dir': 'artifact' },
   },
   kani: {
     flags: new Set(),

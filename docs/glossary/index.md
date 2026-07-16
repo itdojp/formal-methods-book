@@ -15,6 +15,8 @@ source_path: "src/ja/glossary/index.md"
 - **SMT**：充足可能性の判定を、等式/算術/配列などの理論と統合して扱う枠組み（Satisfiability Modulo Theories）。
 - **SMT-LIB**：SMT ソルバーへ問題を渡すための標準形式。2026年時点の公式標準は 2.7 系で、v3 は予備提案として扱う。
 - **LTL / CTL**：時相論理（Linear Temporal Logic / Computation Tree Logic）。模型検査で性質を記述する。
+- **DTMC / CTMC / MDP**：離散時間Markov連鎖、連続時間Markov連鎖、Markov decision process。PRISMではそれぞれstep確率、遷移rate、非決定的choiceと確率分布の組合せを表す。
+- **PCTL / CSL**：確率的な到達・時間・定常性等を記述する時相論理。PCTLは主にDTMC / MDP、CSLはCTMCのpropertyを読む基礎になる。
 - **CI**：継続的インテグレーション（Continuous Integration）。PR/夜間/リリース前の検証ゲートに利用する。
 - **RMW**：Read-Modify-Write。並行実行で競合（lost update）を生む典型パターン。
 
@@ -122,6 +124,10 @@ source_path: "src/ja/glossary/index.md"
 
 <span id="glossary-プライム記法tla" class="search-term-anchor" aria-hidden="true"></span>**プライム記法（TLA+）**：action の中で、`x` を現在状態の値、`x'` を次状態の値として2状態を関係づける記法。LTL の next-time 演算子 `X` / `○` とは別である。→第7章
 
+<span id="glossary-prism" class="search-term-anchor" aria-hidden="true"></span>**PRISM**：DTMC、CTMC、MDPの確率的・定量的propertyを検査する模型検査器。結果は模型仮定、scheduler、engine、数値精度に相対的であり、実世界の確率妥当性を自動的には保証しない。→第8章/付録B/付録E
+
+<span id="glossary-確率的模型検査probabilistic-model-checking" class="search-term-anchor" aria-hidden="true"></span>**確率的模型検査（Probabilistic model checking）**：確率またはrateを持つ状態遷移模型について、到達確率、閾値、定常確率、期待rewardを計算・判定する手法。ランダムpathだけを標本抽出するstatistical model checkingとは区別する。→第8章
+
 <span id="glossary-prusti" class="search-term-anchor" aria-hidden="true"></span>**Prusti**：Viper検証基盤に基づくRust向け契約検証器。safe Rust の事前条件、事後条件、ループ不変条件、panic/overflowの検査を扱う。→第10章
 
 ## Q
@@ -132,11 +138,17 @@ source_path: "src/ja/glossary/index.md"
 
 <span id="glossary-refinement詳細化" class="search-term-anchor" aria-hidden="true"></span>**refinement（詳細化）**：抽象仕様から具体仕様へ設計を進め、refinement mapping と内部変数の隠蔽を考慮した具体仕様が抽象仕様を満たすことを示す手続き。含意は概念的に `ConcreteSpec => AbstractSpec` の方向になる。→第3章/第5章/第7章
 
+<span id="glossary-reward-property" class="search-term-anchor" aria-hidden="true"></span>**reward property**：状態や遷移へ付けたattempt数、時間、energy、cost等の値について、累積値や到達までの期待値を問う確率property。未到達pathが正の確率で残る場合は無限大になり得る。→第8章/付録C
+
 <span id="glossary-rocq旧称-coq" class="search-term-anchor" aria-hidden="true"></span>**Rocq（旧称 Coq）**：依存型理論に基づく証明支援系。2025年以降は The Rocq Prover が公式名称だが、既存資料では Coq 名も残るため併記して扱う。→第9章
 
 ## S
 
 <span id="glossary-健全性soundness" class="search-term-anchor" aria-hidden="true"></span>**健全性（Soundness）**：対象の演繹系と意味論について、証明可能な式がその意味論で妥当であるというメタ性質。単独で「すべて真」と定義せず、どの論理と意味論に対する性質かを明示する。→第9章
+
+<span id="glossary-scheduler--adversary" class="search-term-anchor" aria-hidden="true"></span>**scheduler / adversary**：MDPの非決定的choiceを履歴に応じて解消する方策。最良・最悪の確率や期待値はschedulerのclassと`min` / `max`の向きに依存する。→第8章/付録C
+
+<span id="glossary-statistical-model-checking" class="search-term-anchor" aria-hidden="true"></span>**statistical model checking**：ランダムに生成したpathの標本からpropertyを近似する手法。sample数、信頼度、誤差幅、最大path長に依存し、MDPのworst-case schedulerを自動的には表さない。→第8章
 
 <span id="glossary-記号的模型検査symbolic-model-checking" class="search-term-anchor" aria-hidden="true"></span>**記号的模型検査（Symbolic model checking）**：状態を明示列挙せず、論理式や SMT/BDDなどの記号表現で状態集合や遷移を扱う模型検査。ソルバー、抽象化、timeout、`unknown` の扱いを証跡に含める。→第8章/第12章
 

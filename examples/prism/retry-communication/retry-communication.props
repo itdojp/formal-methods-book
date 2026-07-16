@@ -1,0 +1,15 @@
+// The order is part of the executable teaching contract checked by
+// tools/prism-check.sh.
+
+// At least 99% of runs eventually succeed.
+P>=0.99 [ F "success" ]
+
+// Exhausting all three attempts has probability (1 - 0.8)^3 = 0.008.
+P=? [ F "failure" ]
+
+// Because both terminal states are absorbing, the long-run probability of
+// being in success equals the probability of eventually reaching success.
+S=? [ "success" ]
+
+// Expected attempts: 1 + 0.2 + 0.2^2 = 1.24.
+R{"cost"}=? [ F "done" ]

@@ -28,7 +28,7 @@ source_path: "src/ja/appendices/appendix-b.md"
 - Quint CLI は、TLA+ 意味論に基づく型付き仕様言語をCIに載せる選択肢であり、本リポジトリでは固定版のtypecheck/testを`nightly`で実行する。
 - Rocq/Isabelle等の定理証明器は依存が大きいため、本付録では一次情報リンク（付録E）を主とする。
 - Lean 4 は、本書の導線として **最小構成のみ**を本付録末尾に示す（Optional）。
-- SPIN / NuSMV / CBMC / Quint は`nightly` laneの対象であり、source buildが必要なtoolだけ後述するUbuntu 24.04 x86-64向け追加前提を使う。
+- SPIN / NuSMV / CBMC / Quint / PRISM は`nightly` laneの対象であり、source buildが必要なtoolだけ後述するUbuntu 24.04 x86-64向け追加前提を使う。
 
 ## Tool lane inventoryと実行保証 {#tool-lane-inventory}
 
@@ -48,6 +48,7 @@ source_path: "src/ja/appendices/appendix-b.md"
 | NuSMV | nightly | 2.7.1 | 依存を伴う公式source buildのためnightlyへ分離する。 |
 | CBMC | nightly | 6.10.0 | Ubuntu固定配布と有界検査をtool単位nightlyで実行する。 |
 | Quint | nightly | 0.32.0 | 公式single binaryでtypecheck/testを固定seedかつTypeScript backendで再現する。 |
+| PRISM Model Checker | nightly | 4.10.1 | 約41 MBの固定公式配布を取得し、定量的性質をtool単位nightlyで再現する。 |
 | Kani Rust Verifier | optional/manual | 0.67.0 | 固定Rust nightlyを追加取得するため明示的manual dispatchに限定する。 |
 | TLA+ Toolbox | documentation-only | — | GUI/編集環境であり、本リポジトリのCLI保証対象外。 |
 | TLA+ VS Code extension | documentation-only | — | 編集支援はCLI検査と分離し、extension版を固定していない。 |
@@ -107,7 +108,10 @@ node scripts/run-example-manifest.js --id quint-counter
 
 - `kani-abs`: [examples/kani/abs.rs](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/kani/abs.rs) の`abs_is_nonnegative` harnessをKani 0.67.0、固定Rust nightly、unwind 1で検査する。追加downloadと実行コストがあるため`optional/manual`であり、PRやscheduleからは起動しない。
 
-cache復元後もQuint binaryのSHA-256を再検証する。Kaniは検証済みarchiveから毎回再展開し、固定日のRust channel manifestもSHA-256を検証する。Rust component本体の整合性検査は、そのmanifestに記録されたchecksumを検証するrustupに委ねる。
+cache復元後もQuint binaryとPRISM archiveのSHA-256を再検証する。
+PRISM 4.10.1はGPL-2.0の公式Linux x86-64 archiveを毎回再展開して絶対pathを再設定し、tool binaryはrepository、CI artifact、Pagesへ再配布しない。
+保持するのは入力hash、標準出力、期待値との比較結果だけである。
+Kaniは検証済みarchiveから毎回再展開し、固定日のRust channel manifestもSHA-256を検証する。Rust component本体の整合性検査は、そのmanifestに記録されたchecksumを検証するrustupに委ねる。
 <!-- example-contract: kani-abs -->
 【ツール準拠（そのまま動く）】
 ```bash
@@ -164,7 +168,7 @@ bash tools/dafny-verify.sh examples/dafny/Abs.dfy
 
 ### nightly lane の追加前提（Ubuntu 24.04 x86-64）
 
-`node scripts/run-example-manifest.js --lane nightly`はSPIN 6.5.2、NuSMV 2.7.1、CBMC 6.10.0、Quint 0.32.0の6 entryを実行する。最小セットとは別に、SPIN/NuSMVのsource buildには次の前提が必要である。CBMCはUbuntu 24.04 x86-64用の固定deb、Quintは同platform用の固定single binaryを使うため、この手順は同環境または互換環境を対象とする。
+`node scripts/run-example-manifest.js --lane nightly`はSPIN 6.5.2、NuSMV 2.7.1、CBMC 6.10.0、Quint 0.32.0、PRISM 4.10.1の7 entryを実行する。最小セットとは別に、SPIN/NuSMVのsource buildには次の前提が必要である。CBMCはUbuntu 24.04 x86-64用の固定deb、Quintは同platform用の固定single binary、PRISMは約41 MBの固定公式archiveを使うため、この手順は同環境または互換環境を対象とする。
 
 ```bash
 sudo apt-get update
@@ -183,6 +187,14 @@ PATH="$PWD/tools/.tmp/nusmv-build-tools/bin:$PATH" \
 ```
 
 取得物は commit/version と SHA-256、Meson/Ninja は requirements の package hash で固定される。macOS、Windows ネイティブ、異なる CPU architecture ではこの lane を直接再現せず、Ubuntu 24.04 x86-64 のコンテナ、WSL2、または GitHub Actions の `workflow_dispatch` を使う。
+
+PRISMだけを再実行する場合は次を使う。
+
+```bash
+node scripts/run-example-manifest.js --id prism-retry-communication
+```
+
+この実行はDTMCと4 propertyの数値契約を再現するだけであり、教育用成功確率0.8が実システムに妥当であることは保証しない。
 
 ### OS差分（要点）
 

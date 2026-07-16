@@ -143,3 +143,22 @@ Supplement:
 - Alloy is centered on finite-scope counterexample search. When modeling state transitions, time or steps are usually made explicit.
 - TLA+ is centered on state transitions and temporal logic. Primes relate current and next states inside actions, while `[]`, `<>`, `~>`, and fairness describe properties of behaviors.
 - Z is used to make requirements precise through state and operation schemas and then refine them toward implementation.
+
+### C.3.9 Conceptual Correspondence Between LTL / CTL and Probabilistic Properties
+
+Ordinary LTL and CTL primarily express whether a property holds over paths or a computation tree.
+PRISM's PCTL- and CSL-style properties add probability values, thresholds, and expected rewards to related reachability, continuation, and long-run questions.
+The table is a reading bridge, not a table of logical equivalences.
+
+| Question | Ordinary LTL / CTL view | Quantitative PRISM view | Additional facts to fix |
+| --- | --- | --- | --- |
+| Can success be reached? | LTL `F success`; CTL `EF success` / `AF success` | `P=? [ F "success" ]` | Initial state, probability distribution, scheduler scope |
+| Does reachability meet a target? | Boolean truth alone does not expose probability mass | `P>=0.99 [ F "success" ]` | Rationale for the threshold, rounding, tolerance |
+| What fraction of the long run is operational? | Plain `G` / `AG` means “always,” not a time fraction | `S=? [ "operational" ]` | Steady-state assumptions, initial distribution, absorbing classes |
+| What is the cost before completion? | Count events on traces separately | `R{"cost"}=? [ F "done" ]` | Reward units, attachment points, non-reaching paths |
+| What bounds include environment choices? | Restrict paths with assumptions such as fairness | MDP `Pmin` / `Pmax`, `Rmin` / `Rmax` | Scheduler/adversary class |
+| How is failure explained? | Counterexample trace | Probability value, scheduler, representative paths, critical subsystem | Generation method and coverage |
+
+In particular, do not mechanically identify `P>=1 [ F "success" ]` with `AF success`.
+DTMCs, CTMCs, and MDPs assign different meanings to path measures and nondeterminism, and probability one still leaves a boundary around measure-zero paths.
+Before comparing formulas, align the model type, initial state, scheduler, fairness assumptions, and time bound.
