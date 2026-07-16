@@ -8,6 +8,8 @@
 
 **Alloy 6** - `var`、prime、時相演算子、`steps` 指定により、関係モデル上で状態遷移トレースを直接探索しやすくした Alloy 系列。→第4章
 
+**Alethe** - SMT-LIB 系の SMT 証明証跡形式。proof-producing solver が出力した `unsat` 証跡を、Carcara などの checker や再構成系で独立再検査するための交換形式。対応理論と互換性は組合せ依存。→第12章,付録E
+
 **AlphaProof** - Google DeepMind が発表した、Lean 上で形式化された数学問題に対して証明または反証を探索する研究システム。競技数学での成果を、一般の仕様妥当性保証と混同しない。→第9章
 
 **AlphaGeometry 2** - Google DeepMind の幾何問題向け neuro-symbolic システム。対象領域、形式化、計算資源、評価条件の制約を確認して読む。→第9章
@@ -54,6 +56,8 @@
 
 **Dolev–Yao攻撃者モデル** - 通信の盗聴・改変・再送・合成と既知鍵による操作を許し、未知鍵なしの暗号解読は許さないsymbolic network model。鍵侵害やside-channelは明示的な追加modelを要する。→第13章,付録E
 
+**DRAT** - 命題 CNF の `unsat` を clausal proof で示す format / ecosystem。DRAT-trim は DIMACS CNF と proof を照合するが、元の SMT 問題や自然言語仕様を直接検証するわけではない。→第12章,付録E
+
 **DeepSeek-Prover-V2** - Lean 4 向け形式証明生成を対象とする大規模モデルの研究例。ベンチマーク結果は、形式化済み問題、評価設定、計算資源に依存する。→第9章
 
 **デッドロック** - 複数のプロセスが互いに待機し合って進行できない状態。→第6章
@@ -90,6 +94,10 @@
 
 **LTL（Linear Temporal Logic）** - 線形時間論理。時間の流れに沿った性質を表現する時相論理。→第7章,第8章
 
+**LFSC** - LF logical framework に計算的 side condition を加えた proof format / checking framework。cvc5 の LFSC 出力では、未対応 internal rule が trust step として残る場合がある。→第12章,付録E
+
+**LRAT** - 命題 CNF 向けの `unsat` 証跡形式。DRAT より checker 向けのヒントを明示しやすいが、やはり CNF 後の問題に対する証跡である。→第12章,付録E
+
 **ラッソトレース（Lasso trace）** - 有限個の状態列とループで無限トレースを表す方法。Alloy 6 の時相解析結果を読む際に重要。→第4章
 
 **ループ不変条件** - ループの実行中に常に成り立つ条件。ループの正しさの証明に使用。→第10章
@@ -97,6 +105,8 @@
 ## M
 
 **mathlib** - Lean のコミュニティ主導の形式化数学ライブラリ。既存定理の再利用基盤になるが、ライブラリ更新と依存関係は CI で管理する。→第9章
+
+**model / witness（モデル / 証人）** - `sat` のときに solver が返す具体的な割当てや到達例。エンコード済み制約に対する充足例であり、自然言語要件や元仕様の妥当性そのものは別途レビューする。→第12章,付録C
 
 **Move Prover** - Move スマートコントラクトに形式仕様を付け、論理的性質を自動検証するツール。資産・権限・不変条件の検査に有用だが、仕様誤りや未モデル化範囲は別途管理する。→第13章,付録E
 
@@ -115,6 +125,10 @@
 **確率的模型検査（Probabilistic model checking）** - 確率またはrateを持つ状態遷移模型について、到達確率、閾値、定常確率、期待rewardを計算・判定する手法。→第8章
 
 **Prusti** - Viper検証基盤に基づくRust向け契約検証器。safe Rust の事前条件、事後条件、ループ不変条件、panic/overflowの検査を扱う。→第10章
+
+**proof certificate（証明証跡 / 証明書）** - `unsat` を別実装で再検査するために solver が出力する機械可読証跡。何を保証するかは format と checker に依存し、自然言語要件までは自動的に保証しない。→第12章,付録E
+
+**proof checker** - proof certificate や proof term を、入力問題と format の規則に照らして機械検査する checker / kernel。checker 成功は encoded statement に対する成功であり、要件妥当性レビューの代替ではない。→第12章,付録E
 
 ## Q
 
@@ -167,6 +181,8 @@
 **TLC** - TLA+仕様を具体化した有限モデルの到達可能状態を列挙する明示的状態模型検査器。`TypeOK` / `TypeInvariant` は静的型検査ではなく、値が期待集合に属することを表す不変条件である。→第7章,第8章
 
 **trusted kernel（信頼核）** - 証明項を基礎論理と現在の環境の下で検査する中核。追加公理、未完了穴、外部ソルバー、抽出・コード生成は別の信頼境界になる。→第9章
+
+**trusted computing base（TCB）** - 最終保証に関与する信頼前提の集合。kernel に加え、追加公理、未検証変換、外部 solver 連携、proof reconstruction、抽出、コード生成、運用例外まで含み得る。→第9章,第12章
 
 ## U
 

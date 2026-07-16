@@ -26,6 +26,8 @@ source_path: "src/ja/glossary/index.md"
 
 <span id="glossary-alloy-6" class="search-term-anchor" aria-hidden="true"></span>**Alloy 6**：Alloy に `var`、prime、時相演算子、`steps` 指定を導入し、関係モデル上で状態遷移トレースを直接探索しやすくした系列。→第4章
 
+<span id="glossary-alethe" class="search-term-anchor" aria-hidden="true"></span>**Alethe**：SMT-LIB 系の SMT 証明証跡形式。proof-producing solver が出力した `unsat` 証跡を、Carcara や再構成系で独立再検査するための交換形式として使われる。対応理論や checker 互換性は組合せ依存。→第12章/付録E
+
 <span id="glossary-alphaproof" class="search-term-anchor" aria-hidden="true"></span>**AlphaProof**：Google DeepMind が発表した、Lean 上で形式化された数学問題に対して証明または反証を探索する研究システム。競技数学での成果を、一般の仕様妥当性保証と混同しない。→第9章
 
 <span id="glossary-alphageometry-2" class="search-term-anchor" aria-hidden="true"></span>**AlphaGeometry 2**：Google DeepMind の幾何問題向け neuro-symbolic システム。AlphaProof と同じく、対象領域、形式化、計算資源、評価条件の制約を確認して読む。→第9章
@@ -76,6 +78,8 @@ source_path: "src/ja/glossary/index.md"
 
 <span id="glossary-dolevyao攻撃者モデル" class="search-term-anchor" aria-hidden="true"></span>**Dolev–Yao攻撃者モデル**：攻撃者が通信を盗聴・改変・再送・合成し、既知鍵で暗号操作できる一方、未知鍵なしに暗号を破らないとするsymbolic network model。鍵侵害やside-channelは別途モデル化する。→第13章/付録E
 
+<span id="glossary-drat" class="search-term-anchor" aria-hidden="true"></span>**DRAT**：命題 CNF の `unsat` を clausal proof で示す proof ecosystem / format。DRAT-trim などの checker は DIMACS CNF と proof を照合するが、元の SMT 問題や自然言語仕様を直接検証するわけではない。→第12章/付録E
+
 <span id="glossary-デッドロック" class="search-term-anchor" aria-hidden="true"></span>**デッドロック**：複数のプロセスが互いに待機し合い、進行できない状態。→第6章/第8章
 
 ## F
@@ -112,11 +116,17 @@ source_path: "src/ja/glossary/index.md"
 
 <span id="glossary-ltllinear-temporal-logic" class="search-term-anchor" aria-hidden="true"></span>**LTL（Linear Temporal Logic）**：線形時間論理。時間の流れに沿った性質を表現する。→第7章/第8章
 
+<span id="glossary-lfsc" class="search-term-anchor" aria-hidden="true"></span>**LFSC**：LF logical framework に計算的 side condition を加えた proof format / checking framework。cvc5 は LFSC 出力を持つが、未対応 internal rule が trust step として残る場合がある。→第12章/付録E
+
+<span id="glossary-lrat" class="search-term-anchor" aria-hidden="true"></span>**LRAT**：命題 CNF 向けの `unsat` 証跡形式。DRAT より checker 向けヒントを明示しやすいが、やはり CNF 後の問題に対する証跡である。→第12章/付録E
+
 <span id="glossary-ループ不変条件" class="search-term-anchor" aria-hidden="true"></span>**ループ不変条件**：ループ実行中に常に成り立つ条件。部分正しさ/完全正しさの証明に使用する。→第10章
 
 ## M
 
 <span id="glossary-mathlib" class="search-term-anchor" aria-hidden="true"></span>**mathlib**：Lean のコミュニティ主導の形式化数学ライブラリ。既存定理の再利用基盤になるが、ライブラリ更新と依存関係は CI で管理する。→第9章
+
+<span id="glossary-model--witnessモデル--証人" class="search-term-anchor" aria-hidden="true"></span>**model / witness（モデル / 証人）**：`sat` のときに solver が返す具体的な割当てや到達例。エンコード済み制約に対する充足例であり、自然言語要件や元仕様の妥当性そのものは別途レビューする。→第12章/付録C
 
 <span id="glossary-move-prover" class="search-term-anchor" aria-hidden="true"></span>**Move Prover**：Move スマートコントラクトに形式仕様を付け、論理的性質を自動検証するツール。資産・権限・不変条件の検査に有用だが、仕様誤りや未モデル化範囲は別途管理する。→第13章/付録E
 
@@ -137,6 +147,10 @@ source_path: "src/ja/glossary/index.md"
 <span id="glossary-確率的模型検査probabilistic-model-checking" class="search-term-anchor" aria-hidden="true"></span>**確率的模型検査（Probabilistic model checking）**：確率またはrateを持つ状態遷移模型について、到達確率、閾値、定常確率、期待rewardを計算・判定する手法。ランダムpathだけを標本抽出するstatistical model checkingとは区別する。→第8章
 
 <span id="glossary-prusti" class="search-term-anchor" aria-hidden="true"></span>**Prusti**：Viper検証基盤に基づくRust向け契約検証器。safe Rust の事前条件、事後条件、ループ不変条件、panic/overflowの検査を扱う。→第10章
+
+<span id="glossary-proof-certificate証明証跡--証明書" class="search-term-anchor" aria-hidden="true"></span>**proof certificate（証明証跡 / 証明書）**：`unsat` を別実装で再検査するために solver が出力する機械可読証跡。何を保証するかは format と checker に依存し、自然言語要件までは自動的に保証しない。→第12章/付録E
+
+<span id="glossary-proof-checker" class="search-term-anchor" aria-hidden="true"></span>**proof checker**：proof certificate や proof term を、入力問題と format の規則に照らして機械検査する checker / kernel。checker 成功は encoded statement に対する成功であり、要件妥当性レビューの代替ではない。→第12章/付録E
 
 ## Q
 
@@ -191,6 +205,8 @@ source_path: "src/ja/glossary/index.md"
 <span id="glossary-tlc" class="search-term-anchor" aria-hidden="true"></span>**TLC**：TLA+ 仕様を具体化した有限モデルの到達可能状態を列挙する明示的状態模型検査器。TLA+ は一般的な静的型システムを持たず、`TypeOK` / `TypeInvariant` などの不変条件で値の集合を明示する。結果は `.cfg`、性質、fairness、状態制約、完走状態に依存する。→第7章/第8章
 
 <span id="glossary-trusted-kernel信頼核" class="search-term-anchor" aria-hidden="true"></span>**trusted kernel（信頼核）**：証明項を基礎論理と現在の環境の下で検査する小さな中核。保証には kernel だけでなく、追加公理、未完了穴、外部 solver の接続方法、抽出・コード生成などの信頼基盤も関係する。→第9章
+
+<span id="glossary-trusted-computing-basetcb" class="search-term-anchor" aria-hidden="true"></span>**trusted computing base（TCB）**：最終保証に関与する信頼前提の集合。kernel に加え、追加公理、未検証変換、外部 solver 連携、proof reconstruction、抽出、コード生成、運用例外まで含み得る。→第9章/第12章
 
 <span id="glossary-トレースtrace" class="search-term-anchor" aria-hidden="true"></span>**トレース（Trace）**：状態遷移の列。反例はトレースとして提示され、セキュリティプロトコル検証では攻撃者操作を含むattack traceとして読むことがある。→第4章/第8章/第13章
 

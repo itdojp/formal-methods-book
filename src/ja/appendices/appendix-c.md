@@ -14,6 +14,14 @@
 - **authentication（認証）**：受理した相手、message、session等が対応する正規eventに結び付くというtrace property。non-injectiveかinjectiveかを明示する。
 - **attack trace（攻撃トレース）**：攻撃者の知識獲得、message操作、protocol eventを含む性質違反trace。
 
+### C.1.1 SAT / UNSAT と証跡の最小対応
+
+| 状況 | 主に残すもの | 独立再検査で確認すること | それだけでは保証しないもの |
+| --- | --- | --- | --- |
+| `SAT` | model / witness | 同じエンコード問題に対して割当てが制約を満たすこと | 自然言語要件、元仕様、エンコーダの妥当性 |
+| `UNSAT` | proof certificate | checker / kernel が元入力に対して証跡を受理すること | 要件妥当性、未モデル化仮定、前処理全体の正しさ |
+| `unknown` / timeout | ログ、resource 制約、入力 hash | 成功ではなく、調査対象であること | 正しさ、不具合不在 |
+
 ## C.2 AI 時代のDoDチェックリスト
 
 AI 支援開発では、出力の正当性を検証器で担保することが前提です。

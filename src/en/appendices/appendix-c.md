@@ -19,6 +19,14 @@ explanation.
 - **authentication**: a trace property connecting an accepted peer, message, or session to a corresponding legitimate event; state whether the correspondence is non-injective or injective.
 - **attack trace**: a violating trace that includes adversary knowledge, message operations, and protocol events.
 
+### C.1.1 Minimal Correspondence for SAT / UNSAT Artifacts
+
+| Outcome | Main retained artifact | What independent rechecking confirms | What it still does not validate |
+| --- | --- | --- | --- |
+| `SAT` | model / witness | That the assignment satisfies the same encoded constraints | The natural-language requirement, the original specification, or the encoder |
+| `UNSAT` | proof certificate | That a checker or kernel accepts the certificate for the input problem | Requirement validity, omitted assumptions, or the full preprocessing chain |
+| `unknown` / timeout | logs, resource bounds, input hash | That the run is non-success and needs triage | Correctness or absence of defects |
+
 ## C.2 Definition of Done Checklist for AI-Assisted Work
 
 In AI-assisted development, the key question is not whether AI was used, but

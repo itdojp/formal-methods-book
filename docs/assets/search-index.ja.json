@@ -3,7 +3,7 @@
   "project": "formal-methods-book",
   "projectVersion": "1.1.0",
   "locale": "ja",
-  "entryCount": 1201,
+  "entryCount": 1214,
   "entries": [
     {
       "id": "02d7269ce160fe33",
@@ -10344,7 +10344,19 @@
       ]
     },
     {
-      "id": "42d27d07cc4e467b",
+      "id": "8bf4a2258dd4aaa3",
+      "locale": "ja",
+      "pageId": "chapter12",
+      "section": "chapters",
+      "title": "SAT のモデルと UNSAT 証明書の独立再検査",
+      "chapter": "第12章：ツールと自動化",
+      "heading": "SAT のモデルと UNSAT 証明書の独立再検査",
+      "url": "/formal-methods-book/chapters/chapter12/#proof-certificate-independent-recheck",
+      "text": "SMT/SAT 系では、sat と unsat で残すべき artifact が異なります。 sat のときは、solver は model / witness を返し、その割当てや値が与えた制約を満たすかを別処理で再評価できます。 これは「このエンコードされた問題には充足例がある」という証跡であり、自然言語要件や仕様妥当性の証明ではありません。 unsat のときは充足例がないため、proof-producing solver が proof certificate を出力し、別実装の proof checker や kernel で独立再検査する構成を取ります。 独立再検査は、少なくとも次の3層に分けて考えます。 proof-producing solver：unsat とともに証明証跡を生成する certificate format：Alethe、LFSC、DRAT、LRAT など、何を証跡として交換するかを定める checker / kernel：元の入力と証跡を照合し、unsat の主張だけを別実装で検査する 以下は実務上の見取り図であり、各形式の完全仕様表ではありません。 形式 · 主な対象 · producer / checker の役割 · 実務上の限界 --- · --- · --- · --- Alethe · SMT-LIB 系の SMT 証明 · producer は SMT solver が証跡を出力し、checker は Carcara や再構成系で検査する · cvc5 1.3.4 の公式文書では equality with uninterpreted functions、linear arithmetic、bit-vectors、parts of strings（quantifier の有無を含む）が対象。互換性は普遍ではなく、solver と checker の組合せごとに確認が必要 LFSC · SMT 証明を logical framework 上の署名で検査する系 · producer は cvc5 が LFSC proof を出力し、checker は LFSC signature に基づいて検査する · cvc5 公式文書では全 theory に対する basic support を述べる一方、未対応の internal proof rule は trust step として出力され得る。strict recheck では trust step を成功扱いにしない DRAT · 命題 CNF の unsat 証明 · producer は CNF SAT solver / clausal proof pipeline が DRAT proof を出し、checker は DRAT-trim 系が DIMACS CNF に対して検査する · 命題 CNF の ecosystem であり、元の SMT 問題や自然言語仕様を直接証明するものではない LRAT · 命題 CNF の unsat 証明（検査向けヒント付き） · producer は solver または変換器が LRAT を出し、checker は LRAT を機械検査する · これも CNF 後の問題に対する証跡であり、元仕様、エンコーダ、未モデル化仮定は別途レビューが必要 sat 側では model / witness が同じ入力・同じ意味論で再評価できること、unsat 側では checker が certificate を受理することを success と区別します。 逆に、unknown、timeout、unsupported proof、holey な証跡、checker failure、proof が大きすぎて runner や checker が扱えない状態は non-success です。 特に hole や未対応 rule を含む証跡は、使う checker / elaborator がそこを埋めて機械検査できない限り、独立再検査成功とは扱いません。 実務では、solver は前処理、簡約、bit-blast、CNF 化、theory rewrite を行います。 そのため、post-encoding の certificate を検査しただけでは、自然言語要件、元の仕様、エンコーダ、前処理、未モデル化の環境仮定までは検証していません。 保証されるのは「その checker が、その入力として渡された論理問題に対し、その certificate を受理した」という境界までです。 元の SMT-LIB 入力や仕様まで含めて説明責任を持つには、前処理の再構成、入力 hash、変換 chain、未モデル化仮定、例外 rule を artifact に残します。 cvc5-alethe-unsat-certificate: 正本 asset は examples/proof-certificates/qf-uf-bool-contradiction.smt2、期待結果の正本は examples/example-manifest.json の同名 entry です。lane は nightly、固定バージョンは cvc5 1.3.4 と Carcara 1.1.0 です。再実行時は本文断片ではなく、同一リビジョンの asset と manifest 契約を使います。 【ツール準拠（そのまま動く）】",
+      "aliases": []
+    },
+    {
+      "id": "12a4bcf586391ee6",
       "locale": "ja",
       "pageId": "chapter12",
       "section": "chapters",
@@ -10359,7 +10371,7 @@
       ]
     },
     {
-      "id": "9dc4d07a7624a07c",
+      "id": "5da2075c6a4ed8da",
       "locale": "ja",
       "pageId": "chapter12",
       "section": "chapters",
@@ -10371,7 +10383,7 @@
       "aliases": []
     },
     {
-      "id": "3f89ec51fc0b959a",
+      "id": "add13ae2d8627006",
       "locale": "ja",
       "pageId": "chapter12",
       "section": "chapters",
@@ -10386,7 +10398,7 @@
       ]
     },
     {
-      "id": "23c7ca5ff5c48451",
+      "id": "56eeefdf2f2d114b",
       "locale": "ja",
       "pageId": "chapter12",
       "section": "chapters",
@@ -10398,7 +10410,7 @@
       "aliases": []
     },
     {
-      "id": "0e02eed1dd5e45a4",
+      "id": "f041b7a51f97db31",
       "locale": "ja",
       "pageId": "chapter12",
       "section": "chapters",
@@ -10410,7 +10422,7 @@
       "aliases": []
     },
     {
-      "id": "3d1ab013291c4f10",
+      "id": "1e71f431a6da4941",
       "locale": "ja",
       "pageId": "chapter12",
       "section": "chapters",
@@ -10422,7 +10434,7 @@
       "aliases": []
     },
     {
-      "id": "51f5f482cf7dea6e",
+      "id": "f20f76ab7266460f",
       "locale": "ja",
       "pageId": "chapter12",
       "section": "chapters",
@@ -10434,7 +10446,7 @@
       "aliases": []
     },
     {
-      "id": "e137f90663961b1a",
+      "id": "d1020f75c53816d6",
       "locale": "ja",
       "pageId": "chapter12",
       "section": "chapters",
@@ -10446,7 +10458,7 @@
       "aliases": []
     },
     {
-      "id": "9c32931dc25d0531",
+      "id": "e601fb8077948c00",
       "locale": "ja",
       "pageId": "chapter12",
       "section": "chapters",
@@ -10458,7 +10470,7 @@
       "aliases": []
     },
     {
-      "id": "f45b3cacb4823ef5",
+      "id": "518f1fa425539301",
       "locale": "ja",
       "pageId": "chapter12",
       "section": "chapters",
@@ -10470,7 +10482,7 @@
       "aliases": []
     },
     {
-      "id": "54ba6bf3d997ff20",
+      "id": "001219ff4a4eba6e",
       "locale": "ja",
       "pageId": "chapter12",
       "section": "chapters",
@@ -10482,7 +10494,7 @@
       "aliases": []
     },
     {
-      "id": "bd493c365883096a",
+      "id": "33e00ad78ce32571",
       "locale": "ja",
       "pageId": "chapter12",
       "section": "chapters",
@@ -10494,7 +10506,7 @@
       "aliases": []
     },
     {
-      "id": "c1056e315f1662c5",
+      "id": "95141dc65e51feaa",
       "locale": "ja",
       "pageId": "chapter12",
       "section": "chapters",
@@ -10506,7 +10518,7 @@
       "aliases": []
     },
     {
-      "id": "07fe4da7a44c0448",
+      "id": "e3e189b0f1b41dda",
       "locale": "ja",
       "pageId": "chapter12",
       "section": "chapters",
@@ -10518,7 +10530,7 @@
       "aliases": []
     },
     {
-      "id": "4d86ca5ab574fb97",
+      "id": "23596cb1e7ab9319",
       "locale": "ja",
       "pageId": "chapter12",
       "section": "chapters",
@@ -10530,7 +10542,7 @@
       "aliases": []
     },
     {
-      "id": "72cca9c27e243a0f",
+      "id": "3ef3d245fd5df53b",
       "locale": "ja",
       "pageId": "chapter12",
       "section": "chapters",
@@ -10542,7 +10554,7 @@
       "aliases": []
     },
     {
-      "id": "fff5eb1fa0b76c23",
+      "id": "554ff92e31e9a337",
       "locale": "ja",
       "pageId": "chapter12",
       "section": "chapters",
@@ -10554,7 +10566,7 @@
       "aliases": []
     },
     {
-      "id": "e1f8d78018da3135",
+      "id": "5be733616224a12b",
       "locale": "ja",
       "pageId": "chapter12",
       "section": "chapters",
@@ -10566,7 +10578,7 @@
       "aliases": []
     },
     {
-      "id": "2cad456032106fc1",
+      "id": "e4ba0de6dbc4f3a8",
       "locale": "ja",
       "pageId": "chapter12",
       "section": "chapters",
@@ -10578,7 +10590,7 @@
       "aliases": []
     },
     {
-      "id": "ef84932a96446a37",
+      "id": "67b7f79d479abd9b",
       "locale": "ja",
       "pageId": "chapter12",
       "section": "chapters",
@@ -10590,7 +10602,7 @@
       "aliases": []
     },
     {
-      "id": "928a52a969c906b5",
+      "id": "d839eb6f4b741d15",
       "locale": "ja",
       "pageId": "chapter12",
       "section": "chapters",
@@ -10602,7 +10614,7 @@
       "aliases": []
     },
     {
-      "id": "6fb8242f4b7b84d5",
+      "id": "08788d5ee23315ec",
       "locale": "ja",
       "pageId": "chapter12",
       "section": "chapters",
@@ -10614,7 +10626,7 @@
       "aliases": []
     },
     {
-      "id": "10d0d6fb8ee02e81",
+      "id": "b85c717078e62efb",
       "locale": "ja",
       "pageId": "chapter12",
       "section": "chapters",
@@ -10626,7 +10638,7 @@
       "aliases": []
     },
     {
-      "id": "9e3ecb9c07b33bb9",
+      "id": "0442434f0dcb0a2c",
       "locale": "ja",
       "pageId": "chapter12",
       "section": "chapters",
@@ -11683,7 +11695,19 @@
       "aliases": []
     },
     {
-      "id": "fde3c653d9bd7a2f",
+      "id": "4a7bffbc28893a13",
+      "locale": "ja",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "Alethe",
+      "chapter": "用語集（Glossary）",
+      "heading": "Alethe",
+      "url": "/formal-methods-book/glossary/#glossary-alethe",
+      "text": "SMT-LIB 系の SMT 証明証跡形式。proof-producing solver が出力した unsat 証跡を、Carcara や再構成系で独立再検査するための交換形式として使われる。対応理論や checker 互換性は組合せ依存。→第12章/付録E",
+      "aliases": []
+    },
+    {
+      "id": "978149f480a13073",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11695,7 +11719,7 @@
       "aliases": []
     },
     {
-      "id": "e43689d83c19a143",
+      "id": "dfe3d71fb4ac2070",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11707,7 +11731,7 @@
       "aliases": []
     },
     {
-      "id": "d89364091ef8c335",
+      "id": "4f874e21f405cbf4",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11723,7 +11747,7 @@
       ]
     },
     {
-      "id": "1ff185ed17a0cad2",
+      "id": "52e34a0ff4ce3286",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11735,7 +11759,7 @@
       "aliases": []
     },
     {
-      "id": "214a1d00904c4a17",
+      "id": "5827dbb446fad770",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11747,7 +11771,7 @@
       "aliases": []
     },
     {
-      "id": "55b0338f7395dc89",
+      "id": "ab2f2fdb7cae151b",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11761,7 +11785,7 @@
       ]
     },
     {
-      "id": "6bd89d72b237524a",
+      "id": "02834fb77c0a0c1d",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11773,7 +11797,7 @@
       "aliases": []
     },
     {
-      "id": "0a57f34cfc83d4b9",
+      "id": "f449da4c13ee31e5",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11785,7 +11809,7 @@
       "aliases": []
     },
     {
-      "id": "4de86ef96361d9d1",
+      "id": "b09ccd399f792531",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11802,7 +11826,7 @@
       ]
     },
     {
-      "id": "5b8ca9b10132d842",
+      "id": "f76d6f27e9fb1a74",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11814,7 +11838,7 @@
       "aliases": []
     },
     {
-      "id": "faf65f3e922731db",
+      "id": "652cd72d12d17085",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11829,7 +11853,7 @@
       ]
     },
     {
-      "id": "a816c0587137966e",
+      "id": "efcd6f5bae4158de",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11841,7 +11865,7 @@
       "aliases": []
     },
     {
-      "id": "ce706ad1dfaad93e",
+      "id": "82cd6c8f8b746fe6",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11853,7 +11877,7 @@
       "aliases": []
     },
     {
-      "id": "73dc340f6fadfbb4",
+      "id": "76dbf93a6f5543c7",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11865,7 +11889,7 @@
       "aliases": []
     },
     {
-      "id": "0a8946af11cee10a",
+      "id": "004fc25dfcaf1f69",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11877,7 +11901,7 @@
       "aliases": []
     },
     {
-      "id": "91df5fc2feddb8f5",
+      "id": "53984821cb94c16c",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11889,7 +11913,7 @@
       "aliases": []
     },
     {
-      "id": "d54d9e2468ec9fb0",
+      "id": "8934c8cadf4c766a",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11901,7 +11925,7 @@
       "aliases": []
     },
     {
-      "id": "916424a8caedbfa3",
+      "id": "12c08968f1caba87",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11913,7 +11937,7 @@
       "aliases": []
     },
     {
-      "id": "54d7bca591261396",
+      "id": "c880db2953bcbc06",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11925,7 +11949,7 @@
       "aliases": []
     },
     {
-      "id": "fe04b2e01585f78b",
+      "id": "b2143c0a51e0d9e6",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11937,7 +11961,7 @@
       "aliases": []
     },
     {
-      "id": "2a50d37b24776b45",
+      "id": "f153f83f9ac8fea7",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11949,7 +11973,7 @@
       "aliases": []
     },
     {
-      "id": "a0b6e55cf7d8aa45",
+      "id": "67df3c9a2fc83035",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11961,7 +11985,7 @@
       "aliases": []
     },
     {
-      "id": "3239de5fc8bd5820",
+      "id": "8dc35a031508b813",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11973,7 +11997,7 @@
       "aliases": []
     },
     {
-      "id": "631d17770734bd2c",
+      "id": "f2434c3c2a3b326b",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11985,7 +12009,7 @@
       "aliases": []
     },
     {
-      "id": "4863d0189afce642",
+      "id": "f2ce6592ba28b702",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12000,7 +12024,19 @@
       ]
     },
     {
-      "id": "879677b3d846a10a",
+      "id": "0a26537578c84408",
+      "locale": "ja",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "DRAT",
+      "chapter": "用語集（Glossary）",
+      "heading": "DRAT",
+      "url": "/formal-methods-book/glossary/#glossary-drat",
+      "text": "命題 CNF の unsat を clausal proof で示す proof ecosystem / format。DRAT-trim などの checker は DIMACS CNF と proof を照合するが、元の SMT 問題や自然言語仕様を直接検証するわけではない。→第12章/付録E",
+      "aliases": []
+    },
+    {
+      "id": "82e7eda846c91042",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12012,7 +12048,7 @@
       "aliases": []
     },
     {
-      "id": "cc292b7df40516b4",
+      "id": "474eb9a24d374dcc",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12024,7 +12060,7 @@
       "aliases": []
     },
     {
-      "id": "52fb89d2622dd16c",
+      "id": "805e227157a89b86",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12036,7 +12072,7 @@
       "aliases": []
     },
     {
-      "id": "8d8c98bdc68ff509",
+      "id": "dafaca81870afacc",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12051,7 +12087,7 @@
       ]
     },
     {
-      "id": "78bf2f8f504668f8",
+      "id": "bfd85ac09550efd4",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12069,7 +12105,7 @@
       ]
     },
     {
-      "id": "4da4664e2467036e",
+      "id": "7954c1a3359793c4",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12081,7 +12117,7 @@
       "aliases": []
     },
     {
-      "id": "d9e07f9d5d7fe97c",
+      "id": "2f17616dbecdc1d4",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12093,7 +12129,7 @@
       "aliases": []
     },
     {
-      "id": "91f3aefb1eaec858",
+      "id": "856bfbcb54f8c165",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12105,7 +12141,7 @@
       "aliases": []
     },
     {
-      "id": "a821f0e9dacd95e1",
+      "id": "937e5a3c48c66551",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12117,7 +12153,7 @@
       "aliases": []
     },
     {
-      "id": "b03deea1744ad0de",
+      "id": "5d78c7430e05f4ec",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12129,7 +12165,7 @@
       "aliases": []
     },
     {
-      "id": "b97b818a36da77a8",
+      "id": "6212ba6fa9c941f5",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12144,7 +12180,7 @@
       ]
     },
     {
-      "id": "f3fdf8c28b27c424",
+      "id": "e4940ca387677117",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12156,7 +12192,7 @@
       "aliases": []
     },
     {
-      "id": "41f6903cb1856b17",
+      "id": "faf3c175bb80fd49",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12171,7 +12207,7 @@
       ]
     },
     {
-      "id": "e29323cb9ca7ea04",
+      "id": "ac5bdbf533ab9258",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12183,7 +12219,7 @@
       "aliases": []
     },
     {
-      "id": "a023d6f17494750d",
+      "id": "89e040f6cc6ea43b",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12195,7 +12231,7 @@
       "aliases": []
     },
     {
-      "id": "19400e69ec1e25b5",
+      "id": "8df1c0dc19ae9afc",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12207,7 +12243,7 @@
       "aliases": []
     },
     {
-      "id": "53e9abc6baf6f626",
+      "id": "e7aefaac6bf474db",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12219,7 +12255,7 @@
       "aliases": []
     },
     {
-      "id": "b8965c15298e044e",
+      "id": "c3a22ca734c6fd77",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12231,7 +12267,31 @@
       "aliases": []
     },
     {
-      "id": "1c1a606db5221a01",
+      "id": "c62e12cb02d35609",
+      "locale": "ja",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "LFSC",
+      "chapter": "用語集（Glossary）",
+      "heading": "LFSC",
+      "url": "/formal-methods-book/glossary/#glossary-lfsc",
+      "text": "LF logical framework に計算的 side condition を加えた proof format / checking framework。cvc5 は LFSC 出力を持つが、未対応 internal rule が trust step として残る場合がある。→第12章/付録E",
+      "aliases": []
+    },
+    {
+      "id": "40833d2729716b7d",
+      "locale": "ja",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "LRAT",
+      "chapter": "用語集（Glossary）",
+      "heading": "LRAT",
+      "url": "/formal-methods-book/glossary/#glossary-lrat",
+      "text": "命題 CNF 向けの unsat 証跡形式。DRAT より checker 向けヒントを明示しやすいが、やはり CNF 後の問題に対する証跡である。→第12章/付録E",
+      "aliases": []
+    },
+    {
+      "id": "d0d21111cf401520",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12243,7 +12303,7 @@
       "aliases": []
     },
     {
-      "id": "ef0e8e93cdca9fbe",
+      "id": "7a9e8ef26d6f807f",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12255,7 +12315,7 @@
       "aliases": []
     },
     {
-      "id": "d7ca77cb6a954755",
+      "id": "b2af6038f77d8cb4",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12267,7 +12327,19 @@
       "aliases": []
     },
     {
-      "id": "03016d09e91804a0",
+      "id": "32d6addf5afeae67",
+      "locale": "ja",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "model / witness（モデル / 証人）",
+      "chapter": "用語集（Glossary）",
+      "heading": "model / witness（モデル / 証人）",
+      "url": "/formal-methods-book/glossary/#glossary-model--witnessモデル--証人",
+      "text": "sat のときに solver が返す具体的な割当てや到達例。エンコード済み制約に対する充足例であり、自然言語要件や元仕様の妥当性そのものは別途レビューする。→第12章/付録C",
+      "aliases": []
+    },
+    {
+      "id": "7b54f3c7514db5ba",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12279,7 +12351,7 @@
       "aliases": []
     },
     {
-      "id": "dc69a03a5b4744a6",
+      "id": "de87d3e999701fea",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12293,7 +12365,7 @@
       ]
     },
     {
-      "id": "57201136ae7fe5d7",
+      "id": "f5ee2feb52203433",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12308,7 +12380,7 @@
       ]
     },
     {
-      "id": "c5469d9e7d592683",
+      "id": "40fdf5a47a0fcdbd",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12320,7 +12392,7 @@
       "aliases": []
     },
     {
-      "id": "2375b20d624fe50f",
+      "id": "07af9ce518e91a83",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12334,7 +12406,7 @@
       ]
     },
     {
-      "id": "cb9b37c4ba74087d",
+      "id": "d6d8361cb73e0db0",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12346,7 +12418,7 @@
       "aliases": []
     },
     {
-      "id": "9582be1a2462c383",
+      "id": "d8ee7d240df6553b",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12360,7 +12432,7 @@
       ]
     },
     {
-      "id": "84cc09efce470f63",
+      "id": "44051fb2463bdc60",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12375,7 +12447,7 @@
       ]
     },
     {
-      "id": "49eb031a30e33278",
+      "id": "867cd468e20a604d",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12389,7 +12461,7 @@
       ]
     },
     {
-      "id": "f5e2f61d25f46015",
+      "id": "86554f610a12baf6",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12401,7 +12473,31 @@
       "aliases": []
     },
     {
-      "id": "47f3e903d0fb9216",
+      "id": "a908c3b1a914d3ef",
+      "locale": "ja",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "proof certificate（証明証跡 / 証明書）",
+      "chapter": "用語集（Glossary）",
+      "heading": "proof certificate（証明証跡 / 証明書）",
+      "url": "/formal-methods-book/glossary/#glossary-proof-certificate証明証跡--証明書",
+      "text": "unsat を別実装で再検査するために solver が出力する機械可読証跡。何を保証するかは format と checker に依存し、自然言語要件までは自動的に保証しない。→第12章/付録E",
+      "aliases": []
+    },
+    {
+      "id": "17f81ecfa16899d1",
+      "locale": "ja",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "proof checker",
+      "chapter": "用語集（Glossary）",
+      "heading": "proof checker",
+      "url": "/formal-methods-book/glossary/#glossary-proof-checker",
+      "text": "proof certificate や proof term を、入力問題と format の規則に照らして機械検査する checker / kernel。checker 成功は encoded statement に対する成功であり、要件妥当性レビューの代替ではない。→第12章/付録E",
+      "aliases": []
+    },
+    {
+      "id": "1a51f4fc6a63bb26",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12413,7 +12509,7 @@
       "aliases": []
     },
     {
-      "id": "ac9b9afaf2bdd6a6",
+      "id": "d903e02daa0fb22b",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12427,7 +12523,7 @@
       ]
     },
     {
-      "id": "c061ebe44fd70e5b",
+      "id": "7a73fcb0aaacf741",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12439,7 +12535,7 @@
       "aliases": []
     },
     {
-      "id": "9138e86fca102d52",
+      "id": "97e6b9bbeb02dcdb",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12451,7 +12547,7 @@
       "aliases": []
     },
     {
-      "id": "406a9711ff6539ce",
+      "id": "c28564c6cc691e0a",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12463,7 +12559,7 @@
       "aliases": []
     },
     {
-      "id": "a337d65b44c4b735",
+      "id": "9eb1bd4059affdb5",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12475,7 +12571,7 @@
       "aliases": []
     },
     {
-      "id": "71258f3a74650948",
+      "id": "85423a63e0d15395",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12487,7 +12583,7 @@
       "aliases": []
     },
     {
-      "id": "610d273b6382c9a1",
+      "id": "03dfb616defad295",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12499,7 +12595,7 @@
       "aliases": []
     },
     {
-      "id": "a0b7bd982bcea3a7",
+      "id": "d223bc5cf4783638",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12511,7 +12607,7 @@
       "aliases": []
     },
     {
-      "id": "26d346f1b9e035aa",
+      "id": "364a51e58083bfe6",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12526,7 +12622,7 @@
       ]
     },
     {
-      "id": "b701e6a22bde72c8",
+      "id": "66422916d4507e15",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12540,7 +12636,7 @@
       ]
     },
     {
-      "id": "00d7f7537a3b3f7f",
+      "id": "57f1a2ac728f4a5e",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12555,7 +12651,7 @@
       ]
     },
     {
-      "id": "ceed5cb607ca0513",
+      "id": "bda6db2fc145e365",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12567,7 +12663,7 @@
       "aliases": []
     },
     {
-      "id": "2ea5d3c246a037b1",
+      "id": "3438238192245a80",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12579,7 +12675,7 @@
       "aliases": []
     },
     {
-      "id": "82e26a35158f318e",
+      "id": "55dad7e543d8e382",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12591,7 +12687,7 @@
       "aliases": []
     },
     {
-      "id": "51e383f896d7ea56",
+      "id": "0f1d4a034ab3bd6a",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12603,7 +12699,7 @@
       "aliases": []
     },
     {
-      "id": "14e19d5c453230c9",
+      "id": "f5de3cfebd1da7f3",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12618,7 +12714,7 @@
       ]
     },
     {
-      "id": "90aa9c91762cf56a",
+      "id": "fed21534253f5334",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12630,7 +12726,7 @@
       "aliases": []
     },
     {
-      "id": "1e09db44c5e0ab5a",
+      "id": "869257ac6dddf914",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12642,7 +12738,7 @@
       "aliases": []
     },
     {
-      "id": "8ffcdcb99c061206",
+      "id": "d6d68f71a2061457",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12654,7 +12750,7 @@
       "aliases": []
     },
     {
-      "id": "f44b21be5862aed9",
+      "id": "cb3ddaf29203d5ee",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12666,7 +12762,7 @@
       "aliases": []
     },
     {
-      "id": "e78e3af24898656d",
+      "id": "3cb7b9e0eef24bba",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12680,7 +12776,7 @@
       ]
     },
     {
-      "id": "a20c9d30eeb72b9e",
+      "id": "86e9b53229d7be51",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12692,7 +12788,7 @@
       "aliases": []
     },
     {
-      "id": "3665436f9603de7e",
+      "id": "59695c6cc0c9a3c3",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12704,7 +12800,7 @@
       "aliases": []
     },
     {
-      "id": "c89a94765868336c",
+      "id": "fd4ad7e944d0e182",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12718,7 +12814,7 @@
       ]
     },
     {
-      "id": "a995905d53260484",
+      "id": "d47981f9e151fee0",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12734,7 +12830,7 @@
       ]
     },
     {
-      "id": "f0befe2eb9814b2d",
+      "id": "dda5a258f9700e35",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12746,7 +12842,19 @@
       "aliases": []
     },
     {
-      "id": "f1b89baa64e61b3b",
+      "id": "e93211c53c84c0f3",
+      "locale": "ja",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "trusted computing base（TCB）",
+      "chapter": "用語集（Glossary）",
+      "heading": "trusted computing base（TCB）",
+      "url": "/formal-methods-book/glossary/#glossary-trusted-computing-basetcb",
+      "text": "最終保証に関与する信頼前提の集合。kernel に加え、追加公理、未検証変換、外部 solver 連携、proof reconstruction、抽出、コード生成、運用例外まで含み得る。→第9章/第12章",
+      "aliases": []
+    },
+    {
+      "id": "ec1b7329ffff3acc",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12758,7 +12866,7 @@
       "aliases": []
     },
     {
-      "id": "28af282b4d3786ed",
+      "id": "6cd247f6223e48a9",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12770,7 +12878,7 @@
       "aliases": []
     },
     {
-      "id": "deaa93c0601b889e",
+      "id": "85ad6dd32425d36c",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12782,7 +12890,7 @@
       "aliases": []
     },
     {
-      "id": "2c29d6c79bbed057",
+      "id": "bb91dbac3b9d5986",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12794,7 +12902,7 @@
       "aliases": []
     },
     {
-      "id": "70446c3a72c5310e",
+      "id": "0b396af8d371d656",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12806,7 +12914,7 @@
       "aliases": []
     },
     {
-      "id": "d420bb13676338e9",
+      "id": "f3e88c0650e110ff",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12818,7 +12926,7 @@
       "aliases": []
     },
     {
-      "id": "3687923c15b6f337",
+      "id": "1f0bef0b26d1fd20",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12830,7 +12938,7 @@
       "aliases": []
     },
     {
-      "id": "1ab9cdd8839dc580",
+      "id": "29ffd9c51dba85cb",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12842,7 +12950,7 @@
       "aliases": []
     },
     {
-      "id": "6670ca5edfeccb89",
+      "id": "e040eb4ea88dbe95",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12854,7 +12962,7 @@
       "aliases": []
     },
     {
-      "id": "6b6c27f4bf399dee",
+      "id": "044fd35c98b6b226",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12866,7 +12974,7 @@
       "aliases": []
     },
     {
-      "id": "083c4017b33823d0",
+      "id": "fbf0ade0c233d432",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -13020,7 +13128,7 @@
       "chapter": "付録B：ツールインストールガイド",
       "heading": "対象ツール（最小セット）",
       "url": "/formal-methods-book/appendices/appendix-b/#対象ツール最小セット",
-      "text": "Alloy 6.x（CLI実行） TLA+ TLC（tla2tools.jar） Apalache（TLA+ 向け、SMT ベース） Dafny（検証器） 補足： Quint CLI は、TLA+ 意味論に基づく型付き仕様言語をCIに載せる選択肢であり、本リポジトリでは固定版のtypecheck/testをnightlyで実行する。 Rocq/Isabelle等の定理証明器は依存が大きいため、本付録では一次情報リンク（付録E）を主とする。 Lean 4 は、本書の導線として 最小構成のみを本付録末尾に示す（Optional）。 SPIN / NuSMV / CBMC / Quint / PRISM / Tamarin / SymbiYosys はnightly laneの対象であり、source buildまたはarchive検査に必要な追加前提を後述する。",
+      "text": "Alloy 6.x（CLI実行） TLA+ TLC（tla2tools.jar） Apalache（TLA+ 向け、SMT ベース） Dafny（検証器） 補足： Quint CLI は、TLA+ 意味論に基づく型付き仕様言語をCIに載せる選択肢であり、本リポジトリでは固定版のtypecheck/testをnightlyで実行する。 Rocq/Isabelle等の定理証明器は依存が大きいため、本付録では一次情報リンク（付録E）を主とする。 Lean 4 は、本書の導線として 最小構成のみを本付録末尾に示す（Optional）。 SPIN / NuSMV / CBMC / Quint / PRISM / Tamarin / SymbiYosys に加え、cvc5 + Carcara の証明証跡再検査もnightly laneで扱う。source buildまたはarchive検査に必要な追加前提を後述する。",
       "aliases": [
         "TLA Plus",
         "Coq",
@@ -13037,7 +13145,7 @@
       "chapter": "付録B：ツールインストールガイド",
       "heading": "Tool lane inventoryと実行保証",
       "url": "/formal-methods-book/appendices/appendix-b/#tool-lane-inventory",
-      "text": "全toolの分類、実行版、配布物digest、artifact上限、更新手順の正本は tools/tool-manifest.json である。 pr-quick はPR差分に関連する小さい例、nightly はtool単位の独立matrix、optional/manual は明示的な workflowdispatch だけで実行する。 documentation-only は本文で紹介するが、このリポジトリがversion、環境、実行結果を保証しないtool/serviceを表す。 他toolに内蔵されたsolverを間接利用しても、solver単体の実行保証には数えない。 Tool / service · lane · 検証済み version · 分類理由 --- · --- · --- · --- Alloy Analyzer · pr-quick · 6.2.0 · 小さい scope の4例を短時間で再現できる。 TLC · pr-quick · 1.7.4 · 固定 cfg・worker・seed・timeout で有限モデルを検査する。 Apalache · pr-quick · 0.52.1 · 短い探索長を固定した不変条件検査を毎PRで再現できる。 Dafny · pr-quick · 4.11.0 · 最小検証例が高速で安定している。 SPIN · nightly · 6.5.2 · source buildと状態探索をtool単位nightlyで分離する。 NuSMV · nightly · 2.7.1 · 依存を伴う公式source buildのためnightlyへ分離する。 CBMC · nightly · 6.10.0 · Ubuntu固定配布と有界検査をtool単位nightlyで実行する。 Quint · nightly · 0.32.0 · 公式single binaryでtypecheck/testを固定seedかつTypeScript backendで再現する。 PRISM Model Checker · nightly · 4.10.1 · 約41 MBの固定公式配布を取得し、定量的性質をtool単位nightlyで再現する。 Tamarin Prover · nightly · 1.12.0 · Tamarinと対応Maudeの固定公式配布を取得し、攻撃トレースと補題をtool単位nightlyで再現する。 SymbiYosys (sby) · nightly · v0.67-4-gfea6e46 · 約733 MBの固定OSS CAD Suiteを取得し、RTLのBMC、k-induction、coverをtool単位nightlyで再現する。 Kani Rust Verifier · optional/manual · 0.67.0 · 固定Rust nightlyを追加取得するため明示的manual dispatchに限定する。 TLA+ Toolbox · documentation-only · — · GUI/編集環境であり、本リポジトリのCLI保証対象外。 TLA+ VS Code extension · documentation-only · — · 編集支援はCLI検査と分離し、extension版を固定していない。 Community Z Tools (CZT) · documentation-only · — · Zの一次情報導線のみで実行assetがない。 FDR · documentation-only · — · CSPM例は掲載するが、配布・licenseを含むCI環境を固定していない。 ProB · documentation-only · — · 紹介のみで実行assetと固定環境がない。 PAT · documentation-only · — · 紹介のみで実行assetと固定環境がない。 nuXmv · documentation-only · — · NuSMVとは別製品として紹介するが、CIはNuSMVだけを保証する。 Java PathFinder · documentation-only · — · 紹介・演習候補のみで実行assetがない。 UPPAAL · documentation-only · — · GUI/license/配布条件を伴い自動化していない。 TIMES · documentation-only · — · リアルタイム検証の紹介のみ。 Rocq / Coq · documentation-only · — · 証明project、opam switch、library版を固定していない。 Lean 4 / Lake / mathlib / elan · documentation-only · — · proof projectと依存revisionがなく、Linux配布物も大きいため未実行。 Isabelle/HOL · documentation-only · — · 紹介のみでsession/build環境を固定していない。 Agda · documentation-only · — · 紹介のみでprojectとlibrary版を固定していない。 HOL4 · documentation-only · — · Aeneas接続先として紹介するだけで実行契約がない。 F · documentation-only · — · 接続先/関連技術として紹介するだけで実行契約がない。 Frama-C · documentation-only · — · 紹介のみでplugin/solver構成を固定していない。 VeriFast · documentation-only · — · 紹介のみで実行assetがない。 SPARK · documentation-only · — · 産業toolchain/licenseを含む実行環境を固定していない。 Why3 · documentation-only · — · backend solverを含む実行構成を固定していない。 Verus · documentation-only · — · Rust/Z3/revisionを含む実行構成を固定していない。 Creusot · documentation-only · — · Why3/solver/Rustの組合せを固定していない。 Prusti / Viper · documentation-only · — · Rust/Viper toolchainと実行assetを固定していない。 Aeneas / Charon · documentation-only · — · 変換先を含むend-to-end contractを固定していない。 Z3 · documentation-only · — · 他toolの間接依存をsolver単体の実行保証には数えない。 cvc5 / CVC4 · documentation-only · — · 紹介のみでsolver単体assetを固定していない。 Yices · documentation-only · — · 紹介のみで実行assetを固定していない。 MathSAT · documentation-only · — · 紹介のみでlicense/配布を含む環境を固定していない。 SCADE · documentation-only · — · 商用/GUI toolchainでありCI必須化しない。 Simulink · documentation-only · — · 産業事例の紹介のみでlicense環境を固定していない。 SAW · documentation-only · — · 産業事例の参照のみでs2n検証assetを同梱していない。 Cedar Analysis · documentation-only · — · service/APIとtool群が変化し、対象policy assetを固定していない。 Bedrock Guardrails Automated Reasoning checks · documentation-only · — · 外部service、region、API条件を固定CIへ必須化しない。 Solidity SMTChecker · documentation-only · — · Solidity/compiler/solver構成とcontract assetを固定していない。 Aptos Move Prover · documentation-only · — · Move toolchainとcontract assetを固定していない。 Certora Prover · documentation-only · — · 外部/産業toolchainを必須CIへ組み込まない。 LeanDojo · documentation-only · — · AI証明支援の評価基盤として紹介するだけ。 Lean Copilot · documentation-only · — · AI証明支援の紹介のみでmodel/projectを固定していない。 AlphaProof / AlphaGeometry 2 · documentation-only · — · 研究成果の紹介で、再配布可能なCLI契約がない。 DeepSeek-Prover-V2 · documentation-only · — · 研究成果の紹介でmodel/runtimeを固定していない。 ProofGym · documentation-only · — · 評価基盤の紹介のみでdataset/runtimeを固定していない。 APOLLO · documentation-only · — · 研究成果の紹介のみで実行contractがない。 実行laneでは、各entryにtimeout、memory budget、seed、scope、depth、boundを明示する。 artifactはtool version、command、入力ファイル別SHA-256と集約hash、exit code、stdout/stderr、success、counterexample、unknown、timeout、resource exhaustionを区別して残す。 保持期間は14日、stdout/stderrは1 entry当たり16 MiB、tool outputは1 entry当たり64 MiBを上限とする。 timeoutとstdout/stderr上限はrunnerが強制し、retained tool outputは実行後に検査する。一方、memoryMiBはCI容量計画用の申告値であり、OS/cgroupによる強制上限ではない。このためresource-exhaustedは検出可能な出力超過を表し、OOM killはtool-errorまたはrunner failureになる場合がある。 quint-counter: examples/quint/counter.qnt をQuint 0.32.0のTypeScript evaluatorでtypecheckし、seed 20260716、各test 1 sampleで実行する。別配布のRust evaluatorを暗黙downloadしない。 【ツール準拠（そのまま動く）】 kani-abs: examples/kani/abs.rs のabsisnonnegative harnessをKani 0.67.0、固定Rust nightly、unwind 1で検査する。追加downloadと実行コストがあるためoptional/manualであり、PRやscheduleからは起動しない。 cache復元後もQuint binaryとPRISM archiveのSHA-256を再検証する。 PRISM 4.10.1はGPL-2.0の公式Linux x86-64 archiveを毎回再展開して絶対pathを再設定し、tool binaryはrepository、CI artifact、Pagesへ再配布しない。 Tamarin Prover 1.12.0（GPL-3.0）と対応するMaude 3.5.1（GPL-2.0-or-later）も、固定SHA-256の公式archiveから毎回再展開する。Tamarinのartifactはlemma結果と欠陥版のattack graphを保持するが、両tool binaryは再配布しない。attack graphはmodel constantを保持するため、実在する秘密情報をmodelへ含めない。 SymbiYosysはOSS CAD Suite 20260716の公式Linux x64 archiveをSHA-256検証後に毎回再展開する。archive path、重複entry、symlinkの解決先、special fileを検査し、suite versionと、SBY、Yosys、Bitwuzlaのversion/source commitをbundle内のmetadata/licenseに照合する。suite release tagのcommitは配布物digestとは別の出典provenanceとして記録する。SBYとYosysはISC、BitwuzlaはMITであり、bundle内の他componentにはそれぞれのlicenseがある。artifactには正規化結果と必要なVCDだけを保持し、suite archive、展開binary、solver modelを再配布しない。 保持するのは入力hash、標準出力、期待値との比較結果だけである。 Kaniは検証済みarchiveから毎回再展開し、固定日のRust channel manifestもSHA-256を検証する。Rust component本体の整合性検査は、そのmanifestに記録されたchecksumを検証するrustupに委ねる。 【ツール準拠（そのまま動く）】 version更新は月次に公式release/tagとasset digestを確認し、versionだけの専用PRでclean-cache実行と出力契約差分をレビューする。 任意のrelease assetはDependabot/Renovateのpackage参照ではないため、自動更新されたものとして扱わない。",
+      "text": "全toolの分類、実行版、配布物digest、artifact上限、更新手順の正本は tools/tool-manifest.json である。 pr-quick はPR差分に関連する小さい例、nightly はtool単位の独立matrix、optional/manual は明示的な workflowdispatch だけで実行する。 documentation-only は本文で紹介するが、このリポジトリがversion、環境、実行結果を保証しないtool/serviceを表す。 他toolに内蔵されたsolverを間接利用しても、solver単体の実行保証には数えない。 Tool / service · lane · 検証済み version · 分類理由 --- · --- · --- · --- Alloy Analyzer · pr-quick · 6.2.0 · 小さい scope の4例を短時間で再現できる。 TLC · pr-quick · 1.7.4 · 固定 cfg・worker・seed・timeout で有限モデルを検査する。 Apalache · pr-quick · 0.52.1 · 短い探索長を固定した不変条件検査を毎PRで再現できる。 Dafny · pr-quick · 4.11.0 · 最小検証例が高速で安定している。 SPIN · nightly · 6.5.2 · source buildと状態探索をtool単位nightlyで分離する。 NuSMV · nightly · 2.7.1 · 依存を伴う公式source buildのためnightlyへ分離する。 CBMC · nightly · 6.10.0 · Ubuntu固定配布と有界検査をtool単位nightlyで実行する。 Quint · nightly · 0.32.0 · 公式single binaryでtypecheck/testを固定seedかつTypeScript backendで再現する。 PRISM Model Checker · nightly · 4.10.1 · 約41 MBの固定公式配布を取得し、定量的性質をtool単位nightlyで再現する。 Tamarin Prover · nightly · 1.12.0 · Tamarinと対応Maudeの固定公式配布を取得し、攻撃トレースと補題をtool単位nightlyで再現する。 SymbiYosys (sby) · nightly · v0.67-4-gfea6e46 · 約733 MBの固定OSS CAD Suiteを取得し、RTLのBMC、k-induction、coverをtool単位nightlyで再現する。 Kani Rust Verifier · optional/manual · 0.67.0 · 固定Rust nightlyを追加取得するため明示的manual dispatchに限定する。 TLA+ Toolbox · documentation-only · — · GUI/編集環境であり、本リポジトリのCLI保証対象外。 TLA+ VS Code extension · documentation-only · — · 編集支援はCLI検査と分離し、extension版を固定していない。 Community Z Tools (CZT) · documentation-only · — · Zの一次情報導線のみで実行assetがない。 FDR · documentation-only · — · CSPM例は掲載するが、配布・licenseを含むCI環境を固定していない。 ProB · documentation-only · — · 紹介のみで実行assetと固定環境がない。 PAT · documentation-only · — · 紹介のみで実行assetと固定環境がない。 nuXmv · documentation-only · — · NuSMVとは別製品として紹介するが、CIはNuSMVだけを保証する。 Java PathFinder · documentation-only · — · 紹介・演習候補のみで実行assetがない。 UPPAAL · documentation-only · — · GUI/license/配布条件を伴い自動化していない。 TIMES · documentation-only · — · リアルタイム検証の紹介のみ。 Rocq / Coq · documentation-only · — · 証明project、opam switch、library版を固定していない。 Lean 4 / Lake / mathlib / elan · documentation-only · — · proof projectと依存revisionがなく、Linux配布物も大きいため未実行。 Isabelle/HOL · documentation-only · — · 紹介のみでsession/build環境を固定していない。 Agda · documentation-only · — · 紹介のみでprojectとlibrary版を固定していない。 HOL4 · documentation-only · — · Aeneas接続先として紹介するだけで実行契約がない。 F · documentation-only · — · 接続先/関連技術として紹介するだけで実行契約がない。 Frama-C · documentation-only · — · 紹介のみでplugin/solver構成を固定していない。 VeriFast · documentation-only · — · 紹介のみで実行assetがない。 SPARK · documentation-only · — · 産業toolchain/licenseを含む実行環境を固定していない。 Why3 · documentation-only · — · backend solverを含む実行構成を固定していない。 Verus · documentation-only · — · Rust/Z3/revisionを含む実行構成を固定していない。 Creusot · documentation-only · — · Why3/solver/Rustの組合せを固定していない。 Prusti / Viper · documentation-only · — · Rust/Viper toolchainと実行assetを固定していない。 Aeneas / Charon · documentation-only · — · 変換先を含むend-to-end contractを固定していない。 Z3 · documentation-only · — · 他toolの間接依存をsolver単体の実行保証には数えない。 cvc5 / CVC4 · nightly · 1.3.4 · 固定公式solver assetを毎夜検証・再展開し、独立Alethe checkerをsourceから再構築してUNSAT証明書を再検査する。 Yices · documentation-only · — · 紹介のみで実行assetを固定していない。 MathSAT · documentation-only · — · 紹介のみでlicense/配布を含む環境を固定していない。 SCADE · documentation-only · — · 商用/GUI toolchainでありCI必須化しない。 Simulink · documentation-only · — · 産業事例の紹介のみでlicense環境を固定していない。 SAW · documentation-only · — · 産業事例の参照のみでs2n検証assetを同梱していない。 Cedar Analysis · documentation-only · — · service/APIとtool群が変化し、対象policy assetを固定していない。 Bedrock Guardrails Automated Reasoning checks · documentation-only · — · 外部service、region、API条件を固定CIへ必須化しない。 Solidity SMTChecker · documentation-only · — · Solidity/compiler/solver構成とcontract assetを固定していない。 Aptos Move Prover · documentation-only · — · Move toolchainとcontract assetを固定していない。 Certora Prover · documentation-only · — · 外部/産業toolchainを必須CIへ組み込まない。 LeanDojo · documentation-only · — · AI証明支援の評価基盤として紹介するだけ。 Lean Copilot · documentation-only · — · AI証明支援の紹介のみでmodel/projectを固定していない。 AlphaProof / AlphaGeometry 2 · documentation-only · — · 研究成果の紹介で、再配布可能なCLI契約がない。 DeepSeek-Prover-V2 · documentation-only · — · 研究成果の紹介でmodel/runtimeを固定していない。 ProofGym · documentation-only · — · 評価基盤の紹介のみでdataset/runtimeを固定していない。 APOLLO · documentation-only · — · 研究成果の紹介のみで実行contractがない。 上の inventory ブロックにある cvc5 の nightly 分類は、cvc5-alethe-unsat-certificate という狭い pinned nightly contract を表します。 「cvc5 全機能の一般保証」ではなく、cvc5 1.3.4 が生成した Alethe 証跡を Carcara 1.1.0 で独立再検査する一例だけを固定します。 実行laneでは、各entryにtimeout、memory budget、seed、scope、depth、boundを明示する。 artifactはtool version、command、入力ファイル別SHA-256と集約hash、exit code、stdout/stderr、success、counterexample、unknown、timeout、resource exhaustionを区別して残す。 保持期間は14日、stdout/stderrは1 entry当たり16 MiB、tool outputは1 entry当たり64 MiBを上限とする。 timeoutとstdout/stderr上限はrunnerが強制し、retained tool outputは実行後に検査する。一方、memoryMiBはCI容量計画用の申告値であり、OS/cgroupによる強制上限ではない。このためresource-exhaustedは検出可能な出力超過を表し、OOM killはtool-errorまたはrunner failureになる場合がある。 quint-counter: examples/quint/counter.qnt をQuint 0.32.0のTypeScript evaluatorでtypecheckし、seed 20260716、各test 1 sampleで実行する。別配布のRust evaluatorを暗黙downloadしない。 【ツール準拠（そのまま動く）】 kani-abs: examples/kani/abs.rs のabsisnonnegative harnessをKani 0.67.0、固定Rust nightly、unwind 1で検査する。追加downloadと実行コストがあるためoptional/manualであり、PRやscheduleからは起動しない。 cache復元後もQuint binaryとPRISM archiveのSHA-256を再検証する。 PRISM 4.10.1はGPL-2.0の公式Linux x86-64 archiveを毎回再展開して絶対pathを再設定し、tool binaryはrepository、CI artifact、Pagesへ再配布しない。 Tamarin Prover 1.12.0（GPL-3.0）と対応するMaude 3.5.1（GPL-2.0-or-later）も、固定SHA-256の公式archiveから毎回再展開する。Tamarinのartifactはlemma結果と欠陥版のattack graphを保持するが、両tool binaryは再配布しない。attack graphはmodel constantを保持するため、実在する秘密情報をmodelへ含めない。 SymbiYosysはOSS CAD Suite 20260716の公式Linux x64 archiveをSHA-256検証後に毎回再展開する。archive path、重複entry、symlinkの解決先、special fileを検査し、suite versionと、SBY、Yosys、Bitwuzlaのversion/source commitをbundle内のmetadata/licenseに照合する。suite release tagのcommitは配布物digestとは別の出典provenanceとして記録する。SBYとYosysはISC、BitwuzlaはMITであり、bundle内の他componentにはそれぞれのlicenseがある。artifactには正規化結果と必要なVCDだけを保持し、suite archive、展開binary、solver modelを再配布しない。 保持するのは入力hash、標準出力、期待値との比較結果だけである。 Kaniは検証済みarchiveから毎回再展開し、固定日のRust channel manifestもSHA-256を検証する。Rust component本体の整合性検査は、そのmanifestに記録されたchecksumを検証するrustupに委ねる。 【ツール準拠（そのまま動く）】 version更新は月次に公式release/tagとasset digestを確認し、versionだけの専用PRでclean-cache実行と出力契約差分をレビューする。 任意のrelease assetはDependabot/Renovateのpackage参照ではないため、自動更新されたものとして扱わない。",
       "aliases": [
         "TLA Plus",
         "The Rocq Prover"
@@ -13091,11 +13199,25 @@
       "chapter": "付録B：ツールインストールガイド",
       "heading": "nightly lane の追加前提（Ubuntu 24.04 x86-64）",
       "url": "/formal-methods-book/appendices/appendix-b/#nightly-lane-の追加前提ubuntu-2404-x86-64",
-      "text": "node scripts/run-example-manifest.js --lane nightlyはSPIN 6.5.2、NuSMV 2.7.1、CBMC 6.10.0、Quint 0.32.0、PRISM 4.10.1、Tamarin Prover 1.12.0、SymbiYosysの12 entryを実行する。最小セットとは別に、SPIN/NuSMVのsource buildとSymbiYosys archiveの安全なlayout検査には次の前提が必要である。CBMCはUbuntu 24.04 x86-64用の固定deb、Quintは同platform用の固定single binary、PRISMは約41 MBの固定公式archive、Tamarinは対応するMaude 3.5.1と二つの固定公式archive、SymbiYosysは約733 MBのOSS CAD Suite 20260716 Linux x64 archiveを使うため、この手順は同環境または互換環境を対象とする。 取得物は commit/version と SHA-256、Meson/Ninja は requirements の package hash で固定される。macOS、Windows ネイティブ、異なる CPU architecture ではこの lane を直接再現せず、Ubuntu 24.04 x86-64 のコンテナ、WSL2、または GitHub Actions の workflowdispatch を使う。 PRISMだけを再実行する場合は次を使う。 この実行はDTMCと4 propertyの数値契約を再現するだけであり、教育用成功確率0.8が実システムに妥当であることは保証しない。 Tamarinの欠陥版と修正版だけを再実行する場合は次を使う。 欠陥版のcounterexampleは期待された成功結果であり、修正版は四つの指定lemmaが同じsymbolic model設定でverifiedとなることを確認する。 SymbiYosysの欠陥版BMC、修正版proof、修正版coverだけを再実行する場合は次を使う。 欠陥版のcounterexampleは期待された成功結果である。proofのPASSは指定propertyとassumptionに相対的なk-induction結果であり、coverのPASSは対象状態へ至るwitnessが見つかったことを表す。",
+      "text": "node scripts/run-example-manifest.js --lane nightlyはSPIN 6.5.2、NuSMV 2.7.1、CBMC 6.10.0、Quint 0.32.0、PRISM 4.10.1、Tamarin Prover 1.12.0、SymbiYosysの12 entryを実行する。最小セットとは別に、SPIN/NuSMVのsource buildとSymbiYosys archiveの安全なlayout検査には次の前提が必要である。CBMCはUbuntu 24.04 x86-64用の固定deb、Quintは同platform用の固定single binary、PRISMは約41 MBの固定公式archive、Tamarinは対応するMaude 3.5.1と二つの固定公式archive、SymbiYosysは約733 MBのOSS CAD Suite 20260716 Linux x64 archiveを使うため、この手順は同環境または互換環境を対象とする。 取得物は commit/version と SHA-256、Meson/Ninja は requirements の package hash で固定される。macOS、Windows ネイティブ、異なる CPU architecture ではこの lane を直接再現せず、Ubuntu 24.04 x86-64 のコンテナ、WSL2、または GitHub Actions の workflowdispatch を使う。",
       "aliases": []
     },
     {
-      "id": "16cb5e091d786eb1",
+      "id": "4a1a46198e363c28",
+      "locale": "ja",
+      "pageId": "appendix-b",
+      "section": "appendices",
+      "title": "証明証跡の独立再検査（cvc5 + Carcara）に追加で必要なもの",
+      "chapter": "付録B：ツールインストールガイド",
+      "heading": "証明証跡の独立再検査（cvc5 + Carcara）に追加で必要なもの",
+      "url": "/formal-methods-book/appendices/appendix-b/#証明証跡の独立再検査cvc5--carcaraに追加で必要なもの",
+      "text": "cvc5-alethe-unsat-certificate は、cvc5 1.3.4 の公式 release asset を取得して Alethe proof を生成し、Carcara 1.1.0 互換 commit の source archive を取得して source build した checker で検査する想定です。 対象環境は Ubuntu 24.04 x86-64 または同等の Linux を推奨します。 この lane では、cvc5 binary と Carcara build 生成物をリポジトリや Pages へ再配布しません。 公式 Rust channel manifest の digest は provenance sentinel として検査し、rustup が固定versionのcomponent checksumを検査した後、導入済みrustc/Cargoのcommitとhostもmanifest値へ照合します。検証済みmanifest file自体をrustupへ渡しているわけではないため、二つの検査を同一視しません。 certificateは1 MiB、checker outputは64 KiBで制限します。保持対象は、SMT-LIB 入力、manifest の期待結果契約、生成された証明証跡、stdout/stderr、入力 hash、version metadata です。 証跡検査の成功は「その encoded problem に対して checker が受理した」ことだけを保証し、自然言語要件、元仕様、エンコーダ、未モデル化仮定までは保証しません。 PRISMだけを再実行する場合は次を使う。 この実行はDTMCと4 propertyの数値契約を再現するだけであり、教育用成功確率0.8が実システムに妥当であることは保証しない。 Tamarinの欠陥版と修正版だけを再実行する場合は次を使う。 欠陥版のcounterexampleは期待された成功結果であり、修正版は四つの指定lemmaが同じsymbolic model設定でverifiedとなることを確認する。 SymbiYosysの欠陥版BMC、修正版proof、修正版coverだけを再実行する場合は次を使う。 欠陥版のcounterexampleは期待された成功結果である。proofのPASSは指定propertyとassumptionに相対的なk-induction結果であり、coverのPASSは対象状態へ至るwitnessが見つかったことを表す。",
+      "aliases": [
+        "Tamarin Prover"
+      ]
+    },
+    {
+      "id": "4d058d95406c965d",
       "locale": "ja",
       "pageId": "appendix-b",
       "section": "appendices",
@@ -13107,7 +13229,7 @@
       "aliases": []
     },
     {
-      "id": "0d43c8a1be5e4be5",
+      "id": "21c3c43f13829c09",
       "locale": "ja",
       "pageId": "appendix-b",
       "section": "appendices",
@@ -13121,7 +13243,7 @@
       ]
     },
     {
-      "id": "a3e44053fa12cbd1",
+      "id": "7f9e10f732c6bd9f",
       "locale": "ja",
       "pageId": "appendix-b",
       "section": "appendices",
@@ -13133,7 +13255,7 @@
       "aliases": []
     },
     {
-      "id": "8aae5abc2fd05c9c",
+      "id": "4302988549a4267e",
       "locale": "ja",
       "pageId": "appendix-b",
       "section": "appendices",
@@ -13145,7 +13267,7 @@
       "aliases": []
     },
     {
-      "id": "f2042cb9405aa916",
+      "id": "3aa6dab01d24c7ab",
       "locale": "ja",
       "pageId": "appendix-b",
       "section": "appendices",
@@ -13157,7 +13279,7 @@
       "aliases": []
     },
     {
-      "id": "8696263a4130081a",
+      "id": "c5870a0c07d2b05b",
       "locale": "ja",
       "pageId": "appendix-b",
       "section": "appendices",
@@ -13172,7 +13294,7 @@
       ]
     },
     {
-      "id": "84b953579281fc4a",
+      "id": "93c2d54ab6b64761",
       "locale": "ja",
       "pageId": "appendix-b",
       "section": "appendices",
@@ -13208,7 +13330,19 @@
       "aliases": []
     },
     {
-      "id": "2f009a079b3b2c97",
+      "id": "a0a3c9d044688118",
+      "locale": "ja",
+      "pageId": "appendix-c",
+      "section": "appendices",
+      "title": "C.1.1 SAT / UNSAT と証跡の最小対応",
+      "chapter": "付録C：記法対照表",
+      "heading": "C.1.1 SAT / UNSAT と証跡の最小対応",
+      "url": "/formal-methods-book/appendices/appendix-c/#c11-sat--unsat-と証跡の最小対応",
+      "text": "状況 · 主に残すもの · 独立再検査で確認すること · それだけでは保証しないもの --- · --- · --- · --- SAT · model / witness · 同じエンコード問題に対して割当てが制約を満たすこと · 自然言語要件、元仕様、エンコーダの妥当性 UNSAT · proof certificate · checker / kernel が元入力に対して証跡を受理すること · 要件妥当性、未モデル化仮定、前処理全体の正しさ unknown / timeout · ログ、resource 制約、入力 hash · 成功ではなく、調査対象であること · 正しさ、不具合不在",
+      "aliases": []
+    },
+    {
+      "id": "f3486ce451f2c444",
       "locale": "ja",
       "pageId": "appendix-c",
       "section": "appendices",
@@ -13220,7 +13354,7 @@
       "aliases": []
     },
     {
-      "id": "2df65ff08f2331ef",
+      "id": "59c5690541161ed9",
       "locale": "ja",
       "pageId": "appendix-c",
       "section": "appendices",
@@ -13234,7 +13368,7 @@
       ]
     },
     {
-      "id": "11f70eff1ebbf876",
+      "id": "105aefff8821f291",
       "locale": "ja",
       "pageId": "appendix-c",
       "section": "appendices",
@@ -13248,7 +13382,7 @@
       ]
     },
     {
-      "id": "9bd47c3aa7297d10",
+      "id": "bd731b38f390ceac",
       "locale": "ja",
       "pageId": "appendix-c",
       "section": "appendices",
@@ -13260,7 +13394,7 @@
       "aliases": []
     },
     {
-      "id": "4e9119cb7bb0e4e5",
+      "id": "4f8032bae8c1d900",
       "locale": "ja",
       "pageId": "appendix-c",
       "section": "appendices",
@@ -13272,7 +13406,7 @@
       "aliases": []
     },
     {
-      "id": "5a8bc4b4a6d84509",
+      "id": "596d9c7e3be260f7",
       "locale": "ja",
       "pageId": "appendix-c",
       "section": "appendices",
@@ -13284,7 +13418,7 @@
       "aliases": []
     },
     {
-      "id": "810c2a5d4e5364c9",
+      "id": "62ddf496fffa0277",
       "locale": "ja",
       "pageId": "appendix-c",
       "section": "appendices",
@@ -13300,7 +13434,7 @@
       ]
     },
     {
-      "id": "4c87be7cf9a75cb8",
+      "id": "4a9c32223a398fd2",
       "locale": "ja",
       "pageId": "appendix-c",
       "section": "appendices",
@@ -13314,7 +13448,7 @@
       ]
     },
     {
-      "id": "6e26c02497ed123b",
+      "id": "cf9fdd89cb99cc8d",
       "locale": "ja",
       "pageId": "appendix-c",
       "section": "appendices",
@@ -13328,7 +13462,7 @@
       ]
     },
     {
-      "id": "020fd8518e8ff545",
+      "id": "8b03dc32285fc00e",
       "locale": "ja",
       "pageId": "appendix-c",
       "section": "appendices",
@@ -13343,7 +13477,7 @@
       ]
     },
     {
-      "id": "5a245217b7f53519",
+      "id": "3c6703871b8e541f",
       "locale": "ja",
       "pageId": "appendix-c",
       "section": "appendices",
@@ -13355,7 +13489,7 @@
       "aliases": []
     },
     {
-      "id": "1f0dfc8219110dd2",
+      "id": "c51c8e80535e5364",
       "locale": "ja",
       "pageId": "appendix-c",
       "section": "appendices",
@@ -13369,7 +13503,7 @@
       ]
     },
     {
-      "id": "9fc48fb4e12c9ebb",
+      "id": "552e59b985df27b3",
       "locale": "ja",
       "pageId": "appendix-c",
       "section": "appendices",
@@ -14879,7 +15013,19 @@
       "aliases": []
     },
     {
-      "id": "a7def3dfefac5873",
+      "id": "32dc7b96a23163c7",
+      "locale": "ja",
+      "pageId": "appendix-e",
+      "section": "appendices",
+      "title": "SMT 証明証跡の独立再検査（Alethe / LFSC / DRAT / LRAT）",
+      "chapter": "付録E：参考文献とWebリソース",
+      "heading": "SMT 証明証跡の独立再検査（Alethe / LFSC / DRAT / LRAT）",
+      "url": "/formal-methods-book/appendices/appendix-e/#smt-証明証跡の独立再検査alethe--lfsc--drat--lrat",
+      "text": "実行境界（本書の pinned contract）： cvc5 1.3.4 release tag は cvc5-1.3.4、release commit は f3b21c4483d3b88dc63cb7cd3e5eb092eee5e341、対象 asset は cvc5-Linux-x8664-static.zip、SHA-256 は dcdbfada0ce493ee98259c0816e0daafc561c223aadb3af298c2968e73ea39c6 Carcara 1.1.0 自体の release は参照用だが、cvc5 1.3.4 の contrib/get-carcara-checker が固定している互換 commit は 394edbb15ba95c47893f1d821fddde7e016af178 上記 commit の source archive SHA-256 は 28562432ca7413a662d25f03e328cab4b7b9bf649b2ca69268a255a44a5ddee6 Carcara の build 境界は固定した Rust/Cargo 1.87.0 cvc5 1.3.4 の Alethe 文書は、equality with uninterpreted functions、linear arithmetic、bit-vectors、parts of strings を、quantifier の有無を含めて現在の対象として挙げる。これは「普遍互換」を意味せず、solver / checker / logic fragment の組合せごとに確認が必要 cvc5 1.3.4 の release note は、Alethe について「AUFNIRA に対する CPC fragment の full translation 改善」を述べており、逆に言えば full coverage を一般化してよい根拠にはならない cvc5 の LFSC 文書は、supported theories 全体に basic support を述べる一方、未対応の internal proof rule は trust step として出力され得る。strict checker 連携では trust step を成功扱いにしない DRAT / LRAT は propositional CNF proof ecosystem であり、CNF 化後の unsat 証明を扱う。元の SMT 問題、自然言語仕様、エンコーダ、未モデル化仮定の正しさを直接証明するものではない 一次情報： cvc5 Proof Production： cvc5 Alethe 出力： cvc5 LFSC 出力： cvc5 get-carcara-checker（固定 release 版）： Carcara： DRAT-trim：",
+      "aliases": []
+    },
+    {
+      "id": "cbfb4958fbdfa776",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14891,7 +15037,7 @@
       "aliases": []
     },
     {
-      "id": "040eb262aef7022a",
+      "id": "8d6ee37d35289085",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14903,7 +15049,7 @@
       "aliases": []
     },
     {
-      "id": "4e97a9c0cbe790d2",
+      "id": "841bd4fea1c4f5f6",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14915,7 +15061,7 @@
       "aliases": []
     },
     {
-      "id": "d604332e96fe9b5c",
+      "id": "c7021af0a0c39227",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14927,7 +15073,7 @@
       "aliases": []
     },
     {
-      "id": "7590f3845300a133",
+      "id": "46836f01671ac84d",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14941,7 +15087,7 @@
       ]
     },
     {
-      "id": "97a9219606312b09",
+      "id": "711fcb8a08c3ffc2",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14953,7 +15099,7 @@
       "aliases": []
     },
     {
-      "id": "fccc18544949420f",
+      "id": "8ffa08926f9a0302",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14965,7 +15111,7 @@
       "aliases": []
     },
     {
-      "id": "a247bdfc0df43927",
+      "id": "187d06533ce96740",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14977,7 +15123,7 @@
       "aliases": []
     },
     {
-      "id": "c8e123b7da371e11",
+      "id": "99a50680198f46ee",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -15032,7 +15178,19 @@
       ]
     },
     {
-      "id": "917bbc4a9faed7cd",
+      "id": "2ca1c2273a1c4038",
+      "locale": "ja",
+      "pageId": "appendix-f",
+      "section": "appendices",
+      "title": "F.2.1 エンコード済み主張の再検査フロー",
+      "chapter": "付録F：AI 支援の実践ガイド",
+      "heading": "F.2.1 エンコード済み主張の再検査フロー",
+      "url": "/formal-methods-book/appendices/appendix-f/#f21-エンコード済み主張の再検査フロー",
+      "text": "LLM/agent → 人間による要件・用語・encoding review → solver / prover → model / witness または proof certificate → strict checker / kernel → CI artifact → 人間レビュー SAT 側では、solver が返した model / witness を同じ入力に対して再評価する UNSAT 側では、proof-producing solver が出した proof certificate を strict checker / kernel で別実装再検査する checker が検査しているのは encoded statement であり、自然言語要件、元仕様、エンコーダ、未モデル化仮定そのものではない したがって、人間レビューでは「何を形式化し、何を捨象し、どこから先は未保証か」を artifact と一緒に確認する",
+      "aliases": []
+    },
+    {
+      "id": "01957f8995fbcc0d",
       "locale": "ja",
       "pageId": "appendix-f",
       "section": "appendices",
@@ -15044,7 +15202,7 @@
       "aliases": []
     },
     {
-      "id": "38ac93990712691e",
+      "id": "83fced7bdedf6c1d",
       "locale": "ja",
       "pageId": "appendix-f",
       "section": "appendices",
@@ -15058,7 +15216,7 @@
       ]
     },
     {
-      "id": "51e8daf3f98df389",
+      "id": "ca47fdbe2d75ac8c",
       "locale": "ja",
       "pageId": "appendix-f",
       "section": "appendices",
@@ -15070,7 +15228,7 @@
       "aliases": []
     },
     {
-      "id": "72e6f2ebb3d3eff7",
+      "id": "c8ed4d59ddbb205a",
       "locale": "ja",
       "pageId": "appendix-f",
       "section": "appendices",
@@ -15082,7 +15240,7 @@
       "aliases": []
     },
     {
-      "id": "fbd120823d6bcc02",
+      "id": "6a83179f4e5fe7f7",
       "locale": "ja",
       "pageId": "appendix-f",
       "section": "appendices",
@@ -15094,7 +15252,7 @@
       "aliases": []
     },
     {
-      "id": "c28ddcff3d5445fc",
+      "id": "cbae973ac0943b0f",
       "locale": "ja",
       "pageId": "appendix-f",
       "section": "appendices",
@@ -15106,7 +15264,7 @@
       "aliases": []
     },
     {
-      "id": "546c4b9928054c4e",
+      "id": "da6b38b5cd11ca33",
       "locale": "ja",
       "pageId": "appendix-f",
       "section": "appendices",
@@ -15118,7 +15276,7 @@
       "aliases": []
     },
     {
-      "id": "5e67ca1fcf6b6087",
+      "id": "f6d3ffc6c8e5145e",
       "locale": "ja",
       "pageId": "appendix-f",
       "section": "appendices",
@@ -15130,7 +15288,7 @@
       "aliases": []
     },
     {
-      "id": "a4f4f6cbd75bc188",
+      "id": "302371aa1a76a59e",
       "locale": "ja",
       "pageId": "appendix-f",
       "section": "appendices",
@@ -15144,7 +15302,7 @@
       ]
     },
     {
-      "id": "4029cbdab43ebab5",
+      "id": "1d2f8e66354ec224",
       "locale": "ja",
       "pageId": "appendix-f",
       "section": "appendices",
@@ -15159,7 +15317,7 @@
       ]
     },
     {
-      "id": "608260ea11697712",
+      "id": "6d8cc576fcce73a0",
       "locale": "ja",
       "pageId": "appendix-f",
       "section": "appendices",
@@ -15171,7 +15329,7 @@
       "aliases": []
     },
     {
-      "id": "cdc9ed7c70451774",
+      "id": "5bf75d9495e2e9d8",
       "locale": "ja",
       "pageId": "appendix-f",
       "section": "appendices",
@@ -15188,7 +15346,7 @@
       ]
     },
     {
-      "id": "fc1028920b1e4d4f",
+      "id": "a4f2e28c824196dc",
       "locale": "ja",
       "pageId": "appendix-f",
       "section": "appendices",
@@ -15205,7 +15363,7 @@
       ]
     },
     {
-      "id": "23ba2d65c734f3b0",
+      "id": "f92eb663c3faba89",
       "locale": "ja",
       "pageId": "appendix-f",
       "section": "appendices",

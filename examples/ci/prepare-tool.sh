@@ -25,6 +25,14 @@ case "$tool" in
       exit 2
     }
     ;;
+  cvc5)
+    command -v rustup >/dev/null 2>&1 || {
+      echo 'cvc5 proof-certificate lane requires rustup on the runner.' >&2
+      exit 2
+    }
+    sudo apt-get update
+    sudo apt-get install --yes build-essential m4
+    ;;
   alloy|tlc|apalache|dafny|cbmc|quint|prism|tamarin|sby)
     ;;
   *)

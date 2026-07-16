@@ -20,7 +20,7 @@
 - Quint CLI は、TLA+ 意味論に基づく型付き仕様言語をCIに載せる選択肢であり、本リポジトリでは固定版のtypecheck/testを`nightly`で実行する。
 - Rocq/Isabelle等の定理証明器は依存が大きいため、本付録では一次情報リンク（付録E）を主とする。
 - Lean 4 は、本書の導線として **最小構成のみ**を本付録末尾に示す（Optional）。
-- SPIN / NuSMV / CBMC / Quint / PRISM / Tamarin / SymbiYosys は`nightly` laneの対象であり、source buildまたはarchive検査に必要な追加前提を後述する。
+- SPIN / NuSMV / CBMC / Quint / PRISM / Tamarin / SymbiYosys に加え、cvc5 + Carcara の証明証跡再検査も`nightly` laneで扱う。source buildまたはarchive検査に必要な追加前提を後述する。
 
 ## Tool lane inventoryと実行保証 {#tool-lane-inventory}
 
@@ -69,7 +69,7 @@
 | Prusti / Viper | documentation-only | — | Rust/Viper toolchainと実行assetを固定していない。 |
 | Aeneas / Charon | documentation-only | — | 変換先を含むend-to-end contractを固定していない。 |
 | Z3 | documentation-only | — | 他toolの間接依存をsolver単体の実行保証には数えない。 |
-| cvc5 / CVC4 | documentation-only | — | 紹介のみでsolver単体assetを固定していない。 |
+| cvc5 / CVC4 | nightly | 1.3.4 | 固定公式solver assetを毎夜検証・再展開し、独立Alethe checkerをsourceから再構築してUNSAT証明書を再検査する。 |
 | Yices | documentation-only | — | 紹介のみで実行assetを固定していない。 |
 | MathSAT | documentation-only | — | 紹介のみでlicense/配布を含む環境を固定していない。 |
 | SCADE | documentation-only | — | 商用/GUI toolchainでありCI必須化しない。 |
@@ -87,6 +87,9 @@
 | ProofGym | documentation-only | — | 評価基盤の紹介のみでdataset/runtimeを固定していない。 |
 | APOLLO | documentation-only | — | 研究成果の紹介のみで実行contractがない。 |
 <!-- tool-inventory:end -->
+
+上の inventory ブロックにある cvc5 の `nightly` 分類は、`cvc5-alethe-unsat-certificate` という狭い **pinned nightly contract** を表します。
+「cvc5 全機能の一般保証」ではなく、`cvc5 1.3.4` が生成した Alethe 証跡を `Carcara 1.1.0` で独立再検査する一例だけを固定します。
 
 実行laneでは、各entryにtimeout、memory budget、seed、scope、depth、boundを明示する。
 artifactはtool version、command、入力ファイル別SHA-256と集約hash、exit code、stdout/stderr、`success`、`counterexample`、`unknown`、timeout、resource exhaustionを区別して残す。
@@ -183,6 +186,28 @@ PATH="$PWD/tools/.tmp/nusmv-build-tools/bin:$PATH" \
 ```
 
 取得物は commit/version と SHA-256、Meson/Ninja は requirements の package hash で固定される。macOS、Windows ネイティブ、異なる CPU architecture ではこの lane を直接再現せず、Ubuntu 24.04 x86-64 のコンテナ、WSL2、または GitHub Actions の `workflow_dispatch` を使う。
+
+### 証明証跡の独立再検査（`cvc5` + `Carcara`）に追加で必要なもの
+
+`cvc5-alethe-unsat-certificate` は、`cvc5 1.3.4` の公式 release asset を取得して Alethe proof を生成し、`Carcara 1.1.0` 互換 commit の source archive を取得して source build した checker で検査する想定です。
+対象環境は Ubuntu 24.04 x86-64 または同等の Linux を推奨します。
+
+```bash
+sudo apt-get update
+sudo apt-get install --yes build-essential m4
+
+# rustup と cargo が PATH 上にあることを確認する。
+# bootstrap は固定した Rust/Cargo 1.87.0 を取得して使用する。
+rustup --version
+cargo --version
+
+node scripts/run-example-manifest.js --id cvc5-alethe-unsat-certificate
+```
+
+この lane では、`cvc5` binary と `Carcara` build 生成物をリポジトリや Pages へ再配布しません。
+公式 Rust channel manifest の digest は provenance sentinel として検査し、rustup が固定versionのcomponent checksumを検査した後、導入済みrustc/Cargoのcommitとhostもmanifest値へ照合します。検証済みmanifest file自体をrustupへ渡しているわけではないため、二つの検査を同一視しません。
+certificateは1 MiB、checker outputは64 KiBで制限します。保持対象は、SMT-LIB 入力、manifest の期待結果契約、生成された証明証跡、stdout/stderr、入力 hash、version metadata です。
+証跡検査の成功は「その encoded problem に対して checker が受理した」ことだけを保証し、自然言語要件、元仕様、エンコーダ、未モデル化仮定までは保証しません。
 
 PRISMだけを再実行する場合は次を使う。
 

@@ -2,6 +2,37 @@
   "schemaVersion": 2,
   "examples": [
     {
+      "id": "cvc5-alethe-unsat-certificate",
+      "tool": "cvc5",
+      "chapter": "chapter12",
+      "anchor": "proof-certificate-independent-recheck",
+      "references": [
+        "src/ja/chapters/chapter12.md",
+        "src/en/chapters/chapter12.md",
+        "docs/chapters/chapter12/index.md",
+        "docs/en/chapters/chapter12/index.md"
+      ],
+      "assets": [
+        "examples/proof-certificates/qf-uf-bool-contradiction.smt2"
+      ],
+      "config": null,
+      "command": "bash tools/cvc5-proof-check.sh --out-dir .artifacts/manifest/cvc5-alethe-unsat-certificate/tool-output --time-limit 120 examples/proof-certificates/qf-uf-bool-contradiction.smt2",
+      "lane": "nightly",
+      "expected": {
+        "exitCode": 0,
+        "stdoutMarker": "cvc5 Alethe proof certificate passed: independently checked by Carcara",
+        "outcome": "success"
+      },
+      "limits": {
+        "timeoutSeconds": 300,
+        "memoryMiB": 4096,
+        "seed": null,
+        "scope": "self-contained QF_UF contradiction over one Bool constant p",
+        "depth": null,
+        "bound": "one solver invocation and one independent Carcara certificate check; certificate capped at 1048576 bytes"
+      }
+    },
+    {
       "id": "alloy-collection",
       "tool": "alloy",
       "chapter": "chapter04",

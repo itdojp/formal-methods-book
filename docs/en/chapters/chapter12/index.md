@@ -6,13 +6,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/chapters/chapter12.md"
 translation_status: "partial"
-translation_source_commit: "5b852a65db6c70440b98a6648136fd5c55e00e7a"
+translation_source_commit: "4c528522f6a4cda22043a64361360cc3850d0fb9"
 translation_reviewed_at: "2026-07-16"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Chapter 12: Tools and Automation
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`5b852a65db6c`](https://github.com/itdojp/formal-methods-book/commit/5b852a65db6c70440b98a6648136fd5c55e00e7a) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`4c528522f6a4`](https://github.com/itdojp/formal-methods-book/commit/4c528522f6a4cda22043a64361360cc3850d0fb9) on 2026-07-16.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 ## 12.1 An Overview of the Tool Ecosystem
@@ -176,7 +176,7 @@ Tools such as Coq, Isabelle/HOL, Lean, and Agda provide the highest level of con
 Tools such as Dafny, SPARK, Frama-C, CBMC, VeriFast, and Krakatoa provide direct verification for actual program code. They are relatively easy to integrate into the development workflow and have high practical value, but the range of properties they can express is limited.
 
 **Constraint solving and SMT solvers**:  
-Tools such as Z3, CVC4, Yices, and MathSAT often operate as backends for other verification tools. Teams usually benefit from them indirectly rather than using them directly.
+Tools such as Z3, cvc5, Yices, and MathSAT often operate as backends for other verification tools. Teams usually benefit from them indirectly rather than using them directly.
 
 ### Planning a Verification Strategy
 
@@ -367,6 +367,45 @@ For schedules and manual runs, `scripts/plan-formal-matrix.js` creates an allowl
 The nightly plan covers deep profiles for Alloy, TLC, Apalache, and Dafny plus SPIN, NuSMV, CBMC, Quint, PRISM, Tamarin, and SymbiYosys; Kani runs only when the `optional` lane is selected explicitly through `workflow_dispatch`.
 Each artifact records the version, command, input hash, exit code, stdout/stderr, and stated resource bounds, while distinguishing `success`, `counterexample`, `unknown`, `timeout`, and `resource-exhausted`.
 Here, `memoryMiB` is a declared CI-capacity budget rather than an OS/cgroup-enforced limit. The runner can classify enforced timeouts and detectable output excess, but an OOM kill may surface as `tool-error` or a runner failure.
+
+### Independent Rechecking of SAT Models and UNSAT Proof Certificates {#proof-certificate-independent-recheck}
+
+SMT/SAT workflows should retain different artifacts for `sat` and `unsat`.
+For `sat`, the solver returns a **model / witness**, and an independent script can re-evaluate that assignment against the same encoded constraints.
+This is evidence that the encoded problem has a satisfying instance; it is not a proof that the natural-language requirement or the original specification was correct.
+For `unsat`, there is no witness to replay, so the practical pattern is a **proof-producing solver** that emits a **proof certificate**, followed by an independent **proof checker** or kernel.
+
+Independent rechecking is best understood as three separate layers.
+
+1. **Proof-producing solver**: emits `unsat` together with a certificate
+2. **Certificate format**: defines what is exchanged, such as Alethe, LFSC, DRAT, or LRAT
+3. **Checker / kernel**: validates the certificate against the input problem through a separate implementation
+
+The following table is a compact engineering map, not a claim of full specification coverage.
+
+| Format | Main target | Producer / checker role | Practical limits |
+| --- | --- | --- | --- |
+| Alethe | SMT proofs in the SMT-LIB ecosystem | The producer is an SMT solver; the checker side can use Carcara or proof reconstruction | In cvc5 1.3.4, the documented Alethe support covers equality with uninterpreted functions, linear arithmetic, bit-vectors, and parts of strings, with or without quantifiers. Compatibility is not universal and must be checked per solver/checker pair |
+| LFSC | SMT proofs checked through a logical-framework signature | The producer emits LFSC proof terms; the checker validates them against LFSC signatures | cvc5 documents basic support over all supported theories, but unsupported internal proof rules may still appear as trust steps. A strict independent recheck should not count unresolved trust steps as success |
+| DRAT | `unsat` certificates for propositional CNF | A CNF-side SAT solver or proof pipeline emits DRAT; a checker such as DRAT-trim validates it against DIMACS CNF | This is a propositional CNF proof ecosystem. It does not directly prove the original SMT problem, the source specification, or the encoder |
+| LRAT | `unsat` certificates for propositional CNF with explicit checking hints | A solver or conversion step emits LRAT; an LRAT checker replays the hinted derivation | It still validates the post-encoding CNF problem rather than the original specification, encoder, or omitted assumptions |
+
+On the `sat` side, success means that the retained model / witness re-evaluates under the same input and semantics.
+On the `unsat` side, success means that the independent checker accepts the certificate.
+By contrast, `unknown`, timeout, unsupported proof output, holey certificates, checker failure, and proofs that exceed runner or checker limits are all **non-success** outcomes.
+In particular, if a certificate contains `hole` steps or unsupported rules, and the chosen checker or elaborator cannot discharge them mechanically, the run should not be reported as an independent recheck success.
+
+In practice, solvers preprocess, simplify, bit-blast, clausify, and reconstruct theory rewrites.
+Because of that, checking a **post-encoding certificate** does not validate the natural-language requirement, the original specification, the encoder, or unmodeled environmental assumptions.
+What is validated is narrower: the checker accepted the certificate for the exact logical problem it received.
+To make that boundary reviewable, retain the original SMT-LIB input, the transformation chain, input hashes, preprocessing assumptions, and any unresolved exceptions.
+
+- `cvc5-alethe-unsat-certificate`: the canonical asset is [examples/proof-certificates/qf-uf-bool-contradiction.smt2](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/proof-certificates/qf-uf-bool-contradiction.smt2), and the expected-result authority is the entry with the same ID in `examples/example-manifest.json`; lane `nightly`; pinned versions `cvc5 1.3.4` and `Carcara 1.1.0`. When rerunning, use the asset and manifest contract from the same revision instead of copying only an inline excerpt.
+<!-- example-contract: cvc5-alethe-unsat-certificate -->
+【Tool-compliant (runs as-is)】
+```bash
+node scripts/run-example-manifest.js --id cvc5-alethe-unsat-certificate
+```
 
 Operationally, the following points matter.
 

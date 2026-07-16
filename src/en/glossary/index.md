@@ -51,6 +51,11 @@ asked. See Chapters 3, 4, and 8.
 relational modeling language with an analyzer that searches for counterexamples.
 See Chapter 4.
 
+**Alethe**: An SMT proof-certificate format in the SMT-LIB ecosystem. It is
+used to exchange `unsat` certificates from proof-producing solvers to
+independent checkers or reconstruction frameworks such as Carcara. Coverage and
+compatibility are tool-pair specific. See Chapter 12 and Appendix E.
+
 **Apalache**: An SMT-based checker for TLA+ specifications. It is useful when
 you want symbolic or bounded exploration in addition to TLC's explicit-state
 model checking. See Chapters 7, 8, and Appendix B.
@@ -110,6 +115,11 @@ writing implementations together with contracts, invariants, and proofs. See
 Chapters 9, 10, and 12.
 
 **Dolev–Yao adversary model**: A symbolic network model in which an attacker can intercept, modify, replay, and compose messages and use known keys, but does not break cryptography without the needed key. Compromise and side channels require explicit modeling. See Chapter 13 and Appendix E.
+
+**DRAT**: A clausal proof ecosystem for showing `unsat` of propositional CNF.
+A checker such as DRAT-trim validates a DRAT proof against DIMACS CNF, but it
+does not directly validate the original SMT problem, the source specification,
+or the encoder. See Chapter 12 and Appendix E.
 
 **Deadlock**: A state in which multiple processes wait on one another and no
 further progress is possible. See Chapters 6 and 8.
@@ -173,6 +183,15 @@ Chapter 8.
 **LTL (Linear Temporal Logic)**: A temporal logic for expressing properties
 along a single line of time. See Chapters 7 and 8.
 
+**LFSC**: A proof format and checking framework based on the LF logical
+framework with computational side conditions. cvc5 can emit LFSC proofs, but
+unsupported internal rules may still appear as trust steps. See Chapter 12 and
+Appendix E.
+
+**LRAT**: A propositional-CNF `unsat` certificate format designed to carry more
+explicit checking hints than DRAT. It still validates the post-encoding CNF
+problem rather than the original specification. See Chapter 12 and Appendix E.
+
 **Loop invariant**: A condition that remains true during every iteration of a
 loop. It is central to proving partial and total correctness. See Chapter 10.
 
@@ -182,6 +201,11 @@ loop. It is central to proving partial and total correctness. See Chapter 10.
 model and checks selected properties. Exhaustiveness is relative to the model,
 property, search configuration, fairness, and completion status; it is not a
 claim about every behavior of the real system. See Chapter 8.
+
+**Model / witness**: A concrete satisfying assignment or execution returned by
+a solver for a `sat` result. It shows that the encoded constraints are
+satisfiable, but it does not by itself validate the natural-language
+requirement or the original specification. See Chapter 12 and Appendix C.
 
 ## P
 
@@ -218,6 +242,16 @@ and Isabelle/HOL. See Chapters 9 and 12.
 verification argument to go through. Tools may generate proof obligations
 automatically from contracts, invariants, or program structure. See Chapters 8,
 9, and 10.
+
+**Proof certificate**: A machine-readable artifact emitted so that an `unsat`
+claim can be rechecked by a separate implementation. What it establishes
+depends on the format and checker; it does not automatically validate the
+natural-language requirement. See Chapter 12 and Appendix E.
+
+**Proof checker**: A checker or kernel that mechanically validates a proof
+certificate or proof term against an input problem and proof rules. Checker
+success applies to the encoded statement under those rules; it does not replace
+requirement review. See Chapter 12 and Appendix E.
 
 **Promela**: The modeling language used by SPIN for concurrent systems. It is
 suited to describing processes, communication, and interleavings. See Chapters
@@ -313,6 +347,12 @@ fairness, state constraints, and completion status. See Chapters 7 and 8.
 foundational logic and current environment. The wider trusted computing base
 can also include added axioms, unfinished holes, unchecked solver paths,
 extraction, and code generation. See Chapter 9.
+
+**Trusted computing base (TCB)**: The full set of trusted assumptions behind a
+final assurance claim. Depending on the workflow, this can include the kernel,
+added axioms, unchecked translations, external solver paths, proof
+reconstruction, extraction, code generation, and approved exceptions. See
+Chapters 9 and 12.
 
 **Total correctness**: The claim that a program not only satisfies the required
 postcondition when it terminates, but also does terminate. See Chapter 10.

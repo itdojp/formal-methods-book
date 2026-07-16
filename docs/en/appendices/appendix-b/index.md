@@ -6,13 +6,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-b.md"
 translation_status: "partial"
-translation_source_commit: "5b852a65db6c70440b98a6648136fd5c55e00e7a"
+translation_source_commit: "a4be778350d24c089d00bdce6d31fd736cc6cf1e"
 translation_reviewed_at: "2026-07-16"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Appendix B: Tool Setup and Verification Quick Start
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`5b852a65db6c`](https://github.com/itdojp/formal-methods-book/commit/5b852a65db6c70440b98a6648136fd5c55e00e7a) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`a4be778350d2`](https://github.com/itdojp/formal-methods-book/commit/a4be778350d24c089d00bdce6d31fd736cc6cf1e) on 2026-07-16.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 This appendix gives the shortest reproducible path to running the book's companion examples. It prioritizes **reproducibility (minimizing environment differences)** over local customization.
@@ -34,7 +34,7 @@ You do not need every tool before you begin reading. By following this appendix,
 Notes:
 - Theorem provers such as `Rocq` and `Isabelle` have larger dependency footprints, so this appendix primarily points to primary sources for them in Appendix E.
 - `Lean 4` is included here only as a **minimal setup** at the end of the appendix as an optional path through the book.
-- SPIN, NuSMV, CBMC, Quint, PRISM, Tamarin, and SymbiYosys belong to the `nightly` lane. Additional prerequisites for source builds and archive-layout validation are listed below.
+- SPIN, NuSMV, CBMC, Quint, PRISM, Tamarin, and SymbiYosys belong to the `nightly` lane, and this appendix also documents one `cvc5` + `Carcara` proof-certificate recheck path there. Additional prerequisites for source builds and archive-layout validation are listed below.
 
 ## Tool Lane Inventory and Execution Guarantee {#tool-lane-inventory}
 
@@ -83,7 +83,7 @@ Indirect use of an embedded solver does not constitute a standalone execution gu
 | Prusti / Viper | documentation-only | — | Rust/Viper toolchain and executable asset are not pinned. |
 | Aeneas / Charon | documentation-only | — | No pinned end-to-end contract including a proof target. |
 | Z3 | documentation-only | — | Indirect use by other tools is not counted as a standalone solver guarantee. |
-| cvc5 / CVC4 | documentation-only | — | Reference-only; no pinned standalone solver asset. |
+| cvc5 / CVC4 | nightly | 1.3.4 | Verifies and re-extracts a pinned official solver asset, rebuilds an independent Alethe checker from source nightly, and rechecks an UNSAT certificate. |
 | Yices | documentation-only | — | Reference-only; no pinned executable asset. |
 | MathSAT | documentation-only | — | Reference-only; licensing/distribution environment is not pinned. |
 | SCADE | documentation-only | — | Commercial/GUI toolchain; not a mandatory CI dependency. |
@@ -101,6 +101,11 @@ Indirect use of an embedded solver does not constitute a standalone execution gu
 | ProofGym | documentation-only | — | Evaluation-framework reference; dataset/runtime not pinned. |
 | APOLLO | documentation-only | — | Research-result reference; no execution contract. |
 <!-- tool-inventory:end -->
+
+The cvc5 `nightly` classification in the inventory above denotes the narrow
+`cvc5-alethe-unsat-certificate` **pinned nightly contract**: one
+`cvc5 1.3.4` to `Alethe` to `Carcara 1.1.0` recheck path, not a blanket
+guarantee for cvc5 as a whole.
 
 Every executable entry states its timeout, memory budget, seed, scope, depth, and bound.
 Artifacts record the tool version, command, per-file SHA-256 and aggregate input hash, exit code, stdout/stderr, and distinct `success`, `counterexample`, `unknown`, timeout, and resource-exhaustion outcomes.
@@ -198,6 +203,40 @@ PATH="$PWD/tools/.tmp/nusmv-build-tools/bin:$PATH" \
 ```
 
 The downloaded tools are pinned by commit/version and SHA-256, and the Meson/Ninja packages are pinned by hashes in the requirements file. On native macOS, native Windows, or a different CPU architecture, use an Ubuntu 24.04 x86-64 container, WSL2, or the GitHub Actions `workflow_dispatch` instead of treating this lane as locally portable.
+
+### Additional prerequisites for independent proof-certificate rechecking (`cvc5` + `Carcara`)
+
+The `cvc5-alethe-unsat-certificate` contract is intended to download the
+official `cvc5 1.3.4` release asset, generate an Alethe proof, download the
+pinned `Carcara 1.1.0` compatibility source archive, and build the checker from
+source.
+Ubuntu 24.04 x86-64, or a compatible Linux environment, is the recommended
+target.
+
+```bash
+sudo apt-get update
+sudo apt-get install --yes build-essential m4
+
+# Confirm that rustup and cargo are on PATH. The bootstrap installs and uses
+# the pinned Rust/Cargo 1.87.0 toolchain.
+rustup --version
+cargo --version
+
+node scripts/run-example-manifest.js --id cvc5-alethe-unsat-certificate
+```
+
+This lane does not redistribute the downloaded `cvc5` binary or the built
+`Carcara` executable through the repository or Pages.
+The official Rust channel-manifest digest acts as a provenance sentinel. After
+rustup checks the fixed-version component checksums, the bootstrap also matches
+the installed rustc/Cargo commits and host against manifest values. It does not
+claim that the independently downloaded manifest file is passed into rustup.
+The certificate is capped at 1 MiB and checker output at 64 KiB.
+Retained evidence is limited to the SMT-LIB input, the manifest expected-result contract, the
+generated proof certificate, stdout/stderr, input hashes, and version metadata.
+Even when the checker passes, the result only validates the encoded problem as
+checked; it does not validate the natural-language requirement, the original
+specification, the encoder, or unmodeled assumptions.
 
 To rerun only PRISM, use:
 
