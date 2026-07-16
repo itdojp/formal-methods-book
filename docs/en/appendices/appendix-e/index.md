@@ -6,13 +6,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-e.md"
 translation_status: "partial"
-translation_source_commit: "83d031100ae7bcdeab03d28f072904bcff0d71ff"
+translation_source_commit: "db8521438cae31d82c569e807af1f1cf8e1437f3"
 translation_reviewed_at: "2026-07-16"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Appendix E: References and Further Reading Paths
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`83d031100ae7`](https://github.com/itdojp/formal-methods-book/commit/83d031100ae7bcdeab03d28f072904bcff0d71ff) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`db8521438cae`](https://github.com/itdojp/formal-methods-book/commit/db8521438cae31d82c569e807af1f1cf8e1437f3) on 2026-07-16.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 This appendix is a **reader-facing guide to primary sources** for the methods, tools, and case studies introduced in the main text. Use it when you want to deepen a chapter, verify a claim against an official source, or decide which tool family to study next.  
