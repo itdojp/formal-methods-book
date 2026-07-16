@@ -1,8 +1,5 @@
 # Chapter 10: Program Verification
 
-> Translation status: full draft  
-> Japanese source of truth: `src/ja/chapters/chapter10.md`
-
 ## 10.1 Program Correctness: The Point Where Theory Meets Practice
 
 ### The Fundamental Question of Program Verification

@@ -5,8 +5,13 @@ description: "A concise review of sets, logic, and functions."
 locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-a.md"
+translation_status: "synced"
+translation_source_commit: "83d031100ae7bcdeab03d28f072904bcff0d71ff"
+translation_reviewed_at: "2026-07-16"
 ---
 # Appendix A: Mathematics Refresher
+
+> **Translation status: Synced.** Reviewed against Japanese source commit [`83d031100ae7`](https://github.com/itdojp/formal-methods-book/commit/83d031100ae7bcdeab03d28f072904bcff0d71ff) on 2026-07-16.
 
 This appendix collects the minimum set of mathematical notation that appears repeatedly in this book as a quick reference. It is not intended to be a full set of lecture notes. It is a cheat sheet for reading the main chapters and writing specifications, especially Chapter 4 on Alloy, Chapter 5 on Z, Chapter 6 on CSP, and Chapter 7 on TLA+.
 

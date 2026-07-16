@@ -1,8 +1,5 @@
 # Appendix E: References and Further Reading Paths
 
-> Translation status: full draft  
-> Japanese source of truth: `src/ja/appendices/appendix-e.md`
-
 This appendix is a **reader-facing guide to primary sources** for the methods, tools, and case studies introduced in the main text. Use it when you want to deepen a chapter, verify a claim against an official source, or decide which tool family to study next.  
 As of January 2026, it reflects naming changes and current mainstream references such as `Coq` → `Rocq`, `CVC4` → `cvc5`, the `Alloy 6` series, and `Apalache` in the TLA+ ecosystem.
 

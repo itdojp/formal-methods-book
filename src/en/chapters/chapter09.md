@@ -1,8 +1,5 @@
 # Chapter 9: Fundamentals of Theorem Proving
 
-> Translation status: full draft  
-> Japanese source of truth: `src/ja/chapters/chapter09.md`
-
 ## 9.1 Mechanizing Proof: Cooperation Between Mathematicians and Computers
 
 ### Proof as a Human Intellectual Activity

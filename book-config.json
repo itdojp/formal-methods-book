@@ -13,6 +13,9 @@
   "publication": {
     "config": "publication-config.json"
   },
+  "translation": {
+    "statusManifest": "translation-status.json"
+  },
   "licenses": {
     "content": "CC-BY-NC-SA-4.0",
     "code": "Apache-2.0",

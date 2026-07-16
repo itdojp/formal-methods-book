@@ -1,8 +1,5 @@
 # Appendix Drafts
 
-> Translation status: draft note  
-> Japanese source of truth: `src/ja/appendices/appendices_draft.md`
-
 This file preserves the historical draft-appendix path from the Japanese edition.
 It is not part of the published English book.
 

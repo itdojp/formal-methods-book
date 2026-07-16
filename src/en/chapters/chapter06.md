@@ -1,8 +1,5 @@
 # Chapter 6: Process-Centric Specification — Concurrency with CSP
 
-> Translation status: full draft  
-> Japanese source of truth: `src/ja/chapters/chapter06.md`
-
 This chapter uses two kinds of code examples.
 
 - **Tool-compliant blocks**: examples intended to be syntactically valid

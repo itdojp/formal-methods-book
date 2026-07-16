@@ -5,8 +5,15 @@ description: "Reusable answer structures and self-review criteria for the end-of
 locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-d.md"
+translation_status: "partial"
+translation_source_commit: "83d031100ae7bcdeab03d28f072904bcff0d71ff"
+translation_reviewed_at: "2026-07-16"
+translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Appendix D: Exercise Guides and Self-Review Frameworks
+
+> **Translation status: Partial.** Reviewed against Japanese source commit [`83d031100ae7`](https://github.com/itdojp/formal-methods-book/commit/83d031100ae7bcdeab03d28f072904bcff0d71ff) on 2026-07-16.
+> Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 This appendix provides reusable answer frameworks for the end-of-chapter exercises. Use it when you want to turn an exercise into a study note, workshop output, or review packet that another reader can inspect.
 Because end-of-chapter exercises do not usually have a single unique answer, this appendix emphasizes the **solution skeleton** (minimum structure), the evidence worth keeping, and the **self-review criteria** you can apply before treating an answer as complete.

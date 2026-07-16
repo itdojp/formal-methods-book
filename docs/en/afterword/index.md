@@ -4,8 +4,15 @@ title: "Afterword"
 locale: "en"
 lang: "en"
 source_path: "src/en/afterword/index.md"
+translation_status: "partial"
+translation_source_commit: "83d031100ae7bcdeab03d28f072904bcff0d71ff"
+translation_reviewed_at: "2026-07-16"
+translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Afterword
+
+> **Translation status: Partial.** Reviewed against Japanese source commit [`83d031100ae7`](https://github.com/itdojp/formal-methods-book/commit/83d031100ae7bcdeab03d28f072904bcff0d71ff) on 2026-07-16.
+> Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 You have now moved through the full arc of the book: why formal methods matter,
 how specifications are written, how properties are checked or proved, and how

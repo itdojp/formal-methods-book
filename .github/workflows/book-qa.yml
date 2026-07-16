@@ -18,6 +18,9 @@ jobs:
     steps:
       - name: Checkout book
         uses: actions/checkout@v6
+        with:
+          # Translation status verifies immutable source/translation snapshots.
+          fetch-depth: 0
 
       - name: Checkout book-formatter (pinned)
         uses: actions/checkout@v6
@@ -47,6 +50,14 @@ jobs:
 
       - name: Bilingual integrity check
         run: npm run qa:bilingual
+
+      - name: Upload translation status report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: translation-status-report
+          path: .artifacts/translation-status/report.json
+          if-no-files-found: ignore
 
       - name: Check publish metadata consistency
         run: npm run check:metadata

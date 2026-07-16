@@ -5,8 +5,15 @@ description: "A workflow playbook for using AI assistance while preserving verif
 locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-f.md"
+translation_status: "partial"
+translation_source_commit: "83d031100ae7bcdeab03d28f072904bcff0d71ff"
+translation_reviewed_at: "2026-07-16"
+translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Appendix F: Practical Playbook for AI-Assisted Formal Methods
+
+> **Translation status: Partial.** Reviewed against Japanese source commit [`83d031100ae7`](https://github.com/itdojp/formal-methods-book/commit/83d031100ae7bcdeab03d28f072904bcff0d71ff) on 2026-07-16.
+> Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 This appendix is a **reader-facing playbook** for using AI assistance without weakening formal assurance. Use it after Chapters 8–12 when you want to turn the book's main argument into a repeatable workflow: let AI draft, let tools judge, and keep the evidence needed for re-verification and review.  
 Treat AI output as a proposal, and operate on the assumption that final judgment is delegated to verifiers such as `TLC`, `Alloy`, `Rocq` (formerly `Coq`), and `Dafny`.
