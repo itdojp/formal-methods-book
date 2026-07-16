@@ -35,6 +35,9 @@ source_path: "src/ja/appendices/appendix-e.md"
 - 推奨読者：第7章（TLA+）、第8章（模型検査）、第12章（ツールと自動化）
 - 一次情報：
   - TLA+ 公式（Lamportサイト）：<https://lamport.org/tla/tla.html>
+  - TLA+2（現行版と文書の位置づけ）：<https://lamport.azurewebsites.net/tla/tla2.html>
+  - Leslie Lamport, *Specifying Systems*：<https://lamport.azurewebsites.net/tla/book.html>
+  - TLA+ Hyperbook：<https://lamport.azurewebsites.net/tla/hyperbook.html>
   - TLA+ Documentation and Tools Guide：<https://docs.tlapl.us/>
   - TLA+ VS Code拡張：<https://marketplace.visualstudio.com/items?itemName=tlaplus.vscode-ide>
   - Current Versions of the TLA+ Tools：<https://github.com/tlaplus/tlaplus/blob/master/general/docs/current-tools.md>

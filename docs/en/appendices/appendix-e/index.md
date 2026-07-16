@@ -47,6 +47,9 @@ As of January 2026, it reflects naming changes and current mainstream references
 - Best after reading: Chapter 7, "Specifying Time — Introduction to TLA+"; Chapter 8, "Introduction to Model Checking"
 - Primary sources:
   - Official TLA+ page (Lamport site): <https://lamport.org/tla/tla.html>
+  - TLA+2 (current-version and documentation status): <https://lamport.azurewebsites.net/tla/tla2.html>
+  - Leslie Lamport, *Specifying Systems*: <https://lamport.azurewebsites.net/tla/book.html>
+  - TLA+ Hyperbook: <https://lamport.azurewebsites.net/tla/hyperbook.html>
   - `tlaplus/tlaplus` releases (`tla2tools.jar`): <https://github.com/tlaplus/tlaplus/releases>
 
 ### Z (Z notation)
