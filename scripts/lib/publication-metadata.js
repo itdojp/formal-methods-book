@@ -189,6 +189,9 @@ function validatePublicationModel(model) {
   if (manifest.publication?.config !== 'publication-config.json') {
     errors.push('book-config.json publication.config must be publication-config.json');
   }
+  if (manifest.translation?.statusManifest !== 'translation-status.json') {
+    errors.push('book-config.json translation.statusManifest must be translation-status.json');
+  }
   if (!localeIds.includes(manifest.project?.defaultEdition)) {
     errors.push('book-config.json project.defaultEdition must name an edition');
   }

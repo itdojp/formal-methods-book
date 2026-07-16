@@ -3,9 +3,11 @@
 const fs = require('fs');
 const path = require('path');
 const { resolveSourcePage } = require('./publication-metadata');
-
-const TRANSLATION_METADATA_PATTERN =
-  /(^# [^\r\n]+\r?\n\r?\n)> Translation status:[^\r\n]*\r?\n> Japanese source of truth:[^\r\n]*\r?\n\r?\n/;
+const {
+  insertTranslationNotice,
+  loadTranslationManifest,
+  validateTranslationManifest,
+} = require('./translation-status');
 
 function toPosix(filePath) {
   return filePath.split(path.sep).join('/');
@@ -41,10 +43,6 @@ function readMarkdownTitle(content, fallback) {
   return match ? match[1].trim() : fallback;
 }
 
-function stripEnglishTranslationMetadata(content) {
-  return content.replace(TRANSLATION_METADATA_PATTERN, '$1');
-}
-
 function rewriteExampleLinksForPublication(content) {
   const revision = "{{site.github.build_revision|default:'main'}}";
   return content.replace(
@@ -65,7 +63,7 @@ function rewriteAssetLinksForPublication(content, { repoRoot, outputFile }) {
   });
 }
 
-function wrapWithFrontMatter({ title, description, locale, sourcePath }, content) {
+function wrapWithFrontMatter({ title, description, locale, sourcePath, translationStatus }, content) {
   const lines = [
     '---',
     'layout: book',
@@ -74,6 +72,14 @@ function wrapWithFrontMatter({ title, description, locale, sourcePath }, content
     `locale: "${locale}"`,
     `lang: "${locale}"`,
     `source_path: "${sourcePath}"`,
+    ...(translationStatus ? [
+      `translation_status: "${translationStatus.status}"`,
+      `translation_source_commit: "${translationStatus.source_commit}"`,
+      `translation_reviewed_at: "${translationStatus.reviewed_at}"`,
+      ...(translationStatus.tracking_issue
+        ? [`translation_tracking_issue: "${escapeYaml(translationStatus.tracking_issue)}"`]
+        : []),
+    ] : []),
     '---',
     '',
   ];
@@ -107,8 +113,9 @@ function renderPublicationPage({
   outputFile,
   repoRoot,
   sourcePath,
+  translationStatus,
 }) {
-  let rendered = locale === 'en' ? stripEnglishTranslationMetadata(content) : content;
+  let rendered = translationStatus ? insertTranslationNotice(content, translationStatus) : content;
   rendered = rewriteExampleLinksForPublication(rendered);
   rendered = rewriteAssetLinksForPublication(rendered, { repoRoot, outputFile });
   const title = metadata?.title || readMarkdownTitle(rendered, path.basename(sourcePath, '.md'));
@@ -117,6 +124,7 @@ function renderPublicationPage({
     description: metadata?.description,
     locale,
     sourcePath,
+    translationStatus,
   }, rendered);
 }
 
@@ -131,6 +139,18 @@ function renderEditionPages(repoRoot, model, locale) {
   assertNoSymlinkComponents(repoRoot, sourceRoot, `${locale} source root`);
   if (!fs.existsSync(sourceRoot)) {
     throw new Error(`Source root not found: ${manifestEdition.sourceRoot}`);
+  }
+
+  let translationManifest = null;
+  if (manifestEdition.translationOf) {
+    translationManifest = loadTranslationManifest(repoRoot, model);
+    const translationErrors = validateTranslationManifest(translationManifest, model);
+    if (translationErrors.length > 0) {
+      throw new Error(`Invalid translation status manifest:\n- ${translationErrors.join('\n- ')}`);
+    }
+    if (translationManifest.translation_locale !== locale) {
+      throw new Error(`Translation status manifest does not describe edition: ${locale}`);
+    }
   }
 
   const pages = new Map();
@@ -148,6 +168,10 @@ function renderEditionPages(repoRoot, model, locale) {
     }
     const outputFile = path.join(repoRoot, outputPath);
     const sourcePath = toPosix(path.join(manifestEdition.sourceRoot, relativePath));
+    const translationStatus = translationManifest?.pages[toPosix(relativePath)];
+    if (translationManifest && !translationStatus) {
+      throw new Error(`${locale}: translation status is missing for ${toPosix(relativePath)}`);
+    }
     pages.set(outputPath, renderPublicationPage({
       content: fs.readFileSync(sourceFile, 'utf8'),
       locale,
@@ -155,6 +179,7 @@ function renderEditionPages(repoRoot, model, locale) {
       outputFile,
       repoRoot,
       sourcePath,
+      translationStatus,
     }));
   }
   const expectedPageCount = 1
@@ -266,7 +291,6 @@ module.exports = {
   rewriteAssetLinksForPublication,
   rewriteExampleLinksForPublication,
   sourcePathFromFrontMatter,
-  stripEnglishTranslationMetadata,
   wrapWithFrontMatter,
   writeEditionPages,
 };

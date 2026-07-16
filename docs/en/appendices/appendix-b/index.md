@@ -5,8 +5,15 @@ description: "The shortest reproducible path to running the companion examples f
 locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-b.md"
+translation_status: "partial"
+translation_source_commit: "83d031100ae7bcdeab03d28f072904bcff0d71ff"
+translation_reviewed_at: "2026-07-16"
+translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Appendix B: Tool Setup and Verification Quick Start
+
+> **Translation status: Partial.** Reviewed against Japanese source commit [`83d031100ae7`](https://github.com/itdojp/formal-methods-book/commit/83d031100ae7bcdeab03d28f072904bcff0d71ff) on 2026-07-16.
+> Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 This appendix gives the shortest reproducible path to running the book's companion examples. It prioritizes **reproducibility (minimizing environment differences)** over local customization.
 

@@ -20,6 +20,7 @@ formal-methods-book/
 ├── book-config.json         # Repository/edition manifest
 ├── book-config.ja.json      # Japanese edition metadata
 ├── book-config.en.json      # English edition metadata
+├── translation-status.json # Per-page immutable translation audit snapshots
 ├── publication-config.json  # Locale-neutral Jekyll/mobile policy
 ├── scripts/build.js         # Bilingual publish-tree builder
 └── package.json             # QA/build commands
@@ -39,6 +40,9 @@ npm run build:all            # Build both publish trees
 npm run generate:metadata    # Regenerate Jekyll/navigation/mobile/TOC metadata
 npm run check:metadata       # Validate canonical and generated metadata
 npm run test:publication-build # Test source-to-publish rendering and cleanup safety
+npm run test:bilingual-integrity # Test translation status and structural contracts
+npm run qa:bilingual         # Verify status and write the JSON report artifact
+npm run qa:bilingual:inventory # Show page status and heading-order differences
 npm run deploy               # Publish docs/ with gh-pages (manual fallback)
 ```
 
@@ -54,6 +58,8 @@ npm run examples:pr-quick   # Run the seven PR-lane formal examples
 Do not commit `node_modules/`, `docs/_site/`, `.artifacts/`, or tool caches. Run `npm run check:repository-hygiene` before proposing repository-structure changes.
 
 Edit reader-facing manuscript content only under `src/ja/**` or `src/en/**`. Do not edit generated Markdown under `docs/**` directly. Run `npm run build:all`, commit the resulting publication pages, and verify that a second build leaves `docs/**` unchanged.
+
+Treat `translation-status.json` as the canonical per-page translation audit. Do not infer `synced` from structural equality alone. Preserve the source/translation checkpoint commits referenced by the manifest when merging; do not squash them away. Follow `BILINGUAL-WORKFLOW.md` for the 90-day review and partial/stale release policy.
 
 ## Content Guidelines
 

@@ -50,17 +50,28 @@ test('JA renderer adds canonical front matter and rewrites source asset links', 
   assert.match(rendered, /!\[図\]\(\.\.\/\.\.\/assets\/images\/diagram\.svg\)/);
 });
 
-test('EN renderer strips source-only translation metadata', () => {
+test('EN renderer publishes machine-readable and visible translation status', () => {
   const rendered = renderPublicationPage({
-    content: '# Chapter 1\n\n> Translation status: draft\n> Japanese source of truth: `src/ja/chapters/chapter01.md`\n\nBody.\n',
+    content: '# Chapter 1\n\nBody.\n',
     locale: 'en',
     metadata: { title: 'Chapter 1' },
     outputFile: path.join(repoRoot, 'docs', 'en', 'chapters', 'chapter01', 'index.md'),
     repoRoot,
     sourcePath: 'src/en/chapters/chapter01.md',
+    translationStatus: {
+      status: 'partial',
+      source_commit: '0123456789abcdef0123456789abcdef01234567',
+      reviewed_at: '2026-07-16',
+      tracking_issue: 'https://github.com/itdojp/formal-methods-book/issues/328',
+      translation_path: 'src/en/chapters/chapter01.md',
+    },
   });
-  assert.doesNotMatch(rendered, /Translation status/);
-  assert.match(rendered, /# Chapter 1\n\nBody\./);
+  assert.match(rendered, /translation_status: "partial"/);
+  assert.match(rendered, /translation_source_commit: "0123456789abcdef0123456789abcdef01234567"/);
+  assert.match(rendered, /translation_reviewed_at: "2026-07-16"/);
+  assert.match(rendered, /translation_tracking_issue: "https:\/\/github\.com\/itdojp\/formal-methods-book\/issues\/328"/);
+  assert.match(rendered, /# Chapter 1\n\n> \*\*Translation status: Partial\.\*\*/);
+  assert.match(rendered, /# Chapter 1[\s\S]*Body\./);
 });
 
 test('renderer rewrites canonical example links to the current Pages revision', () => {

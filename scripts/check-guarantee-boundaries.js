@@ -4,6 +4,8 @@
 const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
+const { loadPublicationModel } = require('./lib/publication-metadata');
+const { insertTranslationNotice, loadTranslationManifest } = require('./lib/translation-status');
 
 const repoRoot = path.resolve(__dirname, '..');
 const errors = [];
@@ -44,11 +46,17 @@ function stripFrontMatter(content) {
   return end < 0 ? content : content.slice(end + 5);
 }
 
-function stripEnglishTranslationMetadata(content) {
-  return content.replace(
-    /(^# [^\n]+\n\n)> Translation status:[^\n]*\n> Japanese source of truth:[^\n]*\n\n/,
-    '$1',
-  );
+let translationManifest;
+
+function addEnglishTranslationStatus(content, sourcePath) {
+  if (!translationManifest) {
+    const publicationModel = loadPublicationModel(repoRoot);
+    translationManifest = loadTranslationManifest(repoRoot, publicationModel);
+  }
+  const relativePath = sourcePath.replace(/^src\/en\//, '');
+  const entry = translationManifest.pages[relativePath];
+  if (!entry) throw new Error(`translation status is missing for ${sourcePath}`);
+  return insertTranslationNotice(content, entry);
 }
 
 function normalizeGeneratedBody(content) {
@@ -59,7 +67,7 @@ function normalizeGeneratedBody(content) {
 
 function requireGeneratedMatch(sourcePath, publicPath, locale) {
   let source = read(sourcePath);
-  if (locale === 'en') source = stripEnglishTranslationMetadata(source);
+  if (locale === 'en') source = addEnglishTranslationStatus(source, sourcePath);
   const published = stripFrontMatter(read(publicPath));
   if (normalizeGeneratedBody(source) !== normalizeGeneratedBody(published)) {
     errors.push({
@@ -104,13 +112,6 @@ function runSelfTest() {
     [],
   );
   assert.strictEqual(stripFrontMatter('---\ntitle: T\n---\nBody\n'), 'Body\n');
-  assert.strictEqual(
-    stripEnglishTranslationMetadata(
-      '# Chapter\n\n> Translation status: full draft\n' +
-        '> Japanese source of truth: `src/ja/chapter.md`\n\nBody\n',
-    ),
-    '# Chapter\n\nBody\n',
-  );
   assert.strictEqual(
     normalizeGeneratedBody('[examples/a.smv](../../../examples/a.smv)'),
     normalizeGeneratedBody('[examples/a.smv](https://example.invalid/revision/examples/a.smv)'),
@@ -275,9 +276,8 @@ const primarySourceUrls = [
 auditFile('src/ja/appendices/appendix-e.md', primarySourceUrls);
 auditFile('src/en/appendices/appendix-e.md', primarySourceUrls);
 
-// Japanese chapter pages intentionally contain public-only navigation and
-// teaching notes, so whole-file equality is not appropriate. The Issue #314
-// sections that define assurance boundaries must nevertheless remain exact.
+// Selected sections receive an additional semantic guard. Global
+// source/publication equality is checked by the publication builder contract.
 for (const [sourcePath, publicPath, startMarker, endMarker] of [
   ['src/ja/chapters/chapter07.md', 'docs/chapters/chapter07/index.md', '### 一貫性と可用性のトレードオフ', '### 非決定性の管理'],
   ['src/ja/chapters/chapter07.md', 'docs/chapters/chapter07/index.md', '### 合意の困難性', '### 状態の爆発'],
@@ -289,8 +289,8 @@ for (const [sourcePath, publicPath, startMarker, endMarker] of [
   requireSharedSectionMatch(sourcePath, publicPath, startMarker, endMarker);
 }
 
-// English chapters and both locales' appendices/glossaries are generated.
-// Japanese chapter pages are hand-maintained, so their contract is marker-based.
+// Selected pages additionally bind the assurance markers to their generated
+// publication bodies.
 for (const [sourcePath, publicPath, locale] of [
   ['src/en/chapters/chapter07.md', 'docs/en/chapters/chapter07/index.md', 'en'],
   ['src/en/chapters/chapter08.md', 'docs/en/chapters/chapter08/index.md', 'en'],

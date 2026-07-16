@@ -3,6 +3,9 @@
 
 const fs = require('fs');
 const assert = require('assert');
+const path = require('path');
+const { loadPublicationModel } = require('./lib/publication-metadata');
+const { insertTranslationNotice, loadTranslationManifest } = require('./lib/translation-status');
 
 const errors = [];
 
@@ -87,11 +90,18 @@ function stripFrontMatter(content) {
   return end < 0 ? content : content.slice(end + 5);
 }
 
-function stripEnglishTranslationMetadata(content) {
-  return content.replace(
-    /(^# [^\n]+\n\n)> Translation status:[^\n]*\n> Japanese source of truth:[^\n]*\n\n/,
-    '$1',
-  );
+let translationManifest;
+
+function addEnglishTranslationStatus(content, sourcePath) {
+  if (!translationManifest) {
+    const repoRoot = path.resolve(__dirname, '..');
+    const publicationModel = loadPublicationModel(repoRoot);
+    translationManifest = loadTranslationManifest(repoRoot, publicationModel);
+  }
+  const relativePath = sourcePath.replace(/^src\/en\//, '');
+  const entry = translationManifest.pages[relativePath];
+  if (!entry) throw new Error(`translation status is missing for ${sourcePath}`);
+  return insertTranslationNotice(content, entry);
 }
 
 function normalizeBody(content) {
@@ -104,7 +114,7 @@ function normalizeBody(content) {
 function requireGeneratedMatch(sourcePath, publicPath, locale) {
   let source = read(sourcePath);
   if (locale === 'en') {
-    source = stripEnglishTranslationMetadata(source);
+    source = addEnglishTranslationStatus(source, sourcePath);
   }
   const published = stripFrontMatter(read(publicPath));
   if (normalizeBody(source) !== normalizeBody(published)) {
@@ -119,13 +129,6 @@ function requireGeneratedMatch(sourcePath, publicPath, locale) {
 function runSelfTest() {
   assert.strictEqual(stripFrontMatter('---\ntitle: T\n---\nBody\n'), 'Body\n');
   assert.strictEqual(stripFrontMatter('Body\n'), 'Body\n');
-  assert.strictEqual(
-    stripEnglishTranslationMetadata(
-      '# Chapter\n\n> Translation status: synchronized\n' +
-        '> Japanese source of truth: `src/ja/chapter.md`\n\nBody\n',
-    ),
-    '# Chapter\n\nBody\n',
-  );
   assert.strictEqual(
     normalizeBody('[examples/a.tla](../../../examples/a.tla)'),
     normalizeBody('[examples/a.tla](https://example.invalid/revision/examples/a.tla)'),
@@ -228,10 +231,9 @@ const primarySourceUrls = [
 requireText('src/ja/appendices/appendix-e.md', primarySourceUrls);
 requireText('src/en/appendices/appendix-e.md', primarySourceUrls);
 
-// English chapters and both locales' generated appendices/glossaries are exact
-// build outputs. Japanese chapter pages are hand-maintained and may contain
-// public-only navigation, so their Issue #313 semantic claims are guarded above
-// without asserting byte-for-byte body equality.
+// These selected pages additionally bind the TLA+ semantic markers to their
+// generated publication bodies. Global source/publish equality is checked by
+// the publication builder contract.
 for (const [sourcePath, publicPath, locale] of [
   ['src/ja/appendices/appendix-c.md', 'docs/appendices/appendix-c/index.md', 'ja'],
   ['src/ja/appendices/appendix-e.md', 'docs/appendices/appendix-e/index.md', 'ja'],

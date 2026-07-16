@@ -15,6 +15,7 @@
 - Book QA で利用する外部 `book-formatter` を監査済み commit SHA pin として文書化
 - edition config を章・付録・special page・part・locale UI metadata の正本とし、Jekyll config、navigation、mobile config、トップ目次を決定的に生成
 - 日本語・英語の reader-facing Markdown を `src/<locale>/**` から決定的に生成し、`docs/**` の本文二重管理を解消
+- 全英語 reader page の翻訳状態を commit/digest 付き manifest に移行し、公開ページへ status と監査日を生成
 
 ### Removed
 
@@ -27,3 +28,4 @@
 - tracked 生成物、旧テンプレート残骸、formatter pin drift、存在しない npm script の案内を検出する repository hygiene gate を追加
 - title / description / order / path、JA/EN 1:1 対応、生成物の完全一致を検証する publication metadata renderer test / CI gate を追加
 - source と公開 Markdown の byte-for-byte 一致、直接編集、stale page、asset / example link 変換、cleanup safety を検証する publication build test / CI gate を追加
+- `synced` ページの見出し順、コード、表、tool label、example path、外部参照と snapshot drift を検証し、partial/stale 一覧を JSON artifact にする bilingual QA を追加

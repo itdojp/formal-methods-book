@@ -38,16 +38,17 @@ reader-facing な本文系コンテンツの商用利用を希望する場合は
 - `book-config.json` は repository manifest であり、edition 個別の本文メタデータは `book-config.ja.json` / `book-config.en.json` で管理します。
 - 章・付録の title / description / order / URL、special page、part、locale UI label は edition config を正本とします。`docs/_config.yml`、`docs/_data/navigation.yml`、`docs/_data/locales.yml`、`mobile-config.*.json`、`docs/_includes/generated/**` は生成物なので直接編集しません。
 - `docs/**` の reader-facing Markdown は `src/<locale>/**` から生成します。本文修正で `docs/**` を直接編集せず、source を変更して `npm run build:all` を実行してください。
+- 全英語 reader page の翻訳状態は `translation-status.json` が正本です。状態定義、90日再確認、checkpoint commit の作成方法は `BILINGUAL-WORKFLOW.md` に従ってください。
 
 ## 🧭 変更種別ごとの指針
 
 - **日本語本文の修正**: `src/ja/**` だけを編集し、必要に応じて英語版への影響を issue または PR に記載した後、`npm run build:ja` で公開物を再生成してください。
-- **英語翻訳の修正**: `src/en/**` だけを編集し、章 ID・対応 URL・構造の 1:1 対応を維持して、`npm run build:en` で公開物を再生成してください。
+- **英語翻訳の修正**: `src/en/**` を編集し、章 ID・対応 URL・構造の 1:1 対応を維持してください。内容を checkpoint commit にした後、`translation-status.json` の `translated_commit`、digest、status、`reviewed_at` を更新し、`npm run build:en` で公開物を再生成してください。manifest が参照する commit は最終的に `main` から到達可能でなければなりません。
 - **共通資産の追加**: `shared/README.md` の境界に適合する場合のみ `shared/**` を使用してください。
 - **構造変更**: manifest (`book-config.json`) と edition config を更新し、`npm run build:all`、`npm run check:metadata` を実行して公開先パスと生成物の整合を確認してください。
 - **Jekyll / mobile static policy**: 言語非依存設定は `publication-config.json` を編集し、生成物を直接変更しないでください。
 
-PR を提出する前に `npm run build:all` を実行し、`git diff --exit-code -- docs mobile-config.ja.json mobile-config.en.json` が成功する状態で生成物を commit してください。CI は source と生成済み公開物の byte-for-byte drift を検出します。
+PR を提出する前に `npm run build:all` と `npm run qa:bilingual` を実行し、`git diff --exit-code -- docs mobile-config.ja.json mobile-config.en.json` が成功する状態で生成物を commit してください。CI は source と生成済み公開物の byte-for-byte drift、翻訳 snapshot drift、`synced` の構造・参照差分を検出します。partial / stale を含む場合は `.artifacts/translation-status/report.json` と公開 banner の状態も確認してください。
 
 ## 📝 ライセンス同意
 

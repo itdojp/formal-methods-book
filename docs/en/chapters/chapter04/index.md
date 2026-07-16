@@ -5,8 +5,15 @@ description: "Alloy's modeling style and practical verification with relational 
 locale: "en"
 lang: "en"
 source_path: "src/en/chapters/chapter04.md"
+translation_status: "partial"
+translation_source_commit: "83d031100ae7bcdeab03d28f072904bcff0d71ff"
+translation_reviewed_at: "2026-07-16"
+translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Chapter 4: Introduction to Lightweight Formal Methods — Specification with Alloy
+
+> **Translation status: Partial.** Reviewed against Japanese source commit [`83d031100ae7`](https://github.com/itdojp/formal-methods-book/commit/83d031100ae7bcdeab03d28f072904bcff0d71ff) on 2026-07-16.
+> Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 ## 4.1 The Philosophy of Alloy: A Lightweight but Powerful Approach
 
