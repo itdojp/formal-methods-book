@@ -4,7 +4,7 @@
 const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
-const { runEntry } = require('./run-example-manifest');
+const { parseArgs, runEntry } = require('./run-example-manifest');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
 
@@ -17,6 +17,12 @@ function assertEvidence(rootDir, id) {
 }
 
 function main() {
+  assert.throws(() => parseArgs([]), /specify exactly one of --id or --lane/);
+  assert.throws(
+    () => parseArgs(['--id', 'example', '--lane', 'pr-quick']),
+    /specify exactly one of --id or --lane/,
+  );
+
   const parent = path.join(REPO_ROOT, 'tools', '.tmp');
   fs.mkdirSync(parent, { recursive: true });
   const rootDir = fs.mkdtempSync(path.join(parent, 'example-runner-self-test-'));

@@ -33,7 +33,7 @@ function parseArgs(argv) {
     }
   }
   if ((id === null) === (lane === null)) {
-    throw new Error('--id または --lane のいずれか一方を指定してください');
+    throw new Error('specify exactly one of --id or --lane');
   }
   return { id, lane };
 }
