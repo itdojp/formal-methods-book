@@ -99,6 +99,8 @@ assert.deepStrictEqual(
   ],
   'highlighting must return text segments rather than executable markup',
 );
+const compatibilitySnippet = browserSearch.snippet(`${'ﬃ'.repeat(100)} MATCH after compatibility characters`, 'MATCH', 40);
+assert.ok(compatibilitySnippet.includes('MATCH'), 'NFKC expansion must not shift the original snippet window');
 assert.throws(() => browserSearch.validateIndexPayload({ schemaVersion: 1, locale: 'en', entryCount: 0, entries: [] }, 'ja'));
 assert.throws(() => browserSearch.validateIndexPayload({
   schemaVersion: 1,
@@ -109,6 +111,13 @@ assert.throws(() => browserSearch.validateIndexPayload({
     id: 'bad', locale: 'ja', title: 'bad', chapter: 'bad', heading: 'bad', text: 'bad', aliases: [], url: 'javascript:alert(1)',
   }],
 }, 'ja'));
+assert.throws(() => browserSearch.validateIndexPayload({
+  schemaVersion: 1,
+  project: 'formal-methods-book',
+  locale: 'ja',
+  entryCount: 1,
+  entries: [{ id: 'bad', locale: 'ja', url: null }],
+}, 'ja'), /Invalid search index entry scope/u);
 assert.strictEqual(
   browserSearch.searchEntries(sampleEntries, `${'x'.repeat(128)}LeanDojo`, 'ja').length,
   0,

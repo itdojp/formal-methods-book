@@ -82,13 +82,38 @@
             .map((part) => ({ text: part, match: normalize(part) === normalize(trimmed) }));
     }
 
+    function normalizedTextWithOffsets(value) {
+        const source = String(value || '');
+        let text = '';
+        const offsets = [];
+        for (let sourceIndex = 0; sourceIndex < source.length;) {
+            const codePoint = source.codePointAt(sourceIndex);
+            const character = String.fromCodePoint(codePoint);
+            const normalizedCharacter = character.normalize('NFKC').toLocaleLowerCase('en-US');
+            for (const normalizedCodePoint of normalizedCharacter) {
+                if (/\s/u.test(normalizedCodePoint)) {
+                    if (text.endsWith(' ')) continue;
+                    text += ' ';
+                    offsets.push(sourceIndex);
+                } else {
+                    text += normalizedCodePoint;
+                    for (let unit = 0; unit < normalizedCodePoint.length; unit += 1) offsets.push(sourceIndex);
+                }
+            }
+            sourceIndex += character.length;
+        }
+        return { text, offsets };
+    }
+
     function snippet(text, query, maxLength = 190) {
         const source = String(text || '').replace(/\s+/g, ' ').trim();
         if (source.length <= maxLength) return source;
-        const normalizedSource = normalize(source);
         const normalizedQuery = normalize(query);
-        const matchIndex = normalizedSource.indexOf(normalizedQuery);
-        const start = Math.max(0, (matchIndex === -1 ? 0 : matchIndex) - 55);
+        const normalizedSource = normalizedTextWithOffsets(source);
+        const matchIndex = normalizedSource.text.indexOf(normalizedQuery);
+        const sourceMatchIndex = matchIndex === -1 ? 0 : (normalizedSource.offsets[matchIndex] ?? 0);
+        const leadingContext = Math.min(55, Math.floor(maxLength / 3));
+        const start = Math.max(0, sourceMatchIndex - leadingContext);
         const end = Math.min(source.length, start + maxLength);
         return `${start > 0 ? '…' : ''}${source.slice(start, end)}${end < source.length ? '…' : ''}`;
     }
@@ -115,7 +140,7 @@
         }
         const urlPrefix = `/${payload.project}/`;
         for (const entry of payload.entries) {
-            if (!entry || entry.locale !== expectedLocale || !entry.url.startsWith(urlPrefix)) {
+            if (!entry || entry.locale !== expectedLocale || typeof entry.url !== 'string' || !entry.url.startsWith(urlPrefix)) {
                 throw new Error('Invalid search index entry scope');
             }
             for (const field of ['id', 'title', 'chapter', 'heading', 'text']) {
@@ -302,6 +327,7 @@
         highlightSegments,
         keyboardAction,
         normalize,
+        normalizedTextWithOffsets,
         scoreEntry,
         searchEntries,
         snippet,
