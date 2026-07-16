@@ -39,6 +39,7 @@ jobs:
         with:
           name: formal-artifacts-pr
           path: .artifacts/manifest
+          include-hidden-files: true
           if-no-files-found: warn
 
   nightly-deep:
@@ -96,4 +97,5 @@ jobs:
         with:
           name: formal-artifacts-nightly
           path: .artifacts
+          include-hidden-files: true
           if-no-files-found: warn

@@ -50,10 +50,19 @@ function workflowErrors(content) {
       errors.push(`${jobName} job の Java は Temurin 17 にしてください`);
     }
   }
-  function artifactPaths(job) {
+  function artifactSteps(job) {
     return (job?.steps || [])
-      .filter((step) => typeof step.uses === 'string' && step.uses.startsWith('actions/upload-artifact@'))
-      .map((step) => step.with && step.with.path);
+      .filter((step) => typeof step.uses === 'string' && step.uses.startsWith('actions/upload-artifact@'));
+  }
+  function requireArtifactUpload(job, jobName, expectedPath) {
+    const step = artifactSteps(job).find((candidate) => candidate.with?.path === expectedPath);
+    if (!step) {
+      errors.push(`${jobName} artifact path は ${expectedPath} にしてください`);
+      return;
+    }
+    if (step.with?.['include-hidden-files'] !== true) {
+      errors.push(`${jobName} artifact upload は hidden な .artifacts を明示的に含めてください`);
+    }
   }
 
   if (quick) {
@@ -64,9 +73,7 @@ function workflowErrors(content) {
     if (!runs(quick).includes('bash examples/ci/pr-quick-check.sh')) {
       errors.push('pr-quick job が canonical quick runner を実行していません');
     }
-    if (!artifactPaths(quick).includes('.artifacts/manifest')) {
-      errors.push('pr-quick artifact path は .artifacts/manifest にしてください');
-    }
+    requireArtifactUpload(quick, 'pr-quick', '.artifacts/manifest');
   }
 
   if (nightly) {
@@ -120,9 +127,7 @@ function workflowErrors(content) {
     if (typeof cacheKey !== 'string' || !cacheKey.includes("tools/nusmv-build-requirements.txt")) {
       errors.push('nightly-deep cache key に NuSMV build requirements の hash がありません');
     }
-    if (!artifactPaths(nightly).includes('.artifacts')) {
-      errors.push('nightly-deep artifact path は .artifacts にしてください');
-    }
+    requireArtifactUpload(nightly, 'nightly-deep', '.artifacts');
   }
   return errors;
 }
@@ -185,7 +190,7 @@ jobs:
         with: {distribution: temurin, java-version: '17'}
       - run: bash examples/ci/pr-quick-check.sh
       - uses: actions/upload-artifact@v7
-        with: {path: .artifacts/manifest}
+        with: {path: .artifacts/manifest, include-hidden-files: true}
   nightly-deep:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     steps:
@@ -206,7 +211,7 @@ jobs:
       - run: bash tools/dafny-verify.sh examples/dafny/Abs.dfy
       - run: node scripts/run-example-manifest.js --lane nightly
       - uses: actions/upload-artifact@v7
-        with: {path: .artifacts}
+        with: {path: .artifacts, include-hidden-files: true}
 `;
   if (workflowErrors(valid).length !== 0) throw new Error('valid workflow fixture was rejected');
   const broken = valid.replace('node scripts/run-example-manifest.js --lane nightly', 'echo skipped');
@@ -227,6 +232,10 @@ jobs:
   );
   if (!workflowErrors(missingNightlyJava).some((error) => error.includes('nightly-deep job に setup-java'))) {
     throw new Error('missing nightly Java setup fixture was not rejected');
+  }
+  const hiddenArtifactsExcluded = valid.replaceAll('include-hidden-files: true', 'include-hidden-files: false');
+  if (workflowErrors(hiddenArtifactsExcluded).filter((error) => error.includes('hidden な .artifacts')).length !== 2) {
+    throw new Error('hidden artifact exclusion fixture was not rejected for both lanes');
   }
   console.log('OK: example workflow contract self-tests passed.');
 }
