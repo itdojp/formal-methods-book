@@ -80,4 +80,26 @@ for (const testCase of cases) {
   }
 }
 
-console.log(`Tool CLI argument tests passed (${cases.length} cases).`);
+const bulkFields = spawnSync('node', [
+  'scripts/tool-manifest.js',
+  'fields',
+  'alloy.version',
+  'quint.distribution.sha256',
+], { cwd: repoRoot, encoding: 'utf8' });
+if (bulkFields.status !== 0
+    || !/^6\.2\.0\n[0-9a-f]{64}\n$/.test(bulkFields.stdout)
+    || bulkFields.stderr !== '') {
+  throw new Error(`bulk tool fields failed:\n${bulkFields.stdout}${bulkFields.stderr}`);
+}
+
+const standaloneHelper = spawnSync('bash', ['-c', [
+  'set -euo pipefail',
+  'unset REPO_ROOT',
+  'source tools/lib/tool-manifest.sh',
+  'tool_manifest_field alloy version',
+].join('\n')], { cwd: repoRoot, encoding: 'utf8' });
+if (standaloneHelper.status !== 0 || standaloneHelper.stdout.trim() !== '6.2.0') {
+  throw new Error(`standalone tool manifest helper failed:\n${standaloneHelper.stdout}${standaloneHelper.stderr}`);
+}
+
+console.log(`Tool CLI argument tests passed (${cases.length} negative cases + bulk/standalone helpers).`);

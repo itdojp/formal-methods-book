@@ -167,6 +167,7 @@ function usage(stream = process.stderr) {
     'Usage:',
     '  node scripts/tool-manifest.js validate',
     '  node scripts/tool-manifest.js field TOOL FIELD',
+    '  node scripts/tool-manifest.js fields TOOL.FIELD [TOOL.FIELD ...]',
     '  node scripts/tool-manifest.js tools --lane LANE',
     '  node scripts/tool-manifest.js matrix --lane LANE [--tool all|TOOL]',
     '',
@@ -225,6 +226,28 @@ function main() {
         throw new Error(`field is not a scalar: ${argv[0]}.${argv[1]}`);
       }
       process.stdout.write(`${String(value)}\n`);
+      return;
+    }
+    if (command === 'fields') {
+      if (argv.length === 0) throw new Error('fields requires at least one TOOL.FIELD selector');
+      const values = argv.map((selector) => {
+        const separator = selector.indexOf('.');
+        if (separator <= 0 || separator === selector.length - 1) {
+          throw new Error(`invalid field selector: ${selector}`);
+        }
+        const toolId = selector.slice(0, separator);
+        const fieldPath = selector.slice(separator + 1);
+        const tool = getTool(loaded.manifest, toolId);
+        if (!tool) throw new Error(`unknown tool: ${toolId}`);
+        const value = nestedField(tool, fieldPath);
+        if (value === undefined || value === null || typeof value === 'object') {
+          throw new Error(`field is not a scalar: ${selector}`);
+        }
+        const rendered = String(value);
+        if (/\r|\n/.test(rendered)) throw new Error(`field contains a newline: ${selector}`);
+        return rendered;
+      });
+      process.stdout.write(`${values.join('\n')}\n`);
       return;
     }
     if (command === 'tools' || command === 'matrix') {

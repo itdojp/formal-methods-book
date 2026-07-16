@@ -16,39 +16,59 @@ source "$REPO_ROOT/tools/lib/tool-manifest.sh"
 
 mkdir -p "$CACHE_DIR" "$TMP_DIR"
 
-ALLOY_VERSION="$(tool_manifest_field alloy version)"
-TLA_VERSION="$(tool_manifest_field tlc version)"
-APALACHE_VERSION="$(tool_manifest_field apalache version)"
-DAFNY_VERSION="$(tool_manifest_field dafny version)"
-SPIN_VERSION="$(tool_manifest_field spin version)"
-SPIN_COMMIT="$(tool_manifest_field spin commit)"
-NUSMV_VERSION="$(tool_manifest_field nusmv version)"
-CBMC_VERSION="$(tool_manifest_field cbmc version)"
-QUINT_VERSION="$(tool_manifest_field quint version)"
-KANI_VERSION="$(tool_manifest_field kani version)"
-KANI_RUST_TOOLCHAIN="$(tool_manifest_field kani rustToolchain)"
-KANI_RUST_MANIFEST_URL="$(tool_manifest_field kani rustToolchainManifest.url)"
-KANI_RUST_MANIFEST_SHA256="$(tool_manifest_field kani rustToolchainManifest.sha256)"
+manifest_output="$(tool_manifest_fields \
+  alloy.version tlc.version apalache.version dafny.version spin.version \
+  spin.commit nusmv.version cbmc.version quint.version kani.version \
+  kani.rustToolchain kani.rustToolchainManifest.url kani.rustToolchainManifest.sha256 \
+  alloy.distribution.url tlc.distribution.url apalache.distribution.url \
+  dafny.distribution.url spin.distribution.url nusmv.distribution.url \
+  cbmc.distribution.url quint.distribution.url kani.distribution.url \
+  alloy.distribution.sha256 tlc.distribution.sha256 apalache.distribution.sha256 \
+  dafny.distribution.sha256 spin.distribution.sha256 nusmv.distribution.sha256 \
+  cbmc.distribution.sha256 quint.distribution.sha256 kani.distribution.sha256)"
+mapfile -t manifest_values <<< "$manifest_output"
+if [[ ${#manifest_values[@]} -ne 31 ]]; then
+  echo "Unexpected bootstrap field count: ${#manifest_values[@]} (expected 31)" >&2
+  exit 2
+fi
+manifest_index=0
+next_manifest_value() {
+  printf -v "$1" '%s' "${manifest_values[$manifest_index]}"
+  manifest_index=$((manifest_index + 1))
+}
 
-ALLOY_URL="$(tool_manifest_field alloy distribution.url)"
-TLA_URL="$(tool_manifest_field tlc distribution.url)"
-APALACHE_URL="$(tool_manifest_field apalache distribution.url)"
-DAFNY_URL="$(tool_manifest_field dafny distribution.url)"
-SPIN_URL="$(tool_manifest_field spin distribution.url)"
-NUSMV_URL="$(tool_manifest_field nusmv distribution.url)"
-CBMC_URL="$(tool_manifest_field cbmc distribution.url)"
-QUINT_URL="$(tool_manifest_field quint distribution.url)"
-KANI_URL="$(tool_manifest_field kani distribution.url)"
-
-ALLOY_SHA256="$(tool_manifest_field alloy distribution.sha256)"
-TLA_SHA256="$(tool_manifest_field tlc distribution.sha256)"
-APALACHE_ZIP_SHA256="$(tool_manifest_field apalache distribution.sha256)"
-DAFNY_ZIP_SHA256="$(tool_manifest_field dafny distribution.sha256)"
-SPIN_TAR_SHA256="$(tool_manifest_field spin distribution.sha256)"
-NUSMV_TAR_SHA256="$(tool_manifest_field nusmv distribution.sha256)"
-CBMC_DEB_SHA256="$(tool_manifest_field cbmc distribution.sha256)"
-QUINT_SHA256="$(tool_manifest_field quint distribution.sha256)"
-KANI_TAR_SHA256="$(tool_manifest_field kani distribution.sha256)"
+next_manifest_value ALLOY_VERSION
+next_manifest_value TLA_VERSION
+next_manifest_value APALACHE_VERSION
+next_manifest_value DAFNY_VERSION
+next_manifest_value SPIN_VERSION
+next_manifest_value SPIN_COMMIT
+next_manifest_value NUSMV_VERSION
+next_manifest_value CBMC_VERSION
+next_manifest_value QUINT_VERSION
+next_manifest_value KANI_VERSION
+next_manifest_value KANI_RUST_TOOLCHAIN
+next_manifest_value KANI_RUST_MANIFEST_URL
+next_manifest_value KANI_RUST_MANIFEST_SHA256
+next_manifest_value ALLOY_URL
+next_manifest_value TLA_URL
+next_manifest_value APALACHE_URL
+next_manifest_value DAFNY_URL
+next_manifest_value SPIN_URL
+next_manifest_value NUSMV_URL
+next_manifest_value CBMC_URL
+next_manifest_value QUINT_URL
+next_manifest_value KANI_URL
+next_manifest_value ALLOY_SHA256
+next_manifest_value TLA_SHA256
+next_manifest_value APALACHE_ZIP_SHA256
+next_manifest_value DAFNY_ZIP_SHA256
+next_manifest_value SPIN_TAR_SHA256
+next_manifest_value NUSMV_TAR_SHA256
+next_manifest_value CBMC_DEB_SHA256
+next_manifest_value QUINT_SHA256
+next_manifest_value KANI_TAR_SHA256
+unset manifest_output manifest_values manifest_index
 
 ALLOY_JAR="$CACHE_DIR/alloy-${ALLOY_VERSION}.jar"
 TLA_JAR="$CACHE_DIR/tla2tools-${TLA_VERSION}.jar"
