@@ -12,17 +12,17 @@ guarantee correctness through human intuition and experience alone. Developers
 write code, reviewers inspect it, and testers execute it, but subtle bugs and
 unexpected interactions still slip through.
 
-Model checking complements these cognitive limits with computation. It
-systematically explores *all possible execution paths* and automatically
-determines whether a specified property holds. In other words, it is a
-verification method whose exhaustiveness is beyond human capacity.
+Model checking complements these cognitive limits with computation. For a
+specified finite-state model, it systematically explores executions reachable
+from the configured initial states and checks the selected properties. Its
+exhaustiveness is relative to that model, property, search method, and
+configuration, not to the implementation and physical environment as a whole.
 
-The key innovation of model checking is the *automation of proof*. In
-traditional settings, proving system correctness was the work of specialists
-with strong mathematical intuition. In model checking, once the system model
-and the properties of interest are described, the computer carries out the
-proof attempt automatically and either confirms the property or produces a
-counterexample.
+The key innovation of model checking is automated checking and counterexample
+search. Once the model and properties are described, a checker either confirms
+the property for its completed scope or produces a violating trace. A timeout,
+`unknown`, resource exhaustion, bounded run, or approximate run is not the same
+as confirmation.
 
 ### The Power of Exhaustive Exploration
 
@@ -30,12 +30,13 @@ The basic idea behind model checking is brute-force exploration of the system's
 state space. At first glance this may appear inefficient, but in practice it is
 extremely powerful.
 
-Chess and shogi programs defeat human champions for essentially the same
-reason. Humans rely on intuition and experience, whereas computers examine huge
-numbers of possible moves and select the best outcome. In software
-verification, the same difference appears: where a person says "this is
-probably correct," a model checker can say either "this is correct within the
-model" or "here is a counterexample."
+Like search-based game programs, model checkers traverse mechanically defined
+states and transitions. Neither class of program enumerates every real-world
+possibility without limits; the modeled state space and configuration determine
+what is searched. In verification, a reproducible result is therefore either a
+counterexample or evidence that no violation was found in the completed scope.
+The latter does not cover inputs, implementation details, or failures omitted
+from the model.
 
 ### Automating Formal Verification
 
@@ -94,11 +95,16 @@ requires understanding its limits:
   models
 - **The difficulty of property specification**: teams need skill in writing
   formal properties
-- **Possible false positives and false negatives**: abstraction can introduce
-  behaviors that do not exist or hide ones that do
+- **Effects of abstraction and search mode**: over-approximation can produce
+  behaviors absent from the implementation, while under-approximation, bounded
+  search, and approximate search can miss violations outside their scope
+- **Distinct completion results**: completion, counterexample, timeout,
+  `unknown`, and resource exhaustion must not be reported as one kind of success
 
 Practical model checking depends on choosing an appropriate abstraction level
-and a verification strategy that matches the problem.
+and a verification strategy that matches the problem. Reports should record
+the model and property, tool version, fairness, bounds, approximation mode,
+timeout, and completion status.
 
 ### Industrial Success Stories
 
@@ -1339,9 +1345,14 @@ TLC is the model checker dedicated to TLA+ specifications.
 **Main characteristics**:
 
 - **high-level specification language** close to mathematics
-- **rich data modeling** with sets, functions, and sequences
-- **distributed verification** across multiple machines
-- **detailed configuration control** for the search
+- **set-theoretic values** such as sets, functions, and sequences, rather than a
+  conventional static type system
+- **explicit type invariants** commonly named `TypeOK` or `TypeInvariant`, which
+  assert that variables belong to the expected sets
+- **explicit-state exploration** of the reachable states of a concrete finite
+  model
+- **detailed configuration control** for constants, properties, state
+  constraints, symmetry, and fairness
 
 **TLA+ specification sketch**:
 
@@ -1466,6 +1477,20 @@ process Task {
 - meaningful learning cost
 - scale limits for very large systems
 
+### Comparing Methods, Checked Scopes, and Results
+
+The following categories describe search methods, not a hierarchy of assurance.
+Either explicit-state or symbolic checking can provide strong evidence when it
+completes over the stated model and property. Approximation, bounded analysis,
+and incomplete runs narrow that evidence.
+
+| Tool | Main method and state space | Scope that may be called exhaustive | Fairness and completion result | Main boundary |
+| --- | --- | --- | --- | --- |
+| SPIN | Explicit-state exploration of a Promela model | A finite model and selected properties when full-state search completes | Weak fairness is configuration-dependent; distinguish no violation, counterexample, and incomplete run | Bitstate hashing is approximate; state explosion and resource limits can remove exhaustiveness |
+| TLC | Explicit-state exploration of a concrete finite TLA+ model | Reachable states under the `.cfg`, initial states, transitions, properties, and state constraints when the run completes | Liveness depends on WF/SF in the specification; distinguish no violation, counterexample, and incomplete run | Infinite reachable state spaces require finite modeling; abstraction, symmetry, and resources matter |
+| NuSMV / nuXmv | Symbolic BDD-, SAT-, or SMT-based exploration | The model, logic, property, and fairness constraints handled by the selected engine when it completes | Timeout or `unknown` is not confirmation | Results depend on abstraction, finite- or infinite-state handling, engine, memory, and refinement success |
+| CBMC | Bounded symbolic encoding of C/C++ executions | Executions within the unwind bound, input assumptions, and selected properties | No counterexample is a bound-relative result; solver `unknown` and timeout remain inconclusive | Executions beyond the bound are unchecked; environment models, undefined behavior, stubs, and solver behavior matter |
+
 ### Factors That Determine Tool Choice
 
 The main criteria for choosing a model-checking tool are practical.
@@ -1477,11 +1502,14 @@ The main criteria for choosing a model-checking tool are practical.
 - **software code** -> CBMC, Java PathFinder
 - **real-time systems** -> UPPAAL, TIMES
 
-**2. Required depth of verification**:
+**2. Required evidence and search contract**:
 
-- **full verification where possible** -> symbolic methods such as NuSMV
-- **bug finding** -> explicit-state methods such as SPIN and TLC
-- **bounded verification** -> SAT-based tools such as CBMC
+- **enumerate reachable states of a finite model** -> explicit-state tools such
+  as SPIN and TLC
+- **represent state sets symbolically** -> symbolic tools such as NuSMV / nuXmv
+- **check real code to a stated bound** -> bounded model checkers such as CBMC
+- **check liveness** -> a tool and logic for which the fairness assumptions can
+  be recorded explicitly
 
 **3. Technical background of the team**:
 
@@ -1499,18 +1527,25 @@ The main criteria for choosing a model-checking tool are practical.
 
 In practice, combinations of tools are often most effective.
 
-**A staged verification strategy**:
+**One possible staged verification strategy**:
 
-1. **design stage**: use TLA+ to validate the high-level algorithm
-2. **detailed design**: use NuSMV for control logic
-3. **implementation stage**: use CBMC for real code
-4. **integration stage**: use SPIN for concurrent behavior
+1. **design stage**: choose TLA+, Promela, NuSMV, or another notation that fits
+   the intended abstraction
+2. **detailed design**: when moving a requirement to another model, record the
+   correspondence and omitted behavior
+3. **implementation stage**: use a tool such as CBMC to check code and its
+   environment model to stated bounds
+4. **integration stage**: connect model evidence to tests, monitoring, and
+   implementation review
 
 **Complementary verification**:
 
-- **by property type**: safety with CBMC, liveness with SPIN
-- **by abstraction level**: high-level with TLA+, low-level with CBMC
-- **by reasoning style**: symbolic with NuSMV, explicit-state with SPIN
+- **by property type**: confirm which safety and liveness properties each tool
+  handles and under which fairness assumptions
+- **by abstraction level**: connect high-level and implementation-level checks
+  with refinement or a traceability table
+- **by reasoning style**: compare evidence by completion criteria and unchecked
+  scope, not by ranking symbolic above explicit-state exploration
 
 ### Emerging Tools and Trends
 

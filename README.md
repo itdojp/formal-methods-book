@@ -38,6 +38,7 @@ Markdown で執筆し、日本語版を `docs/`、英語版を `docs/en/` に公
 - 個別実行:
   - メタデータ整合性: `npm run check:metadata`
   - TLA+ 意味論・対象 source/publish 整合: `npm run check:tla-semantics`
+  - 模型検査・論理・CAP/FLP の保証境界: `npm run check:guarantees`
   - Lint: `npm run lint`
   - 構造lint: `npm run lint-structure`
   - リンク: `npm run check-links`
