@@ -7,6 +7,12 @@
       "maxOutputBytes": 16777216,
       "maxBytesPerExample": 67108864
     },
+    "execution": {
+      "timeout": "runner-enforced",
+      "stdoutStderr": "runner-enforced",
+      "retainedToolOutput": "post-run-retention-cap",
+      "memory": "declared-budget-only"
+    },
     "updates": {
       "cadence": "monthly",
       "automation": "Release assets are not Dependabot/Renovate package references; update by a dedicated audited PR.",
@@ -240,8 +246,12 @@
         "https://github.com/model-checking/kani/releases/tag/kani-0.67.0"
       ],
       "commit": "4feaaad1d6a2378a6ff6caa3b4fc5d6999c7bb5d",
-      "rustToolchain": "nightly-2025-11-21-x86_64-unknown-linux-gnu",
-      "embeddedCbmcVersion": "6.8.0"
+    "rustToolchain": "nightly-2025-11-21-x86_64-unknown-linux-gnu",
+    "rustToolchainManifest": {
+      "url": "https://static.rust-lang.org/dist/2025-11-21/channel-rust-nightly.toml",
+      "sha256": "3f7f450a0a5f0d3d38f7cf7e65334474cfe4fc013cebd24a481e2a8dab584d2b"
+    },
+    "embeddedCbmcVersion": "6.8.0"
     },
     {
       "id": "tla-toolbox",

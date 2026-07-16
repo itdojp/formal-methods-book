@@ -351,6 +351,7 @@ Pull requests pass the base/head diff to `examples/ci/pr-quick-check.sh`, which 
 For schedules and manual runs, `scripts/plan-formal-matrix.js` creates an allowlisted plan from the tool manifest, and `tool-matrix` executes it with `fail-fast: false` so that one tool failure does not suppress other logs.
 The nightly plan covers deep profiles for Alloy, TLC, Apalache, and Dafny plus SPIN, NuSMV, CBMC, and Quint; Kani runs only when the `optional` lane is selected explicitly through `workflow_dispatch`.
 Each artifact records the version, command, input hash, exit code, stdout/stderr, and stated resource bounds, while distinguishing `success`, `counterexample`, `unknown`, `timeout`, and `resource-exhausted`.
+Here, `memoryMiB` is a declared CI-capacity budget rather than an OS/cgroup-enforced limit. The runner can classify enforced timeouts and detectable output excess, but an OOM kill may surface as `tool-error` or a runner failure.
 
 Operationally, the following points matter.
 

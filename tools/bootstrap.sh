@@ -27,6 +27,8 @@ CBMC_VERSION="$(tool_manifest_field cbmc version)"
 QUINT_VERSION="$(tool_manifest_field quint version)"
 KANI_VERSION="$(tool_manifest_field kani version)"
 KANI_RUST_TOOLCHAIN="$(tool_manifest_field kani rustToolchain)"
+KANI_RUST_MANIFEST_URL="$(tool_manifest_field kani rustToolchainManifest.url)"
+KANI_RUST_MANIFEST_SHA256="$(tool_manifest_field kani rustToolchainManifest.sha256)"
 
 ALLOY_URL="$(tool_manifest_field alloy distribution.url)"
 TLA_URL="$(tool_manifest_field tlc distribution.url)"
@@ -59,6 +61,8 @@ QUINT_BIN="$CACHE_DIR/quint-${QUINT_VERSION}/quint"
 KANI_DIR="$CACHE_DIR/kani-${KANI_VERSION}"
 KANI_RUSTUP_HOME="$CACHE_DIR/kani-rustup-${KANI_RUST_TOOLCHAIN}"
 KANI_CARGO_HOME="$CACHE_DIR/kani-cargo"
+KANI_ARCHIVE="$CACHE_DIR/downloads/kani-${KANI_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
+KANI_RUST_MANIFEST="$CACHE_DIR/downloads/$(basename "$KANI_RUST_MANIFEST_URL")"
 
 usage() {
   cat <<'EOF'
@@ -402,10 +406,8 @@ ensure_cbmc() {
 }
 
 ensure_quint() {
-  if [[ -x "$QUINT_BIN" ]]; then
-    return 0
-  fi
   mkdir -p "$(dirname "$QUINT_BIN")"
+  # download() verifies an existing cached file before reuse.
   download "$QUINT_URL" "$QUINT_BIN" "$QUINT_SHA256"
   chmod 0755 "$QUINT_BIN"
   if [[ "$($QUINT_BIN --version)" != "$QUINT_VERSION" ]]; then
@@ -416,19 +418,24 @@ ensure_quint() {
 
 ensure_kani() {
   local bin="$KANI_DIR/bin/kani-driver"
-  local archive="$TMP_DIR/kani-${KANI_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
   require_command rustup rustup
   require_command tar tar
 
-  if [[ ! -x "$bin" ]]; then
-    download "$KANI_URL" "$archive" "$KANI_TAR_SHA256"
-    local extract_dir="$TMP_DIR/kani-${KANI_VERSION}-extract"
-    rm -rf "$extract_dir" "$KANI_DIR"
-    mkdir -p "$extract_dir" "$KANI_DIR"
-    tar -xzf "$archive" -C "$extract_dir" --strip-components=1
-    mv "$extract_dir"/* "$KANI_DIR"/
-    rmdir "$extract_dir"
-  fi
+  mkdir -p "$(dirname "$KANI_ARCHIVE")"
+  # Cache the checksummed archive, but never trust a restored extracted tree.
+  # Re-extraction after verifying the archive prevents cache poisoning from
+  # replacing kani-driver or one of its bundled helper binaries.
+  download "$KANI_URL" "$KANI_ARCHIVE" "$KANI_TAR_SHA256"
+  local extract_dir="$TMP_DIR/kani-${KANI_VERSION}-extract"
+  rm -rf "$extract_dir" "$KANI_DIR"
+  mkdir -p "$extract_dir" "$KANI_DIR"
+  tar -xzf "$KANI_ARCHIVE" -C "$extract_dir" --strip-components=1
+  mv "$extract_dir"/* "$KANI_DIR"/
+  rmdir "$extract_dir"
+
+  # Pin and verify the dated Rust channel manifest. rustup then verifies each
+  # component against the checksums in this upstream manifest.
+  download "$KANI_RUST_MANIFEST_URL" "$KANI_RUST_MANIFEST" "$KANI_RUST_MANIFEST_SHA256"
 
   mkdir -p "$KANI_RUSTUP_HOME" "$KANI_CARGO_HOME"
   RUSTUP_HOME="$KANI_RUSTUP_HOME" CARGO_HOME="$KANI_CARGO_HOME" \

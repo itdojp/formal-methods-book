@@ -41,5 +41,6 @@ node scripts/run-example-manifest.js --lane optional
 各IDには`metadata.json`、`command.txt`、`stdout.log`、`stderr.log`があり、metadataはtool version、command、入力hash、実行制約、exit code、outcomeを記録する。
 環境変数、host、secretは記録しない。
 artifact retentionは14日、stdout/stderrは16 MiB、tool outputは64 MiBを1 entry当たりの上限とする。
+`timeoutSeconds`とstdout/stderr上限はrunnerが強制し、retained tool outputは実行後に検査する。`memoryMiB`はjob容量計画用のdeclared budgetであり、OS/cgroup上限としては強制しない。したがって`resource-exhausted`は検出可能な出力超過を表し、OOM killの完全な分類は保証しない。
 
 Ubuntu 24.04 x86-64向けの詳細なローカル前提は付録Bを参照する。

@@ -86,6 +86,7 @@ npm audit
 `tools/tool-manifest.json` は、本文で扱う51 tool/serviceのlane、実行版、公式配布物URL/digest、artifact上限、月次更新方針の正本です。`documentation-only` は紹介だけで実行保証がないことを明示します。versionはshell、workflow、exampleへ重複記載せず、このmanifestから参照します。
 
 `examples/example-manifest.json` は、本文の strict tool label と自己完結した asset、実行 command、期待outcome、timeout/memory/seed/scope/depth/bound、CI lane を結ぶ正本です。現在のinventoryはAlloy 4件、TLC 1件、Apalache 1件、Dafny 1件、SPIN 2件、NuSMV 2件、CBMC 1件、Quint 1件、Kani 1件の計14件です。
+`memoryMiB` はCI容量計画の declared budget であり、OS/cgroupによる強制上限ではありません。強制されるのはrunner timeoutとstdout/stderr上限で、retained tool outputは実行後に上限を検査します。
 
 個別契約または lane は manifest runner から実行します。
 
@@ -102,6 +103,7 @@ node scripts/run-example-manifest.js --lane optional
 - 実行証跡: `.artifacts/manifest/<id>/metadata.json`、`command.txt`、`stdout.log`、`stderr.log`
 
 runner は成否にかかわらず4ファイルを作成します。`metadata.json` はtool manifestのversion、command、入力ファイル別SHA-256と集約hash、実行制約、期待値、実測exit code、`success | counterexample | unknown | timeout | resource-exhausted | tool-error`を記録しますが、環境変数、ホスト、OS等の情報は記録しません。stdout/stderrは16 MiB、tool outputは64 MiB、GitHub artifact retentionは14日です。
+`resource-exhausted` はrunnerが検出できるstdout/stderrまたはretained tool output超過を表します。OSによるOOM killは一律に判別できないため、`tool-error`またはrunner failureになり得ます。
 
 PRではbase/head差分をmanifestのasset、reference、config、wrapperへ照合し、関連する`pr-quick`だけを実行します。manifest/runner/bootstrap等の共通基盤変更はfail-safeで7件すべてを実行します。引数なしのローカル実行も従来どおり全件です。
 
@@ -110,6 +112,7 @@ schedule / workflow dispatchは`matrix-plan`がallowlist済みtool/profileを生
 ローカルの `nightly` lane は Ubuntu 24.04 x86-64 または互換環境を対象とします。必要な apt package、hash 固定した Meson/Ninja の導入手順、他OSで GitHub Actions を使う境界は付録Bに記載しています。
 
 PR quick は nightly tool を取得しません。nightly の NuSMV は、Ubuntu 24.04 で `libedit.so.0` を要求する公式バイナリを使用せず、公式 LGPL 2.7.1 source（SHA-256 `f1e11931f71d98aa9b84181eed67db584d7111100c2e967c904a31c15f823f60`）を `-Dwith-shell=disabled` で release build します。nightly workflow が GCC/G++、flex、bison、m4、patch、Python 3、pkg-config と、hash 固定した `tools/nusmv-build-requirements.txt` の Meson 1.7.2 / Ninja 1.11.1.4 を準備します。
+Quintのsingle binaryはcache reuse時にもSHA-256を再検証します。Kaniは検証済みarchiveから毎回再展開し、固定日のRust channel manifestもSHA-256を検証したうえで、rustupのcomponent checksum検証を利用します。
 
 nightly tool の取得元は次の値に固定しています。
 

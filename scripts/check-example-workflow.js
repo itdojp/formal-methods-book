@@ -118,10 +118,10 @@ function workflowErrors(content) {
 
 function documentationErrors(rootDir) {
   const required = {
-    'README.md': ['tools/tool-manifest.json', 'workflow_dispatch', 'retention'],
+    'README.md': ['tools/tool-manifest.json', 'workflow_dispatch', 'retention', 'declared budget'],
     'examples/ci/README.md': ['matrix-plan', 'fail-fast', 'optional'],
-    'src/ja/chapters/chapter12.md': ['tool-matrix', 'scripts/plan-formal-matrix.js', 'resource-exhausted'],
-    'src/en/chapters/chapter12.md': ['tool-matrix', 'scripts/plan-formal-matrix.js', 'resource-exhausted'],
+    'src/ja/chapters/chapter12.md': ['tool-matrix', 'scripts/plan-formal-matrix.js', 'resource-exhausted', 'OS/cgroup'],
+    'src/en/chapters/chapter12.md': ['tool-matrix', 'scripts/plan-formal-matrix.js', 'resource-exhausted', 'OS/cgroup'],
     'src/ja/appendices/appendix-b.md': ['tools/tool-manifest.json', 'tool-inventory:start', 'Kani 0.67.0'],
     'src/en/appendices/appendix-b.md': ['tools/tool-manifest.json', 'tool-inventory:start', 'Kani 0.67.0'],
     'src/ja/appendices/appendix-e.md': ['tools/tool-manifest.json', 'documentation-only', 'optional/manual'],

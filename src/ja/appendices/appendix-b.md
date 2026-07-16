@@ -88,6 +88,7 @@
 実行laneでは、各entryにtimeout、memory budget、seed、scope、depth、boundを明示する。
 artifactはtool version、command、入力ファイル別SHA-256と集約hash、exit code、stdout/stderr、`success`、`counterexample`、`unknown`、timeout、resource exhaustionを区別して残す。
 保持期間は14日、stdout/stderrは1 entry当たり16 MiB、tool outputは1 entry当たり64 MiBを上限とする。
+timeoutとstdout/stderr上限はrunnerが強制し、retained tool outputは実行後に検査する。一方、`memoryMiB`はCI容量計画用の申告値であり、OS/cgroupによる強制上限ではない。このため`resource-exhausted`は検出可能な出力超過を表し、OOM killは`tool-error`またはrunner failureになる場合がある。
 
 - `quint-counter`: [examples/quint/counter.qnt](../../../examples/quint/counter.qnt) をQuint 0.32.0のTypeScript evaluatorでtypecheckし、seed `20260716`、各test 1 sampleで実行する。別配布のRust evaluatorを暗黙downloadしない。
 <!-- example-contract: quint-counter -->
@@ -97,6 +98,8 @@ node scripts/run-example-manifest.js --id quint-counter
 ```
 
 - `kani-abs`: [examples/kani/abs.rs](../../../examples/kani/abs.rs) の`abs_is_nonnegative` harnessをKani 0.67.0、固定Rust nightly、unwind 1で検査する。追加downloadと実行コストがあるため`optional/manual`であり、PRやscheduleからは起動しない。
+
+cache復元後もQuint binaryのSHA-256を再検証する。Kaniは検証済みarchiveから毎回再展開し、固定日のRust channel manifestもSHA-256を検証する。Rust component本体の整合性検査は、そのmanifestに記録されたchecksumを検証するrustupに委ねる。
 <!-- example-contract: kani-abs -->
 【ツール準拠（そのまま動く）】
 ```bash

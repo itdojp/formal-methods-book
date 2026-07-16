@@ -53,6 +53,16 @@ function validateToolManifest(manifest, options = {}) {
   if (!manifest.policy?.updates || !Array.isArray(manifest.policy.updates.procedure)) {
     add('policy.updates.procedure は配列である必要があります');
   }
+  const executionPolicy = manifest.policy?.execution;
+  const expectedExecutionPolicy = {
+    timeout: 'runner-enforced',
+    stdoutStderr: 'runner-enforced',
+    retainedToolOutput: 'post-run-retention-cap',
+    memory: 'declared-budget-only',
+  };
+  for (const [field, expected] of Object.entries(expectedExecutionPolicy)) {
+    if (executionPolicy?.[field] !== expected) add(`policy.execution.${field} は ${expected} である必要があります`);
+  }
   if (!Array.isArray(manifest.tools) || manifest.tools.length === 0) {
     add('tools は1件以上の配列である必要があります');
     return errors;
@@ -118,6 +128,18 @@ function validateToolManifest(manifest, options = {}) {
       }
       if (!Array.isArray(tool.platforms) || tool.platforms.length === 0) {
         add('executable tool には1件以上の platform が必要です', id);
+      }
+      if (tool.rustToolchain !== undefined) {
+        if (typeof tool.rustToolchain !== 'string' || tool.rustToolchain.trim() === '') {
+          add('rustToolchain は空でない string である必要があります', id);
+        }
+        if (typeof tool.rustToolchainManifest?.url !== 'string'
+            || !tool.rustToolchainManifest.url.startsWith('https://static.rust-lang.org/')) {
+          add('rustToolchainManifest.url は static.rust-lang.org の https URL にしてください', id);
+        }
+        if (!SHA256_PATTERN.test(tool.rustToolchainManifest?.sha256 || '')) {
+          add('rustToolchainManifest.sha256 は64桁 lowercase hex である必要があります', id);
+        }
       }
     } else if (tool.lane === 'documentation-only') {
       if (tool.version !== null || tool.wrapper !== null || tool.distribution !== null) {

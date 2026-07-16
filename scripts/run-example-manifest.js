@@ -114,6 +114,9 @@ function classifyOutcome(result, stdout, stderr, entry, artifactExceeded) {
   if (result.error?.code === 'ETIMEDOUT' || result.signal === 'SIGTERM') return 'timeout';
   const combined = `${stdout}\n${stderr}`;
   const exitCode = Number.isInteger(result.status) ? result.status : 1;
+  // GNU timeout and coreutils-compatible gtimeout use 124 when the wrapped
+  // command reaches its limit. TLC also applies this inner wall-clock bound.
+  if (exitCode === 124) return 'timeout';
   if (exitCode === entry.expected.exitCode && stdout.includes(entry.expected.stdoutMarker) && !result.error) {
     return entry.expected.outcome;
   }
@@ -143,6 +146,7 @@ function runEntry(entry, options = {}) {
       .filter((field) => tool[field] !== undefined)
       .map((field) => [field, tool[field]]),
   );
+  if (tool.rustToolchainManifest) toolDependencies.rustToolchainManifest = tool.rustToolchainManifest;
   const artifactPolicy = toolManifest.policy.artifact;
   const artifactDir = path.join(repoRoot, '.artifacts', 'manifest', runtimeEntry.id);
   fs.rmSync(artifactDir, { recursive: true, force: true });
@@ -204,6 +208,7 @@ function runEntry(entry, options = {}) {
     command: runtimeEntry.command,
     input,
     limits: runtimeEntry.limits,
+    limitEnforcement: toolManifest.policy.execution,
     artifactPolicy,
     expected: runtimeEntry.expected,
     actual: {

@@ -191,6 +191,7 @@ See: .artifacts/tlc/<model>/tlc.log
 ```
 
 各entryのartifactはversion、command、input hash、exit code、stdout/stderrと実行制約を含み、`success`、`counterexample`、`unknown`、`timeout`、`resource-exhausted`を区別する。1 toolが失敗しても他toolのjobとartifact収集を継続する。
+ここで`memoryMiB`はCI容量計画の申告値であり、OS/cgroupによる強制上限ではない。runnerが強制するtimeoutと出力上限を超えた場合は分類できるが、OOM killは`tool-error`またはrunner failureになる可能性がある。
 
 上記のように、短時間・小スコープの検証をPRに配置し、夜間に探索深度やスコープを拡大することで、開発速度と品質保証の両立を図る。
 

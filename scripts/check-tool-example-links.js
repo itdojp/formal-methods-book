@@ -234,6 +234,12 @@ function writeFixture(rootDir, mutate = null, documentId = 'chapter04') {
       schemaVersion: 1,
       policy: {
         artifact: { retentionDays: 1, maxOutputBytes: 1024, maxBytesPerExample: 1024 },
+        execution: {
+          timeout: 'runner-enforced',
+          stdoutStderr: 'runner-enforced',
+          retainedToolOutput: 'post-run-retention-cap',
+          memory: 'declared-budget-only',
+        },
         updates: { procedure: [] },
       },
       tools: [{

@@ -21,6 +21,12 @@ function makeToolManifest(maxOutputBytes = 1024 * 1024) {
     schemaVersion: 1,
     policy: {
       artifact: { retentionDays: 1, maxOutputBytes, maxBytesPerExample: 1024 * 1024 },
+      execution: {
+        timeout: 'runner-enforced',
+        stdoutStderr: 'runner-enforced',
+        retainedToolOutput: 'post-run-retention-cap',
+        memory: 'declared-budget-only',
+      },
       updates: { procedure: [] },
     },
     tools: [{
@@ -31,6 +37,10 @@ function makeToolManifest(maxOutputBytes = 1024 * 1024) {
       reason: { ja: 'fixture', en: 'fixture' },
       version: '6.2.0',
       rustToolchain: 'nightly-fixture',
+      rustToolchainManifest: {
+        url: 'https://static.rust-lang.org/dist/fixture/channel-rust-nightly.toml',
+        sha256: '1'.repeat(64),
+      },
       embeddedCbmcVersion: '6.8.0',
       wrapper: 'tools/alloy-check.sh',
       distribution: { url: 'https://example.invalid/alloy.jar', sha256: '0'.repeat(64) },
@@ -85,9 +95,14 @@ function main() {
     assert.deepStrictEqual(successMetadata.toolDependencies, {
       rustToolchain: 'nightly-fixture',
       embeddedCbmcVersion: '6.8.0',
+      rustToolchainManifest: {
+        url: 'https://static.rust-lang.org/dist/fixture/channel-rust-nightly.toml',
+        sha256: '1'.repeat(64),
+      },
     });
     assert.strictEqual(successMetadata.actual.exitCode, 0);
     assert.strictEqual(successMetadata.actual.outcome, 'success');
+    assert.strictEqual(successMetadata.limitEnforcement.memory, 'declared-budget-only');
     assert.strictEqual(successMetadata.result, 'passed');
     assert.match(successMetadata.input.hash, /^[0-9a-f]{64}$/);
     assert.strictEqual(successMetadata.input.files[0].path, 'examples/valid.als');
@@ -121,6 +136,11 @@ function main() {
     const timedOut = { ...base, id: 'runner-timeout', limits: { ...base.limits, timeoutSeconds: 1 } };
     assert.strictEqual(runEntry(timedOut, { repoRoot: rootDir, emitOutput: false, toolManifest }), false);
     assert.strictEqual(assertEvidence(rootDir, timedOut.id).actual.outcome, 'timeout');
+
+    fs.writeFileSync(path.join(rootDir, 'tools', 'alloy-check.sh'), '#!/usr/bin/env bash\nexit 124\n');
+    const innerTimedOut = { ...base, id: 'runner-inner-timeout' };
+    assert.strictEqual(runEntry(innerTimedOut, { repoRoot: rootDir, emitOutput: false, toolManifest }), false);
+    assert.strictEqual(assertEvidence(rootDir, innerTimedOut.id).actual.outcome, 'timeout');
 
     fs.writeFileSync(path.join(rootDir, 'tools', 'alloy-check.sh'), '#!/usr/bin/env bash\nhead -c 2048 /dev/zero\n');
     const exhausted = { ...base, id: 'runner-resource' };

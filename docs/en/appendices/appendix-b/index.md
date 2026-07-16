@@ -102,6 +102,7 @@ Indirect use of an embedded solver does not constitute a standalone execution gu
 Every executable entry states its timeout, memory budget, seed, scope, depth, and bound.
 Artifacts record the tool version, command, per-file SHA-256 and aggregate input hash, exit code, stdout/stderr, and distinct `success`, `counterexample`, `unknown`, timeout, and resource-exhaustion outcomes.
 Retention is 14 days; stdout/stderr is limited to 16 MiB per entry and tool output to 64 MiB per entry.
+The runner enforces timeout and stdout/stderr limits and checks retained tool output after execution. `memoryMiB`, however, is a declared CI-capacity budget, not an OS/cgroup-enforced limit. Consequently, `resource-exhausted` covers detectable output excess; an OOM kill may surface as `tool-error` or a runner failure.
 
 - `quint-counter`: typechecks and tests [examples/quint/counter.qnt](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/quint/counter.qnt) with Quint 0.32.0, the bundled TypeScript evaluator, seed `20260716`, and one sample per test. It does not implicitly download the separately distributed Rust evaluator.
 <!-- example-contract: quint-counter -->
@@ -111,6 +112,8 @@ node scripts/run-example-manifest.js --id quint-counter
 ```
 
 - `kani-abs`: verifies the `abs_is_nonnegative` harness in [examples/kani/abs.rs](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/kani/abs.rs) with Kani 0.67.0, a pinned Rust nightly, and unwind bound 1. Because it requires an additional download and execution budget, it is `optional/manual` and never starts from a PR or schedule.
+
+After cache restore, the bootstrap rechecks the Quint binary SHA-256. It re-extracts Kani from its verified archive on every run and also verifies the dated Rust channel manifest by SHA-256. rustup then verifies the Rust components against the checksums recorded in that manifest.
 <!-- example-contract: kani-abs -->
 【Tool-compliant (runs as-is)】
 ```bash
