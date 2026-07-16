@@ -17,10 +17,94 @@
 - Dafny（検証器）
 
 補足：
-- Quint CLI は、TLA+ 意味論に基づく型付き仕様言語を CI に載せる選択肢である。ただし本リポジトリの最小セットには含めず、導入する場合は公式手順に従ってバージョンを固定する。
+- Quint CLI は、TLA+ 意味論に基づく型付き仕様言語をCIに載せる選択肢であり、本リポジトリでは固定版のtypecheck/testを`nightly`で実行する。
 - Rocq/Isabelle等の定理証明器は依存が大きいため、本付録では一次情報リンク（付録E）を主とする。
 - Lean 4 は、本書の導線として **最小構成のみ**を本付録末尾に示す（Optional）。
-- SPIN / NuSMV / CBMC は `nightly` lane の対象であり、後述する Ubuntu 24.04 x86-64 向け追加前提を満たす場合に実行する。
+- SPIN / NuSMV / CBMC / Quint は`nightly` laneの対象であり、source buildが必要なtoolだけ後述するUbuntu 24.04 x86-64向け追加前提を使う。
+
+## Tool lane inventoryと実行保証 {#tool-lane-inventory}
+
+全toolの分類、実行版、配布物digest、artifact上限、更新手順の正本は `tools/tool-manifest.json` である。
+`pr-quick` はPR差分に関連する小さい例、`nightly` はtool単位の独立matrix、`optional/manual` は明示的な `workflow_dispatch` だけで実行する。
+`documentation-only` は本文で紹介するが、このリポジトリがversion、環境、実行結果を保証しないtool/serviceを表す。
+他toolに内蔵されたsolverを間接利用しても、solver単体の実行保証には数えない。
+
+<!-- tool-inventory:start -->
+| Tool / service | lane | 検証済み version | 分類理由 |
+| --- | --- | --- | --- |
+| Alloy Analyzer | pr-quick | 6.2.0 | 小さい scope の4例を短時間で再現できる。 |
+| TLC | pr-quick | 1.7.4 | 固定 cfg・worker・seed・timeout で有限モデルを検査する。 |
+| Apalache | pr-quick | 0.52.1 | 短い探索長を固定した不変条件検査を毎PRで再現できる。 |
+| Dafny | pr-quick | 4.11.0 | 最小検証例が高速で安定している。 |
+| SPIN | nightly | 6.5.2 | source buildと状態探索をtool単位nightlyで分離する。 |
+| NuSMV | nightly | 2.7.1 | 依存を伴う公式source buildのためnightlyへ分離する。 |
+| CBMC | nightly | 6.10.0 | Ubuntu固定配布と有界検査をtool単位nightlyで実行する。 |
+| Quint | nightly | 0.32.0 | 公式single binaryでtypecheck/testを固定seedかつTypeScript backendで再現する。 |
+| Kani Rust Verifier | optional/manual | 0.67.0 | 固定Rust nightlyを追加取得するため明示的manual dispatchに限定する。 |
+| TLA+ Toolbox | documentation-only | — | GUI/編集環境であり、本リポジトリのCLI保証対象外。 |
+| TLA+ VS Code extension | documentation-only | — | 編集支援はCLI検査と分離し、extension版を固定していない。 |
+| Community Z Tools (CZT) | documentation-only | — | Zの一次情報導線のみで実行assetがない。 |
+| FDR | documentation-only | — | CSPM例は掲載するが、配布・licenseを含むCI環境を固定していない。 |
+| ProB | documentation-only | — | 紹介のみで実行assetと固定環境がない。 |
+| PAT | documentation-only | — | 紹介のみで実行assetと固定環境がない。 |
+| nuXmv | documentation-only | — | NuSMVとは別製品として紹介するが、CIはNuSMVだけを保証する。 |
+| Java PathFinder | documentation-only | — | 紹介・演習候補のみで実行assetがない。 |
+| UPPAAL | documentation-only | — | GUI/license/配布条件を伴い自動化していない。 |
+| TIMES | documentation-only | — | リアルタイム検証の紹介のみ。 |
+| Rocq / Coq | documentation-only | — | 証明project、opam switch、library版を固定していない。 |
+| Lean 4 / Lake / mathlib / elan | documentation-only | — | proof projectと依存revisionがなく、Linux配布物も大きいため未実行。 |
+| Isabelle/HOL | documentation-only | — | 紹介のみでsession/build環境を固定していない。 |
+| Agda | documentation-only | — | 紹介のみでprojectとlibrary版を固定していない。 |
+| HOL4 | documentation-only | — | Aeneas接続先として紹介するだけで実行契約がない。 |
+| F* | documentation-only | — | 接続先/関連技術として紹介するだけで実行契約がない。 |
+| Frama-C | documentation-only | — | 紹介のみでplugin/solver構成を固定していない。 |
+| VeriFast | documentation-only | — | 紹介のみで実行assetがない。 |
+| SPARK | documentation-only | — | 産業toolchain/licenseを含む実行環境を固定していない。 |
+| Why3 | documentation-only | — | backend solverを含む実行構成を固定していない。 |
+| Verus | documentation-only | — | Rust/Z3/revisionを含む実行構成を固定していない。 |
+| Creusot | documentation-only | — | Why3/solver/Rustの組合せを固定していない。 |
+| Prusti / Viper | documentation-only | — | Rust/Viper toolchainと実行assetを固定していない。 |
+| Aeneas / Charon | documentation-only | — | 変換先を含むend-to-end contractを固定していない。 |
+| Z3 | documentation-only | — | 他toolの間接依存をsolver単体の実行保証には数えない。 |
+| cvc5 / CVC4 | documentation-only | — | 紹介のみでsolver単体assetを固定していない。 |
+| Yices | documentation-only | — | 紹介のみで実行assetを固定していない。 |
+| MathSAT | documentation-only | — | 紹介のみでlicense/配布を含む環境を固定していない。 |
+| SCADE | documentation-only | — | 商用/GUI toolchainでありCI必須化しない。 |
+| Simulink | documentation-only | — | 産業事例の紹介のみでlicense環境を固定していない。 |
+| SAW | documentation-only | — | 産業事例の参照のみでs2n検証assetを同梱していない。 |
+| Cedar Analysis | documentation-only | — | service/APIとtool群が変化し、対象policy assetを固定していない。 |
+| Bedrock Guardrails Automated Reasoning checks | documentation-only | — | 外部service、region、API条件を固定CIへ必須化しない。 |
+| Solidity SMTChecker | documentation-only | — | Solidity/compiler/solver構成とcontract assetを固定していない。 |
+| Aptos Move Prover | documentation-only | — | Move toolchainとcontract assetを固定していない。 |
+| Certora Prover | documentation-only | — | 外部/産業toolchainを必須CIへ組み込まない。 |
+| LeanDojo | documentation-only | — | AI証明支援の評価基盤として紹介するだけ。 |
+| Lean Copilot | documentation-only | — | AI証明支援の紹介のみでmodel/projectを固定していない。 |
+| AlphaProof / AlphaGeometry 2 | documentation-only | — | 研究成果の紹介で、再配布可能なCLI契約がない。 |
+| DeepSeek-Prover-V2 | documentation-only | — | 研究成果の紹介でmodel/runtimeを固定していない。 |
+| ProofGym | documentation-only | — | 評価基盤の紹介のみでdataset/runtimeを固定していない。 |
+| APOLLO | documentation-only | — | 研究成果の紹介のみで実行contractがない。 |
+<!-- tool-inventory:end -->
+
+実行laneでは、各entryにtimeout、memory budget、seed、scope、depth、boundを明示する。
+artifactはtool version、command、入力ファイル別SHA-256と集約hash、exit code、stdout/stderr、`success`、`counterexample`、`unknown`、timeout、resource exhaustionを区別して残す。
+保持期間は14日、stdout/stderrは1 entry当たり16 MiB、tool outputは1 entry当たり64 MiBを上限とする。
+
+- `quint-counter`: [examples/quint/counter.qnt](../../../examples/quint/counter.qnt) をQuint 0.32.0のTypeScript evaluatorでtypecheckし、seed `20260716`、各test 1 sampleで実行する。別配布のRust evaluatorを暗黙downloadしない。
+<!-- example-contract: quint-counter -->
+【ツール準拠（そのまま動く）】
+```bash
+node scripts/run-example-manifest.js --id quint-counter
+```
+
+- `kani-abs`: [examples/kani/abs.rs](../../../examples/kani/abs.rs) の`abs_is_nonnegative` harnessをKani 0.67.0、固定Rust nightly、unwind 1で検査する。追加downloadと実行コストがあるため`optional/manual`であり、PRやscheduleからは起動しない。
+<!-- example-contract: kani-abs -->
+【ツール準拠（そのまま動く）】
+```bash
+node scripts/run-example-manifest.js --id kani-abs
+```
+
+version更新は月次に公式release/tagとasset digestを確認し、versionだけの専用PRでclean-cache実行と出力契約差分をレビューする。
+任意のrelease assetはDependabot/Renovateのpackage参照ではないため、自動更新されたものとして扱わない。
 
 ## 推奨：devcontainer（コンテナ手順）
 
@@ -69,7 +153,7 @@ bash tools/dafny-verify.sh examples/dafny/Abs.dfy
 
 ### nightly lane の追加前提（Ubuntu 24.04 x86-64）
 
-`node scripts/run-example-manifest.js --lane nightly` は SPIN 6.5.2、NuSMV 2.7.1、CBMC 6.10.0 を実行する。最小セットとは別に、次のビルド前提が必要である。NuSMV は公式 source archive をローカル build し、CBMC は Ubuntu 24.04 x86-64 用の固定 deb を展開するため、この手順は同環境または互換環境を対象とする。
+`node scripts/run-example-manifest.js --lane nightly`はSPIN 6.5.2、NuSMV 2.7.1、CBMC 6.10.0、Quint 0.32.0の6 entryを実行する。最小セットとは別に、SPIN/NuSMVのsource buildには次の前提が必要である。CBMCはUbuntu 24.04 x86-64用の固定deb、Quintは同platform用の固定single binaryを使うため、この手順は同環境または互換環境を対象とする。
 
 ```bash
 sudo apt-get update
@@ -113,18 +197,15 @@ bash tools/apalache-check.sh --config examples/apalache/Counter.cfg --length 10 
 ```
 
 TLA+ をエディタで編集する場合は、VS Code拡張を利用しつつ、拡張、Java、`tla2tools.jar`、`.cfg` の版を PR 本文に記録する。
-Quint を導入する場合は、`@informalsystems/quint` のバージョンを `package.json` / lockfile / コンテナ定義等で固定し、`typecheck`、`test`、`verify` を分けて CI に組み込む。
-次の断片は導入例であり、本リポジトリではまだ実行対象として固定していない。
+本リポジトリのQuint契約は、公式release binaryとSHA-256を`tools/tool-manifest.json`で固定し、暗黙に追加componentを取得しないTypeScript evaluatorで`typecheck`と`test`を実行する。
+`verify`を追加する場合はApalache/TLC backend、JDK、探索境界、timeout、trace artifactを別entryとして固定する。
 
 ```bash
-npm install --save-dev @informalsystems/quint@<固定バージョン>
-npx quint typecheck specs/example.qnt
-npx quint test specs/example.qnt --seed 202606
-npx quint verify specs/example.qnt --invariant=Inv --max-steps=10 --out-itf .artifacts/quint/example.itf.json
+node scripts/run-example-manifest.js --id quint-counter
 ```
 
-`quint verify` は既定で Apalache を使い、必要に応じて `--backend=tlc` で TLC を使う。
-結果を「仕様全体の証明」とは扱わず、対象仕様、backend、境界、seed、timeout、反例 trace の保存場所を合わせて確認する。
+`quint-counter`の成功は、対象仕様の型検査と固定testが通ったことだけを表す。
+結果を「仕様全体の証明」とは扱わず、verifyを使う場合は対象仕様、backend、境界、seed、timeout、反例traceの保存場所を合わせて確認する。
 
 ## Lean 4 環境構築（最小構成 / Optional）
 

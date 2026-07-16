@@ -2,9 +2,10 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "$REPO_ROOT/tools/lib/tool-manifest.sh"
 bash "$REPO_ROOT/tools/bootstrap.sh" --tool nusmv
 
-: "${NUSMV_VERSION:=2.7.1}"
+NUSMV_VERSION="$(tool_manifest_field nusmv version)"
 NUSMV_DIR="$REPO_ROOT/tools/.cache/nusmv-${NUSMV_VERSION}"
 NUSMV_BIN="$NUSMV_DIR/bin/NuSMV"
 

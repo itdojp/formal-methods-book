@@ -19,7 +19,91 @@ You do not need every tool before you begin reading. By following this appendix,
 Notes:
 - Theorem provers such as `Rocq` and `Isabelle` have larger dependency footprints, so this appendix primarily points to primary sources for them in Appendix E.
 - `Lean 4` is included here only as a **minimal setup** at the end of the appendix as an optional path through the book.
-- SPIN, NuSMV, and CBMC belong to the `nightly` lane and require the additional Ubuntu 24.04 x86-64 prerequisites described below.
+- SPIN, NuSMV, CBMC, and Quint belong to the `nightly` lane. Only source-built tools use the additional Ubuntu 24.04 x86-64 prerequisites below.
+
+## Tool Lane Inventory and Execution Guarantee {#tool-lane-inventory}
+
+`tools/tool-manifest.json` is the source of truth for every tool's classification, executable version, distribution digest, artifact limits, and update procedure.
+`pr-quick` runs small examples related to a PR diff, `nightly` uses an independent per-tool matrix, and `optional/manual` runs only through an explicit `workflow_dispatch` selection.
+`documentation-only` means that the book introduces the tool or service but this repository does not guarantee its version, environment, or result.
+Indirect use of an embedded solver does not constitute a standalone execution guarantee for that solver.
+
+<!-- tool-inventory:start -->
+| Tool / service | lane | Verified version | Rationale |
+| --- | --- | --- | --- |
+| Alloy Analyzer | pr-quick | 6.2.0 | Four small-scope examples are reproducible within the PR budget. |
+| TLC | pr-quick | 1.7.4 | Checks a finite model with pinned cfg, worker count, seed, and timeout. |
+| Apalache | pr-quick | 0.52.1 | A short bounded invariant check is reproducible on every PR. |
+| Dafny | pr-quick | 4.11.0 | The minimal verification example is fast and stable. |
+| SPIN | nightly | 6.5.2 | Source build and state exploration run in an isolated nightly tool job. |
+| NuSMV | nightly | 2.7.1 | The official source build has extra dependencies and is isolated to nightly. |
+| CBMC | nightly | 6.10.0 | Runs the pinned Ubuntu package and bounded check in an isolated nightly job. |
+| Quint | nightly | 0.32.0 | Uses the official single binary for typecheck/test with a fixed seed and TypeScript backend. |
+| Kani Rust Verifier | optional/manual | 0.67.0 | Requires a pinned Rust nightly, so it is limited to explicit manual dispatch. |
+| TLA+ Toolbox | documentation-only | — | GUI/editor environment; outside this repository's CLI guarantee. |
+| TLA+ VS Code extension | documentation-only | — | Editor support is separate from CLI checks and its extension version is not pinned. |
+| Community Z Tools (CZT) | documentation-only | — | Reference-only Z tooling with no executable asset. |
+| FDR | documentation-only | — | CSPM examples are shown, but distribution/licensing and CI are not pinned. |
+| ProB | documentation-only | — | Mentioned only; no executable asset or pinned environment. |
+| PAT | documentation-only | — | Mentioned only; no executable asset or pinned environment. |
+| nuXmv | documentation-only | — | Introduced as distinct from NuSMV; CI guarantees NuSMV only. |
+| Java PathFinder | documentation-only | — | Mentioned as an option/exercise; no executable asset. |
+| UPPAAL | documentation-only | — | Not automated due to GUI, licensing, and distribution constraints. |
+| TIMES | documentation-only | — | Reference-only real-time verification tool. |
+| Rocq / Coq | documentation-only | — | No pinned proof project, opam switch, or library set. |
+| Lean 4 / Lake / mathlib / elan | documentation-only | — | No proof project or dependency revision; the Linux distribution is also large. |
+| Isabelle/HOL | documentation-only | — | Reference-only; no pinned session/build environment. |
+| Agda | documentation-only | — | Reference-only; no pinned project or libraries. |
+| HOL4 | documentation-only | — | Mentioned as an Aeneas target; no execution contract. |
+| F* | documentation-only | — | Mentioned as a target/related technology; no execution contract. |
+| Frama-C | documentation-only | — | Reference-only; plugin and solver configuration are not pinned. |
+| VeriFast | documentation-only | — | Reference-only; no executable asset. |
+| SPARK | documentation-only | — | Industrial toolchain/licensing environment is not pinned. |
+| Why3 | documentation-only | — | Execution configuration including backend solvers is not pinned. |
+| Verus | documentation-only | — | Rust/Z3/revision execution stack is not pinned. |
+| Creusot | documentation-only | — | Why3/solver/Rust combination is not pinned. |
+| Prusti / Viper | documentation-only | — | Rust/Viper toolchain and executable asset are not pinned. |
+| Aeneas / Charon | documentation-only | — | No pinned end-to-end contract including a proof target. |
+| Z3 | documentation-only | — | Indirect use by other tools is not counted as a standalone solver guarantee. |
+| cvc5 / CVC4 | documentation-only | — | Reference-only; no pinned standalone solver asset. |
+| Yices | documentation-only | — | Reference-only; no pinned executable asset. |
+| MathSAT | documentation-only | — | Reference-only; licensing/distribution environment is not pinned. |
+| SCADE | documentation-only | — | Commercial/GUI toolchain; not a mandatory CI dependency. |
+| Simulink | documentation-only | — | Industry-case reference only; no licensed environment is pinned. |
+| SAW | documentation-only | — | Industry-case reference; no s2n verification asset is included. |
+| Cedar Analysis | documentation-only | — | Service/API and tools evolve; no policy asset is pinned. |
+| Bedrock Guardrails Automated Reasoning checks | documentation-only | — | External service/region/API constraints are not mandatory CI dependencies. |
+| Solidity SMTChecker | documentation-only | — | Solidity/compiler/solver stack and contract asset are not pinned. |
+| Aptos Move Prover | documentation-only | — | Move toolchain and contract asset are not pinned. |
+| Certora Prover | documentation-only | — | External/industrial toolchain is not a mandatory CI dependency. |
+| LeanDojo | documentation-only | — | Reference-only AI proof-assistance evaluation framework. |
+| Lean Copilot | documentation-only | — | Reference-only AI proof assistance; model/project not pinned. |
+| AlphaProof / AlphaGeometry 2 | documentation-only | — | Research-result reference with no redistributable CLI contract. |
+| DeepSeek-Prover-V2 | documentation-only | — | Research-result reference; model/runtime not pinned. |
+| ProofGym | documentation-only | — | Evaluation-framework reference; dataset/runtime not pinned. |
+| APOLLO | documentation-only | — | Research-result reference; no execution contract. |
+<!-- tool-inventory:end -->
+
+Every executable entry states its timeout, memory budget, seed, scope, depth, and bound.
+Artifacts record the tool version, command, per-file SHA-256 and aggregate input hash, exit code, stdout/stderr, and distinct `success`, `counterexample`, `unknown`, timeout, and resource-exhaustion outcomes.
+Retention is 14 days; stdout/stderr is limited to 16 MiB per entry and tool output to 64 MiB per entry.
+
+- `quint-counter`: typechecks and tests [examples/quint/counter.qnt](../../../examples/quint/counter.qnt) with Quint 0.32.0, the bundled TypeScript evaluator, seed `20260716`, and one sample per test. It does not implicitly download the separately distributed Rust evaluator.
+<!-- example-contract: quint-counter -->
+【Tool-compliant (runs as-is)】
+```bash
+node scripts/run-example-manifest.js --id quint-counter
+```
+
+- `kani-abs`: verifies the `abs_is_nonnegative` harness in [examples/kani/abs.rs](../../../examples/kani/abs.rs) with Kani 0.67.0, a pinned Rust nightly, and unwind bound 1. Because it requires an additional download and execution budget, it is `optional/manual` and never starts from a PR or schedule.
+<!-- example-contract: kani-abs -->
+【Tool-compliant (runs as-is)】
+```bash
+node scripts/run-example-manifest.js --id kani-abs
+```
+
+Version updates are checked monthly against the official release/tag and asset digest, then reviewed in a dedicated version-only PR with a clean-cache run and output-contract comparison.
+Arbitrary release assets are not package references managed by Dependabot or Renovate and must not be treated as automatically updated.
 
 ## Recommended: devcontainer (Fastest Reproducible Path)
 
@@ -69,7 +153,7 @@ Use the same flow as in the devcontainer: run `bash tools/bootstrap.sh` to fetch
 
 ### Additional prerequisites for the nightly lane (Ubuntu 24.04 x86-64)
 
-`node scripts/run-example-manifest.js --lane nightly` executes SPIN 6.5.2, NuSMV 2.7.1, and CBMC 6.10.0. In addition to the minimum tool set, it needs the build prerequisites below. NuSMV is built locally from the official source archive, while CBMC is extracted from the pinned Ubuntu 24.04 x86-64 deb, so this procedure targets that environment or a compatible one.
+`node scripts/run-example-manifest.js --lane nightly` executes six entries across SPIN 6.5.2, NuSMV 2.7.1, CBMC 6.10.0, and Quint 0.32.0. SPIN and NuSMV need the source-build prerequisites below. CBMC uses a pinned Ubuntu 24.04 x86-64 deb, and Quint uses a pinned single binary for the same platform, so this procedure targets that environment or a compatible one.
 
 ```bash
 sudo apt-get update

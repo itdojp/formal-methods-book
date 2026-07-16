@@ -2,11 +2,12 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "$REPO_ROOT/tools/lib/tool-manifest.sh"
 
 # Ensure tools are available.
 bash "$REPO_ROOT/tools/bootstrap.sh" --tool apalache
 
-: "${APALACHE_VERSION:=0.52.1}"
+APALACHE_VERSION="$(tool_manifest_field apalache version)"
 APALACHE_BIN="$REPO_ROOT/tools/.cache/apalache-${APALACHE_VERSION}/bin/apalache-mc"
 
 usage() {

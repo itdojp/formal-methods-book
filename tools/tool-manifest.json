@@ -1,0 +1,981 @@
+{
+  "schemaVersion": 1,
+  "policy": {
+    "canonicalJapaneseSources": "book-config.ja.json reader pages; src/ja/appendices/appendices_draft.md is excluded",
+    "artifact": {
+      "retentionDays": 14,
+      "maxOutputBytes": 16777216,
+      "maxBytesPerExample": 67108864
+    },
+    "updates": {
+      "cadence": "monthly",
+      "automation": "Release assets are not Dependabot/Renovate package references; update by a dedicated audited PR.",
+      "procedure": [
+        "Confirm the official release/tag and immutable commit where available.",
+        "Record the official asset URL and SHA-256 digest.",
+        "Run manifest validation and the affected executable lane from a clean cache.",
+        "Review command/schema/output changes and merge the version-only PR after CI."
+      ]
+    }
+  },
+  "tools": [
+    {
+      "id": "alloy",
+      "name": "Alloy Analyzer",
+      "aliases": [
+        "Alloy Analyzer",
+        "Alloy 6",
+        "Alloy"
+      ],
+      "lane": "pr-quick",
+      "reason": {
+        "ja": "小さい scope の4例を短時間で再現できる。",
+        "en": "Four small-scope examples are reproducible within the PR budget."
+      },
+      "version": "6.2.0",
+      "wrapper": "tools/alloy-check.sh",
+      "distribution": {
+        "url": "https://github.com/AlloyTools/org.alloytools.alloy/releases/download/v6.2.0/org.alloytools.alloy.dist.jar",
+        "sha256": "6b8c1cb5bc93bedfc7c61435c4e1ab6e688a242dc702a394628d9a9801edb78d"
+      },
+      "platforms": [
+        "ubuntu-x86_64"
+      ],
+      "sources": [
+        "https://github.com/AlloyTools/org.alloytools.alloy/releases/tag/v6.2.0"
+      ]
+    },
+    {
+      "id": "tlc",
+      "name": "TLC",
+      "aliases": [
+        "TLC"
+      ],
+      "lane": "pr-quick",
+      "reason": {
+        "ja": "固定 cfg・worker・seed・timeout で有限モデルを検査する。",
+        "en": "Checks a finite model with pinned cfg, worker count, seed, and timeout."
+      },
+      "version": "1.7.4",
+      "wrapper": "tools/tlc-run.sh",
+      "distribution": {
+        "url": "https://github.com/tlaplus/tlaplus/releases/download/v1.7.4/tla2tools.jar",
+        "sha256": "936a262061c914694dfd669a543be24573c45d5aa0ff20a8b96b23d01e050e88"
+      },
+      "platforms": [
+        "ubuntu-x86_64"
+      ],
+      "sources": [
+        "https://github.com/tlaplus/tlaplus/releases/tag/v1.7.4"
+      ]
+    },
+    {
+      "id": "apalache",
+      "name": "Apalache",
+      "aliases": [
+        "Apalache"
+      ],
+      "lane": "pr-quick",
+      "reason": {
+        "ja": "短い探索長を固定した不変条件検査を毎PRで再現できる。",
+        "en": "A short bounded invariant check is reproducible on every PR."
+      },
+      "version": "0.52.1",
+      "wrapper": "tools/apalache-check.sh",
+      "distribution": {
+        "url": "https://github.com/apalache-mc/apalache/releases/download/v0.52.1/apalache-0.52.1.zip",
+        "sha256": "669ed18b5df000e05a37ab721f3227528aa6a82a038e5eee30b2b857bff6543f"
+      },
+      "platforms": [
+        "ubuntu-x86_64"
+      ],
+      "sources": [
+        "https://github.com/apalache-mc/apalache/releases/tag/v0.52.1"
+      ]
+    },
+    {
+      "id": "dafny",
+      "name": "Dafny",
+      "aliases": [
+        "Dafny"
+      ],
+      "lane": "pr-quick",
+      "reason": {
+        "ja": "最小検証例が高速で安定している。",
+        "en": "The minimal verification example is fast and stable."
+      },
+      "version": "4.11.0",
+      "wrapper": "tools/dafny-verify.sh",
+      "distribution": {
+        "url": "https://github.com/dafny-lang/dafny/releases/download/v4.11.0/dafny-4.11.0-x64-ubuntu-22.04.zip",
+        "sha256": "a46a9ff7cdd720f7955854c78e95df13f4cfe6b80691b05f8654fe19e8267179"
+      },
+      "platforms": [
+        "ubuntu-x86_64"
+      ],
+      "sources": [
+        "https://github.com/dafny-lang/dafny/releases/tag/v4.11.0"
+      ]
+    },
+    {
+      "id": "spin",
+      "name": "SPIN",
+      "aliases": [
+        "SPIN"
+      ],
+      "lane": "nightly",
+      "reason": {
+        "ja": "source buildと状態探索をtool単位nightlyで分離する。",
+        "en": "Source build and state exploration run in an isolated nightly tool job."
+      },
+      "version": "6.5.2",
+      "wrapper": "tools/spin-check.sh",
+      "distribution": {
+        "url": "https://github.com/nimble-code/Spin/archive/4883fbb1b1ef1f75fa9dda78efe1ad8910baf819.tar.gz",
+        "sha256": "6f4963a4d6ca38f1af9ceaa76a815fbbd92e7ed7f2c424f1af88f67ec3f289f6"
+      },
+      "platforms": [
+        "ubuntu-x86_64"
+      ],
+      "sources": [
+        "https://github.com/nimble-code/Spin/commit/4883fbb1b1ef1f75fa9dda78efe1ad8910baf819"
+      ],
+      "commit": "4883fbb1b1ef1f75fa9dda78efe1ad8910baf819"
+    },
+    {
+      "id": "nusmv",
+      "name": "NuSMV",
+      "aliases": [
+        "NuSMV"
+      ],
+      "lane": "nightly",
+      "reason": {
+        "ja": "依存を伴う公式source buildのためnightlyへ分離する。",
+        "en": "The official source build has extra dependencies and is isolated to nightly."
+      },
+      "version": "2.7.1",
+      "wrapper": "tools/nusmv-check.sh",
+      "distribution": {
+        "url": "https://nusmv.fbk.eu/distrib/2.7.1/NuSMV-2.7.1.tar.xz",
+        "sha256": "f1e11931f71d98aa9b84181eed67db584d7111100c2e967c904a31c15f823f60"
+      },
+      "platforms": [
+        "ubuntu-x86_64"
+      ],
+      "sources": [
+        "https://nusmv.fbk.eu/downloads.html"
+      ]
+    },
+    {
+      "id": "cbmc",
+      "name": "CBMC",
+      "aliases": [
+        "CBMC"
+      ],
+      "lane": "nightly",
+      "reason": {
+        "ja": "Ubuntu固定配布と有界検査をtool単位nightlyで実行する。",
+        "en": "Runs the pinned Ubuntu package and bounded check in an isolated nightly job."
+      },
+      "version": "6.10.0",
+      "wrapper": "tools/cbmc-check.sh",
+      "distribution": {
+        "url": "https://github.com/diffblue/cbmc/releases/download/cbmc-6.10.0/ubuntu-24.04-cbmc-6.10.0-Linux.deb",
+        "sha256": "d716c219c5318a54f5298f9d5f66766d599e2e37bede33224437a8ad487fc504"
+      },
+      "platforms": [
+        "ubuntu-x86_64"
+      ],
+      "sources": [
+        "https://github.com/diffblue/cbmc/releases/tag/cbmc-6.10.0"
+      ]
+    },
+    {
+      "id": "quint",
+      "name": "Quint",
+      "aliases": [
+        "Quint"
+      ],
+      "lane": "nightly",
+      "reason": {
+        "ja": "公式single binaryでtypecheck/testを固定seedかつTypeScript backendで再現する。",
+        "en": "Uses the official single binary for typecheck/test with a fixed seed and TypeScript backend."
+      },
+      "version": "0.32.0",
+      "wrapper": "tools/quint-check.sh",
+      "distribution": {
+        "url": "https://github.com/quint-co/quint/releases/download/v0.32.0/quint-linux-amd64",
+        "sha256": "939b64095b706017f2f202c6f99c860c40be7c31bddc2b98557316e50f42cd7f"
+      },
+      "platforms": [
+        "ubuntu-x86_64"
+      ],
+      "sources": [
+        "https://github.com/quint-co/quint/releases/tag/v0.32.0"
+      ],
+      "commit": "fd772606588b40def9978d8c82da69c2db7a0e3b"
+    },
+    {
+      "id": "kani",
+      "name": "Kani Rust Verifier",
+      "aliases": [
+        "Kani Rust Verifier",
+        "Kani"
+      ],
+      "lane": "optional",
+      "reason": {
+        "ja": "固定Rust nightlyを追加取得するため明示的manual dispatchに限定する。",
+        "en": "Requires a pinned Rust nightly, so it is limited to explicit manual dispatch."
+      },
+      "version": "0.67.0",
+      "wrapper": "tools/kani-check.sh",
+      "distribution": {
+        "url": "https://github.com/model-checking/kani/releases/download/kani-0.67.0/kani-0.67.0-x86_64-unknown-linux-gnu.tar.gz",
+        "sha256": "3b5f7afd3b51603ee720db7bc1bc4fe46b5a4f5d36daad9939c4b4c658b51ac0"
+      },
+      "platforms": [
+        "ubuntu-x86_64"
+      ],
+      "sources": [
+        "https://github.com/model-checking/kani/releases/tag/kani-0.67.0"
+      ],
+      "commit": "4feaaad1d6a2378a6ff6caa3b4fc5d6999c7bb5d",
+      "rustToolchain": "nightly-2025-11-21-x86_64-unknown-linux-gnu",
+      "embeddedCbmcVersion": "6.8.0"
+    },
+    {
+      "id": "tla-toolbox",
+      "name": "TLA+ Toolbox",
+      "aliases": [
+        "TLA+ Toolbox"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "GUI/編集環境であり、本リポジトリのCLI保証対象外。",
+        "en": "GUI/editor environment; outside this repository's CLI guarantee."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "tla-vscode",
+      "name": "TLA+ VS Code extension",
+      "aliases": [
+        "VS Code 拡張",
+        "VS Code extension"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "編集支援はCLI検査と分離し、extension版を固定していない。",
+        "en": "Editor support is separate from CLI checks and its extension version is not pinned."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "czt",
+      "name": "Community Z Tools (CZT)",
+      "aliases": [
+        "Community Z Tools",
+        "CZT"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "Zの一次情報導線のみで実行assetがない。",
+        "en": "Reference-only Z tooling with no executable asset."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "fdr",
+      "name": "FDR",
+      "aliases": [
+        "FDR"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "CSPM例は掲載するが、配布・licenseを含むCI環境を固定していない。",
+        "en": "CSPM examples are shown, but distribution/licensing and CI are not pinned."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "prob",
+      "name": "ProB",
+      "aliases": [
+        "ProB"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "紹介のみで実行assetと固定環境がない。",
+        "en": "Mentioned only; no executable asset or pinned environment."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "pat",
+      "name": "PAT",
+      "aliases": [
+        "PAT"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "紹介のみで実行assetと固定環境がない。",
+        "en": "Mentioned only; no executable asset or pinned environment."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "nuxmv",
+      "name": "nuXmv",
+      "aliases": [
+        "nuXmv"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "NuSMVとは別製品として紹介するが、CIはNuSMVだけを保証する。",
+        "en": "Introduced as distinct from NuSMV; CI guarantees NuSMV only."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "java-pathfinder",
+      "name": "Java PathFinder",
+      "aliases": [
+        "Java PathFinder",
+        "JAVA PATHFINDER"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "紹介・演習候補のみで実行assetがない。",
+        "en": "Mentioned as an option/exercise; no executable asset."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "uppaal",
+      "name": "UPPAAL",
+      "aliases": [
+        "UPPAAL"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "GUI/license/配布条件を伴い自動化していない。",
+        "en": "Not automated due to GUI, licensing, and distribution constraints."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "times",
+      "name": "TIMES",
+      "aliases": [
+        "TIMES"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "リアルタイム検証の紹介のみ。",
+        "en": "Reference-only real-time verification tool."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "rocq",
+      "name": "Rocq / Coq",
+      "aliases": [
+        "Rocq",
+        "Coq"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "証明project、opam switch、library版を固定していない。",
+        "en": "No pinned proof project, opam switch, or library set."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "lean",
+      "name": "Lean 4 / Lake / mathlib / elan",
+      "aliases": [
+        "Lean 4",
+        "Lean",
+        "Lake",
+        "mathlib",
+        "elan"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "proof projectと依存revisionがなく、Linux配布物も大きいため未実行。",
+        "en": "No proof project or dependency revision; the Linux distribution is also large."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "isabelle",
+      "name": "Isabelle/HOL",
+      "aliases": [
+        "Isabelle/HOL",
+        "Isabelle"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "紹介のみでsession/build環境を固定していない。",
+        "en": "Reference-only; no pinned session/build environment."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "agda",
+      "name": "Agda",
+      "aliases": [
+        "Agda"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "紹介のみでprojectとlibrary版を固定していない。",
+        "en": "Reference-only; no pinned project or libraries."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "hol4",
+      "name": "HOL4",
+      "aliases": [
+        "HOL4"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "Aeneas接続先として紹介するだけで実行契約がない。",
+        "en": "Mentioned as an Aeneas target; no execution contract."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "fstar",
+      "name": "F*",
+      "aliases": [
+        "F*"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "接続先/関連技術として紹介するだけで実行契約がない。",
+        "en": "Mentioned as a target/related technology; no execution contract."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "frama-c",
+      "name": "Frama-C",
+      "aliases": [
+        "Frama-C"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "紹介のみでplugin/solver構成を固定していない。",
+        "en": "Reference-only; plugin and solver configuration are not pinned."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "verifast",
+      "name": "VeriFast",
+      "aliases": [
+        "VeriFast"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "紹介のみで実行assetがない。",
+        "en": "Reference-only; no executable asset."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "spark",
+      "name": "SPARK",
+      "aliases": [
+        "SPARK"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "産業toolchain/licenseを含む実行環境を固定していない。",
+        "en": "Industrial toolchain/licensing environment is not pinned."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "why3",
+      "name": "Why3",
+      "aliases": [
+        "Why3"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "backend solverを含む実行構成を固定していない。",
+        "en": "Execution configuration including backend solvers is not pinned."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "verus",
+      "name": "Verus",
+      "aliases": [
+        "Verus"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "Rust/Z3/revisionを含む実行構成を固定していない。",
+        "en": "Rust/Z3/revision execution stack is not pinned."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "creusot",
+      "name": "Creusot",
+      "aliases": [
+        "Creusot"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "Why3/solver/Rustの組合せを固定していない。",
+        "en": "Why3/solver/Rust combination is not pinned."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "prusti-viper",
+      "name": "Prusti / Viper",
+      "aliases": [
+        "Prusti",
+        "Viper"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "Rust/Viper toolchainと実行assetを固定していない。",
+        "en": "Rust/Viper toolchain and executable asset are not pinned."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "aeneas-charon",
+      "name": "Aeneas / Charon",
+      "aliases": [
+        "Aeneas",
+        "Charon"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "変換先を含むend-to-end contractを固定していない。",
+        "en": "No pinned end-to-end contract including a proof target."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "z3",
+      "name": "Z3",
+      "aliases": [
+        "Z3"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "他toolの間接依存をsolver単体の実行保証には数えない。",
+        "en": "Indirect use by other tools is not counted as a standalone solver guarantee."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "cvc5",
+      "name": "cvc5 / CVC4",
+      "aliases": [
+        "cvc5",
+        "CVC4"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "紹介のみでsolver単体assetを固定していない。",
+        "en": "Reference-only; no pinned standalone solver asset."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "yices",
+      "name": "Yices",
+      "aliases": [
+        "Yices"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "紹介のみで実行assetを固定していない。",
+        "en": "Reference-only; no pinned executable asset."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "mathsat",
+      "name": "MathSAT",
+      "aliases": [
+        "MathSAT"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "紹介のみでlicense/配布を含む環境を固定していない。",
+        "en": "Reference-only; licensing/distribution environment is not pinned."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "scade",
+      "name": "SCADE",
+      "aliases": [
+        "SCADE"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "商用/GUI toolchainでありCI必須化しない。",
+        "en": "Commercial/GUI toolchain; not a mandatory CI dependency."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "simulink",
+      "name": "Simulink",
+      "aliases": [
+        "Simulink"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "産業事例の紹介のみでlicense環境を固定していない。",
+        "en": "Industry-case reference only; no licensed environment is pinned."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "saw",
+      "name": "SAW",
+      "aliases": [
+        "SAW"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "産業事例の参照のみでs2n検証assetを同梱していない。",
+        "en": "Industry-case reference; no s2n verification asset is included."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "cedar-analysis",
+      "name": "Cedar Analysis",
+      "aliases": [
+        "Cedar Analysis",
+        "Cedar"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "service/APIとtool群が変化し、対象policy assetを固定していない。",
+        "en": "Service/API and tools evolve; no policy asset is pinned."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "bedrock-ar",
+      "name": "Bedrock Guardrails Automated Reasoning checks",
+      "aliases": [
+        "Bedrock Guardrails Automated Reasoning",
+        "Automated Reasoning checks"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "外部service、region、API条件を固定CIへ必須化しない。",
+        "en": "External service/region/API constraints are not mandatory CI dependencies."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "solidity-smtchecker",
+      "name": "Solidity SMTChecker",
+      "aliases": [
+        "Solidity SMTChecker",
+        "SMTChecker"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "Solidity/compiler/solver構成とcontract assetを固定していない。",
+        "en": "Solidity/compiler/solver stack and contract asset are not pinned."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "aptos-move-prover",
+      "name": "Aptos Move Prover",
+      "aliases": [
+        "Aptos Move Prover",
+        "Move Prover"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "Move toolchainとcontract assetを固定していない。",
+        "en": "Move toolchain and contract asset are not pinned."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "certora-prover",
+      "name": "Certora Prover",
+      "aliases": [
+        "Certora Prover",
+        "Certora"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "外部/産業toolchainを必須CIへ組み込まない。",
+        "en": "External/industrial toolchain is not a mandatory CI dependency."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "leandojo",
+      "name": "LeanDojo",
+      "aliases": [
+        "LeanDojo"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "AI証明支援の評価基盤として紹介するだけ。",
+        "en": "Reference-only AI proof-assistance evaluation framework."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "lean-copilot",
+      "name": "Lean Copilot",
+      "aliases": [
+        "Lean Copilot"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "AI証明支援の紹介のみでmodel/projectを固定していない。",
+        "en": "Reference-only AI proof assistance; model/project not pinned."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "alphaproof-geometry",
+      "name": "AlphaProof / AlphaGeometry 2",
+      "aliases": [
+        "AlphaProof",
+        "AlphaGeometry 2",
+        "AlphaGeometry"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "研究成果の紹介で、再配布可能なCLI契約がない。",
+        "en": "Research-result reference with no redistributable CLI contract."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "deepseek-prover",
+      "name": "DeepSeek-Prover-V2",
+      "aliases": [
+        "DeepSeek-Prover-V2",
+        "DeepSeek-Prover"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "研究成果の紹介でmodel/runtimeを固定していない。",
+        "en": "Research-result reference; model/runtime not pinned."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "proofgym",
+      "name": "ProofGym",
+      "aliases": [
+        "ProofGym"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "評価基盤の紹介のみでdataset/runtimeを固定していない。",
+        "en": "Evaluation-framework reference; dataset/runtime not pinned."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    },
+    {
+      "id": "apollo",
+      "name": "APOLLO",
+      "aliases": [
+        "APOLLO"
+      ],
+      "lane": "documentation-only",
+      "reason": {
+        "ja": "研究成果の紹介のみで実行contractがない。",
+        "en": "Research-result reference; no execution contract."
+      },
+      "version": null,
+      "wrapper": null,
+      "distribution": null,
+      "platforms": [],
+      "sources": []
+    }
+  ]
+}
