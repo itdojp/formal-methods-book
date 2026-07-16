@@ -1,0 +1,2 @@
+# docs/** is deterministically generated from canonical src/** and edition metadata.
+docs/** linguist-generated=true
