@@ -6,13 +6,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-b.md"
 translation_status: "partial"
-translation_source_commit: "a4be778350d24c089d00bdce6d31fd736cc6cf1e"
+translation_source_commit: "abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4"
 translation_reviewed_at: "2026-07-16"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Appendix B: Tool Setup and Verification Quick Start
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`a4be778350d2`](https://github.com/itdojp/formal-methods-book/commit/a4be778350d24c089d00bdce6d31fd736cc6cf1e) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`abf0ec3d6e65`](https://github.com/itdojp/formal-methods-book/commit/abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4) on 2026-07-16.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 This appendix gives the shortest reproducible path to running the book's companion examples. It prioritizes **reproducibility (minimizing environment differences)** over local customization.
@@ -34,7 +34,7 @@ You do not need every tool before you begin reading. By following this appendix,
 Notes:
 - Theorem provers such as `Rocq` and `Isabelle` have larger dependency footprints, so this appendix primarily points to primary sources for them in Appendix E.
 - `Lean 4` is included here only as a **minimal setup** at the end of the appendix as an optional path through the book.
-- SPIN, NuSMV, CBMC, Quint, PRISM, Tamarin, and SymbiYosys belong to the `nightly` lane, and this appendix also documents one `cvc5` + `Carcara` proof-certificate recheck path there. Additional prerequisites for source builds and archive-layout validation are listed below.
+- SPIN, NuSMV, CBMC, Quint, PRISM, Tamarin, SymbiYosys, and RTLola belong to the `nightly` lane, and this appendix also documents one `cvc5` + `Carcara` proof-certificate recheck path there. Additional prerequisites for source builds and archive-layout validation are listed below.
 
 ## Tool Lane Inventory and Execution Guarantee {#tool-lane-inventory}
 
@@ -84,6 +84,7 @@ Indirect use of an embedded solver does not constitute a standalone execution gu
 | Aeneas / Charon | documentation-only | — | No pinned end-to-end contract including a proof target. |
 | Z3 | documentation-only | — | Indirect use by other tools is not counted as a standalone solver guarantee. |
 | cvc5 / CVC4 | nightly | 1.3.4 | Verifies and re-extracts a pinned official solver asset, rebuilds an independent Alethe checker from source nightly, and rechecks an UNSAT certificate. |
+| RTLola | nightly | 0.1.2 | Safely re-extracts a pinned crates.io source package, builds the CLI with a pinned Rust toolchain and Cargo.lock, and monitors fictional finite CSV traces offline. |
 | Yices | documentation-only | — | Reference-only; no pinned executable asset. |
 | MathSAT | documentation-only | — | Reference-only; licensing/distribution environment is not pinned. |
 | SCADE | documentation-only | — | Commercial/GUI toolchain; not a mandatory CI dependency. |
@@ -107,6 +108,9 @@ The cvc5 `nightly` classification in the inventory above denotes the narrow
 `cvc5 1.3.4` to `Alethe` to `Carcara 1.1.0` recheck path, not a blanket
 guarantee for cvc5 as a whole.
 
+The RTLola `nightly` classification is likewise limited to two narrow contracts that monitor fictional three-event finite traces offline.
+They regress zero violations for the normal trace and one detection for a known violating trace; they do not guarantee all RTLola features, complete production-event collection, or correctness of every execution.
+
 Every executable entry states its timeout, memory budget, seed, scope, depth, and bound.
 Artifacts record the tool version, command, per-file SHA-256 and aggregate input hash, exit code, stdout/stderr, and distinct `success`, `counterexample`, `unknown`, timeout, and resource-exhaustion outcomes.
 Retention is 14 days; stdout/stderr is limited to 16 MiB per entry and tool output to 64 MiB per entry.
@@ -127,6 +131,7 @@ Tamarin Prover 1.12.0 (GPL-3.0) and its supported Maude 3.5.1 (GPL-2.0-or-later)
 SymbiYosys is re-extracted on every run from the SHA-256-pinned official OSS CAD Suite 20260716 Linux x64 archive. Bootstrap checks archive paths, duplicate entries, resolved symlink targets, special files, the suite version, and the SBY, Yosys, and Bitwuzla versions and source commits recorded in bundled metadata and license files. The suite release-tag commit is recorded separately as source provenance rather than treated as an identity embedded in the distribution. SBY and Yosys use the ISC license and Bitwuzla uses MIT; other bundled components retain their own licenses. Artifacts keep normalized results and only the required VCD traces, not the suite archive, extracted binaries, or solver models.
 Only input hashes, standard output, and expected-value comparisons are retained.
 Kani is re-extracted from its verified archive on every run, and the dated Rust channel manifest is also verified by SHA-256. rustup then verifies the Rust components against the checksums recorded in that manifest.
+RTLola CLI 0.1.2 is built from an Apache-2.0 crates.io source package pinned by SHA-256. Bootstrap safely re-extracts it on every run, accepting the standard implicit single-root archive layout while checking paths, member count, expanded size, and file types. It verifies the embedded `Cargo.lock` and `.cargo_vcs_info.json`, then performs a `--locked` build with pinned Rust 1.87.0. Artifacts retain normalized verdicts and input hashes, not the source package, binary, or raw operational logs.
 <!-- example-contract: kani-abs -->
 【Tool-compliant (runs as-is)】
 ```bash
@@ -184,7 +189,7 @@ Use the same flow as in the devcontainer: run `bash tools/bootstrap.sh` to fetch
 
 ### Additional prerequisites for the nightly lane (Ubuntu 24.04 x86-64)
 
-`node scripts/run-example-manifest.js --lane nightly` executes 12 entries across SPIN 6.5.2, NuSMV 2.7.1, CBMC 6.10.0, Quint 0.32.0, PRISM 4.10.1, Tamarin Prover 1.12.0, and SymbiYosys. SPIN and NuSMV need the source-build prerequisites below, and SymbiYosys uses Python 3 to validate its archive layout. CBMC uses a pinned Ubuntu 24.04 x86-64 deb, Quint uses a pinned single binary, PRISM uses a pinned official archive of roughly 41 MB, Tamarin uses two pinned official archives with supported Maude 3.5.1, and SymbiYosys uses an approximately 733 MB OSS CAD Suite 20260716 Linux x64 archive, so this procedure targets that environment or a compatible one.
+`node scripts/run-example-manifest.js --lane nightly` executes 15 entries across SPIN 6.5.2, NuSMV 2.7.1, CBMC 6.10.0, Quint 0.32.0, PRISM 4.10.1, Tamarin Prover 1.12.0, SymbiYosys, cvc5 / Carcara, and RTLola. SPIN, NuSMV, Carcara, and RTLola need source-build prerequisites, and SymbiYosys uses Python 3 to validate its archive layout. CBMC uses a pinned Ubuntu 24.04 x86-64 deb, Quint uses a pinned single binary, PRISM uses a pinned official archive of roughly 41 MB, Tamarin uses two pinned official archives with supported Maude 3.5.1, and SymbiYosys uses an approximately 733 MB OSS CAD Suite 20260716 Linux x64 archive, so this procedure targets that environment or a compatible one.
 
 ```bash
 sudo apt-get update
@@ -237,6 +242,26 @@ generated proof certificate, stdout/stderr, input hashes, and version metadata.
 Even when the checker passes, the result only validates the encoded problem as
 checked; it does not validate the natural-language requirement, the original
 specification, the encoder, or unmodeled assumptions.
+
+### Additional prerequisites for runtime verification (RTLola)
+
+`rtlola-auth-before-sensitive-normal` and `rtlola-auth-before-sensitive-violation` build the pinned RTLola CLI source package with Rust 1.87.0 and monitor relative-timestamp CSV traces offline.
+The target is Ubuntu 24.04 x86-64 or a compatible Linux environment.
+
+```bash
+sudo apt-get update
+sudo apt-get install --yes build-essential
+
+rustup --version
+cargo --version
+
+node scripts/run-example-manifest.js --id rtlola-auth-before-sensitive-normal
+node scripts/run-example-manifest.js --id rtlola-auth-before-sensitive-violation
+```
+
+Bootstrap matches the Rust channel manifest, rustc/Cargo commits, host, `.crate` digest, embedded `Cargo.lock`, and upstream commit.
+The two contracts process fixed teaching traces; production logs must not be placed in this repository or its CI artifacts.
+The violating entry's `counterexample` is an expected result that regresses the monitor's ability to detect the stated violation.
 
 To rerun only PRISM, use:
 

@@ -6,13 +6,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-e.md"
 translation_status: "partial"
-translation_source_commit: "4c528522f6a4cda22043a64361360cc3850d0fb9"
+translation_source_commit: "abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4"
 translation_reviewed_at: "2026-07-16"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Appendix E: References and Further Reading Paths
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`4c528522f6a4`](https://github.com/itdojp/formal-methods-book/commit/4c528522f6a4cda22043a64361360cc3850d0fb9) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`abf0ec3d6e65`](https://github.com/itdojp/formal-methods-book/commit/abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4) on 2026-07-16.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 This appendix is a **reader-facing guide to primary sources** for the methods, tools, and case studies introduced in the main text. Use it when you want to deepen a chapter, verify a claim against an official source, or decide which tool family to study next.  
@@ -22,7 +22,7 @@ As of July 2026, it reflects naming changes and current mainstream references su
 
 Listing a tool in this appendix does not mean that the repository executes or guarantees it. The sources of truth are
 `tools/tool-manifest.json` and the [lane inventory in Appendix B]({{ '/appendices/appendix-b/#tool-lane-inventory' | relative_url }}).
-Alloy, TLC, Apalache, and Dafny run in `pr-quick`; SPIN, NuSMV, CBMC, Quint, PRISM, Tamarin, and SymbiYosys run in
+Alloy, TLC, Apalache, and Dafny run in `pr-quick`; SPIN, NuSMV, CBMC, Quint, PRISM, Tamarin, SymbiYosys, cvc5 / Carcara, and RTLola run in
 `nightly`; and Kani runs only through explicit `optional/manual` dispatch. Every other tool
 listed here is `documentation-only`: the book does not guarantee a pinned version, execution
 environment, or result for it.
@@ -165,6 +165,31 @@ environment, or result for it.
   - Official Tamarin Prover 1.12.0 release: <https://github.com/tamarin-prover/tamarin-prover/releases/tag/1.12.0>
   - Official Maude download guidance: <https://maude.cs.illinois.edu/get-maude>
   - Official Maude 3.5.1 release: <https://github.com/maude-lang/Maude/releases/tag/Maude3.5.1>
+
+### Runtime Verification (RTLola / MonPoly / RV-Monitor)
+
+This comparison was rechecked against official repositories, distribution pages, and documentation on 2026-07-16.
+Although all three belong to runtime verification, stream specifications, metric temporal logic over logs, and Java instrumentation create different integration boundaries.
+
+| Candidate | Primary integration form | Observed official distribution and maintenance facts | Decision for this book |
+| --- | --- | --- | --- |
+| RTLola | Apply typed input/output streams and triggers to online or offline events | `rtlola-cli 0.1.2` crates.io package, offline CSV, JSON output, and upstream updates during 2025 were confirmed | **Selected**. An immutable package digest, embedded commit and `Cargo.lock`, pinned Rust, and structured verdict can form one nightly contract |
+| MonPoly | Check timestamped logs against metric first-order temporal logic | SourceForge lists 1.1.10 dated 2020-11-25 as the latest distribution | Not selected here. It fits offline log monitoring, but this repository would still need a JSON-verdict, provenance, and current CI-maintenance contract |
+| RV-Monitor | Generate Java monitors from specifications and instrument an application | The official GitHub repository has no release; the latest commit visible at review time was 2020-12-18; MIT license | Not selected here. Java generation and instrumentation create a wider build and integration scope than replaying a fixed CSV teaching trace |
+
+RTLola was selected because it connected most narrowly to **this repository's pinned offline trace and structured-artifact contract**, not because of a blanket feature ranking.
+This is not a claim that MonPoly or RV-Monitor is inferior; a different property language, instrumentation method, or operating platform can change the choice.
+
+- Execution boundary: the book pins RTLola CLI 0.1.2, commit `11b6bb080a5fa487645fb023fb3d0baea6874e73`, Rust 1.87.0, relative-time CSV, and JSON violation output.
+- Assurance boundary: only two fictional three-event normal/violating traces are checked; completeness of event collection, unobserved runs, online operation, and all RTLola features are outside the guarantee.
+- Primary sources:
+  - Official RTLola Interpreter repository: <https://github.com/reactive-systems/RTLola-Interpreter>
+  - RTLola CLI 0.1.2 documentation: <https://docs.rs/rtlola-cli/0.1.2/rtlola_cli/>
+  - RTLola language and CLI source commit: <https://github.com/reactive-systems/RTLola-Interpreter/commit/11b6bb080a5fa487645fb023fb3d0baea6874e73>
+  - Official MonPoly project page: <https://infsec.ethz.ch/research/software/monpoly.html>
+  - Official MonPoly distribution: <https://sourceforge.net/projects/monpoly/>
+  - Official MonPoly source repository: <https://bitbucket.org/monpoly/monpoly/src/master/>
+  - Official RV-Monitor repository: <https://github.com/runtimeverification/rv-monitor>
 
 ## 3) Theorem Proving and Proof Assistants (Rocq / Lean / Isabelle / Agda)
 

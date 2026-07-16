@@ -38,6 +38,8 @@ source_path: "src/ja/glossary/index.md"
 
 <span id="glossary-アサーションassertion" class="search-term-anchor" aria-hidden="true"></span>**アサーション（Assertion）**：成立すべき性質を表明する文。Alloy では `assert`、プログラム検証では実装上のチェック点として用いる。→第4章/第10章
 
+<span id="glossary-runtime-assertion実行時アサーション" class="search-term-anchor" aria-hidden="true"></span>**runtime assertion（実行時アサーション）**：実行中の特定地点で条件を評価し、違反時に停止、例外、log等を発生させるcheck。外部event monitorによるruntime verificationとは、対象範囲と故障分離を区別する。→第11章
+
 <span id="glossary-aeneas" class="search-term-anchor" aria-hidden="true"></span>**Aeneas**：Rustプログラムを Charon/LLBC 経由で F*、Rocq/Coq、HOL4、Lean などの証明支援系へ接続する検証ツールチェーン。変換対象と未対応機能を確認して使う。→第10章
 
 <span id="glossary-amazon-bedrock-guardrails-automated-reasoning-checks" class="search-term-anchor" aria-hidden="true"></span>**Amazon Bedrock Guardrails Automated Reasoning checks**：LLM 出力を、形式化されたポリシーやドメイン知識に照らして検査する Amazon Bedrock Guardrails の機能。LLM そのものの正しさ証明ではなく、ポリシー範囲、自然言語から論理への変換、対応言語、API制限を確認して使う。→第13章/付録E
@@ -84,6 +86,8 @@ source_path: "src/ja/glossary/index.md"
 
 ## F
 
+<span id="glossary-finite-trace-semantics有限トレース意味論" class="search-term-anchor" aria-hidden="true"></span>**finite-trace semantics（有限トレース意味論）**：取得済みの有限event列と終端に対してpropertyの成立、違反、未決定をどう解釈するかを定める意味論。無限trace前提の時相論理をそのまま有限logへ適用しない。→第11章/付録C
+
 <span id="glossary-flp-不可能性定理" class="search-term-anchor" aria-hidden="true"></span>**FLP 不可能性定理**：完全非同期、決定論的プロセス、最大一つの停止故障という仮定の下で、すべての許容実行における合意の終了を保証できないという結果。部分同期、故障検出器、乱択は仮定を変更して問題を扱う。→第7章/付録E
 
 <span id="glossary-不変条件invariant" class="search-term-anchor" aria-hidden="true"></span>**不変条件（Invariant）**：常に成り立つべき性質。模型検査では反例として破れ方が示される。→第3章/第7章/第8章
@@ -128,6 +132,8 @@ source_path: "src/ja/glossary/index.md"
 
 <span id="glossary-model--witnessモデル--証人" class="search-term-anchor" aria-hidden="true"></span>**model / witness（モデル / 証人）**：`sat` のときに solver が返す具体的な割当てや到達例。エンコード済み制約に対する充足例であり、自然言語要件や元仕様の妥当性そのものは別途レビューする。→第12章/付録C
 
+<span id="glossary-monitorability監視可能性" class="search-term-anchor" aria-hidden="true"></span>**monitorability（監視可能性）**：選んだ意味論の下で、propertyの成立または違反を観測された有限prefixから判定できる性質。必要eventが取得可能かというobservabilityとは別に評価する。→第11章/付録C
+
 <span id="glossary-move-prover" class="search-term-anchor" aria-hidden="true"></span>**Move Prover**：Move スマートコントラクトに形式仕様を付け、論理的性質を自動検証するツール。資産・権限・不変条件の検査に有用だが、仕様誤りや未モデル化範囲は別途管理する。→第13章/付録E
 
 <span id="glossary-模型検査model-checking" class="search-term-anchor" aria-hidden="true"></span>**模型検査（Model Checking）**：指定したモデルの状態空間を探索し、指定した性質を検査する手法。網羅性はモデル、性質、探索設定、fairness、完走状態の範囲に相対的であり、実世界全体の正しさを意味しない。→第8章
@@ -137,6 +143,10 @@ source_path: "src/ja/glossary/index.md"
 <span id="glossary-有界探索bounded-analysis" class="search-term-anchor" aria-hidden="true"></span>**有界探索（Bounded analysis）**：要素数、探索深さ、steps などの境界を固定し、その範囲で反例や証跡を探す方法。境界外の一般性は別途検討する。→第4章/第8章
 
 <span id="glossary-有界模型検査bounded-model-checking" class="search-term-anchor" aria-hidden="true"></span>**有界模型検査（Bounded Model Checking）**：遷移回数や入力範囲を有限に制限し、その範囲で性質違反を探索する模型検査。Alloy の`steps`、Apalache/Kaniの探索境界などは、一般証明ではなく境界付き結果として読む。→第4章/第8章/第12章
+
+## O
+
+<span id="glossary-observability可観測性" class="search-term-anchor" aria-hidden="true"></span>**observability（可観測性）**：判定に必要なsystem状態や因果関係をevent、metric、traceから再構成できる度合い。propertyがmonitorableでも、必要eventが欠落すればruntime判定の根拠は得られない。→第11章
 
 ## P
 
@@ -163,6 +173,10 @@ source_path: "src/ja/glossary/index.md"
 <span id="glossary-reward-property" class="search-term-anchor" aria-hidden="true"></span>**reward property**：状態や遷移へ付けたattempt数、時間、energy、cost等の値について、累積値や到達までの期待値を問う確率property。未到達pathが正の確率で残る場合は無限大になり得る。→第8章/付録C
 
 <span id="glossary-rocq旧称-coq" class="search-term-anchor" aria-hidden="true"></span>**Rocq（旧称 Coq）**：依存型理論に基づく証明支援系。2025年以降は The Rocq Prover が公式名称だが、既存資料では Coq 名も残るため併記して扱う。→第9章
+
+<span id="glossary-rtlola" class="search-term-anchor" aria-hidden="true"></span>**RTLola**：typed streamとtriggerでevent列のpropertyを記述し、onlineまたはofflineでmonitorするruntime verification言語・toolchain。本書は固定したCLI 0.1.2による有限CSV traceのoffline契約だけを実行保証する。→第11章/付録B/付録E
+
+<span id="glossary-runtime-verification実行時検証" class="search-term-anchor" aria-hidden="true"></span>**runtime verification（実行時検証）**：実行中または保存済みのevent traceを形式propertyへ照合し、観測trace上の違反、非違反、未決定を判定する方法。違反0件を全可能実行の正しさへ一般化しない。→第11章/付録C
 
 ## S
 

@@ -6,13 +6,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/chapters/chapter12.md"
 translation_status: "partial"
-translation_source_commit: "4c528522f6a4cda22043a64361360cc3850d0fb9"
+translation_source_commit: "abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4"
 translation_reviewed_at: "2026-07-16"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Chapter 12: Tools and Automation
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`4c528522f6a4`](https://github.com/itdojp/formal-methods-book/commit/4c528522f6a4cda22043a64361360cc3850d0fb9) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`abf0ec3d6e65`](https://github.com/itdojp/formal-methods-book/commit/abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4) on 2026-07-16.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 ## 12.1 An Overview of the Tool Ecosystem
@@ -489,6 +489,11 @@ Continuously observe formally stated performance properties—such as response t
 
 **Log-based verification**:  
 Use system logs to verify whether important properties, such as security policies and business rules, continue to hold during operation.
+
+The Chapter 11 RTLola example places a normal trace and a known violating trace in independent entries of the `nightly` matrix.
+The normal entry regresses a zero-violation result, while the violating entry regresses detection of exactly one expected violation; both retain input hashes, pinned tool provenance, `results.json`, `violation-report.json`, and `summary.log` as artifacts.
+This placement is not a substitute for production monitoring: it checks in CI that the property, wrapper, finite-trace semantics, and violation-report contract have not regressed.
+Reanalysis of operational traces still requires explicit PII minimization, retention, access control, and evidence for missing, reordered, or duplicated events instead of unrestricted retention of raw logs.
 
 **Building a feedback loop**:  
 Feed issues found in production back into the development process so that verification content can be improved based on real operational evidence.
