@@ -6,7 +6,6 @@ locale: "ja"
 lang: "ja"
 source_path: "src/ja/chapters/chapter08.md"
 ---
-
 # 第8章：模型検査入門
 
 ミニ要約：

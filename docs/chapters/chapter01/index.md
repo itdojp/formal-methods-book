@@ -6,7 +6,6 @@ locale: "ja"
 lang: "ja"
 source_path: "src/ja/chapters/chapter01.md"
 ---
-
 # 第1章：なぜ形式的手法が必要なのか
 
 ミニ要約：

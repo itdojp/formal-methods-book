@@ -6,7 +6,6 @@ locale: "ja"
 lang: "ja"
 source_path: "src/ja/chapters/chapter12.md"
 ---
-
 # 第12章：ツールと自動化
 
 ミニ要約：

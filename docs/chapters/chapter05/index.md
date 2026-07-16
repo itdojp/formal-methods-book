@@ -6,7 +6,6 @@ locale: "ja"
 lang: "ja"
 source_path: "src/ja/chapters/chapter05.md"
 ---
-
 # 第5章：状態ベース仕様記述 - Z記法の基礎
 
 ミニ要約：

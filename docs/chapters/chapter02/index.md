@@ -6,7 +6,6 @@ locale: "ja"
 lang: "ja"
 source_path: "src/ja/chapters/chapter02.md"
 ---
-
 # 第2章：数学とプログラムの橋渡し
 
 ミニ要約：

@@ -6,7 +6,6 @@ locale: "ja"
 lang: "ja"
 source_path: "src/ja/chapters/chapter10.md"
 ---
-
 # 第10章：プログラム検証
 
 ミニ要約：

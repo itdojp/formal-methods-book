@@ -6,7 +6,6 @@ locale: "ja"
 lang: "ja"
 source_path: "src/ja/chapters/chapter06.md"
 ---
-
 # 第6章：プロセス中心の記述 - CSPによる並行システム
 
 ミニ要約：

@@ -6,7 +6,6 @@ locale: "ja"
 lang: "ja"
 source_path: "src/ja/chapters/chapter09.md"
 ---
-
 # 第9章：定理証明の基礎
 
 ミニ要約：

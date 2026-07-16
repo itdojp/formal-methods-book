@@ -6,7 +6,6 @@ locale: "ja"
 lang: "ja"
 source_path: "src/ja/chapters/chapter04.md"
 ---
-
 # 第4章：軽量形式的手法入門 - Alloy で始める仕様記述
 
 ミニ要約：

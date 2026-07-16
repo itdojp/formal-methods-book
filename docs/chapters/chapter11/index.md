@@ -6,7 +6,6 @@ locale: "ja"
 lang: "ja"
 source_path: "src/ja/chapters/chapter11.md"
 ---
-
 # 第11章：開発プロセスとの統合
 
 ミニ要約：

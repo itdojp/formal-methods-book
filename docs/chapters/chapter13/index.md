@@ -6,7 +6,6 @@ locale: "ja"
 lang: "ja"
 source_path: "src/ja/chapters/chapter13.md"
 ---
-
 # 第13章：事例研究
 
 ミニ要約：

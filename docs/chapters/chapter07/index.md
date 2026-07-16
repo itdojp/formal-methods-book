@@ -6,7 +6,6 @@ locale: "ja"
 lang: "ja"
 source_path: "src/ja/chapters/chapter07.md"
 ---
-
 # 第7章：時間を扱う仕様記述 - TLA+ 入門
 
 ミニ要約：

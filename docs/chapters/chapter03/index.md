@@ -6,7 +6,6 @@ locale: "ja"
 lang: "ja"
 source_path: "src/ja/chapters/chapter03.md"
 ---
-
 # 第3章：仕様記述の基本
 
 ミニ要約：
