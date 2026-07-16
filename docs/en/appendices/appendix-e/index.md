@@ -49,6 +49,9 @@ As of January 2026, it reflects naming changes and current mainstream references
   - Official TLA+ page (Lamport site): <https://lamport.azurewebsites.net/tla/tla.html>
   - TLA+2 (current-version and documentation status): <https://lamport.azurewebsites.net/tla/tla2.html>
   - Leslie Lamport, *Specifying Systems*: <https://lamport.azurewebsites.net/tla/book.html>
+  - Leslie Lamport, *The Specification Language TLA+* (set-theoretic values and semantics): <https://lamport.azurewebsites.net/pubs/lamport-spec-tla-plus.pdf>
+  - *Specifying Systems* chapter draft (TLA+ is untyped; type invariants are explicit): <https://lamport.azurewebsites.net/pubs/spec-book-chap.pdf>
+  - *A PlusCal User's Manual - P-Syntax* (including use of the PlusCal translator and TLC): <https://lamport.azurewebsites.net/tla/p-manual.pdf>
   - TLA+ Hyperbook: <https://lamport.azurewebsites.net/tla/hyperbook.html>
   - `tlaplus/tlaplus` releases (`tla2tools.jar`): <https://github.com/tlaplus/tlaplus/releases>
 
@@ -79,17 +82,20 @@ As of January 2026, it reflects naming changes and current mainstream references
 
 ### SPIN (Promela)
 
-- Purpose: model checking of concurrent systems written in `Promela`, including counterexample traces
+- Purpose: explicit-state model checking of concurrent systems written in `Promela`, including counterexample traces; distinguish full-state search from approximate modes such as bitstate hashing
 - Best after reading: Chapter 6, "Process-Centric Specification — Concurrency with CSP"; Chapter 8, "Introduction to Model Checking"
 - Primary sources:
   - Official page (`spinroot`): <https://spinroot.com/spin/whatispin.html>
+  - SPIN Quick Reference (search, weak fairness, and bitstate hashing): <https://spinroot.com/spin/Man/Quick.html>
 
-### NuSMV
+### NuSMV / nuXmv
 
-- Purpose: model checking over state-transition models, including `CTL` and `LTL`
+- Purpose: NuSMV is the classical symbolic model checker, and nuXmv is its extended successor. When citing results, record the tool name, engine, fairness constraints, timeout, `unknown`, and abstraction used.
 - Best after reading: Chapter 8, "Introduction to Model Checking"
 - Primary sources:
   - Official site: <https://nusmv.fbk.eu/>
+  - nuXmv official site: <https://nuxmv.fbk.eu/>
+  - nuXmv User Manual: <https://nuxmv.fbk.eu/downloads/nuxmv-user-manual.pdf>
 
 ## 3) Theorem Proving and Proof Assistants (Rocq / Lean / Isabelle / Agda)
 
@@ -100,6 +106,9 @@ As of January 2026, it reflects naming changes and current mainstream references
 - Primary sources:
   - Official site: <https://rocq-prover.org/>
   - Release example (`9.0.0`): <https://rocq-prover.org/releases/9.0.0>
+  - Proof mode (`Qed` and `Admitted`): <https://rocq-prover.org/doc/v9.0/refman/proofs/writing-proofs/proof-mode.html>
+  - Core language and kernel: <https://rocq-prover.org/doc/V9.2.0/refman/language/core/index.html>
+  - Assumptions (axioms, hypotheses, and variables): <https://rocq-prover.org/doc/master/refman/language/core/assumptions.html>
 
 ### Lean (Lean 4)
 
@@ -108,6 +117,17 @@ As of January 2026, it reflects naming changes and current mainstream references
 - Primary sources:
   - Official site: <https://lean-lang.org/>
   - `GitHub` (`Lean 4`): <https://github.com/leanprover/lean4>
+  - Lean Reference, Axioms (including the `sorryAx` boundary): <https://lean-lang.org/doc/reference/latest/Axioms/>
+  - Lean Tactic Reference (`admit` / `sorry` and the trust boundary of `native_decide`): <https://lean-lang.org/doc/reference/latest/Tactic-Proofs/Tactic-Reference/>
+
+### Logical Soundness, Completeness, and Semantics
+
+- Purpose: read Chapter 9's soundness and completeness claims relative to a chosen logic, deductive system, and semantics
+- Boundary: do not generalize completeness of classical first-order logic for its standard semantics to standard second-order semantics, higher-order logic, or dependent type theory without qualification
+- Theoretical background:
+  - Stanford Encyclopedia of Philosophy, “Logical Consequence”: <https://plato.stanford.edu/entries/logical-consequence/>
+  - Stanford Encyclopedia of Philosophy, “Kurt Gödel” (the completeness theorem for first-order logic): <https://plato.stanford.edu/entries/goedel/>
+  - Stanford Encyclopedia of Philosophy, “Second-order and Higher-order Logic”: <https://plato.stanford.edu/entries/logic-higher-order/>
 
 ### Isabelle
 
@@ -146,6 +166,7 @@ As of January 2026, it reflects naming changes and current mainstream references
 - Best after reading: Chapter 8, "Introduction to Model Checking"; Chapter 10, "Program Verification"
 - Primary sources:
   - Official site: <https://www.cprover.org/cbmc/>
+  - CBMC Background Concepts (scope of bounded symbolic checking): <https://diffblue.github.io/cbmc/background-concepts.html>
 
 ### VeriFast
 
@@ -179,7 +200,17 @@ As of January 2026, it reflects naming changes and current mainstream references
   - `GitHub` releases: <https://github.com/cvc5/cvc5/releases>
   - Python bindings, when needed: <https://pypi.org/project/cvc5/>
 
-## 6) Industrial Case Studies and Adoption Evidence
+## 6) Distributed-Systems Theory (CAP / FLP and Changed Assumptions)
+
+- Reading rule: read an impossibility theorem as a package of computational model, communication assumptions, failure model, and guaranteed property.
+- Primary sources:
+  - Gilbert and Lynch, CAP theorem: <https://www.cs.princeton.edu/courses/archive/spr22/cos418/papers/cap.pdf>
+  - Fischer, Lynch, and Paterson, FLP: <https://groups.csail.mit.edu/tds/papers/Lynch/jacm85.pdf>
+  - Dwork, Lynch, and Stockmeyer, partial synchrony: <https://groups.csail.mit.edu/tds/papers/Lynch/jacm88.pdf>
+  - Chandra and Toueg, unreliable failure detectors: <https://www.cs.utexas.edu/~lorenzo/corsi/cs380d/papers/p225-chandra.pdf>
+  - Ben-Or, randomized asynchronous agreement: <https://homepage.cs.uiowa.edu/~ghosh/BenOr.pdf>
+
+## 7) Industrial Case Studies and Adoption Evidence
 
 ### Paris Metro Line 14 (B-Method)
 
@@ -207,7 +238,7 @@ As of January 2026, it reflects naming changes and current mainstream references
   - `Microsoft Research` (video on TLA+ specifications for `Cosmos DB` consistency guarantees): <https://www.microsoft.com/en-us/research/video/tla-specifications-of-the-consistency-guarantees-provided-by-cosmos-db/>
   - Hackett (`ICSE SEIP 2023`, PDF): <https://fhackett.com/files/icse-seip-23-inconsistency.pdf>
 
-## 7) AI and Formal Methods (Further Reading and Boundaries)
+## 8) AI and Formal Methods (Further Reading and Boundaries)
 
 Use this section after Chapters 9–12 if you want to separate promising AI-assisted workflows from assurance mechanisms that remain fundamentally non-negotiable.  
 LLMs are useful for drafting specifications, proofs, and counterexample interpretations and for assisting exploration. They are **not**, however, a source of final assurance. This book recommends treating LLM output as untrusted input and always closing the loop with mechanical verification such as model checking, type checking, or SMT-based verification.

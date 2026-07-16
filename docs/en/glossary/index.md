@@ -64,6 +64,17 @@ functions efficiently. It is used in symbolic model checking. See Chapter 8.
 
 ## C
 
+**CAP theorem**: In an asynchronous model that permits messages to be lost by
+a network partition, linearizable consistency and availability for every
+request to a non-failing node cannot both be guaranteed during that partition.
+It is not a rule to choose one of three letters at all times. See Chapter 7 and
+Appendix E.
+
+**Completeness**: A metaproperty relating a deductive system to a semantics:
+every formula valid in that semantics is derivable. Completeness of
+first-order logic for its standard semantics must not be generalized without
+qualification to higher-order logic or dependent type theory. See Chapter 9.
+
 **Contract**: An explicit statement of what must hold before an operation and
 what is guaranteed after it. Contracts often make preconditions and
 postconditions visible to both implementers and reviewers. See Chapters 3 and
@@ -94,6 +105,12 @@ Chapters 9, 10, and 12.
 further progress is possible. See Chapters 6 and 8.
 
 ## F
+
+**FLP impossibility result**: Under complete asynchrony, deterministic
+processes, and at most one crash-stop failure, no consensus protocol guarantees
+termination in every admissible execution. Partial synchrony, failure
+detectors, and randomization address the problem by changing assumptions. See
+Chapter 7 and Appendix E.
 
 **Fairness**: An assumption about action selection used when reasoning about
 liveness. In TLA+, weak fairness rules out ignoring an action that remains
@@ -143,8 +160,10 @@ loop. It is central to proving partial and total correctness. See Chapter 10.
 
 ## M
 
-**Model checking**: A technique that explores a system's state space and
-automatically determines whether a property holds. See Chapter 8.
+**Model checking**: A technique that explores the state space of a specified
+model and checks selected properties. Exhaustiveness is relative to the model,
+property, search configuration, fairness, and completion status; it is not a
+claim about every behavior of the real system. See Chapter 8.
 
 ## P
 
@@ -189,6 +208,10 @@ mechanized proofs. See Chapters 9, 10, and Appendix E.
 
 ## S
 
+**Soundness**: A metaproperty relating a deductive system to a semantics: every
+derivable formula is valid in that semantics. The relevant logic and semantics
+must be stated. See Chapter 9.
+
 **Safety**: A property stating that “something bad never happens.” Such
 properties are often expressed as invariants. See Chapter 8.
 
@@ -230,7 +253,16 @@ See Chapters 7 and 8.
 constructing a proof rather than exhaustively exploring a state space. See
 Chapter 9.
 
-**TLC**: The model checker for TLA+ specifications. See Chapters 7 and 8.
+**TLC**: An explicit-state model checker that enumerates reachable states of a
+concrete finite model of a TLA+ specification. TLA+ has no conventional static
+type system; predicates commonly named `TypeOK` or `TypeInvariant` assert that
+values belong to expected sets. Results depend on the `.cfg`, properties,
+fairness, state constraints, and completion status. See Chapters 7 and 8.
+
+**Trusted kernel**: The small core that checks proof terms under the
+foundational logic and current environment. The wider trusted computing base
+can also include added axioms, unfinished holes, unchecked solver paths,
+extraction, and code generation. See Chapter 9.
 
 **Total correctness**: The claim that a program not only satisfies the required
 postcondition when it terminates, but also does terminate. See Chapter 10.

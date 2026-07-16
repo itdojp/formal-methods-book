@@ -67,17 +67,25 @@ problems of distributed systems.
 
 ### The Trade-Off Between Consistency and Availability
 
-One of the most important findings in distributed-systems theory is the CAP
-theorem. It says that the following three properties cannot all be guaranteed
-at the same time.
+One of the most important results in distributed-systems theory is the CAP
+theorem as formalized by Gilbert and Lynch. The theorem assumes an asynchronous
+model in which a network partition may cause message loss. Under that
+assumption, an execution experiencing a partition cannot guarantee both of the
+following.
 
-- **Consistency**: all nodes observe the same data.
-- **Availability**: the system always returns a response.
-- **Partition tolerance**: the system continues to operate despite network
-  partitions.
+- **Consistency**: atomic, or linearizable, behavior in which each operation
+  appears to take effect at one point between its invocation and response.
+- **Availability**: every request received by a non-failing node eventually
+  receives a response.
 
-In practice, partitions cannot be ruled out, so a system must make design
-choices that trade consistency against availability depending on its needs.
+Here, **partition tolerance** is not a third guarantee to maximize
+independently; it is the assumption that the model permits such partitions.
+
+CAP is therefore not a rule that a system must choose one of three letters at
+all times. During a partition, a request may be delayed or rejected to preserve
+linearizability, or it may be answered while temporarily providing a weaker
+consistency model. The relevant operations, failure and communication model,
+and required consistency level must be stated explicitly.
 
 ### Managing Nondeterminism
 
@@ -95,11 +103,20 @@ Distributed systems repeatedly face the need for agreement. Multiple nodes must
 agree on a value, a leader, or an ordering of operations. That turns out to be
 harder than it first appears.
 
-The FLP impossibility result shows that in an asynchronous distributed system,
-if even a single node can fail, there is no deterministic consensus algorithm
-that always guarantees termination. This theoretical limit is one of the key
-reasons why practical systems rely on additional assumptions such as timing
-bounds, failure restrictions, or probabilistic techniques.
+The FLP impossibility result assumes a completely asynchronous model with no
+known upper bound on process speed or message delay, deterministic processes,
+and at most one crash-stop failure. Under those assumptions, no consensus
+protocol guarantees termination in every admissible execution, even though a
+message sent to a non-failing process is eventually delivered. FLP does not say
+that safety and termination are both unachievable in every execution; it limits
+a deterministic, universal termination guarantee under its stated model.
+
+Practical protocols change those assumptions. Partial synchrony adds timing
+bounds that hold eventually, failure detectors expose structured suspicions,
+and randomized algorithms replace deterministic termination with a
+probabilistic guarantee. An impossibility theorem should therefore be read as
+a package of computational, failure, communication, and guarantee assumptions,
+not as a conclusion in isolation.
 
 ### State Explosion
 
@@ -1408,13 +1425,15 @@ PROPERTIES
   Progress
 ```
 
-This kind of model lets us check the essential correctness of the algorithm on a
-small cluster, including various fault scenarios.
+This kind of model lets us search for counterexamples within the configured
+small cluster, fault scenarios, properties, and fairness assumptions. Even a
+completed run does not establish correctness of the implementation, omitted
+failures, or larger configurations.
 
 The broader lesson is that even a complicated protocol such as distributed
-consensus can be written precisely in TLA+ and then checked automatically. That
-combination of mathematical clarity and practical verification is one of the
-main reasons TLA+ is valuable for real systems.
+consensus can have its assumptions and properties written precisely in TLA+
+and checked over a finite model with TLC. The resulting evidence should be
+connected to implementation review, testing, and operational fault handling.
 
 ---
 

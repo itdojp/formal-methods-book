@@ -37,6 +37,9 @@ source_path: "src/ja/appendices/appendix-e.md"
   - TLA+ 公式（Lamportサイト）：<https://lamport.azurewebsites.net/tla/tla.html>
   - TLA+2（現行版と文書の位置づけ）：<https://lamport.azurewebsites.net/tla/tla2.html>
   - Leslie Lamport, *Specifying Systems*：<https://lamport.azurewebsites.net/tla/book.html>
+  - Leslie Lamport, *The Specification Language TLA+*（集合論的な値と意味論）：<https://lamport.azurewebsites.net/pubs/lamport-spec-tla-plus.pdf>
+  - Leslie Lamport, *Specifying Systems* chapter draft（TLA+ は untyped、型不変条件を明示）：<https://lamport.azurewebsites.net/pubs/spec-book-chap.pdf>
+  - *A PlusCal User's Manual - P-Syntax*（PlusCal translator と TLC の使い方を含む）：<https://lamport.azurewebsites.net/tla/p-manual.pdf>
   - TLA+ Hyperbook：<https://lamport.azurewebsites.net/tla/hyperbook.html>
   - TLA+ Documentation and Tools Guide：<https://docs.tlapl.us/>
   - TLA+ VS Code拡張：<https://marketplace.visualstudio.com/items?itemName=tlaplus.vscode-ide>
@@ -83,17 +86,20 @@ source_path: "src/ja/appendices/appendix-e.md"
 
 ### SPIN（Promela）
 
-- 用途：並行システムの模型検査（Promela）と反例トレース
+- 用途：並行システムの明示的状態模型検査（Promela）と反例トレース。full-state search と bitstate hashing などの近似モードを区別する。
 - 推奨読者：第6章（並行性の落とし穴）、第8章（模型検査）
 - 一次情報：
   - 公式（spinroot）：<https://spinroot.com/spin/whatispin.html>
+  - SPIN Quick Reference（探索方式、weak fairness、bitstate hashing）：<https://spinroot.com/spin/Man/Quick.html>
 
-### NuSMV
+### NuSMV / nuXmv
 
-- 用途：状態遷移モデルに対する模型検査（CTL/LTL等）
+- 用途：NuSMV は古典的な記号的模型検査器、nuXmv はその後継・拡張系である。結果を引用するときは、ツール名に加えて、使用したエンジン、fairness constraints、timeout、`unknown`、抽象化を記録する。
 - 推奨読者：第8章（模型検査の俯瞰）
 - 一次情報：
   - 公式サイト：<https://nusmv.fbk.eu/>
+  - nuXmv 公式サイト：<https://nuxmv.fbk.eu/>
+  - nuXmv User Manual：<https://nuxmv.fbk.eu/downloads/nuxmv-user-manual.pdf>
 
 ## 3) 定理証明（Rocq / Lean / Isabelle / Agda）
 
@@ -105,6 +111,9 @@ source_path: "src/ja/appendices/appendix-e.md"
   - 公式サイト：<https://rocq-prover.org/>
   - changelog：<https://rocq-prover.org/changelog>
   - リリース（例：9.0.0）：<https://rocq-prover.org/releases/9.0.0>
+  - Proof mode（`Qed` と `Admitted`）：<https://rocq-prover.org/doc/v9.0/refman/proofs/writing-proofs/proof-mode.html>
+  - Core language と kernel：<https://rocq-prover.org/doc/V9.2.0/refman/language/core/index.html>
+  - Assumptions（axiom / hypothesis / variable）：<https://rocq-prover.org/doc/master/refman/language/core/assumptions.html>
 
 ### Lean（Lean 4）
 
@@ -115,6 +124,17 @@ source_path: "src/ja/appendices/appendix-e.md"
   - Mathlib use case：<https://lean-lang.org/use-cases/mathlib>
   - GitHub（Lean 4）：<https://github.com/leanprover/lean4>
   - mathlib4：<https://github.com/leanprover-community/mathlib4>
+  - Lean Reference: Axioms（`sorryAx` を含む公理境界）：<https://lean-lang.org/doc/reference/latest/Axioms/>
+  - Lean Tactic Reference（`admit` / `sorry`、`native_decide` の信頼境界）：<https://lean-lang.org/doc/reference/latest/Tactic-Proofs/Tactic-Reference/>
+
+### 論理の健全性・完全性と意味論
+
+- 用途：第9章の健全性・完全性を、対象論理、演繹系、意味論に相対的な性質として読む。
+- 注意：古典一階述語論理の標準意味論に対する完全性を、標準意味論の二階論理、高階論理、依存型理論へ無条件に一般化しない。
+- 理論背景：
+  - Stanford Encyclopedia of Philosophy, “Logical Consequence”：<https://plato.stanford.edu/entries/logical-consequence/>
+  - Stanford Encyclopedia of Philosophy, “Kurt Gödel”（一階述語論理の完全性定理）：<https://plato.stanford.edu/entries/goedel/>
+  - Stanford Encyclopedia of Philosophy, “Second-order and Higher-order Logic”：<https://plato.stanford.edu/entries/logic-higher-order/>
 
 ### Isabelle
 
@@ -153,6 +173,7 @@ source_path: "src/ja/appendices/appendix-e.md"
 - 推奨読者：第8章（模型検査の考え方）、第10章（プログラム検証）
 - 一次情報：
   - 公式サイト：<https://www.cprover.org/cbmc/>
+  - CBMC Background Concepts（bounded symbolic checking の保証範囲）：<https://diffblue.github.io/cbmc/background-concepts.html>
 
 ### VeriFast
 
@@ -240,7 +261,17 @@ source_path: "src/ja/appendices/appendix-e.md"
   - GitHub（リリース）：<https://github.com/cvc5/cvc5/releases>
   - Python bindings（必要時）：<https://pypi.org/project/cvc5/>
 
-## 6) 産業事例（一次・準一次情報）
+## 6) 分散システム理論（CAP / FLP と仮定変更）
+
+- 読み方：不可能性定理は結論だけでなく、計算モデル、通信仮定、故障モデル、保証対象の組として読む。
+- 一次情報：
+  - Gilbert and Lynch, CAP theorem：<https://www.cs.princeton.edu/courses/archive/spr22/cos418/papers/cap.pdf>
+  - Fischer, Lynch, and Paterson, FLP：<https://groups.csail.mit.edu/tds/papers/Lynch/jacm85.pdf>
+  - Dwork, Lynch, and Stockmeyer, partial synchrony：<https://groups.csail.mit.edu/tds/papers/Lynch/jacm88.pdf>
+  - Chandra and Toueg, unreliable failure detectors：<https://www.cs.utexas.edu/~lorenzo/corsi/cs380d/papers/p225-chandra.pdf>
+  - Ben-Or, randomized asynchronous agreement：<https://homepage.cs.uiowa.edu/~ghosh/BenOr.pdf>
+
+## 7) 産業事例（一次・準一次情報）
 
 ### パリ地下鉄14号線（B-method）
 
@@ -302,7 +333,7 @@ source_path: "src/ja/appendices/appendix-e.md"
   - Certora User Guide：<https://docs.certora.com/en/latest/docs/user-guide/index.html>
   - Certora Verification Language：<https://docs.certora.com/en/latest/docs/cvl/index.html>
 
-## 7) AI×形式手法（LLM 支援：位置づけと注意点）
+## 8) AI×形式手法（LLM 支援：位置づけと注意点）
 
 LLM は、仕様/証明/反例解釈の「草案生成」や「探索支援」に有用である一方、**最終保証の根拠にはならない**。
 本書では、LLM 出力を「未信頼入力」として扱い、必ず機械検証（模型検査/型チェック/SMT 等）で閉じる運用を推奨する。

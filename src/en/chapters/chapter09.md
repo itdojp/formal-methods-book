@@ -31,8 +31,9 @@ correctness of practical software requires reasoning about huge numbers of
 details. Doing all of that manually is not realistic.
 
 *Proof checking* addresses this limit. Humans design the high-level proof
-strategy, and machines verify the details. This combines human creativity with
-machine precision.
+strategy, and machines check proof terms against the theorem statement,
+logical environment, and permitted axioms. This is evidence for the formalized
+claim; whether that claim captures the real requirement still needs review.
 
 ### The Basic Idea of a Proof Assistant
 
@@ -61,23 +62,27 @@ precisely.
 ### Complementing Chapter 8 on Model Checking
 
 Theorem proving and model checking are complementary verification methods.
-Model checking, as discussed in Chapter 8, offers exhaustive exploration within
-finite scopes or finite state spaces. Theorem proving offers mathematical
-rigor over infinite domains and general cases.
+When a model-checking run completes, it can exhaust the reachable states of the
+specified finite-state model, property, and configuration. Theorem proving can
+cover infinite domains and general cases under explicit assumptions and a
+chosen logic. Both still require review that the model or theorem statement
+matches the real requirement.
 
 **Characteristics of model checking**:
 
-- automatic verification
+- automated checking
 - explicit counterexamples when a property fails
-- strong fit for finite-state systems
-- comparatively lower learning cost
+- strong fit for finite-state models and bounded problems
+- an assurance scope that depends on abstraction, search configuration,
+  fairness, and completion status
 
 **Characteristics of theorem proving**:
 
-- mathematical rigor
+- deduction from explicit assumptions
 - support for infinite structures and general statements
 - constructive reasoning when desired
-- higher learning cost, but stronger guarantees
+- an assurance scope that depends on the logic, semantics, axioms, unfinished
+  holes, and trusted computing base
 
 Used together, they support a broader and more practical verification
 strategy.
@@ -118,8 +123,9 @@ construction.
 "Algorithm `A` produces, for every input `n`, an output satisfying property
 `P`." The proof defines `A` and then proves its correctness.
 
-Constructive proofs are valuable because usable algorithms can often be
-extracted from them.
+Constructive proofs may allow algorithms with computational content to be
+extracted. Claims about the generated executable also require a trust argument
+for the extractor, code generator, compiler, and runtime.
 
 ### The Division of Labor Between Humans and Machines
 
@@ -147,14 +153,25 @@ mechanical checking.
 The proof assistant itself must also be trustworthy. If the tool contains a
 bug, the proofs it accepts may be unsound.
 
-The standard response is to design a small *trusted kernel*. If the core logic
-checker is small and well understood, then it is enough to trust that kernel.
-Convenience features can live outside it.
+The standard architectural response is a small *trusted kernel*. In Rocq and
+Lean, tactics and much surrounding automation construct candidate proof terms,
+and the kernel type-checks them under the foundational logic and current
+environment. If every automation path returns a term that the kernel checks, a
+bug in candidate generation should be rejected rather than become a theorem.
 
-For example, the trusted kernel of Rocq (formerly Coq) is only a few thousand
-lines of OCaml, whereas the full system is vastly larger. Tactics and other
-automation operate outside the kernel and still have their final result checked
-by it.
+This does not mean that the kernel implementation is the only thing to trust.
+The assurance argument also depends on the chosen logic, definitions, added
+axioms, libraries, and any translation path into the kernel. Kernel acceptance
+also does not establish that the theorem statement correctly formalizes the
+user's requirement.
+
+| Path | What the kernel checks | Additional trust or review boundary |
+| --- | --- | --- |
+| Ordinary proof term | The term has the theorem's type in the current logical environment | The statement, definitions, libraries, and permitted axioms match the requirement |
+| `axiom` or assumption | A proof term that is allowed to use the added assumption | The assumption itself; the conclusion is conditional on it |
+| Rocq `Admitted`, Lean `sorry` / `admit` | A term containing an axiom-like placeholder | An unfinished hole; it is not evidence of a completed proof |
+| External solver or plugin | A returned proof term or certificate, if that path is replayed and checked | If a result is accepted directly, the solver, bridge, or certificate checker enters the trusted base |
+| Extraction, code generation, or native evaluation | The theorem or computation inside the source logic | Claims about generated execution also depend on the extractor, generator, compiler, and runtime |
 
 ### Proof Reuse and Accumulation
 
@@ -429,16 +446,27 @@ Definition head {A : Type} {n : nat} (v : Vector A (S n)) : A :=
 The length of the vector is part of its type. The type system therefore
 guarantees that `head` is only applied to non-empty vectors.
 
-### Soundness and Completeness of Inference Rules
+### Soundness and Completeness Relative to a Deductive System and Semantics
 
-Any logical system is judged by two major meta-properties:
+Soundness and completeness are not properties of an unqualified word “true.”
+They relate a particular logic and deductive system to a particular semantics.
+For assumptions `Γ` and formula `φ`, write `Γ ⊢ φ` for derivability and
+`Γ ⊨ φ` for validity in every model of the chosen semantics.
 
-- **soundness**: everything provable in the system is true
-- **completeness**: everything true in the intended semantics is provable in
-  the system
+- **soundness**: if `Γ ⊢ φ`, then `Γ ⊨ φ`
+- **completeness**: if `Γ ⊨ φ`, then `Γ ⊢ φ`
 
-In proof assistants, soundness is especially important. If the system can prove
-something false, then the entire trust argument collapses.
+As the representative example, classical first-order logic has soundness and
+Gödel's completeness theorem with respect to its standard structure semantics.
+That completeness claim must not be generalized without qualification to
+standard second-order semantics, higher-order logic, dependent type theory, or
+every proof assistant. Higher-order completeness depends on the chosen
+semantics, and dependent type theories have different foundations.
+
+Operationally, proof assistants emphasize the soundness side of the trust
+argument: the kernel should reject invalid proof terms, while teams control
+added axioms, unfinished holes, external tools, and code-generation paths in
+the trusted computing base.
 
 ### Intuitionistic Logic and Classical Logic
 
@@ -884,7 +912,9 @@ it in the main theorem.
 
 ### Proofs About Lists
 
-Lists are one of the most practical data structures to verify.
+Lists are a practical data structure for proving properties of formalized list
+operations. Applying such a result to a program also requires showing that the
+implementation corresponds to those formal definitions.
 
 ```coq
 Fixpoint app (l1 l2 : list nat) : list nat :=
@@ -1169,7 +1199,7 @@ Theorem strong_induction_example : forall n : nat,
 Proof.
   intro n.
   pattern n. apply strong_nat_ind.
-Admitted. (* The complete proof is omitted because it is lengthy. *)
+Admitted. (* Unfinished example: axiom-like, not a checked completed proof. *)
 ```
 
 **Mutual induction**:
@@ -1323,7 +1353,7 @@ Qed.
 Theorem reflection_example : forall n m : nat,
   beq_nat n m = true -> n = m.
 Proof.
-Admitted. (* The detailed reflective proof is omitted. *)
+Admitted. (* Unfinished example: axiom-like, not a checked completed proof. *)
 ```
 
 Reflection lets the proof assistant reduce logical questions to verified
@@ -1656,13 +1686,15 @@ either technique alone.
 
 ### Trade-Offs with Performance and Cost
 
-Practical verification always involves trade-offs between assurance and
-efficiency.
+Practical verification always involves trade-offs between explicitly scoped
+assurance and efficiency.
 
 **A staged assurance strategy**:
 
-1. fully verify the critical core
-2. partially verify important surrounding functions
+1. close the critical core's stated proof obligations and record its assumptions
+   and trusted base
+2. check selected properties of important surrounding functions and record the
+   unverified scope
 3. use lighter methods for the rest, such as testing plus static analysis
 
 **A rough cost heuristic**:
