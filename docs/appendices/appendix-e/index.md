@@ -269,7 +269,7 @@ source_path: "src/ja/appendices/appendix-e.md"
   - Fischer, Lynch, and Paterson, FLP：<https://groups.csail.mit.edu/tds/papers/Lynch/jacm85.pdf>
   - Dwork, Lynch, and Stockmeyer, partial synchrony：<https://groups.csail.mit.edu/tds/papers/Lynch/jacm88.pdf>
   - Chandra and Toueg, unreliable failure detectors：<https://www.cs.utexas.edu/~lorenzo/corsi/cs380d/papers/p225-chandra.pdf>
-  - Ben-Or, randomized asynchronous agreement：<https://www.cs.cornell.edu/courses/cs5414/2017fa/papers/p27-ben-or.pdf>
+  - Ben-Or, randomized asynchronous agreement（DOI: `10.1145/800221.806707`）：<https://cris.huji.ac.il/en/publications/another-advantage-of-free-choice-completely-asynchronous-agreemen/>
 
 ## 7) 産業事例（一次・準一次情報）
 
