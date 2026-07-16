@@ -271,7 +271,12 @@ require_command() {
 
 ensure_spin() {
   local bin="$SPIN_DIR/bin/spin"
-  if [[ -x "$bin" ]]; then
+  local commit_file="$SPIN_DIR/commit.txt"
+  local cached_commit=""
+  if [[ -f "$commit_file" ]]; then
+    IFS= read -r cached_commit < "$commit_file" || true
+  fi
+  if [[ -x "$bin" && "$cached_commit" == "$SPIN_COMMIT" ]]; then
     return 0
   fi
   require_command cc build-essential
