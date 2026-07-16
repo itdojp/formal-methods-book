@@ -16,6 +16,8 @@
     'use strict';
 
     const MAX_RESULTS = 12;
+    const MAX_QUERY_LENGTH = 128;
+    const MAX_INDEX_ENTRIES = 20000;
 
     function normalize(value) {
         return String(value || '')
@@ -35,7 +37,7 @@
     }
 
     function scoreEntry(entry, query, locale) {
-        const normalizedQuery = normalize(query);
+        const normalizedQuery = normalize(query).slice(0, MAX_QUERY_LENGTH);
         if (!normalizedQuery) return 0;
         let score = 0;
         score += fieldScore(entry.title, normalizedQuery, { exact: 300, prefix: 210, includes: 160 });
@@ -72,7 +74,7 @@
 
     function highlightSegments(text, query) {
         const source = String(text || '');
-        const trimmed = String(query || '').trim();
+        const trimmed = String(query || '').trim().slice(0, MAX_QUERY_LENGTH);
         if (!trimmed) return [{ text: source, match: false }];
         const expression = new RegExp(`(${escapeRegex(trimmed)})`, 'giu');
         return source.split(expression)
@@ -107,6 +109,7 @@
             throw new Error('Invalid search index payload');
         }
         if (payload.entryCount !== payload.entries.length) throw new Error('Search index entryCount mismatch');
+        if (payload.entryCount > MAX_INDEX_ENTRIES) throw new Error('Search index entry limit exceeded');
         if (typeof payload.project !== 'string' || !/^[A-Za-z0-9._-]+$/.test(payload.project)) {
             throw new Error('Invalid search index project');
         }

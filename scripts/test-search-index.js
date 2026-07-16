@@ -109,6 +109,11 @@ assert.throws(() => browserSearch.validateIndexPayload({
     id: 'bad', locale: 'ja', title: 'bad', chapter: 'bad', heading: 'bad', text: 'bad', aliases: [], url: 'javascript:alert(1)',
   }],
 }, 'ja'));
+assert.strictEqual(
+  browserSearch.searchEntries(sampleEntries, `${'x'.repeat(128)}LeanDojo`, 'ja').length,
+  0,
+  'queries are bounded before matching',
+);
 
 class FakeClassList {
   constructor() { this.values = new Set(); }
