@@ -6,7 +6,7 @@
 ## 実行保証の読み方
 
 本付録への掲載は、リポジトリでの実行保証を意味しない。実行状態の正本は
-`tools/tool-manifest.json` と[付録Bの lane inventory](appendix-b.md#tool-lane-inventory)である。
+`tools/tool-manifest.json` と[付録Bの lane inventory]({{ '/appendices/appendix-b/#tool-lane-inventory' | relative_url }})である。
 Alloy、TLC、Apalache、Dafny は `pr-quick`、SPIN、NuSMV、CBMC、Quint は
 `nightly`、Kani は明示的な `optional/manual` で検証する。それ以外の掲載ツールは
 `documentation-only` であり、本書は固定バージョン、実行環境、実行結果を保証しない。

@@ -6,7 +6,7 @@ As of January 2026, it reflects naming changes and current mainstream references
 ## How to Read the Execution Guarantees
 
 Listing a tool in this appendix does not mean that the repository executes or guarantees it. The sources of truth are
-`tools/tool-manifest.json` and the [lane inventory in Appendix B](appendix-b.md#tool-lane-inventory).
+`tools/tool-manifest.json` and the [lane inventory in Appendix B]({{ '/appendices/appendix-b/#tool-lane-inventory' | relative_url }}).
 Alloy, TLC, Apalache, and Dafny run in `pr-quick`; SPIN, NuSMV, CBMC, and Quint run in
 `nightly`; and Kani runs only through explicit `optional/manual` dispatch. Every other tool
 listed here is `documentation-only`: the book does not guarantee a pinned version, execution
