@@ -69,14 +69,14 @@
     "appendices/appendix-e.md": {
       "source_path": "src/ja/appendices/appendix-e.md",
       "translation_path": "src/en/appendices/appendix-e.md",
-      "source_commit": "1fa89537a869c27faa1709c005ee129f2a8929a2",
-      "translated_commit": "1fa89537a869c27faa1709c005ee129f2a8929a2",
-      "source_sha256": "3408c2d176e927ec819efba0975efe9b692f1e8466f953fc015ecf08749a9405",
-      "translation_sha256": "af61b5d64319b7c1b29119d65a6bd817deceeab1f7c9f334a722acd8cd6ac72e",
+      "source_commit": "13be0b1e9858fd7b1d3a0d44481cb389d0c6c36f",
+      "translated_commit": "13be0b1e9858fd7b1d3a0d44481cb389d0c6c36f",
+      "source_sha256": "51f06de7e6de95304da80ee2e270ea260055d673f12bf34a0f146713a815e496",
+      "translation_sha256": "6323b36a33acd88bd1452256eb5c7a836e8cc611fddbce3004571b82a9779442",
       "status": "partial",
       "reviewed_at": "2026-07-16",
-      "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "heading level/order differs; 54 Japanese external reference link(s) are absent from English"
+      "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/347",
+      "notes": "CZT primary-source links were re-reviewed in both editions; heading level/order differs; 54 Japanese external reference link(s) are absent from English"
     },
     "appendices/appendix-f.md": {
       "source_path": "src/ja/appendices/appendix-f.md",

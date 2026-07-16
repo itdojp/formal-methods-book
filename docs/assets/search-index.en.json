@@ -13337,7 +13337,7 @@
       "chapter": "Appendix E: References and Further Reading Paths",
       "heading": "Appendix E: References and Further Reading Paths",
       "url": "/formal-methods-book/en/appendices/appendix-e/#appendix-e-references-and-further-reading-paths",
-      "text": "Translation status: Partial. Reviewed against Japanese source commit 1fa89537a869 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This appendix is a reader-facing guide to primary sources for the methods, tools, and case studies introduced in the main text. Use it when you want to deepen a chapter, verify a claim against an official source, or decide which tool family to study next. As of January 2026, it reflects naming changes and current mainstream references such as Coq → Rocq, CVC4 → cvc5, the Alloy 6 series, and Apalache in the TLA+ ecosystem.",
+      "text": "Translation status: Partial. Reviewed against Japanese source commit 13be0b1e9858 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This appendix is a reader-facing guide to primary sources for the methods, tools, and case studies introduced in the main text. Use it when you want to deepen a chapter, verify a claim against an official source, or decide which tool family to study next. As of January 2026, it reflects naming changes and current mainstream references such as Coq → Rocq, CVC4 → cvc5, the Alloy 6 series, and Apalache in the TLA+ ecosystem.",
       "aliases": [
         "TLA Plus",
         "The Rocq Prover"
