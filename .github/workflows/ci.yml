@@ -21,6 +21,12 @@ jobs:
       - run: npm ci
       - run: npm run build:all
       - name: Verify generated documentation is committed
-        run: git diff --exit-code -- docs
+        run: |
+          status="$(git status --porcelain --untracked-files=all -- docs)"
+          if [ -n "$status" ]; then
+            printf '%s\n' "$status"
+            echo "Generated documentation is not fully committed." >&2
+            exit 1
+          fi
       - run: npm test
       - run: npm audit
