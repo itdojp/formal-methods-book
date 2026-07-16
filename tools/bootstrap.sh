@@ -413,7 +413,27 @@ if kind == 'tar':
             entries.append(member)
         if expected_root not in seen:
             raise SystemExit(f'{kind} archive is missing its required root: {expected_root}')
-        source.extractall(destination, members=entries, filter='data')
+        directories = []
+        for member in entries:
+            name = member.name.rstrip('/')
+            target = destination / name
+            if member.isdir():
+                target.mkdir(parents=True, exist_ok=True)
+                directories.append((target, member.mode & 0o777))
+                continue
+
+            target.parent.mkdir(parents=True, exist_ok=True)
+            input_file = source.extractfile(member)
+            if input_file is None:
+                raise SystemExit(f'Could not read regular tar archive member: {member.name!r}')
+            with input_file, open(target, 'xb') as output_file:
+                shutil.copyfileobj(input_file, output_file, length=1024 * 1024)
+            os.chmod(target, member.mode & 0o777)
+
+        # Apply directory modes last so read-only archive directories do not
+        # prevent extraction of their already-validated children.
+        for target, permissions in reversed(directories):
+            os.chmod(target, permissions)
 elif kind == 'zip':
     seen = set()
     with zipfile.ZipFile(archive) as source:
@@ -668,7 +688,14 @@ ensure_carcara() {
   download "$CARCARA_RUST_MANIFEST_URL" "$CARCARA_RUST_MANIFEST" "$CARCARA_RUST_MANIFEST_SHA256"
   python3 - "$CARCARA_RUST_MANIFEST" "$CARCARA_RUST_TOOLCHAIN" "$CARCARA_RUSTC_COMMIT" "$CARCARA_CARGO_COMMIT" "$CARCARA_RUST_HOST" <<'PYTHON'
 import sys
-import tomllib
+
+try:
+    import tomllib
+except ModuleNotFoundError:
+    raise SystemExit(
+        'cvc5/Carcara bootstrap requires Python 3.11 or later '
+        '(the standard-library tomllib module is unavailable)'
+    ) from None
 
 manifest_path, release, rustc_commit, cargo_commit, host = sys.argv[1:]
 with open(manifest_path, 'rb') as stream:
