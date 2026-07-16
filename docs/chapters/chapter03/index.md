@@ -2,10 +2,10 @@
 layout: book
 title: "第3章：仕様記述の基本"
 description: "自然言語の曖昧性と数学的仕様記述、事前・事後条件と不変条件"
-chapter: chapter03
-order: 3
+locale: "ja"
+lang: "ja"
+source_path: "src/ja/chapters/chapter03.md"
 ---
-
 # 第3章：仕様記述の基本
 
 ミニ要約：

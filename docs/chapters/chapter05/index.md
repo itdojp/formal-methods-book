@@ -2,10 +2,10 @@
 layout: book
 title: "第5章：状態ベース仕様記述 - Z記法の基礎"
 description: "Z記法による状態とスキーマ、数学的記法による厳密な仕様化"
-chapter: chapter05
-order: 5
+locale: "ja"
+lang: "ja"
+source_path: "src/ja/chapters/chapter05.md"
 ---
-
 # 第5章：状態ベース仕様記述 - Z記法の基礎
 
 ミニ要約：

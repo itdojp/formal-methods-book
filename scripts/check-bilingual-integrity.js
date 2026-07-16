@@ -185,7 +185,7 @@ function main() {
   for (const relativeSourcePath of jaInventory) {
     const publicPath = sourceToPublicPath('ja', relativeSourcePath);
     if (publicPath) {
-      checkFileExists(publicPath, errors, 'docs must contain a generated or maintained page for source file');
+      checkFileExists(publicPath, errors, 'docs must contain a generated page for source file');
     }
   }
 

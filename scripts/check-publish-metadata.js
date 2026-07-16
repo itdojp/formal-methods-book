@@ -10,6 +10,10 @@ const {
   renderGeneratedArtifacts,
   validatePublicationModel,
 } = require('./lib/publication-metadata');
+const {
+  compareEditionPages,
+  renderEditionPages,
+} = require('./lib/publication-build');
 
 const repoOwner = 'itdojp';
 const repoName = 'formal-methods-book';
@@ -230,6 +234,12 @@ try {
   if (failures.length === 0) {
     const generatedArtifacts = renderGeneratedArtifacts(publicationModel);
     for (const difference of compareGeneratedArtifacts(process.cwd(), generatedArtifacts)) fail(difference);
+    for (const locale of Object.keys(publicationModel.manifest.editions)) {
+      const expectedPages = renderEditionPages(process.cwd(), publicationModel, locale);
+      for (const difference of compareEditionPages(process.cwd(), publicationModel, locale, expectedPages)) {
+        fail(difference);
+      }
+    }
   }
 } catch (error) {
   fail(error.message);
@@ -248,7 +258,7 @@ assertEqual(packageJson.homepage, pagesUrl, 'package.json homepage');
 assertEqual(packageJson.bugs?.url, issuesUrl, 'package.json bugs.url');
 assertEqual(
   packageJson.scripts?.['check:metadata'],
-  'npm run test:metadata-renderer && node scripts/check-publish-metadata.js',
+  'npm run test:metadata-renderer && npm run test:publication-build && node scripts/check-publish-metadata.js',
   'package.json scripts.check:metadata',
 );
 
