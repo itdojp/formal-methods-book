@@ -261,14 +261,14 @@
     "index.md": {
       "source_path": "src/ja/index.md",
       "translation_path": "src/en/index.md",
-      "source_commit": "83d031100ae7bcdeab03d28f072904bcff0d71ff",
+      "source_commit": "261d5aa6e896effd2f27daa78e71c67a2d251d52",
       "translated_commit": "f95634f31d9623c3212d6b9849679178e77fee78",
-      "source_sha256": "0185f437fee26905db85bf7370dd54d0d9204095a3214b456b0b462c181bc226",
+      "source_sha256": "299cec5643b763e34e02d178afc898c0d3779602c41e50dd29b8148bd82d937d",
       "translation_sha256": "ff575dd985b6a4f263dd0f16412a9296bcacbdc8c9399e60f11a31358beaccb4",
       "status": "partial",
       "reviewed_at": "2026-07-16",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "heading level/order differs; 4 Japanese external reference link(s) are absent from English"
+      "notes": "heading level/order differs; 4 Japanese external reference link(s) are absent from English; release metadata rendering is provided site-wide by the shared layout"
     },
     "introduction/index.md": {
       "source_path": "src/ja/introduction/index.md",
