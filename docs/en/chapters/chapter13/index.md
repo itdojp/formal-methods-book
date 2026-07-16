@@ -6,13 +6,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/chapters/chapter13.md"
 translation_status: "partial"
-translation_source_commit: "83d031100ae7bcdeab03d28f072904bcff0d71ff"
+translation_source_commit: "dbe99897e679469f15eb58d9c29a2d9ee175283e"
 translation_reviewed_at: "2026-07-16"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Chapter 13: Case Studies
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`83d031100ae7`](https://github.com/itdojp/formal-methods-book/commit/83d031100ae7bcdeab03d28f072904bcff0d71ff) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`dbe99897e679`](https://github.com/itdojp/formal-methods-book/commit/dbe99897e679469f15eb58d9c29a2d9ee175283e) on 2026-07-16.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 ## 13.1 Methodology for Case Studies: Learning from Success and Failure
@@ -413,6 +413,59 @@ As AI and machine learning continue to advance, more of the work that was manual
 The methods established in s2n are also relevant to other security-critical software, including authentication systems, payment systems, and privacy-preserving systems.
 
 Amazon’s s2n project is an important example showing that formal methods can deliver practical value in large-scale systems of the cloud era. As security requirements keep rising, this kind of approach is becoming increasingly important.
+
+### Protocol-Level Adversarial Verification with Tamarin {#security-protocol-verification-tamarin}
+
+The s2n case primarily checks selected cryptographic implementations against their specifications.
+Symbolic protocol verification asks a different question: do secrecy and authentication still hold when an attacker controls communication between the participants?
+Tamarin Prover addresses this protocol-level question.
+Cedar checks authorization decisions over policies and requests, whereas Tamarin checks secrecy, authentication, and replay properties of message-passing protocols under an active adversary.
+
+In the Dolev–Yao model, the adversary controls the network.
+It can intercept, modify, replay, decompose, and compose messages and apply cryptographic operations with keys it knows.
+It does not break encryption without the required key or gain computational and side-channel capabilities unless the model explicitly represents them.
+Tamarin describes protocol steps with multiset-rewriting **rules**, state and knowledge with **facts**, trace observations with **action facts / events**, and security goals with **lemmas**.
+A persistent fact such as `!SharedKey` can be reused, while a linear fact such as `OpenChallenge` is consumed by the rule that uses it.
+
+Secrecy and authentication are separate properties.
+`Shared_Key_Secrecy` rules out a trace in which the attacker learns the shared key; `Response_Authentication` requires a matching client send before a server acceptance.
+Here `Response_Authentication` is non-injective correspondence: it requires an earlier matching send but not a one-to-one match.
+Neither property alone prevents a valid ciphertext from being replayed, so the example states the injective acceptance condition separately as `No_Replay`.
+A man-in-the-middle model similarly needs explicit identities, roles, session data, and an agreement lemma; the presence of encryption alone is not an authentication proof.
+
+The fictional example has a server publish a fresh nonce and a client return an encrypted `<Client, Server, nonce>` tuple.
+The [examples/tamarin/replay-challenge/replay-flawed.spthy](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/tamarin/replay-challenge/replay-flawed.spthy) keeps the open challenge as a persistent fact.
+Its [examples/tamarin/replay-challenge/expected-flawed.json](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/tamarin/replay-challenge/expected-flawed.json) verifies executability, shared-key secrecy, and response authentication, but falsifies `No_Replay`.
+The retained attack graph shows two `ResponseAccepted` events following one `ResponseSent` event.
+The [examples/tamarin/replay-challenge/replay-fixed.spthy](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/tamarin/replay-challenge/replay-fixed.spthy) uses a linear challenge fact that the first acceptance consumes; its [examples/tamarin/replay-challenge/expected-fixed.json](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/tamarin/replay-challenge/expected-fixed.json) verifies all four stated lemmas.
+The [example README](../../../examples/tamarin/replay-challenge/README.md) records the teaching assumptions and commands.
+
+| Model | `Executable` | `Shared_Key_Secrecy` | `Response_Authentication` | `No_Replay` | Expected outcome |
+| --- | --- | --- | --- | --- | --- |
+| Flawed | verified | verified | verified | falsified with attack trace | `counterexample` |
+| Fixed | verified | verified | verified | verified | `success` |
+
+<!-- example-contract: tamarin-replay-flawed -->
+【Tool-compliant (runs as-is)】
+```bash
+node scripts/run-example-manifest.js --id tamarin-replay-flawed
+```
+
+<!-- example-contract: tamarin-replay-fixed -->
+【Tool-compliant (runs as-is)】
+```bash
+node scripts/run-example-manifest.js --id tamarin-replay-fixed
+```
+
+The nightly contract pins the official Linux x86-64 distributions for Tamarin Prover 1.12.0 and its supported Maude 3.5.1 by URL and SHA-256, then re-extracts both from verified archives for every run.
+It uses automated proof search with `--quit-on-warning --prove --stop-on-trace=SEQDFS --output-json`, a 150-second inner limit, and a 180-second manifest-runner limit.
+Because Tamarin can return exit code zero after falsifying a lemma, the wrapper compares every lemma name, mode, and status and the expected attack graph instead of treating exit code as the verdict.
+Artifacts retain input hashes, the command, tool and dependency provenance, limits, lemma results, a sanitized summary, and the flawed model's attack graph, but not the Tamarin or Maude binaries.
+An attack graph preserves symbolic constants from the model, so models must not contain real keys, credentials, tenant identifiers, or private host names. The wrapper rejects representative credential formats before execution, but that narrow check does not replace content review.
+
+> **Guarantee boundary**: `verified` applies only to the stated rules, events, lemmas, freshness assumptions, shared-key model, `symmetric-encryption` equational theory, and proof configuration.
+> Public-key encryption, signatures, hashes, and Diffie–Hellman require explicit theories and different properties.
+> The example assumes secure registration of its pre-shared key and does not model key compromise, key distribution, or a PKI. This result does not by itself establish computational soundness, implementation correctness, cryptographic strength, random-number quality, encoding correctness, side-channel resistance, or the security of libraries, operating systems, and deployment practices.
 
 ## 13.4 Distributed Systems: Microsoft’s Use of TLA+
 

@@ -5,13 +5,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/glossary/index.md"
 translation_status: "partial"
-translation_source_commit: "53c0ef469bd9f010dd84a83cbdcbde898976df00"
+translation_source_commit: "dbe99897e679469f15eb58d9c29a2d9ee175283e"
 translation_reviewed_at: "2026-07-16"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Glossary
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`53c0ef469bd9`](https://github.com/itdojp/formal-methods-book/commit/53c0ef469bd9f010dd84a83cbdcbde898976df00) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`dbe99897e679`](https://github.com/itdojp/formal-methods-book/commit/dbe99897e679469f15eb58d9c29a2d9ee175283e) on 2026-07-16.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 This glossary collects technical terms and abbreviations that appear repeatedly
@@ -58,6 +58,8 @@ when you need primary sources.
 properties relevant to reasoning or verification. A useful model is abstract
 enough to be analyzable but concrete enough to preserve the question being
 asked. See Chapters 3, 4, and 8.
+
+<span id="glossary-attack-trace" class="search-term-anchor" aria-hidden="true"></span>**Attack trace**: A violating trace containing adversary knowledge, message operations, and protocol events. In tools such as Tamarin, it is the retained explanation for a falsified lemma. See Chapter 13 and Appendix C.
 
 <span id="glossary-alloy" class="search-term-anchor" aria-hidden="true"></span>**Alloy**: A representative lightweight formal-methods tool. It combines a
 relational modeling language with an analyzer that searches for counterexamples.
@@ -114,6 +116,8 @@ types, and proofs correspond to programs. See Chapter 9.
 <span id="glossary-dafny" class="search-term-anchor" aria-hidden="true"></span>**Dafny**: A verification-oriented programming language and toolchain for
 writing implementations together with contracts, invariants, and proofs. See
 Chapters 9, 10, and 12.
+
+<span id="glossary-dolevyao-adversary-model" class="search-term-anchor" aria-hidden="true"></span>**Dolev–Yao adversary model**: A symbolic network model in which an attacker can intercept, modify, replay, and compose messages and use known keys, but does not break cryptography without the needed key. Compromise and side channels require explicit modeling. See Chapter 13 and Appendix E.
 
 <span id="glossary-deadlock" class="search-term-anchor" aria-hidden="true"></span>**Deadlock**: A state in which multiple processes wait on one another and no
 further progress is possible. See Chapters 6 and 8.
@@ -278,6 +282,8 @@ model checking, and many verification arguments in this book. See Chapters 7,
 
 ## T
 
+<span id="glossary-tamarin-prover" class="search-term-anchor" aria-hidden="true"></span>**Tamarin Prover**: A symbolic security-protocol verifier using multiset-rewriting rules, facts, events, and trace lemmas under an active adversary. Results are relative to the equational theory, assumptions, lemmas, and proof configuration. See Chapter 13 and Appendices B and E.
+
 <span id="glossary-tla" class="search-term-anchor" aria-hidden="true"></span>**TLA+**: A specification language for distributed and concurrent systems. It
 uses actions to relate current and next states and temporal formulas to describe
 complete behaviors, normally in a stuttering-permitting form. Prime notation is
@@ -307,7 +313,8 @@ extraction, and code generation. See Chapter 9.
 postcondition when it terminates, but also does terminate. See Chapter 10.
 
 <span id="glossary-trace" class="search-term-anchor" aria-hidden="true"></span>**Trace**: A sequence of state transitions. Counterexamples are often presented
-as traces. See Chapter 8.
+as traces; security-protocol verification may present one as an attack trace
+that includes adversary operations. See Chapters 8 and 13.
 
 <span id="glossary-type-theory" class="search-term-anchor" aria-hidden="true"></span>**Type theory**: A logical foundation used by many proof assistants, where
 types and propositions are closely connected. It is central to Rocq, Lean, and

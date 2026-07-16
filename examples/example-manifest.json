@@ -522,7 +522,7 @@
         "memoryMiB": 4096,
         "seed": null,
         "scope": "symbolic shared-key challenge-response under a Dolev-Yao network attacker",
-        "depth": 10,
+        "depth": null,
         "bound": "unbounded symbolic sessions within automated proof search; stop on first attack trace"
       }
     },
@@ -554,7 +554,7 @@
         "memoryMiB": 4096,
         "seed": null,
         "scope": "symbolic shared-key challenge-response under a Dolev-Yao network attacker",
-        "depth": 12,
+        "depth": null,
         "bound": "unbounded symbolic sessions within automated proof search; all four stated lemmas verified"
       }
     },

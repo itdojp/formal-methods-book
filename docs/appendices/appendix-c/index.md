@@ -19,6 +19,8 @@ source_path: "src/ja/appendices/appendix-c.md"
 - **contract（契約）**：事前条件/事後条件を明文化した実行時/検証時のガード。
 - **trace（トレース）**：状態遷移の列。反例はトレースとして提示される。
 - **counterexample（反例）**：性質が破れる最小の実行例。設計修正の入口。
+- **authentication（認証）**：受理した相手、message、session等が対応する正規eventに結び付くというtrace property。non-injectiveかinjectiveかを明示する。
+- **attack trace（攻撃トレース）**：攻撃者の知識獲得、message操作、protocol eventを含む性質違反trace。
 
 ## C.2 AI 時代のDoDチェックリスト
 
@@ -188,3 +190,20 @@ PRISMのPCTL / CSL系propertyは、同じ到達・継続・長期挙動へ確率
 特に`P>=1 [ F "success" ]`を機械的に`AF success`と同一視してはいけない。
 DTMC、CTMC、MDPではpath measureとnondeterminismの意味が異なり、確率1でもmeasure 0のpathをどう扱うかという境界が残る。
 論理式を比較するときは、模型種別、初期状態、scheduler、公平性、時間境界を先にそろえる。
+
+### C.3.10 Tamarin：セキュリティプロトコル検証の最小対応
+
+Tamarinは通常の状態変数中心の記法ではなく、protocol状態と攻撃者知識をmultiset rewritingで表す。
+次の表は第13章の例を読むための対応であり、全記法の一覧ではない。
+
+| Tamarin概念 | 本書での読み方 | 第13章例 | 証跡として残すこと |
+| --- | --- | --- | --- |
+| fact | protocol状態、鍵、message、攻撃者知識 | `!SharedKey`、`OpenChallenge`、`In` / `Out` | persistent / linear、引数、生成rule |
+| rule | factを消費・生成するprotocol step | challenge発行、応答送信、受理 | 前提、結果、action fact |
+| action fact / event | lemmaがtrace上で参照する観測点 | `ResponseSent`、`ResponseAccepted` | 主体、session data、順序 |
+| lemma | executability、秘密性、認証等のtrace property | `Shared_Key_Secrecy`、`Response_Authentication`、`No_Replay` | quantifier、仮定、proof mode、status |
+| attack trace | falsified lemmaを破る具体的実行 | 同じ暗号文の二重受理 | 対象lemma、step、攻撃者のmessage操作 |
+| equational theory | 暗号演算をsymbolicに簡約する等式 | `sdec(senc(m,k),k)=m` | built-in、未モデル化演算、代数的仮定 |
+
+`Response_Authentication`のようなnon-injective correspondenceと、一つの送信へ一つの受理だけを対応させるinjective propertyは区別する。
+symbolicな`verified`を、暗号実装や計算量的安全性の無条件な証明へ読み替えてはいけない。

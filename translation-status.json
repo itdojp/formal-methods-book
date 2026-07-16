@@ -33,26 +33,26 @@
     "appendices/appendix-b.md": {
       "source_path": "src/ja/appendices/appendix-b.md",
       "translation_path": "src/en/appendices/appendix-b.md",
-      "source_commit": "53c0ef469bd9f010dd84a83cbdcbde898976df00",
-      "translated_commit": "53c0ef469bd9f010dd84a83cbdcbde898976df00",
-      "source_sha256": "52bdbb38c97fa7c8202796d9f0d404ad4e09557be8402a58639567a0c53a6f44",
-      "translation_sha256": "08dd9d6f3ebf29f0baa02763bb76b4bd01499b2ad406ee24b25eb506bd8b0f8c",
+      "source_commit": "dbe99897e679469f15eb58d9c29a2d9ee175283e",
+      "translated_commit": "dbe99897e679469f15eb58d9c29a2d9ee175283e",
+      "source_sha256": "93330f3a24574fd849634140558469f20581f78a728f85ca9370d5a22fc0a059",
+      "translation_sha256": "7c0d844dfc5351a65e106a839fdc27870290760157a604e008f740ed142c7a36",
       "status": "partial",
       "reviewed_at": "2026-07-16",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "PRISM 4.10.1 nightly, checksum, license, and non-redistribution guidance was semantically reviewed across JA/EN; pre-existing heading level/order, code fence, and table-shape differences remain"
+      "notes": "Tamarin 1.12.0 / Maude 3.5.1 nightly, checksum, license, artifact, and non-redistribution guidance was semantically reviewed across JA/EN; pre-existing heading level/order, code-fence, and table-shape differences remain"
     },
     "appendices/appendix-c.md": {
       "source_path": "src/ja/appendices/appendix-c.md",
       "translation_path": "src/en/appendices/appendix-c.md",
-      "source_commit": "53c0ef469bd9f010dd84a83cbdcbde898976df00",
-      "translated_commit": "53c0ef469bd9f010dd84a83cbdcbde898976df00",
-      "source_sha256": "75e693d0557e1216a270fc8b391ccabc70de5b81c4336caeb7324963f48b3ffd",
-      "translation_sha256": "b7960e9a59285aafb451af75a499519e679b95ee4701be9a8d08bbd9aaba8d8b",
+      "source_commit": "dbe99897e679469f15eb58d9c29a2d9ee175283e",
+      "translated_commit": "dbe99897e679469f15eb58d9c29a2d9ee175283e",
+      "source_sha256": "1498224d20f32dd817075554c5ac38cadf480b5944a5c2c2e1be9342b36afcd8",
+      "translation_sha256": "27f8921bd040ab945fe8fd77f1ac043ab895bebfa58cfe63a9d788d18d7628e7",
       "status": "partial",
       "reviewed_at": "2026-07-16",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "The new C.3.9 probabilistic-property correspondence was semantically reviewed across JA/EN; pre-existing heading level/order, numbered-heading, and table-shape differences remain"
+      "notes": "The new C.3.10 Tamarin concept correspondence was semantically reviewed across JA/EN; pre-existing heading level/order, numbered-heading, and table-shape differences remain"
     },
     "appendices/appendix-d.md": {
       "source_path": "src/ja/appendices/appendix-d.md",
@@ -69,14 +69,14 @@
     "appendices/appendix-e.md": {
       "source_path": "src/ja/appendices/appendix-e.md",
       "translation_path": "src/en/appendices/appendix-e.md",
-      "source_commit": "c023d05b5094099bd2d6cbaac283e8da1094a0e9",
-      "translated_commit": "c023d05b5094099bd2d6cbaac283e8da1094a0e9",
-      "source_sha256": "a9530895d60df7d86552b45d868a40e3aefea80b203044cf6ebc1799c36b6177",
-      "translation_sha256": "7b366d26a69d118a74017951afba7e85d51a66a587f198ff131c5783359fd208",
+      "source_commit": "dbe99897e679469f15eb58d9c29a2d9ee175283e",
+      "translated_commit": "dbe99897e679469f15eb58d9c29a2d9ee175283e",
+      "source_sha256": "31d2bd5a4697adfc8cdb174aded580caadfe05f2514f215ed65ca5f1ef43fdb1",
+      "translation_sha256": "67bbd42e6c520c97a3678888698806874d7d3319f61035ead7bedc2c558729f6",
       "status": "partial",
       "reviewed_at": "2026-07-16",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "PRISM primary-source/execution-boundary entries and the CZT source-repository link were re-reviewed across JA/EN; the broader appendix still has heading differences and Japanese-only external references"
+      "notes": "Tamarin/Maude primary-source, version, execution-boundary, and assurance-boundary entries were semantically reviewed across JA/EN; the broader appendix still has heading differences and Japanese-only external references"
     },
     "appendices/appendix-f.md": {
       "source_path": "src/ja/appendices/appendix-f.md",
@@ -225,38 +225,38 @@
     "chapters/chapter12.md": {
       "source_path": "src/ja/chapters/chapter12.md",
       "translation_path": "src/en/chapters/chapter12.md",
-      "source_commit": "53c0ef469bd9f010dd84a83cbdcbde898976df00",
-      "translated_commit": "53c0ef469bd9f010dd84a83cbdcbde898976df00",
-      "source_sha256": "83f4dcefcbc914df1c7377c17a104b69d5f4302fbeb195760f620f4ad5588578",
-      "translation_sha256": "57dd7363e9001746a5595cc97929bb9399f0e52246364aa91f649068fc84d6b2",
+      "source_commit": "dbe99897e679469f15eb58d9c29a2d9ee175283e",
+      "translated_commit": "dbe99897e679469f15eb58d9c29a2d9ee175283e",
+      "source_sha256": "5b7c4966879f29875395e3698316e91e9920e6539521a1869a133ee320ec3de9",
+      "translation_sha256": "6f61993e9997e96ba44bf5e8c6ee8e7098608a14e831d55e4b5254869efaa324",
       "status": "partial",
       "reviewed_at": "2026-07-16",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "The PRISM nightly-matrix reference was semantically reviewed across JA/EN; pre-existing heading, numbered-heading, code-fence, table, tool-label, and example-path differences remain"
+      "notes": "The Tamarin nightly-matrix reference was semantically reviewed across JA/EN; pre-existing heading, numbered-heading, code-fence, table, tool-label, and example-path differences remain"
     },
     "chapters/chapter13.md": {
       "source_path": "src/ja/chapters/chapter13.md",
       "translation_path": "src/en/chapters/chapter13.md",
-      "source_commit": "83d031100ae7bcdeab03d28f072904bcff0d71ff",
-      "translated_commit": "f95634f31d9623c3212d6b9849679178e77fee78",
-      "source_sha256": "eccd7d5f1bd645e63bd884f39655c3b7589de2dac8750bf94c1014386ebfbcf8",
-      "translation_sha256": "f7f19026923e93f7e21b9a27d9bb2151ffbba3ae3078301934ea6d3db9b5a052",
+      "source_commit": "dbe99897e679469f15eb58d9c29a2d9ee175283e",
+      "translated_commit": "dbe99897e679469f15eb58d9c29a2d9ee175283e",
+      "source_sha256": "4100df9ff4c9889b456e211a3c31c412a6ccfbd47b5651419fd3dc854c16935e",
+      "translation_sha256": "5b244759b7151726f1cd88279fe3fe52f371e7560828b4e86f1128779c95e17f",
       "status": "partial",
       "reviewed_at": "2026-07-16",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "heading level/order differs; numbered heading ID/order differs; table count/column shape differs; 1 Japanese external reference link(s) are absent from English; 1 English-only external reference link(s)"
+      "notes": "The Tamarin protocol-verification section, Dolev-Yao boundary, two executable contracts, and assurance limits were semantically reviewed across JA/EN; their placement differs because the broader chapter has pre-existing heading, numbering, table, and modern-application differences"
     },
     "glossary/index.md": {
       "source_path": "src/ja/glossary/index.md",
       "translation_path": "src/en/glossary/index.md",
-      "source_commit": "53c0ef469bd9f010dd84a83cbdcbde898976df00",
-      "translated_commit": "53c0ef469bd9f010dd84a83cbdcbde898976df00",
-      "source_sha256": "a00e8bf5819fb1b85bb651851ec52f1185986dbf05bb1aa4d127dcfcb71addb0",
-      "translation_sha256": "63dcea7531aa2749663f61f95ecf4893aae584b296e0751e44d2718dfbd83148",
+      "source_commit": "dbe99897e679469f15eb58d9c29a2d9ee175283e",
+      "translated_commit": "dbe99897e679469f15eb58d9c29a2d9ee175283e",
+      "source_sha256": "5b4bdf9a5d062c892c3f3b680808bd2b263d719e7a3f0e2574ff3421d7f05bef",
+      "translation_sha256": "fdb9389d120d52bdab6920c8702c6606e46210560db31f4cc5f6982434b54bd5",
       "status": "partial",
       "reviewed_at": "2026-07-16",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "PRISM, probabilistic model checking, reward, scheduler, and statistical-model-checking definitions were semantically reviewed across JA/EN; pre-existing heading-structure differences remain"
+      "notes": "Tamarin Prover, Dolev-Yao adversary, attack-trace, and trace definitions were semantically reviewed across JA/EN; pre-existing heading-structure differences remain"
     },
     "index.md": {
       "source_path": "src/ja/index.md",

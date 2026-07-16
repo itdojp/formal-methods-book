@@ -6,13 +6,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-e.md"
 translation_status: "partial"
-translation_source_commit: "c023d05b5094099bd2d6cbaac283e8da1094a0e9"
+translation_source_commit: "dbe99897e679469f15eb58d9c29a2d9ee175283e"
 translation_reviewed_at: "2026-07-16"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Appendix E: References and Further Reading Paths
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`c023d05b5094`](https://github.com/itdojp/formal-methods-book/commit/c023d05b5094099bd2d6cbaac283e8da1094a0e9) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`dbe99897e679`](https://github.com/itdojp/formal-methods-book/commit/dbe99897e679469f15eb58d9c29a2d9ee175283e) on 2026-07-16.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 This appendix is a **reader-facing guide to primary sources** for the methods, tools, and case studies introduced in the main text. Use it when you want to deepen a chapter, verify a claim against an official source, or decide which tool family to study next.  
@@ -132,6 +132,23 @@ environment, or result for it.
   - Ordinary model checking: <https://www.prismmodelchecker.org/manual/RunningPRISM/ModelChecking>
   - Statistical model checking: <https://www.prismmodelchecker.org/manual/RunningPRISM/StatisticalModelChecking>
   - Official case studies: <https://www.prismmodelchecker.org/casestudies/>
+
+### Tamarin Prover (Symbolic Protocol Verification under an Active Adversary)
+
+- Purpose: verify secrecy, authentication, replay, and related trace lemmas under a Dolev–Yao network attacker, and retain an attack trace when a lemma is falsified
+- Best after reading: Chapter 13 on communication and cryptographic protocols, Appendix B on the nightly path, and Appendix C on facts, rules, events, and lemmas
+- Execution boundary: the book's nightly contract pins official Linux x86-64 distributions, commits, and SHA-256 values for Tamarin Prover 1.12.0 and supported Maude 3.5.1, a 150-second inner timeout, a 180-second runner timeout, and automated proof mode. CI artifacts and Pages do not redistribute either binary.
+- Assurance boundary: results are relative to the symbolic model, equational theory, assumptions, and stated lemmas. They do not unconditionally establish computational soundness, implementation correctness, cryptographic strength, key-compromise behavior, or side-channel resistance.
+- Primary sources:
+  - Official manual, Introduction: <https://tamarin-prover.com/manual/master/book/001_introduction.html>
+  - Official manual, First Example and authentication: <https://tamarin-prover.com/manual/master/book/003_example.html>
+  - Official manual, Protocol Rules: <https://tamarin-prover.com/manual/master/book/005_protocol-specification-rules.html>
+  - Official manual, Property Specification: <https://tamarin-prover.com/manual/master/book/007_property-specification.html>
+  - Official repository: <https://github.com/tamarin-prover/tamarin-prover>
+  - Official examples: <https://github.com/tamarin-prover/tamarin-prover/tree/develop/examples>
+  - Official Tamarin Prover 1.12.0 release: <https://github.com/tamarin-prover/tamarin-prover/releases/tag/1.12.0>
+  - Official Maude download guidance: <https://maude.cs.illinois.edu/get-maude>
+  - Official Maude 3.5.1 release: <https://github.com/maude-lang/Maude/releases/tag/Maude3.5.1>
 
 ## 3) Theorem Proving and Proof Assistants (Rocq / Lean / Isabelle / Agda)
 
