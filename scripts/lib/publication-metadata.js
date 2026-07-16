@@ -65,6 +65,14 @@ function isNonEmptyString(value) {
   return typeof value === 'string' && value.trim().length > 0;
 }
 
+function isSafePathSegment(value) {
+  return isNonEmptyString(value)
+    && value === value.trim()
+    && value !== '.'
+    && value !== '..'
+    && !/[\\/\0]/.test(value);
+}
+
 function duplicateValues(values) {
   const seen = new Set();
   const duplicates = new Set();
@@ -99,6 +107,34 @@ function canonicalSpecialPath(basePath, id) {
   return `${prefix}/${id}/`;
 }
 
+function resolveSourcePage(config, relativePath) {
+  const posixPath = relativePath.split(path.sep).join('/');
+  if (posixPath === 'index.md') {
+    return {
+      section: 'root',
+      id: null,
+      metadata: { title: config.title, description: config.description },
+      outputSegments: ['index.md'],
+    };
+  }
+
+  const contentMatch = posixPath.match(/^(chapters|appendices)\/([^/]+)\.md$/);
+  if (contentMatch) {
+    const [, section, id] = contentMatch;
+    const metadata = config.structure?.[section]?.find((entry) => entry.id === id);
+    return metadata ? { section, id, metadata, outputSegments: [section, id, 'index.md'] } : null;
+  }
+
+  const specialMatch = posixPath.match(/^([^/]+)\/index\.md$/);
+  if (specialMatch) {
+    const id = specialMatch[1];
+    const metadata = config.structure?.specialPages?.find((entry) => entry.id === id);
+    return metadata ? { section: 'specialPages', id, metadata, outputSegments: [id, 'index.md'] } : null;
+  }
+
+  return null;
+}
+
 function validateOrderedEntries({ locale, section, entries, basePath, errors }) {
   if (!Array.isArray(entries) || entries.length === 0) {
     errors.push(`${locale} structure.${section}: non-empty array required`);
@@ -122,6 +158,9 @@ function validateOrderedEntries({ locale, section, entries, basePath, errors }) 
     const label = `${locale} structure.${section}[${index}]`;
     for (const key of ['id', 'title', 'description', 'path']) {
       if (!isNonEmptyString(entry?.[key])) errors.push(`${label}.${key}: non-empty string required`);
+    }
+    if (isNonEmptyString(entry?.id) && !isSafePathSegment(entry.id)) {
+      errors.push(`${label}.id: safe path segment required`);
     }
     if (!Number.isInteger(entry?.order) || entry.order < 0) {
       errors.push(`${label}.order: non-negative integer required`);
@@ -277,6 +316,9 @@ function validatePublicationModel(model) {
       for (const page of specialPages) {
         if (!isNonEmptyString(page?.id) || !isNonEmptyString(page?.title) || !isNonEmptyString(page?.path)) {
           errors.push(`${label} structure.specialPages entries require id, title, and path`);
+        }
+        if (isNonEmptyString(page?.id) && !isSafePathSegment(page.id)) {
+          errors.push(`${label} structure.specialPages id ${JSON.stringify(page.id)}: safe path segment required`);
         }
         if (!['introduction', 'additional', 'afterword'].includes(page?.section)) {
           errors.push(`${label} structure.specialPages ${page?.id}: unsupported section ${JSON.stringify(page?.section)}`);
@@ -491,7 +533,10 @@ function renderTocAppendices(config) {
   for (const appendix of [...config.structure.appendices].sort((left, right) => left.order - right.order)) {
     lines.push(`- [${appendix.title}]({{ '${appendix.path}' | relative_url }})`);
   }
-  for (const page of config.structure.specialPages.filter((entry) => entry.section === 'afterword')) {
+  const afterwordPages = config.structure.specialPages
+    .filter((entry) => entry.section === 'afterword')
+    .sort((left, right) => left.order - right.order);
+  for (const page of afterwordPages) {
     lines.push(`- [${page.title}]({{ '${page.path}' | relative_url }})`);
   }
   return `${lines.join('\n').trimEnd()}\n`;
@@ -622,6 +667,7 @@ module.exports = {
   renderNavigation,
   renderTocAppendices,
   renderTocMain,
+  resolveSourcePage,
   resolveWithinRoot,
   validatePublicationModel,
   writeGeneratedArtifacts,

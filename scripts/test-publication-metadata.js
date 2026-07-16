@@ -8,6 +8,8 @@ const {
   compareGeneratedArtifacts,
   loadPublicationModel,
   renderGeneratedArtifacts,
+  renderTocAppendices,
+  resolveSourcePage,
   resolveWithinRoot,
   validatePublicationModel,
   writeGeneratedArtifacts,
@@ -45,6 +47,32 @@ test('publication model remains explicitly bilingual', () => {
   invalid.manifest.editions.fr = clone(invalid.manifest.editions.en);
   const errors = validatePublicationModel(invalid);
   assert(errors.some((message) => message.includes('must define exactly two editions')));
+});
+
+test('source page lookup derives generic IDs from canonical config', () => {
+  const config = clone(model.editions.en);
+  config.structure.chapters.push({ id: 'chapter-advanced', title: 'Advanced', description: 'Advanced chapter' });
+  config.structure.appendices.push({ id: 'appendix-aa', title: 'Appendix AA', description: 'Extended appendix' });
+  config.structure.specialPages.push({ id: 'resources', title: 'Resources', description: 'Resources page' });
+  assert.deepStrictEqual(resolveSourcePage(config, 'chapters/chapter-advanced.md').outputSegments, [
+    'chapters', 'chapter-advanced', 'index.md',
+  ]);
+  assert.strictEqual(resolveSourcePage(config, 'appendices/appendix-aa.md').metadata.title, 'Appendix AA');
+  assert.deepStrictEqual(resolveSourcePage(config, 'resources/index.md').outputSegments, ['resources', 'index.md']);
+  assert.strictEqual(resolveSourcePage(config, 'chapters/undeclared.md'), null);
+});
+
+test('appendix TOC sorts afterword pages by canonical order', () => {
+  const config = clone(model.editions.en);
+  config.structure.specialPages.unshift({
+    id: 'late-afterword', section: 'afterword', title: 'Late afterword', path: '/en/late-afterword/', order: 99,
+  });
+  config.structure.specialPages.unshift({
+    id: 'early-afterword', section: 'afterword', title: 'Early afterword', path: '/en/early-afterword/', order: 20,
+  });
+  const toc = renderTocAppendices(config);
+  assert(toc.indexOf('Early afterword') < toc.indexOf('Afterword'));
+  assert(toc.indexOf('Afterword') < toc.indexOf('Late afterword'));
 });
 
 test('renderer is deterministic and covers every declared artifact', () => {
@@ -152,9 +180,13 @@ test('repository paths cannot escape or redirect destructive build roots', () =>
   const invalid = clone(model);
   invalid.manifest.editions.en.publishRoot = '.';
   invalid.manifest.editions.en.mobileConfig = '../mobile.json';
+  invalid.editions.en.structure.chapters[0].id = '../escape';
+  invalid.editions.en.structure.specialPages[0].id = '..';
   const errors = validatePublicationModel(invalid);
   assert(errors.some((message) => message.includes('editions.en.publishRoot')));
   assert(errors.some((message) => message.includes('editions.en.mobileConfig')));
+  assert(errors.some((message) => message.includes('structure.chapters[0].id: safe path segment required')));
+  assert(errors.some((message) => message.includes('specialPages id "..": safe path segment required')));
 });
 
 test('exactly the default edition is the source of truth', () => {
@@ -174,4 +206,4 @@ test('exactly the default edition is the source of truth', () => {
   assert(errors.some((message) => message.includes('edition.locale: non-empty string required')));
 });
 
-console.log('Publication metadata renderer tests passed (11 cases).');
+console.log('Publication metadata renderer tests passed (13 cases).');
