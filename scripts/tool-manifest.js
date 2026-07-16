@@ -141,6 +141,26 @@ function validateToolManifest(manifest, options = {}) {
           add('rustToolchainManifest.sha256 は64桁 lowercase hex である必要があります', id);
         }
       }
+      const hasMaudeDependency = [
+        tool.maudeVersion,
+        tool.maudeCommit,
+        tool.maudeDistribution,
+      ].some((value) => value !== undefined);
+      if (hasMaudeDependency) {
+        if (typeof tool.maudeVersion !== 'string' || tool.maudeVersion.trim() === '') {
+          add('maudeVersion は空でない string である必要があります', id);
+        }
+        if (!/^[0-9a-f]{40}$/.test(tool.maudeCommit || '')) {
+          add('maudeCommit は40桁 lowercase hex である必要があります', id);
+        }
+        if (typeof tool.maudeDistribution?.url !== 'string'
+            || !tool.maudeDistribution.url.startsWith('https://')) {
+          add('maudeDistribution.url は https URL である必要があります', id);
+        }
+        if (!SHA256_PATTERN.test(tool.maudeDistribution?.sha256 || '')) {
+          add('maudeDistribution.sha256 は64桁 lowercase hex である必要があります', id);
+        }
+      }
     } else if (tool.lane === 'documentation-only') {
       if (tool.version !== null || tool.wrapper !== null || tool.distribution !== null) {
         add('documentation-only tool は version / wrapper / distribution を null にしてください', id);

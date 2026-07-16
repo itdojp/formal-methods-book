@@ -495,6 +495,70 @@
       }
     },
     {
+      "id": "tamarin-replay-flawed",
+      "tool": "tamarin",
+      "chapter": "chapter13",
+      "anchor": "security-protocol-verification-tamarin",
+      "references": [
+        "src/ja/chapters/chapter13.md",
+        "src/en/chapters/chapter13.md",
+        "docs/chapters/chapter13/index.md",
+        "docs/en/chapters/chapter13/index.md"
+      ],
+      "assets": [
+        "examples/tamarin/replay-challenge/replay-flawed.spthy",
+        "examples/tamarin/replay-challenge/expected-flawed.json"
+      ],
+      "config": null,
+      "command": "bash tools/tamarin-check.sh --out-dir .artifacts/manifest/tamarin-replay-flawed/tool-output --time-limit 150 examples/tamarin/replay-challenge/replay-flawed.spthy examples/tamarin/replay-challenge/expected-flawed.json",
+      "lane": "nightly",
+      "expected": {
+        "exitCode": 0,
+        "stdoutMarker": "Tamarin result contract passed: attack-found (4 lemmas)",
+        "outcome": "counterexample"
+      },
+      "limits": {
+        "timeoutSeconds": 180,
+        "memoryMiB": 4096,
+        "seed": null,
+        "scope": "symbolic shared-key challenge-response under a Dolev-Yao network attacker",
+        "depth": 10,
+        "bound": "unbounded symbolic sessions within automated proof search; stop on first attack trace"
+      }
+    },
+    {
+      "id": "tamarin-replay-fixed",
+      "tool": "tamarin",
+      "chapter": "chapter13",
+      "anchor": "security-protocol-verification-tamarin",
+      "references": [
+        "src/ja/chapters/chapter13.md",
+        "src/en/chapters/chapter13.md",
+        "docs/chapters/chapter13/index.md",
+        "docs/en/chapters/chapter13/index.md"
+      ],
+      "assets": [
+        "examples/tamarin/replay-challenge/replay-fixed.spthy",
+        "examples/tamarin/replay-challenge/expected-fixed.json"
+      ],
+      "config": null,
+      "command": "bash tools/tamarin-check.sh --out-dir .artifacts/manifest/tamarin-replay-fixed/tool-output --time-limit 150 examples/tamarin/replay-challenge/replay-fixed.spthy examples/tamarin/replay-challenge/expected-fixed.json",
+      "lane": "nightly",
+      "expected": {
+        "exitCode": 0,
+        "stdoutMarker": "Tamarin result contract passed: verified (4 lemmas)",
+        "outcome": "success"
+      },
+      "limits": {
+        "timeoutSeconds": 180,
+        "memoryMiB": 4096,
+        "seed": null,
+        "scope": "symbolic shared-key challenge-response under a Dolev-Yao network attacker",
+        "depth": 12,
+        "bound": "unbounded symbolic sessions within automated proof search; all four stated lemmas verified"
+      }
+    },
+    {
       "id": "kani-abs",
       "tool": "kani",
       "chapter": "appendix-b",

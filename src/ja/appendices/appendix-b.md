@@ -20,7 +20,7 @@
 - Quint CLI は、TLA+ 意味論に基づく型付き仕様言語をCIに載せる選択肢であり、本リポジトリでは固定版のtypecheck/testを`nightly`で実行する。
 - Rocq/Isabelle等の定理証明器は依存が大きいため、本付録では一次情報リンク（付録E）を主とする。
 - Lean 4 は、本書の導線として **最小構成のみ**を本付録末尾に示す（Optional）。
-- SPIN / NuSMV / CBMC / Quint / PRISM は`nightly` laneの対象であり、source buildが必要なtoolだけ後述するUbuntu 24.04 x86-64向け追加前提を使う。
+- SPIN / NuSMV / CBMC / Quint / PRISM / Tamarin は`nightly` laneの対象であり、source buildが必要なtoolだけ後述するUbuntu 24.04 x86-64向け追加前提を使う。
 
 ## Tool lane inventoryと実行保証 {#tool-lane-inventory}
 
@@ -41,6 +41,7 @@
 | CBMC | nightly | 6.10.0 | Ubuntu固定配布と有界検査をtool単位nightlyで実行する。 |
 | Quint | nightly | 0.32.0 | 公式single binaryでtypecheck/testを固定seedかつTypeScript backendで再現する。 |
 | PRISM Model Checker | nightly | 4.10.1 | 約41 MBの固定公式配布を取得し、定量的性質をtool単位nightlyで再現する。 |
+| Tamarin Prover | nightly | 1.12.0 | Tamarinと対応Maudeの固定公式配布を取得し、攻撃トレースと補題をtool単位nightlyで再現する。 |
 | Kani Rust Verifier | optional/manual | 0.67.0 | 固定Rust nightlyを追加取得するため明示的manual dispatchに限定する。 |
 | TLA+ Toolbox | documentation-only | — | GUI/編集環境であり、本リポジトリのCLI保証対象外。 |
 | TLA+ VS Code extension | documentation-only | — | 編集支援はCLI検査と分離し、extension版を固定していない。 |
@@ -102,6 +103,7 @@ node scripts/run-example-manifest.js --id quint-counter
 
 cache復元後もQuint binaryとPRISM archiveのSHA-256を再検証する。
 PRISM 4.10.1はGPL-2.0の公式Linux x86-64 archiveを毎回再展開して絶対pathを再設定し、tool binaryはrepository、CI artifact、Pagesへ再配布しない。
+Tamarin Prover 1.12.0（GPL-3.0）と対応するMaude 3.5.1（GPL-2.0-or-later）も、固定SHA-256の公式archiveから毎回再展開する。Tamarinのartifactはlemma結果と欠陥版のattack graphを保持するが、両tool binaryは再配布しない。attack graphはmodel constantを保持するため、実在する秘密情報をmodelへ含めない。
 保持するのは入力hash、標準出力、期待値との比較結果だけである。
 Kaniは検証済みarchiveから毎回再展開し、固定日のRust channel manifestもSHA-256を検証する。Rust component本体の整合性検査は、そのmanifestに記録されたchecksumを検証するrustupに委ねる。
 <!-- example-contract: kani-abs -->
@@ -160,7 +162,7 @@ bash tools/dafny-verify.sh examples/dafny/Abs.dfy
 
 ### nightly lane の追加前提（Ubuntu 24.04 x86-64）
 
-`node scripts/run-example-manifest.js --lane nightly`はSPIN 6.5.2、NuSMV 2.7.1、CBMC 6.10.0、Quint 0.32.0、PRISM 4.10.1の7 entryを実行する。最小セットとは別に、SPIN/NuSMVのsource buildには次の前提が必要である。CBMCはUbuntu 24.04 x86-64用の固定deb、Quintは同platform用の固定single binary、PRISMは約41 MBの固定公式archiveを使うため、この手順は同環境または互換環境を対象とする。
+`node scripts/run-example-manifest.js --lane nightly`はSPIN 6.5.2、NuSMV 2.7.1、CBMC 6.10.0、Quint 0.32.0、PRISM 4.10.1、Tamarin Prover 1.12.0の9 entryを実行する。最小セットとは別に、SPIN/NuSMVのsource buildには次の前提が必要である。CBMCはUbuntu 24.04 x86-64用の固定deb、Quintは同platform用の固定single binary、PRISMは約41 MBの固定公式archive、Tamarinは対応するMaude 3.5.1と二つの固定公式archiveを使うため、この手順は同環境または互換環境を対象とする。
 
 ```bash
 sudo apt-get update
@@ -187,6 +189,15 @@ node scripts/run-example-manifest.js --id prism-retry-communication
 ```
 
 この実行はDTMCと4 propertyの数値契約を再現するだけであり、教育用成功確率0.8が実システムに妥当であることは保証しない。
+
+Tamarinの欠陥版と修正版だけを再実行する場合は次を使う。
+
+```bash
+node scripts/run-example-manifest.js --id tamarin-replay-flawed
+node scripts/run-example-manifest.js --id tamarin-replay-fixed
+```
+
+欠陥版の`counterexample`は期待された成功結果であり、修正版は四つの指定lemmaが同じsymbolic model設定で`verified`となることを確認する。
 
 ### OS差分（要点）
 

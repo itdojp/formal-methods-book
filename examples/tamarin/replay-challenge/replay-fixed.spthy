@@ -1,0 +1,51 @@
+theory ReplayFixed
+begin
+
+builtins: symmetric-encryption
+
+rule Register_Shared_Key:
+  [ Fr(~k) ]
+  --[ SharedKeySecret(~k) ]->
+  [ !SharedKey($Client, $Server, ~k), ClientReady($Client, $Server, ~k) ]
+
+rule Issue_Challenge:
+  [ !SharedKey(Client, Server, k), Fr(~nonce) ]
+  --[ ChallengeIssued(Client, Server, ~nonce) ]->
+  [ OpenChallenge(Client, Server, ~nonce), Out(~nonce) ]
+
+rule Send_Response:
+  [ !SharedKey(Client, Server, k), ClientReady(Client, Server, k), In(nonce) ]
+  --[ ResponseSent(Client, Server, nonce, k) ]->
+  [ Out(senc(<Client, Server, nonce>, k)) ]
+
+rule Accept_Response:
+  [ !SharedKey(Client, Server, k)
+  , OpenChallenge(Client, Server, nonce)
+  , In(senc(<Client, Server, nonce>, k))
+  ]
+  --[ ResponseAccepted(Client, Server, nonce, k) ]->
+  [ ]
+
+lemma Executable: exists-trace
+  "Ex Client Server nonce key #i #j #k.
+     ChallengeIssued(Client, Server, nonce) @ #i
+   & ResponseSent(Client, Server, nonce, key) @ #j
+   & ResponseAccepted(Client, Server, nonce, key) @ #k
+   & #i < #j & #j < #k"
+
+lemma Shared_Key_Secrecy:
+  "All key #i. SharedKeySecret(key) @ #i
+   ==> not (Ex #j. K(key) @ #j)"
+
+lemma Response_Authentication:
+  "All Client Server nonce key #i.
+     ResponseAccepted(Client, Server, nonce, key) @ #i
+   ==> Ex #j. ResponseSent(Client, Server, nonce, key) @ #j & #j < #i"
+
+lemma No_Replay:
+  "All Client Server nonce key #i #j.
+     ResponseAccepted(Client, Server, nonce, key) @ #i
+   & ResponseAccepted(Client, Server, nonce, key) @ #j
+   ==> #i = #j"
+
+end

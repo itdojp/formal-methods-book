@@ -119,9 +119,9 @@ node scripts/check-search-index.js --site _site
 
 ## 実行可能 example と CI
 
-`tools/tool-manifest.json` は、本文で扱う52 tool/serviceのlane、実行版、公式配布物URL/digest、artifact上限、月次更新方針の正本です。`documentation-only` は紹介だけで実行保証がないことを明示します。versionはshell、workflow、exampleへ重複記載せず、このmanifestから参照します。
+`tools/tool-manifest.json` は、本文で扱う53 tool/serviceのlane、実行版、公式配布物URL/digest、artifact上限、月次更新方針の正本です。`documentation-only` は紹介だけで実行保証がないことを明示します。versionはshell、workflow、exampleへ重複記載せず、このmanifestから参照します。
 
-`examples/example-manifest.json` は、本文の strict tool label と自己完結した asset、実行 command、期待outcome、timeout/memory/seed/scope/depth/bound、CI lane を結ぶ正本です。現在のinventoryはAlloy 4件、TLC 1件、Apalache 1件、Dafny 1件、SPIN 2件、NuSMV 2件、CBMC 1件、Quint 1件、PRISM 1件、Kani 1件の計15件です。
+`examples/example-manifest.json` は、本文の strict tool label と自己完結した asset、実行 command、期待outcome、timeout/memory/seed/scope/depth/bound、CI lane を結ぶ正本です。現在のinventoryはAlloy 4件、TLC 1件、Apalache 1件、Dafny 1件、SPIN 2件、NuSMV 2件、CBMC 1件、Quint 1件、PRISM 1件、Tamarin 2件、Kani 1件の計17件です。
 `memoryMiB` はCI容量計画の declared budget であり、OS/cgroupによる強制上限ではありません。強制されるのはrunner timeoutとstdout/stderr上限で、retained tool outputは実行後に上限を検査します。
 
 個別契約または lane は manifest runner から実行します。
@@ -134,7 +134,7 @@ node scripts/run-example-manifest.js --lane optional
 ```
 
 - `pr-quick`: Alloy 6.2.0、TLC 1.7.4、Apalache 0.52.1、Dafny 4.11.0
-- `nightly`: SPIN、NuSMV、CBMC、Quint、PRISM。Alloy/TLC/Apalache/Dafnyには独立matrix用のdeep profileもある
+- `nightly`: SPIN、NuSMV、CBMC、Quint、PRISM、Tamarin。Alloy/TLC/Apalache/Dafnyには独立matrix用のdeep profileもある
 - `optional/manual`: Kani。明示的な`workflow_dispatch`だけで実行する
 - 実行証跡: `.artifacts/manifest/<id>/metadata.json`、`command.txt`、`stdout.log`、`stderr.log`
 
@@ -143,12 +143,12 @@ runner は成否にかかわらず4ファイルを作成します。`metadata.js
 
 PRではbase/head差分をmanifestのasset、reference、config、wrapperへ照合し、関連する`pr-quick`だけを実行します。manifest/runner/bootstrap等の共通基盤変更はfail-safeで7件すべてを実行します。引数なしのローカル実行も従来どおり全件です。
 
-schedule / workflow dispatchは`matrix-plan`がallowlist済みtool/profileを生成し、`tool-matrix`が`fail-fast: false`で独立実行します。scheduleのnightlyは4つのdeep profileとSPIN/NuSMV/CBMC/Quint/PRISMを実行し、1 toolの失敗後も他toolのartifactを回収します。manual dispatchはlaneとtool IDを選べますが、workflow権限は`contents: read`だけで、untrusted PRからoptional laneを起動しません。
+schedule / workflow dispatchは`matrix-plan`がallowlist済みtool/profileを生成し、`tool-matrix`が`fail-fast: false`で独立実行します。scheduleのnightlyは4つのdeep profileとSPIN/NuSMV/CBMC/Quint/PRISM/Tamarinを実行し、1 toolの失敗後も他toolのartifactを回収します。manual dispatchはlaneとtool IDを選べますが、workflow権限は`contents: read`だけで、untrusted PRからoptional laneを起動しません。
 
 ローカルの `nightly` lane は Ubuntu 24.04 x86-64 または互換環境を対象とします。必要な apt package、hash 固定した Meson/Ninja の導入手順、他OSで GitHub Actions を使う境界は付録Bに記載しています。
 
 PR quick は nightly tool を取得しません。nightly の NuSMV は、Ubuntu 24.04 で `libedit.so.0` を要求する公式バイナリを使用せず、公式 LGPL 2.7.1 source（SHA-256 `f1e11931f71d98aa9b84181eed67db584d7111100c2e967c904a31c15f823f60`）を `-Dwith-shell=disabled` で release build します。nightly workflow が GCC/G++、flex、bison、m4、patch、Python 3、pkg-config と、hash 固定した `tools/nusmv-build-requirements.txt` の Meson 1.7.2 / Ninja 1.11.1.4 を準備します。
-Quintのsingle binaryはcache reuse時にもSHA-256を再検証します。PRISMは公式GPL-2.0 binary archiveをSHA-256検証後に毎回再展開し、CI artifactには実行結果だけを保持してbinaryを再配布しません。Kaniは検証済みarchiveから毎回再展開し、固定日のRust channel manifestもSHA-256を検証したうえで、rustupのcomponent checksum検証を利用します。
+Quintのsingle binaryはcache reuse時にもSHA-256を再検証します。PRISMは公式GPL-2.0 binary archiveをSHA-256検証後に毎回再展開し、CI artifactには実行結果だけを保持してbinaryを再配布しません。Tamarin Proverと対応Maudeも固定SHA-256の公式archiveを毎回再展開し、lemma結果とattack graphだけを保持してbinaryを再配布しません。Kaniは検証済みarchiveから毎回再展開し、固定日のRust channel manifestもSHA-256を検証したうえで、rustupのcomponent checksum検証を利用します。
 
 nightly tool の取得元は次の値に固定しています。
 
@@ -158,6 +158,8 @@ nightly tool の取得元は次の値に固定しています。
 | NuSMV 2.7.1 | `https://nusmv.fbk.eu/distrib/2.7.1/NuSMV-2.7.1.tar.xz` | `f1e11931f71d98aa9b84181eed67db584d7111100c2e967c904a31c15f823f60` |
 | CBMC 6.10.0 | official Ubuntu 24.04 x86-64 deb | `d716c219c5318a54f5298f9d5f66766d599e2e37bede33224437a8ad487fc504` |
 | PRISM 4.10.1 | official Linux x86-64 release archive | `9f2135b1d49293cdc9b16b1756a24f99beff320b78134825c1f477f43942ab17` |
+| Tamarin Prover 1.12.0 | official Ubuntu x86-64 release archive | `201be06f469e47cff554df6ca93db8366fc2c69d70c61fcbd1370a1074b469c6` |
+| Maude 3.5.1（Tamarin dependency） | official Linux x86-64 release archive | `72ed1ca87e3b3d0dfc6ee1436baf154bf04c45ff97d521bec040c5e8dfc8f92c` |
 
 ## 執筆ルール（抜粋）
 

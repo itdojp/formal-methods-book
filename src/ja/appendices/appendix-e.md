@@ -121,6 +121,23 @@ Alloy、TLC、Apalache、Dafny は `pr-quick`、SPIN、NuSMV、CBMC、Quint、PR
   - Statistical model checking：<https://www.prismmodelchecker.org/manual/RunningPRISM/StatisticalModelChecking>
   - 公式case studies：<https://www.prismmodelchecker.org/casestudies/>
 
+### Tamarin Prover（active adversary下のsymbolic protocol verification）
+
+- 用途：Dolev–Yao攻撃者が通信を制御する下で、秘密性、認証、replay等をtrace lemmaとして検証し、不成立時にattack traceを得る。
+- 推奨読者：第13章（通信・暗号プロトコル）、付録B（nightly実行）、付録C（fact / rule / event / lemma対応）
+- 実行境界：本書のnightly契約はTamarin Prover 1.12.0と対応Maude 3.5.1の公式Linux x86-64配布物、commit、SHA-256、150秒の内側timeout、180秒のrunner timeout、自動proof modeを固定する。配布binaryはCI artifactやPagesへ再配布しない。
+- 保証境界：結果は選択したsymbolic model、equational theory、仮定、lemmaに相対的であり、computational soundness、実装、暗号強度、鍵侵害、side-channelを無条件に保証しない。
+- 一次情報：
+  - 公式manual（Introduction）：<https://tamarin-prover.com/manual/master/book/001_introduction.html>
+  - 公式manual（First Example / authentication）：<https://tamarin-prover.com/manual/master/book/003_example.html>
+  - 公式manual（Rules）：<https://tamarin-prover.com/manual/master/book/005_protocol-specification-rules.html>
+  - 公式manual（Property Specification）：<https://tamarin-prover.com/manual/master/book/007_property-specification.html>
+  - 公式repository：<https://github.com/tamarin-prover/tamarin-prover>
+  - 公式examples：<https://github.com/tamarin-prover/tamarin-prover/tree/develop/examples>
+  - Tamarin Prover 1.12.0公式release：<https://github.com/tamarin-prover/tamarin-prover/releases/tag/1.12.0>
+  - Maude公式配布案内：<https://maude.cs.illinois.edu/get-maude>
+  - Maude 3.5.1公式release：<https://github.com/maude-lang/Maude/releases/tag/Maude3.5.1>
+
 ## 3) 定理証明（Rocq / Lean / Isabelle / Agda）
 
 ### Rocq（旧称：Coq）

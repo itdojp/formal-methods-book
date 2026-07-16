@@ -39,6 +39,22 @@
         "強公平性",
         "strong fairness"
       ]
+    },
+    {
+      "id": "tamarin-prover",
+      "terms": [
+        "Tamarin Prover",
+        "Tamarin"
+      ]
+    },
+    {
+      "id": "dolev-yao",
+      "terms": [
+        "Dolev–Yao",
+        "Dolev-Yao",
+        "Dolev–Yao攻撃者モデル",
+        "Dolev–Yao adversary model"
+      ]
     }
   ]
 }

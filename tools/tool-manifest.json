@@ -251,6 +251,40 @@
       "commit": "22f0589a505148c95e86feacd204fb58162860ab"
     },
     {
+      "id": "tamarin",
+      "name": "Tamarin Prover",
+      "aliases": [
+        "Tamarin Prover",
+        "Tamarin"
+      ],
+      "lane": "nightly",
+      "reason": {
+        "ja": "Tamarinと対応Maudeの固定公式配布を取得し、攻撃トレースと補題をtool単位nightlyで再現する。",
+        "en": "Downloads pinned official Tamarin and supported Maude distributions and reproduces attack traces and lemmas in an isolated nightly job."
+      },
+      "version": "1.12.0",
+      "wrapper": "tools/tamarin-check.sh",
+      "distribution": {
+        "url": "https://github.com/tamarin-prover/tamarin-prover/releases/download/1.12.0/tamarin-prover-1.12.0-linux64-ubuntu.tar.gz",
+        "sha256": "201be06f469e47cff554df6ca93db8366fc2c69d70c61fcbd1370a1074b469c6"
+      },
+      "platforms": [
+        "ubuntu-x86_64"
+      ],
+      "sources": [
+        "https://github.com/tamarin-prover/tamarin-prover/releases/tag/1.12.0",
+        "https://tamarin-prover.com/manual/master/book/001_introduction.html",
+        "https://github.com/maude-lang/Maude/releases/tag/Maude3.5.1"
+      ],
+      "commit": "82780bbaf3328a45f624ddb41e51bf75425f851c",
+      "maudeVersion": "3.5.1",
+      "maudeCommit": "7269fc720072a2cd8b7222736721ba26dd3752b2",
+      "maudeDistribution": {
+        "url": "https://github.com/maude-lang/Maude/releases/download/Maude3.5.1/Maude-3.5.1-linux-x86_64.zip",
+        "sha256": "72ed1ca87e3b3d0dfc6ee1436baf154bf04c45ff97d521bec040c5e8dfc8f92c"
+      }
+    },
+    {
       "id": "kani",
       "name": "Kani Rust Verifier",
       "aliases": [

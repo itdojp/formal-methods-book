@@ -142,11 +142,12 @@ function runEntry(entry, options = {}) {
   const tool = getTool(toolManifest, runtimeEntry.tool);
   if (!tool) throw new Error(`tool manifest entry not found: ${runtimeEntry.tool}`);
   const toolDependencies = Object.fromEntries(
-    ['rustToolchain', 'embeddedCbmcVersion']
+    ['rustToolchain', 'embeddedCbmcVersion', 'maudeVersion', 'maudeCommit']
       .filter((field) => tool[field] !== undefined)
       .map((field) => [field, tool[field]]),
   );
   if (tool.rustToolchainManifest) toolDependencies.rustToolchainManifest = tool.rustToolchainManifest;
+  if (tool.maudeDistribution) toolDependencies.maudeDistribution = tool.maudeDistribution;
   const artifactPolicy = toolManifest.policy.artifact;
   const artifactDir = path.join(repoRoot, '.artifacts', 'manifest', runtimeEntry.id);
   fs.rmSync(artifactDir, { recursive: true, force: true });

@@ -152,6 +152,7 @@ function validateInventory(rootDir, options = {}) {
     'tools/cbmc-check.sh',
     'tools/quint-check.sh',
     'tools/prism-check.sh',
+    'tools/tamarin-check.sh',
     'tools/kani-check.sh',
     '.github/workflows/formal-checks.yml',
     'examples/example-manifest.json',
