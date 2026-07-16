@@ -9,6 +9,8 @@
   {% endif %}
 {% endif %}
 {% assign locale_data = site.data.locales[page_locale] | default: site.data.locales[default_locale] %}
+{% assign build_provenance = site.data.build_provenance %}
+{% assign book_version = build_provenance.version | default: site.version %}
 {% assign locale_home = '/' %}
 {% if page_locale == 'en' %}
   {% assign locale_home = '/en/' %}
@@ -45,6 +47,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="{{ page.description | default: locale_data.description | escape }}">
     <meta name="author" content="{{ site.author | escape }}">
+    <meta name="book-version" content="{{ book_version | escape }}">
+    {% if build_provenance %}
+    <meta name="book-source-commit" content="{{ build_provenance.source_commit | escape }}">
+    <meta name="book-generated-at" content="{{ build_provenance.generated_at | escape }}">
+    <meta name="book-release" content="{{ build_provenance.release_url | escape }}">
+    {% if build_provenance.pages_run_url %}<meta name="book-pages-run" content="{{ build_provenance.pages_run_url | escape }}">{% endif %}
+    {% endif %}
 
     <title>{% if page.title %}{{ page.title | escape }} - {{ locale_data.book_title | escape }}{% else %}{{ locale_data.book_title | escape }}{% endif %}</title>
 
@@ -237,6 +246,21 @@
                     <div class="book-footer-inner">
                         <div class="book-footer-license">
                             {{ locale_data.footer_license }}
+                            <div class="book-footer-provenance"
+                                 data-book-version="{{ book_version | escape }}"{% if build_provenance %}
+                                 data-source-commit="{{ build_provenance.source_commit | escape }}"
+                                 data-generated-at="{{ build_provenance.generated_at | escape }}"{% endif %}>
+                                <span>{{ locale_data.labels.release_version }} {{ book_version }}</span>
+                                {% if build_provenance %}
+                                    {% assign source_short = build_provenance.source_commit | slice: 0, 7 %}
+                                    <a href="{{ build_provenance.release_url | escape }}">{{ locale_data.labels.release }} {{ build_provenance.release_tag }}</a>
+                                    <a href="{{ build_provenance.source_url | escape }}">{{ locale_data.labels.source_commit }} {{ source_short }}</a>
+                                    {% if build_provenance.pages_run_url %}
+                                        <a href="{{ build_provenance.pages_run_url | escape }}">{{ locale_data.labels.pages_build }}</a>
+                                    {% endif %}
+                                    <time datetime="{{ build_provenance.generated_at | escape }}">{{ build_provenance.generated_at | date: '%Y-%m-%d' }}</time>
+                                {% endif %}
+                            </div>
                         </div>
                         <div class="book-footer-links">
                             {% if repo_url %}

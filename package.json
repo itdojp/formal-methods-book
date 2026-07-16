@@ -1,6 +1,6 @@
 {
   "name": "formal-methods-book",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "仕様記述・模型検査・定理証明を統合的に学ぶ技術書",
   "main": "index.md",
   "scripts": {
@@ -21,7 +21,7 @@
     "lint-structure": "npm run check:metadata && npm run test:bilingual-integrity && npm run check:search-index && npm run check:repository-hygiene && npm run check:tool-blocks && npm run check:tool-inventory && npm run check:example-manifest && npm run check:example-runner && npm run check:tool-cli && npm run check:matrix-plan && npm run check:example-workflow && npm run check:tla-semantics && npm run check:guarantees && node scripts/check-manuscript-guardrails.js docs && npm run qa:bilingual",
     "check-links": "markdown-link-check -c .markdown-link-check.json -q -p src/ja/index.md && markdown-link-check -c .markdown-link-check.json -q -p src/ja/glossary/index.md && markdown-link-check -c .markdown-link-check.json -q -p src/ja/chapters/*.md && markdown-link-check -c .markdown-link-check.json -q -p src/ja/appendices/appendix-*.md && markdown-link-check -c .markdown-link-check.json -q -p src/ja/introduction/index.md && markdown-link-check -c .markdown-link-check.json -q -p src/ja/afterword/index.md && markdown-link-check -c .markdown-link-check.json -q -p src/en/index.md && markdown-link-check -c .markdown-link-check.json -q -p src/en/glossary/index.md && markdown-link-check -c .markdown-link-check.json -q -p src/en/chapters/*.md && markdown-link-check -c .markdown-link-check.json -q -p src/en/appendices/appendix-*.md && markdown-link-check -c .markdown-link-check.json -q -p src/en/introduction/index.md && markdown-link-check -c .markdown-link-check.json -q -p src/en/afterword/index.md && markdown-link-check -c .markdown-link-check.json -q -p docs/index.md && markdown-link-check -c .markdown-link-check.json -q -p docs/afterword/index.md && markdown-link-check -c .markdown-link-check.json -q -p docs/en/index.md && markdown-link-check -c .markdown-link-check.json -q -p docs/en/afterword/index.md && markdown-link-check -c .markdown-link-check.json -q -p docs/_includes/generated/*.md",
     "deploy": "gh-pages -d docs",
-    "check:metadata": "npm run test:metadata-renderer && npm run test:publication-build && node scripts/check-publish-metadata.js",
+    "check:metadata": "npm run test:metadata-renderer && npm run test:publication-build && npm run test:provenance && node scripts/check-publish-metadata.js",
     "check:search-index": "npm run test:search-index && node scripts/check-search-index.js",
     "check:repository-hygiene": "node scripts/check-repository-hygiene.js --self-test && node scripts/check-repository-hygiene.js",
     "check:tla-semantics": "node scripts/check-tla-semantics.js --self-test && node scripts/check-tla-semantics.js",
@@ -36,7 +36,10 @@
     "check:example-workflow": "node scripts/check-example-workflow.js --self-test && node scripts/check-example-workflow.js",
     "examples:pr-quick": "bash examples/ci/pr-quick-check.sh",
     "examples:nightly": "node scripts/run-example-manifest.js --lane nightly",
-    "examples:optional": "node scripts/run-example-manifest.js --lane optional"
+    "examples:optional": "node scripts/run-example-manifest.js --lane optional",
+    "generate:provenance": "node scripts/generate-build-provenance.js",
+    "test:provenance": "node scripts/test-build-provenance.js",
+    "check:provenance": "node scripts/check-build-provenance.js"
   },
   "keywords": [
     "book",

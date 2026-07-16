@@ -3,7 +3,7 @@
   "subtitle": "An Integrated Understanding of Specification, Model Checking, and Theorem Proving",
   "description": "A practical introduction to mathematically rigorous software design, from specification and model checking to theorem proving and program verification.",
   "author": "Kazuhiko Ota (ITDO Inc.)",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "language": "en",
   "license": "CC-BY-NC-SA-4.0",
   "edition": {
@@ -279,7 +279,11 @@
       "contact": "Contact",
       "switch_to": "日本語",
       "missing_translation": "Go to the Japanese home",
-      "breadcrumb_home": "Home"
+      "breadcrumb_home": "Home",
+      "release_version": "Version",
+      "release": "Release",
+      "source_commit": "Source",
+      "pages_build": "Pages build"
     },
     "footerLicense": "Reader-facing text: CC BY-NC-SA 4.0 / Code assets: Apache-2.0 / excluding trademarks and third-party assets"
   }

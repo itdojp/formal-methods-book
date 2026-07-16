@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "project": "formal-methods-book",
-  "projectVersion": "1.0.0",
+  "projectVersion": "1.1.0",
   "locale": "ja",
   "entryCount": 1181,
   "entries": [
@@ -190,7 +190,7 @@
       "chapter": "形式的手法の基礎と応用",
       "heading": "ライセンス",
       "url": "/formal-methods-book/#ライセンス",
-      "text": "本書の本文・図版・付録などの reader-facing コンテンツは CC BY-NC-SA 4.0、コード例・ツール・ビルド資産は Apache-2.0 で提供します。 CC BY-NC-SA 4.0 の法的全文 ライセンス適用範囲 商用利用窓口 商標の扱い third-party / upstream 資産 お問い合わせ 株式会社アイティードゥ（ITDO Inc.） Email: knowledge@itdo.jp 著者: 太田和彦（株式会社アイティードゥ） バージョン: 1.0.0 最終更新: GitHub Pages: 自動デプロイ対応",
+      "text": "本書の本文・図版・付録などの reader-facing コンテンツは CC BY-NC-SA 4.0、コード例・ツール・ビルド資産は Apache-2.0 で提供します。 CC BY-NC-SA 4.0 の法的全文 ライセンス適用範囲 商用利用窓口 商標の扱い third-party / upstream 資産 お問い合わせ 株式会社アイティードゥ（ITDO Inc.） Email: knowledge@itdo.jp 著者: 太田和彦（株式会社アイティードゥ） バージョン: 公開ビルド: GitHub Pages: 自動デプロイ対応",
       "aliases": []
     },
     {

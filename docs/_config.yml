@@ -3,7 +3,7 @@ title: 形式的手法の基礎と応用
 description: ソフトウェアの数学的設計入門 - 形式的手法で学ぶ確実なシステム開発の理論から実践まで
 author: 太田和彦（株式会社アイティードゥ）
 organization: 株式会社アイティードゥ
-version: 1.0.0
+version: 1.1.0
 lang: ja
 default_locale: ja
 supported_locales:

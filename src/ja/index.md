@@ -125,7 +125,7 @@ Email: [knowledge@itdo.jp](mailto:knowledge@itdo.jp)
 
 ---
 
-**著者:** 太田和彦（株式会社アイティードゥ）  
-**バージョン:** 1.0.0  
-**最終更新:** {{ site.time | date: '%Y-%m-%d' }}  
-**GitHub Pages:** 自動デプロイ対応
+- **著者:** 太田和彦（株式会社アイティードゥ）
+- **バージョン:** {{ site.version }}
+- **公開ビルド:** {{ site.data.build_provenance.generated_at | date: '%Y-%m-%d' }}
+- **GitHub Pages:** 自動デプロイ対応

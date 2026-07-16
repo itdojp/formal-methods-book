@@ -3,7 +3,7 @@
   "subtitle": "仕様記述、模型検査、定理証明の統合的理解",
   "description": "ソフトウェアの数学的設計入門 - 形式的手法で学ぶ確実なシステム開発の理論から実践まで",
   "author": "太田和彦（株式会社アイティードゥ）",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "language": "ja",
   "license": "CC-BY-NC-SA-4.0",
   "edition": {
@@ -274,7 +274,11 @@
       "contact": "お問い合わせ",
       "switch_to": "English",
       "missing_translation": "英語版トップへ",
-      "breadcrumb_home": "ホーム"
+      "breadcrumb_home": "ホーム",
+      "release_version": "版",
+      "release": "リリース",
+      "source_commit": "ソース",
+      "pages_build": "公開ビルド"
     },
     "footerLicense": "本文: CC BY-NC-SA 4.0 / コード資産: Apache-2.0 / 商標・第三者資産を除く"
   }

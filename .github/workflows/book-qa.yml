@@ -48,6 +48,9 @@ jobs:
       - name: Build bilingual publish tree
         run: npm run build:all
 
+      - name: Generate build provenance
+        run: npm run generate:provenance
+
       - name: Bilingual integrity check
         run: npm run qa:bilingual
 
@@ -116,6 +119,9 @@ jobs:
 
       - name: Search index and anchor smoke check
         run: node scripts/check-search-index.js --site _site
+
+      - name: Release and source provenance smoke check
+        run: npm run check:provenance -- --site _site
 
       - name: Smoke check built site (top + navigation + assets)
         shell: bash

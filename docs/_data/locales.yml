@@ -37,6 +37,10 @@ ja:
     switch_to: English
     missing_translation: 英語版トップへ
     breadcrumb_home: ホーム
+    release_version: 版
+    release: リリース
+    source_commit: ソース
+    pages_build: 公開ビルド
   footer_license: "本文: CC BY-NC-SA 4.0 / コード資産: Apache-2.0 / 商標・第三者資産を除く"
 en:
   book_title: "Formal Methods: Foundations and Applications"
@@ -76,4 +80,8 @@ en:
     switch_to: 日本語
     missing_translation: Go to the Japanese home
     breadcrumb_home: Home
+    release_version: Version
+    release: Release
+    source_commit: Source
+    pages_build: Pages build
   footer_license: "Reader-facing text: CC BY-NC-SA 4.0 / Code assets: Apache-2.0 / excluding trademarks and third-party assets"

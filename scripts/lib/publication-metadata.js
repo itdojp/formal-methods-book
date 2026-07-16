@@ -38,6 +38,10 @@ const REQUIRED_UI_LABELS = [
   'switch_to',
   'missing_translation',
   'breadcrumb_home',
+  'release_version',
+  'release',
+  'source_commit',
+  'pages_build',
 ];
 
 function readJson(filePath) {

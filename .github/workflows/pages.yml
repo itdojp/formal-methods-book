@@ -37,6 +37,9 @@ jobs:
       - name: Build bilingual publish tree
         run: npm run build:all
 
+      - name: Generate build provenance
+        run: npm run generate:provenance
+
       - name: Configure Pages
         uses: actions/configure-pages@v6
 
@@ -48,6 +51,9 @@ jobs:
 
       - name: Search index and anchor smoke check
         run: node scripts/check-search-index.js --site _site
+
+      - name: Release and source provenance smoke check
+        run: npm run check:provenance -- --site _site
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5
