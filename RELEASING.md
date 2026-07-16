@@ -224,12 +224,15 @@ jq -n \
   '{schema_version:"1.0", version:$version, release_tag:$release_tag, source_commit:$source_commit, pages_run_id:$pages_run_id, pages_run_url:$pages_run_url, public_provenance_url:$public_provenance_url}' \
   > "$PROVENANCE_ASSET"
 
-gh release upload "v${VERSION}" "$PROVENANCE_ASSET" --clobber
+ASSET_NAME="$(basename "$PROVENANCE_ASSET")"
+test "$(gh release view "v${VERSION}" --json assets | jq --arg name "$ASSET_NAME" '[.assets[] | select(.name == $name)] | length')" -eq 0
+gh release upload "v${VERSION}" "$PROVENANCE_ASSET"
 gh release view "v${VERSION}" --json assets --jq '.assets[].name'
 ```
 
 - asset の `source_commit` と `pages_run_id` を公開 `build-provenance.json` と照合します。
 - asset は公開 Pages artifact と GitHub Release を結ぶ監査記録です。認証情報、環境変数、Private 情報を含めません。
+- 公開後のasset削除・同名再upload・上書きは禁止します。誤りは既存releaseを改変せず、訂正用patch releaseで扱います。
 
 ## safe rollback
 
@@ -249,6 +252,9 @@ gh release view "v${VERSION}" --json assets --jq '.assets[].name'
 手順:
 
 ```bash
+test "$VERSION" = "$(jq -r '.project.version' book-config.json)"
+test "$(gh release view "v${VERSION}" --json isDraft --jq '.isDraft')" = "true"
+test "$(git rev-parse "v${VERSION}^{commit}")" = "$RELEASE_SHA"
 gh release delete "v${VERSION}" --yes
 git push origin ":refs/tags/v${VERSION}"
 git tag -d "v${VERSION}"
@@ -270,17 +276,18 @@ git tag -d "v${VERSION}"
 
 ### Pages 公開物が壊れた場合
 
-- まず `main` を revert して Pages を復旧します。
+- まずrevert PRを作り、required checkとreviewを通して`main`へmergeし、Pagesを復旧します。
 - 例:
 
 ```bash
-git switch main
-git pull --ff-only origin main
+git fetch origin main
+git switch -c "revert/v${VERSION}-pages" origin/main
 git revert <bad-commit-sha>
-git push origin main
+git push -u origin "revert/v${VERSION}-pages"
+gh pr create --base main --head "revert/v${VERSION}-pages" --title "revert: restore Pages after v${VERSION}" --body "Reverts <bad-commit-sha> after a verified Pages regression."
 ```
 
-- Pages 復旧後、正しい修正を別 PR で入れ、必要なら patch release を切ります。
+- 緊急時もbranch protectionやrequired checkを迂回しません。Pages復旧後、正しい修正を別PRで入れ、必要ならpatch releaseを切ります。
 - 既存の公開済み tag は触りません。
 
 ## release 完了条件
