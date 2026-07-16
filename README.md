@@ -37,6 +37,7 @@ Markdown で執筆し、日本語版を `docs/`、英語版を `docs/en/` に公
 - 依存関係監査: `npm audit`
 - 個別実行:
   - メタデータ整合性: `npm run check:metadata`
+  - TLA+ 意味論・対象 source/publish 整合: `npm run check:tla-semantics`
   - Lint: `npm run lint`
   - 構造lint: `npm run lint-structure`
   - リンク: `npm run check-links`

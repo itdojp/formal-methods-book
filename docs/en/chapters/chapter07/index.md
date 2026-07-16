@@ -179,43 +179,43 @@ the next state.
 
 TLA+ uses temporal logic to express dynamic properties of behavior.
 
-**`□` (always)**:
+TLA+ uses state predicates and actions to describe transitions, then temporal
+formulas to describe properties of complete behaviors. The basic notation for
+behavior properties, together with the fairness assumptions used for liveness,
+is:
 
-【擬似記法】
+- **`[]P` (always)**: `P` holds in every state;
+- **`<>P` (eventually)**: `P` holds in some future state;
+- **`P ~> Q` (leads-to)**: whenever `P` holds, `Q` eventually follows, an
+  abbreviation for `[](P => <>Q)`; and
+- **`WF_vars(A)` / `SF_vars(A)`**: weak and strong fairness assumptions for
+  action `A`.
+
+This book also uses `□` / `◇` as mathematical typography, while TLA+ input uses
+`[]` / `<>`.
+
+【Pseudo notation】
 ```tla
-□(x ≥ 0)
+[]<>(process = "ready")
+<>[](system = "stable")
+request ~> response
 ```
 
-This says that `x` is always non-negative.
+The first formula says that the process becomes ready infinitely often. The
+second says that the system eventually reaches a stable condition and stays
+there. The third says that each state satisfying `request` is eventually
+followed by one satisfying `response`.
 
-**`◇` (eventually)**:
+#### Distinguishing LTL Next from TLA+ Prime
 
-【擬似記法】
-```tla
-◇(x = 10)
-```
+The LTL formula `X P`, often typeset as `○P`, evaluates `P` at the next position
+of a trace. TLA+ prime notation is different: `x'` refers to the next-state
+value of `x` inside an action, which is a predicate over a pair of states.
 
-This says that `x` becomes 10 at some point.
-
-**`○` (next)** is common in temporal-logic explanation, although ordinary TLA+
-specifications usually work directly with primed variables and action formulas
-rather than with a separate next-time operator.
-
-【擬似記法】
-```tla
-○(x > y)
-```
-
-These operators can be combined to describe richer behavior.
-
-【擬似記法】
-```tla
-□◇(process = "ready")
-◇□(system = "stable")
-```
-
-The first says that the process becomes ready infinitely often. The second says
-that the system eventually reaches a stable condition and stays there.
+Ordinary TLA+ specifications are structured around a stuttering-permitting
+formula such as `Init /\ [][Next]_vars /\ Liveness`. This chapter therefore
+uses actions with primes plus `[]`, `<>`, `~>`, and fairness as its entry points,
+rather than presenting a next-time operator as a primary TLA+ operator.
 
 ### The Power of Prime Notation
 
@@ -246,14 +246,23 @@ Here `ENABLED A` means that from the current state, some next state exists that
 satisfies action `A`.
 
 - **Weak fairness (`WF`)**: if an action is continuously enabled from some
-  point onward, then it must eventually occur.
+  point onward, then it cannot be ignored forever. If it remains enabled, it
+  must occur repeatedly.
 - **Strong fairness (`SF`)**: if an action becomes enabled infinitely often,
-  then it must eventually occur.
+  then it cannot be avoided forever. Because this includes intermittent
+  enablement, strong fairness is generally a stronger assumption than weak
+  fairness, although the two can coincide for a particular action and
+  specification.
 
-【ツール準拠（そのまま動く）】
+The following fragment still needs declarations for `vars`, the actions,
+`Init`, and `Next`, with the fair actions defined as subactions of `Next`; it is
+not a complete module that runs on its own.
+
+【Context-dependent snippet】
 ```tla
-WF_vars(Action)
-SF_vars(Action)
+Spec == Init /\ [][Next]_vars
+        /\ WF_vars(Action)
+        /\ SF_vars(OtherAction)
 ```
 
 ### Compositionality
@@ -271,17 +280,20 @@ conjunction.
 
 ### Stepwise Refinement
 
-TLA+ also supports refinement: a concrete specification can be shown to realize
-an abstract one. This allows development to proceed from a high-level design to
-an implementable model while preserving important guarantees.
+TLA+ also supports refinement. Development can proceed from an abstract design
+to a more concrete specification, while the proof obligation runs from the
+concrete behavior to the abstract behavior it must implement.
 
-【擬似記法】
+【Pseudo notation】
 ```text
-abstract specification ⊨ concrete specification
+ConcreteSpec => AbstractSpec
 ```
 
-The notation above is explanatory rather than executable TLA+ code, but it
-captures the refinement idea.
+The notation above is explanatory rather than an executable TLA+ module. A real
+refinement proof applies a refinement mapping from abstract variables to
+expressions over the concrete state and hides internal variables before proving
+the implication. The mapping and hiding boundary are therefore part of the
+claim, not incidental implementation details.
 
 ### Accepting Nondeterminism
 
@@ -674,8 +686,8 @@ Fairness can also be written precisely in temporal form.
 WF_vars(A) ≜ ◇□ENABLED ⟨A⟩_vars ⟹ □◇⟨A⟩_vars
 ```
 
-This says that if action `A` eventually remains enabled forever, then it must
-occur infinitely often.
+This says that if action `A` eventually remains enabled forever, it cannot be
+ignored forever. If it remains enabled, it must occur infinitely often.
 
 **Strong fairness**:
 
@@ -685,7 +697,9 @@ SF_vars(A) ≜ □◇ENABLED ⟨A⟩_vars ⟹ □◇⟨A⟩_vars
 ```
 
 This says that if `A` becomes enabled infinitely often, then it must also occur
-infinitely often.
+infinitely often. Since intermittent enablement is enough, this is generally a
+stronger assumption than weak fairness, although the two can coincide for a
+particular action and specification.
 
 Note that `⟨A⟩_vars` excludes stuttering by requiring that action `A` occurs and
 that the tuple `vars` actually changes.

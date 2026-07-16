@@ -95,9 +95,12 @@ further progress is possible. See Chapters 6 and 8.
 
 ## F
 
-**Fairness**: An assumption about scheduling or progress used when reasoning
-about liveness. If it is too strong, a property may appear to hold only because
-of the assumption. See Chapter 7.
+**Fairness**: An assumption about action selection used when reasoning about
+liveness. In TLA+, weak fairness rules out ignoring an action that remains
+continuously enabled, while strong fairness also covers an action enabled
+infinitely often. It is an assumption on behaviors, not a guarantee that the
+implementation's scheduler is fair; an overly strong assumption can make a
+liveness claim appear to hold only because of that assumption. See Chapter 7.
 
 **Formal specification**: A mathematically precise description of required
 system behavior. Its purpose is to reduce ambiguity, expose hidden assumptions,
@@ -156,6 +159,10 @@ and 10.
 **Precondition**: A condition that must hold before an operation or program
 fragment starts for the promised result to be valid. See Chapters 3 and 10.
 
+**Prime notation (TLA+)**: Notation used inside an action to relate two states:
+`x` is the current-state value and `x'` is the next-state value. It is distinct
+from the LTL next-time operator `X` / `○`. See Chapter 7.
+
 **Proof assistant**: A software system that supports the construction and
 checking of formal proofs. Examples discussed in this book include Rocq, Lean,
 and Isabelle/HOL. See Chapters 9 and 12.
@@ -171,9 +178,10 @@ suited to describing processes, communication, and interleavings. See Chapters
 
 ## R
 
-**Refinement**: The process of turning an abstract specification into a more
-concrete design or implementation while preserving the essential properties of
-the original specification. See Chapters 3, 5, and 10.
+**Refinement**: The process of developing a concrete specification while
+proving that, after applying a refinement mapping and hiding internal variables,
+its behavior satisfies the abstract specification. Conceptually, the
+implication runs as `ConcreteSpec => AbstractSpec`. See Chapters 3, 5, and 7.
 
 **Rocq**: The proof assistant formerly known as Coq. It is based on type
 theory and is used in this book as a representative environment for
@@ -208,12 +216,15 @@ model checking, and many verification arguments in this book. See Chapters 7,
 
 ## T
 
-**TLA+**: A specification language for distributed and concurrent systems based
-on state transitions and temporal logic. See Chapter 7.
+**TLA+**: A specification language for distributed and concurrent systems. It
+uses actions to relate current and next states and temporal formulas to describe
+complete behaviors, normally in a stuttering-permitting form. Prime notation is
+not the LTL next-time operator. See Chapter 7.
 
 **Temporal logic**: A family of logics used to describe how properties evolve
-over time. LTL and CTL are representative examples discussed in this book. See
-Chapters 7 and 8.
+over time. LTL and CTL are representative examples; in TLA+, `[]`, `<>`, and
+`~>` describe behavior properties, while prime notation belongs to actions.
+See Chapters 7 and 8.
 
 **Theorem proving**: A style of verification that establishes correctness by
 constructing a proof rather than exhaustively exploring a state space. See

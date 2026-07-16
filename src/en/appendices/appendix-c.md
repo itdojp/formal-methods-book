@@ -15,7 +15,7 @@ explanation.
 - **invariant**: a property that must always hold. If a counterexample appears, it indicates a breakdown in the specification or the implementation.
 - **safety**: a property stating that something bad does not happen, for example that a double withdrawal never occurs.
 - **liveness**: a property stating that something good eventually happens, for example that a request is eventually processed.
-- **refinement**: the process of making an abstract specification progressively more concrete until it reaches an implementation-level specification.
+- **refinement**: the process of developing a concrete specification while proving that, after applying a refinement mapping and hiding internal variables, its behavior satisfies the abstract specification. Conceptually, the implication runs as `ConcreteSpec => AbstractSpec`.
 - **contract**: a runtime or verification-time guard that makes preconditions and postconditions explicit.
 - **trace**: a sequence of state transitions. Counterexamples are presented as traces.
 - **counterexample**: a minimal execution that violates a property. It is the starting point for correcting the design.
@@ -72,7 +72,7 @@ Notes:
 | Initial state | `InitState` | `pred Init[...]` | Initial process `P0` | `Init == ...` |
 | Transition / operation | `ΔState` | `pred Step[s, s']` | Prefix `a → P` (`a -> P` in tools) | `Next == ...` |
 | Invariant (safety) | Schema constraint | `fact` / `assert` | Refinement / assertions, depending on the tool | `Invariant == ...` / `[]P` |
-| Liveness / fairness | Requires extension | Expressed over traces | Tool-dependent | `<>P`, `WF_vars(A)`, `SF_vars(A)` |
+| Liveness / fairness | Requires extension | Expressed over traces | Tool-dependent | `<>P`, `P ~> Q`, `WF_vars(A)`, `SF_vars(A)` |
 
 Notes:
 - Z symbols such as `↔`, `→`, `⇸`, and `↦` follow the notation system used in Chapter 5.
@@ -119,12 +119,15 @@ Note: the tool notation shown here is representative only. In actual work, confi
 
 | Symbol | Meaning | Example |
 | --- | --- | --- |
-| `v'` | The next-state value | `x' = x + 1` |
+| `v'` | The next-state value used inside an action; distinct from LTL `X` / `○` | `x' = x + 1` |
 | `[]P` / `<>P` | Always / eventually | `[]Inv`, `<>Goal` |
-| `WF_vars(A)` / `SF_vars(A)` | Fairness assumptions | `WF_vars(Next)` |
+| `P ~> Q` | Whenever `P` holds, `Q` eventually follows | `request ~> response` |
+| `WF_vars(A)` / `SF_vars(A)` | Weak / strong fairness assumptions for action `A` | `WF_vars(Receive)` |
 | `.cfg` | TLC configuration | initial state, invariants, and exploration constraints |
+
+`WF_vars(A)` and `SF_vars(A)` require declarations for `vars` and action `A`, with `A` defined as a subaction of `Next`, plus a specification context such as `Init /\ [][Next]_vars`; they are not complete runs-as-is examples on their own. A refinement implication is also pseudo-notation until the refinement mapping and hiding boundary are made explicit.
 
 Supplement:
 - Alloy is centered on finite-scope counterexample search. When modeling state transitions, time or steps are usually made explicit.
-- TLA+ is centered on state transitions and temporal logic. It is typically used to fix high-level properties such as invariants and liveness before implementation detail is fully developed.
+- TLA+ is centered on state transitions and temporal logic. Primes relate current and next states inside actions, while `[]`, `<>`, `~>`, and fairness describe properties of behaviors.
 - Z is used to make requirements precise through state and operation schemas and then refine them toward implementation.
