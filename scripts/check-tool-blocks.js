@@ -210,12 +210,6 @@ function checkFile(filePath, manifestIds) {
         });
       } else {
         registrationId = registrationMatch[1];
-        if (!manifestIds.has(registrationId)) {
-          errors.push({
-            line: i,
-            message: `example contract ID が manifest に存在しません: ${registrationId}`,
-          });
-        }
       }
     }
 
@@ -449,6 +443,7 @@ function runSelfTest() {
     {
       name: 'unknown registration',
       expected: 'manifest に存在しません',
+      expectedCount: 1,
       content: [
         '<!-- example-contract: missing-id -->',
         '【Tool-compliant (runs as-is)】',
@@ -481,6 +476,9 @@ function runSelfTest() {
       }
       if (fixture.expected && !errors.some((error) => error.message.includes(fixture.expected))) {
         throw new Error(`${fixture.name}: expected diagnostic not found: ${fixture.expected}`);
+      }
+      if (fixture.expectedCount !== undefined && errors.length !== fixture.expectedCount) {
+        throw new Error(`${fixture.name}: expected ${fixture.expectedCount} diagnostic(s), got ${errors.length}`);
       }
       console.log(`PASS: ${fixture.name}`);
     }
