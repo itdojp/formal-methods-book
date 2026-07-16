@@ -267,6 +267,29 @@ try {
   fs.rmSync(sharedOutput, { recursive: true, force: true });
 }
 
+const rtlolaSharedOutput = path.join(repoRoot, '.artifacts', 'tests', 'rtlola-shared-output');
+const rtlolaUnrelatedOutput = path.join(rtlolaSharedOutput, 'unrelated.txt');
+try {
+  fs.mkdirSync(rtlolaSharedOutput, { recursive: true });
+  fs.writeFileSync(rtlolaUnrelatedOutput, 'preserve me\n');
+  const result = spawnSync('bash', [
+    'tools/rtlola-check.sh',
+    '--out-dir', path.relative(repoRoot, rtlolaSharedOutput),
+    'examples/runtime-verification/auth-before-sensitive/auth-before-sensitive.lola',
+    'examples/runtime-verification/auth-before-sensitive/normal.csv',
+    'examples/runtime-verification/auth-before-sensitive/expected-normal.json',
+  ], { cwd: repoRoot, encoding: 'utf8' });
+  const output = `${result.stdout || ''}${result.stderr || ''}`;
+  if (result.status !== 2 || !output.includes('must be empty or contain only prior RTLola outputs')) {
+    throw new Error(`shared RTLola output directory was not rejected before bootstrap:\n${output}`);
+  }
+  if (fs.readFileSync(rtlolaUnrelatedOutput, 'utf8') !== 'preserve me\n') {
+    throw new Error('RTLola wrapper modified an unrelated artifact');
+  }
+} finally {
+  fs.rmSync(rtlolaSharedOutput, { recursive: true, force: true });
+}
+
 const { manifest: validToolManifest } = loadToolManifest(repoRoot);
 {
   const fixture = JSON.parse(JSON.stringify(validToolManifest));

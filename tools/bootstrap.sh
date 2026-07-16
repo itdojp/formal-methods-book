@@ -822,7 +822,7 @@ PYTHON
 }
 
 
-ensure_rtlola() {
+ensure_rtlola_locked() {
   require_command rustup rustup
   require_command cargo cargo
   require_command python3 python3
@@ -920,6 +920,24 @@ PYTHON
     echo 'RTLola binary version did not match the manifest' >&2
     return 1
   fi
+}
+
+ensure_rtlola() {
+  require_command flock util-linux
+  local lock_file="$TMP_DIR/rtlola-$RTLOLA_VERSION.lock"
+  mkdir -p "$(dirname "$lock_file")"
+
+  # Both teaching contracts rebuild into the same verified target path. A
+  # worktree may launch them concurrently outside the official sequential
+  # matrix runner, so serialize extraction and build rather than allowing one
+  # process to remove another process's source or target directory.
+  (
+    if ! flock -x -w 300 9; then
+      echo 'Timed out waiting for the RTLola bootstrap lock' >&2
+      return 75
+    fi
+    ensure_rtlola_locked
+  ) 9>"$lock_file"
 }
 
 ensure_tamarin() {
