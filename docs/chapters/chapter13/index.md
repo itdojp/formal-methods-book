@@ -1,11 +1,12 @@
 ---
 layout: book
 title: "第13章：事例研究"
+description: "パリ地下鉄14号線、Amazon s2n、マイクロソフト TLA+ 適用事例の詳細分析"
 chapter: chapter13
 order: 13
 ---
 
-# 第13章　事例研究
+# 第13章：事例研究
 
 ミニ要約：
 - 事例の文脈/制約/成果を多面的に分析

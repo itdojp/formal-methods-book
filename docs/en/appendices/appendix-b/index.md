@@ -1,6 +1,7 @@
 ---
 layout: book
 title: "Appendix B: Tool Setup and Verification Quick Start"
+description: "The shortest reproducible path to running the companion examples for Alloy, TLC, Apalache, Dafny, and Lean 4."
 locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-b.md"

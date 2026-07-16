@@ -1,6 +1,7 @@
 ---
 layout: book
 title: "Chapter 2: Bridging Mathematics and Programs"
+description: "How mathematical thinking connects to programming, with models of state and change."
 locale: "en"
 lang: "en"
 source_path: "src/en/chapters/chapter02.md"

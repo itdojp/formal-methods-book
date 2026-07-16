@@ -1,6 +1,7 @@
 ---
 layout: book
 title: "付録C：記法対照表"
+description: "Z記法、Alloy、TLA+ 等の記号や構文の一覧表"
 locale: "ja"
 lang: "ja"
 source_path: "src/ja/appendices/appendix-c.md"

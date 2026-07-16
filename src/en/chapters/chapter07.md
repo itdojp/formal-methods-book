@@ -1,4 +1,4 @@
-# Chapter 7: Specifying Time: Introduction to TLA+
+# Chapter 7: Specifying Time — Introduction to TLA+
 
 > Translation status: full draft  
 > Japanese source of truth: `src/ja/chapters/chapter07.md`

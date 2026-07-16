@@ -1,6 +1,7 @@
 ---
 layout: book
 title: "Chapter 3: Foundations of Specification"
+description: "From ambiguity in natural language to precise specifications with preconditions, postconditions, and invariants."
 locale: "en"
 lang: "en"
 source_path: "src/en/chapters/chapter03.md"

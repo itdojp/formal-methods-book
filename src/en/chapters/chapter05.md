@@ -1,4 +1,4 @@
-# Chapter 5: State-Based Specification: Foundations of Z Notation
+# Chapter 5: State-Based Specification — Fundamentals of Z Notation
 
 > Translation status: full draft  
 > Japanese source of truth: `src/ja/chapters/chapter05.md`

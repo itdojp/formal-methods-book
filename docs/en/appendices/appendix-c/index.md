@@ -1,6 +1,7 @@
 ---
 layout: book
 title: "Appendix C: Notation Cross-Reference"
+description: "A comparison of symbols and syntax across Z, Alloy, TLA+, and related notations."
 locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-c.md"

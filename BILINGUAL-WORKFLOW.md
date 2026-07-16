@@ -15,8 +15,11 @@
 | `book-config.json` | repository manifest | edition 構成と policy の入口 |
 | `book-config.ja.json` | 日本語版メタデータ | 章構成・説明・ UX 設定の日本語版定義 |
 | `book-config.en.json` | 英語版メタデータ | 英語版定義。`book-config.ja.json` と構造整合を保つ |
-| `mobile-config.ja.json` | 日本語版 mobile 設定 | `docs/` 向け設定 |
-| `mobile-config.en.json` | 英語版 mobile 設定 | `docs/en/` 向け設定 |
+| `publication-config.json` | 公開 static policy | Jekyll / mobile の言語非依存設定 |
+| `docs/_config.yml` / `docs/_data/*.yml` | Jekyll metadata | edition / publication config から生成し、直接編集しない |
+| `mobile-config.ja.json` | 日本語版 mobile 設定 | edition / publication config から生成する `docs/` 向け設定 |
+| `mobile-config.en.json` | 英語版 mobile 設定 | edition / publication config から生成する `docs/en/` 向け設定 |
+| `docs/_includes/generated/**` | 公開トップ目次 | edition config から生成し、`src/*/index.md` から include する |
 
 ## Source of Truth
 
@@ -25,6 +28,8 @@
 - 英語版で先に見つかった誤りでも、恒久修正は日本語版に反映してから英語版へ戻します。
 - `shared/**` に置いた資産だけは locale-neutral な canonical source として扱います。
 - `book-config.json` は manifest であり、本文メタデータの正本ではありません。edition ごとの本文メタデータは `book-config.ja.json` / `book-config.en.json` に置きます。
+- title、description、order、path、part、special page、locale UI label は edition config を正本とし、`npm run build:all` で navigation、Jekyll metadata、mobile config、トップ目次へ反映します。
+- Jekyll / mobile の言語非依存 static policy は `publication-config.json` を正本とします。生成済み YAML / JSON / include は手編集しません。
 
 ## Translation Policy
 
@@ -48,3 +53,4 @@
 - 構造変更なら `src/ja/**` と対応する `src/en/**` の差分方針を説明した
 - 新しい共通資産を追加した場合は `shared/README.md` の境界に適合することを確認した
 - manifest / config / workflow 文書への影響を確認した
+- metadata / navigation を変更した場合は `npm run build:all` と `npm run check:metadata` を実行し、生成物の手編集がないことを確認した

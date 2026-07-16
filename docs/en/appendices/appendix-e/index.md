@@ -1,6 +1,7 @@
 ---
 layout: book
 title: "Appendix E: References and Further Reading Paths"
+description: "Primary sources and chapter-aligned paths for deeper follow-up reading."
 locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-e.md"

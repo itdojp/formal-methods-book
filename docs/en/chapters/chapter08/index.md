@@ -1,6 +1,7 @@
 ---
 layout: book
 title: "Chapter 8: Introduction to Model Checking"
+description: "Automated verification, state-space exploration, and counterexamples."
 locale: "en"
 lang: "en"
 source_path: "src/en/chapters/chapter08.md"

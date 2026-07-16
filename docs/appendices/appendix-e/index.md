@@ -1,11 +1,12 @@
 ---
 layout: book
-title: "付録E：参考文献とWebリソース（一次情報への導線）"
+title: "付録E：参考文献とWebリソース"
+description: "レベル別推薦図書リストと最新情報へのリンク"
 locale: "ja"
 lang: "ja"
 source_path: "src/ja/appendices/appendix-e.md"
 ---
-# 付録E：参考文献とWebリソース（一次情報への導線）
+# 付録E：参考文献とWebリソース
 
 本付録は、本文で扱った形式的手法・ツールについて、**一次情報（公式サイト/公式リポジトリ/公式ドキュメント/公式リリース）**へ到達するための索引である。
 2026-06 時点で、名称変更・主流ツールの更新（例：Coq→Rocq、CVC4→cvc5、Alloy 6 系、TLA+ の Apalache / Quint 等）を反映している。

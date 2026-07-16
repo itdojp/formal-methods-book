@@ -1,11 +1,12 @@
 ---
 layout: book
-title: "Chapter 5: State-Based Specification: Foundations of Z Notation"
+title: "Chapter 5: State-Based Specification — Fundamentals of Z Notation"
+description: "States, schemas, and precise specification in Z notation."
 locale: "en"
 lang: "en"
 source_path: "src/en/chapters/chapter05.md"
 ---
-# Chapter 5: State-Based Specification: Foundations of Z Notation
+# Chapter 5: State-Based Specification — Fundamentals of Z Notation
 
 ## 5.1 The World of Z Notation: Thinking in Terms of State and Schemas
 

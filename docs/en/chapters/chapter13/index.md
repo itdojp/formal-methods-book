@@ -1,6 +1,7 @@
 ---
 layout: book
 title: "Chapter 13: Case Studies"
+description: "Detailed studies of industrial adoption, including rail, security, and large-scale distributed systems."
 locale: "en"
 lang: "en"
 source_path: "src/en/chapters/chapter13.md"

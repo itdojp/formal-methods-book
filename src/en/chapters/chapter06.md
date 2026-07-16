@@ -1,4 +1,4 @@
-# Chapter 6: Process-Centric Description: Concurrent Systems with CSP
+# Chapter 6: Process-Centric Specification — Concurrency with CSP
 
 > Translation status: full draft  
 > Japanese source of truth: `src/ja/chapters/chapter06.md`

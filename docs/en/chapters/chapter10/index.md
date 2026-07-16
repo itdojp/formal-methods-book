@@ -1,6 +1,7 @@
 ---
 layout: book
 title: "Chapter 10: Program Verification"
+description: "Program correctness with Hoare logic, loop invariants, and verified reasoning about arrays."
 locale: "en"
 lang: "en"
 source_path: "src/en/chapters/chapter10.md"

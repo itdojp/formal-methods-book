@@ -36,13 +36,15 @@ reader-facing な本文系コンテンツの商用利用を希望する場合は
 - 構造変更を伴う PR では、日本語版の変更内容と英語版への追従方針を明記してください。
 - `shared/` は言語非依存資産だけを置く領域です。配置判断は `shared/README.md` を参照してください。
 - `book-config.json` は repository manifest であり、edition 個別の本文メタデータは `book-config.ja.json` / `book-config.en.json` で管理します。
+- 章・付録の title / description / order / URL、special page、part、locale UI label は edition config を正本とします。`docs/_config.yml`、`docs/_data/navigation.yml`、`docs/_data/locales.yml`、`mobile-config.*.json`、`docs/_includes/generated/**` は生成物なので直接編集しません。
 
 ## 🧭 変更種別ごとの指針
 
 - **日本語本文の修正**: まず `src/ja/**` を更新し、必要に応じて英語版への影響を issue または PR に記載してください。
 - **英語翻訳の修正**: `src/en/**` を更新し、章 ID・対応 URL・構造の 1:1 対応を維持してください。
 - **共通資産の追加**: `shared/README.md` の境界に適合する場合のみ `shared/**` を使用してください。
-- **構造変更**: manifest (`book-config.json`) と edition config の整合、および公開先パスへの影響を確認してください。
+- **構造変更**: manifest (`book-config.json`) と edition config を更新し、`npm run build:all`、`npm run check:metadata` を実行して公開先パスと生成物の整合を確認してください。
+- **Jekyll / mobile static policy**: 言語非依存設定は `publication-config.json` を編集し、生成物を直接変更しないでください。
 
 ## 📝 ライセンス同意
 

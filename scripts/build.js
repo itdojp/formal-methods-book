@@ -3,11 +3,17 @@
   Bilingual builder.
   - JA publish root stays at docs/
   - EN publish root stays at docs/en/
+  - Publication metadata is generated from edition configs before content
   - JA chapters remain hand-maintained under docs/chapters/
   - EN public pages are generated from src/en/** skeletons
 */
 const fs = require('fs');
 const path = require('path');
+const {
+  loadPublicationModel,
+  renderGeneratedArtifacts,
+  writeGeneratedArtifacts,
+} = require('./lib/publication-metadata');
 
 const repoRoot = path.resolve(__dirname, '..');
 const manifestPath = path.join(repoRoot, 'book-config.json');
@@ -59,11 +65,12 @@ function rewriteExampleLinksForPublication(content) {
   );
 }
 
-function wrapWithFrontMatter({ title, locale, sourcePath }, content) {
+function wrapWithFrontMatter({ title, description, locale, sourcePath }, content) {
   const lines = [
     '---',
     'layout: book',
     `title: "${escapeYaml(title)}"`,
+    ...(description ? [`description: "${escapeYaml(description)}"`] : []),
     `locale: "${locale}"`,
     `lang: "${locale}"`,
     `source_path: "${sourcePath}"`,
@@ -71,6 +78,24 @@ function wrapWithFrontMatter({ title, locale, sourcePath }, content) {
     ''
   ];
   return `${lines.join('\n')}${content.trimEnd()}\n`;
+}
+
+function canonicalPageMetadata(locale, relativePath) {
+  const config = publicationModel.editions[locale];
+  const posixPath = relativePath.split(path.sep).join('/');
+  if (posixPath === 'index.md') return { title: config.title, description: config.description };
+  const chapterMatch = posixPath.match(/^chapters\/(chapter\d+)\.md$/);
+  if (chapterMatch) return config.structure.chapters.find((entry) => entry.id === chapterMatch[1]);
+  const appendixMatch = posixPath.match(/^appendices\/(appendix-[a-z])\.md$/);
+  if (appendixMatch) return config.structure.appendices.find((entry) => entry.id === appendixMatch[1]);
+  const specialId = posixPath === 'introduction/index.md'
+    ? 'introduction'
+    : posixPath === 'glossary/index.md'
+      ? 'glossary'
+      : posixPath === 'afterword/index.md'
+        ? 'afterword'
+        : null;
+  return config.structure.specialPages.find((entry) => entry.id === specialId);
 }
 
 function mapOutputFile(locale, relativePath) {
@@ -158,9 +183,11 @@ function buildEdition(locale) {
       content = stripEnglishTranslationMetadata(content);
     }
     content = rewriteExampleLinksForPublication(content);
-    const title = readMarkdownTitle(content, path.basename(relativePath, '.md'));
+    const canonicalMetadata = canonicalPageMetadata(locale, relativePath);
+    const title = canonicalMetadata?.title || readMarkdownTitle(content, path.basename(relativePath, '.md'));
     const wrapped = wrapWithFrontMatter({
       title,
+      description: canonicalMetadata?.description,
       locale,
       sourcePath: path.join(edition.sourceRoot, relativePath).split(path.sep).join('/'),
     }, content);
@@ -171,6 +198,9 @@ function buildEdition(locale) {
 
   console.log(`Built ${locale} edition into ${edition.publishRoot}.`);
 }
+
+const publicationModel = loadPublicationModel(repoRoot);
+writeGeneratedArtifacts(repoRoot, renderGeneratedArtifacts(publicationModel));
 
 if (target === 'all') {
   buildEdition('ja');

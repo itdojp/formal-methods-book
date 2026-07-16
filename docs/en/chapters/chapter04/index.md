@@ -1,11 +1,12 @@
 ---
 layout: book
-title: "Chapter 4: Introduction to Lightweight Formal Methods: Specification with Alloy"
+title: "Chapter 4: Introduction to Lightweight Formal Methods — Specification with Alloy"
+description: "Alloy's modeling style and practical verification with relational reasoning."
 locale: "en"
 lang: "en"
 source_path: "src/en/chapters/chapter04.md"
 ---
-# Chapter 4: Introduction to Lightweight Formal Methods: Specification with Alloy
+# Chapter 4: Introduction to Lightweight Formal Methods — Specification with Alloy
 
 ## 4.1 The Philosophy of Alloy: A Lightweight but Powerful Approach
 

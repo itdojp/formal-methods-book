@@ -1,6 +1,7 @@
 ---
 layout: book
 title: "Chapter 9: Fundamentals of Theorem Proving"
+description: "Mechanized proof, type theory, and proof assistants such as Coq."
 locale: "en"
 lang: "en"
 source_path: "src/en/chapters/chapter09.md"

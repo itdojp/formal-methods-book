@@ -1,4 +1,4 @@
-# Chapter 4: Introduction to Lightweight Formal Methods: Specification with Alloy
+# Chapter 4: Introduction to Lightweight Formal Methods — Specification with Alloy
 
 > Translation status: full draft  
 > Japanese source of truth: `src/ja/chapters/chapter04.md`

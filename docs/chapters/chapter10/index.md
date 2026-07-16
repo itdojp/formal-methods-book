@@ -1,11 +1,12 @@
 ---
 layout: book
 title: "第10章：プログラム検証"
+description: "Hoare 論理によるプログラムの正しさ、ループ不変条件と配列操作の検証"
 chapter: chapter10
 order: 10
 ---
 
-# 第10章　プログラム検証
+# 第10章：プログラム検証
 
 ミニ要約：
 - Hoare 論理で部分/全正しさを保証
