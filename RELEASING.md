@@ -73,6 +73,7 @@ git diff --exit-code -- docs mobile-config.ja.json mobile-config.en.json
 - `git status --short` は空であること。
 - `npm test`、`npm run qa:bilingual`、`npm run check:metadata` が成功すること。
 - `docs/**`、mobile config に未反映差分がなく、`node scripts/check-build-provenance.js` が一時 provenance data を検証できること。
+- tag作成前のpreflightでは`release_tag` / `release_url`が`null`であること。release表示はexact tag作成後のPages再実行で初めて有効にします。
 - release note に書く翻訳件数、lane、version、既知の制約が、生成物と一致すること。
 
 ## merge から tag までの exact-commit 手順
@@ -140,17 +141,40 @@ gh release view "v${VERSION}" --json tagName,isDraft,isPrerelease,url
 - release URL が生成されている
 - local の `git rev-parse "vX.Y.Z^{commit}"` が `RELEASE_SHA` と一致する
 
+### 7. exact tag ref からPagesを再実行する
+
+main merge直後の自動Pages runはtag作成前なので、release provenanceを名乗りません。GitHub Release作成後、移動しないtag refからPagesを再実行します。
+
+```bash
+gh workflow run Pages --ref "v${VERSION}"
+sleep 5
+
+PAGES_RUN_ID="$(gh run list \
+  --workflow Pages \
+  --event workflow_dispatch \
+  --commit "$RELEASE_SHA" \
+  --json databaseId,headSha,event,conclusion \
+  --jq "map(select(.headSha == \"$RELEASE_SHA\" and .event == \"workflow_dispatch\")) | first.databaseId")"
+
+test -n "$PAGES_RUN_ID"
+gh run watch "$PAGES_RUN_ID" --exit-status
+```
+
+- workflowは`fetch-depth: 0`でtagを取得し、`v${VERSION}^{commit}`とbuild source commitが一致するときだけrelease field / link / metaを出力します。
+- `main`が`RELEASE_SHA`より先へ進んだ場合も、`--ref "v${VERSION}"`を`main`へ置き換えません。
+- Pages runの`headSha`が`RELEASE_SHA`、`conclusion`が`success`であることを確認してから公開provenanceを検査します。
+
 ## provenance JSON と Pages の検証
 
 ### 1. Pages run を exact commit で特定する
 
 ```bash
-PAGES_RUN_ID="$(gh run list \
+PAGES_RUN_ID="${PAGES_RUN_ID:-$(gh run list \
   --workflow Pages \
-  --branch main \
+  --event workflow_dispatch \
   --commit "$RELEASE_SHA" \
-  --json databaseId,headSha,conclusion \
-  --jq 'map(select(.headSha == '"'"$RELEASE_SHA"'"' and .conclusion == "success")) | first.databaseId')"
+  --json databaseId,headSha,conclusion,event \
+  --jq "map(select(.headSha == \"$RELEASE_SHA\" and .conclusion == \"success\" and .event == \"workflow_dispatch\")) | first.databaseId")}"
 
 test -n "$PAGES_RUN_ID"
 gh run view "$PAGES_RUN_ID" --json headSha,conclusion,url,workflowName
@@ -173,6 +197,7 @@ curl -fsSL "https://itdojp.github.io/formal-methods-book/build-provenance.json" 
 - `source_commit` が `RELEASE_SHA`
 - `pages_run_id` が `PAGES_RUN_ID`
 - `release_url` と `pages_run_url` が canonical URL
+- `release_tag` / `release_url`が非`null`なのは、対象tagが`source_commit`を正確に指すためであること
 
 ### 3. 公開 HTML の meta / data 属性を確認する
 
@@ -295,6 +320,7 @@ gh pr create --base main --head "revert/v${VERSION}-pages" --title "revert: rest
 - `CHANGELOG.md`、`RELEASE_NOTES/vX.Y.Z.md`、GitHub Release 本文が一致している
 - `gh release view vX.Y.Z` で release URL が確認できる
 - `build-provenance.json` の `source_commit` が `RELEASE_SHA` を指す
+- `build-provenance.json` の `release_tag` がexact tag再実行後にだけ `vX.Y.Z` を指す
 - GitHub Release の provenance asset が公開 `build-provenance.json` と同じ commit / Pages run を指す
 - 公開 HTML の version / source commit 表示が確認できる
 - translation status artifact の件数が release note と一致する

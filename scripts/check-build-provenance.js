@@ -33,6 +33,10 @@ function assertMarker(html, marker, filePath) {
   if (!html.includes(marker)) fail(`${filePath}: missing ${marker}`);
 }
 
+function assertNoMarker(html, marker, filePath) {
+  if (html.includes(marker)) fail(`${filePath}: unexpected ${marker}`);
+}
+
 function readerHtmlPaths() {
   const basePath = '/formal-methods-book/';
   const paths = new Set();
@@ -53,7 +57,10 @@ try {
   const provenancePath = path.join(repoRoot, DEFAULT_OUTPUT);
   if (!fs.existsSync(provenancePath)) fail(`${DEFAULT_OUTPUT} is missing; run npm run generate:provenance`);
   const provenance = readJson(provenancePath);
-  const errors = validateBuildProvenance(provenance, manifest, { requireRun: Boolean(siteRoot) });
+  const errors = validateBuildProvenance(provenance, manifest, {
+    requireRun: Boolean(siteRoot),
+    repoRoot,
+  });
   if (errors.length > 0) fail(errors.join('; '));
 
   if (!siteRoot) {
@@ -76,7 +83,12 @@ try {
     assertMarker(html, `<meta name="book-version" content="${provenance.version}">`, relative);
     assertMarker(html, `<meta name="book-source-commit" content="${provenance.source_commit}">`, relative);
     assertMarker(html, `<meta name="book-generated-at" content="${provenance.generated_at}">`, relative);
-    assertMarker(html, `<meta name="book-release" content="${provenance.release_url}">`, relative);
+    if (provenance.release_url) {
+      assertMarker(html, `<meta name="book-release" content="${provenance.release_url}">`, relative);
+      assertMarker(html, `href="${provenance.release_url}"`, relative);
+    } else {
+      assertNoMarker(html, '<meta name="book-release"', relative);
+    }
     assertMarker(html, `<meta name="book-pages-run" content="${provenance.pages_run_url}">`, relative);
     assertMarker(html, `data-book-version="${provenance.version}"`, relative);
     assertMarker(html, `data-source-commit="${provenance.source_commit}"`, relative);

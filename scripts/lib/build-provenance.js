@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { execFileSync } = require('child_process');
 const { isDeepStrictEqual } = require('util');
 
 const SCHEMA_VERSION = '1.0';
@@ -50,6 +51,34 @@ function canonicalVersion(manifest) {
   return version;
 }
 
+function normalizeReleaseTag(value, version) {
+  if (value === null || value === undefined || String(value).trim() === '') return null;
+  const tag = String(value).trim();
+  const expectedTag = `v${version}`;
+  if (tag !== expectedTag) {
+    throw new Error(`release tag must be ${expectedTag}`);
+  }
+  return tag;
+}
+
+function detectReleaseTag(repoRoot, manifest, sourceCommit, execute = execFileSync) {
+  let commit;
+  let tag;
+  let taggedCommit;
+  try {
+    commit = normalizeCommit(sourceCommit);
+    tag = `v${canonicalVersion(manifest)}`;
+    taggedCommit = execute('git', ['rev-parse', '--verify', `refs/tags/${tag}^{commit}`], {
+      cwd: repoRoot,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    });
+    return normalizeCommit(taggedCommit) === commit ? tag : null;
+  } catch (_error) {
+    return null;
+  }
+}
+
 function assertRepository(manifest) {
   const raw = String(manifest?.repository?.url || '').trim().replace(/\.git$/, '').replace(/\/+$/, '');
   if (raw !== GITHUB_URL) {
@@ -61,20 +90,22 @@ function sameJsonValue(left, right) {
   return isDeepStrictEqual(left, right);
 }
 
-function createBuildProvenance({ manifest, sourceCommit, generatedAt, runId }) {
+function createBuildProvenance({ manifest, sourceCommit, generatedAt, runId, releaseTag = null }) {
   assertRepository(manifest);
   const version = canonicalVersion(manifest);
   const commit = normalizeCommit(sourceCommit);
   const timestamp = normalizeGeneratedAt(generatedAt);
   const normalizedRunId = normalizeRunId(runId);
-  const releaseTag = `v${version}`;
+  const normalizedReleaseTag = normalizeReleaseTag(releaseTag, version);
 
   return {
     schema_version: SCHEMA_VERSION,
     book_id: manifest.project.id,
     version,
-    release_tag: releaseTag,
-    release_url: `${GITHUB_URL}/releases/tag/${releaseTag}`,
+    release_tag: normalizedReleaseTag,
+    release_url: normalizedReleaseTag
+      ? `${GITHUB_URL}/releases/tag/${normalizedReleaseTag}`
+      : null,
     source_commit: commit,
     source_url: `${GITHUB_URL}/commit/${commit}`,
     generated_at: timestamp,
@@ -85,7 +116,7 @@ function createBuildProvenance({ manifest, sourceCommit, generatedAt, runId }) {
   };
 }
 
-function validateBuildProvenance(payload, manifest, { requireRun = false } = {}) {
+function validateBuildProvenance(payload, manifest, { requireRun = false, repoRoot = null, execute = execFileSync } = {}) {
   const errors = [];
   let expectedVersion = '';
   try {
@@ -104,8 +135,19 @@ function validateBuildProvenance(payload, manifest, { requireRun = false } = {})
   if (payload.version !== expectedVersion) errors.push(`version must be ${expectedVersion}`);
 
   const expectedTag = `v${expectedVersion}`;
-  if (payload.release_tag !== expectedTag) errors.push(`release_tag must be ${expectedTag}`);
-  if (payload.release_url !== `${GITHUB_URL}/releases/tag/${expectedTag}`) errors.push('release_url is not canonical');
+  const detectedTag = repoRoot
+    ? detectReleaseTag(repoRoot, manifest, payload.source_commit, execute)
+    : null;
+  if (payload.release_tag === null) {
+    if (payload.release_url !== null) errors.push('release_url must be null when release_tag is null');
+    if (detectedTag === expectedTag) errors.push(`release_tag must be ${expectedTag} when that tag resolves to source_commit`);
+  } else {
+    if (payload.release_tag !== expectedTag) errors.push(`release_tag must be null or ${expectedTag}`);
+    if (payload.release_url !== `${GITHUB_URL}/releases/tag/${expectedTag}`) errors.push('release_url is not canonical');
+    if (repoRoot && detectedTag !== expectedTag) {
+      errors.push(`release_tag ${expectedTag} does not resolve to source_commit`);
+    }
+  }
 
   try {
     const commit = normalizeCommit(payload.source_commit);
@@ -154,8 +196,10 @@ module.exports = {
   SCHEMA_VERSION,
   canonicalVersion,
   createBuildProvenance,
+  detectReleaseTag,
   normalizeCommit,
   normalizeGeneratedAt,
+  normalizeReleaseTag,
   normalizeRunId,
   readJson,
   sameJsonValue,

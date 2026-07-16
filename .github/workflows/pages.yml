@@ -25,6 +25,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          # Release provenance is emitted only when v<version> resolves to this exact commit.
+          fetch-depth: 0
 
       - uses: actions/setup-node@v6
         with:

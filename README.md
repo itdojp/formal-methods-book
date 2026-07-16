@@ -95,12 +95,15 @@ node scripts/check-search-index.js --site _site
 
 書籍版の正本は`book-config.json`の`project.version`です。JA/EN edition config、`package.json` / lock、生成済みJekyll config、検索indexは`npm run check:metadata`で同じ版へ固定します。書籍向け版番号の運用、tag / GitHub Release、rollbackは[`RELEASING.md`](RELEASING.md)を参照してください。
 
-PagesとBook QAはJekyll build直前に`npm run generate:provenance`を実行します。生成される`docs/_data/build_provenance.json`はbuild入力でありGit管理しません。各reader pageのfooter/metaと`/build-provenance.json`には、版、`v<version>` release、40桁source SHA、UTC build時刻、Pages run URLを出力します。Jekyll build後は次で46 reader pagesと公開JSONを検査します。
+PagesとBook QAはJekyll build直前に`npm run generate:provenance`を実行します。生成される`docs/_data/build_provenance.json`はbuild入力でありGit管理しません。各reader pageのfooter/metaと`/build-provenance.json`には、版、40桁source SHA、UTC build時刻、Pages run URLを出力します。`release_tag` / `release_url` とreleaseリンク/metaを出力するのは、監査対象の`v<version>` tagがそのsource commitを正確に指すbuildだけです。未tagのmain buildでは両JSON fieldを`null`とし、release表示を省略します。
+
+ローカルではrun IDを持たないため、生成dataの検査とJekyll buildを分けて実行します。`--site`を使う46 reader page / 公開JSON検査は、実在する`GITHUB_RUN_ID`を持つPages / Book QA内のCI専用契約です。
 
 ```bash
 npm run generate:provenance
+npm run check:provenance
 BUNDLE_GEMFILE=docs/Gemfile bundle exec jekyll build --source docs --destination _site
-npm run check:provenance -- --site _site
+node scripts/check-search-index.js --site _site
 ```
 
 正式releaseでは、merge後のmain commitへtagを付け、そのcommitをtargetにGitHub Releaseを作成します。PDF / EPUBは生成pipelineがないため、現行release artifactには含めません。

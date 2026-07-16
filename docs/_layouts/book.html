@@ -51,7 +51,7 @@
     {% if build_provenance %}
     <meta name="book-source-commit" content="{{ build_provenance.source_commit | escape }}">
     <meta name="book-generated-at" content="{{ build_provenance.generated_at | escape }}">
-    <meta name="book-release" content="{{ build_provenance.release_url | escape }}">
+    {% if build_provenance.release_url %}<meta name="book-release" content="{{ build_provenance.release_url | escape }}">{% endif %}
     {% if build_provenance.pages_run_url %}<meta name="book-pages-run" content="{{ build_provenance.pages_run_url | escape }}">{% endif %}
     {% endif %}
 
@@ -253,7 +253,9 @@
                                 <span>{{ locale_data.labels.release_version | escape }} {{ book_version | escape }}</span>
                                 {% if build_provenance %}
                                     {% assign source_short = build_provenance.source_commit | slice: 0, 7 %}
-                                    <a href="{{ build_provenance.release_url | escape }}">{{ locale_data.labels.release | escape }} {{ build_provenance.release_tag | escape }}</a>
+                                    {% if build_provenance.release_url and build_provenance.release_tag %}
+                                        <a href="{{ build_provenance.release_url | escape }}">{{ locale_data.labels.release | escape }} {{ build_provenance.release_tag | escape }}</a>
+                                    {% endif %}
                                     <a href="{{ build_provenance.source_url | escape }}">{{ locale_data.labels.source_commit | escape }} {{ source_short | escape }}</a>
                                     {% if build_provenance.pages_run_url %}
                                         <a href="{{ build_provenance.pages_run_url | escape }}">{{ locale_data.labels.pages_build | escape }}</a>
