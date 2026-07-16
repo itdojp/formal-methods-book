@@ -5507,7 +5507,7 @@
       "chapter": "Chapter 8: Introduction to Model Checking",
       "heading": "Chapter 8: Introduction to Model Checking",
       "url": "/formal-methods-book/en/chapters/chapter08/#chapter-8-introduction-to-model-checking",
-      "text": "Translation status: Partial. Reviewed against Japanese source commit 83d031100ae7 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work.",
+      "text": "Translation status: Partial. Reviewed against Japanese source commit 53c0ef469bd9 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work.",
       "aliases": [
         "模型検査",
         "モデル検査"
@@ -9615,7 +9615,7 @@
       "chapter": "Chapter 12: Tools and Automation",
       "heading": "Chapter 12: Tools and Automation",
       "url": "/formal-methods-book/en/chapters/chapter12/#chapter-12-tools-and-automation",
-      "text": "Translation status: Partial. Reviewed against Japanese source commit c38670fbeb73 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work.",
+      "text": "Translation status: Partial. Reviewed against Japanese source commit 53c0ef469bd9 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work.",
       "aliases": []
     },
     {
@@ -11036,7 +11036,7 @@
       "chapter": "Glossary",
       "heading": "Glossary",
       "url": "/formal-methods-book/en/glossary/#glossary",
-      "text": "Translation status: Partial. Reviewed against Japanese source commit 83d031100ae7 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This glossary collects technical terms and abbreviations that appear repeatedly throughout the book. The definitions prioritize the way each term is used in this book. When stricter distinctions matter, refer to the appendices or to primary sources.",
+      "text": "Translation status: Partial. Reviewed against Japanese source commit 53c0ef469bd9 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This glossary collects technical terms and abbreviations that appear repeatedly throughout the book. The definitions prioritize the way each term is used in this book. When stricter distinctions matter, refer to the appendices or to primary sources.",
       "aliases": []
     },
     {
@@ -12130,7 +12130,7 @@
       "chapter": "Appendix B: Tool Setup and Verification Quick Start",
       "heading": "Appendix B: Tool Setup and Verification Quick Start",
       "url": "/formal-methods-book/en/appendices/appendix-b/#appendix-b-tool-setup-and-verification-quick-start",
-      "text": "Translation status: Partial. Reviewed against Japanese source commit c38670fbeb73 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This appendix gives the shortest reproducible path to running the book's companion examples. It prioritizes reproducibility (minimizing environment differences) over local customization. Container (recommended): use a devcontainer for a unified environment Local: run the same scripts with minimum dependencies such as Java, curl, and unzip The commands below are representative examples. Distribution formats and prerequisites may change, so consult Appendix E on primary sources when necessary. You do not need every tool before you begin reading. By following this appendix, you should be able to reproduce at least one model checking workflow (Alloy/TLC/Apalache) and one program verification workflow (Dafny).",
+      "text": "Translation status: Partial. Reviewed against Japanese source commit 53c0ef469bd9 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This appendix gives the shortest reproducible path to running the book's companion examples. It prioritizes reproducibility (minimizing environment differences) over local customization. Container (recommended): use a devcontainer for a unified environment Local: run the same scripts with minimum dependencies such as Java, curl, and unzip The commands below are representative examples. Distribution formats and prerequisites may change, so consult Appendix E on primary sources when necessary. You do not need every tool before you begin reading. By following this appendix, you should be able to reproduce at least one model checking workflow (Alloy/TLC/Apalache) and one program verification workflow (Dafny).",
       "aliases": [
         "模型検査",
         "モデル検査"
@@ -12287,7 +12287,7 @@
       "chapter": "Appendix C: Notation Cross-Reference",
       "heading": "Appendix C: Notation Cross-Reference",
       "url": "/formal-methods-book/en/appendices/appendix-c/#appendix-c-notation-cross-reference",
-      "text": "Translation status: Partial. Reviewed against Japanese source commit 83d031100ae7 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This appendix is a quick lookup guide for readers who need to recover the meaning of a term, compare notations across methods, or check what disciplined AI-assisted verification work should leave behind. For fuller definitions, use the main Glossary. Use this appendix when you need a compact reference rather than a full chapter-length explanation.",
+      "text": "Translation status: Partial. Reviewed against Japanese source commit 53c0ef469bd9 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This appendix is a quick lookup guide for readers who need to recover the meaning of a term, compare notations across methods, or check what disciplined AI-assisted verification work should leave behind. For fuller definitions, use the main Glossary. Use this appendix when you need a compact reference rather than a full chapter-length explanation.",
       "aliases": []
     },
     {
@@ -13415,7 +13415,7 @@
       "chapter": "Appendix E: References and Further Reading Paths",
       "heading": "Appendix E: References and Further Reading Paths",
       "url": "/formal-methods-book/en/appendices/appendix-e/#appendix-e-references-and-further-reading-paths",
-      "text": "Translation status: Partial. Reviewed against Japanese source commit 1fa89537a869 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This appendix is a reader-facing guide to primary sources for the methods, tools, and case studies introduced in the main text. Use it when you want to deepen a chapter, verify a claim against an official source, or decide which tool family to study next. As of July 2026, it reflects naming changes and current mainstream references such as Coq → Rocq, CVC4 → cvc5, the Alloy 6 series, and Apalache in the TLA+ ecosystem.",
+      "text": "Translation status: Partial. Reviewed against Japanese source commit 53c0ef469bd9 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This appendix is a reader-facing guide to primary sources for the methods, tools, and case studies introduced in the main text. Use it when you want to deepen a chapter, verify a claim against an official source, or decide which tool family to study next. As of July 2026, it reflects naming changes and current mainstream references such as Coq → Rocq, CVC4 → cvc5, the Alloy 6 series, and Apalache in the TLA+ ecosystem.",
       "aliases": [
         "TLA Plus",
         "The Rocq Prover"
