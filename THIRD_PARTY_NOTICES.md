@@ -7,7 +7,7 @@
 - `.book-formatter/**`
   - upstream ツール設定・補助資産として扱い、元の条件がある場合はその条件を維持します。
 - `node_modules/**`
-  - 依存パッケージのインストール成果物です。各パッケージは upstream の個別ライセンスに従います。
+  - `npm ci` がローカルまたは CI で生成する非追跡のインストール成果物です。各パッケージは upstream の個別ライセンスに従います。
 - vendored theme / font / asset subtree
   - 元ライセンス、付随する `LICENSE` / `NOTICE`、または配布元の条件を維持します。
 - 個別の `LICENSE` / `NOTICE` / per-file header を持つファイル
@@ -16,4 +16,5 @@
 ## 現時点の運用メモ
 
 - `package-lock.json` は依存解決の記録であり、依存パッケージ自体のライセンス台帳ではありません。
+- `node_modules/**` は vendoring せず、Git 管理しません。再現性は root `package-lock.json` と `npm ci` で保証します。
 - third-party 資産を新たに vendoring する場合は、このファイルにパス・出典・適用ライセンス・必要な notice を追記してください。

@@ -8,33 +8,34 @@ This is a Japanese-language technical book project about "形式的手法の基�
 
 ## Repository Structure
 
-This project uses the **book-formatter** system:
+This project uses an in-repository bilingual builder and a pinned external **book-formatter** Book QA contract:
 
 ```text
 formal-methods-book/
-├── docs/                    # Generated output (GitHub Pages)
-├── src/                     # Source content
-│   ├── introduction/        # Introduction section
-│   ├── chapters/           # 13 chapters (chapter01-13)
-│   ├── appendices/         # Appendices A-E
-│   └── afterword/          # Afterword
-├── book-config.json        # Book configuration (book-formatter format)
-├── package.json           # Project dependencies and scripts
-└── CLAUDE.md             # This file
+├── src/ja/                  # Canonical Japanese manuscript
+├── src/en/                  # English translation manuscript
+├── shared/                  # Locale-neutral shared assets
+├── docs/                    # Japanese Pages source/publish tree
+│   └── en/                  # English Pages source/publish tree
+├── book-config.json         # Repository/edition manifest
+├── book-config.ja.json      # Japanese edition metadata
+├── book-config.en.json      # English edition metadata
+├── scripts/build.js         # Bilingual publish-tree builder
+└── package.json             # QA/build commands
 ```
 
 ## Book Framework
 
-**Current**: Uses **book-formatter** system for technical book publishing.
+**Current**: `scripts/build.js` maintains the bilingual publish tree. Book QA checks out `itdojp/book-formatter` at the immutable SHA documented in `README.md`; the formatter is not vendored into this repository.
 
 ## Key Commands and Workflows
 
 ### Development
 ```bash
-npm start                    # Start Jekyll development server
-npm run build               # Build the book for production
-npm run preview             # Local preview of built book
-npm run deploy              # Deploy to GitHub Pages
+npm ci                       # Restore the package-lock.json dependency graph
+npm start                    # Build and serve docs/ on localhost:4321
+npm run build:all            # Build both publish trees
+npm run deploy               # Publish docs/ with gh-pages (manual fallback)
 ```
 
 ### Content Management
@@ -42,8 +43,11 @@ npm run deploy              # Deploy to GitHub Pages
 npm run lint                # Check markdown formatting
 npm run check-links         # Validate internal links
 npm test                    # Run all tests (lint + links)
-npm run clean               # Clean build artifacts
+npm audit                   # Audit the root lockfile dependency graph
+npm run examples:pr-quick   # Run the seven PR-lane formal examples
 ```
+
+Do not commit `node_modules/`, `docs/_site/`, `.artifacts/`, or tool caches. Run `npm run check:repository-hygiene` before proposing repository-structure changes.
 
 ## Content Guidelines
 
@@ -70,7 +74,7 @@ npm run clean               # Clean build artifacts
 - **Format**: Markdown (CommonMark + extensions)
 - **Encoding**: UTF-8
 - **Line endings**: LF (Unix format)
-- **Framework**: book-formatter (Jekyll-based)
+- **Framework**: in-repository bilingual builder + Jekyll Pages + pinned external book-formatter QA
 
 ## Important Notes
 
@@ -98,7 +102,7 @@ npm run clean               # Clean build artifacts
 13. **Case studies** - Real-world applications and lessons learned
 
 ### Practical Applications
-- Tool usage (Alloy Analyzer, TLC, Coq, SPIN, NuSMV)
+- Tool usage (Alloy Analyzer, TLC, Apalache, Lean, Rocq, Dafny, SPIN, NuSMV, CBMC)
 - Case studies (Paris Metro Line 14, Amazon s2n, Microsoft TLA+)
 - Integration with development processes
 - Cost-benefit analysis and adoption strategies
@@ -112,9 +116,9 @@ npm run clean               # Clean build artifacts
 
 ## Educational Approach
 
-- **6-Phase Writing Method**: Following tech-book-writing-6phases.md
-- **Phase 4 Focus**: Currently in structural improvement and policy finalization
-- **SVG Diagrams**: Create technical diagrams following book-formatter guidelines
+- **Issue-driven changes**: Treat the relevant GitHub Issue acceptance criteria as the change contract
+- **Bilingual source policy**: Follow `BILINGUAL-WORKFLOW.md` and update `src/ja/**` before dependent translations/public output
+- **SVG Diagrams**: Follow the repository's current layout/accessibility checks
 - **Figure Numbering**: Format as 図N-M (N=chapter, M=sequential number in chapter)
 
 ## Contact Information
