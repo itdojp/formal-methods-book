@@ -9,8 +9,8 @@
 | --- | --- | --- |
 | `src/ja/**` | 日本語版の原稿 | 本文構造と技術内容の source-of-truth |
 | `src/en/**` | 英語版の原稿 | `src/ja/**` と 1:1 対応する翻訳原稿 |
-| `docs/**` | 日本語版の公開物 | `main` から公開する既定版 |
-| `docs/en/**` | 英語版の公開物 | 英語版の公開物 |
+| `docs/**` | 日本語版の公開物 | `src/ja/**` から生成し、`main` から公開する既定版 |
+| `docs/en/**` | 英語版の公開物 | `src/en/**` から生成する公開物 |
 | `shared/**` | 共通資産 | 言語非依存の再利用資産だけを配置 |
 | `book-config.json` | repository manifest | edition 構成と policy の入口 |
 | `book-config.ja.json` | 日本語版メタデータ | 章構成・説明・ UX 設定の日本語版定義 |
@@ -30,6 +30,8 @@
 - `book-config.json` は manifest であり、本文メタデータの正本ではありません。edition ごとの本文メタデータは `book-config.ja.json` / `book-config.en.json` に置きます。
 - title、description、order、path、part、special page、locale UI label は edition config を正本とし、`npm run build:all` で navigation、Jekyll metadata、mobile config、トップ目次へ反映します。
 - Jekyll / mobile の言語非依存 static policy は `publication-config.json` を正本とします。生成済み YAML / JSON / include は手編集しません。
+- `docs/**` と `docs/en/**` の reader-facing Markdown はすべて生成物です。本文は `src/<locale>/**` だけを編集し、`npm run build:<locale>` または `npm run build:all` で公開物へ反映します。
+- builder は front matter、source path、locale、公開用 asset link、同一 revision の example link を決定的に付与・変換します。公開物だけの変更は正本へ逆流させません。
 
 ## Translation Policy
 
@@ -53,4 +55,4 @@
 - 構造変更なら `src/ja/**` と対応する `src/en/**` の差分方針を説明した
 - 新しい共通資産を追加した場合は `shared/README.md` の境界に適合することを確認した
 - manifest / config / workflow 文書への影響を確認した
-- metadata / navigation を変更した場合は `npm run build:all` と `npm run check:metadata` を実行し、生成物の手編集がないことを確認した
+- `npm run build:all` と `npm run check:metadata` を実行し、`git diff --exit-code -- docs mobile-config.ja.json mobile-config.en.json` で未生成・手編集・古い生成物がないことを確認した

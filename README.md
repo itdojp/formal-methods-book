@@ -12,9 +12,9 @@ Markdown で執筆し、日本語版を `docs/`、英語版を `docs/en/` に公
 - `shared/`:
   - 言語非依存の共通資産。配置境界は `shared/README.md`
 - `docs/`:
-  - 公開用の日本語版
+  - `src/ja/**` から生成する公開用の日本語版。reader-facing Markdown は直接編集しない
 - `docs/en/`:
-  - 公開用の英語版
+  - `src/en/**` から生成する公開用の英語版。reader-facing Markdown は直接編集しない
 - `book-config.json`:
   - repository manifest。edition 構成と policy の入口
 - `book-config.ja.json` / `book-config.en.json`:
@@ -33,9 +33,8 @@ Markdown で執筆し、日本語版を `docs/`、英語版を `docs/en/` に公
 - 依存（任意）: Node.js 20.18.1+（QA 依存の `cheerio` / `undici` が要求する最低バージョン）
 - セットアップ: `npm ci`
 - ビルド: `npm run build`
-  - 現行のビルドスクリプトは、最初に公開メタデータを生成し、その後 repository 管理下の公開物を更新します。
+  - ビルドスクリプトは、最初に公開メタデータを生成し、その後 `src/ja/**` と `src/en/**` から両 edition の reader-facing Markdown を更新します。
   - bilingual build / deploy の運用基準は `BILINGUAL-WORKFLOW.md` を参照してください。
-  - 日本語章（`docs/chapters/*`）の source 生成は #316 まで移行中のため、本ビルダーではまだ変更しません。
 - 推奨チェック: `npm test`
   - メタデータ整合性、`markdownlint`、構造lint、リンクチェックをまとめて実行します。
 - 依存関係監査: `npm audit`
@@ -43,6 +42,7 @@ Markdown で執筆し、日本語版を `docs/`、英語版を `docs/en/` に公
   - メタデータ整合性: `npm run check:metadata`
   - 公開メタデータ生成: `npm run generate:metadata`
   - metadata renderer unit test: `npm run test:metadata-renderer`
+  - source → publish renderer unit test: `npm run test:publication-build`
   - TLA+ 意味論・対象 source/publish 整合: `npm run check:tla-semantics`
   - 模型検査・論理・CAP/FLP の保証境界: `npm run check:guarantees`
   - 実行可能 example manifest: `npm run check:example-manifest`
@@ -55,12 +55,13 @@ Markdown で執筆し、日本語版を `docs/`、英語版を `docs/en/` に公
 
 ```bash
 npm ci
-npm run build
+npm run build:all
+git diff --exit-code -- docs mobile-config.ja.json mobile-config.en.json
 npm test
 npm audit
 ```
 
-章・付録の title、description、order、path、part、special page、locale UI label を変更するときは、対象の `book-config.<locale>.json` だけを編集し、`npm run build:all` で派生物を更新します。Jekyll / mobile の言語非依存設定は `publication-config.json` を編集します。生成対象の手編集や古い生成結果は `npm run check:metadata` と CI の generated-artifact check が検出します。
+本文は `src/<locale>/**` だけを編集し、`docs/**` の reader-facing Markdown は `npm run build:all` で再生成します。章・付録の title、description、order、path、part、special page、locale UI label を変更するときは、対象の `book-config.<locale>.json` だけを編集します。Jekyll / mobile の言語非依存設定は `publication-config.json` を編集します。生成対象の手編集や古い生成結果は byte-for-byte checker と CI の generated-artifact check が検出します。
 
 ## 依存関係と Book QA の管理
 
