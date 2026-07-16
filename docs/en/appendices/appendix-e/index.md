@@ -6,13 +6,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-e.md"
 translation_status: "partial"
-translation_source_commit: "1fa89537a869c27faa1709c005ee129f2a8929a2"
+translation_source_commit: "13be0b1e9858fd7b1d3a0d44481cb389d0c6c36f"
 translation_reviewed_at: "2026-07-16"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Appendix E: References and Further Reading Paths
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`1fa89537a869`](https://github.com/itdojp/formal-methods-book/commit/1fa89537a869c27faa1709c005ee129f2a8929a2) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`13be0b1e9858`](https://github.com/itdojp/formal-methods-book/commit/13be0b1e9858fd7b1d3a0d44481cb389d0c6c36f) on 2026-07-16.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 This appendix is a **reader-facing guide to primary sources** for the methods, tools, and case studies introduced in the main text. Use it when you want to deepen a chapter, verify a claim against an official source, or decide which tool family to study next.  
@@ -77,7 +77,7 @@ environment, or result for it.
 - Purpose: rigorously describing state-based specifications with sets, relations, and mappings so they can serve as a basis for review and verification
 - Best after reading: Chapter 5, "State-Based Specification — Fundamentals of Z Notation"
 - Primary sources (implementations and tools):
-  - Community Z Tools (`CZT`): <https://czt.sourceforge.net/>
+  - Community Z Tools (`CZT`) source repository: <https://github.com/community-z-users/czt>
   - `SourceForge` (`CZT` project): <https://sourceforge.net/projects/czt/>
 
 ### CSP
