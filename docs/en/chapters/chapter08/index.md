@@ -6,13 +6,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/chapters/chapter08.md"
 translation_status: "partial"
-translation_source_commit: "53c0ef469bd9f010dd84a83cbdcbde898976df00"
+translation_source_commit: "5b852a65db6c70440b98a6648136fd5c55e00e7a"
 translation_reviewed_at: "2026-07-16"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Chapter 8: Introduction to Model Checking
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`53c0ef469bd9`](https://github.com/itdojp/formal-methods-book/commit/53c0ef469bd9f010dd84a83cbdcbde898976df00) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`5b852a65db6c`](https://github.com/itdojp/formal-methods-book/commit/5b852a65db6c70440b98a6648136fd5c55e00e7a) on 2026-07-16.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 ## 8.1 The Dream of Automated Verification: Letting Computers Prove Correctness
@@ -1507,6 +1507,73 @@ For a self-contained file, see `examples/ch08/cbmc/array-bounds.c`.
 - bounded verification only
 - abstraction is still difficult for large programs
 - performance can degrade on very large codebases
+
+### SymbiYosys: Formal Verification of RTL {#rtl-formal-verification-symbiyosys}
+
+The same transition-system view used in software model checking also applies to synchronous RTL.
+SymbiYosys, whose CLI is `sby`, is a front end for an open-source formal flow centered on Yosys; it sends SystemVerilog RTL and formal properties to a backend solver.
+The book's self-contained example checks a synchronous two-request arbiter for the safety property that both grants are never asserted together.
+
+**Reading RTL as a transition system**
+
+- **Clock**: one `always_ff @(posedge clk)` event is one step relating the current and next register values.
+- **Reset**: the example assumes that `rst` is asserted for the first sampled edge and deasserted thereafter. It does not silently mix arbitrary unreset initial register values into the intended contract.
+- **Finite bit vectors**: `logic` values and registers have fixed widths. When arithmetic is added, overflow, truncation, and signedness must be reviewed under the same fixed-width semantics as the property.
+- **Cycle trace**: a counterexample or reachability witness records inputs, registers, and outputs by cycle in VCD form. `$past(req0)` means the value sampled at the preceding clock edge.
+
+The three property constructs in this flow have different roles.
+
+| Construct | Reading | Consequence of misuse |
+| --- | --- | --- |
+| `assert(P)` | Check that `P` is not violated on the executions under analysis | A weak property can omit the defect that matters |
+| `assume(A)` | Restrict analyzed environment executions to those satisfying `A` | An over-strong assumption can remove a defective input trace |
+| `cover(C)` | Search for at least one execution reaching `C` | Reachability does not prove safety or correctness of all executions |
+
+**BMC, prove, and cover are different claims**
+
+1. Running the flawed design in `mode bmc` at depth 6 finds, by step 3, a trace in which simultaneous requests lead to simultaneous grants in the following cycle. The expected `FAIL` is a successful teaching result and a bug found within six steps, not a general proof.
+2. Running the fixed design in `mode prove` at depth 6 yields `PASS` for both the base case and temporal induction. This k-induction result is relative to the RTL, property, assumptions, Yosys transformation, and backend configuration.
+3. Running the fixed design in `mode cover` reaches a witness in which simultaneous requests are followed by only the priority grant. This check complements the proof by showing that the interesting environment input was not excluded by an assumption.
+
+The following files are the shared canonical assets. Retrieve the RTL, configuration, and expected result together from the same repository revision rather than copying only an excerpt or VCD.
+
+- [examples/ch08/sby/rtl-arbiter/arbiter-flawed.sv](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/ch08/sby/rtl-arbiter/arbiter-flawed.sv)
+- [examples/ch08/sby/rtl-arbiter/arbiter-fixed.sv](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/ch08/sby/rtl-arbiter/arbiter-fixed.sv)
+- [examples/ch08/sby/rtl-arbiter/arbiter-flawed.sby](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/ch08/sby/rtl-arbiter/arbiter-flawed.sby)
+- [examples/ch08/sby/rtl-arbiter/arbiter-fixed.sby](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/ch08/sby/rtl-arbiter/arbiter-fixed.sby)
+- [examples/ch08/sby/rtl-arbiter/expected-flawed-bmc.json](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/ch08/sby/rtl-arbiter/expected-flawed-bmc.json)
+- [examples/ch08/sby/rtl-arbiter/expected-fixed-prove.json](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/ch08/sby/rtl-arbiter/expected-fixed-prove.json)
+- [examples/ch08/sby/rtl-arbiter/expected-fixed-cover.json](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/ch08/sby/rtl-arbiter/expected-fixed-cover.json)
+- [examples/ch08/sby/rtl-arbiter/README.md](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/ch08/sby/rtl-arbiter/README.md)
+
+<!-- example-contract: sby-rtl-arbiter-flawed-bmc -->
+【Tool-compliant (runs as-is)】
+```bash
+node scripts/run-example-manifest.js --id sby-rtl-arbiter-flawed-bmc
+```
+
+<!-- example-contract: sby-rtl-arbiter-fixed-prove -->
+【Tool-compliant (runs as-is)】
+```bash
+node scripts/run-example-manifest.js --id sby-rtl-arbiter-fixed-prove
+```
+
+<!-- example-contract: sby-rtl-arbiter-fixed-cover -->
+【Tool-compliant (runs as-is)】
+```bash
+node scripts/run-example-manifest.js --id sby-rtl-arbiter-fixed-cover
+```
+
+All three contracts run in the `nightly` lane and pin OSS CAD Suite 20260716, SBY `v0.67-4-gfea6e46`, Yosys `0.67+40`, Bitwuzla `0.9.1`, and depth 6.
+Artifacts retain the mode, depth, timeout, tool/backend versions and commits, normalized result, and either the flawed counterexample VCD or the cover witness VCD; they do not contain the approximately 733 MB suite archive or its extracted binaries.
+
+**Vacuity and over-constraint**
+
+Adding `assume(!(req0 && req1))` could make the flawed design's mutual-exclusion assertion pass.
+That change would not repair the arbiter; it would remove precisely the simultaneous-request behavior that the property is intended to examine.
+Pairing the assertion with a meaningful cover, reviewing assumptions one by one, and refusing to treat an unreachable cover as success make this class of vacuity easier to detect.
+
+> **Assurance boundary**: this contract covers the SystemVerilog formal subset accepted by Yosys, the stated clock/reset/environment assumptions, and the pinned property and solver configuration. It does not verify all of SystemVerilog Assertions, clock-domain crossings, timing closure, a post-synthesis netlist, physical or analog behavior, or a commercial EDA flow.
 
 ### Executable Example Contracts {#model-checker-executable-example-contracts}
 

@@ -28,7 +28,7 @@ source_path: "src/ja/appendices/appendix-b.md"
 - Quint CLI は、TLA+ 意味論に基づく型付き仕様言語をCIに載せる選択肢であり、本リポジトリでは固定版のtypecheck/testを`nightly`で実行する。
 - Rocq/Isabelle等の定理証明器は依存が大きいため、本付録では一次情報リンク（付録E）を主とする。
 - Lean 4 は、本書の導線として **最小構成のみ**を本付録末尾に示す（Optional）。
-- SPIN / NuSMV / CBMC / Quint / PRISM / Tamarin は`nightly` laneの対象であり、source buildが必要なtoolだけ後述するUbuntu 24.04 x86-64向け追加前提を使う。
+- SPIN / NuSMV / CBMC / Quint / PRISM / Tamarin / SymbiYosys は`nightly` laneの対象であり、source buildまたはarchive検査に必要な追加前提を後述する。
 
 ## Tool lane inventoryと実行保証 {#tool-lane-inventory}
 
@@ -50,6 +50,7 @@ source_path: "src/ja/appendices/appendix-b.md"
 | Quint | nightly | 0.32.0 | 公式single binaryでtypecheck/testを固定seedかつTypeScript backendで再現する。 |
 | PRISM Model Checker | nightly | 4.10.1 | 約41 MBの固定公式配布を取得し、定量的性質をtool単位nightlyで再現する。 |
 | Tamarin Prover | nightly | 1.12.0 | Tamarinと対応Maudeの固定公式配布を取得し、攻撃トレースと補題をtool単位nightlyで再現する。 |
+| SymbiYosys (sby) | nightly | v0.67-4-gfea6e46 | 約733 MBの固定OSS CAD Suiteを取得し、RTLのBMC、k-induction、coverをtool単位nightlyで再現する。 |
 | Kani Rust Verifier | optional/manual | 0.67.0 | 固定Rust nightlyを追加取得するため明示的manual dispatchに限定する。 |
 | TLA+ Toolbox | documentation-only | — | GUI/編集環境であり、本リポジトリのCLI保証対象外。 |
 | TLA+ VS Code extension | documentation-only | — | 編集支援はCLI検査と分離し、extension版を固定していない。 |
@@ -112,6 +113,7 @@ node scripts/run-example-manifest.js --id quint-counter
 cache復元後もQuint binaryとPRISM archiveのSHA-256を再検証する。
 PRISM 4.10.1はGPL-2.0の公式Linux x86-64 archiveを毎回再展開して絶対pathを再設定し、tool binaryはrepository、CI artifact、Pagesへ再配布しない。
 Tamarin Prover 1.12.0（GPL-3.0）と対応するMaude 3.5.1（GPL-2.0-or-later）も、固定SHA-256の公式archiveから毎回再展開する。Tamarinのartifactはlemma結果と欠陥版のattack graphを保持するが、両tool binaryは再配布しない。attack graphはmodel constantを保持するため、実在する秘密情報をmodelへ含めない。
+SymbiYosysはOSS CAD Suite 20260716の公式Linux x64 archiveをSHA-256検証後に毎回再展開する。archive path、重複entry、symlinkの解決先、special fileを検査し、suite versionと、SBY、Yosys、Bitwuzlaのversion/source commitをbundle内のmetadata/licenseに照合する。suite release tagのcommitは配布物digestとは別の出典provenanceとして記録する。SBYとYosysはISC、BitwuzlaはMITであり、bundle内の他componentにはそれぞれのlicenseがある。artifactには正規化結果と必要なVCDだけを保持し、suite archive、展開binary、solver modelを再配布しない。
 保持するのは入力hash、標準出力、期待値との比較結果だけである。
 Kaniは検証済みarchiveから毎回再展開し、固定日のRust channel manifestもSHA-256を検証する。Rust component本体の整合性検査は、そのmanifestに記録されたchecksumを検証するrustupに委ねる。
 <!-- example-contract: kani-abs -->
@@ -170,7 +172,7 @@ bash tools/dafny-verify.sh examples/dafny/Abs.dfy
 
 ### nightly lane の追加前提（Ubuntu 24.04 x86-64）
 
-`node scripts/run-example-manifest.js --lane nightly`はSPIN 6.5.2、NuSMV 2.7.1、CBMC 6.10.0、Quint 0.32.0、PRISM 4.10.1、Tamarin Prover 1.12.0の9 entryを実行する。最小セットとは別に、SPIN/NuSMVのsource buildには次の前提が必要である。CBMCはUbuntu 24.04 x86-64用の固定deb、Quintは同platform用の固定single binary、PRISMは約41 MBの固定公式archive、Tamarinは対応するMaude 3.5.1と二つの固定公式archiveを使うため、この手順は同環境または互換環境を対象とする。
+`node scripts/run-example-manifest.js --lane nightly`はSPIN 6.5.2、NuSMV 2.7.1、CBMC 6.10.0、Quint 0.32.0、PRISM 4.10.1、Tamarin Prover 1.12.0、SymbiYosysの12 entryを実行する。最小セットとは別に、SPIN/NuSMVのsource buildとSymbiYosys archiveの安全なlayout検査には次の前提が必要である。CBMCはUbuntu 24.04 x86-64用の固定deb、Quintは同platform用の固定single binary、PRISMは約41 MBの固定公式archive、Tamarinは対応するMaude 3.5.1と二つの固定公式archive、SymbiYosysは約733 MBのOSS CAD Suite 20260716 Linux x64 archiveを使うため、この手順は同環境または互換環境を対象とする。
 
 ```bash
 sudo apt-get update
@@ -206,6 +208,16 @@ node scripts/run-example-manifest.js --id tamarin-replay-fixed
 ```
 
 欠陥版の`counterexample`は期待された成功結果であり、修正版は四つの指定lemmaが同じsymbolic model設定で`verified`となることを確認する。
+
+SymbiYosysの欠陥版BMC、修正版proof、修正版coverだけを再実行する場合は次を使う。
+
+```bash
+node scripts/run-example-manifest.js --id sby-rtl-arbiter-flawed-bmc
+node scripts/run-example-manifest.js --id sby-rtl-arbiter-fixed-prove
+node scripts/run-example-manifest.js --id sby-rtl-arbiter-fixed-cover
+```
+
+欠陥版の`counterexample`は期待された成功結果である。proofの`PASS`は指定propertyとassumptionに相対的なk-induction結果であり、coverの`PASS`は対象状態へ至るwitnessが見つかったことを表す。
 
 ### OS差分（要点）
 

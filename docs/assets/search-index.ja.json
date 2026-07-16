@@ -3,7 +3,7 @@
   "project": "formal-methods-book",
   "projectVersion": "1.1.0",
   "locale": "ja",
-  "entryCount": 1194,
+  "entryCount": 1201,
   "entries": [
     {
       "id": "02d7269ce160fe33",
@@ -6663,7 +6663,22 @@
       ]
     },
     {
-      "id": "36ec79df18c7bb0e",
+      "id": "36ca88dbfeb7985d",
+      "locale": "ja",
+      "pageId": "chapter08",
+      "section": "chapters",
+      "title": "SymbiYosys：RTLの形式検証",
+      "chapter": "第8章：模型検査入門",
+      "heading": "SymbiYosys：RTLの形式検証",
+      "url": "/formal-methods-book/chapters/chapter08/#rtl-formal-verification-symbiyosys",
+      "text": "ソフトウェアの模型検査と同じ考え方は、同期回路のRTLにも適用できます。 SymbiYosys（CLI名sby）はYosysを中心とするopen-source formal flowのfront endであり、SystemVerilog RTLとformal propertyをbackend solverへ渡します。 本書の自己完結例は、2本のrequestを受ける同期式arbiterについて「二つのgrantが同時に立たない」という安全性を検査します。 RTLを遷移系として読む clock：alwaysff @(posedge clk)の1回を1 stepとして、registerの現在値と次値を関係づけます。 reset：例では最初のclock edgeだけrstをassertし、それ以降はdeassertする環境契約をassumeします。resetなしの任意初期値を暗黙に証明対象へ混ぜません。 有限bit vector：logicやregisterは固定幅です。算術を追加するときは、overflow、切捨て、signednessもpropertyと同じ幅の意味論で確認します。 cycle trace：反例や到達witnessはcycleごとのinput、register、outputとしてVCDへ保存されます。$past(req0)は前のclock edgeでsampleした値を指します。 このflowで使う三つのproperty constructは役割が異なります。 construct · 読み方 · 誤用した場合の影響 --- · --- · --- assert(P) · 対象実行でPが破れないことを検査する · 弱すぎるpropertyなら重要な欠陥を問わない assume(A) · 対象とする環境実行をAに制限する · 強すぎる仮定は欠陥のあるinput traceを除外する cover(C) · Cへ到達する実行が存在するかを探す · 到達しても安全性や全実行の正しさは証明しない BMC、prove、coverの違い 欠陥版をmode bmc、depth 6で検査すると、両requestを同時に受けた次cycleで両grantが立つ反例をstep 3までに得ます。このFAILは意図した教材結果であり、一般証明ではなく深さ6以内のbug発見です。 修正版をmode prove、depth 6で検査すると、同じ安全性についてbase caseとtemporal inductionの両方がPASSします。これは当該RTL、property、assumption、Yosys変換、backendの範囲に相対的なk-induction結果です。 同じ修正版をmode coverで検査し、両requestが同時に入力された次cycleに優先側だけがgrantされるwitnessを得ます。安全性証明とは別に、関心のある環境入力が仮定で排除されていないことを確認します。 正本は次の共通assetです。本文の抜粋やVCDだけではなく、同一repository revisionのRTL、設定、期待結果を組として取得してください。 examples/ch08/sby/rtl-arbiter/arbiter-flawed.sv examples/ch08/sby/rtl-arbiter/arbiter-fixed.sv examples/ch08/sby/rtl-arbiter/arbiter-flawed.sby examples/ch08/sby/rtl-arbiter/arbiter-fixed.sby examples/ch08/sby/rtl-arbiter/expected-flawed-bmc.json examples/ch08/sby/rtl-arbiter/expected-fixed-prove.json examples/ch08/sby/rtl-arbiter/expected-fixed-cover.json examples/ch08/sby/rtl-arbiter/README.md 【ツール準拠（そのまま動く）】 三契約はnightly laneでOSS CAD Suite 20260716、SBY v0.67-4-gfea6e46、Yosys 0.67+40、Bitwuzla 0.9.1、depth 6を固定します。 成果物にはmode、depth、timeout、tool/backendのversionとcommit、正規化結果、欠陥版のcounterexample VCDまたはcover witness VCDを残し、約733 MBのsuite archiveと展開後binaryは含めません。 空虚性と過剰制約 たとえばassume(!(req0 && req1))を追加すれば、欠陥版の相互排除assertionは通る可能性があります。 しかし、それはarbiterを直したのではなく、まさに検査したい同時requestを環境から削除しただけです。 assertと意味のあるcoverを対にし、assumptionを一つずつレビューし、coverが到達不能になった変更を成功扱いしないことで、この種のvacuityを検出しやすくします。 保証境界：この契約が扱うのは、Yosysが受理するSystemVerilog formal subset、記載したclock/reset/環境仮定、固定したpropertyとsolver設定です。SystemVerilog Assertions全体、CDC、timing closure、synthesis後netlist、physical/analog behavior、commercial EDA flowを検証したことにはなりません。",
+      "aliases": [
+        "モデル検査",
+        "model checking"
+      ]
+    },
+    {
+      "id": "2e9542c706d2cff5",
       "locale": "ja",
       "pageId": "chapter08",
       "section": "chapters",
@@ -6678,7 +6693,7 @@
       ]
     },
     {
-      "id": "aa7bed26e88b2d38",
+      "id": "6684aa9b6419e0b1",
       "locale": "ja",
       "pageId": "chapter08",
       "section": "chapters",
@@ -6693,7 +6708,7 @@
       ]
     },
     {
-      "id": "d2b6ccded1aee501",
+      "id": "a119a1e8332256ce",
       "locale": "ja",
       "pageId": "chapter08",
       "section": "chapters",
@@ -6711,7 +6726,7 @@
       ]
     },
     {
-      "id": "70b409c1b890a785",
+      "id": "e79d456c9d638476",
       "locale": "ja",
       "pageId": "chapter08",
       "section": "chapters",
@@ -6727,7 +6742,7 @@
       ]
     },
     {
-      "id": "fa737ef2f77781f8",
+      "id": "b02c7d5fef2e3ef8",
       "locale": "ja",
       "pageId": "chapter08",
       "section": "chapters",
@@ -6743,7 +6758,7 @@
       ]
     },
     {
-      "id": "4951bc61c3bf3bf0",
+      "id": "74fbf75a772731a0",
       "locale": "ja",
       "pageId": "chapter08",
       "section": "chapters",
@@ -6758,7 +6773,7 @@
       ]
     },
     {
-      "id": "1e3d5320220aae43",
+      "id": "ca21aee21a115c05",
       "locale": "ja",
       "pageId": "chapter08",
       "section": "chapters",
@@ -6773,7 +6788,7 @@
       ]
     },
     {
-      "id": "39be8bed9d1ba4b9",
+      "id": "a601609f64dadfae",
       "locale": "ja",
       "pageId": "chapter08",
       "section": "chapters",
@@ -6788,7 +6803,7 @@
       ]
     },
     {
-      "id": "638632228bd5c13b",
+      "id": "ed585496aeed5912",
       "locale": "ja",
       "pageId": "chapter08",
       "section": "chapters",
@@ -6803,7 +6818,7 @@
       ]
     },
     {
-      "id": "f81b2151047e96b9",
+      "id": "36a4baa3ade37cd2",
       "locale": "ja",
       "pageId": "chapter08",
       "section": "chapters",
@@ -6818,7 +6833,7 @@
       ]
     },
     {
-      "id": "9d278089e70d0e5b",
+      "id": "fd425ffff1293c1a",
       "locale": "ja",
       "pageId": "chapter08",
       "section": "chapters",
@@ -6833,7 +6848,7 @@
       ]
     },
     {
-      "id": "f9e03c215f107e5f",
+      "id": "16fb17e6aee017da",
       "locale": "ja",
       "pageId": "chapter08",
       "section": "chapters",
@@ -6848,7 +6863,7 @@
       ]
     },
     {
-      "id": "c4a104714128dda4",
+      "id": "4097b2fd2df47b31",
       "locale": "ja",
       "pageId": "chapter08",
       "section": "chapters",
@@ -10027,7 +10042,7 @@
       "chapter": "第12章：ツールと自動化",
       "heading": "12.3 CI 段階別の検証深度と実装例",
       "url": "/formal-methods-book/chapters/chapter12/#123-ci-段階別の検証深度と実装例",
-      "text": "現実的な導入では、CI の段階ごとに検証の深さと所要時間を調整します。以下は代表的な分割例です。 段階 · トリガー · 目的 · 主な検証 · 代表ツール例 --- · --- · --- · --- · --- PR · push/PR · 即時フィードバック · 契約チェック、軽量模型検査（小モデル）、静的解析 · TLA+ 小モデル/TLC 短時間、Alloy スコープ小、静的解析 夜間 · cron · 網羅性の向上 · 状態空間拡大、探索上限引き上げ、シナリオ網羅 · TLC 長時間、Alloy スコープ拡大、CSP模型検査 リリース前 · 手動/タグ · リスク極小化 · クリティカル性質の完全検証、証明の再検証 · 証明（Rocq/Dafny）、TLA+ 特性確認、形式的レビュー 導入ミニ手順: 小さく始める: PR 段階に「高速・安定・再現容易」なチェックを1～2個追加 反例から学ぶ: 失敗時に最小反例を収集し、再現スクリプトを標準化 漸進的強化: 夜間→リリース前へと対象性質と探索深さを段階的に拡大 CI 実装例（GitHub Actions）: 本リポジトリでは、実動する例として .github/workflows/formal-checks.yml を同梱している。 PR段階はbase/head差分をexample manifestのasset、reference、config、wrapperへ照合し、関連するpr-quickだけをbash examples/ci/pr-quick-check.shから実行する。共通基盤変更時と引数なしのローカル実行は7件すべてを検査する。 schedule / manual dispatchではscripts/plan-formal-matrix.jsがtool manifestからallowlist済みmatrixを作り、tool-matrixがfail-fast: falseでAlloy/TLC/Apalache/Dafnyのdeep profileとSPIN/NuSMV/CBMC/Quint/PRISM/Tamarinをtool単位に分離する。Kaniは明示的にoptionalを選んだmanual dispatchだけで実行する。 例（抜粋）： 失敗時ログ例（要約）: 各entryのartifactはversion、command、input hash、exit code、stdout/stderrと実行制約を含み、success、counterexample、unknown、timeout、resource-exhaustedを区別する。1 toolが失敗しても他toolのjobとartifact収集を継続する。 ここでmemoryMiBはCI容量計画の申告値であり、OS/cgroupによる強制上限ではない。runnerが強制するtimeoutと出力上限を超えた場合は分類できるが、OOM killはtool-errorまたはrunner failureになる可能性がある。 上記のように、短時間・小スコープの検証をPRに配置し、夜間に探索深度やスコープを拡大することで、開発速度と品質保証の両立を図る。",
+      "text": "現実的な導入では、CI の段階ごとに検証の深さと所要時間を調整します。以下は代表的な分割例です。 段階 · トリガー · 目的 · 主な検証 · 代表ツール例 --- · --- · --- · --- · --- PR · push/PR · 即時フィードバック · 契約チェック、軽量模型検査（小モデル）、静的解析 · TLA+ 小モデル/TLC 短時間、Alloy スコープ小、静的解析 夜間 · cron · 網羅性の向上 · 状態空間拡大、探索上限引き上げ、シナリオ網羅 · TLC 長時間、Alloy スコープ拡大、CSP模型検査 リリース前 · 手動/タグ · リスク極小化 · クリティカル性質の完全検証、証明の再検証 · 証明（Rocq/Dafny）、TLA+ 特性確認、形式的レビュー 導入ミニ手順: 小さく始める: PR 段階に「高速・安定・再現容易」なチェックを1～2個追加 反例から学ぶ: 失敗時に最小反例を収集し、再現スクリプトを標準化 漸進的強化: 夜間→リリース前へと対象性質と探索深さを段階的に拡大 CI 実装例（GitHub Actions）: 本リポジトリでは、実動する例として .github/workflows/formal-checks.yml を同梱している。 PR段階はbase/head差分をexample manifestのasset、reference、config、wrapperへ照合し、関連するpr-quickだけをbash examples/ci/pr-quick-check.shから実行する。共通基盤変更時と引数なしのローカル実行は7件すべてを検査する。 schedule / manual dispatchではscripts/plan-formal-matrix.jsがtool manifestからallowlist済みmatrixを作り、tool-matrixがfail-fast: falseでAlloy/TLC/Apalache/Dafnyのdeep profileとSPIN/NuSMV/CBMC/Quint/PRISM/Tamarin/SymbiYosysをtool単位に分離する。Kaniは明示的にoptionalを選んだmanual dispatchだけで実行する。 例（抜粋）： 失敗時ログ例（要約）: 各entryのartifactはversion、command、input hash、exit code、stdout/stderrと実行制約を含み、success、counterexample、unknown、timeout、resource-exhaustedを区別する。1 toolが失敗しても他toolのjobとartifact収集を継続する。 ここでmemoryMiBはCI容量計画の申告値であり、OS/cgroupによる強制上限ではない。runnerが強制するtimeoutと出力上限を超えた場合は分類できるが、OOM killはtool-errorまたはrunner failureになる可能性がある。 上記のように、短時間・小スコープの検証をPRに配置し、夜間に探索深度やスコープを拡大することで、開発速度と品質保証の両立を図る。",
       "aliases": [
         "TLA Plus",
         "Coq",
@@ -11708,7 +11723,19 @@
       ]
     },
     {
-      "id": "d350cbe5c01cdc9d",
+      "id": "1ff185ed17a0cad2",
+      "locale": "ja",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "assume / assert / cover（RTL formal）",
+      "chapter": "用語集（Glossary）",
+      "heading": "assume / assert / cover（RTL formal）",
+      "url": "/formal-methods-book/glossary/#glossary-assume--assert--coverrtl-formal",
+      "text": "assumeは対象環境traceを制限し、assertは全対象traceで破れてはならない性質を置き、coverは条件へ到達するtraceを一つ探す。強すぎるassumeによる空虚性と、coverを安全性証明と誤読することを避ける。→第8章/付録C",
+      "aliases": []
+    },
+    {
+      "id": "214a1d00904c4a17",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11720,7 +11747,7 @@
       "aliases": []
     },
     {
-      "id": "686c7b124380710c",
+      "id": "55b0338f7395dc89",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11734,7 +11761,7 @@
       ]
     },
     {
-      "id": "c689e1ddcbe57a42",
+      "id": "6bd89d72b237524a",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11746,7 +11773,7 @@
       "aliases": []
     },
     {
-      "id": "474f07987501e83e",
+      "id": "0a57f34cfc83d4b9",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11758,7 +11785,7 @@
       "aliases": []
     },
     {
-      "id": "130f3921cc5cd049",
+      "id": "4de86ef96361d9d1",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11775,7 +11802,7 @@
       ]
     },
     {
-      "id": "fce74c11c8a64af4",
+      "id": "5b8ca9b10132d842",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11787,7 +11814,7 @@
       "aliases": []
     },
     {
-      "id": "f822e25f43d7d24f",
+      "id": "faf65f3e922731db",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11802,7 +11829,7 @@
       ]
     },
     {
-      "id": "f1649ff2ea291aaf",
+      "id": "a816c0587137966e",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11814,7 +11841,7 @@
       "aliases": []
     },
     {
-      "id": "867ae36f39ce9ae4",
+      "id": "ce706ad1dfaad93e",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11826,7 +11853,7 @@
       "aliases": []
     },
     {
-      "id": "25b6e1a2aea28bea",
+      "id": "73dc340f6fadfbb4",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11838,7 +11865,7 @@
       "aliases": []
     },
     {
-      "id": "5c6008ec4d3c6a99",
+      "id": "0a8946af11cee10a",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11850,7 +11877,7 @@
       "aliases": []
     },
     {
-      "id": "85ee1ad05752c960",
+      "id": "91df5fc2feddb8f5",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11862,7 +11889,7 @@
       "aliases": []
     },
     {
-      "id": "d5cd149161b9414f",
+      "id": "d54d9e2468ec9fb0",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11874,7 +11901,7 @@
       "aliases": []
     },
     {
-      "id": "c6bce3f8c9c9d4d2",
+      "id": "916424a8caedbfa3",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11886,7 +11913,7 @@
       "aliases": []
     },
     {
-      "id": "d8091864b082c43d",
+      "id": "54d7bca591261396",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11898,7 +11925,7 @@
       "aliases": []
     },
     {
-      "id": "5a85dbb10a60909b",
+      "id": "fe04b2e01585f78b",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11910,7 +11937,7 @@
       "aliases": []
     },
     {
-      "id": "44a28982f25ae7f3",
+      "id": "2a50d37b24776b45",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11922,7 +11949,7 @@
       "aliases": []
     },
     {
-      "id": "fb9aa99fe43a101c",
+      "id": "a0b6e55cf7d8aa45",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11934,7 +11961,7 @@
       "aliases": []
     },
     {
-      "id": "f1118dcaa6536df4",
+      "id": "3239de5fc8bd5820",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11946,7 +11973,7 @@
       "aliases": []
     },
     {
-      "id": "dc35777ca2d237f0",
+      "id": "631d17770734bd2c",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11958,7 +11985,7 @@
       "aliases": []
     },
     {
-      "id": "364df4f217cb9f73",
+      "id": "4863d0189afce642",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11973,7 +12000,7 @@
       ]
     },
     {
-      "id": "081b7b2287e3e709",
+      "id": "879677b3d846a10a",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11985,7 +12012,7 @@
       "aliases": []
     },
     {
-      "id": "68a95ae19ddcd79d",
+      "id": "cc292b7df40516b4",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11997,7 +12024,7 @@
       "aliases": []
     },
     {
-      "id": "dbb9ba89d381dfaa",
+      "id": "52fb89d2622dd16c",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12009,7 +12036,7 @@
       "aliases": []
     },
     {
-      "id": "5286543e224fc4cf",
+      "id": "8d8c98bdc68ff509",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12024,7 +12051,7 @@
       ]
     },
     {
-      "id": "7692ab5bec6043a3",
+      "id": "78bf2f8f504668f8",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12042,7 +12069,7 @@
       ]
     },
     {
-      "id": "4079ec1a84356963",
+      "id": "4da4664e2467036e",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12054,7 +12081,7 @@
       "aliases": []
     },
     {
-      "id": "3932a2c7645d2ee7",
+      "id": "d9e07f9d5d7fe97c",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12066,7 +12093,7 @@
       "aliases": []
     },
     {
-      "id": "f8419d1d9585ce2d",
+      "id": "91f3aefb1eaec858",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12078,7 +12105,7 @@
       "aliases": []
     },
     {
-      "id": "fc418c19ca27c197",
+      "id": "a821f0e9dacd95e1",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12090,7 +12117,7 @@
       "aliases": []
     },
     {
-      "id": "91b591abf583512c",
+      "id": "b03deea1744ad0de",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12102,7 +12129,7 @@
       "aliases": []
     },
     {
-      "id": "b7a37b7adade81b2",
+      "id": "b97b818a36da77a8",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12117,7 +12144,7 @@
       ]
     },
     {
-      "id": "4e171dd795445ac7",
+      "id": "f3fdf8c28b27c424",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12129,7 +12156,7 @@
       "aliases": []
     },
     {
-      "id": "dc34812bd32c4188",
+      "id": "41f6903cb1856b17",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12144,7 +12171,19 @@
       ]
     },
     {
-      "id": "a889c792f46ebf7c",
+      "id": "e29323cb9ca7ea04",
+      "locale": "ja",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "k-induction",
+      "chapter": "用語集（Glossary）",
+      "heading": "k-induction",
+      "url": "/formal-methods-book/glossary/#glossary-k-induction",
+      "text": "有限のbase caseと、性質がk step成り立つなら次stepでも成り立つという帰納stepを組み合わせる証明法。成功は初期化、transition relation、property、assumption、engine設定に相対的である。→第8章/付録C",
+      "aliases": []
+    },
+    {
+      "id": "a023d6f17494750d",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12156,7 +12195,7 @@
       "aliases": []
     },
     {
-      "id": "4f8dfa32311dfe19",
+      "id": "19400e69ec1e25b5",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12168,7 +12207,7 @@
       "aliases": []
     },
     {
-      "id": "edcbbb1c378d6e1d",
+      "id": "53e9abc6baf6f626",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12180,7 +12219,7 @@
       "aliases": []
     },
     {
-      "id": "e3da809adbec5a2d",
+      "id": "b8965c15298e044e",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12192,7 +12231,7 @@
       "aliases": []
     },
     {
-      "id": "9683a9bba4704b1e",
+      "id": "1c1a606db5221a01",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12204,7 +12243,7 @@
       "aliases": []
     },
     {
-      "id": "5b82d2f9421dba3e",
+      "id": "ef0e8e93cdca9fbe",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12216,7 +12255,7 @@
       "aliases": []
     },
     {
-      "id": "be44f2e70bfacbe7",
+      "id": "d7ca77cb6a954755",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12228,7 +12267,7 @@
       "aliases": []
     },
     {
-      "id": "b0073c142d23ebea",
+      "id": "03016d09e91804a0",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12240,7 +12279,7 @@
       "aliases": []
     },
     {
-      "id": "2931f8e8cef611ec",
+      "id": "dc69a03a5b4744a6",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12254,7 +12293,7 @@
       ]
     },
     {
-      "id": "89e7e78ddd701651",
+      "id": "57201136ae7fe5d7",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12269,7 +12308,7 @@
       ]
     },
     {
-      "id": "cc8c7243fb1e71af",
+      "id": "c5469d9e7d592683",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12281,7 +12320,7 @@
       "aliases": []
     },
     {
-      "id": "424b1da88a920c99",
+      "id": "2375b20d624fe50f",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12295,7 +12334,7 @@
       ]
     },
     {
-      "id": "ac6cae1e7ac8cfde",
+      "id": "cb9b37c4ba74087d",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12307,7 +12346,7 @@
       "aliases": []
     },
     {
-      "id": "bd1032c8f7cb4466",
+      "id": "9582be1a2462c383",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12321,7 +12360,7 @@
       ]
     },
     {
-      "id": "e09e8cd112a817d8",
+      "id": "84cc09efce470f63",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12336,7 +12375,7 @@
       ]
     },
     {
-      "id": "eb353b71fab4bb56",
+      "id": "49eb031a30e33278",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12350,7 +12389,7 @@
       ]
     },
     {
-      "id": "0f7c5db2a3f12771",
+      "id": "f5e2f61d25f46015",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12362,7 +12401,7 @@
       "aliases": []
     },
     {
-      "id": "a1af7a38e4d26138",
+      "id": "47f3e903d0fb9216",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12374,7 +12413,7 @@
       "aliases": []
     },
     {
-      "id": "85258dfe3adeab61",
+      "id": "ac9b9afaf2bdd6a6",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12388,7 +12427,7 @@
       ]
     },
     {
-      "id": "4e01aa525b5d976f",
+      "id": "c061ebe44fd70e5b",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12400,7 +12439,7 @@
       "aliases": []
     },
     {
-      "id": "4188c97447866431",
+      "id": "9138e86fca102d52",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12412,7 +12451,7 @@
       "aliases": []
     },
     {
-      "id": "306045c76ae8eb1e",
+      "id": "406a9711ff6539ce",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12424,7 +12463,7 @@
       "aliases": []
     },
     {
-      "id": "c59373c504f39941",
+      "id": "a337d65b44c4b735",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12436,7 +12475,7 @@
       "aliases": []
     },
     {
-      "id": "fcd4dbdc90f31fa0",
+      "id": "71258f3a74650948",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12448,7 +12487,7 @@
       "aliases": []
     },
     {
-      "id": "0f0a126af7762b4a",
+      "id": "610d273b6382c9a1",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12460,7 +12499,7 @@
       "aliases": []
     },
     {
-      "id": "3fbc61931d524c83",
+      "id": "a0b7bd982bcea3a7",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12472,7 +12511,7 @@
       "aliases": []
     },
     {
-      "id": "0bd98c508184c654",
+      "id": "26d346f1b9e035aa",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12487,7 +12526,7 @@
       ]
     },
     {
-      "id": "269464af5bb6c742",
+      "id": "b701e6a22bde72c8",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12501,7 +12540,7 @@
       ]
     },
     {
-      "id": "8e58c426998b93f0",
+      "id": "00d7f7537a3b3f7f",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12516,7 +12555,7 @@
       ]
     },
     {
-      "id": "8cd15acb7da19bad",
+      "id": "ceed5cb607ca0513",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12528,7 +12567,7 @@
       "aliases": []
     },
     {
-      "id": "73cd25f4151f7a60",
+      "id": "2ea5d3c246a037b1",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12540,7 +12579,7 @@
       "aliases": []
     },
     {
-      "id": "94b401d1db7cb090",
+      "id": "82e26a35158f318e",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12552,7 +12591,7 @@
       "aliases": []
     },
     {
-      "id": "7c2d62e76d5fe7a6",
+      "id": "51e383f896d7ea56",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12564,7 +12603,7 @@
       "aliases": []
     },
     {
-      "id": "9299ee20074963da",
+      "id": "14e19d5c453230c9",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12579,7 +12618,19 @@
       ]
     },
     {
-      "id": "2d0224000b092023",
+      "id": "90aa9c91762cf56a",
+      "locale": "ja",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "SymbiYosys（sby）",
+      "chapter": "用語集（Glossary）",
+      "heading": "SymbiYosys（sby）",
+      "url": "/formal-methods-book/glossary/#glossary-symbiyosyssby",
+      "text": "Yosysを中心とするopen-source RTL formal flowのfront end。BMC、prove、coverをengine/backendへ接続し、結果はRTL、property、assumption、mode、depth、toolchainに相対的である。→第8章/付録B/付録E",
+      "aliases": []
+    },
+    {
+      "id": "1e09db44c5e0ab5a",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12591,7 +12642,7 @@
       "aliases": []
     },
     {
-      "id": "5bc0d0bc6a2d3948",
+      "id": "8ffcdcb99c061206",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12603,7 +12654,7 @@
       "aliases": []
     },
     {
-      "id": "b1523e46ee416fe0",
+      "id": "f44b21be5862aed9",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12615,7 +12666,7 @@
       "aliases": []
     },
     {
-      "id": "88b74d603cd5dac1",
+      "id": "e78e3af24898656d",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12629,7 +12680,7 @@
       ]
     },
     {
-      "id": "b4eb50370fc40b49",
+      "id": "a20c9d30eeb72b9e",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12641,7 +12692,7 @@
       "aliases": []
     },
     {
-      "id": "c74840255b0069b9",
+      "id": "3665436f9603de7e",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12653,7 +12704,7 @@
       "aliases": []
     },
     {
-      "id": "1794e88988c8de51",
+      "id": "c89a94765868336c",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12667,7 +12718,7 @@
       ]
     },
     {
-      "id": "a537a8a2e12f44a9",
+      "id": "a995905d53260484",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12683,7 +12734,7 @@
       ]
     },
     {
-      "id": "c7ae98aefab3e1dc",
+      "id": "f0befe2eb9814b2d",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12695,7 +12746,7 @@
       "aliases": []
     },
     {
-      "id": "4c61f556fb20782c",
+      "id": "f1b89baa64e61b3b",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12707,7 +12758,7 @@
       "aliases": []
     },
     {
-      "id": "4fffe0179fcf3b04",
+      "id": "28af282b4d3786ed",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12719,7 +12770,7 @@
       "aliases": []
     },
     {
-      "id": "953f6690846cccd6",
+      "id": "deaa93c0601b889e",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12731,7 +12782,7 @@
       "aliases": []
     },
     {
-      "id": "823e03b8c725fee7",
+      "id": "2c29d6c79bbed057",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12743,7 +12794,7 @@
       "aliases": []
     },
     {
-      "id": "ee8ee213d512249b",
+      "id": "70446c3a72c5310e",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12755,7 +12806,19 @@
       "aliases": []
     },
     {
-      "id": "19c45e63c65ca7bd",
+      "id": "d420bb13676338e9",
+      "locale": "ja",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "vacuity（空虚性）",
+      "chapter": "用語集（Glossary）",
+      "heading": "vacuity（空虚性）",
+      "url": "/formal-methods-book/glossary/#glossary-vacuity空虚性",
+      "text": "性質が実質的な対象traceを検査したからではなく、強すぎる仮定や到達不能な前提によって自明に成立する状態。assumption reviewと意味のあるcoverで検出を補助する。→第8章/付録C",
+      "aliases": []
+    },
+    {
+      "id": "3687923c15b6f337",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12767,7 +12830,7 @@
       "aliases": []
     },
     {
-      "id": "9c564a6e61231e39",
+      "id": "1ab9cdd8839dc580",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12779,7 +12842,7 @@
       "aliases": []
     },
     {
-      "id": "58e84f9fb4561b5d",
+      "id": "6670ca5edfeccb89",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12791,7 +12854,7 @@
       "aliases": []
     },
     {
-      "id": "1c2344980116804d",
+      "id": "6b6c27f4bf399dee",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12803,7 +12866,7 @@
       "aliases": []
     },
     {
-      "id": "34203f6a5bbd5803",
+      "id": "083c4017b33823d0",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12957,7 +13020,7 @@
       "chapter": "付録B：ツールインストールガイド",
       "heading": "対象ツール（最小セット）",
       "url": "/formal-methods-book/appendices/appendix-b/#対象ツール最小セット",
-      "text": "Alloy 6.x（CLI実行） TLA+ TLC（tla2tools.jar） Apalache（TLA+ 向け、SMT ベース） Dafny（検証器） 補足： Quint CLI は、TLA+ 意味論に基づく型付き仕様言語をCIに載せる選択肢であり、本リポジトリでは固定版のtypecheck/testをnightlyで実行する。 Rocq/Isabelle等の定理証明器は依存が大きいため、本付録では一次情報リンク（付録E）を主とする。 Lean 4 は、本書の導線として 最小構成のみを本付録末尾に示す（Optional）。 SPIN / NuSMV / CBMC / Quint / PRISM / Tamarin はnightly laneの対象であり、source buildが必要なtoolだけ後述するUbuntu 24.04 x86-64向け追加前提を使う。",
+      "text": "Alloy 6.x（CLI実行） TLA+ TLC（tla2tools.jar） Apalache（TLA+ 向け、SMT ベース） Dafny（検証器） 補足： Quint CLI は、TLA+ 意味論に基づく型付き仕様言語をCIに載せる選択肢であり、本リポジトリでは固定版のtypecheck/testをnightlyで実行する。 Rocq/Isabelle等の定理証明器は依存が大きいため、本付録では一次情報リンク（付録E）を主とする。 Lean 4 は、本書の導線として 最小構成のみを本付録末尾に示す（Optional）。 SPIN / NuSMV / CBMC / Quint / PRISM / Tamarin / SymbiYosys はnightly laneの対象であり、source buildまたはarchive検査に必要な追加前提を後述する。",
       "aliases": [
         "TLA Plus",
         "Coq",
@@ -12974,7 +13037,7 @@
       "chapter": "付録B：ツールインストールガイド",
       "heading": "Tool lane inventoryと実行保証",
       "url": "/formal-methods-book/appendices/appendix-b/#tool-lane-inventory",
-      "text": "全toolの分類、実行版、配布物digest、artifact上限、更新手順の正本は tools/tool-manifest.json である。 pr-quick はPR差分に関連する小さい例、nightly はtool単位の独立matrix、optional/manual は明示的な workflowdispatch だけで実行する。 documentation-only は本文で紹介するが、このリポジトリがversion、環境、実行結果を保証しないtool/serviceを表す。 他toolに内蔵されたsolverを間接利用しても、solver単体の実行保証には数えない。 Tool / service · lane · 検証済み version · 分類理由 --- · --- · --- · --- Alloy Analyzer · pr-quick · 6.2.0 · 小さい scope の4例を短時間で再現できる。 TLC · pr-quick · 1.7.4 · 固定 cfg・worker・seed・timeout で有限モデルを検査する。 Apalache · pr-quick · 0.52.1 · 短い探索長を固定した不変条件検査を毎PRで再現できる。 Dafny · pr-quick · 4.11.0 · 最小検証例が高速で安定している。 SPIN · nightly · 6.5.2 · source buildと状態探索をtool単位nightlyで分離する。 NuSMV · nightly · 2.7.1 · 依存を伴う公式source buildのためnightlyへ分離する。 CBMC · nightly · 6.10.0 · Ubuntu固定配布と有界検査をtool単位nightlyで実行する。 Quint · nightly · 0.32.0 · 公式single binaryでtypecheck/testを固定seedかつTypeScript backendで再現する。 PRISM Model Checker · nightly · 4.10.1 · 約41 MBの固定公式配布を取得し、定量的性質をtool単位nightlyで再現する。 Tamarin Prover · nightly · 1.12.0 · Tamarinと対応Maudeの固定公式配布を取得し、攻撃トレースと補題をtool単位nightlyで再現する。 Kani Rust Verifier · optional/manual · 0.67.0 · 固定Rust nightlyを追加取得するため明示的manual dispatchに限定する。 TLA+ Toolbox · documentation-only · — · GUI/編集環境であり、本リポジトリのCLI保証対象外。 TLA+ VS Code extension · documentation-only · — · 編集支援はCLI検査と分離し、extension版を固定していない。 Community Z Tools (CZT) · documentation-only · — · Zの一次情報導線のみで実行assetがない。 FDR · documentation-only · — · CSPM例は掲載するが、配布・licenseを含むCI環境を固定していない。 ProB · documentation-only · — · 紹介のみで実行assetと固定環境がない。 PAT · documentation-only · — · 紹介のみで実行assetと固定環境がない。 nuXmv · documentation-only · — · NuSMVとは別製品として紹介するが、CIはNuSMVだけを保証する。 Java PathFinder · documentation-only · — · 紹介・演習候補のみで実行assetがない。 UPPAAL · documentation-only · — · GUI/license/配布条件を伴い自動化していない。 TIMES · documentation-only · — · リアルタイム検証の紹介のみ。 Rocq / Coq · documentation-only · — · 証明project、opam switch、library版を固定していない。 Lean 4 / Lake / mathlib / elan · documentation-only · — · proof projectと依存revisionがなく、Linux配布物も大きいため未実行。 Isabelle/HOL · documentation-only · — · 紹介のみでsession/build環境を固定していない。 Agda · documentation-only · — · 紹介のみでprojectとlibrary版を固定していない。 HOL4 · documentation-only · — · Aeneas接続先として紹介するだけで実行契約がない。 F · documentation-only · — · 接続先/関連技術として紹介するだけで実行契約がない。 Frama-C · documentation-only · — · 紹介のみでplugin/solver構成を固定していない。 VeriFast · documentation-only · — · 紹介のみで実行assetがない。 SPARK · documentation-only · — · 産業toolchain/licenseを含む実行環境を固定していない。 Why3 · documentation-only · — · backend solverを含む実行構成を固定していない。 Verus · documentation-only · — · Rust/Z3/revisionを含む実行構成を固定していない。 Creusot · documentation-only · — · Why3/solver/Rustの組合せを固定していない。 Prusti / Viper · documentation-only · — · Rust/Viper toolchainと実行assetを固定していない。 Aeneas / Charon · documentation-only · — · 変換先を含むend-to-end contractを固定していない。 Z3 · documentation-only · — · 他toolの間接依存をsolver単体の実行保証には数えない。 cvc5 / CVC4 · documentation-only · — · 紹介のみでsolver単体assetを固定していない。 Yices · documentation-only · — · 紹介のみで実行assetを固定していない。 MathSAT · documentation-only · — · 紹介のみでlicense/配布を含む環境を固定していない。 SCADE · documentation-only · — · 商用/GUI toolchainでありCI必須化しない。 Simulink · documentation-only · — · 産業事例の紹介のみでlicense環境を固定していない。 SAW · documentation-only · — · 産業事例の参照のみでs2n検証assetを同梱していない。 Cedar Analysis · documentation-only · — · service/APIとtool群が変化し、対象policy assetを固定していない。 Bedrock Guardrails Automated Reasoning checks · documentation-only · — · 外部service、region、API条件を固定CIへ必須化しない。 Solidity SMTChecker · documentation-only · — · Solidity/compiler/solver構成とcontract assetを固定していない。 Aptos Move Prover · documentation-only · — · Move toolchainとcontract assetを固定していない。 Certora Prover · documentation-only · — · 外部/産業toolchainを必須CIへ組み込まない。 LeanDojo · documentation-only · — · AI証明支援の評価基盤として紹介するだけ。 Lean Copilot · documentation-only · — · AI証明支援の紹介のみでmodel/projectを固定していない。 AlphaProof / AlphaGeometry 2 · documentation-only · — · 研究成果の紹介で、再配布可能なCLI契約がない。 DeepSeek-Prover-V2 · documentation-only · — · 研究成果の紹介でmodel/runtimeを固定していない。 ProofGym · documentation-only · — · 評価基盤の紹介のみでdataset/runtimeを固定していない。 APOLLO · documentation-only · — · 研究成果の紹介のみで実行contractがない。 実行laneでは、各entryにtimeout、memory budget、seed、scope、depth、boundを明示する。 artifactはtool version、command、入力ファイル別SHA-256と集約hash、exit code、stdout/stderr、success、counterexample、unknown、timeout、resource exhaustionを区別して残す。 保持期間は14日、stdout/stderrは1 entry当たり16 MiB、tool outputは1 entry当たり64 MiBを上限とする。 timeoutとstdout/stderr上限はrunnerが強制し、retained tool outputは実行後に検査する。一方、memoryMiBはCI容量計画用の申告値であり、OS/cgroupによる強制上限ではない。このためresource-exhaustedは検出可能な出力超過を表し、OOM killはtool-errorまたはrunner failureになる場合がある。 quint-counter: examples/quint/counter.qnt をQuint 0.32.0のTypeScript evaluatorでtypecheckし、seed 20260716、各test 1 sampleで実行する。別配布のRust evaluatorを暗黙downloadしない。 【ツール準拠（そのまま動く）】 kani-abs: examples/kani/abs.rs のabsisnonnegative harnessをKani 0.67.0、固定Rust nightly、unwind 1で検査する。追加downloadと実行コストがあるためoptional/manualであり、PRやscheduleからは起動しない。 cache復元後もQuint binaryとPRISM archiveのSHA-256を再検証する。 PRISM 4.10.1はGPL-2.0の公式Linux x86-64 archiveを毎回再展開して絶対pathを再設定し、tool binaryはrepository、CI artifact、Pagesへ再配布しない。 Tamarin Prover 1.12.0（GPL-3.0）と対応するMaude 3.5.1（GPL-2.0-or-later）も、固定SHA-256の公式archiveから毎回再展開する。Tamarinのartifactはlemma結果と欠陥版のattack graphを保持するが、両tool binaryは再配布しない。attack graphはmodel constantを保持するため、実在する秘密情報をmodelへ含めない。 保持するのは入力hash、標準出力、期待値との比較結果だけである。 Kaniは検証済みarchiveから毎回再展開し、固定日のRust channel manifestもSHA-256を検証する。Rust component本体の整合性検査は、そのmanifestに記録されたchecksumを検証するrustupに委ねる。 【ツール準拠（そのまま動く）】 version更新は月次に公式release/tagとasset digestを確認し、versionだけの専用PRでclean-cache実行と出力契約差分をレビューする。 任意のrelease assetはDependabot/Renovateのpackage参照ではないため、自動更新されたものとして扱わない。",
+      "text": "全toolの分類、実行版、配布物digest、artifact上限、更新手順の正本は tools/tool-manifest.json である。 pr-quick はPR差分に関連する小さい例、nightly はtool単位の独立matrix、optional/manual は明示的な workflowdispatch だけで実行する。 documentation-only は本文で紹介するが、このリポジトリがversion、環境、実行結果を保証しないtool/serviceを表す。 他toolに内蔵されたsolverを間接利用しても、solver単体の実行保証には数えない。 Tool / service · lane · 検証済み version · 分類理由 --- · --- · --- · --- Alloy Analyzer · pr-quick · 6.2.0 · 小さい scope の4例を短時間で再現できる。 TLC · pr-quick · 1.7.4 · 固定 cfg・worker・seed・timeout で有限モデルを検査する。 Apalache · pr-quick · 0.52.1 · 短い探索長を固定した不変条件検査を毎PRで再現できる。 Dafny · pr-quick · 4.11.0 · 最小検証例が高速で安定している。 SPIN · nightly · 6.5.2 · source buildと状態探索をtool単位nightlyで分離する。 NuSMV · nightly · 2.7.1 · 依存を伴う公式source buildのためnightlyへ分離する。 CBMC · nightly · 6.10.0 · Ubuntu固定配布と有界検査をtool単位nightlyで実行する。 Quint · nightly · 0.32.0 · 公式single binaryでtypecheck/testを固定seedかつTypeScript backendで再現する。 PRISM Model Checker · nightly · 4.10.1 · 約41 MBの固定公式配布を取得し、定量的性質をtool単位nightlyで再現する。 Tamarin Prover · nightly · 1.12.0 · Tamarinと対応Maudeの固定公式配布を取得し、攻撃トレースと補題をtool単位nightlyで再現する。 SymbiYosys (sby) · nightly · v0.67-4-gfea6e46 · 約733 MBの固定OSS CAD Suiteを取得し、RTLのBMC、k-induction、coverをtool単位nightlyで再現する。 Kani Rust Verifier · optional/manual · 0.67.0 · 固定Rust nightlyを追加取得するため明示的manual dispatchに限定する。 TLA+ Toolbox · documentation-only · — · GUI/編集環境であり、本リポジトリのCLI保証対象外。 TLA+ VS Code extension · documentation-only · — · 編集支援はCLI検査と分離し、extension版を固定していない。 Community Z Tools (CZT) · documentation-only · — · Zの一次情報導線のみで実行assetがない。 FDR · documentation-only · — · CSPM例は掲載するが、配布・licenseを含むCI環境を固定していない。 ProB · documentation-only · — · 紹介のみで実行assetと固定環境がない。 PAT · documentation-only · — · 紹介のみで実行assetと固定環境がない。 nuXmv · documentation-only · — · NuSMVとは別製品として紹介するが、CIはNuSMVだけを保証する。 Java PathFinder · documentation-only · — · 紹介・演習候補のみで実行assetがない。 UPPAAL · documentation-only · — · GUI/license/配布条件を伴い自動化していない。 TIMES · documentation-only · — · リアルタイム検証の紹介のみ。 Rocq / Coq · documentation-only · — · 証明project、opam switch、library版を固定していない。 Lean 4 / Lake / mathlib / elan · documentation-only · — · proof projectと依存revisionがなく、Linux配布物も大きいため未実行。 Isabelle/HOL · documentation-only · — · 紹介のみでsession/build環境を固定していない。 Agda · documentation-only · — · 紹介のみでprojectとlibrary版を固定していない。 HOL4 · documentation-only · — · Aeneas接続先として紹介するだけで実行契約がない。 F · documentation-only · — · 接続先/関連技術として紹介するだけで実行契約がない。 Frama-C · documentation-only · — · 紹介のみでplugin/solver構成を固定していない。 VeriFast · documentation-only · — · 紹介のみで実行assetがない。 SPARK · documentation-only · — · 産業toolchain/licenseを含む実行環境を固定していない。 Why3 · documentation-only · — · backend solverを含む実行構成を固定していない。 Verus · documentation-only · — · Rust/Z3/revisionを含む実行構成を固定していない。 Creusot · documentation-only · — · Why3/solver/Rustの組合せを固定していない。 Prusti / Viper · documentation-only · — · Rust/Viper toolchainと実行assetを固定していない。 Aeneas / Charon · documentation-only · — · 変換先を含むend-to-end contractを固定していない。 Z3 · documentation-only · — · 他toolの間接依存をsolver単体の実行保証には数えない。 cvc5 / CVC4 · documentation-only · — · 紹介のみでsolver単体assetを固定していない。 Yices · documentation-only · — · 紹介のみで実行assetを固定していない。 MathSAT · documentation-only · — · 紹介のみでlicense/配布を含む環境を固定していない。 SCADE · documentation-only · — · 商用/GUI toolchainでありCI必須化しない。 Simulink · documentation-only · — · 産業事例の紹介のみでlicense環境を固定していない。 SAW · documentation-only · — · 産業事例の参照のみでs2n検証assetを同梱していない。 Cedar Analysis · documentation-only · — · service/APIとtool群が変化し、対象policy assetを固定していない。 Bedrock Guardrails Automated Reasoning checks · documentation-only · — · 外部service、region、API条件を固定CIへ必須化しない。 Solidity SMTChecker · documentation-only · — · Solidity/compiler/solver構成とcontract assetを固定していない。 Aptos Move Prover · documentation-only · — · Move toolchainとcontract assetを固定していない。 Certora Prover · documentation-only · — · 外部/産業toolchainを必須CIへ組み込まない。 LeanDojo · documentation-only · — · AI証明支援の評価基盤として紹介するだけ。 Lean Copilot · documentation-only · — · AI証明支援の紹介のみでmodel/projectを固定していない。 AlphaProof / AlphaGeometry 2 · documentation-only · — · 研究成果の紹介で、再配布可能なCLI契約がない。 DeepSeek-Prover-V2 · documentation-only · — · 研究成果の紹介でmodel/runtimeを固定していない。 ProofGym · documentation-only · — · 評価基盤の紹介のみでdataset/runtimeを固定していない。 APOLLO · documentation-only · — · 研究成果の紹介のみで実行contractがない。 実行laneでは、各entryにtimeout、memory budget、seed、scope、depth、boundを明示する。 artifactはtool version、command、入力ファイル別SHA-256と集約hash、exit code、stdout/stderr、success、counterexample、unknown、timeout、resource exhaustionを区別して残す。 保持期間は14日、stdout/stderrは1 entry当たり16 MiB、tool outputは1 entry当たり64 MiBを上限とする。 timeoutとstdout/stderr上限はrunnerが強制し、retained tool outputは実行後に検査する。一方、memoryMiBはCI容量計画用の申告値であり、OS/cgroupによる強制上限ではない。このためresource-exhaustedは検出可能な出力超過を表し、OOM killはtool-errorまたはrunner failureになる場合がある。 quint-counter: examples/quint/counter.qnt をQuint 0.32.0のTypeScript evaluatorでtypecheckし、seed 20260716、各test 1 sampleで実行する。別配布のRust evaluatorを暗黙downloadしない。 【ツール準拠（そのまま動く）】 kani-abs: examples/kani/abs.rs のabsisnonnegative harnessをKani 0.67.0、固定Rust nightly、unwind 1で検査する。追加downloadと実行コストがあるためoptional/manualであり、PRやscheduleからは起動しない。 cache復元後もQuint binaryとPRISM archiveのSHA-256を再検証する。 PRISM 4.10.1はGPL-2.0の公式Linux x86-64 archiveを毎回再展開して絶対pathを再設定し、tool binaryはrepository、CI artifact、Pagesへ再配布しない。 Tamarin Prover 1.12.0（GPL-3.0）と対応するMaude 3.5.1（GPL-2.0-or-later）も、固定SHA-256の公式archiveから毎回再展開する。Tamarinのartifactはlemma結果と欠陥版のattack graphを保持するが、両tool binaryは再配布しない。attack graphはmodel constantを保持するため、実在する秘密情報をmodelへ含めない。 SymbiYosysはOSS CAD Suite 20260716の公式Linux x64 archiveをSHA-256検証後に毎回再展開する。archive path、重複entry、symlinkの解決先、special fileを検査し、suite versionと、SBY、Yosys、Bitwuzlaのversion/source commitをbundle内のmetadata/licenseに照合する。suite release tagのcommitは配布物digestとは別の出典provenanceとして記録する。SBYとYosysはISC、BitwuzlaはMITであり、bundle内の他componentにはそれぞれのlicenseがある。artifactには正規化結果と必要なVCDだけを保持し、suite archive、展開binary、solver modelを再配布しない。 保持するのは入力hash、標準出力、期待値との比較結果だけである。 Kaniは検証済みarchiveから毎回再展開し、固定日のRust channel manifestもSHA-256を検証する。Rust component本体の整合性検査は、そのmanifestに記録されたchecksumを検証するrustupに委ねる。 【ツール準拠（そのまま動く）】 version更新は月次に公式release/tagとasset digestを確認し、versionだけの専用PRでclean-cache実行と出力契約差分をレビューする。 任意のrelease assetはDependabot/Renovateのpackage参照ではないため、自動更新されたものとして扱わない。",
       "aliases": [
         "TLA Plus",
         "The Rocq Prover"
@@ -13028,7 +13091,7 @@
       "chapter": "付録B：ツールインストールガイド",
       "heading": "nightly lane の追加前提（Ubuntu 24.04 x86-64）",
       "url": "/formal-methods-book/appendices/appendix-b/#nightly-lane-の追加前提ubuntu-2404-x86-64",
-      "text": "node scripts/run-example-manifest.js --lane nightlyはSPIN 6.5.2、NuSMV 2.7.1、CBMC 6.10.0、Quint 0.32.0、PRISM 4.10.1、Tamarin Prover 1.12.0の9 entryを実行する。最小セットとは別に、SPIN/NuSMVのsource buildには次の前提が必要である。CBMCはUbuntu 24.04 x86-64用の固定deb、Quintは同platform用の固定single binary、PRISMは約41 MBの固定公式archive、Tamarinは対応するMaude 3.5.1と二つの固定公式archiveを使うため、この手順は同環境または互換環境を対象とする。 取得物は commit/version と SHA-256、Meson/Ninja は requirements の package hash で固定される。macOS、Windows ネイティブ、異なる CPU architecture ではこの lane を直接再現せず、Ubuntu 24.04 x86-64 のコンテナ、WSL2、または GitHub Actions の workflowdispatch を使う。 PRISMだけを再実行する場合は次を使う。 この実行はDTMCと4 propertyの数値契約を再現するだけであり、教育用成功確率0.8が実システムに妥当であることは保証しない。 Tamarinの欠陥版と修正版だけを再実行する場合は次を使う。 欠陥版のcounterexampleは期待された成功結果であり、修正版は四つの指定lemmaが同じsymbolic model設定でverifiedとなることを確認する。",
+      "text": "node scripts/run-example-manifest.js --lane nightlyはSPIN 6.5.2、NuSMV 2.7.1、CBMC 6.10.0、Quint 0.32.0、PRISM 4.10.1、Tamarin Prover 1.12.0、SymbiYosysの12 entryを実行する。最小セットとは別に、SPIN/NuSMVのsource buildとSymbiYosys archiveの安全なlayout検査には次の前提が必要である。CBMCはUbuntu 24.04 x86-64用の固定deb、Quintは同platform用の固定single binary、PRISMは約41 MBの固定公式archive、Tamarinは対応するMaude 3.5.1と二つの固定公式archive、SymbiYosysは約733 MBのOSS CAD Suite 20260716 Linux x64 archiveを使うため、この手順は同環境または互換環境を対象とする。 取得物は commit/version と SHA-256、Meson/Ninja は requirements の package hash で固定される。macOS、Windows ネイティブ、異なる CPU architecture ではこの lane を直接再現せず、Ubuntu 24.04 x86-64 のコンテナ、WSL2、または GitHub Actions の workflowdispatch を使う。 PRISMだけを再実行する場合は次を使う。 この実行はDTMCと4 propertyの数値契約を再現するだけであり、教育用成功確率0.8が実システムに妥当であることは保証しない。 Tamarinの欠陥版と修正版だけを再実行する場合は次を使う。 欠陥版のcounterexampleは期待された成功結果であり、修正版は四つの指定lemmaが同じsymbolic model設定でverifiedとなることを確認する。 SymbiYosysの欠陥版BMC、修正版proof、修正版coverだけを再実行する場合は次を使う。 欠陥版のcounterexampleは期待された成功結果である。proofのPASSは指定propertyとassumptionに相対的なk-induction結果であり、coverのPASSは対象状態へ至るwitnessが見つかったことを表す。",
       "aliases": []
     },
     {
@@ -13304,6 +13367,18 @@
       "aliases": [
         "Tamarin Prover"
       ]
+    },
+    {
+      "id": "9fc48fb4e12c9ebb",
+      "locale": "ja",
+      "pageId": "appendix-c",
+      "section": "appendices",
+      "title": "C.3.11 SymbiYosys：同期RTL formalの最小対応",
+      "chapter": "付録C：記法対照表",
+      "heading": "C.3.11 SymbiYosys：同期RTL formalの最小対応",
+      "url": "/formal-methods-book/appendices/appendix-c/#c311-symbiyosys同期rtl-formalの最小対応",
+      "text": "SymbiYosysは、RTLとpropertyをYosysで形式模型へ変換し、指定したengineとsolverでBMC、証明、到達性探索を実行するfront endである。 次の表は第8章のarbiter例を読むための対応であり、SystemVerilog Assertions全体の構文表ではない。 RTL/formal概念 · 第8章例での表現 · 検査上の意味 · 証跡として残すこと --- · --- · --- · --- clock edge · alwaysff @(posedge clk) · register遷移の1 step · clock、mode、depth reset contract · 最初のedgeだけrstをassume · 意図した初期化系列へ環境を制限 · reset極性、assert期間、仮定 safety property · assert(!(grant0 && grant1)) · 両grant同時assertの禁止 · property位置、PASS / FAIL environment constraint · assume(...) · solverが列挙するinput traceを制限 · 全assumptionと根拠 reachability target · cover(...) · 関心状態へ至る実行を一つ探す · 到達step、witness VCD BMC · mode bmc, depth 6 · 深さ6以内のassertion違反探索 · bound、counterexample VCD k-induction · mode prove, depth 6 · base caseとtemporal induction · 両phaseのstatus、engine sampled prior value · $past(req0) · 前clock edgeのrequest · 初回sampleのguard assertがPASSしても、強すぎるassumeが欠陥traceを除外していれば主張は空虚になり得る。 同時requestのような重要環境条件をcoverで到達確認し、到達不能なcoverを安全性成功と同一視しない。",
+      "aliases": []
     },
     {
       "id": "b107a206c4ef1ffa",
@@ -14329,8 +14404,10 @@
       "chapter": "付録E：参考文献とWebリソース",
       "heading": "実行保証の読み方",
       "url": "/formal-methods-book/appendices/appendix-e/#実行保証の読み方",
-      "text": "本付録への掲載は、リポジトリでの実行保証を意味しない。実行状態の正本は tools/tool-manifest.json と付録Bの lane inventoryである。 Alloy、TLC、Apalache、Dafny は pr-quick、SPIN、NuSMV、CBMC、Quint、PRISM は nightly、Kani は明示的な optional/manual で検証する。それ以外の掲載ツールは documentation-only であり、本書は固定バージョン、実行環境、実行結果を保証しない。",
-      "aliases": []
+      "text": "本付録への掲載は、リポジトリでの実行保証を意味しない。実行状態の正本は tools/tool-manifest.json と付録Bの lane inventoryである。 Alloy、TLC、Apalache、Dafny は pr-quick、SPIN、NuSMV、CBMC、Quint、PRISM、Tamarin、SymbiYosys は nightly、Kani は明示的な optional/manual で検証する。それ以外の掲載ツールは documentation-only であり、本書は固定バージョン、実行環境、実行結果を保証しない。",
+      "aliases": [
+        "Tamarin Prover"
+      ]
     },
     {
       "id": "a56b54d1928d3a47",
@@ -14432,15 +14509,15 @@
       ]
     },
     {
-      "id": "5cf8e1e1e1fda0f5",
+      "id": "5733d39622fd7049",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
-      "title": "2) 模型検査（TLC / Apalache / SPIN / NuSMV / PRISM）",
+      "title": "2) 模型検査（TLC / Apalache / SPIN / NuSMV / PRISM / SymbiYosys）",
       "chapter": "付録E：参考文献とWebリソース",
-      "heading": "2) 模型検査（TLC / Apalache / SPIN / NuSMV / PRISM）",
-      "url": "/formal-methods-book/appendices/appendix-e/#2-模型検査tlc--apalache--spin--nusmv--prism",
-      "text": "2) 模型検査（TLC / Apalache / SPIN / NuSMV / PRISM）",
+      "heading": "2) 模型検査（TLC / Apalache / SPIN / NuSMV / PRISM / SymbiYosys）",
+      "url": "/formal-methods-book/appendices/appendix-e/#2-模型検査tlc--apalache--spin--nusmv--prism--symbiyosys",
+      "text": "2) 模型検査（TLC / Apalache / SPIN / NuSMV / PRISM / SymbiYosys）",
       "aliases": [
         "モデル検査",
         "model checking"
@@ -14509,7 +14586,19 @@
       ]
     },
     {
-      "id": "a4d8049eaa670279",
+      "id": "f2a8218cd4f5485a",
+      "locale": "ja",
+      "pageId": "appendix-e",
+      "section": "appendices",
+      "title": "SymbiYosys（open-source RTL formal verification）",
+      "chapter": "付録E：参考文献とWebリソース",
+      "heading": "SymbiYosys（open-source RTL formal verification）",
+      "url": "/formal-methods-book/appendices/appendix-e/#symbiyosysopen-source-rtl-formal-verification",
+      "text": "用途：SystemVerilog RTLに対するBMC、k-inductionによるsafety proof、cover reachabilityとcycle trace生成 推奨読者：第8章（RTL形式検証）、付録B（nightly実行）、付録C（assert / assume / coverの概念対応） 実行境界：本書のnightly契約はOSS CAD Suite 20260716の公式Linux x64 assetとSHA-256、SBY v0.67-4-gfea6e46、Yosys 0.67+40、Bitwuzla 0.9.1、smtbmc engine、depth 6を固定する。CI artifactやPagesへsuite binaryを再配布しない。 保証境界：結果はYosysが受理したSystemVerilog formal subset、RTL、clock/reset/environment assumptions、property、mode、depth、backendに相対的である。CDC、timing、physical/analog behavior、synthesis後netlist、SystemVerilog Assertions全体を自動的には保証しない。 一次情報： SymbiYosys公式repository： SymbiYosys公式documentation： Quickstart： Reference（mode / engine / task / artifact）： Yosys公式repository： OSS CAD Suite公式repository： OSS CAD Suite 2026-07-16公式release： Bitwuzla公式repository：",
+      "aliases": []
+    },
+    {
+      "id": "379a12b775fd936c",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14525,7 +14614,7 @@
       ]
     },
     {
-      "id": "1cd800f8c863c2b0",
+      "id": "38b2cf647e0ab279",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14540,7 +14629,7 @@
       ]
     },
     {
-      "id": "4ae43a4733146369",
+      "id": "9ca0da0eeee1eac5",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14554,7 +14643,7 @@
       ]
     },
     {
-      "id": "0243a32592d00020",
+      "id": "59ec3366b34f39c9",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14566,7 +14655,7 @@
       "aliases": []
     },
     {
-      "id": "cf3198c4abfd075c",
+      "id": "a16f3ad10df464e6",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14578,7 +14667,7 @@
       "aliases": []
     },
     {
-      "id": "dad2e79f4212fda6",
+      "id": "fb27a988b258927f",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14590,7 +14679,7 @@
       "aliases": []
     },
     {
-      "id": "e0f99495723b7b33",
+      "id": "191f6585f7a785a6",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14602,7 +14691,7 @@
       "aliases": []
     },
     {
-      "id": "12660969b4a1ac90",
+      "id": "60df9839a33c8389",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14614,7 +14703,7 @@
       "aliases": []
     },
     {
-      "id": "7a7dccede54af144",
+      "id": "d88b73bebe4b09b9",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14626,7 +14715,7 @@
       "aliases": []
     },
     {
-      "id": "4ac798c8ee335649",
+      "id": "f6f7da8132efb089",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14638,7 +14727,7 @@
       "aliases": []
     },
     {
-      "id": "44bcc19d68bb9b4c",
+      "id": "05dc51e838f89ef6",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14653,7 +14742,7 @@
       ]
     },
     {
-      "id": "fcd7f96da50fc20e",
+      "id": "24b86d6204cafec3",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14665,7 +14754,7 @@
       "aliases": []
     },
     {
-      "id": "0b9e3af6cc5b1389",
+      "id": "cc6f0cf780784ac8",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14677,7 +14766,7 @@
       "aliases": []
     },
     {
-      "id": "6fdac53ac321e2b3",
+      "id": "a21bca8b0b1d5655",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14692,7 +14781,7 @@
       ]
     },
     {
-      "id": "654890af9e9c755c",
+      "id": "a22c6ef580c77296",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14704,7 +14793,7 @@
       "aliases": []
     },
     {
-      "id": "9376a6a3c580bf5a",
+      "id": "9d5611b7103ed685",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14716,7 +14805,7 @@
       "aliases": []
     },
     {
-      "id": "c89a215bec86e758",
+      "id": "831cb60dd239db6b",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14728,7 +14817,7 @@
       "aliases": []
     },
     {
-      "id": "e30851325c9f2094",
+      "id": "49a8a33bc999b381",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14742,7 +14831,7 @@
       ]
     },
     {
-      "id": "e39d96087fcfa198",
+      "id": "c7829a87b3f9d7c9",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14754,7 +14843,7 @@
       "aliases": []
     },
     {
-      "id": "cbd4d7f2bb12c1bc",
+      "id": "242f116fb2e4e1d9",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14766,7 +14855,7 @@
       "aliases": []
     },
     {
-      "id": "c94a60c170a29cda",
+      "id": "de77540f2a7a2c1e",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14778,7 +14867,7 @@
       "aliases": []
     },
     {
-      "id": "7a40f0ee77e5fca3",
+      "id": "d8e7b78816c271ec",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14790,7 +14879,7 @@
       "aliases": []
     },
     {
-      "id": "d49d0256c715b955",
+      "id": "a7def3dfefac5873",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14802,7 +14891,7 @@
       "aliases": []
     },
     {
-      "id": "9c5560de93f5149b",
+      "id": "040eb262aef7022a",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14814,7 +14903,7 @@
       "aliases": []
     },
     {
-      "id": "1c11df450801a08d",
+      "id": "4e97a9c0cbe790d2",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14826,7 +14915,7 @@
       "aliases": []
     },
     {
-      "id": "4e06bef9daf91029",
+      "id": "d604332e96fe9b5c",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14838,7 +14927,7 @@
       "aliases": []
     },
     {
-      "id": "6d3ce25b73b27461",
+      "id": "7590f3845300a133",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14852,7 +14941,7 @@
       ]
     },
     {
-      "id": "b549b35291cd1352",
+      "id": "97a9219606312b09",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14864,7 +14953,7 @@
       "aliases": []
     },
     {
-      "id": "6d2cb66baf435748",
+      "id": "fccc18544949420f",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14876,7 +14965,7 @@
       "aliases": []
     },
     {
-      "id": "95c85eb3d924abd5",
+      "id": "a247bdfc0df43927",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14888,7 +14977,7 @@
       "aliases": []
     },
     {
-      "id": "5ed865f819f3f5c4",
+      "id": "c8e123b7da371e11",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",

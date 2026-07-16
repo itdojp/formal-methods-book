@@ -6,13 +6,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-b.md"
 translation_status: "partial"
-translation_source_commit: "dbe99897e679469f15eb58d9c29a2d9ee175283e"
+translation_source_commit: "5b852a65db6c70440b98a6648136fd5c55e00e7a"
 translation_reviewed_at: "2026-07-16"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Appendix B: Tool Setup and Verification Quick Start
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`dbe99897e679`](https://github.com/itdojp/formal-methods-book/commit/dbe99897e679469f15eb58d9c29a2d9ee175283e) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`5b852a65db6c`](https://github.com/itdojp/formal-methods-book/commit/5b852a65db6c70440b98a6648136fd5c55e00e7a) on 2026-07-16.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 This appendix gives the shortest reproducible path to running the book's companion examples. It prioritizes **reproducibility (minimizing environment differences)** over local customization.
@@ -34,7 +34,7 @@ You do not need every tool before you begin reading. By following this appendix,
 Notes:
 - Theorem provers such as `Rocq` and `Isabelle` have larger dependency footprints, so this appendix primarily points to primary sources for them in Appendix E.
 - `Lean 4` is included here only as a **minimal setup** at the end of the appendix as an optional path through the book.
-- SPIN, NuSMV, CBMC, Quint, PRISM, and Tamarin belong to the `nightly` lane. Only source-built tools use the additional Ubuntu 24.04 x86-64 prerequisites below.
+- SPIN, NuSMV, CBMC, Quint, PRISM, Tamarin, and SymbiYosys belong to the `nightly` lane. Additional prerequisites for source builds and archive-layout validation are listed below.
 
 ## Tool Lane Inventory and Execution Guarantee {#tool-lane-inventory}
 
@@ -56,6 +56,7 @@ Indirect use of an embedded solver does not constitute a standalone execution gu
 | Quint | nightly | 0.32.0 | Uses the official single binary for typecheck/test with a fixed seed and TypeScript backend. |
 | PRISM Model Checker | nightly | 4.10.1 | Downloads the pinned roughly 41 MB official distribution and reproduces quantitative properties in an isolated nightly job. |
 | Tamarin Prover | nightly | 1.12.0 | Downloads pinned official Tamarin and supported Maude distributions and reproduces attack traces and lemmas in an isolated nightly job. |
+| SymbiYosys (sby) | nightly | v0.67-4-gfea6e46 | Downloads an approximately 733 MB pinned OSS CAD Suite and reproduces RTL BMC, k-induction, and cover tasks in an isolated nightly tool job. |
 | Kani Rust Verifier | optional/manual | 0.67.0 | Requires a pinned Rust nightly, so it is limited to explicit manual dispatch. |
 | TLA+ Toolbox | documentation-only | — | GUI/editor environment; outside this repository's CLI guarantee. |
 | TLA+ VS Code extension | documentation-only | — | Editor support is separate from CLI checks and its extension version is not pinned. |
@@ -118,6 +119,7 @@ node scripts/run-example-manifest.js --id quint-counter
 After cache restore, the bootstrap rechecks the SHA-256 of both the Quint binary and the PRISM archive.
 PRISM 4.10.1 is re-extracted from its official GPL-2.0 Linux x86-64 archive on every run so that its absolute launcher path is rebuilt; the repository, CI artifacts, and Pages do not redistribute the tool binary.
 Tamarin Prover 1.12.0 (GPL-3.0) and its supported Maude 3.5.1 (GPL-2.0-or-later) are also re-extracted from official SHA-256-pinned archives. Tamarin artifacts retain lemma results and the flawed model's attack graph, but not either binary. Because an attack graph preserves model constants, a model must not contain real secrets.
+SymbiYosys is re-extracted on every run from the SHA-256-pinned official OSS CAD Suite 20260716 Linux x64 archive. Bootstrap checks archive paths, duplicate entries, resolved symlink targets, special files, the suite version, and the SBY, Yosys, and Bitwuzla versions and source commits recorded in bundled metadata and license files. The suite release-tag commit is recorded separately as source provenance rather than treated as an identity embedded in the distribution. SBY and Yosys use the ISC license and Bitwuzla uses MIT; other bundled components retain their own licenses. Artifacts keep normalized results and only the required VCD traces, not the suite archive, extracted binaries, or solver models.
 Only input hashes, standard output, and expected-value comparisons are retained.
 Kani is re-extracted from its verified archive on every run, and the dated Rust channel manifest is also verified by SHA-256. rustup then verifies the Rust components against the checksums recorded in that manifest.
 <!-- example-contract: kani-abs -->
@@ -177,7 +179,7 @@ Use the same flow as in the devcontainer: run `bash tools/bootstrap.sh` to fetch
 
 ### Additional prerequisites for the nightly lane (Ubuntu 24.04 x86-64)
 
-`node scripts/run-example-manifest.js --lane nightly` executes nine entries across SPIN 6.5.2, NuSMV 2.7.1, CBMC 6.10.0, Quint 0.32.0, PRISM 4.10.1, and Tamarin Prover 1.12.0. SPIN and NuSMV need the source-build prerequisites below. CBMC uses a pinned Ubuntu 24.04 x86-64 deb, Quint uses a pinned single binary, PRISM uses a pinned official archive of roughly 41 MB, and Tamarin uses two pinned official archives together with supported Maude 3.5.1, so this procedure targets that environment or a compatible one.
+`node scripts/run-example-manifest.js --lane nightly` executes 12 entries across SPIN 6.5.2, NuSMV 2.7.1, CBMC 6.10.0, Quint 0.32.0, PRISM 4.10.1, Tamarin Prover 1.12.0, and SymbiYosys. SPIN and NuSMV need the source-build prerequisites below, and SymbiYosys uses Python 3 to validate its archive layout. CBMC uses a pinned Ubuntu 24.04 x86-64 deb, Quint uses a pinned single binary, PRISM uses a pinned official archive of roughly 41 MB, Tamarin uses two pinned official archives with supported Maude 3.5.1, and SymbiYosys uses an approximately 733 MB OSS CAD Suite 20260716 Linux x64 archive, so this procedure targets that environment or a compatible one.
 
 ```bash
 sudo apt-get update
@@ -213,6 +215,16 @@ node scripts/run-example-manifest.js --id tamarin-replay-fixed
 ```
 
 The flawed model's `counterexample` is an expected passing result. The fixed model checks that all four stated lemmas are `verified` under the same symbolic-model configuration.
+
+To rerun only the flawed BMC, fixed proof, and fixed cover contracts for SymbiYosys, use:
+
+```bash
+node scripts/run-example-manifest.js --id sby-rtl-arbiter-flawed-bmc
+node scripts/run-example-manifest.js --id sby-rtl-arbiter-fixed-prove
+node scripts/run-example-manifest.js --id sby-rtl-arbiter-fixed-cover
+```
+
+The flawed design's `counterexample` is an expected passing result. The proof `PASS` is a k-induction result relative to the stated property and assumptions, while the cover `PASS` means that the requested witness state was reached.
 
 ### OS-specific Notes (Key Points)
 
