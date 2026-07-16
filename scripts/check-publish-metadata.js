@@ -207,9 +207,10 @@ function checkEdition({ locale, config, docsRoot, navPrefix }) {
     expectedSpecialSections[entry.section].push(entry);
   }
   for (const [section, entries] of Object.entries(expectedSpecialSections)) {
+    const orderedEntries = [...entries].sort((left, right) => left.order - right.order);
     assertDeepEqual(
       navigation?.[locale]?.[section] || [],
-      expectedNavigationEntries(entries),
+      expectedNavigationEntries(orderedEntries),
       `${locale} navigation ${section} metadata vs book-config`,
     );
   }
