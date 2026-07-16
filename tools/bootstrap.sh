@@ -394,32 +394,57 @@ def validate_name(name, seen):
     seen.add(normalized)
     return normalized
 
+def validate_hierarchy(entries):
+    entry_types = {name: entry_type for _, name, entry_type in entries}
+    for name, entry_type in entry_types.items():
+        parent = posixpath.dirname(name)
+        while parent:
+            if entry_types.get(parent) == 'file':
+                raise SystemExit(f'Conflicting {kind} archive paths: {parent!r} and {name!r}')
+            parent = posixpath.dirname(parent)
+        if entry_type == 'file' and any(other.startswith(name + '/') for other in entry_types):
+            raise SystemExit(f'Conflicting {kind} archive file/directory path: {name!r}')
+
+def sanitized_regular_mode(mode):
+    # Match tarfile.data_filter: remove high bits and group/other write,
+    # preserve executability only when the owner-execute bit is present, and
+    # ensure the owner can always read and write the extracted regular file.
+    mode &= 0o755
+    if not mode & 0o100:
+        mode &= ~0o111
+    return mode | 0o600
+
 if kind == 'tar':
     entries = []
     seen = set()
     total_bytes = 0
     with tarfile.open(archive, 'r:*') as source:
-        for member in source.getmembers():
+        # Iterate lazily and stop at the cap instead of materializing an
+        # unbounded member list with getmembers().
+        for member in source:
             if len(entries) >= max_members:
                 raise SystemExit(f'{kind} archive exceeds {max_members} members')
-            validate_name(member.name, seen)
-            if not (member.isdir() or member.isreg()):
+            name = validate_name(member.name, seen)
+            if member.isdir():
+                entry_type = 'directory'
+            elif member.isreg():
+                entry_type = 'file'
+            else:
                 raise SystemExit(f'Unsupported tar archive member type: {member.name!r}')
             if member.size > max_member_bytes:
                 raise SystemExit(f'Tar archive member exceeds {max_member_bytes} bytes: {member.name!r}')
             total_bytes += member.size
             if total_bytes > max_total_bytes:
                 raise SystemExit(f'Tar archive exceeds {max_total_bytes} extracted bytes')
-            entries.append(member)
+            entries.append((member, name, entry_type))
         if expected_root not in seen:
             raise SystemExit(f'{kind} archive is missing its required root: {expected_root}')
-        directories = []
-        for member in entries:
-            name = member.name.rstrip('/')
+        validate_hierarchy(entries)
+        for member, name, entry_type in entries:
             target = destination / name
-            if member.isdir():
+            if entry_type == 'directory':
+                # Like tarfile.data_filter, ignore archive directory modes.
                 target.mkdir(parents=True, exist_ok=True)
-                directories.append((target, member.mode & 0o777))
                 continue
 
             target.parent.mkdir(parents=True, exist_ok=True)
@@ -428,21 +453,21 @@ if kind == 'tar':
                 raise SystemExit(f'Could not read regular tar archive member: {member.name!r}')
             with input_file, open(target, 'xb') as output_file:
                 shutil.copyfileobj(input_file, output_file, length=1024 * 1024)
-            os.chmod(target, member.mode & 0o777)
-
-        # Apply directory modes last so read-only archive directories do not
-        # prevent extraction of their already-validated children.
-        for target, permissions in reversed(directories):
-            os.chmod(target, permissions)
+            if target.stat().st_size != member.size:
+                raise SystemExit(f'Tar archive member size did not match: {member.name!r}')
+            os.chmod(target, sanitized_regular_mode(member.mode))
 elif kind == 'zip':
     seen = set()
     with zipfile.ZipFile(archive) as source:
         entries = source.infolist()
+        validated_entries = []
         if len(entries) > max_members:
             raise SystemExit(f'{kind} archive exceeds {max_members} members')
         total_bytes = 0
         for member in entries:
-            validate_name(member.filename, seen)
+            name = validate_name(member.filename, seen)
+            if member.flag_bits & 0x1:
+                raise SystemExit(f'Encrypted zip archive member is unsupported: {member.filename!r}')
             if member.file_size > max_member_bytes:
                 raise SystemExit(f'Zip archive member exceeds {max_member_bytes} bytes: {member.filename!r}')
             total_bytes += member.file_size
@@ -452,22 +477,28 @@ elif kind == 'zip':
             if member.is_dir():
                 if mode not in (0, stat.S_IFDIR):
                     raise SystemExit(f'Unsupported zip directory member type: {member.filename!r}')
-            elif mode not in (0, stat.S_IFREG):
-                raise SystemExit(f'Unsupported zip archive member type: {member.filename!r}')
+                entry_type = 'directory'
+            else:
+                if mode not in (0, stat.S_IFREG):
+                    raise SystemExit(f'Unsupported zip archive member type: {member.filename!r}')
+                entry_type = 'file'
+            validated_entries.append((member, name, entry_type))
         if expected_root not in seen:
             raise SystemExit(f'{kind} archive is missing its required root: {expected_root}')
-        for member in entries:
-            name = member.filename.rstrip('/')
+        validate_hierarchy(validated_entries)
+        for member, name, entry_type in validated_entries:
             target = destination / name
-            if member.is_dir():
+            if entry_type == 'directory':
                 target.mkdir(parents=True, exist_ok=True)
             else:
                 target.parent.mkdir(parents=True, exist_ok=True)
-                with source.open(member) as input_file, open(target, 'wb') as output_file:
+                with source.open(member) as input_file, open(target, 'xb') as output_file:
                     shutil.copyfileobj(input_file, output_file, length=1024 * 1024)
+                if target.stat().st_size != member.file_size:
+                    raise SystemExit(f'Zip archive member size did not match: {member.filename!r}')
                 permissions = (member.external_attr >> 16) & 0o777
                 if permissions:
-                    os.chmod(target, permissions)
+                    os.chmod(target, sanitized_regular_mode(permissions))
 else:
     raise SystemExit(f'Unsupported archive kind: {kind}')
 
@@ -678,6 +709,7 @@ ensure_cvc5() {
 ensure_carcara() {
   require_command rustup rustup
   require_command cargo cargo
+  require_command python3 python3
   require_command m4 m4
   require_command cc build-essential
   require_command make build-essential
@@ -693,7 +725,7 @@ try:
     import tomllib
 except ModuleNotFoundError:
     raise SystemExit(
-        'cvc5/Carcara bootstrap requires Python 3.11 or later '
+        'Carcara Rust-manifest verification requires Python 3.11 or later '
         '(the standard-library tomllib module is unavailable)'
     ) from None
 
@@ -970,6 +1002,10 @@ ensure_kani() {
     return 1
   fi
 }
+
+if [[ "${FORMAL_BOOTSTRAP_LIBRARY_ONLY:-0}" == "1" ]]; then
+  return 0 2>/dev/null || exit 0
+fi
 
 installed=()
 for selected_tool in "${selected_tools[@]}"; do
