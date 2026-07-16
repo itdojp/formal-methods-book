@@ -6,13 +6,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-c.md"
 translation_status: "partial"
-translation_source_commit: "5b852a65db6c70440b98a6648136fd5c55e00e7a"
+translation_source_commit: "4c528522f6a4cda22043a64361360cc3850d0fb9"
 translation_reviewed_at: "2026-07-16"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Appendix C: Notation Cross-Reference
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`5b852a65db6c`](https://github.com/itdojp/formal-methods-book/commit/5b852a65db6c70440b98a6648136fd5c55e00e7a) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`4c528522f6a4`](https://github.com/itdojp/formal-methods-book/commit/4c528522f6a4cda22043a64361360cc3850d0fb9) on 2026-07-16.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 This appendix is a quick lookup guide for readers who need to recover the
@@ -33,6 +33,14 @@ explanation.
 - **counterexample**: a minimal execution that violates a property. It is the starting point for correcting the design.
 - **authentication**: a trace property connecting an accepted peer, message, or session to a corresponding legitimate event; state whether the correspondence is non-injective or injective.
 - **attack trace**: a violating trace that includes adversary knowledge, message operations, and protocol events.
+
+### C.1.1 Minimal Correspondence for SAT / UNSAT Artifacts
+
+| Outcome | Main retained artifact | What independent rechecking confirms | What it still does not validate |
+| --- | --- | --- | --- |
+| `SAT` | model / witness | That the assignment satisfies the same encoded constraints | The natural-language requirement, the original specification, or the encoder |
+| `UNSAT` | proof certificate | That a checker or kernel accepts the certificate for the input problem | Requirement validity, omitted assumptions, or the full preprocessing chain |
+| `unknown` / timeout | logs, resource bounds, input hash | That the run is non-success and needs triage | Correctness or absence of defects |
 
 ## C.2 Definition of Done Checklist for AI-Assisted Work
 

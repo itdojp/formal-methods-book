@@ -322,6 +322,25 @@ Alloy、TLC、Apalache、Dafny は `pr-quick`、SPIN、NuSMV、CBMC、Quint、PR
   - GitHub（リリース）：<https://github.com/cvc5/cvc5/releases>
   - Python bindings（必要時）：<https://pypi.org/project/cvc5/>
 
+### SMT 証明証跡の独立再検査（Alethe / LFSC / DRAT / LRAT）
+
+- 実行境界（本書の pinned contract）：
+  - `cvc5 1.3.4` release tag は `cvc5-1.3.4`、release commit は `f3b21c4483d3b88dc63cb7cd3e5eb092eee5e341`、対象 asset は `cvc5-Linux-x86_64-static.zip`、SHA-256 は `dcdbfada0ce493ee98259c0816e0daafc561c223aadb3af298c2968e73ea39c6`
+  - `Carcara 1.1.0` 自体の release は参照用だが、cvc5 1.3.4 の `contrib/get-carcara-checker` が固定している互換 commit は `394edbb15ba95c47893f1d821fddde7e016af178`
+  - 上記 commit の source archive SHA-256 は `28562432ca7413a662d25f03e328cab4b7b9bf649b2ca69268a255a44a5ddee6`
+  - Carcara の build 境界は固定した Rust/Cargo `1.87.0`
+- cvc5 1.3.4 の Alethe 文書は、equality with uninterpreted functions、linear arithmetic、bit-vectors、parts of strings を、quantifier の有無を含めて現在の対象として挙げる。これは「普遍互換」を意味せず、solver / checker / logic fragment の組合せごとに確認が必要
+- cvc5 1.3.4 の release note は、Alethe について「AUFNIRA に対する CPC fragment の full translation 改善」を述べており、逆に言えば full coverage を一般化してよい根拠にはならない
+- cvc5 の LFSC 文書は、supported theories 全体に basic support を述べる一方、未対応の internal proof rule は trust step として出力され得る。strict checker 連携では trust step を成功扱いにしない
+- DRAT / LRAT は propositional CNF proof ecosystem であり、CNF 化後の `unsat` 証明を扱う。元の SMT 問題、自然言語仕様、エンコーダ、未モデル化仮定の正しさを直接証明するものではない
+- 一次情報：
+  - cvc5 Proof Production：<https://cvc5.github.io/docs/cvc5-1.3.4/proofs/proofs.html>
+  - cvc5 Alethe 出力：<https://cvc5.github.io/docs/cvc5-1.3.4/proofs/output_alethe.html>
+  - cvc5 LFSC 出力：<https://cvc5.github.io/docs/cvc5-1.3.4/proofs/output_lfsc.html>
+  - cvc5 `get-carcara-checker`（固定 release 版）：<https://github.com/cvc5/cvc5/blob/cvc5-1.3.4/contrib/get-carcara-checker>
+  - Carcara：<https://github.com/ufmg-smite/carcara>
+  - DRAT-trim：<https://github.com/marijnheule/drat-trim>
+
 ## 6) 分散システム理論（CAP / FLP と仮定変更）
 
 - 読み方：不可能性定理は結論だけでなく、計算モデル、通信仮定、故障モデル、保証対象の組として読む。

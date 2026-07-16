@@ -24,6 +24,15 @@ source_path: "src/ja/appendices/appendix-f.md"
 
 この境界を崩すと、AI の誤りが品質保証の誤りに直結します。
 
+### F.2.1 エンコード済み主張の再検査フロー
+
+`LLM/agent` → `人間による要件・用語・encoding review` → `solver / prover` → `model / witness または proof certificate` → `strict checker / kernel` → `CI artifact` → `人間レビュー`
+
+- `SAT` 側では、solver が返した model / witness を同じ入力に対して再評価する
+- `UNSAT` 側では、proof-producing solver が出した proof certificate を strict checker / kernel で別実装再検査する
+- checker が検査しているのは **encoded statement** であり、自然言語要件、元仕様、エンコーダ、未モデル化仮定そのものではない
+- したがって、人間レビューでは「何を形式化し、何を捨象し、どこから先は未保証か」を artifact と一緒に確認する
+
 ## F.3 ワークフロー（テンプレ）
 
 1. 要求（目的/禁止事項）を短文で明確化

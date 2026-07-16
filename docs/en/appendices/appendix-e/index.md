@@ -6,13 +6,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-e.md"
 translation_status: "partial"
-translation_source_commit: "5b852a65db6c70440b98a6648136fd5c55e00e7a"
+translation_source_commit: "4c528522f6a4cda22043a64361360cc3850d0fb9"
 translation_reviewed_at: "2026-07-16"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Appendix E: References and Further Reading Paths
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`5b852a65db6c`](https://github.com/itdojp/formal-methods-book/commit/5b852a65db6c70440b98a6648136fd5c55e00e7a) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`4c528522f6a4`](https://github.com/itdojp/formal-methods-book/commit/4c528522f6a4cda22043a64361360cc3850d0fb9) on 2026-07-16.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 This appendix is a **reader-facing guide to primary sources** for the methods, tools, and case studies introduced in the main text. Use it when you want to deepen a chapter, verify a claim against an official source, or decide which tool family to study next.  
@@ -268,6 +268,25 @@ environment, or result for it.
   - `GitHub`: <https://github.com/cvc5/cvc5>
   - `GitHub` releases: <https://github.com/cvc5/cvc5/releases>
   - Python bindings, when needed: <https://pypi.org/project/cvc5/>
+
+### Independent rechecking of SMT proof certificates (Alethe / LFSC / DRAT / LRAT)
+
+- Execution boundary for the pinned example contract:
+  - `cvc5 1.3.4` is pinned to release tag `cvc5-1.3.4`, release commit `f3b21c4483d3b88dc63cb7cd3e5eb092eee5e341`, and official asset `cvc5-Linux-x86_64-static.zip` with SHA-256 `dcdbfada0ce493ee98259c0816e0daafc561c223aadb3af298c2968e73ea39c6`
+  - `Carcara 1.1.0` is referenced at the release level, but the compatibility commit pinned by cvc5's `contrib/get-carcara-checker` is `394edbb15ba95c47893f1d821fddde7e016af178`
+  - The SHA-256 of that pinned source archive is `28562432ca7413a662d25f03e328cab4b7b9bf649b2ca69268a255a44a5ddee6`
+  - The build boundary for Carcara is the pinned Rust/Cargo `1.87.0` toolchain
+- The cvc5 1.3.4 Alethe documentation lists equality with uninterpreted functions, linear arithmetic, bit-vectors, and parts of strings, with or without quantifiers, as the currently supported area. This is not universal compatibility; check each solver/checker pair and logic fragment explicitly
+- The cvc5 1.3.4 release note says Alethe proof support was improved to full translation for the CPC fragment for logics in AUFNIRA. That is useful provenance, but not a basis for claiming blanket proof-format coverage
+- The cvc5 LFSC documentation says there is basic support over all supported theories, while also warning that unsupported internal proof rules may be printed as trust steps. In a strict checking pipeline, unresolved trust steps are non-success
+- DRAT and LRAT are propositional CNF proof ecosystems. They validate unsatisfiability of the post-encoding CNF problem, not directly the original SMT problem, the source specification, the encoder, or omitted assumptions
+- Primary sources:
+  - cvc5 Proof Production: <https://cvc5.github.io/docs/cvc5-1.3.4/proofs/proofs.html>
+  - cvc5 Alethe output: <https://cvc5.github.io/docs/cvc5-1.3.4/proofs/output_alethe.html>
+  - cvc5 LFSC output: <https://cvc5.github.io/docs/cvc5-1.3.4/proofs/output_lfsc.html>
+  - cvc5 `get-carcara-checker` at the pinned release: <https://github.com/cvc5/cvc5/blob/cvc5-1.3.4/contrib/get-carcara-checker>
+  - Carcara: <https://github.com/ufmg-smite/carcara>
+  - DRAT-trim: <https://github.com/marijnheule/drat-trim>
 
 ## 6) Distributed-Systems Theory (CAP / FLP and Changed Assumptions)
 

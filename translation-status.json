@@ -33,26 +33,26 @@
     "appendices/appendix-b.md": {
       "source_path": "src/ja/appendices/appendix-b.md",
       "translation_path": "src/en/appendices/appendix-b.md",
-      "source_commit": "5b852a65db6c70440b98a6648136fd5c55e00e7a",
-      "translated_commit": "5b852a65db6c70440b98a6648136fd5c55e00e7a",
-      "source_sha256": "a864d9758001db7a04bdc377983fd9b4d181eff2472ea54530459049f9ee062e",
-      "translation_sha256": "d458c5bdb9df486898c1057e45b95116d44f717cc5e46acd752a534a4faee2cf",
+      "source_commit": "4c528522f6a4cda22043a64361360cc3850d0fb9",
+      "translated_commit": "4c528522f6a4cda22043a64361360cc3850d0fb9",
+      "source_sha256": "8c0e1db8ae9f97b14893fa125d59464bb49ca7321bb880cff54648f39ccd52fa",
+      "translation_sha256": "93bac344e8e64368e852934a1da25135ba07b77cb6d9b9585c191284f9cc8ead",
       "status": "partial",
       "reviewed_at": "2026-07-16",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "Tamarin/Maude and OSS CAD Suite/SBY/Yosys/Bitwuzla nightly, checksum, provenance, license, artifact, and non-redistribution guidance was semantically reviewed across JA/EN; pre-existing heading level/order, code-fence, and table-shape differences remain"
+      "notes": "The cvc5 1.3.4 / Alethe / Carcara compatibility commit, bounded archive/output handling, Rust provenance sentinel, installed compiler commit/host verification, nightly lane, artifact, and non-redistribution guidance was semantically reviewed across JA/EN; pre-existing heading level/order, code-fence, and table-shape differences remain"
     },
     "appendices/appendix-c.md": {
       "source_path": "src/ja/appendices/appendix-c.md",
       "translation_path": "src/en/appendices/appendix-c.md",
-      "source_commit": "5b852a65db6c70440b98a6648136fd5c55e00e7a",
-      "translated_commit": "5b852a65db6c70440b98a6648136fd5c55e00e7a",
-      "source_sha256": "fa2f980bbbcfb8d26c9a4aa782d9422c72b3a10c202691d73d4fa160929a59a2",
-      "translation_sha256": "9522336b932ac757990374582feba8156f74a4f2fbc4f8fe273e45ed04cb62e5",
+      "source_commit": "4c528522f6a4cda22043a64361360cc3850d0fb9",
+      "translated_commit": "4c528522f6a4cda22043a64361360cc3850d0fb9",
+      "source_sha256": "ca01c8d81b699a3341415710a907d36b988dfd559976c729688f82ec48990e4b",
+      "translation_sha256": "a08c44c09a80af57a0f42225c214e99fd15d8e2ea31deef743c9dc3433014145",
       "status": "partial",
       "reviewed_at": "2026-07-16",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "The C.3.10 Tamarin and C.3.11 SymbiYosys concept correspondences were semantically reviewed across JA/EN; pre-existing heading level/order, numbered-heading, and table-shape differences remain"
+      "notes": "The SAT model/witness and UNSAT proof-certificate evidence table plus prior Tamarin/SymbiYosys concept correspondences were semantically reviewed across JA/EN; pre-existing heading level/order, numbered-heading, and table-shape differences remain"
     },
     "appendices/appendix-d.md": {
       "source_path": "src/ja/appendices/appendix-d.md",
@@ -69,26 +69,26 @@
     "appendices/appendix-e.md": {
       "source_path": "src/ja/appendices/appendix-e.md",
       "translation_path": "src/en/appendices/appendix-e.md",
-      "source_commit": "5b852a65db6c70440b98a6648136fd5c55e00e7a",
-      "translated_commit": "5b852a65db6c70440b98a6648136fd5c55e00e7a",
-      "source_sha256": "db7ba059bb8068ed00f3797f257262e8f51a6629d008898cd49266044970aa52",
-      "translation_sha256": "ea273f8b8594c0d8fb2947a140c295ac868f428a93dba0e400e1ef45c2c1e901",
+      "source_commit": "4c528522f6a4cda22043a64361360cc3850d0fb9",
+      "translated_commit": "4c528522f6a4cda22043a64361360cc3850d0fb9",
+      "source_sha256": "5ac0de2e6bc1dc86f6c940e366bdc630d9f313cc776e222160ac0b240348e72e",
+      "translation_sha256": "0eb9380b8a8f2aa5df0b078024fd9f42f0fc1e50ef3239b471632077fbb8cdfe",
       "status": "partial",
       "reviewed_at": "2026-07-16",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "Tamarin/Maude and SymbiYosys/Yosys/Bitwuzla primary-source, version, execution-boundary, and assurance-boundary entries were semantically reviewed across JA/EN; the broader appendix still has heading differences and Japanese-only external references"
+      "notes": "The cvc5/Alethe/Carcara, LFSC trust-step, DRAT/LRAT scope, version, digest, and assurance-boundary entries were semantically reviewed across JA/EN; the broader appendix still has heading differences and Japanese-only external references"
     },
     "appendices/appendix-f.md": {
       "source_path": "src/ja/appendices/appendix-f.md",
       "translation_path": "src/en/appendices/appendix-f.md",
-      "source_commit": "83d031100ae7bcdeab03d28f072904bcff0d71ff",
-      "translated_commit": "f95634f31d9623c3212d6b9849679178e77fee78",
-      "source_sha256": "ca152ced90e90dd97516214991cfd24c2b0f4f1099dd1a63f1ba27f0e6306a9a",
-      "translation_sha256": "ee15eda46f69e9cd065d93934c1f693b03b6e89c5b640c43e899f59b40bedf09",
+      "source_commit": "4c528522f6a4cda22043a64361360cc3850d0fb9",
+      "translated_commit": "4c528522f6a4cda22043a64361360cc3850d0fb9",
+      "source_sha256": "077e906a56cfa6aafa4152772cb1b06fdaa7bff6932c38a1454d50375d3ef137",
+      "translation_sha256": "5fe293b4e7abd5814e1efb6aee916daa404666571c8c45a976de5b8b3972c0dc",
       "status": "partial",
       "reviewed_at": "2026-07-16",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "heading level/order differs; numbered heading ID/order differs; table count/column shape differs"
+      "notes": "The LLM to solver/prover to strict checker/kernel trust-boundary flow was semantically reviewed across JA/EN; pre-existing heading level/order, numbered-heading, and table-shape differences remain"
     },
     "chapters/chapter01.md": {
       "source_path": "src/ja/chapters/chapter01.md",
@@ -225,14 +225,14 @@
     "chapters/chapter12.md": {
       "source_path": "src/ja/chapters/chapter12.md",
       "translation_path": "src/en/chapters/chapter12.md",
-      "source_commit": "5b852a65db6c70440b98a6648136fd5c55e00e7a",
-      "translated_commit": "5b852a65db6c70440b98a6648136fd5c55e00e7a",
-      "source_sha256": "2efac7ac93ab8e164d343bc55eebd5d5587f797d1b7ad7c5c91db61cc029ca7d",
-      "translation_sha256": "90809b4c966d1e4ac5fc2e6286fa65f5bf52a4fbbef6b59902b9e0e419e3b37a",
+      "source_commit": "4c528522f6a4cda22043a64361360cc3850d0fb9",
+      "translated_commit": "4c528522f6a4cda22043a64361360cc3850d0fb9",
+      "source_sha256": "e3a58d79c54a55cf8315c380860ecde88ab0b1d21bfe5f1d5c0312e16efbbafe",
+      "translation_sha256": "bf2df793e42317ee106c2770391dc492c11d0cdcb7cfb6141f15fab52cea82fb",
       "status": "partial",
       "reviewed_at": "2026-07-16",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "The Tamarin and SymbiYosys nightly-matrix references were semantically reviewed across JA/EN; pre-existing heading, numbered-heading, code-fence, table, tool-label, and example-path differences remain"
+      "notes": "The model/witness versus proof-certificate distinction, solver/format/checker layers, Alethe/LFSC/DRAT/LRAT boundaries, preprocessing caveat, and cvc5/Carcara nightly contract were semantically reviewed across JA/EN; pre-existing heading, numbered-heading, code-fence, table, tool-label, and example-path differences remain"
     },
     "chapters/chapter13.md": {
       "source_path": "src/ja/chapters/chapter13.md",
@@ -249,14 +249,14 @@
     "glossary/index.md": {
       "source_path": "src/ja/glossary/index.md",
       "translation_path": "src/en/glossary/index.md",
-      "source_commit": "5b852a65db6c70440b98a6648136fd5c55e00e7a",
-      "translated_commit": "5b852a65db6c70440b98a6648136fd5c55e00e7a",
-      "source_sha256": "1a6f8d0d3bbfef8ee24ef164425678d50fc50a40947ee20c0165d433feda0b85",
-      "translation_sha256": "453de1d928823483865dacdef79216a5ecce119941f76693b347454bf5afb85e",
+      "source_commit": "4c528522f6a4cda22043a64361360cc3850d0fb9",
+      "translated_commit": "4c528522f6a4cda22043a64361360cc3850d0fb9",
+      "source_sha256": "cb58cc25b65244b61c2b4016cddcc63639716d57c46212adf471727c301733c5",
+      "translation_sha256": "cf399a9035d277b563099334c49e0a230344cafcac848b80311a035728c3d58d",
       "status": "partial",
       "reviewed_at": "2026-07-16",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "Tamarin definitions and the new RTL assume/assert/cover, k-induction, SymbiYosys, and vacuity definitions were semantically reviewed across JA/EN; pre-existing heading-structure differences remain"
+      "notes": "Alethe, DRAT, LFSC, LRAT, model/witness, proof certificate, proof checker, and trusted computing base definitions plus prior Tamarin/RTL terms were semantically reviewed across JA/EN; pre-existing heading-structure differences remain"
     },
     "index.md": {
       "source_path": "src/ja/index.md",
