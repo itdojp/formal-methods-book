@@ -169,3 +169,22 @@ Rust検証では、Rustコンパイラの所有権・借用検査だけでなく
 | ghost code | 通常はモデル/補助値で代替 | ghost/spec/proof code | ghost / Pearlite / 変換先証明 | 実行コードとの分離 |
 | 未検証仮定 | `assume`、unwind不足 | `assume`、未証明補題 | trusted/assume/外部仕様 | 例外台帳、影響範囲 |
 | 結果 | 成功/反例/リソース切れ | VC成功/失敗 | VC成功/失敗/反例 | solver版、境界、ログ |
+
+### C.3.9 LTL / CTLと確率propertyの概念対応
+
+通常のLTL / CTLは、対象pathまたは計算木で性質が成り立つかを主に真偽で表す。
+PRISMのPCTL / CSL系propertyは、同じ到達・継続・長期挙動へ確率、閾値、期待rewardを加える。
+下表は読み替えの入口であり、論理間の同値変換表ではない。
+
+| 問いたいこと | 通常のLTL / CTLでの見方 | PRISMの定量的な見方 | 追加で固定すること |
+| --- | --- | --- | --- |
+| 成功へ到達するか | LTL `F success`、CTL `EF success` / `AF success` | `P=? [ F "success" ]` | 初期状態、確率分布、対象scheduler |
+| 到達確率が基準を満たすか | 真偽だけでは確率massを表さない | `P>=0.99 [ F "success" ]` | thresholdの根拠、丸め・許容差 |
+| 長期に正常である割合 | 単純な`G` / `AG`は「常に」であり時間割合ではない | `S=? [ "operational" ]` | 定常性、初期分布、吸収class |
+| 完了までのcost | trace上のevent数を別途集計 | `R{"cost"}=? [ F "done" ]` | rewardの単位、付与位置、未到達path |
+| 環境選択を含む境界 | fairness等を仮定してpathを制約 | MDPの`Pmin` / `Pmax`、`Rmin` / `Rmax` | scheduler / adversary class |
+| 不成立時の説明 | 反例trace | 確率値、scheduler、代表path、critical subsystem | 生成方法と網羅範囲 |
+
+特に`P>=1 [ F "success" ]`を機械的に`AF success`と同一視してはいけない。
+DTMC、CTMC、MDPではpath measureとnondeterminismの意味が異なり、確率1でもmeasure 0のpathをどう扱うかという境界が残る。
+論理式を比較するときは、模型種別、初期状態、scheduler、公平性、時間境界を先にそろえる。

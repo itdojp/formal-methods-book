@@ -25,7 +25,7 @@ case "$tool" in
       exit 2
     }
     ;;
-  alloy|tlc|apalache|dafny|cbmc|quint)
+  alloy|tlc|apalache|dafny|cbmc|quint|prism)
     ;;
   *)
     echo "Unsupported matrix tool: ${tool:-<missing>}" >&2

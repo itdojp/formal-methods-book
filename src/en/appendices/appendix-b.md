@@ -19,7 +19,7 @@ You do not need every tool before you begin reading. By following this appendix,
 Notes:
 - Theorem provers such as `Rocq` and `Isabelle` have larger dependency footprints, so this appendix primarily points to primary sources for them in Appendix E.
 - `Lean 4` is included here only as a **minimal setup** at the end of the appendix as an optional path through the book.
-- SPIN, NuSMV, CBMC, and Quint belong to the `nightly` lane. Only source-built tools use the additional Ubuntu 24.04 x86-64 prerequisites below.
+- SPIN, NuSMV, CBMC, Quint, and PRISM belong to the `nightly` lane. Only source-built tools use the additional Ubuntu 24.04 x86-64 prerequisites below.
 
 ## Tool Lane Inventory and Execution Guarantee {#tool-lane-inventory}
 
@@ -39,6 +39,7 @@ Indirect use of an embedded solver does not constitute a standalone execution gu
 | NuSMV | nightly | 2.7.1 | The official source build has extra dependencies and is isolated to nightly. |
 | CBMC | nightly | 6.10.0 | Runs the pinned Ubuntu package and bounded check in an isolated nightly job. |
 | Quint | nightly | 0.32.0 | Uses the official single binary for typecheck/test with a fixed seed and TypeScript backend. |
+| PRISM Model Checker | nightly | 4.10.1 | Downloads the pinned roughly 41 MB official distribution and reproduces quantitative properties in an isolated nightly job. |
 | Kani Rust Verifier | optional/manual | 0.67.0 | Requires a pinned Rust nightly, so it is limited to explicit manual dispatch. |
 | TLA+ Toolbox | documentation-only | — | GUI/editor environment; outside this repository's CLI guarantee. |
 | TLA+ VS Code extension | documentation-only | — | Editor support is separate from CLI checks and its extension version is not pinned. |
@@ -98,7 +99,10 @@ node scripts/run-example-manifest.js --id quint-counter
 
 - `kani-abs`: verifies the `abs_is_nonnegative` harness in [examples/kani/abs.rs](../../../examples/kani/abs.rs) with Kani 0.67.0, a pinned Rust nightly, and unwind bound 1. Because it requires an additional download and execution budget, it is `optional/manual` and never starts from a PR or schedule.
 
-After cache restore, the bootstrap rechecks the Quint binary SHA-256. It re-extracts Kani from its verified archive on every run and also verifies the dated Rust channel manifest by SHA-256. rustup then verifies the Rust components against the checksums recorded in that manifest.
+After cache restore, the bootstrap rechecks the SHA-256 of both the Quint binary and the PRISM archive.
+PRISM 4.10.1 is re-extracted from its official GPL-2.0 Linux x86-64 archive on every run so that its absolute launcher path is rebuilt; the repository, CI artifacts, and Pages do not redistribute the tool binary.
+Only input hashes, standard output, and expected-value comparisons are retained.
+Kani is re-extracted from its verified archive on every run, and the dated Rust channel manifest is also verified by SHA-256. rustup then verifies the Rust components against the checksums recorded in that manifest.
 <!-- example-contract: kani-abs -->
 【Tool-compliant (runs as-is)】
 ```bash
@@ -156,7 +160,7 @@ Use the same flow as in the devcontainer: run `bash tools/bootstrap.sh` to fetch
 
 ### Additional prerequisites for the nightly lane (Ubuntu 24.04 x86-64)
 
-`node scripts/run-example-manifest.js --lane nightly` executes six entries across SPIN 6.5.2, NuSMV 2.7.1, CBMC 6.10.0, and Quint 0.32.0. SPIN and NuSMV need the source-build prerequisites below. CBMC uses a pinned Ubuntu 24.04 x86-64 deb, and Quint uses a pinned single binary for the same platform, so this procedure targets that environment or a compatible one.
+`node scripts/run-example-manifest.js --lane nightly` executes seven entries across SPIN 6.5.2, NuSMV 2.7.1, CBMC 6.10.0, Quint 0.32.0, and PRISM 4.10.1. SPIN and NuSMV need the source-build prerequisites below. CBMC uses a pinned Ubuntu 24.04 x86-64 deb, Quint uses a pinned single binary, and PRISM uses a pinned official archive of roughly 41 MB for the same platform, so this procedure targets that environment or a compatible one.
 
 ```bash
 sudo apt-get update
@@ -175,6 +179,14 @@ PATH="$PWD/tools/.tmp/nusmv-build-tools/bin:$PATH" \
 ```
 
 The downloaded tools are pinned by commit/version and SHA-256, and the Meson/Ninja packages are pinned by hashes in the requirements file. On native macOS, native Windows, or a different CPU architecture, use an Ubuntu 24.04 x86-64 container, WSL2, or the GitHub Actions `workflow_dispatch` instead of treating this lane as locally portable.
+
+To rerun only PRISM, use:
+
+```bash
+node scripts/run-example-manifest.js --id prism-retry-communication
+```
+
+This reproduces the numerical contract for one DTMC and four properties; it does not establish that the teaching success probability of 0.8 is valid for a real system.
 
 ### OS-specific Notes (Key Points)
 

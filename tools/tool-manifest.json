@@ -222,6 +222,35 @@
       "commit": "fd772606588b40def9978d8c82da69c2db7a0e3b"
     },
     {
+      "id": "prism",
+      "name": "PRISM Model Checker",
+      "aliases": [
+        "PRISM Model Checker",
+        "PRISM model checker",
+        "PRISM"
+      ],
+      "lane": "nightly",
+      "reason": {
+        "ja": "約41 MBの固定公式配布を取得し、定量的性質をtool単位nightlyで再現する。",
+        "en": "Downloads the pinned roughly 41 MB official distribution and reproduces quantitative properties in an isolated nightly job."
+      },
+      "version": "4.10.1",
+      "wrapper": "tools/prism-check.sh",
+      "distribution": {
+        "url": "https://github.com/prismmodelchecker/prism/releases/download/v4.10.1/prism-4.10.1-linux64-x86.tar.gz",
+        "sha256": "9f2135b1d49293cdc9b16b1756a24f99beff320b78134825c1f477f43942ab17"
+      },
+      "platforms": [
+        "ubuntu-x86_64"
+      ],
+      "sources": [
+        "https://github.com/prismmodelchecker/prism/releases/tag/v4.10.1",
+        "https://www.prismmodelchecker.org/download.php",
+        "https://www.prismmodelchecker.org/manual/"
+      ],
+      "commit": "22f0589a505148c95e86feacd204fb58162860ab"
+    },
+    {
       "id": "kani",
       "name": "Kani Rust Verifier",
       "aliases": [
@@ -246,12 +275,12 @@
         "https://github.com/model-checking/kani/releases/tag/kani-0.67.0"
       ],
       "commit": "4feaaad1d6a2378a6ff6caa3b4fc5d6999c7bb5d",
-    "rustToolchain": "nightly-2025-11-21-x86_64-unknown-linux-gnu",
-    "rustToolchainManifest": {
-      "url": "https://static.rust-lang.org/dist/2025-11-21/channel-rust-nightly.toml",
-      "sha256": "3f7f450a0a5f0d3d38f7cf7e65334474cfe4fc013cebd24a481e2a8dab584d2b"
-    },
-    "embeddedCbmcVersion": "6.8.0"
+      "rustToolchain": "nightly-2025-11-21-x86_64-unknown-linux-gnu",
+      "rustToolchainManifest": {
+        "url": "https://static.rust-lang.org/dist/2025-11-21/channel-rust-nightly.toml",
+        "sha256": "3f7f450a0a5f0d3d38f7cf7e65334474cfe4fc013cebd24a481e2a8dab584d2b"
+      },
+      "embeddedCbmcVersion": "6.8.0"
     },
     {
       "id": "tla-toolbox",

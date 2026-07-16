@@ -33,26 +33,26 @@
     "appendices/appendix-b.md": {
       "source_path": "src/ja/appendices/appendix-b.md",
       "translation_path": "src/en/appendices/appendix-b.md",
-      "source_commit": "c38670fbeb731a9fc4e8adf43a45994809342983",
-      "translated_commit": "c38670fbeb731a9fc4e8adf43a45994809342983",
-      "source_sha256": "0e123305117ae1f5ad70dfc5b2f828d9b5c99f343b8ce9e8f5292c2e4a72be3c",
-      "translation_sha256": "5aa472fee7348c0023fc19275abd31042282fa66bafc23f65346bc81c481783e",
+      "source_commit": "53c0ef469bd9f010dd84a83cbdcbde898976df00",
+      "translated_commit": "53c0ef469bd9f010dd84a83cbdcbde898976df00",
+      "source_sha256": "52bdbb38c97fa7c8202796d9f0d404ad4e09557be8402a58639567a0c53a6f44",
+      "translation_sha256": "08dd9d6f3ebf29f0baa02763bb76b4bd01499b2ad406ee24b25eb506bd8b0f8c",
       "status": "partial",
       "reviewed_at": "2026-07-16",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "heading level/order differs; code fence count/language sequence differs; table count/column shape differs"
+      "notes": "PRISM 4.10.1 nightly, checksum, license, and non-redistribution guidance was semantically reviewed across JA/EN; pre-existing heading level/order, code fence, and table-shape differences remain"
     },
     "appendices/appendix-c.md": {
       "source_path": "src/ja/appendices/appendix-c.md",
       "translation_path": "src/en/appendices/appendix-c.md",
-      "source_commit": "83d031100ae7bcdeab03d28f072904bcff0d71ff",
-      "translated_commit": "f95634f31d9623c3212d6b9849679178e77fee78",
-      "source_sha256": "31a29097b63928a7ae075147c69d2772de7be01c2f1e760f7a2a397efaf80159",
-      "translation_sha256": "b7870d890f47d9c9743ccee444abb8e250bfe8fc9415e7b885807abd2383cdbc",
+      "source_commit": "53c0ef469bd9f010dd84a83cbdcbde898976df00",
+      "translated_commit": "53c0ef469bd9f010dd84a83cbdcbde898976df00",
+      "source_sha256": "75e693d0557e1216a270fc8b391ccabc70de5b81c4336caeb7324963f48b3ffd",
+      "translation_sha256": "b7960e9a59285aafb451af75a499519e679b95ee4701be9a8d08bbd9aaba8d8b",
       "status": "partial",
       "reviewed_at": "2026-07-16",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "heading level/order differs; numbered heading ID/order differs; table count/column shape differs"
+      "notes": "The new C.3.9 probabilistic-property correspondence was semantically reviewed across JA/EN; pre-existing heading level/order, numbered-heading, and table-shape differences remain"
     },
     "appendices/appendix-d.md": {
       "source_path": "src/ja/appendices/appendix-d.md",
@@ -69,14 +69,14 @@
     "appendices/appendix-e.md": {
       "source_path": "src/ja/appendices/appendix-e.md",
       "translation_path": "src/en/appendices/appendix-e.md",
-      "source_commit": "13be0b1e9858fd7b1d3a0d44481cb389d0c6c36f",
-      "translated_commit": "13be0b1e9858fd7b1d3a0d44481cb389d0c6c36f",
-      "source_sha256": "51f06de7e6de95304da80ee2e270ea260055d673f12bf34a0f146713a815e496",
-      "translation_sha256": "6323b36a33acd88bd1452256eb5c7a836e8cc611fddbce3004571b82a9779442",
+      "source_commit": "c023d05b5094099bd2d6cbaac283e8da1094a0e9",
+      "translated_commit": "c023d05b5094099bd2d6cbaac283e8da1094a0e9",
+      "source_sha256": "a9530895d60df7d86552b45d868a40e3aefea80b203044cf6ebc1799c36b6177",
+      "translation_sha256": "7b366d26a69d118a74017951afba7e85d51a66a587f198ff131c5783359fd208",
       "status": "partial",
       "reviewed_at": "2026-07-16",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "heading level/order differs; 54 Japanese external reference link(s) are absent from English"
+      "notes": "PRISM primary-source/execution-boundary entries and the CZT source-repository link were re-reviewed across JA/EN; the broader appendix still has heading differences and Japanese-only external references"
     },
     "appendices/appendix-f.md": {
       "source_path": "src/ja/appendices/appendix-f.md",
@@ -177,14 +177,14 @@
     "chapters/chapter08.md": {
       "source_path": "src/ja/chapters/chapter08.md",
       "translation_path": "src/en/chapters/chapter08.md",
-      "source_commit": "83d031100ae7bcdeab03d28f072904bcff0d71ff",
-      "translated_commit": "f95634f31d9623c3212d6b9849679178e77fee78",
-      "source_sha256": "54a2230b9587e806fe4fa310a6f92f95548f62375c6169dd30c1065d78c710bf",
-      "translation_sha256": "70e05e5817928bf5f38d83f5199514b4efb99ed8340e2231bf79b0388cb3415a",
+      "source_commit": "53c0ef469bd9f010dd84a83cbdcbde898976df00",
+      "translated_commit": "53c0ef469bd9f010dd84a83cbdcbde898976df00",
+      "source_sha256": "a5d6defb19fb6c49925733ff55d715ac8e4b25cc616016478ff206cb98247e87",
+      "translation_sha256": "71b370486d0eaff84c9d4641b531503753717e0125fd13b6a3560f37b49a4c96",
       "status": "partial",
       "reviewed_at": "2026-07-16",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "heading level/order differs; code fence count/language sequence differs; table count/column shape differs; strict tool-compliance label category counts differ"
+      "notes": "The probabilistic and quantitative model-checking section and executable PRISM contract were semantically reviewed across JA/EN; pre-existing heading, code-fence, table, and strict-label differences remain elsewhere in the chapter"
     },
     "chapters/chapter09.md": {
       "source_path": "src/ja/chapters/chapter09.md",
@@ -225,14 +225,14 @@
     "chapters/chapter12.md": {
       "source_path": "src/ja/chapters/chapter12.md",
       "translation_path": "src/en/chapters/chapter12.md",
-      "source_commit": "c38670fbeb731a9fc4e8adf43a45994809342983",
-      "translated_commit": "c38670fbeb731a9fc4e8adf43a45994809342983",
-      "source_sha256": "0c3c893602512a77ceb6a6968cc5e2d74b2c2f32feba9dc4364b3d55b8e5d6f6",
-      "translation_sha256": "2bbb6a0fa790ee0a5989864acbfab942ae854f5eaec42a8db1d2a02a4d13f435",
+      "source_commit": "53c0ef469bd9f010dd84a83cbdcbde898976df00",
+      "translated_commit": "53c0ef469bd9f010dd84a83cbdcbde898976df00",
+      "source_sha256": "83f4dcefcbc914df1c7377c17a104b69d5f4302fbeb195760f620f4ad5588578",
+      "translation_sha256": "57dd7363e9001746a5595cc97929bb9399f0e52246364aa91f649068fc84d6b2",
       "status": "partial",
       "reviewed_at": "2026-07-16",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "heading level/order differs; numbered heading ID/order differs; code fence count/language sequence differs; table count/column shape differs; strict tool-compliance label category counts differ; canonical example path references differ"
+      "notes": "The PRISM nightly-matrix reference was semantically reviewed across JA/EN; pre-existing heading, numbered-heading, code-fence, table, tool-label, and example-path differences remain"
     },
     "chapters/chapter13.md": {
       "source_path": "src/ja/chapters/chapter13.md",
@@ -249,14 +249,14 @@
     "glossary/index.md": {
       "source_path": "src/ja/glossary/index.md",
       "translation_path": "src/en/glossary/index.md",
-      "source_commit": "83d031100ae7bcdeab03d28f072904bcff0d71ff",
-      "translated_commit": "f95634f31d9623c3212d6b9849679178e77fee78",
-      "source_sha256": "fb5a539f8711d66539838fe041895556f42eeee54197d742ddc5a954002ab9d0",
-      "translation_sha256": "76be244b3aa0042d00fe99d1795e602d9c0a42ac26d6d9f0308e25b44827ba07",
+      "source_commit": "53c0ef469bd9f010dd84a83cbdcbde898976df00",
+      "translated_commit": "53c0ef469bd9f010dd84a83cbdcbde898976df00",
+      "source_sha256": "a00e8bf5819fb1b85bb651851ec52f1185986dbf05bb1aa4d127dcfcb71addb0",
+      "translation_sha256": "63dcea7531aa2749663f61f95ecf4893aae584b296e0751e44d2718dfbd83148",
       "status": "partial",
       "reviewed_at": "2026-07-16",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "heading level/order differs"
+      "notes": "PRISM, probabilistic model checking, reward, scheduler, and statistical-model-checking definitions were semantically reviewed across JA/EN; pre-existing heading-structure differences remain"
     },
     "index.md": {
       "source_path": "src/ja/index.md",

@@ -1,13 +1,13 @@
 # 付録E：参考文献とWebリソース
 
 本付録は、本文で扱った形式的手法・ツールについて、**一次情報（公式サイト/公式リポジトリ/公式ドキュメント/公式リリース）**へ到達するための索引である。
-2026-06 時点で、名称変更・主流ツールの更新（例：Coq→Rocq、CVC4→cvc5、Alloy 6 系、TLA+ の Apalache / Quint 等）を反映している。
+2026-07 時点で、名称変更・主流ツールの更新（例：Coq→Rocq、CVC4→cvc5、Alloy 6 系、TLA+ の Apalache / Quint 等）を反映している。
 
 ## 実行保証の読み方
 
 本付録への掲載は、リポジトリでの実行保証を意味しない。実行状態の正本は
 `tools/tool-manifest.json` と[付録Bの lane inventory]({{ '/appendices/appendix-b/#tool-lane-inventory' | relative_url }})である。
-Alloy、TLC、Apalache、Dafny は `pr-quick`、SPIN、NuSMV、CBMC、Quint は
+Alloy、TLC、Apalache、Dafny は `pr-quick`、SPIN、NuSMV、CBMC、Quint、PRISM は
 `nightly`、Kani は明示的な `optional/manual` で検証する。それ以外の掲載ツールは
 `documentation-only` であり、本書は固定バージョン、実行環境、実行結果を保証しない。
 
@@ -73,7 +73,7 @@ Alloy、TLC、Apalache、Dafny は `pr-quick`、SPIN、NuSMV、CBMC、Quint は
 - 一次情報（ツール例）：
   - FDR（CSP模型検査ツール情報）：<https://www.cs.ox.ac.uk/projects/fdr/>
 
-## 2) 模型検査（TLC / Apalache / SPIN / NuSMV）
+## 2) 模型検査（TLC / Apalache / SPIN / NuSMV / PRISM）
 
 ### Apalache（TLA+ の追加検査：SMT ベース）
 
@@ -101,6 +101,25 @@ Alloy、TLC、Apalache、Dafny は `pr-quick`、SPIN、NuSMV、CBMC、Quint は
   - 公式サイト：<https://nusmv.fbk.eu/>
   - nuXmv 公式サイト：<https://nuxmv.fbk.eu/>
   - nuXmv User Manual：<https://nuxmv.fbk.eu/downloads/nuxmv-user-manual.pdf>
+
+
+### PRISM（確率的・定量的模型検査）
+
+- 用途：DTMC、CTMC、MDPに対する確率的到達可能性、定常確率、閾値、reward / expected costの検査
+- 推奨読者：第8章（確率的・定量的模型検査）、付録C（LTL / CTLとの概念対応）、付録B（nightly実行）
+- 実行境界：本書のnightly契約はPRISM 4.10.1、公式Linux x86-64 archive、SHA-256、explicit engine、教育用DTMCを固定する。公式配布物はGPL-2.0であり、CI artifactやPagesへtool binaryを再配布しない。
+- 一次情報：
+  - 公式サイト：<https://www.prismmodelchecker.org/>
+  - Download、現行version、GPL-2.0：<https://www.prismmodelchecker.org/download.php>
+  - PRISM 4.10.1公式release：<https://github.com/prismmodelchecker/prism/releases/tag/v4.10.1>
+  - 公式manual：<https://www.prismmodelchecker.org/manual/>
+  - DTMC / CTMC / MDPのmodel type：<https://www.prismmodelchecker.org/manual/ThePRISMLanguage/ModelType>
+  - Property languageの導入：<https://www.prismmodelchecker.org/manual/PropertySpecification/Introduction>
+  - Propertyの構文と意味：<https://www.prismmodelchecker.org/manual/PropertySpecification/SyntaxAndSemantics>
+  - Reward-based property：<https://www.prismmodelchecker.org/manual/PropertySpecification/Reward-basedProperties>
+  - 通常のmodel checking：<https://www.prismmodelchecker.org/manual/RunningPRISM/ModelChecking>
+  - Statistical model checking：<https://www.prismmodelchecker.org/manual/RunningPRISM/StatisticalModelChecking>
+  - 公式case studies：<https://www.prismmodelchecker.org/casestudies/>
 
 ## 3) 定理証明（Rocq / Lean / Isabelle / Agda）
 

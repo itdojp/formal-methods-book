@@ -6,23 +6,23 @@ locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-e.md"
 translation_status: "partial"
-translation_source_commit: "13be0b1e9858fd7b1d3a0d44481cb389d0c6c36f"
+translation_source_commit: "c023d05b5094099bd2d6cbaac283e8da1094a0e9"
 translation_reviewed_at: "2026-07-16"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Appendix E: References and Further Reading Paths
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`13be0b1e9858`](https://github.com/itdojp/formal-methods-book/commit/13be0b1e9858fd7b1d3a0d44481cb389d0c6c36f) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`c023d05b5094`](https://github.com/itdojp/formal-methods-book/commit/c023d05b5094099bd2d6cbaac283e8da1094a0e9) on 2026-07-16.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 This appendix is a **reader-facing guide to primary sources** for the methods, tools, and case studies introduced in the main text. Use it when you want to deepen a chapter, verify a claim against an official source, or decide which tool family to study next.  
-As of January 2026, it reflects naming changes and current mainstream references such as `Coq` → `Rocq`, `CVC4` → `cvc5`, the `Alloy 6` series, and `Apalache` in the TLA+ ecosystem.
+As of July 2026, it reflects naming changes and current mainstream references such as `Coq` → `Rocq`, `CVC4` → `cvc5`, the `Alloy 6` series, and `Apalache` in the TLA+ ecosystem.
 
 ## How to Read the Execution Guarantees
 
 Listing a tool in this appendix does not mean that the repository executes or guarantees it. The sources of truth are
 `tools/tool-manifest.json` and the [lane inventory in Appendix B]({{ '/appendices/appendix-b/#tool-lane-inventory' | relative_url }}).
-Alloy, TLC, Apalache, and Dafny run in `pr-quick`; SPIN, NuSMV, CBMC, and Quint run in
+Alloy, TLC, Apalache, and Dafny run in `pr-quick`; SPIN, NuSMV, CBMC, Quint, and PRISM run in
 `nightly`; and Kani runs only through explicit `optional/manual` dispatch. Every other tool
 listed here is `documentation-only`: the book does not guarantee a pinned version, execution
 environment, or result for it.
@@ -87,7 +87,7 @@ environment, or result for it.
 - Primary sources (tool example):
   - `FDR` (information on the CSP model checker): <https://www.cs.ox.ac.uk/projects/fdr/>
 
-## 2) Model Checking and State-Space Exploration (TLC / Apalache / SPIN / NuSMV)
+## 2) Model Checking and State-Space Exploration (TLC / Apalache / SPIN / NuSMV / PRISM)
 
 ### Apalache (Additional checking for TLA+, SMT-based)
 
@@ -113,6 +113,25 @@ environment, or result for it.
   - Official site: <https://nusmv.fbk.eu/>
   - nuXmv official site: <https://nuxmv.fbk.eu/>
   - nuXmv User Manual: <https://nuxmv.fbk.eu/downloads/nuxmv-user-manual.pdf>
+
+
+### PRISM (Probabilistic and Quantitative Model Checking)
+
+- Purpose: probability reachability, steady-state, threshold, and reward / expected-cost checking for DTMCs, CTMCs, and MDPs
+- Best after reading: Chapter 8 on probabilistic and quantitative model checking, Appendix C on the conceptual LTL / CTL correspondence, and Appendix B on the nightly execution path
+- Execution boundary: the book's nightly contract pins PRISM 4.10.1, the official Linux x86-64 archive and SHA-256, the explicit engine, and one teaching DTMC. The official distribution is GPL-2.0, and CI artifacts and Pages do not redistribute the tool binary.
+- Primary sources:
+  - Official site: <https://www.prismmodelchecker.org/>
+  - Download, current version, and GPL-2.0: <https://www.prismmodelchecker.org/download.php>
+  - Official PRISM 4.10.1 release: <https://github.com/prismmodelchecker/prism/releases/tag/v4.10.1>
+  - Official manual: <https://www.prismmodelchecker.org/manual/>
+  - DTMC / CTMC / MDP model types: <https://www.prismmodelchecker.org/manual/ThePRISMLanguage/ModelType>
+  - Introduction to the property language: <https://www.prismmodelchecker.org/manual/PropertySpecification/Introduction>
+  - Property syntax and semantics: <https://www.prismmodelchecker.org/manual/PropertySpecification/SyntaxAndSemantics>
+  - Reward-based properties: <https://www.prismmodelchecker.org/manual/PropertySpecification/Reward-basedProperties>
+  - Ordinary model checking: <https://www.prismmodelchecker.org/manual/RunningPRISM/ModelChecking>
+  - Statistical model checking: <https://www.prismmodelchecker.org/manual/RunningPRISM/StatisticalModelChecking>
+  - Official case studies: <https://www.prismmodelchecker.org/casestudies/>
 
 ## 3) Theorem Proving and Proof Assistants (Rocq / Lean / Isabelle / Agda)
 

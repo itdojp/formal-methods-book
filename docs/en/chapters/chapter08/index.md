@@ -6,13 +6,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/chapters/chapter08.md"
 translation_status: "partial"
-translation_source_commit: "83d031100ae7bcdeab03d28f072904bcff0d71ff"
+translation_source_commit: "53c0ef469bd9f010dd84a83cbdcbde898976df00"
 translation_reviewed_at: "2026-07-16"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Chapter 8: Introduction to Model Checking
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`83d031100ae7`](https://github.com/itdojp/formal-methods-book/commit/83d031100ae7bcdeab03d28f072904bcff0d71ff) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`53c0ef469bd9`](https://github.com/itdojp/formal-methods-book/commit/53c0ef469bd9f010dd84a83cbdcbde898976df00) on 2026-07-16.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 ## 8.1 The Dream of Automated Verification: Letting Computers Prove Correctness
@@ -941,19 +941,80 @@ Modern verification engines exploit multi-core processors and clusters.
 - machines exchange state information over the network
 - a distributed hash table tracks visited states
 
-### Approximate and Probabilistic Methods
+### Probabilistic and Quantitative Model Checking {#probabilistic-quantitative-model-checking}
 
-When complete verification is too expensive, approximate methods become useful.
+The word *probabilistic* is used for at least two different techniques.
+Statistical model checking randomly samples paths from a very large state space and **estimates** a property.
+Probabilistic model checking instead gives the transitions themselves probabilities or rates and **computes** reachability probabilities, steady-state probabilities, and expected costs.
+This section focuses on the latter; it is not merely randomized exploration order.
 
-**Random sampling**:
+Ordinary model checking asks Boolean questions such as whether safety holds on every execution in scope.
+Probabilistic model checking adds questions such as these:
 
-- choose execution paths randomly from the state space
-- estimate confidence statistically
+- What is the probability of eventually succeeding?
+- Is the failure probability below an acceptable threshold?
+- What is the long-run probability of being in a failed state?
+- What is the expected retry count, time, energy, or cost before completion?
 
-**Monte Carlo model checking**:
+The first three PRISM model types to distinguish are the following.
 
-- search probabilistically for counterexamples
-- full completeness is lost, but practical runtime often improves
+| Model | Meaning of a transition | Typical question | Nondeterminism |
+| --- | --- | --- | --- |
+| DTMC (discrete-time Markov chain) | Select the next state from a probability distribution at each step | Retry counts, discrete rounds, randomized algorithms | None |
+| CTMC (continuous-time Markov chain) | Transition rates induce exponentially distributed waiting times | Time-bounded reliability, failure and repair, performance | None |
+| MDP (Markov decision process) | An action is chosen nondeterministically, then a probability distribution selects the successor | Best- and worst-case values under control or environment choices | Resolved by a scheduler/adversary |
+
+A DTMC step must not be interpreted as one second without justification.
+A CTMC that represents physical time needs explicit rates and time units.
+For an MDP, define how the scheduler resolves choices and usually inspect worst- and best-case bounds with `Pmin` / `Pmax` or `Rmin` / `Rmax` rather than reporting one unexplained value.
+
+PRISM's property language supports PCTL-style properties for DTMCs and MDPs and CSL-style properties for CTMCs.
+A reader does not need the complete logics to read these minimum forms.
+
+| Property | Reading |
+| --- | --- |
+| `P>=0.99 [ F "success" ]` | Is the probability of eventually reaching `success` at least 0.99? |
+| `P=? [ F "failure" ]` | Compute the probability of eventually reaching `failure`. |
+| `S=? [ "success" ]` | Compute the long-run steady-state probability of being in `success`. |
+| `R{"cost"}=? [ F "done" ]` | Compute expected accumulated `cost` before reaching `done`. |
+
+`P=?` is a quantitative query, whereas `P>=...` checks a threshold.
+`S` describes long-run behavior, and `R` evaluates rewards attached to states or transitions.
+A reward need not be desirable: it can represent attempts, latency, energy, or monetary cost.
+A reachability reward can be infinite when the target is missed with positive probability, so reachability must be checked as well.
+
+**Self-contained retry-communication example**
+
+The teaching DTMC assumes that every attempt succeeds independently with probability 0.8 and that the operation stops after at most three attempts.
+Its canonical assets are [examples/prism/retry-communication/retry-communication.pm](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/prism/retry-communication/retry-communication.pm), [examples/prism/retry-communication/retry-communication.props](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/prism/retry-communication/retry-communication.props), and [examples/prism/retry-communication/expected-results.json](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/prism/retry-communication/expected-results.json).
+With the PRISM 4.10.1 explicit engine, the failure probability is `0.2^3 = 0.008`, the success absorption and steady-state probability is `1 - 0.008 = 0.992`, and the expected attempt count is `1 + 0.2 + 0.2^2 = 1.24`.
+The threshold property is `true` because `0.992 >= 0.99`.
+The wrapper accepts the floating-point output `0.007999999999999995` within tolerance `1e-12` and records measured values in a JSON artifact.
+
+<!-- example-contract: prism-retry-communication -->
+【Tool-compliant (runs as-is)】
+```bash
+node scripts/run-example-manifest.js --id prism-retry-communication
+```
+
+This contract runs in the `nightly` lane with PRISM 4.10.1 and the SHA-256-pinned official Linux x86-64 archive.
+CI does not redistribute the tool binary through artifacts or Pages; it retains input hashes, standard output, and the expected-value comparison only.
+
+**Checks that prevent overclaiming**
+
+1. **Model assumptions**: The 0.8 success probability and independence between attempts are teaching assumptions. They cannot support a production reliability claim without measurements, operating conditions, correlations, and burst-failure analysis.
+2. **State-space truncation**: The three-attempt cap makes the model finite, but it is not an unlimited-retry result. Vary the cap and inspect sensitivity.
+3. **Parameter sensitivity**: Sweep `P_SUCCESS`, the attempt cap, repair rates, and costs over justified ranges to see whether the decision depends on one point estimate.
+4. **Numerical precision**: Ordinary PRISM checks may build the full finite model and use iterative floating-point numerical methods. Record the engine, convergence criterion, and tolerance. PRISM also has limited arbitrary-precision exact-model-checking support, but ordinary output is not automatically a mathematically exact value.
+5. **Scheduler/adversary**: Randomly resolving an MDP's nondeterminism during sampling does not evaluate the worst-case scheduler. Safety decisions need the `min` / `max` bounds and the scheduler assumptions.
+
+Ordinary numerical model checking constructs the in-scope finite model and computes the property with methods such as linear-system solving or value iteration.
+Simulation or statistical model checking samples random paths and depends on sample count, confidence, error width, and maximum path length.
+Rare events can require very many samples, and random MDP choice resolution does not represent an adversarial bound.
+Simulation is therefore useful for exploring large models, checking assumptions, and obtaining approximations, but it does not unconditionally replace numerical model checking.
+
+> **Guarantee boundary**: Correct computation of a property by PRISM and validity of the real-world probability model are different claims.
+> The former is reproducible from the tool version, input hashes, engine, and results; the latter requires data provenance, explicit assumptions, sensitivity analysis, and domain review.
 
 ### Choosing a Practical Strategy
 

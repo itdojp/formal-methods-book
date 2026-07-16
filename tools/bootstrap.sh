@@ -18,17 +18,17 @@ mkdir -p "$CACHE_DIR" "$TMP_DIR"
 
 manifest_output="$(tool_manifest_fields \
   alloy.version tlc.version apalache.version dafny.version spin.version \
-  spin.commit nusmv.version cbmc.version quint.version kani.version \
+  spin.commit nusmv.version cbmc.version quint.version prism.version kani.version \
   kani.rustToolchain kani.rustToolchainManifest.url kani.rustToolchainManifest.sha256 \
   alloy.distribution.url tlc.distribution.url apalache.distribution.url \
   dafny.distribution.url spin.distribution.url nusmv.distribution.url \
-  cbmc.distribution.url quint.distribution.url kani.distribution.url \
+  cbmc.distribution.url quint.distribution.url prism.distribution.url kani.distribution.url \
   alloy.distribution.sha256 tlc.distribution.sha256 apalache.distribution.sha256 \
   dafny.distribution.sha256 spin.distribution.sha256 nusmv.distribution.sha256 \
-  cbmc.distribution.sha256 quint.distribution.sha256 kani.distribution.sha256)"
+  cbmc.distribution.sha256 quint.distribution.sha256 prism.distribution.sha256 kani.distribution.sha256)"
 mapfile -t manifest_values <<< "$manifest_output"
-if [[ ${#manifest_values[@]} -ne 31 ]]; then
-  echo "Unexpected bootstrap field count: ${#manifest_values[@]} (expected 31)" >&2
+if [[ ${#manifest_values[@]} -ne 34 ]]; then
+  echo "Unexpected bootstrap field count: ${#manifest_values[@]} (expected 34)" >&2
   exit 2
 fi
 manifest_index=0
@@ -46,6 +46,7 @@ next_manifest_value SPIN_COMMIT
 next_manifest_value NUSMV_VERSION
 next_manifest_value CBMC_VERSION
 next_manifest_value QUINT_VERSION
+next_manifest_value PRISM_VERSION
 next_manifest_value KANI_VERSION
 next_manifest_value KANI_RUST_TOOLCHAIN
 next_manifest_value KANI_RUST_MANIFEST_URL
@@ -58,6 +59,7 @@ next_manifest_value SPIN_URL
 next_manifest_value NUSMV_URL
 next_manifest_value CBMC_URL
 next_manifest_value QUINT_URL
+next_manifest_value PRISM_URL
 next_manifest_value KANI_URL
 next_manifest_value ALLOY_SHA256
 next_manifest_value TLA_SHA256
@@ -67,6 +69,7 @@ next_manifest_value SPIN_TAR_SHA256
 next_manifest_value NUSMV_TAR_SHA256
 next_manifest_value CBMC_DEB_SHA256
 next_manifest_value QUINT_SHA256
+next_manifest_value PRISM_TAR_SHA256
 next_manifest_value KANI_TAR_SHA256
 unset manifest_output manifest_values manifest_index
 
@@ -78,10 +81,12 @@ SPIN_DIR="$CACHE_DIR/spin-${SPIN_VERSION}"
 NUSMV_DIR="$CACHE_DIR/nusmv-${NUSMV_VERSION}"
 CBMC_DIR="$CACHE_DIR/cbmc-${CBMC_VERSION}"
 QUINT_BIN="$CACHE_DIR/quint-${QUINT_VERSION}/quint"
+PRISM_DIR="$CACHE_DIR/prism-${PRISM_VERSION}"
 KANI_DIR="$CACHE_DIR/kani-${KANI_VERSION}"
 KANI_RUSTUP_HOME="$CACHE_DIR/kani-rustup-${KANI_RUST_TOOLCHAIN}"
 KANI_CARGO_HOME="$CACHE_DIR/kani-cargo"
 KANI_ARCHIVE="$CACHE_DIR/downloads/kani-${KANI_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
+PRISM_ARCHIVE="$CACHE_DIR/downloads/prism-${PRISM_VERSION}-linux64-x86.tar.gz"
 KANI_RUST_MANIFEST="$CACHE_DIR/downloads/$(basename "$KANI_RUST_MANIFEST_URL")"
 
 usage() {
@@ -436,6 +441,34 @@ ensure_quint() {
   fi
 }
 
+ensure_prism() {
+  local bin="$PRISM_DIR/bin/prism"
+  require_command tar tar
+
+  mkdir -p "$(dirname "$PRISM_ARCHIVE")"
+  # Cache the checksum-verified archive, but re-extract it for every bootstrap.
+  # PRISM's install script writes an absolute path into its launchers, so this
+  # also prevents a restored cache from retaining a path from another runner.
+  download "$PRISM_URL" "$PRISM_ARCHIVE" "$PRISM_TAR_SHA256"
+
+  local extract_dir="$TMP_DIR/prism-${PRISM_VERSION}-extract"
+  local extracted_root="$extract_dir/prism-${PRISM_VERSION}-linux64-x86"
+  rm -rf "$extract_dir" "$PRISM_DIR"
+  mkdir -p "$extract_dir"
+  tar -xzf "$PRISM_ARCHIVE" -C "$extract_dir"
+  if [[ ! -x "$extracted_root/install.sh" || ! -x "$extracted_root/bin/prism" ]]; then
+    echo "PRISM archive did not contain the expected Linux x86-64 layout" >&2
+    return 1
+  fi
+  mv "$extracted_root" "$PRISM_DIR"
+  rmdir "$extract_dir"
+  (cd "$PRISM_DIR" && ./install.sh silent)
+  if [[ "$($bin -version)" != "PRISM version $PRISM_VERSION" ]]; then
+    echo "PRISM binary version did not match manifest: $PRISM_VERSION" >&2
+    return 1
+  fi
+}
+
 ensure_kani() {
   local bin="$KANI_DIR/bin/kani-driver"
   require_command rustup rustup
@@ -478,6 +511,7 @@ for selected_tool in "${selected_tools[@]}"; do
     nusmv) ensure_nusmv; installed+=("NuSMV ${NUSMV_VERSION} (official LGPL source)") ;;
     cbmc) ensure_cbmc; installed+=("CBMC ${CBMC_VERSION}") ;;
     quint) ensure_quint; installed+=("Quint ${QUINT_VERSION}") ;;
+    prism) ensure_prism; installed+=("PRISM ${PRISM_VERSION}") ;;
     kani) ensure_kani; installed+=("Kani ${KANI_VERSION} (${KANI_RUST_TOOLCHAIN})") ;;
     *)
       echo "Unknown tool: $selected_tool" >&2

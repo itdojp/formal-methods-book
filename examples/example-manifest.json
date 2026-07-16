@@ -462,6 +462,39 @@
       }
     },
     {
+      "id": "prism-retry-communication",
+      "tool": "prism",
+      "chapter": "chapter08",
+      "anchor": "probabilistic-quantitative-model-checking",
+      "references": [
+        "src/ja/chapters/chapter08.md",
+        "src/en/chapters/chapter08.md",
+        "docs/chapters/chapter08/index.md",
+        "docs/en/chapters/chapter08/index.md"
+      ],
+      "assets": [
+        "examples/prism/retry-communication/retry-communication.pm",
+        "examples/prism/retry-communication/retry-communication.props",
+        "examples/prism/retry-communication/expected-results.json"
+      ],
+      "config": null,
+      "command": "bash tools/prism-check.sh --out-dir .artifacts/manifest/prism-retry-communication/tool-output examples/prism/retry-communication/retry-communication.pm examples/prism/retry-communication/retry-communication.props examples/prism/retry-communication/expected-results.json",
+      "lane": "nightly",
+      "expected": {
+        "exitCode": 0,
+        "stdoutMarker": "PRISM result contract passed: 4 properties",
+        "outcome": "success"
+      },
+      "limits": {
+        "timeoutSeconds": 180,
+        "memoryMiB": 4096,
+        "seed": null,
+        "scope": "bounded-retry DTMC with four quantitative properties",
+        "depth": 3,
+        "bound": "at most three independent attempts with P_SUCCESS=0.8"
+      }
+    },
+    {
       "id": "kani-abs",
       "tool": "kani",
       "chapter": "appendix-b",

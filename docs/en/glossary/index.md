@@ -5,13 +5,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/glossary/index.md"
 translation_status: "partial"
-translation_source_commit: "83d031100ae7bcdeab03d28f072904bcff0d71ff"
+translation_source_commit: "53c0ef469bd9f010dd84a83cbdcbde898976df00"
 translation_reviewed_at: "2026-07-16"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Glossary
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`83d031100ae7`](https://github.com/itdojp/formal-methods-book/commit/83d031100ae7bcdeab03d28f072904bcff0d71ff) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`53c0ef469bd9`](https://github.com/itdojp/formal-methods-book/commit/53c0ef469bd9f010dd84a83cbdcbde898976df00) on 2026-07-16.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 This glossary collects technical terms and abbreviations that appear repeatedly
@@ -38,6 +38,13 @@ when you need primary sources.
   arrays.
 - **LTL / CTL**: Linear Temporal Logic and Computation Tree Logic. Temporal
   logics used to describe properties in model checking.
+- **DTMC / CTMC / MDP**: Discrete-time Markov chain, continuous-time Markov
+  chain, and Markov decision process. In PRISM they respectively represent
+  step probabilities, transition rates, and nondeterministic choices followed
+  by probability distributions.
+- **PCTL / CSL**: Temporal logics for probabilistic reachability, timing, and
+  long-run properties. PCTL is a basis for reading DTMC / MDP properties, while
+  CSL serves the corresponding role for CTMCs.
 - **CI**: Continuous Integration. Automated validation gates used for pull
   requests, nightly checks, and release preparation.
 - **HOL**: Higher-Order Logic. A family of logics used by systems such as
@@ -189,6 +196,16 @@ fragment starts for the promised result to be valid. See Chapters 3 and 10.
 `x` is the current-state value and `x'` is the next-state value. It is distinct
 from the LTL next-time operator `X` / `○`. See Chapter 7.
 
+<span id="glossary-prism" class="search-term-anchor" aria-hidden="true"></span>**PRISM**: A model checker for probabilistic and quantitative properties of
+DTMCs, CTMCs, and MDPs. Its results are relative to model assumptions,
+schedulers, engines, and numerical precision; they do not establish that a
+real-world probability model is valid. See Chapter 8 and Appendices B and E.
+
+<span id="glossary-probabilistic-model-checking" class="search-term-anchor" aria-hidden="true"></span>**Probabilistic model checking**: Computing or checking reachability
+probabilities, thresholds, steady-state probabilities, and expected rewards
+over a transition model that contains probabilities or rates. It is distinct
+from statistical model checking based only on sampled paths. See Chapter 8.
+
 <span id="glossary-proof-assistant" class="search-term-anchor" aria-hidden="true"></span>**Proof assistant**: A software system that supports the construction and
 checking of formal proofs. Examples discussed in this book include Rocq, Lean,
 and Isabelle/HOL. See Chapters 9 and 12.
@@ -209,6 +226,11 @@ proving that, after applying a refinement mapping and hiding internal variables,
 its behavior satisfies the abstract specification. Conceptually, the
 implication runs as `ConcreteSpec => AbstractSpec`. See Chapters 3, 5, and 7.
 
+<span id="glossary-reward-property" class="search-term-anchor" aria-hidden="true"></span>**Reward property**: A probabilistic property over values such as attempts,
+time, energy, or cost attached to states or transitions. A reachability reward
+can be infinite when the target is missed with positive probability. See
+Chapter 8 and Appendix C.
+
 <span id="glossary-rocq" class="search-term-anchor" aria-hidden="true"></span>**Rocq**: The proof assistant formerly known as Coq. It is based on type
 theory and is used in this book as a representative environment for
 mechanized proofs. See Chapters 9, 10, and Appendix E.
@@ -218,6 +240,16 @@ mechanized proofs. See Chapters 9, 10, and Appendix E.
 <span id="glossary-soundness" class="search-term-anchor" aria-hidden="true"></span>**Soundness**: A metaproperty relating a deductive system to a semantics: every
 derivable formula is valid in that semantics. The relevant logic and semantics
 must be stated. See Chapter 9.
+
+<span id="glossary-scheduler--adversary" class="search-term-anchor" aria-hidden="true"></span>**Scheduler / adversary**: A policy that resolves an MDP's nondeterministic
+choices, potentially from the execution history. Best- and worst-case
+probabilities and rewards depend on the scheduler class and the `min` / `max`
+direction. See Chapter 8 and Appendix C.
+
+<span id="glossary-statistical-model-checking" class="search-term-anchor" aria-hidden="true"></span>**Statistical model checking**: Approximating a property from randomly sampled
+paths. The result depends on sample count, confidence, error width, and maximum
+path length, and it does not automatically represent a worst-case MDP
+scheduler. See Chapter 8.
 
 <span id="glossary-safety" class="search-term-anchor" aria-hidden="true"></span>**Safety**: A property stating that “something bad never happens.” Such
 properties are often expressed as invariants. See Chapter 8.

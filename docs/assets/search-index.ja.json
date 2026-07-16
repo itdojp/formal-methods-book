@@ -3,7 +3,7 @@
   "project": "formal-methods-book",
   "projectVersion": "1.1.0",
   "locale": "ja",
-  "entryCount": 1181,
+  "entryCount": 1188,
   "entries": [
     {
       "id": "02d7269ce160fe33",
@@ -6348,18 +6348,17 @@
       ]
     },
     {
-      "id": "5346b1dd0918a203",
+      "id": "ebba7bb0612f2fc9",
       "locale": "ja",
       "pageId": "chapter08",
       "section": "chapters",
-      "title": "近似・確率的手法",
+      "title": "確率的・定量的模型検査",
       "chapter": "第8章：模型検査入門",
-      "heading": "近似・確率的手法",
-      "url": "/formal-methods-book/chapters/chapter08/#近似確率的手法",
-      "text": "完全な検証が困難な場合の近似的アプローチ： ランダムサンプリング： 状態空間から無作為に実行パスを選択 統計的な信頼度で性質の成立を評価 モンテカルロ模型検査： 確率的な探索により、高い確率で反例を発見 完全性は保証されないが、実用的な時間で実行可能",
+      "heading": "確率的・定量的模型検査",
+      "url": "/formal-methods-book/chapters/chapter08/#probabilistic-quantitative-model-checking",
+      "text": "「確率的」という語には、少なくとも二つの異なる使い方があります。 一つは、巨大な状態空間から実行パスをランダムに標本抽出して性質を近似評価する statistical model checking です。 もう一つは、遷移そのものに確率やrateを持つ模型を構築し、到達確率、定常確率、期待costを定量的に計算する probabilistic model checking です。 本節の中心は後者であり、単に探索順をランダム化する方法ではありません。 通常の模型検査が「すべての対象実行で安全性が成り立つか」のような真偽を問うのに対し、確率的模型検査は次の問いを追加できます。 最終的に成功する確率はいくらか。 失敗確率が許容閾値以下か。 長時間後に故障状態へいる確率はいくらか。 完了までの期待再試行回数、時間、energy、costはいくらか。 PRISMで最初に区別すべき模型は次の三つです。 模型 · 遷移の意味 · 適した問い · nondeterminism --- · --- · --- · --- DTMC（離散時間Markov連鎖） · 1 stepごとに確率分布から次状態を選ぶ · retry回数、離散round、randomized algorithm · なし CTMC（連続時間Markov連鎖） · 遷移rateから指数分布の待ち時間が定まる · 時間内信頼性、故障・修復、performance · なし MDP（Markov decision process） · action選択は非決定的で、その後を確率分布が決める · 制御方針や環境選択を含む最良・最悪評価 · scheduler / adversaryが解消 DTMCの1 stepを根拠なく1秒と解釈してはいけません。 実時間を扱うCTMCではrateと時間単位を明示します。 MDPでは一つの数値だけを書く前に、schedulerが選択をどう解消するかを定め、通常はPmin / PmaxやRmin / Rmaxで最悪・最良境界を確認します。 PRISMのproperty languageは、DTMC / MDPでPCTL系、CTMCでCSL系の性質を扱います。 ここでは論理体系の全構文ではなく、次の読み方を押さえれば十分です。 Property · 読み方 --- · --- P>=0.99 [ F \"success\" ] · いつかsuccessへ到達する確率が0.99以上か P=? [ F \"failure\" ] · いつかfailureへ到達する確率を求める S=? [ \"success\" ] · 長期定常状態でsuccessにいる確率を求める R{\"cost\"}=? [ F \"done\" ] · doneへ到達するまでに蓄積するcostの期待値を求める P=?は数値を返すquery、P>=...は閾値を判定するpropertyです。 Sは長期挙動、Rは状態または遷移へ付けたrewardを扱います。 ここでのrewardは「望ましい報酬」に限らず、attempt数、遅延、消費電力、金額などのcostにも使えます。 到達できないpathが正の確率で残るreachability rewardは無限大になり得るため、到達可能性も同時に確認します。 再試行付き通信の自己完結例 教育用DTMCは、各attemptが独立に0.8で成功し、最大3回で打ち切ると仮定します。 正本はexamples/prism/retry-communication/retry-communication.pm、examples/prism/retry-communication/retry-communication.props、examples/prism/retry-communication/expected-results.jsonの3点です。 PRISM 4.10.1のexplicit engineで、失敗確率は0.2^3 = 0.008、成功側の吸収確率と定常確率は1 - 0.008 = 0.992、期待attempt数は1 + 0.2 + 0.2^2 = 1.24になります。 閾値propertyは0.992 >= 0.99なのでtrueです。 wrapperは浮動小数点出力0.007999999999999995も許容差1e-12で期待値と照合し、実測値をJSON artifactへ保存します。 【ツール準拠（そのまま動く）】 この契約はPRISM 4.10.1の公式Linux x86-64 archiveとSHA-256を固定したnightly laneで動きます。 CIはtool binaryをartifactやPagesへ再配布せず、入力hash、標準出力、期待値照合結果だけを保持します。 数値を過大評価しないための確認事項 模型仮定：成功確率0.8とattempt間の独立性は教育用仮定です。実測、運用条件、相関、burst failureを説明しなければ、実システムの信頼性主張には使えません。 state-space truncation：最大3回という打切りは状態空間を有限にしますが、無制限retryの結果ではありません。打切り値を変えた感度分析が必要です。 parameter sensitivity：PSUCCESS、attempt上限、repair rate、costを現実的な範囲で動かし、結論が一つの点推定へ依存していないか確認します。 数値精度：通常のPRISM検査は全状態模型を構築して反復的な浮動小数点数値解法を使うことがあります。収束criterion、engine、許容差を証跡に残します。PRISMには任意精度を使う限定的なexact modeもありますが、通常出力を数学的な厳密値と自動的に同一視してはいけません。 scheduler / adversary：MDPのsamplingで非決定性を無作為に選ぶだけでは、worst-case schedulerを評価したことになりません。安全判断にはmin / max境界とscheduler仮定を併記します。 通常の数値模型検査は有限模型の対象状態を構築し、線形方程式やvalue iteration等で対象propertyを計算します。 一方、simulation / statistical model checkingはランダムpathの標本から近似し、sample数、信頼度、誤差幅、最大path長に依存します。 rare eventでは大量のsampleが必要で、MDPの無作為なchoice解消はadversarialな境界を表しません。 したがってsimulationは大規模模型の探索、仮定確認、近似のために有用ですが、数値模型検査の保証を無条件に置き換えるものではありません。 保証境界：PRISMがpropertyを正しく計算したことと、入力した確率模型が実世界を妥当に表すことは別の主張です。 前者はtool version、入力hash、engine、結果で再実行でき、後者はデータ出典、仮定、感度分析、domain reviewで正当化します。",
       "aliases": [
-        "モデル検査",
-        "model checking"
+        "モデル検査"
       ]
     },
     {
@@ -10028,7 +10027,7 @@
       "chapter": "第12章：ツールと自動化",
       "heading": "12.3 CI 段階別の検証深度と実装例",
       "url": "/formal-methods-book/chapters/chapter12/#123-ci-段階別の検証深度と実装例",
-      "text": "現実的な導入では、CI の段階ごとに検証の深さと所要時間を調整します。以下は代表的な分割例です。 段階 · トリガー · 目的 · 主な検証 · 代表ツール例 --- · --- · --- · --- · --- PR · push/PR · 即時フィードバック · 契約チェック、軽量模型検査（小モデル）、静的解析 · TLA+ 小モデル/TLC 短時間、Alloy スコープ小、静的解析 夜間 · cron · 網羅性の向上 · 状態空間拡大、探索上限引き上げ、シナリオ網羅 · TLC 長時間、Alloy スコープ拡大、CSP模型検査 リリース前 · 手動/タグ · リスク極小化 · クリティカル性質の完全検証、証明の再検証 · 証明（Rocq/Dafny）、TLA+ 特性確認、形式的レビュー 導入ミニ手順: 小さく始める: PR 段階に「高速・安定・再現容易」なチェックを1～2個追加 反例から学ぶ: 失敗時に最小反例を収集し、再現スクリプトを標準化 漸進的強化: 夜間→リリース前へと対象性質と探索深さを段階的に拡大 CI 実装例（GitHub Actions）: 本リポジトリでは、実動する例として .github/workflows/formal-checks.yml を同梱している。 PR段階はbase/head差分をexample manifestのasset、reference、config、wrapperへ照合し、関連するpr-quickだけをbash examples/ci/pr-quick-check.shから実行する。共通基盤変更時と引数なしのローカル実行は7件すべてを検査する。 schedule / manual dispatchではscripts/plan-formal-matrix.jsがtool manifestからallowlist済みmatrixを作り、tool-matrixがfail-fast: falseでAlloy/TLC/Apalache/Dafnyのdeep profileとSPIN/NuSMV/CBMC/Quintをtool単位に分離する。Kaniは明示的にoptionalを選んだmanual dispatchだけで実行する。 例（抜粋）： 失敗時ログ例（要約）: 各entryのartifactはversion、command、input hash、exit code、stdout/stderrと実行制約を含み、success、counterexample、unknown、timeout、resource-exhaustedを区別する。1 toolが失敗しても他toolのjobとartifact収集を継続する。 ここでmemoryMiBはCI容量計画の申告値であり、OS/cgroupによる強制上限ではない。runnerが強制するtimeoutと出力上限を超えた場合は分類できるが、OOM killはtool-errorまたはrunner failureになる可能性がある。 上記のように、短時間・小スコープの検証をPRに配置し、夜間に探索深度やスコープを拡大することで、開発速度と品質保証の両立を図る。",
+      "text": "現実的な導入では、CI の段階ごとに検証の深さと所要時間を調整します。以下は代表的な分割例です。 段階 · トリガー · 目的 · 主な検証 · 代表ツール例 --- · --- · --- · --- · --- PR · push/PR · 即時フィードバック · 契約チェック、軽量模型検査（小モデル）、静的解析 · TLA+ 小モデル/TLC 短時間、Alloy スコープ小、静的解析 夜間 · cron · 網羅性の向上 · 状態空間拡大、探索上限引き上げ、シナリオ網羅 · TLC 長時間、Alloy スコープ拡大、CSP模型検査 リリース前 · 手動/タグ · リスク極小化 · クリティカル性質の完全検証、証明の再検証 · 証明（Rocq/Dafny）、TLA+ 特性確認、形式的レビュー 導入ミニ手順: 小さく始める: PR 段階に「高速・安定・再現容易」なチェックを1～2個追加 反例から学ぶ: 失敗時に最小反例を収集し、再現スクリプトを標準化 漸進的強化: 夜間→リリース前へと対象性質と探索深さを段階的に拡大 CI 実装例（GitHub Actions）: 本リポジトリでは、実動する例として .github/workflows/formal-checks.yml を同梱している。 PR段階はbase/head差分をexample manifestのasset、reference、config、wrapperへ照合し、関連するpr-quickだけをbash examples/ci/pr-quick-check.shから実行する。共通基盤変更時と引数なしのローカル実行は7件すべてを検査する。 schedule / manual dispatchではscripts/plan-formal-matrix.jsがtool manifestからallowlist済みmatrixを作り、tool-matrixがfail-fast: falseでAlloy/TLC/Apalache/Dafnyのdeep profileとSPIN/NuSMV/CBMC/Quint/PRISMをtool単位に分離する。Kaniは明示的にoptionalを選んだmanual dispatchだけで実行する。 例（抜粋）： 失敗時ログ例（要約）: 各entryのartifactはversion、command、input hash、exit code、stdout/stderrと実行制約を含み、success、counterexample、unknown、timeout、resource-exhaustedを区別する。1 toolが失敗しても他toolのjobとartifact収集を継続する。 ここでmemoryMiBはCI容量計画の申告値であり、OS/cgroupによる強制上限ではない。runnerが強制するtimeoutと出力上限を超えた場合は分類できるが、OOM killはtool-errorまたはrunner failureになる可能性がある。 上記のように、短時間・小スコープの検証をPRに配置し、夜間に探索深度やスコープを拡大することで、開発速度と品質保証の両立を図る。",
       "aliases": [
         "TLA Plus",
         "Coq",
@@ -11606,7 +11605,7 @@
       "chapter": "用語集（Glossary）",
       "heading": "0) 略語（Acronyms）",
       "url": "/formal-methods-book/glossary/#0-略語acronyms",
-      "text": "SAT：命題充足可能性問題（Satisfiability）。Alloy 等が内部で利用することがある。 SMT：充足可能性の判定を、等式/算術/配列などの理論と統合して扱う枠組み（Satisfiability Modulo Theories）。 SMT-LIB：SMT ソルバーへ問題を渡すための標準形式。2026年時点の公式標準は 2.7 系で、v3 は予備提案として扱う。 LTL / CTL：時相論理（Linear Temporal Logic / Computation Tree Logic）。模型検査で性質を記述する。 CI：継続的インテグレーション（Continuous Integration）。PR/夜間/リリース前の検証ゲートに利用する。 RMW：Read-Modify-Write。並行実行で競合（lost update）を生む典型パターン。",
+      "text": "SAT：命題充足可能性問題（Satisfiability）。Alloy 等が内部で利用することがある。 SMT：充足可能性の判定を、等式/算術/配列などの理論と統合して扱う枠組み（Satisfiability Modulo Theories）。 SMT-LIB：SMT ソルバーへ問題を渡すための標準形式。2026年時点の公式標準は 2.7 系で、v3 は予備提案として扱う。 LTL / CTL：時相論理（Linear Temporal Logic / Computation Tree Logic）。模型検査で性質を記述する。 DTMC / CTMC / MDP：離散時間Markov連鎖、連続時間Markov連鎖、Markov decision process。PRISMではそれぞれstep確率、遷移rate、非決定的choiceと確率分布の組合せを表す。 PCTL / CSL：確率的な到達・時間・定常性等を記述する時相論理。PCTLは主にDTMC / MDP、CSLはCTMCのpropertyを読む基礎になる。 CI：継続的インテグレーション（Continuous Integration）。PR/夜間/リリース前の検証ゲートに利用する。 RMW：Read-Modify-Write。並行実行で競合（lost update）を生む典型パターン。",
       "aliases": [
         "モデル検査",
         "model checking"
@@ -12270,7 +12269,36 @@
       ]
     },
     {
-      "id": "19103083e5ab03db",
+      "id": "817a989bf44daa67",
+      "locale": "ja",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "PRISM",
+      "chapter": "用語集（Glossary）",
+      "heading": "PRISM",
+      "url": "/formal-methods-book/glossary/#glossary-prism",
+      "text": "DTMC、CTMC、MDPの確率的・定量的propertyを検査する模型検査器。結果は模型仮定、scheduler、engine、数値精度に相対的であり、実世界の確率妥当性を自動的には保証しない。→第8章/付録B/付録E",
+      "aliases": [
+        "モデル検査",
+        "model checking"
+      ]
+    },
+    {
+      "id": "99e064441b1cceb3",
+      "locale": "ja",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "確率的模型検査（Probabilistic model checking）",
+      "chapter": "用語集（Glossary）",
+      "heading": "確率的模型検査（Probabilistic model checking）",
+      "url": "/formal-methods-book/glossary/#glossary-確率的模型検査probabilistic-model-checking",
+      "text": "確率またはrateを持つ状態遷移模型について、到達確率、閾値、定常確率、期待rewardを計算・判定する手法。ランダムpathだけを標本抽出するstatistical model checkingとは区別する。→第8章",
+      "aliases": [
+        "モデル検査"
+      ]
+    },
+    {
+      "id": "4bc3b6db33a7e89b",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12282,7 +12310,7 @@
       "aliases": []
     },
     {
-      "id": "816601355b77c5db",
+      "id": "9dfee2d5dd6a6e29",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12294,7 +12322,7 @@
       "aliases": []
     },
     {
-      "id": "947178b42ea6e208",
+      "id": "3463583f9a3a9f02",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12308,7 +12336,7 @@
       ]
     },
     {
-      "id": "29feb3369dd585c4",
+      "id": "5fb5934cc46e886e",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12320,7 +12348,7 @@
       "aliases": []
     },
     {
-      "id": "179acba280dc1873",
+      "id": "a6c6cb2ba5f561e4",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12332,7 +12360,19 @@
       "aliases": []
     },
     {
-      "id": "f6cffea8d91de5b0",
+      "id": "1812345b8adbccc0",
+      "locale": "ja",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "reward property",
+      "chapter": "用語集（Glossary）",
+      "heading": "reward property",
+      "url": "/formal-methods-book/glossary/#glossary-reward-property",
+      "text": "状態や遷移へ付けたattempt数、時間、energy、cost等の値について、累積値や到達までの期待値を問う確率property。未到達pathが正の確率で残る場合は無限大になり得る。→第8章/付録C",
+      "aliases": []
+    },
+    {
+      "id": "984913218b4bea56",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12344,7 +12384,7 @@
       "aliases": []
     },
     {
-      "id": "ca21202fcbf58f32",
+      "id": "de378d9a1afa2c96",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12356,7 +12396,7 @@
       "aliases": []
     },
     {
-      "id": "8a6f49d53d82aeaf",
+      "id": "e4a1e4a7b1a63928",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12368,7 +12408,34 @@
       "aliases": []
     },
     {
-      "id": "280061ced27d31ae",
+      "id": "c67776863c9bc60a",
+      "locale": "ja",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "scheduler / adversary",
+      "chapter": "用語集（Glossary）",
+      "heading": "scheduler / adversary",
+      "url": "/formal-methods-book/glossary/#glossary-scheduler--adversary",
+      "text": "MDPの非決定的choiceを履歴に応じて解消する方策。最良・最悪の確率や期待値はschedulerのclassとmin / maxの向きに依存する。→第8章/付録C",
+      "aliases": []
+    },
+    {
+      "id": "6fff72f4630ecf77",
+      "locale": "ja",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "statistical model checking",
+      "chapter": "用語集（Glossary）",
+      "heading": "statistical model checking",
+      "url": "/formal-methods-book/glossary/#glossary-statistical-model-checking",
+      "text": "ランダムに生成したpathの標本からpropertyを近似する手法。sample数、信頼度、誤差幅、最大path長に依存し、MDPのworst-case schedulerを自動的には表さない。→第8章",
+      "aliases": [
+        "模型検査",
+        "モデル検査"
+      ]
+    },
+    {
+      "id": "7f818247ae23efe9",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12382,7 +12449,7 @@
       ]
     },
     {
-      "id": "a8fd162c1b462b98",
+      "id": "e16a2a7fd8406dd5",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12397,7 +12464,7 @@
       ]
     },
     {
-      "id": "4d9b2313f3a3673c",
+      "id": "8d2ba4b122592763",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12409,7 +12476,7 @@
       "aliases": []
     },
     {
-      "id": "01a39f54f1612886",
+      "id": "71d6d4a1825bd53f",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12421,7 +12488,7 @@
       "aliases": []
     },
     {
-      "id": "df2e1057b0ce84a0",
+      "id": "2580492e3c65d3c7",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12433,7 +12500,7 @@
       "aliases": []
     },
     {
-      "id": "d75faf795ec79cfa",
+      "id": "3a715d41295c310e",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12445,7 +12512,7 @@
       "aliases": []
     },
     {
-      "id": "aaa3be6aa001a9e3",
+      "id": "9d90950fa6a90622",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12460,7 +12527,7 @@
       ]
     },
     {
-      "id": "fc63f5c16061501e",
+      "id": "64dac1546306c419",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12472,7 +12539,7 @@
       "aliases": []
     },
     {
-      "id": "e7b1226724b450a9",
+      "id": "680e4064f4360ac8",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12484,7 +12551,7 @@
       "aliases": []
     },
     {
-      "id": "6d33e206aa23cb7c",
+      "id": "e1b8cc62882c9582",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12496,7 +12563,7 @@
       "aliases": []
     },
     {
-      "id": "2791d07235ca9bf7",
+      "id": "8673301883d4bc5e",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12510,7 +12577,7 @@
       ]
     },
     {
-      "id": "2b29d8fc8117627f",
+      "id": "d2a39040959143b2",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12522,7 +12589,7 @@
       "aliases": []
     },
     {
-      "id": "f5bf77539d328651",
+      "id": "6e65509245a2c35a",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12536,7 +12603,7 @@
       ]
     },
     {
-      "id": "519d092102e7e3db",
+      "id": "07c931b10552fbd6",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12552,7 +12619,7 @@
       ]
     },
     {
-      "id": "5f13091da1af101b",
+      "id": "e72eac04c2d02743",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12564,7 +12631,7 @@
       "aliases": []
     },
     {
-      "id": "f9b8b68178471ef8",
+      "id": "e50d72a3e8774b14",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12576,7 +12643,7 @@
       "aliases": []
     },
     {
-      "id": "18aef5faae61341a",
+      "id": "1c9963f85c1ad88d",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12588,7 +12655,7 @@
       "aliases": []
     },
     {
-      "id": "d3bf138557ba9652",
+      "id": "7a4e255c9b8bb4c7",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12600,7 +12667,7 @@
       "aliases": []
     },
     {
-      "id": "e450201c0d304354",
+      "id": "38389f4da5ce854b",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12612,7 +12679,7 @@
       "aliases": []
     },
     {
-      "id": "29f3e545c4950991",
+      "id": "71975a9dc5a2d40b",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12624,7 +12691,7 @@
       "aliases": []
     },
     {
-      "id": "2cb08dbd5fc82ece",
+      "id": "db182d165220f528",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12636,7 +12703,7 @@
       "aliases": []
     },
     {
-      "id": "8f25720b2588a697",
+      "id": "8e15d28fdcc1c799",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12648,7 +12715,7 @@
       "aliases": []
     },
     {
-      "id": "0e071bcad28ef1c6",
+      "id": "ed60744a52d3418f",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12660,7 +12727,7 @@
       "aliases": []
     },
     {
-      "id": "b47d760646c05228",
+      "id": "1804727e2b63f19b",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12672,7 +12739,7 @@
       "aliases": []
     },
     {
-      "id": "319f366f402d8f5e",
+      "id": "742c38691df958bb",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12826,7 +12893,7 @@
       "chapter": "付録B：ツールインストールガイド",
       "heading": "対象ツール（最小セット）",
       "url": "/formal-methods-book/appendices/appendix-b/#対象ツール最小セット",
-      "text": "Alloy 6.x（CLI実行） TLA+ TLC（tla2tools.jar） Apalache（TLA+ 向け、SMT ベース） Dafny（検証器） 補足： Quint CLI は、TLA+ 意味論に基づく型付き仕様言語をCIに載せる選択肢であり、本リポジトリでは固定版のtypecheck/testをnightlyで実行する。 Rocq/Isabelle等の定理証明器は依存が大きいため、本付録では一次情報リンク（付録E）を主とする。 Lean 4 は、本書の導線として 最小構成のみを本付録末尾に示す（Optional）。 SPIN / NuSMV / CBMC / Quint はnightly laneの対象であり、source buildが必要なtoolだけ後述するUbuntu 24.04 x86-64向け追加前提を使う。",
+      "text": "Alloy 6.x（CLI実行） TLA+ TLC（tla2tools.jar） Apalache（TLA+ 向け、SMT ベース） Dafny（検証器） 補足： Quint CLI は、TLA+ 意味論に基づく型付き仕様言語をCIに載せる選択肢であり、本リポジトリでは固定版のtypecheck/testをnightlyで実行する。 Rocq/Isabelle等の定理証明器は依存が大きいため、本付録では一次情報リンク（付録E）を主とする。 Lean 4 は、本書の導線として 最小構成のみを本付録末尾に示す（Optional）。 SPIN / NuSMV / CBMC / Quint / PRISM はnightly laneの対象であり、source buildが必要なtoolだけ後述するUbuntu 24.04 x86-64向け追加前提を使う。",
       "aliases": [
         "TLA Plus",
         "Coq",
@@ -12842,7 +12909,7 @@
       "chapter": "付録B：ツールインストールガイド",
       "heading": "Tool lane inventoryと実行保証",
       "url": "/formal-methods-book/appendices/appendix-b/#tool-lane-inventory",
-      "text": "全toolの分類、実行版、配布物digest、artifact上限、更新手順の正本は tools/tool-manifest.json である。 pr-quick はPR差分に関連する小さい例、nightly はtool単位の独立matrix、optional/manual は明示的な workflowdispatch だけで実行する。 documentation-only は本文で紹介するが、このリポジトリがversion、環境、実行結果を保証しないtool/serviceを表す。 他toolに内蔵されたsolverを間接利用しても、solver単体の実行保証には数えない。 Tool / service · lane · 検証済み version · 分類理由 --- · --- · --- · --- Alloy Analyzer · pr-quick · 6.2.0 · 小さい scope の4例を短時間で再現できる。 TLC · pr-quick · 1.7.4 · 固定 cfg・worker・seed・timeout で有限モデルを検査する。 Apalache · pr-quick · 0.52.1 · 短い探索長を固定した不変条件検査を毎PRで再現できる。 Dafny · pr-quick · 4.11.0 · 最小検証例が高速で安定している。 SPIN · nightly · 6.5.2 · source buildと状態探索をtool単位nightlyで分離する。 NuSMV · nightly · 2.7.1 · 依存を伴う公式source buildのためnightlyへ分離する。 CBMC · nightly · 6.10.0 · Ubuntu固定配布と有界検査をtool単位nightlyで実行する。 Quint · nightly · 0.32.0 · 公式single binaryでtypecheck/testを固定seedかつTypeScript backendで再現する。 Kani Rust Verifier · optional/manual · 0.67.0 · 固定Rust nightlyを追加取得するため明示的manual dispatchに限定する。 TLA+ Toolbox · documentation-only · — · GUI/編集環境であり、本リポジトリのCLI保証対象外。 TLA+ VS Code extension · documentation-only · — · 編集支援はCLI検査と分離し、extension版を固定していない。 Community Z Tools (CZT) · documentation-only · — · Zの一次情報導線のみで実行assetがない。 FDR · documentation-only · — · CSPM例は掲載するが、配布・licenseを含むCI環境を固定していない。 ProB · documentation-only · — · 紹介のみで実行assetと固定環境がない。 PAT · documentation-only · — · 紹介のみで実行assetと固定環境がない。 nuXmv · documentation-only · — · NuSMVとは別製品として紹介するが、CIはNuSMVだけを保証する。 Java PathFinder · documentation-only · — · 紹介・演習候補のみで実行assetがない。 UPPAAL · documentation-only · — · GUI/license/配布条件を伴い自動化していない。 TIMES · documentation-only · — · リアルタイム検証の紹介のみ。 Rocq / Coq · documentation-only · — · 証明project、opam switch、library版を固定していない。 Lean 4 / Lake / mathlib / elan · documentation-only · — · proof projectと依存revisionがなく、Linux配布物も大きいため未実行。 Isabelle/HOL · documentation-only · — · 紹介のみでsession/build環境を固定していない。 Agda · documentation-only · — · 紹介のみでprojectとlibrary版を固定していない。 HOL4 · documentation-only · — · Aeneas接続先として紹介するだけで実行契約がない。 F · documentation-only · — · 接続先/関連技術として紹介するだけで実行契約がない。 Frama-C · documentation-only · — · 紹介のみでplugin/solver構成を固定していない。 VeriFast · documentation-only · — · 紹介のみで実行assetがない。 SPARK · documentation-only · — · 産業toolchain/licenseを含む実行環境を固定していない。 Why3 · documentation-only · — · backend solverを含む実行構成を固定していない。 Verus · documentation-only · — · Rust/Z3/revisionを含む実行構成を固定していない。 Creusot · documentation-only · — · Why3/solver/Rustの組合せを固定していない。 Prusti / Viper · documentation-only · — · Rust/Viper toolchainと実行assetを固定していない。 Aeneas / Charon · documentation-only · — · 変換先を含むend-to-end contractを固定していない。 Z3 · documentation-only · — · 他toolの間接依存をsolver単体の実行保証には数えない。 cvc5 / CVC4 · documentation-only · — · 紹介のみでsolver単体assetを固定していない。 Yices · documentation-only · — · 紹介のみで実行assetを固定していない。 MathSAT · documentation-only · — · 紹介のみでlicense/配布を含む環境を固定していない。 SCADE · documentation-only · — · 商用/GUI toolchainでありCI必須化しない。 Simulink · documentation-only · — · 産業事例の紹介のみでlicense環境を固定していない。 SAW · documentation-only · — · 産業事例の参照のみでs2n検証assetを同梱していない。 Cedar Analysis · documentation-only · — · service/APIとtool群が変化し、対象policy assetを固定していない。 Bedrock Guardrails Automated Reasoning checks · documentation-only · — · 外部service、region、API条件を固定CIへ必須化しない。 Solidity SMTChecker · documentation-only · — · Solidity/compiler/solver構成とcontract assetを固定していない。 Aptos Move Prover · documentation-only · — · Move toolchainとcontract assetを固定していない。 Certora Prover · documentation-only · — · 外部/産業toolchainを必須CIへ組み込まない。 LeanDojo · documentation-only · — · AI証明支援の評価基盤として紹介するだけ。 Lean Copilot · documentation-only · — · AI証明支援の紹介のみでmodel/projectを固定していない。 AlphaProof / AlphaGeometry 2 · documentation-only · — · 研究成果の紹介で、再配布可能なCLI契約がない。 DeepSeek-Prover-V2 · documentation-only · — · 研究成果の紹介でmodel/runtimeを固定していない。 ProofGym · documentation-only · — · 評価基盤の紹介のみでdataset/runtimeを固定していない。 APOLLO · documentation-only · — · 研究成果の紹介のみで実行contractがない。 実行laneでは、各entryにtimeout、memory budget、seed、scope、depth、boundを明示する。 artifactはtool version、command、入力ファイル別SHA-256と集約hash、exit code、stdout/stderr、success、counterexample、unknown、timeout、resource exhaustionを区別して残す。 保持期間は14日、stdout/stderrは1 entry当たり16 MiB、tool outputは1 entry当たり64 MiBを上限とする。 timeoutとstdout/stderr上限はrunnerが強制し、retained tool outputは実行後に検査する。一方、memoryMiBはCI容量計画用の申告値であり、OS/cgroupによる強制上限ではない。このためresource-exhaustedは検出可能な出力超過を表し、OOM killはtool-errorまたはrunner failureになる場合がある。 quint-counter: examples/quint/counter.qnt をQuint 0.32.0のTypeScript evaluatorでtypecheckし、seed 20260716、各test 1 sampleで実行する。別配布のRust evaluatorを暗黙downloadしない。 【ツール準拠（そのまま動く）】 kani-abs: examples/kani/abs.rs のabsisnonnegative harnessをKani 0.67.0、固定Rust nightly、unwind 1で検査する。追加downloadと実行コストがあるためoptional/manualであり、PRやscheduleからは起動しない。 cache復元後もQuint binaryのSHA-256を再検証する。Kaniは検証済みarchiveから毎回再展開し、固定日のRust channel manifestもSHA-256を検証する。Rust component本体の整合性検査は、そのmanifestに記録されたchecksumを検証するrustupに委ねる。 【ツール準拠（そのまま動く）】 version更新は月次に公式release/tagとasset digestを確認し、versionだけの専用PRでclean-cache実行と出力契約差分をレビューする。 任意のrelease assetはDependabot/Renovateのpackage参照ではないため、自動更新されたものとして扱わない。",
+      "text": "全toolの分類、実行版、配布物digest、artifact上限、更新手順の正本は tools/tool-manifest.json である。 pr-quick はPR差分に関連する小さい例、nightly はtool単位の独立matrix、optional/manual は明示的な workflowdispatch だけで実行する。 documentation-only は本文で紹介するが、このリポジトリがversion、環境、実行結果を保証しないtool/serviceを表す。 他toolに内蔵されたsolverを間接利用しても、solver単体の実行保証には数えない。 Tool / service · lane · 検証済み version · 分類理由 --- · --- · --- · --- Alloy Analyzer · pr-quick · 6.2.0 · 小さい scope の4例を短時間で再現できる。 TLC · pr-quick · 1.7.4 · 固定 cfg・worker・seed・timeout で有限モデルを検査する。 Apalache · pr-quick · 0.52.1 · 短い探索長を固定した不変条件検査を毎PRで再現できる。 Dafny · pr-quick · 4.11.0 · 最小検証例が高速で安定している。 SPIN · nightly · 6.5.2 · source buildと状態探索をtool単位nightlyで分離する。 NuSMV · nightly · 2.7.1 · 依存を伴う公式source buildのためnightlyへ分離する。 CBMC · nightly · 6.10.0 · Ubuntu固定配布と有界検査をtool単位nightlyで実行する。 Quint · nightly · 0.32.0 · 公式single binaryでtypecheck/testを固定seedかつTypeScript backendで再現する。 PRISM Model Checker · nightly · 4.10.1 · 約41 MBの固定公式配布を取得し、定量的性質をtool単位nightlyで再現する。 Kani Rust Verifier · optional/manual · 0.67.0 · 固定Rust nightlyを追加取得するため明示的manual dispatchに限定する。 TLA+ Toolbox · documentation-only · — · GUI/編集環境であり、本リポジトリのCLI保証対象外。 TLA+ VS Code extension · documentation-only · — · 編集支援はCLI検査と分離し、extension版を固定していない。 Community Z Tools (CZT) · documentation-only · — · Zの一次情報導線のみで実行assetがない。 FDR · documentation-only · — · CSPM例は掲載するが、配布・licenseを含むCI環境を固定していない。 ProB · documentation-only · — · 紹介のみで実行assetと固定環境がない。 PAT · documentation-only · — · 紹介のみで実行assetと固定環境がない。 nuXmv · documentation-only · — · NuSMVとは別製品として紹介するが、CIはNuSMVだけを保証する。 Java PathFinder · documentation-only · — · 紹介・演習候補のみで実行assetがない。 UPPAAL · documentation-only · — · GUI/license/配布条件を伴い自動化していない。 TIMES · documentation-only · — · リアルタイム検証の紹介のみ。 Rocq / Coq · documentation-only · — · 証明project、opam switch、library版を固定していない。 Lean 4 / Lake / mathlib / elan · documentation-only · — · proof projectと依存revisionがなく、Linux配布物も大きいため未実行。 Isabelle/HOL · documentation-only · — · 紹介のみでsession/build環境を固定していない。 Agda · documentation-only · — · 紹介のみでprojectとlibrary版を固定していない。 HOL4 · documentation-only · — · Aeneas接続先として紹介するだけで実行契約がない。 F · documentation-only · — · 接続先/関連技術として紹介するだけで実行契約がない。 Frama-C · documentation-only · — · 紹介のみでplugin/solver構成を固定していない。 VeriFast · documentation-only · — · 紹介のみで実行assetがない。 SPARK · documentation-only · — · 産業toolchain/licenseを含む実行環境を固定していない。 Why3 · documentation-only · — · backend solverを含む実行構成を固定していない。 Verus · documentation-only · — · Rust/Z3/revisionを含む実行構成を固定していない。 Creusot · documentation-only · — · Why3/solver/Rustの組合せを固定していない。 Prusti / Viper · documentation-only · — · Rust/Viper toolchainと実行assetを固定していない。 Aeneas / Charon · documentation-only · — · 変換先を含むend-to-end contractを固定していない。 Z3 · documentation-only · — · 他toolの間接依存をsolver単体の実行保証には数えない。 cvc5 / CVC4 · documentation-only · — · 紹介のみでsolver単体assetを固定していない。 Yices · documentation-only · — · 紹介のみで実行assetを固定していない。 MathSAT · documentation-only · — · 紹介のみでlicense/配布を含む環境を固定していない。 SCADE · documentation-only · — · 商用/GUI toolchainでありCI必須化しない。 Simulink · documentation-only · — · 産業事例の紹介のみでlicense環境を固定していない。 SAW · documentation-only · — · 産業事例の参照のみでs2n検証assetを同梱していない。 Cedar Analysis · documentation-only · — · service/APIとtool群が変化し、対象policy assetを固定していない。 Bedrock Guardrails Automated Reasoning checks · documentation-only · — · 外部service、region、API条件を固定CIへ必須化しない。 Solidity SMTChecker · documentation-only · — · Solidity/compiler/solver構成とcontract assetを固定していない。 Aptos Move Prover · documentation-only · — · Move toolchainとcontract assetを固定していない。 Certora Prover · documentation-only · — · 外部/産業toolchainを必須CIへ組み込まない。 LeanDojo · documentation-only · — · AI証明支援の評価基盤として紹介するだけ。 Lean Copilot · documentation-only · — · AI証明支援の紹介のみでmodel/projectを固定していない。 AlphaProof / AlphaGeometry 2 · documentation-only · — · 研究成果の紹介で、再配布可能なCLI契約がない。 DeepSeek-Prover-V2 · documentation-only · — · 研究成果の紹介でmodel/runtimeを固定していない。 ProofGym · documentation-only · — · 評価基盤の紹介のみでdataset/runtimeを固定していない。 APOLLO · documentation-only · — · 研究成果の紹介のみで実行contractがない。 実行laneでは、各entryにtimeout、memory budget、seed、scope、depth、boundを明示する。 artifactはtool version、command、入力ファイル別SHA-256と集約hash、exit code、stdout/stderr、success、counterexample、unknown、timeout、resource exhaustionを区別して残す。 保持期間は14日、stdout/stderrは1 entry当たり16 MiB、tool outputは1 entry当たり64 MiBを上限とする。 timeoutとstdout/stderr上限はrunnerが強制し、retained tool outputは実行後に検査する。一方、memoryMiBはCI容量計画用の申告値であり、OS/cgroupによる強制上限ではない。このためresource-exhaustedは検出可能な出力超過を表し、OOM killはtool-errorまたはrunner failureになる場合がある。 quint-counter: examples/quint/counter.qnt をQuint 0.32.0のTypeScript evaluatorでtypecheckし、seed 20260716、各test 1 sampleで実行する。別配布のRust evaluatorを暗黙downloadしない。 【ツール準拠（そのまま動く）】 kani-abs: examples/kani/abs.rs のabsisnonnegative harnessをKani 0.67.0、固定Rust nightly、unwind 1で検査する。追加downloadと実行コストがあるためoptional/manualであり、PRやscheduleからは起動しない。 cache復元後もQuint binaryとPRISM archiveのSHA-256を再検証する。 PRISM 4.10.1はGPL-2.0の公式Linux x86-64 archiveを毎回再展開して絶対pathを再設定し、tool binaryはrepository、CI artifact、Pagesへ再配布しない。 保持するのは入力hash、標準出力、期待値との比較結果だけである。 Kaniは検証済みarchiveから毎回再展開し、固定日のRust channel manifestもSHA-256を検証する。Rust component本体の整合性検査は、そのmanifestに記録されたchecksumを検証するrustupに委ねる。 【ツール準拠（そのまま動く）】 version更新は月次に公式release/tagとasset digestを確認し、versionだけの専用PRでclean-cache実行と出力契約差分をレビューする。 任意のrelease assetはDependabot/Renovateのpackage参照ではないため、自動更新されたものとして扱わない。",
       "aliases": [
         "TLA Plus",
         "The Rocq Prover"
@@ -12896,7 +12963,7 @@
       "chapter": "付録B：ツールインストールガイド",
       "heading": "nightly lane の追加前提（Ubuntu 24.04 x86-64）",
       "url": "/formal-methods-book/appendices/appendix-b/#nightly-lane-の追加前提ubuntu-2404-x86-64",
-      "text": "node scripts/run-example-manifest.js --lane nightlyはSPIN 6.5.2、NuSMV 2.7.1、CBMC 6.10.0、Quint 0.32.0の6 entryを実行する。最小セットとは別に、SPIN/NuSMVのsource buildには次の前提が必要である。CBMCはUbuntu 24.04 x86-64用の固定deb、Quintは同platform用の固定single binaryを使うため、この手順は同環境または互換環境を対象とする。 取得物は commit/version と SHA-256、Meson/Ninja は requirements の package hash で固定される。macOS、Windows ネイティブ、異なる CPU architecture ではこの lane を直接再現せず、Ubuntu 24.04 x86-64 のコンテナ、WSL2、または GitHub Actions の workflowdispatch を使う。",
+      "text": "node scripts/run-example-manifest.js --lane nightlyはSPIN 6.5.2、NuSMV 2.7.1、CBMC 6.10.0、Quint 0.32.0、PRISM 4.10.1の7 entryを実行する。最小セットとは別に、SPIN/NuSMVのsource buildには次の前提が必要である。CBMCはUbuntu 24.04 x86-64用の固定deb、Quintは同platform用の固定single binary、PRISMは約41 MBの固定公式archiveを使うため、この手順は同環境または互換環境を対象とする。 取得物は commit/version と SHA-256、Meson/Ninja は requirements の package hash で固定される。macOS、Windows ネイティブ、異なる CPU architecture ではこの lane を直接再現せず、Ubuntu 24.04 x86-64 のコンテナ、WSL2、または GitHub Actions の workflowdispatch を使う。 PRISMだけを再実行する場合は次を使う。 この実行はDTMCと4 propertyの数値契約を再現するだけであり、教育用成功確率0.8が実システムに妥当であることは保証しない。",
       "aliases": []
     },
     {
@@ -13146,6 +13213,18 @@
         "モデル検査",
         "model checking"
       ]
+    },
+    {
+      "id": "5a245217b7f53519",
+      "locale": "ja",
+      "pageId": "appendix-c",
+      "section": "appendices",
+      "title": "C.3.9 LTL / CTLと確率propertyの概念対応",
+      "chapter": "付録C：記法対照表",
+      "heading": "C.3.9 LTL / CTLと確率propertyの概念対応",
+      "url": "/formal-methods-book/appendices/appendix-c/#c39-ltl--ctlと確率propertyの概念対応",
+      "text": "通常のLTL / CTLは、対象pathまたは計算木で性質が成り立つかを主に真偽で表す。 PRISMのPCTL / CSL系propertyは、同じ到達・継続・長期挙動へ確率、閾値、期待rewardを加える。 下表は読み替えの入口であり、論理間の同値変換表ではない。 問いたいこと · 通常のLTL / CTLでの見方 · PRISMの定量的な見方 · 追加で固定すること --- · --- · --- · --- 成功へ到達するか · LTL F success、CTL EF success / AF success · P=? [ F \"success\" ] · 初期状態、確率分布、対象scheduler 到達確率が基準を満たすか · 真偽だけでは確率massを表さない · P>=0.99 [ F \"success\" ] · thresholdの根拠、丸め・許容差 長期に正常である割合 · 単純なG / AGは「常に」であり時間割合ではない · S=? [ \"operational\" ] · 定常性、初期分布、吸収class 完了までのcost · trace上のevent数を別途集計 · R{\"cost\"}=? [ F \"done\" ] · rewardの単位、付与位置、未到達path 環境選択を含む境界 · fairness等を仮定してpathを制約 · MDPのPmin / Pmax、Rmin / Rmax · scheduler / adversary class 不成立時の説明 · 反例trace · 確率値、scheduler、代表path、critical subsystem · 生成方法と網羅範囲 特にP>=1 [ F \"success\" ]を機械的にAF successと同一視してはいけない。 DTMC、CTMC、MDPではpath measureとnondeterminismの意味が異なり、確率1でもmeasure 0のpathをどう扱うかという境界が残る。 論理式を比較するときは、模型種別、初期状態、scheduler、公平性、時間境界を先にそろえる。",
+      "aliases": []
     },
     {
       "id": "b107a206c4ef1ffa",
@@ -14156,7 +14235,7 @@
       "chapter": "付録E：参考文献とWebリソース",
       "heading": "付録E：参考文献とWebリソース",
       "url": "/formal-methods-book/appendices/appendix-e/#付録e参考文献とwebリソース",
-      "text": "本付録は、本文で扱った形式的手法・ツールについて、一次情報（公式サイト/公式リポジトリ/公式ドキュメント/公式リリース）へ到達するための索引である。 2026-06 時点で、名称変更・主流ツールの更新（例：Coq→Rocq、CVC4→cvc5、Alloy 6 系、TLA+ の Apalache / Quint 等）を反映している。",
+      "text": "本付録は、本文で扱った形式的手法・ツールについて、一次情報（公式サイト/公式リポジトリ/公式ドキュメント/公式リリース）へ到達するための索引である。 2026-07 時点で、名称変更・主流ツールの更新（例：Coq→Rocq、CVC4→cvc5、Alloy 6 系、TLA+ の Apalache / Quint 等）を反映している。",
       "aliases": [
         "TLA Plus",
         "The Rocq Prover"
@@ -14171,7 +14250,7 @@
       "chapter": "付録E：参考文献とWebリソース",
       "heading": "実行保証の読み方",
       "url": "/formal-methods-book/appendices/appendix-e/#実行保証の読み方",
-      "text": "本付録への掲載は、リポジトリでの実行保証を意味しない。実行状態の正本は tools/tool-manifest.json と付録Bの lane inventoryである。 Alloy、TLC、Apalache、Dafny は pr-quick、SPIN、NuSMV、CBMC、Quint は nightly、Kani は明示的な optional/manual で検証する。それ以外の掲載ツールは documentation-only であり、本書は固定バージョン、実行環境、実行結果を保証しない。",
+      "text": "本付録への掲載は、リポジトリでの実行保証を意味しない。実行状態の正本は tools/tool-manifest.json と付録Bの lane inventoryである。 Alloy、TLC、Apalache、Dafny は pr-quick、SPIN、NuSMV、CBMC、Quint、PRISM は nightly、Kani は明示的な optional/manual で検証する。それ以外の掲載ツールは documentation-only であり、本書は固定バージョン、実行環境、実行結果を保証しない。",
       "aliases": []
     },
     {
@@ -14274,15 +14353,15 @@
       ]
     },
     {
-      "id": "19f5ffb8a7942fd5",
+      "id": "5cf8e1e1e1fda0f5",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
-      "title": "2) 模型検査（TLC / Apalache / SPIN / NuSMV）",
+      "title": "2) 模型検査（TLC / Apalache / SPIN / NuSMV / PRISM）",
       "chapter": "付録E：参考文献とWebリソース",
-      "heading": "2) 模型検査（TLC / Apalache / SPIN / NuSMV）",
-      "url": "/formal-methods-book/appendices/appendix-e/#2-模型検査tlc--apalache--spin--nusmv",
-      "text": "2) 模型検査（TLC / Apalache / SPIN / NuSMV）",
+      "heading": "2) 模型検査（TLC / Apalache / SPIN / NuSMV / PRISM）",
+      "url": "/formal-methods-book/appendices/appendix-e/#2-模型検査tlc--apalache--spin--nusmv--prism",
+      "text": "2) 模型検査（TLC / Apalache / SPIN / NuSMV / PRISM）",
       "aliases": [
         "モデル検査",
         "model checking"
@@ -14337,7 +14416,21 @@
       ]
     },
     {
-      "id": "bb3434471dacd72d",
+      "id": "c14bea27cfb7b692",
+      "locale": "ja",
+      "pageId": "appendix-e",
+      "section": "appendices",
+      "title": "PRISM（確率的・定量的模型検査）",
+      "chapter": "付録E：参考文献とWebリソース",
+      "heading": "PRISM（確率的・定量的模型検査）",
+      "url": "/formal-methods-book/appendices/appendix-e/#prism確率的定量的模型検査",
+      "text": "用途：DTMC、CTMC、MDPに対する確率的到達可能性、定常確率、閾値、reward / expected costの検査 推奨読者：第8章（確率的・定量的模型検査）、付録C（LTL / CTLとの概念対応）、付録B（nightly実行） 実行境界：本書のnightly契約はPRISM 4.10.1、公式Linux x86-64 archive、SHA-256、explicit engine、教育用DTMCを固定する。公式配布物はGPL-2.0であり、CI artifactやPagesへtool binaryを再配布しない。 一次情報： 公式サイト： Download、現行version、GPL-2.0： PRISM 4.10.1公式release： 公式manual： DTMC / CTMC / MDPのmodel type： Property languageの導入： Propertyの構文と意味： Reward-based property： 通常のmodel checking： Statistical model checking： 公式case studies：",
+      "aliases": [
+        "モデル検査"
+      ]
+    },
+    {
+      "id": "9d769bf1f3ed1667",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14352,7 +14445,7 @@
       ]
     },
     {
-      "id": "3796492496ad921a",
+      "id": "25baba8d80bc6d00",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14366,7 +14459,7 @@
       ]
     },
     {
-      "id": "765e8653d6667cfb",
+      "id": "4ac60eb126d445b8",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14378,7 +14471,7 @@
       "aliases": []
     },
     {
-      "id": "0f12937a598d412c",
+      "id": "9948364045b1b7a4",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14390,7 +14483,7 @@
       "aliases": []
     },
     {
-      "id": "2e169bf0fe7de367",
+      "id": "3311dffd2ff031d8",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14402,7 +14495,7 @@
       "aliases": []
     },
     {
-      "id": "cbac516c5c96f54e",
+      "id": "0726a6fc96d93b41",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14414,7 +14507,7 @@
       "aliases": []
     },
     {
-      "id": "498703c48cddda9a",
+      "id": "bf9013e1f5aa2217",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14426,7 +14519,7 @@
       "aliases": []
     },
     {
-      "id": "eca2c3d8362f1e4d",
+      "id": "6f5250b89ebc3392",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14438,7 +14531,7 @@
       "aliases": []
     },
     {
-      "id": "0069a637cd970a15",
+      "id": "3e5aee9aecc462ea",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14450,7 +14543,7 @@
       "aliases": []
     },
     {
-      "id": "223e37e6f6cbd6cc",
+      "id": "f9535219ee167eb6",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14465,7 +14558,7 @@
       ]
     },
     {
-      "id": "afd9bbd3c0008a57",
+      "id": "086d2753b9d2e0b0",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14477,7 +14570,7 @@
       "aliases": []
     },
     {
-      "id": "aa431fffef1f60b5",
+      "id": "5a1695bab963a4e3",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14489,7 +14582,7 @@
       "aliases": []
     },
     {
-      "id": "a22792cfda6ccc25",
+      "id": "02ff928fa6306fc2",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14504,7 +14597,7 @@
       ]
     },
     {
-      "id": "5da7dfdc15f98275",
+      "id": "3314d10547e6e666",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14516,7 +14609,7 @@
       "aliases": []
     },
     {
-      "id": "69ec0661d08244f6",
+      "id": "a7a2cc0ab6ed20e6",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14528,7 +14621,7 @@
       "aliases": []
     },
     {
-      "id": "6bc1fbbabddcd370",
+      "id": "e9d750082a66a84d",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14540,7 +14633,7 @@
       "aliases": []
     },
     {
-      "id": "6fa38aa938fa3c8a",
+      "id": "8f29dcc73e4883e7",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14554,7 +14647,7 @@
       ]
     },
     {
-      "id": "47ae5687e48e56fc",
+      "id": "2257eff6d56945e8",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14566,7 +14659,7 @@
       "aliases": []
     },
     {
-      "id": "b8ff6c16f6af906d",
+      "id": "efdabf500f390251",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14578,7 +14671,7 @@
       "aliases": []
     },
     {
-      "id": "df80470c5a9cfeb0",
+      "id": "09d663f4d58157b6",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14590,7 +14683,7 @@
       "aliases": []
     },
     {
-      "id": "e3cf2adb96f43eaa",
+      "id": "d3af445cf59766b9",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14602,7 +14695,7 @@
       "aliases": []
     },
     {
-      "id": "a181b6498c3ee408",
+      "id": "dc49184056e9905e",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14614,7 +14707,7 @@
       "aliases": []
     },
     {
-      "id": "02802bbe64fc6470",
+      "id": "27dcca1402fe5d16",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14626,7 +14719,7 @@
       "aliases": []
     },
     {
-      "id": "90ca24bcd95e72d8",
+      "id": "d1a7c98681508b53",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14638,7 +14731,7 @@
       "aliases": []
     },
     {
-      "id": "fca100289c87a874",
+      "id": "23f99a9b337b164f",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14650,7 +14743,7 @@
       "aliases": []
     },
     {
-      "id": "0edb3859976633fe",
+      "id": "36c7ac3e1685bfc6",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14664,7 +14757,7 @@
       ]
     },
     {
-      "id": "856009dd115d8fa7",
+      "id": "17df3f3c0996a62a",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14676,7 +14769,7 @@
       "aliases": []
     },
     {
-      "id": "c67f72a4ca6ecebe",
+      "id": "34595a274c74ee1c",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14688,7 +14781,7 @@
       "aliases": []
     },
     {
-      "id": "1c6698f2a78676a1",
+      "id": "a6895a99363f81ad",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14700,7 +14793,7 @@
       "aliases": []
     },
     {
-      "id": "96db8cd520a369d8",
+      "id": "982ab61e8a96ad81",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",

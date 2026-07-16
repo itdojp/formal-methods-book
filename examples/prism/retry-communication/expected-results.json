@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "modelType": "DTMC",
+  "engine": "explicit",
+  "tolerance": 1e-12,
+  "results": [
+    {
+      "property": "P>=0.99 [ F \"success\" ]",
+      "expected": true
+    },
+    {
+      "property": "P=? [ F \"failure\" ]",
+      "expected": 0.008
+    },
+    {
+      "property": "S=? [ \"success\" ]",
+      "expected": 0.992
+    },
+    {
+      "property": "R{\"cost\"}=? [ F \"done\" ]",
+      "expected": 1.24
+    }
+  ]
+}
