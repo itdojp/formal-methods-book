@@ -69,7 +69,7 @@
 | Prusti / Viper | documentation-only | — | Rust/Viper toolchainと実行assetを固定していない。 |
 | Aeneas / Charon | documentation-only | — | 変換先を含むend-to-end contractを固定していない。 |
 | Z3 | documentation-only | — | 他toolの間接依存をsolver単体の実行保証には数えない。 |
-| cvc5 / CVC4 | nightly | 1.3.4 | 固定solverと独立Alethe checkerを毎夜再構築し、UNSAT証明書を再検査する。 |
+| cvc5 / CVC4 | nightly | 1.3.4 | 固定公式solver assetを毎夜検証・再展開し、独立Alethe checkerをsourceから再構築してUNSAT証明書を再検査する。 |
 | Yices | documentation-only | — | 紹介のみで実行assetを固定していない。 |
 | MathSAT | documentation-only | — | 紹介のみでlicense/配布を含む環境を固定していない。 |
 | SCADE | documentation-only | — | 商用/GUI toolchainでありCI必須化しない。 |

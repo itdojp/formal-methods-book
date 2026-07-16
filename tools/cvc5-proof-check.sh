@@ -94,7 +94,7 @@ if [[ $solver_status -eq 0 ]] && head -n 1 "$solver_raw" | grep -Fxq 'unsat'; th
         "$carcara_bin" check "$certificate" "$input" ) >"$checker_raw" 2>&1
     checker_status=$?
     set -e
-    if [[ -f "$checker_raw" && "$(wc -c < "$checker_raw")" -ge "$max_checker_output_bytes" ]]; then
+    if [[ -f "$checker_raw" && "$(wc -c < "$checker_raw")" -gt "$max_checker_output_bytes" ]]; then
       checker_status=125
     fi
   fi

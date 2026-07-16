@@ -797,8 +797,8 @@
       ],
       "lane": "nightly",
       "reason": {
-        "ja": "固定solverと独立Alethe checkerを毎夜再構築し、UNSAT証明書を再検査する。",
-        "en": "Rebuilds a pinned solver and independent Alethe checker nightly to recheck an UNSAT certificate."
+        "ja": "固定公式solver assetを毎夜検証・再展開し、独立Alethe checkerをsourceから再構築してUNSAT証明書を再検査する。",
+        "en": "Verifies and re-extracts a pinned official solver asset, rebuilds an independent Alethe checker from source nightly, and rechecks an UNSAT certificate."
       },
       "version": "1.3.4",
       "wrapper": "tools/cvc5-proof-check.sh",

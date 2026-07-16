@@ -67,12 +67,20 @@ try {
   assert.strictEqual(valid.certificateFormat, 'alethe');
   assert.match(fs.readFileSync(summary, 'utf8'), /result: success/);
   fs.writeFileSync(checker, 'x'.repeat(valid.checker.maxOutputBytes));
+  const atLimitChecker = writeResults({
+    inputPath: input, solverRawPath: raw, checkerRawPath: checker, solverStatus: 0, checkerStatus: 1,
+    resultsPath: results, summaryPath: summary, repoRoot: REPO_ROOT, timeLimitSeconds: 120,
+  });
+  assert.strictEqual(atLimitChecker.result, 'checker-invalid');
+  assert.strictEqual(atLimitChecker.evidence.checkerOutputBytes, valid.checker.maxOutputBytes);
+  assert.notStrictEqual(atLimitChecker.evidence.checkerOutputSha256, null);
+  fs.writeFileSync(checker, 'x'.repeat(valid.checker.maxOutputBytes + 1));
   const oversizedChecker = writeResults({
     inputPath: input, solverRawPath: raw, checkerRawPath: checker, solverStatus: 0, checkerStatus: 1,
     resultsPath: results, summaryPath: summary, repoRoot: REPO_ROOT, timeLimitSeconds: 120,
   });
   assert.strictEqual(oversizedChecker.result, 'checker-output-too-large');
-  assert.strictEqual(oversizedChecker.evidence.checkerOutputBytes, valid.checker.maxOutputBytes);
+  assert.strictEqual(oversizedChecker.evidence.checkerOutputBytes, valid.checker.maxOutputBytes + 1);
   assert.strictEqual(oversizedChecker.evidence.checkerOutputSha256, null);
   fs.writeFileSync(raw, 'sat\n');
   const sat = writeResults({

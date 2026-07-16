@@ -68,7 +68,7 @@ Indirect use of an embedded solver does not constitute a standalone execution gu
 | Prusti / Viper | documentation-only | — | Rust/Viper toolchain and executable asset are not pinned. |
 | Aeneas / Charon | documentation-only | — | No pinned end-to-end contract including a proof target. |
 | Z3 | documentation-only | — | Indirect use by other tools is not counted as a standalone solver guarantee. |
-| cvc5 / CVC4 | nightly | 1.3.4 | Rebuilds a pinned solver and independent Alethe checker nightly to recheck an UNSAT certificate. |
+| cvc5 / CVC4 | nightly | 1.3.4 | Verifies and re-extracts a pinned official solver asset, rebuilds an independent Alethe checker from source nightly, and rechecks an UNSAT certificate. |
 | Yices | documentation-only | — | Reference-only; no pinned executable asset. |
 | MathSAT | documentation-only | — | Reference-only; licensing/distribution environment is not pinned. |
 | SCADE | documentation-only | — | Commercial/GUI toolchain; not a mandatory CI dependency. |

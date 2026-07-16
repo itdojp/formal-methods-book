@@ -123,7 +123,7 @@ function writeResults(options) {
   const checkerOutputBytes = options.checkerRawPath && fs.existsSync(options.checkerRawPath)
     ? fs.statSync(options.checkerRawPath).size
     : 0;
-  const checkerOutputExceeded = checkerOutputBytes >= tool.maxCheckerOutputBytes;
+  const checkerOutputExceeded = checkerOutputBytes > tool.maxCheckerOutputBytes;
   const checkerOutput = options.checkerRawPath && fs.existsSync(options.checkerRawPath) && !checkerOutputExceeded
     ? readUtf8(options.checkerRawPath, 'Carcara output')
     : '';
