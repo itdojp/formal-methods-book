@@ -6,13 +6,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/chapters/chapter12.md"
 translation_status: "partial"
-translation_source_commit: "83d031100ae7bcdeab03d28f072904bcff0d71ff"
+translation_source_commit: "c38670fbeb731a9fc4e8adf43a45994809342983"
 translation_reviewed_at: "2026-07-16"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Chapter 12: Tools and Automation
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`83d031100ae7`](https://github.com/itdojp/formal-methods-book/commit/83d031100ae7bcdeab03d28f072904bcff0d71ff) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`c38670fbeb73`](https://github.com/itdojp/formal-methods-book/commit/c38670fbeb731a9fc4e8adf43a45994809342983) on 2026-07-16.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 ## 12.1 An Overview of the Tool Ecosystem
@@ -360,6 +360,13 @@ Theorem proving delivers a high level of assurance, but runtime, dependency mana
 - **Pull requests (minimum level)**: smoke tests for syntax and builds, detection of incomplete markers such as `sorry`, and checking the scope of the change
 - **Nightly or scheduled runs (deep verification)**: rerun representative theorem sets, detect the impact of dependency-library updates, and execute heavier proofs
 - **Before release (stabilization)**: pin the toolchain and dependencies, confirm reproducibility, and preserve logs for audit purposes
+
+The companion repository applies this separation in `.github/workflows/formal-checks.yml`.
+Pull requests pass the base/head diff to `examples/ci/pr-quick-check.sh`, which selects only entries related through manifest assets, references, configuration, or wrappers; shared infrastructure changes fail safely to the complete quick lane.
+For schedules and manual runs, `scripts/plan-formal-matrix.js` creates an allowlisted plan from the tool manifest, and `tool-matrix` executes it with `fail-fast: false` so that one tool failure does not suppress other logs.
+The nightly plan covers deep profiles for Alloy, TLC, Apalache, and Dafny plus SPIN, NuSMV, CBMC, and Quint; Kani runs only when the `optional` lane is selected explicitly through `workflow_dispatch`.
+Each artifact records the version, command, input hash, exit code, stdout/stderr, and stated resource bounds, while distinguishing `success`, `counterexample`, `unknown`, `timeout`, and `resource-exhausted`.
+Here, `memoryMiB` is a declared CI-capacity budget rather than an OS/cgroup-enforced limit. The runner can classify enforced timeouts and detectable output excess, but an OOM kill may surface as `tool-error` or a runner failure.
 
 Operationally, the following points matter.
 

@@ -1,21 +1,46 @@
 # CI examples
 
-## PR向け（軽量チェック）
+## PR向け（関連する軽量check）
+
+ローカルで引数なしに実行すると、`pr-quick` 7件をすべて実行する。
 
 ```bash
 bash examples/ci/pr-quick-check.sh
 ```
 
-このスクリプトは `examples/example-manifest.json` の `pr-quick` lane をそのまま実行します。SPIN、NuSMV、CBMC の取得・ビルドは行いません。
+GitHub Actionsではbase/head SHAを渡し、`examples/example-manifest.json`のasset、reference、config、wrapperに関連するentryだけを選ぶ。
+tool/example manifest、runner、bootstrap、workflow等の共通基盤が変わった場合は、fail-safeで全quick entryを実行する。
 
-## 夜間・手動実行
+## Nightly matrix
+
+scheduleと`workflow_dispatch`では、`matrix-plan` jobが次のplannerを使い、manifestで許可されたtool/profileだけをJSON matrixにする。
 
 ```bash
-node scripts/run-example-manifest.js --lane nightly
+node scripts/plan-formal-matrix.js --event schedule --lane nightly --tool all
 ```
 
-`.github/workflows/formal-checks.yml` の schedule / workflow_dispatch は、`nightly-deep` job で既存の Alloy/TLC/Apalache/Dafny の deep 条件を維持したうえで `nightly` lane を実行します。Ubuntu 24.04 上で source build する SPIN/NuSMV のため、この job だけが build-essential、flex、bison、m4、patch、Python 3、Meson、Ninja、pkg-config を導入します。
+`tool-matrix`は`fail-fast: false`でtool単位に独立し、Alloy/TLC/Apalache/Dafnyのdeep profileと、SPIN/NuSMV/CBMC/Quintのnightly entryを実行する。
+SPIN/NuSMVだけが`examples/ci/prepare-tool.sh`からsource-build prerequisitesを導入する。
+1 toolが失敗しても、他toolの実行とartifact uploadは継続する。
 
-ローカル実行は Ubuntu 24.04 x86-64 または互換環境に限定します。apt package と hash 固定した Python build tool の準備手順は付録Bを参照してください。他OSでは `workflow_dispatch` を利用します。
+## Optional / manual
 
-成功・失敗にかかわらず `.artifacts/manifest/<id>/` を artifact として upload します。各 ID には `metadata.json`、`command.txt`、`stdout.log`、`stderr.log` があり、metadata は実行環境を記録しません。
+Kaniは追加の公式archiveと固定Rust nightlyを必要とするため、scheduleやPRから実行しない。
+Actionsの`workflow_dispatch`で`lane=optional`、`tool=kani`または`all`を明示して実行する。
+workflow全体の権限は`contents: read`だけで、untrusted PRのcodeをwrite token付きで実行しない。
+
+ローカルで必要なplatform要件を満たす場合は次を使う。
+
+```bash
+node scripts/run-example-manifest.js --lane optional
+```
+
+## Evidence and retention
+
+成功・失敗にかかわらず`.artifacts/manifest/<id>/`をuploadする。
+各IDには`metadata.json`、`command.txt`、`stdout.log`、`stderr.log`があり、metadataはtool version、command、入力hash、実行制約、exit code、outcomeを記録する。
+環境変数、host、secretは記録しない。
+artifact retentionは14日、stdout/stderrは16 MiB、tool outputは64 MiBを1 entry当たりの上限とする。
+`timeoutSeconds`とstdout/stderr上限はrunnerが強制し、retained tool outputは実行後に検査する。`memoryMiB`はjob容量計画用のdeclared budgetであり、OS/cgroup上限としては強制しない。したがって`resource-exhausted`は検出可能な出力超過を表し、OOM killの完全な分類は保証しない。
+
+Ubuntu 24.04 x86-64向けの詳細なローカル前提は付録Bを参照する。

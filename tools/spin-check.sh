@@ -2,6 +2,7 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "$REPO_ROOT/tools/lib/tool-manifest.sh"
 
 usage() {
   cat <<'EOF'
@@ -45,7 +46,7 @@ if [[ -z "$model" || ! -f "$model" ]]; then
 fi
 
 bash "$REPO_ROOT/tools/bootstrap.sh" --tool spin
-: "${SPIN_VERSION:=6.5.2}"
+SPIN_VERSION="$(tool_manifest_field spin version)"
 SPIN_BIN="$REPO_ROOT/tools/.cache/spin-${SPIN_VERSION}/bin/spin"
 
 if [[ -z "$out_dir" ]]; then

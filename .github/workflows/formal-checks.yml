@@ -5,7 +5,22 @@ on:
     branches: [main]
   schedule:
     - cron: "0 2 * * *"
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      lane:
+        description: Executable lane to run
+        required: true
+        default: nightly
+        type: choice
+        options:
+          - nightly
+          - optional
+          - pr-quick
+      tool:
+        description: Manifest tool ID, or all
+        required: true
+        default: all
+        type: string
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
@@ -15,10 +30,13 @@ permissions:
 
 jobs:
   pr-quick:
+    if: github.event_name == 'pull_request'
     timeout-minutes: 20
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v6
         with:
           node-version: '24'
@@ -30,9 +48,12 @@ jobs:
         uses: actions/cache@v5
         with:
           path: tools/.cache
-          key: formal-tools-${{ runner.os }}-${{ runner.arch }}-pr-quick-${{ hashFiles('examples/example-manifest.json', 'tools/bootstrap.sh') }}
-      - name: Run pr-quick manifest lane
-        run: bash examples/ci/pr-quick-check.sh
+          key: formal-tools-${{ runner.os }}-${{ runner.arch }}-pr-quick-${{ hashFiles('tools/tool-manifest.json', 'examples/example-manifest.json', 'tools/bootstrap.sh', 'tools/lib/tool-manifest.sh') }}
+      - name: Run related pr-quick examples
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: bash examples/ci/pr-quick-check.sh "$BASE_SHA" "$HEAD_SHA"
       - name: Upload manifest artifacts
         if: always()
         uses: actions/upload-artifact@v7
@@ -40,12 +61,36 @@ jobs:
           name: formal-artifacts-pr
           path: .artifacts/manifest
           include-hidden-files: true
-          if-no-files-found: warn
+          if-no-files-found: error
+          retention-days: 14
 
-  nightly-deep:
+  matrix-plan:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-    timeout-minutes: 45
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Build validated tool matrix
+        id: plan
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REQUESTED_LANE: ${{ inputs.lane || 'nightly' }}
+          REQUESTED_TOOL: ${{ inputs.tool || 'all' }}
+        run: node scripts/plan-formal-matrix.js --event "$EVENT_NAME" --lane "$REQUESTED_LANE" --tool "$REQUESTED_TOOL" >> "$GITHUB_OUTPUT"
+
+  tool-matrix:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    needs: matrix-plan
+    timeout-minutes: 60
     runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.matrix-plan.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
@@ -55,47 +100,21 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-      - name: Install nightly source-build prerequisites
-        run: |
-          sudo apt-get update
-          sudo apt-get install --yes \
-            bison \
-            build-essential \
-            flex \
-            g++ \
-            gcc \
-            m4 \
-            patch \
-            pkg-config \
-            python3 \
-            python3-venv \
-            xz-utils
-          python3 -m venv tools/.tmp/nusmv-build-tools
-          tools/.tmp/nusmv-build-tools/bin/pip install \
-            --disable-pip-version-check \
-            --require-hashes \
-            --requirement tools/nusmv-build-requirements.txt
-          echo "$GITHUB_WORKSPACE/tools/.tmp/nusmv-build-tools/bin" >> "$GITHUB_PATH"
+      - name: Prepare tool-specific prerequisites
+        run: bash examples/ci/prepare-tool.sh "${{ matrix.tool }}"
       - name: Cache manifest toolchain
         uses: actions/cache@v5
         with:
           path: tools/.cache
-          key: formal-tools-${{ runner.os }}-${{ runner.arch }}-nightly-${{ hashFiles('examples/example-manifest.json', 'tools/bootstrap.sh', 'tools/nusmv-build-requirements.txt') }}
-      - name: Deep Alloy checks (more solutions)
-        run: bash tools/alloy-check.sh --repeat 10 examples/alloy/collection.als
-      - name: Deep TLC checks (higher depth)
-        run: bash tools/tlc-run.sh --config examples/tla/QueueBounded.cfg --depth 50 --time-limit 300 examples/tla/QueueBounded.tla
-      - name: Deep Apalache checks (bounded length)
-        run: bash tools/apalache-check.sh --config examples/apalache/Counter.cfg --length 50 --init Init --next Next --inv Inv examples/apalache/Counter.tla
-      - name: Dafny verification
-        run: bash tools/dafny-verify.sh examples/dafny/Abs.dfy
-      - name: Run nightly manifest lane
-        run: node scripts/run-example-manifest.js --lane nightly
-      - name: Upload manifest artifacts
+          key: formal-tools-${{ runner.os }}-${{ runner.arch }}-${{ matrix.tool }}-${{ hashFiles('tools/tool-manifest.json', 'examples/example-manifest.json', 'tools/bootstrap.sh', 'tools/lib/tool-manifest.sh', 'tools/nusmv-build-requirements.txt') }}
+      - name: Run isolated tool contract
+        run: bash examples/ci/matrix-tool-check.sh "${{ matrix.tool }}" "${{ matrix.profile }}"
+      - name: Upload tool artifacts
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: formal-artifacts-nightly
-          path: .artifacts
+          name: formal-${{ matrix.tool }}-${{ matrix.profile }}-${{ github.run_attempt }}
+          path: .artifacts/manifest
           include-hidden-files: true
-          if-no-files-found: warn
+          if-no-files-found: error
+          retention-days: 14

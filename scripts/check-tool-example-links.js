@@ -10,6 +10,7 @@ const {
   runnerCommand,
   validateManifest,
 } = require('./example-manifest');
+const { getTool, loadToolManifest } = require('./tool-manifest');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
 const REPOSITORY_BLOB_BASE = 'https://github.com/itdojp/formal-methods-book/blob/';
@@ -74,7 +75,7 @@ function collectMarkdownFiles(rootDir) {
   return files.sort();
 }
 
-function validateRepository(rootDir, manifestOverride = null) {
+function validateRepository(rootDir, manifestOverride = null, toolManifestOverride = null) {
   let manifest;
   let manifestPath = MANIFEST_PATH;
   const errors = [];
@@ -88,7 +89,15 @@ function validateRepository(rootDir, manifestOverride = null) {
     return [{ filePath: manifestPath, line: 1, message: error.message }];
   }
 
-  errors.push(...validateManifest(manifest, { rootDir, manifestPath }));
+  let toolManifest = toolManifestOverride;
+  if (!toolManifest) {
+    try {
+      toolManifest = loadToolManifest(rootDir).manifest;
+    } catch (error) {
+      errors.push({ filePath: 'tools/tool-manifest.json', line: 1, message: error.message });
+    }
+  }
+  errors.push(...validateManifest(manifest, { rootDir, manifestPath, toolManifest }));
   if (!manifest || !Array.isArray(manifest.examples)) return errors;
 
   const entryById = new Map(
@@ -141,6 +150,7 @@ function validateRepository(rootDir, manifestOverride = null) {
         continue;
       }
       const sectionContent = section.lines.join('\n');
+      const tool = toolManifest ? getTool(toolManifest, entry.tool) : null;
       const registration = `<!-- example-contract: ${entry.id} -->`;
       if (!sectionContent.includes(registration)) {
         errors.push({
@@ -155,6 +165,13 @@ function validateRepository(rootDir, manifestOverride = null) {
           filePath: reference,
           line: section.anchorLine,
           message: `[${entry.id}] anchor section に正規 runner command がありません: ${command}`,
+        });
+      }
+      if (tool?.version && !sectionContent.includes(tool.version)) {
+        errors.push({
+          filePath: reference,
+          line: section.anchorLine,
+          message: `[${entry.id}] anchor section に tool manifest version がありません: ${tool.version}`,
         });
       }
       for (const asset of entry.assets || []) {
@@ -187,7 +204,6 @@ function writeFixture(rootDir, mutate = null, documentId = 'chapter04') {
   const entry = {
     id,
     tool: 'alloy',
-    version: '6.2.0',
     chapter: documentId,
     anchor,
     references: expectedReferences(documentId),
@@ -195,15 +211,54 @@ function writeFixture(rootDir, mutate = null, documentId = 'chapter04') {
     config: null,
     command: 'bash tools/alloy-check.sh examples/alloy/valid.als',
     lane: 'pr-quick',
-    expected: { exitCode: 0, stdoutMarker: 'SAT' },
+    expected: { exitCode: 0, stdoutMarker: 'SAT', outcome: 'success' },
+    limits: {
+      timeoutSeconds: 60,
+      memoryMiB: 1024,
+      seed: null,
+      scope: 'fixture',
+      depth: null,
+      bound: 'fixture',
+    },
   };
-  const manifest = { schemaVersion: 1, examples: [entry] };
+  const manifest = { schemaVersion: 2, examples: [entry] };
   if (mutate) mutate({ manifest, entry, rootDir });
 
   fs.mkdirSync(path.join(rootDir, 'examples/alloy'), { recursive: true });
   fs.mkdirSync(path.join(rootDir, 'tools'), { recursive: true });
   fs.writeFileSync(path.join(rootDir, 'examples/alloy/valid.als'), 'run {}\n');
   fs.writeFileSync(path.join(rootDir, 'tools/alloy-check.sh'), '#!/usr/bin/env bash\n');
+  fs.writeFileSync(
+    path.join(rootDir, 'tools/tool-manifest.json'),
+    `${JSON.stringify({
+      schemaVersion: 1,
+      policy: {
+        artifact: { retentionDays: 1, maxOutputBytes: 1024, maxBytesPerExample: 1024 },
+        execution: {
+          timeout: 'runner-enforced',
+          stdoutStderr: 'runner-enforced',
+          retainedToolOutput: 'post-run-retention-cap',
+          memory: 'declared-budget-only',
+        },
+        updates: { procedure: [] },
+      },
+      tools: [{
+        id: 'alloy',
+        name: 'Alloy Analyzer',
+        aliases: ['Alloy'],
+        lane: 'pr-quick',
+        reason: { ja: 'fixture', en: 'fixture' },
+        version: '6.2.0',
+        wrapper: 'tools/alloy-check.sh',
+        distribution: {
+          url: 'https://example.invalid/alloy.jar',
+          sha256: '0'.repeat(64),
+        },
+        platforms: ['fixture'],
+        sources: [],
+      }],
+    }, null, 2)}\n`,
+  );
   for (const reference of entry.references) {
     const absolutePath = path.join(rootDir, reference);
     fs.mkdirSync(path.dirname(absolutePath), { recursive: true });
@@ -218,6 +273,7 @@ function writeFixture(rootDir, mutate = null, documentId = 'chapter04') {
         '',
         `<!-- example-contract: ${id} -->`,
         '【Tool-compliant (runs as-is)】',
+        'Alloy 6.2.0',
         '```bash',
         runnerCommand(id),
         '```',

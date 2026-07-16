@@ -12,26 +12,63 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CACHE_DIR="$REPO_ROOT/tools/.cache"
 TMP_DIR="$REPO_ROOT/tools/.tmp"
+source "$REPO_ROOT/tools/lib/tool-manifest.sh"
 
 mkdir -p "$CACHE_DIR" "$TMP_DIR"
 
-DEFAULT_ALLOY_VERSION="6.2.0"
-DEFAULT_TLA_VERSION="1.7.4"
-DEFAULT_APALACHE_VERSION="0.52.1"
-DEFAULT_DAFNY_VERSION="4.11.0"
-DEFAULT_SPIN_VERSION="6.5.2"
-DEFAULT_SPIN_COMMIT="4883fbb1b1ef1f75fa9dda78efe1ad8910baf819"
-DEFAULT_NUSMV_VERSION="2.7.1"
-DEFAULT_CBMC_VERSION="6.10.0"
+manifest_output="$(tool_manifest_fields \
+  alloy.version tlc.version apalache.version dafny.version spin.version \
+  spin.commit nusmv.version cbmc.version quint.version kani.version \
+  kani.rustToolchain kani.rustToolchainManifest.url kani.rustToolchainManifest.sha256 \
+  alloy.distribution.url tlc.distribution.url apalache.distribution.url \
+  dafny.distribution.url spin.distribution.url nusmv.distribution.url \
+  cbmc.distribution.url quint.distribution.url kani.distribution.url \
+  alloy.distribution.sha256 tlc.distribution.sha256 apalache.distribution.sha256 \
+  dafny.distribution.sha256 spin.distribution.sha256 nusmv.distribution.sha256 \
+  cbmc.distribution.sha256 quint.distribution.sha256 kani.distribution.sha256)"
+mapfile -t manifest_values <<< "$manifest_output"
+if [[ ${#manifest_values[@]} -ne 31 ]]; then
+  echo "Unexpected bootstrap field count: ${#manifest_values[@]} (expected 31)" >&2
+  exit 2
+fi
+manifest_index=0
+next_manifest_value() {
+  printf -v "$1" '%s' "${manifest_values[$manifest_index]}"
+  manifest_index=$((manifest_index + 1))
+}
 
-: "${ALLOY_VERSION:=$DEFAULT_ALLOY_VERSION}"
-: "${TLA_VERSION:=$DEFAULT_TLA_VERSION}"
-: "${APALACHE_VERSION:=$DEFAULT_APALACHE_VERSION}"
-: "${DAFNY_VERSION:=$DEFAULT_DAFNY_VERSION}"
-: "${SPIN_VERSION:=$DEFAULT_SPIN_VERSION}"
-: "${SPIN_COMMIT:=$DEFAULT_SPIN_COMMIT}"
-: "${NUSMV_VERSION:=$DEFAULT_NUSMV_VERSION}"
-: "${CBMC_VERSION:=$DEFAULT_CBMC_VERSION}"
+next_manifest_value ALLOY_VERSION
+next_manifest_value TLA_VERSION
+next_manifest_value APALACHE_VERSION
+next_manifest_value DAFNY_VERSION
+next_manifest_value SPIN_VERSION
+next_manifest_value SPIN_COMMIT
+next_manifest_value NUSMV_VERSION
+next_manifest_value CBMC_VERSION
+next_manifest_value QUINT_VERSION
+next_manifest_value KANI_VERSION
+next_manifest_value KANI_RUST_TOOLCHAIN
+next_manifest_value KANI_RUST_MANIFEST_URL
+next_manifest_value KANI_RUST_MANIFEST_SHA256
+next_manifest_value ALLOY_URL
+next_manifest_value TLA_URL
+next_manifest_value APALACHE_URL
+next_manifest_value DAFNY_URL
+next_manifest_value SPIN_URL
+next_manifest_value NUSMV_URL
+next_manifest_value CBMC_URL
+next_manifest_value QUINT_URL
+next_manifest_value KANI_URL
+next_manifest_value ALLOY_SHA256
+next_manifest_value TLA_SHA256
+next_manifest_value APALACHE_ZIP_SHA256
+next_manifest_value DAFNY_ZIP_SHA256
+next_manifest_value SPIN_TAR_SHA256
+next_manifest_value NUSMV_TAR_SHA256
+next_manifest_value CBMC_DEB_SHA256
+next_manifest_value QUINT_SHA256
+next_manifest_value KANI_TAR_SHA256
+unset manifest_output manifest_values manifest_index
 
 ALLOY_JAR="$CACHE_DIR/alloy-${ALLOY_VERSION}.jar"
 TLA_JAR="$CACHE_DIR/tla2tools-${TLA_VERSION}.jar"
@@ -40,42 +77,18 @@ DAFNY_DIR="$CACHE_DIR/dafny-${DAFNY_VERSION}"
 SPIN_DIR="$CACHE_DIR/spin-${SPIN_VERSION}"
 NUSMV_DIR="$CACHE_DIR/nusmv-${NUSMV_VERSION}"
 CBMC_DIR="$CACHE_DIR/cbmc-${CBMC_VERSION}"
-
-ALLOY_SHA256=""
-TLA_SHA256=""
-APALACHE_ZIP_SHA256=""
-DAFNY_ZIP_SHA256=""
-SPIN_TAR_SHA256=""
-NUSMV_TAR_SHA256=""
-CBMC_DEB_SHA256=""
-
-if [[ "$ALLOY_VERSION" == "$DEFAULT_ALLOY_VERSION" ]]; then
-  ALLOY_SHA256="6b8c1cb5bc93bedfc7c61435c4e1ab6e688a242dc702a394628d9a9801edb78d"
-fi
-if [[ "$TLA_VERSION" == "$DEFAULT_TLA_VERSION" ]]; then
-  TLA_SHA256="936a262061c914694dfd669a543be24573c45d5aa0ff20a8b96b23d01e050e88"
-fi
-if [[ "$APALACHE_VERSION" == "$DEFAULT_APALACHE_VERSION" ]]; then
-  APALACHE_ZIP_SHA256="669ed18b5df000e05a37ab721f3227528aa6a82a038e5eee30b2b857bff6543f"
-fi
-if [[ "$DAFNY_VERSION" == "$DEFAULT_DAFNY_VERSION" ]]; then
-  DAFNY_ZIP_SHA256="a46a9ff7cdd720f7955854c78e95df13f4cfe6b80691b05f8654fe19e8267179"
-fi
-if [[ "$SPIN_VERSION" == "$DEFAULT_SPIN_VERSION" && "$SPIN_COMMIT" == "$DEFAULT_SPIN_COMMIT" ]]; then
-  SPIN_TAR_SHA256="6f4963a4d6ca38f1af9ceaa76a815fbbd92e7ed7f2c424f1af88f67ec3f289f6"
-fi
-if [[ "$NUSMV_VERSION" == "$DEFAULT_NUSMV_VERSION" ]]; then
-  NUSMV_TAR_SHA256="f1e11931f71d98aa9b84181eed67db584d7111100c2e967c904a31c15f823f60"
-fi
-if [[ "$CBMC_VERSION" == "$DEFAULT_CBMC_VERSION" ]]; then
-  CBMC_DEB_SHA256="d716c219c5318a54f5298f9d5f66766d599e2e37bede33224437a8ad487fc504"
-fi
+QUINT_BIN="$CACHE_DIR/quint-${QUINT_VERSION}/quint"
+KANI_DIR="$CACHE_DIR/kani-${KANI_VERSION}"
+KANI_RUSTUP_HOME="$CACHE_DIR/kani-rustup-${KANI_RUST_TOOLCHAIN}"
+KANI_CARGO_HOME="$CACHE_DIR/kani-cargo"
+KANI_ARCHIVE="$CACHE_DIR/downloads/kani-${KANI_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
+KANI_RUST_MANIFEST="$CACHE_DIR/downloads/$(basename "$KANI_RUST_MANIFEST_URL")"
 
 usage() {
   cat <<'EOF'
 Usage:
-  tools/bootstrap.sh [--lane pr-quick|nightly]
-  tools/bootstrap.sh --tool alloy|tlc|apalache|dafny|spin|nusmv|cbmc [--tool ...]
+  tools/bootstrap.sh [--lane pr-quick|nightly|optional]
+  tools/bootstrap.sh --tool TOOL [--tool ...]
 
 Without arguments, only the pr-quick tools are installed. Nightly tools are
 never downloaded or built by the default/PR path.
@@ -124,15 +137,13 @@ if [[ -z "$selected_lane" && ${#selected_tools[@]} -eq 0 ]]; then
   selected_lane="pr-quick"
 fi
 if [[ -n "$selected_lane" ]]; then
-  case "$selected_lane" in
-    pr-quick) selected_tools=(alloy tlc apalache dafny) ;;
-    nightly) selected_tools=(spin nusmv cbmc) ;;
-    *)
-      echo "Unknown lane: $selected_lane" >&2
-      usage >&2
-      exit 2
-      ;;
-  esac
+  selected_output=""
+  if ! selected_output="$(node "$REPO_ROOT/scripts/tool-manifest.js" tools --lane "$selected_lane")"; then
+    echo "Unknown or empty executable lane: $selected_lane" >&2
+    usage >&2
+    exit 2
+  fi
+  mapfile -t selected_tools <<< "$selected_output"
 fi
 
 sha256_of() {
@@ -217,14 +228,14 @@ download() {
 
 ensure_alloy() {
   download \
-    "https://github.com/AlloyTools/org.alloytools.alloy/releases/download/v${ALLOY_VERSION}/org.alloytools.alloy.dist.jar" \
+    "$ALLOY_URL" \
     "$ALLOY_JAR" \
     "$ALLOY_SHA256"
 }
 
 ensure_tla() {
   download \
-    "https://github.com/tlaplus/tlaplus/releases/download/v${TLA_VERSION}/tla2tools.jar" \
+    "$TLA_URL" \
     "$TLA_JAR" \
     "$TLA_SHA256"
 }
@@ -238,7 +249,7 @@ ensure_apalache() {
 
   local zip="$TMP_DIR/apalache-${APALACHE_VERSION}.zip"
   download \
-    "https://github.com/apalache-mc/apalache/releases/download/v${APALACHE_VERSION}/apalache-${APALACHE_VERSION}.zip" \
+    "$APALACHE_URL" \
     "$zip" \
     "$APALACHE_ZIP_SHA256"
 
@@ -259,7 +270,7 @@ ensure_dafny() {
   local zip="$TMP_DIR/dafny-${DAFNY_VERSION}.zip"
   # Note: pin to ubuntu-22.04 x64 distribution for CI reproducibility.
   download \
-    "https://github.com/dafny-lang/dafny/releases/download/v${DAFNY_VERSION}/dafny-${DAFNY_VERSION}-x64-ubuntu-22.04.zip" \
+    "$DAFNY_URL" \
     "$zip" \
     "$DAFNY_ZIP_SHA256"
 
@@ -295,7 +306,7 @@ ensure_spin() {
 
   local archive="$TMP_DIR/spin-${SPIN_COMMIT}.tar.gz"
   download \
-    "https://github.com/nimble-code/Spin/archive/${SPIN_COMMIT}.tar.gz" \
+    "$SPIN_URL" \
     "$archive" \
     "$SPIN_TAR_SHA256"
 
@@ -339,7 +350,7 @@ PY
 
   local archive="$TMP_DIR/NuSMV-${NUSMV_VERSION}.tar.xz"
   download \
-    "https://nusmv.fbk.eu/distrib/${NUSMV_VERSION}/NuSMV-${NUSMV_VERSION}.tar.xz" \
+    "$NUSMV_URL" \
     "$archive" \
     "$NUSMV_TAR_SHA256"
 
@@ -402,7 +413,7 @@ ensure_cbmc() {
 
   local deb="$TMP_DIR/ubuntu-24.04-cbmc-${CBMC_VERSION}-Linux.deb"
   download \
-    "https://github.com/diffblue/cbmc/releases/download/cbmc-${CBMC_VERSION}/ubuntu-24.04-cbmc-${CBMC_VERSION}-Linux.deb" \
+    "$CBMC_URL" \
     "$deb" \
     "$CBMC_DEB_SHA256"
   rm -rf "$CBMC_DIR"
@@ -410,6 +421,48 @@ ensure_cbmc() {
   dpkg-deb -x "$deb" "$CBMC_DIR"
   if [[ ! -x "$bin" ]]; then
     echo "CBMC package did not contain expected executable: $bin" >&2
+    return 1
+  fi
+}
+
+ensure_quint() {
+  mkdir -p "$(dirname "$QUINT_BIN")"
+  # download() verifies an existing cached file before reuse.
+  download "$QUINT_URL" "$QUINT_BIN" "$QUINT_SHA256"
+  chmod 0755 "$QUINT_BIN"
+  if [[ "$($QUINT_BIN --version)" != "$QUINT_VERSION" ]]; then
+    echo "Quint binary version did not match manifest: $QUINT_VERSION" >&2
+    return 1
+  fi
+}
+
+ensure_kani() {
+  local bin="$KANI_DIR/bin/kani-driver"
+  require_command rustup rustup
+  require_command tar tar
+
+  mkdir -p "$(dirname "$KANI_ARCHIVE")"
+  # Cache the checksummed archive, but never trust a restored extracted tree.
+  # Re-extraction after verifying the archive prevents cache poisoning from
+  # replacing kani-driver or one of its bundled helper binaries.
+  download "$KANI_URL" "$KANI_ARCHIVE" "$KANI_TAR_SHA256"
+  local extract_dir="$TMP_DIR/kani-${KANI_VERSION}-extract"
+  rm -rf "$extract_dir" "$KANI_DIR"
+  mkdir -p "$extract_dir" "$KANI_DIR"
+  tar -xzf "$KANI_ARCHIVE" -C "$extract_dir" --strip-components=1
+  mv "$extract_dir"/* "$KANI_DIR"/
+  rmdir "$extract_dir"
+
+  # Pin and verify the dated Rust channel manifest. rustup then verifies each
+  # component against the checksums in this upstream manifest.
+  download "$KANI_RUST_MANIFEST_URL" "$KANI_RUST_MANIFEST" "$KANI_RUST_MANIFEST_SHA256"
+
+  mkdir -p "$KANI_RUSTUP_HOME" "$KANI_CARGO_HOME"
+  RUSTUP_HOME="$KANI_RUSTUP_HOME" CARGO_HOME="$KANI_CARGO_HOME" \
+    rustup toolchain install "$KANI_RUST_TOOLCHAIN" --profile minimal --no-self-update
+
+  if [[ "$($bin --version)" != "kani $KANI_VERSION" ]]; then
+    echo "Kani binary version did not match manifest: $KANI_VERSION" >&2
     return 1
   fi
 }
@@ -424,6 +477,8 @@ for selected_tool in "${selected_tools[@]}"; do
     spin) ensure_spin; installed+=("SPIN ${SPIN_VERSION} (${SPIN_COMMIT})") ;;
     nusmv) ensure_nusmv; installed+=("NuSMV ${NUSMV_VERSION} (official LGPL source)") ;;
     cbmc) ensure_cbmc; installed+=("CBMC ${CBMC_VERSION}") ;;
+    quint) ensure_quint; installed+=("Quint ${QUINT_VERSION}") ;;
+    kani) ensure_kani; installed+=("Kani ${KANI_VERSION} (${KANI_RUST_TOOLCHAIN})") ;;
     *)
       echo "Unknown tool: $selected_tool" >&2
       usage >&2

@@ -6,6 +6,7 @@ const path = require('path');
 const YAML = require('yaml');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
+const MANUAL_IF = "github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'";
 
 function workflowErrors(content) {
   const errors = [];
@@ -15,151 +16,117 @@ function workflowErrors(content) {
   } catch (error) {
     return [`workflow YAML を解析できません: ${error.message}`];
   }
-  const events = workflow && workflow.on;
-  if (!events || !events.pull_request || !events.schedule || !events.workflow_dispatch) {
+  const events = workflow?.on;
+  if (!events?.pull_request || !events?.schedule || !events?.workflow_dispatch) {
     errors.push('pull_request / schedule / workflow_dispatch trigger をすべて維持してください');
   }
-  if (!workflow.permissions || workflow.permissions.contents !== 'read') {
-    errors.push('workflow permissions.contents は read に限定してください');
+  const inputs = events?.workflow_dispatch?.inputs;
+  if (inputs?.lane?.type !== 'choice' || inputs?.tool?.type !== 'string') {
+    errors.push('workflow_dispatch は lane choice と tool string を明示してください');
+  }
+  const laneOptions = inputs?.lane?.options || [];
+  for (const lane of ['nightly', 'optional', 'pr-quick']) {
+    if (!laneOptions.includes(lane)) errors.push(`workflow_dispatch lane option がありません: ${lane}`);
+  }
+  if (!workflow.permissions || Object.keys(workflow.permissions).length !== 1 || workflow.permissions.contents !== 'read') {
+    errors.push('workflow permissions は contents: read だけに限定してください');
   }
 
   const jobs = workflow.jobs || {};
   const quick = jobs['pr-quick'];
-  const nightly = jobs['nightly-deep'];
+  const plan = jobs['matrix-plan'];
+  const matrix = jobs['tool-matrix'];
   if (!quick) errors.push('pr-quick job がありません');
-  if (!nightly) errors.push('nightly-deep job がありません');
+  if (!plan) errors.push('matrix-plan job がありません');
+  if (!matrix) errors.push('tool-matrix job がありません');
 
-  function runs(job) {
-    return (job?.steps || []).map((step) => step.run).filter((value) => typeof value === 'string');
-  }
-  function uses(job) {
-    return (job?.steps || []).map((step) => step.uses).filter((value) => typeof value === 'string');
-  }
-  function actionStep(job, action) {
-    return (job?.steps || []).find(
-      (step) => typeof step.uses === 'string' && step.uses.startsWith(`${action}@`),
-    );
-  }
+  const runs = (job) => (job?.steps || []).map((step) => step.run).filter((value) => typeof value === 'string');
+  const actionStep = (job, action) => (job?.steps || []).find(
+    (step) => typeof step.uses === 'string' && step.uses.startsWith(`${action}@`),
+  );
   function requireJava17(job, jobName) {
     const step = actionStep(job, 'actions/setup-java');
-    if (!step) {
-      errors.push(`${jobName} job に setup-java がありません`);
-      return;
-    }
-    if (step.with?.distribution !== 'temurin' || String(step.with?.['java-version']) !== '17') {
+    if (!step || step.with?.distribution !== 'temurin' || String(step.with?.['java-version']) !== '17') {
       errors.push(`${jobName} job の Java は Temurin 17 にしてください`);
     }
   }
-  function artifactSteps(job) {
-    return (job?.steps || [])
-      .filter((step) => typeof step.uses === 'string' && step.uses.startsWith('actions/upload-artifact@'));
-  }
-  function requireArtifactUpload(job, jobName, expectedPath) {
-    const step = artifactSteps(job).find((candidate) => candidate.with?.path === expectedPath);
-    if (!step) {
-      errors.push(`${jobName} artifact path は ${expectedPath} にしてください`);
+  function requireArtifact(job, jobName) {
+    const step = actionStep(job, 'actions/upload-artifact');
+    if (!step || step.with?.path !== '.artifacts/manifest') {
+      errors.push(`${jobName} artifact path は .artifacts/manifest にしてください`);
       return;
     }
-    if (step.with?.['include-hidden-files'] !== true) {
-      errors.push(`${jobName} artifact upload は hidden な .artifacts を明示的に含めてください`);
+    if (step.if !== 'always()' || step.with?.['include-hidden-files'] !== true) {
+      errors.push(`${jobName} artifact は成否にかかわらずhidden filesを含めてください`);
+    }
+    if (Number(step.with?.['retention-days']) !== 14 || step.with?.['if-no-files-found'] !== 'error') {
+      errors.push(`${jobName} artifact は retention 14日かつ欠落をerrorにしてください`);
+    }
+  }
+  function requireManifestCache(job, jobName) {
+    const step = actionStep(job, 'actions/cache');
+    const key = step?.with?.key;
+    if (typeof key !== 'string' || !key.includes("tools/tool-manifest.json") || !key.includes("examples/example-manifest.json")) {
+      errors.push(`${jobName} cache key は両manifestのhashを含めてください`);
     }
   }
 
   if (quick) {
-    if (!uses(quick).some((value) => value.startsWith('actions/setup-node@'))) {
-      errors.push('pr-quick job に setup-node がありません');
-    }
+    if (quick.if !== "github.event_name == 'pull_request'") errors.push('pr-quick job はpull_requestだけに限定してください');
+    const checkout = actionStep(quick, 'actions/checkout');
+    if (Number(checkout?.with?.['fetch-depth']) !== 0) errors.push('pr-quick checkout は関連差分用にfetch-depth: 0が必要です');
     requireJava17(quick, 'pr-quick');
-    if (!runs(quick).includes('bash examples/ci/pr-quick-check.sh')) {
-      errors.push('pr-quick job が canonical quick runner を実行していません');
+    requireManifestCache(quick, 'pr-quick');
+    const command = runs(quick).find((value) => value.includes('examples/ci/pr-quick-check.sh'));
+    if (!command || !command.includes('"$BASE_SHA"') || !command.includes('"$HEAD_SHA"')) {
+      errors.push('pr-quick job はbase/head SHAをcanonical quick runnerへ渡してください');
     }
-    requireArtifactUpload(quick, 'pr-quick', '.artifacts/manifest');
+    requireArtifact(quick, 'pr-quick');
   }
 
-  if (nightly) {
-    if (nightly.if !== "github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'") {
-      errors.push('nightly-deep job は schedule / workflow_dispatch のみに限定してください');
+  if (plan) {
+    if (plan.if !== MANUAL_IF) errors.push('matrix-plan job はschedule / workflow_dispatchだけに限定してください');
+    if (plan.outputs?.matrix !== '${{ steps.plan.outputs.matrix }}') errors.push('matrix-plan output がplan stepと接続されていません');
+    const command = runs(plan).find((value) => value.includes('scripts/plan-formal-matrix.js'));
+    if (!command || !command.includes('"$GITHUB_OUTPUT"')) errors.push('matrix-plan は検証済みplannerをGITHUB_OUTPUTへ書いてください');
+  }
+
+  if (matrix) {
+    if (matrix.if !== MANUAL_IF || matrix.needs !== 'matrix-plan') {
+      errors.push('tool-matrix job はschedule/manualかつmatrix-plan依存にしてください');
     }
-    requireJava17(nightly, 'nightly-deep');
-    const nightlyRuns = runs(nightly);
-    const requiredCommands = [
-      'bash tools/alloy-check.sh --repeat 10 examples/alloy/collection.als',
-      'bash tools/tlc-run.sh --config examples/tla/QueueBounded.cfg --depth 50 --time-limit 300 examples/tla/QueueBounded.tla',
-      'bash tools/apalache-check.sh --config examples/apalache/Counter.cfg --length 50 --init Init --next Next --inv Inv examples/apalache/Counter.tla',
-      'bash tools/dafny-verify.sh examples/dafny/Abs.dfy',
-      'node scripts/run-example-manifest.js --lane nightly',
-    ];
-    for (const command of requiredCommands) {
-      if (!nightlyRuns.includes(command)) errors.push(`nightly-deep command が不足しています: ${command}`);
+    if (matrix.strategy?.['fail-fast'] !== false) errors.push('tool-matrix strategy.fail-fast は false にしてください');
+    if (matrix.strategy?.matrix !== '${{ fromJSON(needs.matrix-plan.outputs.matrix) }}') {
+      errors.push('tool-matrix はvalidated plan outputだけをmatrixにしてください');
     }
-    const prerequisiteRun = nightlyRuns.find((command) => command.includes('sudo apt-get install --yes'));
-    const prerequisiteMarkers = [
-      'sudo apt-get update',
-      'bison',
-      'build-essential',
-      'flex',
-      'g++',
-      'gcc',
-      'm4',
-      'patch',
-      'pkg-config',
-      'python3',
-      'python3-venv',
-      'xz-utils',
-      'python3 -m venv tools/.tmp/nusmv-build-tools',
-      'tools/.tmp/nusmv-build-tools/bin/pip install',
-      '--require-hashes',
-      '--requirement tools/nusmv-build-requirements.txt',
-      '$GITHUB_WORKSPACE/tools/.tmp/nusmv-build-tools/bin',
-      '$GITHUB_PATH',
-    ];
-    if (!prerequisiteRun) {
-      errors.push('nightly-deep job に source-build prerequisites の導入手順がありません');
-    } else {
-      for (const marker of prerequisiteMarkers) {
-        if (!prerequisiteRun.includes(marker)) {
-          errors.push(`nightly-deep prerequisite が不足しています: ${marker}`);
-        }
-      }
+    if (matrix['runs-on'] !== 'ubuntu-24.04' || Number(matrix['timeout-minutes']) > 60) {
+      errors.push('tool-matrix はUbuntu 24.04かつ60分以内にしてください');
     }
-    const cacheStep = actionStep(nightly, 'actions/cache');
-    const cacheKey = cacheStep?.with?.key;
-    if (typeof cacheKey !== 'string' || !cacheKey.includes("tools/nusmv-build-requirements.txt")) {
-      errors.push('nightly-deep cache key に NuSMV build requirements の hash がありません');
+    requireJava17(matrix, 'tool-matrix');
+    requireManifestCache(matrix, 'tool-matrix');
+    const matrixRuns = runs(matrix);
+    if (!matrixRuns.includes('bash examples/ci/prepare-tool.sh "${{ matrix.tool }}"')) {
+      errors.push('tool-matrix はallowlist済みtool prerequisite scriptを実行してください');
     }
-    requireArtifactUpload(nightly, 'nightly-deep', '.artifacts');
+    if (!matrixRuns.includes('bash examples/ci/matrix-tool-check.sh "${{ matrix.tool }}" "${{ matrix.profile }}"')) {
+      errors.push('tool-matrix はcanonical isolated runnerを実行してください');
+    }
+    requireArtifact(matrix, 'tool-matrix');
   }
   return errors;
 }
 
 function documentationErrors(rootDir) {
   const required = {
-    'README.md': [
-      'node scripts/run-example-manifest.js --lane nightly',
-      'tools/nusmv-build-requirements.txt',
-    ],
-    'examples/ci/README.md': ['nightly-deep', 'Ubuntu 24.04 x86-64'],
-    'docs/chapters/chapter12/index.md': [
-      'actions/setup-node@v6',
-      'actions/setup-java@v5',
-      'Run pr-quick manifest lane',
-      'nightly-deep',
-      'node scripts/run-example-manifest.js --lane nightly',
-    ],
+    'README.md': ['tools/tool-manifest.json', 'workflow_dispatch', 'retention', 'declared budget'],
+    'examples/ci/README.md': ['matrix-plan', 'fail-fast', 'optional'],
+    'src/ja/chapters/chapter12.md': ['tool-matrix', 'scripts/plan-formal-matrix.js', 'resource-exhausted', 'OS/cgroup'],
+    'src/en/chapters/chapter12.md': ['tool-matrix', 'scripts/plan-formal-matrix.js', 'resource-exhausted', 'OS/cgroup'],
+    'src/ja/appendices/appendix-b.md': ['tools/tool-manifest.json', 'tool-inventory:start', 'Kani 0.67.0'],
+    'src/en/appendices/appendix-b.md': ['tools/tool-manifest.json', 'tool-inventory:start', 'Kani 0.67.0'],
+    'src/ja/appendices/appendix-e.md': ['tools/tool-manifest.json', 'documentation-only', 'optional/manual'],
+    'src/en/appendices/appendix-e.md': ['tools/tool-manifest.json', 'documentation-only', 'optional/manual'],
   };
-  for (const locale of ['ja', 'en']) {
-    for (const prefix of ['src', 'docs']) {
-      const file = prefix === 'src'
-        ? `${prefix}/${locale}/appendices/appendix-b.md`
-        : `${prefix}/${locale === 'ja' ? '' : 'en/'}appendices/appendix-b/index.md`;
-      required[file] = [
-        'node scripts/run-example-manifest.js --lane nightly',
-        'tools/nusmv-build-requirements.txt',
-        'Ubuntu 24.04 x86-64',
-      ];
-    }
-  }
-
   const errors = [];
   for (const [file, markers] of Object.entries(required)) {
     const absolutePath = path.join(rootDir, file);
@@ -176,75 +143,27 @@ function documentationErrors(rootDir) {
 }
 
 function runSelfTest() {
-  const valid = `
-on:
-  pull_request: {}
-  schedule: [{cron: "0 2 * * *"}]
-  workflow_dispatch: {}
-permissions: {contents: read}
-jobs:
-  pr-quick:
-    steps:
-      - uses: actions/setup-node@v6
-      - uses: actions/setup-java@v5
-        with: {distribution: temurin, java-version: '17'}
-      - run: bash examples/ci/pr-quick-check.sh
-      - uses: actions/upload-artifact@v7
-        with: {path: .artifacts/manifest, include-hidden-files: true}
-  nightly-deep:
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-    steps:
-      - uses: actions/setup-java@v5
-        with: {distribution: temurin, java-version: '17'}
-      - run: |
-          sudo apt-get update
-          sudo apt-get install --yes bison build-essential flex g++ gcc m4 patch pkg-config python3 python3-venv xz-utils
-          python3 -m venv tools/.tmp/nusmv-build-tools
-          tools/.tmp/nusmv-build-tools/bin/pip install --require-hashes --requirement tools/nusmv-build-requirements.txt
-          echo "$GITHUB_WORKSPACE/tools/.tmp/nusmv-build-tools/bin" >> "$GITHUB_PATH"
-      - uses: actions/cache@v5
-        with:
-          key: formal-tools-nightly-\${{ hashFiles('tools/nusmv-build-requirements.txt') }}
-      - run: bash tools/alloy-check.sh --repeat 10 examples/alloy/collection.als
-      - run: bash tools/tlc-run.sh --config examples/tla/QueueBounded.cfg --depth 50 --time-limit 300 examples/tla/QueueBounded.tla
-      - run: bash tools/apalache-check.sh --config examples/apalache/Counter.cfg --length 50 --init Init --next Next --inv Inv examples/apalache/Counter.tla
-      - run: bash tools/dafny-verify.sh examples/dafny/Abs.dfy
-      - run: node scripts/run-example-manifest.js --lane nightly
-      - uses: actions/upload-artifact@v7
-        with: {path: .artifacts, include-hidden-files: true}
-`;
-  if (workflowErrors(valid).length !== 0) throw new Error('valid workflow fixture was rejected');
-  const broken = valid.replace('node scripts/run-example-manifest.js --lane nightly', 'echo skipped');
-  if (!workflowErrors(broken).some((error) => error.includes('nightly-deep command'))) {
-    throw new Error('missing nightly runner fixture was not rejected');
-  }
-  const missingQuickJava = valid.replace('      - uses: actions/setup-java@v5\n        with: {distribution: temurin, java-version: \'17\'}\n', '');
-  if (!workflowErrors(missingQuickJava).some((error) => error.includes('pr-quick job に setup-java'))) {
-    throw new Error('missing pr-quick Java setup fixture was not rejected');
-  }
-  const missingNightlyPrerequisite = valid.replace('--require-hashes', '--no-compile');
-  if (!workflowErrors(missingNightlyPrerequisite).some((error) => error.includes('--require-hashes'))) {
-    throw new Error('missing hash-locked nightly prerequisite fixture was not rejected');
-  }
-  const missingNightlyJava = valid.replace(
-    "      - uses: actions/setup-java@v5\n        with: {distribution: temurin, java-version: '17'}\n      - run: |\n",
-    '      - run: |\n',
-  );
-  if (!workflowErrors(missingNightlyJava).some((error) => error.includes('nightly-deep job に setup-java'))) {
-    throw new Error('missing nightly Java setup fixture was not rejected');
-  }
-  const hiddenArtifactsExcluded = valid.replaceAll('include-hidden-files: true', 'include-hidden-files: false');
-  if (workflowErrors(hiddenArtifactsExcluded).filter((error) => error.includes('hidden な .artifacts')).length !== 2) {
-    throw new Error('hidden artifact exclusion fixture was not rejected for both lanes');
+  const validPath = path.join(REPO_ROOT, '.github', 'workflows', 'formal-checks.yml');
+  const valid = fs.readFileSync(validPath, 'utf8');
+  if (workflowErrors(valid).length !== 0) throw new Error(`current workflow was rejected: ${workflowErrors(valid).join(' | ')}`);
+  const mutations = [
+    ['fail-fast: false', 'fail-fast: true', 'fail-fast'],
+    ['retention-days: 14', 'retention-days: 90', 'retention 14'],
+    ['permissions:\n  contents: read', 'permissions:\n  contents: write', 'contents: read'],
+    ['fetch-depth: 0', 'fetch-depth: 1', 'fetch-depth'],
+    ['scripts/plan-formal-matrix.js', 'scripts/unvalidated-plan.js', 'planner'],
+  ];
+  for (const [from, to, diagnostic] of mutations) {
+    const broken = valid.replace(from, to);
+    if (broken === valid || !workflowErrors(broken).some((error) => error.includes(diagnostic))) {
+      throw new Error(`workflow mutation was not rejected: ${diagnostic}`);
+    }
   }
   console.log('OK: example workflow contract self-tests passed.');
 }
 
 function main() {
-  if (process.argv.includes('--self-test')) {
-    runSelfTest();
-    return;
-  }
+  if (process.argv.includes('--self-test')) return runSelfTest();
   if (process.argv.length > 2) {
     console.error('Usage: node scripts/check-example-workflow.js [--self-test]');
     process.exitCode = 2;
@@ -256,13 +175,13 @@ function main() {
     ...documentationErrors(REPO_ROOT),
   ];
   if (errors.length === 0) {
-    console.log('OK: example workflow jobs, lanes, artifacts, and reader documentation match.');
+    console.log('OK: PR selection, validated matrix, permissions, artifacts, and documentation match.');
     return;
   }
   for (const error of errors) console.error(error);
   process.exitCode = 1;
 }
 
-main();
+if (require.main === module) main();
 
 module.exports = { documentationErrors, workflowErrors };

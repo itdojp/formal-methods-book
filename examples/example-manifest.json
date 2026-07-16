@@ -1,10 +1,9 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "examples": [
     {
       "id": "alloy-collection",
       "tool": "alloy",
-      "version": "6.2.0",
       "chapter": "chapter04",
       "anchor": "executable-example-contracts",
       "references": [
@@ -21,13 +20,34 @@
       "lane": "pr-quick",
       "expected": {
         "exitCode": 0,
-        "stdoutMarker": "Alloy exec: examples/alloy/collection.als"
+        "stdoutMarker": "Alloy exec: examples/alloy/collection.als",
+        "outcome": "success"
+      },
+      "limits": {
+        "timeoutSeconds": 120,
+        "memoryMiB": 4096,
+        "seed": null,
+        "scope": "model command scope; repeat=1",
+        "depth": null,
+        "bound": "finite Alloy scope encoded in the asset"
+      },
+      "profiles": {
+        "nightly": {
+          "command": "bash tools/alloy-check.sh --out-dir .artifacts/manifest/alloy-collection--nightly/tool-output --repeat 10 examples/alloy/collection.als",
+          "limits": {
+            "timeoutSeconds": 300,
+            "memoryMiB": 6144,
+            "seed": null,
+            "scope": "collection model command scope; repeat=10",
+            "depth": null,
+            "bound": "finite Alloy scope encoded in the asset, up to 10 solutions"
+          }
+        }
       }
     },
     {
       "id": "alloy-university-enrollment",
       "tool": "alloy",
-      "version": "6.2.0",
       "chapter": "chapter04",
       "anchor": "executable-example-contracts",
       "references": [
@@ -44,13 +64,21 @@
       "lane": "pr-quick",
       "expected": {
         "exitCode": 0,
-        "stdoutMarker": "Alloy exec: examples/ch04/university-enrollment.als"
+        "stdoutMarker": "Alloy exec: examples/ch04/university-enrollment.als",
+        "outcome": "success"
+      },
+      "limits": {
+        "timeoutSeconds": 120,
+        "memoryMiB": 4096,
+        "seed": null,
+        "scope": "model command scope; repeat=1",
+        "depth": null,
+        "bound": "finite Alloy scope encoded in the asset"
       }
     },
     {
       "id": "alloy-leader-election",
       "tool": "alloy",
-      "version": "6.2.0",
       "chapter": "chapter04",
       "anchor": "executable-example-contracts",
       "references": [
@@ -67,13 +95,21 @@
       "lane": "pr-quick",
       "expected": {
         "exitCode": 0,
-        "stdoutMarker": "Alloy exec: examples/ch04/leader-election.als"
+        "stdoutMarker": "Alloy exec: examples/ch04/leader-election.als",
+        "outcome": "success"
+      },
+      "limits": {
+        "timeoutSeconds": 120,
+        "memoryMiB": 4096,
+        "seed": null,
+        "scope": "model command scope; repeat=1",
+        "depth": null,
+        "bound": "finite Alloy scope encoded in the asset"
       }
     },
     {
       "id": "alloy-trash-temporal",
       "tool": "alloy",
-      "version": "6.2.0",
       "chapter": "chapter04",
       "anchor": "executable-example-contracts",
       "references": [
@@ -90,13 +126,21 @@
       "lane": "pr-quick",
       "expected": {
         "exitCode": 0,
-        "stdoutMarker": "Alloy exec: examples/alloy/trash-temporal.als"
+        "stdoutMarker": "Alloy exec: examples/alloy/trash-temporal.als",
+        "outcome": "success"
+      },
+      "limits": {
+        "timeoutSeconds": 120,
+        "memoryMiB": 4096,
+        "seed": null,
+        "scope": "model command scope; repeat=1",
+        "depth": null,
+        "bound": "finite Alloy scope encoded in the asset"
       }
     },
     {
       "id": "tlc-queue-bounded",
       "tool": "tlc",
-      "version": "1.7.4",
       "chapter": "chapter07",
       "anchor": "tla-executable-example-contracts",
       "references": [
@@ -109,17 +153,38 @@
         "examples/tla/QueueBounded.tla"
       ],
       "config": "examples/tla/QueueBounded.cfg",
-      "command": "bash tools/tlc-run.sh --out-dir .artifacts/manifest/tlc-queue-bounded/tool-output --config examples/tla/QueueBounded.cfg --time-limit 60 examples/tla/QueueBounded.tla",
+      "command": "bash tools/tlc-run.sh --out-dir .artifacts/manifest/tlc-queue-bounded/tool-output --config examples/tla/QueueBounded.cfg --workers 1 --seed 20260716 --time-limit 60 examples/tla/QueueBounded.tla",
       "lane": "pr-quick",
       "expected": {
         "exitCode": 0,
-        "stdoutMarker": "Model checking completed. No error has been found."
+        "stdoutMarker": "Model checking completed. No error has been found.",
+        "outcome": "success"
+      },
+      "limits": {
+        "timeoutSeconds": 120,
+        "memoryMiB": 4096,
+        "seed": "20260716",
+        "scope": "QueueBounded.cfg constants and one worker",
+        "depth": null,
+        "bound": "finite reachable-state exploration from manifest config"
+      },
+      "profiles": {
+        "nightly": {
+          "command": "bash tools/tlc-run.sh --out-dir .artifacts/manifest/tlc-queue-bounded--nightly/tool-output --config examples/tla/QueueBounded.cfg --workers 1 --depth 50 --seed 20260716 --time-limit 300 examples/tla/QueueBounded.tla",
+          "limits": {
+            "timeoutSeconds": 360,
+            "memoryMiB": 6144,
+            "seed": "20260716",
+            "scope": "QueueBounded.cfg constants and one worker",
+            "depth": 50,
+            "bound": "finite reachable-state exploration with depth 50"
+          }
+        }
       }
     },
     {
       "id": "apalache-counter",
       "tool": "apalache",
-      "version": "0.52.1",
       "chapter": "chapter07",
       "anchor": "tla-executable-example-contracts",
       "references": [
@@ -136,13 +201,39 @@
       "lane": "pr-quick",
       "expected": {
         "exitCode": 0,
-        "stdoutMarker": "Checker reports no error up to computation length 10"
+        "stdoutMarker": "Checker reports no error up to computation length 10",
+        "outcome": "success"
+      },
+      "limits": {
+        "timeoutSeconds": 180,
+        "memoryMiB": 6144,
+        "seed": null,
+        "scope": "Init/Next/Inv",
+        "depth": 10,
+        "bound": "computation length 10"
+      },
+      "profiles": {
+        "nightly": {
+          "command": "bash tools/apalache-check.sh --out-dir .artifacts/manifest/apalache-counter--nightly/tool-output --config examples/apalache/Counter.cfg --length 50 --init Init --next Next --inv Inv examples/apalache/Counter.tla",
+          "expected": {
+            "exitCode": 0,
+            "stdoutMarker": "Checker reports no error up to computation length 50",
+            "outcome": "success"
+          },
+          "limits": {
+            "timeoutSeconds": 360,
+            "memoryMiB": 6144,
+            "seed": null,
+            "scope": "Init/Next/Inv",
+            "depth": 50,
+            "bound": "computation length 50"
+          }
+        }
       }
     },
     {
       "id": "dafny-abs",
       "tool": "dafny",
-      "version": "4.11.0",
       "chapter": "chapter09",
       "anchor": "dafny-executable-example-contracts",
       "references": [
@@ -159,13 +250,34 @@
       "lane": "pr-quick",
       "expected": {
         "exitCode": 0,
-        "stdoutMarker": "Dafny program verifier finished with 1 verified, 0 errors"
+        "stdoutMarker": "Dafny program verifier finished with 1 verified, 0 errors",
+        "outcome": "success"
+      },
+      "limits": {
+        "timeoutSeconds": 120,
+        "memoryMiB": 4096,
+        "seed": null,
+        "scope": "Abs.dfy verification conditions",
+        "depth": null,
+        "bound": "SMT verification of the supplied procedure contract"
+      },
+      "profiles": {
+        "nightly": {
+          "command": "bash tools/dafny-verify.sh examples/dafny/Abs.dfy",
+          "limits": {
+            "timeoutSeconds": 180,
+            "memoryMiB": 4096,
+            "seed": null,
+            "scope": "Abs.dfy verification conditions",
+            "depth": null,
+            "bound": "same proof obligations under the isolated nightly tool job"
+          }
+        }
       }
     },
     {
       "id": "spin-ltl-properties",
       "tool": "spin",
-      "version": "6.5.2",
       "chapter": "chapter08",
       "anchor": "model-checker-executable-example-contracts",
       "references": [
@@ -182,13 +294,21 @@
       "lane": "nightly",
       "expected": {
         "exitCode": 0,
-        "stdoutMarker": "errors: 0"
+        "stdoutMarker": "errors: 0",
+        "outcome": "success"
+      },
+      "limits": {
+        "timeoutSeconds": 180,
+        "memoryMiB": 4096,
+        "seed": null,
+        "scope": "mutual_exclusion never claim",
+        "depth": 100000,
+        "bound": "full-state pan search with -m100000"
       }
     },
     {
       "id": "spin-producer-consumer",
       "tool": "spin",
-      "version": "6.5.2",
       "chapter": "chapter08",
       "anchor": "model-checker-executable-example-contracts",
       "references": [
@@ -205,13 +325,21 @@
       "lane": "nightly",
       "expected": {
         "exitCode": 0,
-        "stdoutMarker": "errors: 0"
+        "stdoutMarker": "errors: 0",
+        "outcome": "success"
+      },
+      "limits": {
+        "timeoutSeconds": 180,
+        "memoryMiB": 4096,
+        "seed": null,
+        "scope": "all claims in producer-consumer model",
+        "depth": 100000,
+        "bound": "full-state pan search with -m100000"
       }
     },
     {
       "id": "nusmv-fairness",
       "tool": "nusmv",
-      "version": "2.7.1",
       "chapter": "chapter08",
       "anchor": "model-checker-executable-example-contracts",
       "references": [
@@ -228,13 +356,21 @@
       "lane": "nightly",
       "expected": {
         "exitCode": 0,
-        "stdoutMarker": "is true"
+        "stdoutMarker": "is true",
+        "outcome": "success"
+      },
+      "limits": {
+        "timeoutSeconds": 180,
+        "memoryMiB": 4096,
+        "seed": null,
+        "scope": "FAIRNESS/LTLSPEC in fairness.smv",
+        "depth": null,
+        "bound": "finite symbolic model encoded in the asset"
       }
     },
     {
       "id": "nusmv-request-response",
       "tool": "nusmv",
-      "version": "2.7.1",
       "chapter": "chapter08",
       "anchor": "model-checker-executable-example-contracts",
       "references": [
@@ -251,13 +387,21 @@
       "lane": "nightly",
       "expected": {
         "exitCode": 0,
-        "stdoutMarker": "is false"
+        "stdoutMarker": "is false",
+        "outcome": "counterexample"
+      },
+      "limits": {
+        "timeoutSeconds": 180,
+        "memoryMiB": 4096,
+        "seed": null,
+        "scope": "request-response LTLSPEC",
+        "depth": null,
+        "bound": "finite symbolic model encoded in the asset"
       }
     },
     {
       "id": "cbmc-array-bounds",
       "tool": "cbmc",
-      "version": "6.10.0",
       "chapter": "chapter08",
       "anchor": "model-checker-executable-example-contracts",
       "references": [
@@ -274,7 +418,78 @@
       "lane": "nightly",
       "expected": {
         "exitCode": 0,
-        "stdoutMarker": "VERIFICATION SUCCESSFUL"
+        "stdoutMarker": "VERIFICATION SUCCESSFUL",
+        "outcome": "success"
+      },
+      "limits": {
+        "timeoutSeconds": 180,
+        "memoryMiB": 4096,
+        "seed": null,
+        "scope": "bounds/pointer/signed-overflow checks",
+        "depth": null,
+        "bound": "loop-free input; unwinding assertions enabled"
+      }
+    },
+    {
+      "id": "quint-counter",
+      "tool": "quint",
+      "chapter": "appendix-b",
+      "anchor": "tool-lane-inventory",
+      "references": [
+        "src/ja/appendices/appendix-b.md",
+        "src/en/appendices/appendix-b.md",
+        "docs/appendices/appendix-b/index.md",
+        "docs/en/appendices/appendix-b/index.md"
+      ],
+      "assets": [
+        "examples/quint/counter.qnt"
+      ],
+      "config": null,
+      "command": "bash tools/quint-check.sh --out-dir .artifacts/manifest/quint-counter/tool-output --seed 20260716 --max-samples 1 examples/quint/counter.qnt",
+      "lane": "nightly",
+      "expected": {
+        "exitCode": 0,
+        "stdoutMarker": "2 passing",
+        "outcome": "success"
+      },
+      "limits": {
+        "timeoutSeconds": 120,
+        "memoryMiB": 4096,
+        "seed": "20260716",
+        "scope": "counter typecheck and two deterministic tests",
+        "depth": null,
+        "bound": "one sample per test with TypeScript evaluator"
+      }
+    },
+    {
+      "id": "kani-abs",
+      "tool": "kani",
+      "chapter": "appendix-b",
+      "anchor": "tool-lane-inventory",
+      "references": [
+        "src/ja/appendices/appendix-b.md",
+        "src/en/appendices/appendix-b.md",
+        "docs/appendices/appendix-b/index.md",
+        "docs/en/appendices/appendix-b/index.md"
+      ],
+      "assets": [
+        "examples/kani/abs.rs"
+      ],
+      "config": null,
+      "command": "bash tools/kani-check.sh --out-dir .artifacts/manifest/kani-abs/tool-output --harness abs_is_nonnegative --unwind 1 examples/kani/abs.rs",
+      "lane": "optional",
+      "expected": {
+        "exitCode": 0,
+        "stdoutMarker": "VERIFICATION:- SUCCESSFUL",
+        "outcome": "success"
+      },
+      "limits": {
+        "timeoutSeconds": 300,
+        "memoryMiB": 6144,
+        "seed": null,
+        "scope": "abs_is_nonnegative proof harness",
+        "depth": 1,
+        "bound": "CBMC unwind bound 1 with unwinding checks"
       }
     }
   ]

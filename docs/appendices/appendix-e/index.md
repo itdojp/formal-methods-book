@@ -11,6 +11,14 @@ source_path: "src/ja/appendices/appendix-e.md"
 本付録は、本文で扱った形式的手法・ツールについて、**一次情報（公式サイト/公式リポジトリ/公式ドキュメント/公式リリース）**へ到達するための索引である。
 2026-06 時点で、名称変更・主流ツールの更新（例：Coq→Rocq、CVC4→cvc5、Alloy 6 系、TLA+ の Apalache / Quint 等）を反映している。
 
+## 実行保証の読み方
+
+本付録への掲載は、リポジトリでの実行保証を意味しない。実行状態の正本は
+`tools/tool-manifest.json` と[付録Bの lane inventory]({{ '/appendices/appendix-b/#tool-lane-inventory' | relative_url }})である。
+Alloy、TLC、Apalache、Dafny は `pr-quick`、SPIN、NuSMV、CBMC、Quint は
+`nightly`、Kani は明示的な `optional/manual` で検証する。それ以外の掲載ツールは
+`documentation-only` であり、本書は固定バージョン、実行環境、実行結果を保証しない。
+
 ## 数値の出典ポリシー（本書共通）
 
 - **報告値（実測/事例）**：一次・準一次情報（論文/公式ブログ/公式レポート等）への出典URLを必須とする。

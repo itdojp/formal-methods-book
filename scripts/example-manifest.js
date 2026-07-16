@@ -3,9 +3,16 @@
 
 const fs = require('fs');
 const path = require('path');
+const {
+  EXECUTABLE_LANES,
+  getTool,
+  loadToolManifest,
+  validateToolManifest,
+} = require('./tool-manifest');
 
 const MANIFEST_PATH = 'examples/example-manifest.json';
-const VALID_LANES = new Set(['pr-quick', 'nightly']);
+const VALID_LANES = EXECUTABLE_LANES;
+const VALID_OUTCOMES = new Set(['success', 'counterexample']);
 const DOCUMENT_PATTERN = /^(?:chapter\d{2}|appendix-[a-z0-9]+(?:-[a-z0-9]+)*)$/;
 const TOOL_WRAPPERS = Object.freeze({
   alloy: 'tools/alloy-check.sh',
@@ -15,6 +22,8 @@ const TOOL_WRAPPERS = Object.freeze({
   spin: 'tools/spin-check.sh',
   nusmv: 'tools/nusmv-check.sh',
   cbmc: 'tools/cbmc-check.sh',
+  quint: 'tools/quint-check.sh',
+  kani: 'tools/kani-check.sh',
 });
 const TOOL_OPTION_CONTRACTS = Object.freeze({
   alloy: {
@@ -28,6 +37,8 @@ const TOOL_OPTION_CONTRACTS = Object.freeze({
       '--config': 'config',
       '--depth': { type: 'positiveInteger', max: 1000 },
       '--time-limit': { type: 'positiveInteger', max: 900 },
+      '--workers': { type: 'positiveInteger', max: 32 },
+      '--seed': { type: 'nonNegativeInteger', max: Number.MAX_SAFE_INTEGER },
     },
   },
   apalache: {
@@ -45,6 +56,22 @@ const TOOL_OPTION_CONTRACTS = Object.freeze({
   spin: { flags: new Set(), values: { '--out-dir': 'artifact', '--claim': 'identifier' } },
   nusmv: { flags: new Set(), values: {} },
   cbmc: { flags: new Set(), values: {} },
+  quint: {
+    flags: new Set(),
+    values: {
+      '--out-dir': 'artifact',
+      '--seed': { type: 'nonNegativeInteger', max: Number.MAX_SAFE_INTEGER },
+      '--max-samples': { type: 'positiveInteger', max: 10000 },
+    },
+  },
+  kani: {
+    flags: new Set(),
+    values: {
+      '--out-dir': 'artifact',
+      '--harness': 'identifier',
+      '--unwind': { type: 'positiveInteger', max: 1000 },
+    },
+  },
 });
 
 function toPosixPath(value) {
@@ -138,6 +165,11 @@ function parseManifestCommand(entry) {
       if (typeof valueContract === 'object' && Number(value) > valueContract.max) {
         throw new Error(`${token} は ${valueContract.max} 以下にしてください`);
       }
+    } else if (valueType === 'nonNegativeInteger') {
+      if (!/^\d+$/.test(value)) throw new Error(`${token} は0以上の整数にしてください`);
+      if (typeof valueContract === 'object' && Number(value) > valueContract.max) {
+        throw new Error(`${token} は ${valueContract.max} 以下にしてください`);
+      }
     } else if (valueType === 'identifier') {
       if (!/^[A-Za-z_][A-Za-z0-9_-]*$/.test(value)) throw new Error(`${token} の識別子が不正です`);
     }
@@ -161,7 +193,7 @@ function validateManifest(manifest, options = {}) {
   const errors = [];
   const ids = new Set();
   const assets = new Map();
-  const versions = new Map();
+  let toolManifest = options.toolManifest || null;
 
   function add(message, entryId = null) {
     errors.push({
@@ -171,14 +203,64 @@ function validateManifest(manifest, options = {}) {
     });
   }
 
+  function validateExpected(expected, label, entryId) {
+    if (!expected || typeof expected !== 'object' || Array.isArray(expected)) {
+      add(`${label} は object である必要があります`, entryId);
+      return;
+    }
+    if (!Number.isInteger(expected.exitCode) || expected.exitCode < 0) {
+      add(`${label}.exitCode は0以上の integer である必要があります`, entryId);
+    }
+    if (typeof expected.stdoutMarker !== 'string' || expected.stdoutMarker.length === 0 || /[\r\n]/.test(expected.stdoutMarker)) {
+      add(`${label}.stdoutMarker は改行を含まない空でない string である必要があります`, entryId);
+    }
+    if (!VALID_OUTCOMES.has(expected.outcome)) {
+      add(`${label}.outcome は ${Array.from(VALID_OUTCOMES).join(' / ')} のいずれかである必要があります`, entryId);
+    }
+  }
+
+  function validateLimits(limits, label, entryId) {
+    if (!limits || typeof limits !== 'object' || Array.isArray(limits)) {
+      add(`${label} は object である必要があります`, entryId);
+      return;
+    }
+    for (const field of ['timeoutSeconds', 'memoryMiB']) {
+      if (!Number.isSafeInteger(limits[field]) || limits[field] <= 0) {
+        add(`${label}.${field} は正の safe integer である必要があります`, entryId);
+      }
+    }
+    for (const field of ['seed', 'scope', 'depth', 'bound']) {
+      if (!Object.prototype.hasOwnProperty.call(limits, field)) add(`${label}.${field} を明示してください`, entryId);
+    }
+    if (limits.seed !== null && typeof limits.seed !== 'string') add(`${label}.seed は string または null にしてください`, entryId);
+    if (limits.scope !== null && typeof limits.scope !== 'string') add(`${label}.scope は string または null にしてください`, entryId);
+    if (limits.depth !== null && (!Number.isSafeInteger(limits.depth) || limits.depth < 0)) {
+      add(`${label}.depth は0以上の safe integer または null にしてください`, entryId);
+    }
+    if (limits.bound !== null && typeof limits.bound !== 'string') add(`${label}.bound は string または null にしてください`, entryId);
+  }
+
   if (!manifest || typeof manifest !== 'object' || Array.isArray(manifest)) {
     add('manifest の最上位は object である必要があります');
     return errors;
   }
-  if (manifest.schemaVersion !== 1) add('schemaVersion は 1 である必要があります');
+  if (manifest.schemaVersion !== 2) add('schemaVersion は 2 である必要があります');
   if (!Array.isArray(manifest.examples) || manifest.examples.length === 0) {
     add('examples は1件以上の配列である必要があります');
     return errors;
+  }
+
+  if (!toolManifest) {
+    try {
+      toolManifest = loadToolManifest(rootDir).manifest;
+    } catch (error) {
+      add(error.message);
+    }
+  }
+  if (toolManifest) {
+    for (const error of validateToolManifest(toolManifest, { rootDir, checkFiles })) {
+      add(`tool manifest: ${error.message}`);
+    }
   }
 
   for (const entry of manifest.examples) {
@@ -195,7 +277,7 @@ function validateManifest(manifest, options = {}) {
       ids.add(entry.id);
     }
 
-    for (const field of ['tool', 'version', 'chapter', 'anchor', 'command', 'lane']) {
+    for (const field of ['tool', 'chapter', 'anchor', 'command', 'lane']) {
       if (typeof entry[field] !== 'string' || entry[field].trim() === '') {
         add(`${field} は空でない string である必要があります`, id);
       }
@@ -210,14 +292,13 @@ function validateManifest(manifest, options = {}) {
     if (!VALID_LANES.has(entry.lane)) {
       add(`lane は ${Array.from(VALID_LANES).join(' / ')} のいずれかである必要があります`, id);
     }
-
-    if (typeof entry.tool === 'string' && typeof entry.version === 'string') {
-      const previousVersion = versions.get(entry.tool);
-      if (previousVersion && previousVersion !== entry.version) {
-        add(`同じ tool に複数 version があります: ${previousVersion}, ${entry.version}`, id);
-      } else {
-        versions.set(entry.tool, entry.version);
-      }
+    if (Object.prototype.hasOwnProperty.call(entry, 'version')) {
+      add('version を example に重複記載せず tool manifest から参照してください', id);
+    }
+    if (toolManifest && typeof entry.tool === 'string') {
+      const tool = getTool(toolManifest, entry.tool);
+      if (!tool) add(`tool manifest に未登録です: ${entry.tool}`, id);
+      else if (tool.lane !== entry.lane) add(`lane は tool manifest の ${tool.lane} と一致させてください`, id);
     }
 
     if (!Array.isArray(entry.references) || entry.references.length === 0) {
@@ -284,18 +365,31 @@ function validateManifest(manifest, options = {}) {
       }
     }
 
-    if (!entry.expected || typeof entry.expected !== 'object' || Array.isArray(entry.expected)) {
-      add('expected は object である必要があります', id);
-    } else {
-      if (!Number.isInteger(entry.expected.exitCode) || entry.expected.exitCode < 0) {
-        add('expected.exitCode は0以上の integer である必要があります', id);
-      }
-      if (
-        typeof entry.expected.stdoutMarker !== 'string' ||
-        entry.expected.stdoutMarker.length === 0 ||
-        /[\r\n]/.test(entry.expected.stdoutMarker)
-      ) {
-        add('expected.stdoutMarker は改行を含まない空でない string である必要があります', id);
+    validateExpected(entry.expected, 'expected', id);
+    validateLimits(entry.limits, 'limits', id);
+
+    if (entry.profiles !== undefined) {
+      if (!entry.profiles || typeof entry.profiles !== 'object' || Array.isArray(entry.profiles)) {
+        add('profiles は object である必要があります', id);
+      } else {
+        for (const [profileName, profile] of Object.entries(entry.profiles)) {
+          if (profileName !== 'nightly') add(`未対応の profile です: ${profileName}`, id);
+          if (!profile || typeof profile !== 'object' || Array.isArray(profile)) {
+            add(`profiles.${profileName} は object である必要があります`, id);
+            continue;
+          }
+          if (typeof profile.command !== 'string' || profile.command.trim() === '') {
+            add(`profiles.${profileName}.command は空でない string である必要があります`, id);
+          } else {
+            try {
+              parseManifestCommand({ ...entry, ...profile, id: `${entry.id}--${profileName}` });
+            } catch (error) {
+              add(`profiles.${profileName}: ${error.message}`, id);
+            }
+          }
+          validateLimits(profile.limits, `profiles.${profileName}.limits`, id);
+          if (profile.expected !== undefined) validateExpected(profile.expected, `profiles.${profileName}.expected`, id);
+        }
       }
     }
   }
@@ -312,6 +406,7 @@ module.exports = {
   MANIFEST_PATH,
   TOOL_WRAPPERS,
   VALID_LANES,
+  VALID_OUTCOMES,
   expectedReferences,
   isSafeRepositoryPath,
   loadManifest,

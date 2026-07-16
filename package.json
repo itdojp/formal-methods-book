@@ -17,7 +17,7 @@
     "qa:bilingual:inventory": "node scripts/check-bilingual-integrity.js --inventory",
     "test": "npm run lint && npm run lint-structure && npm run check-links",
     "lint": "markdownlint 'src/ja/**/*.md' 'src/en/**/*.md' --ignore src/ja/appendices/appendices_draft.md --ignore src/en/appendices/appendices_draft.md",
-    "lint-structure": "npm run check:metadata && npm run test:bilingual-integrity && npm run check:repository-hygiene && npm run check:tool-blocks && npm run check:example-manifest && npm run check:example-runner && npm run check:tool-cli && npm run check:example-workflow && npm run check:tla-semantics && npm run check:guarantees && node scripts/check-manuscript-guardrails.js docs && npm run qa:bilingual",
+    "lint-structure": "npm run check:metadata && npm run test:bilingual-integrity && npm run check:repository-hygiene && npm run check:tool-blocks && npm run check:tool-inventory && npm run check:example-manifest && npm run check:example-runner && npm run check:tool-cli && npm run check:matrix-plan && npm run check:example-workflow && npm run check:tla-semantics && npm run check:guarantees && node scripts/check-manuscript-guardrails.js docs && npm run qa:bilingual",
     "check-links": "markdown-link-check -c .markdown-link-check.json -q -p src/ja/index.md && markdown-link-check -c .markdown-link-check.json -q -p src/ja/glossary/index.md && markdown-link-check -c .markdown-link-check.json -q -p src/ja/chapters/*.md && markdown-link-check -c .markdown-link-check.json -q -p src/ja/appendices/appendix-*.md && markdown-link-check -c .markdown-link-check.json -q -p src/ja/introduction/index.md && markdown-link-check -c .markdown-link-check.json -q -p src/ja/afterword/index.md && markdown-link-check -c .markdown-link-check.json -q -p src/en/index.md && markdown-link-check -c .markdown-link-check.json -q -p src/en/glossary/index.md && markdown-link-check -c .markdown-link-check.json -q -p src/en/chapters/*.md && markdown-link-check -c .markdown-link-check.json -q -p src/en/appendices/appendix-*.md && markdown-link-check -c .markdown-link-check.json -q -p src/en/introduction/index.md && markdown-link-check -c .markdown-link-check.json -q -p src/en/afterword/index.md && markdown-link-check -c .markdown-link-check.json -q -p docs/index.md && markdown-link-check -c .markdown-link-check.json -q -p docs/afterword/index.md && markdown-link-check -c .markdown-link-check.json -q -p docs/en/index.md && markdown-link-check -c .markdown-link-check.json -q -p docs/en/afterword/index.md && markdown-link-check -c .markdown-link-check.json -q -p docs/_includes/generated/*.md",
     "deploy": "gh-pages -d docs",
     "check:metadata": "npm run test:metadata-renderer && npm run test:publication-build && node scripts/check-publish-metadata.js",
@@ -25,13 +25,16 @@
     "check:tla-semantics": "node scripts/check-tla-semantics.js --self-test && node scripts/check-tla-semantics.js",
     "check:guarantees": "node scripts/check-guarantee-boundaries.js --self-test && node scripts/check-guarantee-boundaries.js",
     "check:tool-blocks": "node scripts/check-tool-blocks.js --self-test && node scripts/check-tool-blocks.js",
+    "check:tool-inventory": "node scripts/check-tool-inventory.js --self-test && node scripts/check-tool-inventory.js",
     "check:example-manifest": "node scripts/check-tool-example-links.js --self-test && node scripts/check-tool-example-links.js",
     "check:example-manifest:self-test": "node scripts/check-tool-example-links.js --self-test",
     "check:example-runner": "node scripts/test-example-runner.js",
     "check:tool-cli": "node scripts/test-tool-cli-arguments.js",
+    "check:matrix-plan": "node scripts/plan-formal-matrix.js --self-test && node scripts/plan-formal-matrix.js --event schedule --lane nightly --tool all",
     "check:example-workflow": "node scripts/check-example-workflow.js --self-test && node scripts/check-example-workflow.js",
     "examples:pr-quick": "bash examples/ci/pr-quick-check.sh",
-    "examples:nightly": "node scripts/run-example-manifest.js --lane nightly"
+    "examples:nightly": "node scripts/run-example-manifest.js --lane nightly",
+    "examples:optional": "node scripts/run-example-manifest.js --lane optional"
   },
   "keywords": [
     "book",
