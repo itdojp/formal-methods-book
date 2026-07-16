@@ -838,6 +838,45 @@
       }
     },
     {
+      "id": "rtlola",
+      "name": "RTLola",
+      "aliases": [
+        "RTLola",
+        "runtime verification"
+      ],
+      "lane": "nightly",
+      "reason": {
+        "ja": "固定crates.io source packageを安全に再展開し、固定Rust toolchainとCargo.lockで構築したCLIにより、架空の有限CSV traceをoffline監視する。",
+        "en": "Safely re-extracts a pinned crates.io source package, builds the CLI with a pinned Rust toolchain and Cargo.lock, and monitors fictional finite CSV traces offline."
+      },
+      "version": "0.1.2",
+      "wrapper": "tools/rtlola-check.sh",
+      "distribution": {
+        "url": "https://static.crates.io/crates/rtlola-cli/rtlola-cli-0.1.2.crate",
+        "sha256": "201d59baa85ada76ece2cf3574a27ba7eebc614f2056fd19bcfce0a4b313b7ca"
+      },
+      "platforms": [
+        "ubuntu-x86_64"
+      ],
+      "sources": [
+        "https://github.com/reactive-systems/RTLola-Interpreter/commit/11b6bb080a5fa487645fb023fb3d0baea6874e73",
+        "https://docs.rs/crate/rtlola-cli/0.1.2"
+      ],
+      "commit": "11b6bb080a5fa487645fb023fb3d0baea6874e73",
+      "cargoLockSha256": "b3b018d6799c6fc0829f922f3dd0971d611565c50dcd7a928083b756286a1932",
+      "rustToolchain": "1.87.0",
+      "rustcCommit": "17067e9ac6d7ecb70e50f92c1944e545188d2359",
+      "cargoCommit": "99624be96e9d213b0e9b1e36451271f24e4a41d8",
+      "rustHost": "x86_64-unknown-linux-gnu",
+      "rustToolchainManifest": {
+        "url": "https://static.rust-lang.org/dist/channel-rust-1.87.0.toml",
+        "sha256": "2949b5ea91e3f9c45e75ff2fc6cfc7776616c693ab599ed43abc2120b7522415"
+      },
+      "licenses": {
+        "tool": "Apache-2.0"
+      }
+    },
+    {
       "id": "yices",
       "name": "Yices",
       "aliases": [

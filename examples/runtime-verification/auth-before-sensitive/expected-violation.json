@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "propertyId": "auth-before-sensitive-operation",
+  "traceRole": "violation",
+  "expectedResult": "expected-violation",
+  "eventSchema": {
+    "columns": [
+      "auth_success",
+      "sensitive_operation",
+      "time"
+    ],
+    "timestampColumn": "time",
+    "timestampMode": "relative-float-secs",
+    "ordering": "strictly-increasing",
+    "duplicates": "rejected",
+    "missingEvents": "not-detectable-without-an-external-heartbeat",
+    "sampling": "complete-fixed-teaching-trace",
+    "clockSkew": "not-applicable-to-one-relative-clock"
+  },
+  "expectedViolations": [
+    {
+      "time": "1.000000000",
+      "message": "AUTH_BEFORE_SENSITIVE violated"
+    }
+  ]
+}

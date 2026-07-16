@@ -112,6 +112,34 @@ const cases = [
     expected: 'cvc5 --out-dir must be under the repository .artifacts directory',
   },
   {
+    command: 'tools/rtlola-check.sh',
+    args: ['--out-dir'],
+    expected: 'Missing value for --out-dir',
+  },
+  {
+    command: 'tools/rtlola-check.sh',
+    args: ['--time-limit', '0'],
+    expected: 'Missing or invalid value for --time-limit',
+  },
+  {
+    command: 'tools/rtlola-check.sh',
+    args: [
+      'examples/runtime-verification/auth-before-sensitive/auth-before-sensitive.lola',
+      'examples/runtime-verification/auth-before-sensitive/normal.csv',
+    ],
+    expected: 'RTLola expected-results contract not found',
+  },
+  {
+    command: 'tools/rtlola-check.sh',
+    args: [
+      '--out-dir', '../../outside',
+      'examples/runtime-verification/auth-before-sensitive/auth-before-sensitive.lola',
+      'examples/runtime-verification/auth-before-sensitive/normal.csv',
+      'examples/runtime-verification/auth-before-sensitive/expected-normal.json',
+    ],
+    expected: 'RTLola --out-dir must be under the repository .artifacts directory',
+  },
+  {
     command: 'tools/kani-check.sh',
     args: ['--harness'],
     expected: 'Missing value for --harness',
@@ -240,6 +268,16 @@ try {
 }
 
 const { manifest: validToolManifest } = loadToolManifest(repoRoot);
+{
+  const fixture = JSON.parse(JSON.stringify(validToolManifest));
+  const rtlola = fixture.tools.find((tool) => tool.id === 'rtlola');
+  rtlola.cargoLockSha256 = 'invalid';
+  const errors = validateToolManifest(fixture, { rootDir: repoRoot, checkFiles: false });
+  if (!errors.some((error) => error.message.includes('cargoLockSha256'))) {
+    throw new Error('RTLola manifest accepted an invalid Cargo.lock digest');
+  }
+}
+
 for (const field of ['rustToolchain', 'rustToolchainManifest']) {
   const fixture = JSON.parse(JSON.stringify(validToolManifest));
   const cvc5 = fixture.tools.find((tool) => tool.id === 'cvc5');

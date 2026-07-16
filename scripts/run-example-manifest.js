@@ -144,6 +144,7 @@ function runEntry(entry, options = {}) {
   const toolDependencies = Object.fromEntries(
     [
       'rustToolchain',
+      'cargoLockSha256',
       'embeddedCbmcVersion',
       'maudeVersion',
       'maudeCommit',

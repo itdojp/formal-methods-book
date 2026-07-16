@@ -154,6 +154,7 @@ function validateInventory(rootDir, options = {}) {
     'tools/prism-check.sh',
     'tools/tamarin-check.sh',
     'tools/kani-check.sh',
+    'tools/rtlola-check.sh',
     '.github/workflows/formal-checks.yml',
     'examples/example-manifest.json',
   ];

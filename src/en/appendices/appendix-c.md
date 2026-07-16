@@ -193,3 +193,22 @@ This table is the minimum bridge needed for the Chapter 8 arbiter example, not a
 
 An `assert` can pass vacuously when an over-strong `assume` removes the defective trace.
 Use `cover` to confirm important environment conditions such as simultaneous requests, and do not treat an unreachable cover as a safety success.
+
+### C.3.12 RTLola: Minimal Correspondence for Runtime Verification
+
+Runtime verification checks an event trace obtained through instrumentation against a property; it does not explore every behavior of a design model.
+This table is the minimum bridge needed for the Chapter 11 authentication example, not a full RTLola or stream-processing syntax reference.
+
+| Runtime-verification concept | Chapter 11 expression | Checking meaning | Evidence to retain |
+| --- | --- | --- | --- |
+| Input event field | `auth_success`, `sensitive_operation`, `time` | Observation passed from a CSV row to the monitor | Schema, unit, type, missing-data policy |
+| Derived state / output stream | `authenticated` | Monitor state remembering a prior successful authentication | Initial value, update expression, session boundary |
+| Previous value | `offset(by: -1).defaults(to: false)` | Previous event's monitor state and its initial default | Offset semantics, trace start |
+| Trigger | Sensitive operation before authentication | Verdict for a safety-property violation | Timestamp, message, property ID |
+| Finite trace | Three-row relative-time CSV | Check only the observed finite prefix | First/last time, row count, input hash |
+| Online / offline | This example uses `--offline relative-float-secs` | Deterministically replay a retained trace | Mode, clock, ordering, tool version |
+| No violation | Zero findings for the normal trace | No target violation was detected in that prefix | Explicit non-claim about unobserved runs |
+| Expected violation | One finding for the violating trace | The monitor detects a known violation | Comparison with an independently derived expected result |
+
+Do not move infinite-trace LTL operators such as `G` or `F` onto a finite log without defining the end-of-trace `true` / `false` / inconclusive result, deadlines, and missing-data handling.
+If an event is never collected, the monitor cannot infer that fact automatically, so evaluate observability and monitorability separately from the property itself.

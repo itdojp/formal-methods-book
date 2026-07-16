@@ -20,6 +20,8 @@
 
 **アサーション（Assertion）** - プログラムの特定の時点で成り立つべき条件を表明する文。プログラム検証の基本要素。→第10章
 
+**runtime assertion（実行時アサーション）** - 実行中の特定地点で条件を評価し、違反時に停止、例外、log等を発生させるcheck。外部event monitorによるruntime verificationとは対象範囲と故障分離を区別する。→第11章
+
 **Aeneas** - Rustプログラムを Charon/LLBC 経由で F*、Rocq/Coq、HOL4、Lean などの証明支援系へ接続する検証ツールチェーン。変換対象と未対応機能を確認して使う。→第10章
 
 **Amazon Bedrock Guardrails Automated Reasoning checks** - LLM出力を、形式化されたポリシーやドメイン知識に照らして検査する Amazon Bedrock Guardrails の機能。LLMそのものの正しさ証明ではなく、ポリシー範囲、自然言語から論理への変換、対応言語、API制限を確認して使う。→第13章,付録E
@@ -66,6 +68,8 @@
 
 ## F
 
+**finite-trace semantics（有限トレース意味論）** - 取得済みの有限event列と終端に対してpropertyの成立、違反、未決定をどう解釈するかを定める意味論。→第11章,付録C
+
 **FLP 不可能性定理** - 完全非同期、決定論的プロセス、最大一つの停止故障の下で、すべての許容実行における合意の終了を保証できないという結果。部分同期、故障検出器、乱択は仮定を変更する。→第7章,付録E
 
 ## G
@@ -108,6 +112,8 @@
 
 **model / witness（モデル / 証人）** - `sat` のときに solver が返す具体的な割当てや到達例。エンコード済み制約に対する充足例であり、自然言語要件や元仕様の妥当性そのものは別途レビューする。→第12章,付録C
 
+**monitorability（監視可能性）** - 選んだ意味論の下で、propertyの成立または違反を観測された有限prefixから判定できる性質。observabilityとは別に評価する。→第11章,付録C
+
 **Move Prover** - Move スマートコントラクトに形式仕様を付け、論理的性質を自動検証するツール。資産・権限・不変条件の検査に有用だが、仕様誤りや未モデル化範囲は別途管理する。→第13章,付録E
 
 **模型検査（Model Checking）** - 指定したモデルの状態空間と性質を探索・検査する手法。網羅性はモデル、性質、設定、fairness、完走状態の範囲に相対的である。→第8章
@@ -117,6 +123,10 @@
 **有界探索（Bounded analysis）** - 要素数、探索深さ、steps などの境界を固定し、その範囲で反例や証跡を探す方法。→第4章,第8章
 
 **有界模型検査（Bounded Model Checking）** - 遷移回数や入力範囲を有限に制限し、その範囲で性質違反を探索する模型検査。Alloyの`steps`、Apalache/Kaniの探索境界などは、一般証明ではなく境界付き結果として読む。→第4章,第8章,第12章
+
+## O
+
+**observability（可観測性）** - 判定に必要なsystem状態や因果関係をevent、metric、traceから再構成できる度合い。必要eventが欠落すればruntime判定の根拠は得られない。→第11章
 
 ## P
 
@@ -139,6 +149,10 @@
 **reward property** - 状態や遷移へ付けたattempt数、時間、energy、cost等について、累積値や到達までの期待値を問う確率property。→第8章,付録C
 
 **Rocq（旧称Coq）** - 依存型理論に基づく証明支援系。2025年以降は The Rocq Prover が公式名称だが、既存資料では Coq 名も残るため併記して扱う。→第9章
+
+**RTLola** - typed streamとtriggerでevent列のpropertyを記述し、onlineまたはofflineでmonitorするruntime verification言語・toolchain。→第11章,付録B,付録E
+
+**runtime verification（実行時検証）** - 実行中または保存済みのevent traceを形式propertyへ照合し、観測trace上の違反、非違反、未決定を判定する方法。→第11章,付録C
 
 ## S
 

@@ -475,6 +475,11 @@ Continuously observe formally stated performance properties—such as response t
 **Log-based verification**:  
 Use system logs to verify whether important properties, such as security policies and business rules, continue to hold during operation.
 
+The Chapter 11 RTLola example places a normal trace and a known violating trace in independent entries of the `nightly` matrix.
+The normal entry regresses a zero-violation result, while the violating entry regresses detection of exactly one expected violation; both retain input hashes, pinned tool provenance, `results.json`, `violation-report.json`, and `summary.log` as artifacts.
+This placement is not a substitute for production monitoring: it checks in CI that the property, wrapper, finite-trace semantics, and violation-report contract have not regressed.
+Reanalysis of operational traces still requires explicit PII minimization, retention, access control, and evidence for missing, reordered, or duplicated events instead of unrestricted retention of raw logs.
+
 **Building a feedback loop**:  
 Feed issues found in production back into the development process so that verification content can be improved based on real operational evidence.
 

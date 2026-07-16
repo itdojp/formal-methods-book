@@ -119,9 +119,9 @@ node scripts/check-search-index.js --site _site
 
 ## 実行可能 example と CI
 
-`tools/tool-manifest.json` は、本文で扱う54 tool/serviceのlane、実行版、公式配布物URL/digest、artifact上限、月次更新方針の正本です。`documentation-only` は紹介だけで実行保証がないことを明示します。versionはshell、workflow、exampleへ重複記載せず、このmanifestから参照します。
+`tools/tool-manifest.json` は、本文で扱う55 tool/serviceのlane、実行版、公式配布物URL/digest、artifact上限、月次更新方針の正本です。`documentation-only` は紹介だけで実行保証がないことを明示します。versionはshell、workflow、exampleへ重複記載せず、このmanifestから参照します。
 
-`examples/example-manifest.json` は、本文の strict tool label と自己完結した asset、実行 command、期待outcome、timeout/memory/seed/scope/depth/bound、CI lane を結ぶ正本です。現在のinventoryはAlloy 4件、TLC 1件、Apalache 1件、Dafny 1件、SPIN 2件、NuSMV 2件、CBMC 1件、Quint 1件、PRISM 1件、Tamarin 2件、SymbiYosys 3件、cvc5 / Carcara 1件、Kani 1件の計21件です。
+`examples/example-manifest.json` は、本文の strict tool label と自己完結した asset、実行 command、期待outcome、timeout/memory/seed/scope/depth/bound、CI lane を結ぶ正本です。現在のinventoryはAlloy 4件、TLC 1件、Apalache 1件、Dafny 1件、SPIN 2件、NuSMV 2件、CBMC 1件、Quint 1件、PRISM 1件、Tamarin 2件、SymbiYosys 3件、cvc5 / Carcara 1件、RTLola 2件、Kani 1件の計23件です。
 `memoryMiB` はCI容量計画の declared budget であり、OS/cgroupによる強制上限ではありません。強制されるのはrunner timeoutとstdout/stderr上限で、retained tool outputは実行後に上限を検査します。
 
 個別契約または lane は manifest runner から実行します。
@@ -134,7 +134,7 @@ node scripts/run-example-manifest.js --lane optional
 ```
 
 - `pr-quick`: Alloy 6.2.0、TLC 1.7.4、Apalache 0.52.1、Dafny 4.11.0
-- `nightly`: SPIN、NuSMV、CBMC、Quint、PRISM、Tamarin、SymbiYosys、cvc5 / Carcara。Alloy/TLC/Apalache/Dafnyには独立matrix用のdeep profileもある
+- `nightly`: SPIN、NuSMV、CBMC、Quint、PRISM、Tamarin、SymbiYosys、cvc5 / Carcara、RTLola。Alloy/TLC/Apalache/Dafnyには独立matrix用のdeep profileもある
 - `optional/manual`: Kani。明示的な`workflow_dispatch`だけで実行する
 - 実行証跡: `.artifacts/manifest/<id>/metadata.json`、`command.txt`、`stdout.log`、`stderr.log`
 
@@ -143,7 +143,7 @@ runner は成否にかかわらず4ファイルを作成します。`metadata.js
 
 PRではbase/head差分をmanifestのasset、reference、config、wrapperへ照合し、関連する`pr-quick`だけを実行します。manifest/runner/bootstrap等の共通基盤変更はfail-safeで7件すべてを実行します。引数なしのローカル実行も従来どおり全件です。
 
-schedule / workflow dispatchは`matrix-plan`がallowlist済みtool/profileを生成し、`tool-matrix`が`fail-fast: false`で独立実行します。scheduleのnightlyは4つのdeep profileとSPIN/NuSMV/CBMC/Quint/PRISM/Tamarin/SymbiYosys/cvc5を実行し、1 toolの失敗後も他toolのartifactを回収します。manual dispatchはlaneとtool IDを選べますが、workflow権限は`contents: read`だけで、untrusted PRからoptional laneを起動しません。
+schedule / workflow dispatchは`matrix-plan`がallowlist済みtool/profileを生成し、`tool-matrix`が`fail-fast: false`で独立実行します。scheduleのnightlyは4つのdeep profileとSPIN/NuSMV/CBMC/Quint/PRISM/Tamarin/SymbiYosys/cvc5/RTLolaを実行し、1 toolの失敗後も他toolのartifactを回収します。manual dispatchはlaneとtool IDを選べますが、workflow権限は`contents: read`だけで、untrusted PRからoptional laneを起動しません。
 
 ローカルの `nightly` lane は Ubuntu 24.04 x86-64 または互換環境を対象とします。必要な apt package、hash 固定した Meson/Ninja の導入手順、他OSで GitHub Actions を使う境界は付録Bに記載しています。
 
@@ -151,6 +151,8 @@ PR quick は nightly tool を取得しません。nightly の NuSMV は、Ubuntu
 Quintのsingle binaryはcache reuse時にもSHA-256を再検証します。PRISMは公式GPL-2.0 binary archiveをSHA-256検証後に毎回再展開し、CI artifactには実行結果だけを保持してbinaryを再配布しません。Tamarin Proverと対応Maudeも固定SHA-256の公式archiveを毎回再展開し、lemma結果とattack graphだけを保持してbinaryを再配布しません。SymbiYosysはOSS CAD Suite 20260716の公式Linux x64 archiveをSHA-256と安全なlayoutで検査して毎回再展開し、正規化結果と必要なVCDだけを保持してsuite binaryを再配布しません。Kaniは検証済みarchiveから毎回再展開し、固定日のRust channel manifestもSHA-256を検証したうえで、rustupのcomponent checksum検証を利用します。
 
 cvc5契約は公式1.3.4 Linux x86_64 static assetを固定し、Alethe形式のUNSAT certificateを生成します。別codebaseのCarcara 1.1.0を、cvc5 1.3.4公式helperが指定する互換commitの検証済みsource archiveと`Cargo.lock`からRust 1.87.0で毎回buildし、unknown ruleやholeを許可しないstrict checkを行います。Rustはversion指定に加え、公式channel manifestのdigestをprovenance sentinelとして検査し、rustup導入後のrustc/Cargo commitとhostもmanifest値へ照合します。certificateは1 MiB、checker outputは64 KiBで制限します。CI artifactには入力hash、certificate、solver/checker provenance、正規化結果だけを保持し、solver/checker binaryやsource archiveを再配布しません。
+
+RTLola契約はApache-2.0の`rtlola-cli 0.1.2` crates.io source packageを固定SHA-256で安全に再展開し、埋め込み`Cargo.lock`とupstream commitを照合してRust 1.87.0で毎回buildします。正常・違反の二つの架空3-event CSVをoffline検査し、独立validatorがverdictを再導出します。analysis/monitor出力は各64 KiB、保持tool outputは64 MiBで制限し、artifactには入力hash、正規化結果、違反report、provenanceだけを残します。
 
 nightly tool の取得元は次の値に固定しています。
 
@@ -166,6 +168,7 @@ nightly tool の取得元は次の値に固定しています。
 | cvc5 1.3.4 | official Linux x86_64 static release asset | `dcdbfada0ce493ee98259c0816e0daafc561c223aadb3af298c2968e73ea39c6` |
 | Carcara 1.1.0互換commit | upstream commit `394edbb15ba95c47893f1d821fddde7e016af178` のsource archive | `28562432ca7413a662d25f03e328cab4b7b9bf649b2ca69268a255a44a5ddee6` |
 | Rust 1.87.0（Carcara build） | official release channel manifest provenance sentinel（導入後にrustc/Cargo commitとhostも照合） | `2949b5ea91e3f9c45e75ff2fc6cfc7776616c693ab599ed43abc2120b7522415` |
+| RTLola CLI 0.1.2 | crates.io immutable source package（commit `11b6bb080a5fa487645fb023fb3d0baea6874e73`） | `201d59baa85ada76ece2cf3574a27ba7eebc614f2056fd19bcfce0a4b313b7ca` |
 
 ## 執筆ルール（抜粋）
 

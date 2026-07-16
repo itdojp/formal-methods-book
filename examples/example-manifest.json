@@ -33,6 +33,72 @@
       }
     },
     {
+      "tool": "rtlola",
+      "chapter": "chapter11",
+      "anchor": "runtime-verification-observed-traces",
+      "references": [
+        "src/ja/chapters/chapter11.md",
+        "src/en/chapters/chapter11.md",
+        "docs/chapters/chapter11/index.md",
+        "docs/en/chapters/chapter11/index.md"
+      ],
+      "config": null,
+      "lane": "nightly",
+      "id": "rtlola-auth-before-sensitive-normal",
+      "assets": [
+        "examples/runtime-verification/auth-before-sensitive/auth-before-sensitive.lola",
+        "examples/runtime-verification/auth-before-sensitive/normal.csv",
+        "examples/runtime-verification/auth-before-sensitive/expected-normal.json"
+      ],
+      "command": "bash tools/rtlola-check.sh --out-dir .artifacts/manifest/rtlola-auth-before-sensitive-normal/tool-output --time-limit 60 examples/runtime-verification/auth-before-sensitive/auth-before-sensitive.lola examples/runtime-verification/auth-before-sensitive/normal.csv examples/runtime-verification/auth-before-sensitive/expected-normal.json",
+      "expected": {
+        "exitCode": 0,
+        "stdoutMarker": "RTLola runtime contract passed: no-violation (0 violations)",
+        "outcome": "success"
+      },
+      "limits": {
+        "timeoutSeconds": 300,
+        "memoryMiB": 4096,
+        "seed": null,
+        "scope": "three-event fictional authentication/sensitive-operation finite trace",
+        "depth": 3,
+        "bound": "one strictly ordered relative-clock CSV trace; only observed events are checked"
+      }
+    },
+    {
+      "tool": "rtlola",
+      "chapter": "chapter11",
+      "anchor": "runtime-verification-observed-traces",
+      "references": [
+        "src/ja/chapters/chapter11.md",
+        "src/en/chapters/chapter11.md",
+        "docs/chapters/chapter11/index.md",
+        "docs/en/chapters/chapter11/index.md"
+      ],
+      "config": null,
+      "lane": "nightly",
+      "id": "rtlola-auth-before-sensitive-violation",
+      "assets": [
+        "examples/runtime-verification/auth-before-sensitive/auth-before-sensitive.lola",
+        "examples/runtime-verification/auth-before-sensitive/violation.csv",
+        "examples/runtime-verification/auth-before-sensitive/expected-violation.json"
+      ],
+      "command": "bash tools/rtlola-check.sh --out-dir .artifacts/manifest/rtlola-auth-before-sensitive-violation/tool-output --time-limit 60 examples/runtime-verification/auth-before-sensitive/auth-before-sensitive.lola examples/runtime-verification/auth-before-sensitive/violation.csv examples/runtime-verification/auth-before-sensitive/expected-violation.json",
+      "expected": {
+        "exitCode": 0,
+        "stdoutMarker": "RTLola runtime contract passed: expected-violation (1 violation)",
+        "outcome": "counterexample"
+      },
+      "limits": {
+        "timeoutSeconds": 300,
+        "memoryMiB": 4096,
+        "seed": null,
+        "scope": "three-event fictional authentication/sensitive-operation finite trace",
+        "depth": 3,
+        "bound": "one strictly ordered relative-clock CSV trace; only observed events are checked"
+      }
+    },
+    {
       "id": "alloy-collection",
       "tool": "alloy",
       "chapter": "chapter04",

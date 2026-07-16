@@ -14,6 +14,7 @@
 - `examples/prism/`: PRISMの確率的・定量的模型検査例と期待値契約
 - `examples/tamarin/`: Tamarinの欠陥/修正protocol model、期待lemma、attack trace契約
 - `examples/proof-certificates/`: cvc5が生成する自己完結QF_UF Alethe UNSAT証明書をCarcaraで独立再検査する例
+- `examples/runtime-verification/`: RTLolaで正常・違反の有限event traceをoffline監視する例
 - `examples/kani/`: manual dispatch用Kani proof harness
 - `examples/ci/`: PR向けの軽量チェック例
 
@@ -31,6 +32,6 @@ node scripts/run-example-manifest.js --lane nightly
 node scripts/run-example-manifest.js --lane optional
 ```
 
-`pr-quick`はAlloy/TLC/Apalache/Dafnyの7件、`nightly`はSPIN/NuSMV/CBMC/Quint/PRISM/Tamarin/SymbiYosys/cvc5の13件、`optional`はKani 1件です。Alloy/TLC/Apalache/Dafnyの代表entryにはnightly deep profileもあります。cvc5例は固定cvc5 1.3.4がAletheを出力し、固定sourceからRust 1.87.0で毎回再buildするCarcara 1.1.0が再検査します。certificateは1 MiB、checker outputは64 KiBで制限し、tool outputには`certificate.alethe`、`results.json`、`summary.log`だけを保持します。各実行の証跡は常に`.artifacts/manifest/<id>/`に保存されます。
+`pr-quick`はAlloy/TLC/Apalache/Dafnyの7件、`nightly`はSPIN/NuSMV/CBMC/Quint/PRISM/Tamarin/SymbiYosys/cvc5/RTLolaの15件、`optional`はKani 1件です。Alloy/TLC/Apalache/Dafnyの代表entryにはnightly deep profileもあります。cvc5例は固定cvc5 1.3.4がAletheを出力し、固定sourceからRust 1.87.0で毎回再buildするCarcara 1.1.0が再検査します。certificateは1 MiB、checker outputは64 KiBで制限し、tool outputには`certificate.alethe`、`results.json`、`summary.log`だけを保持します。RTLola例は固定source packageとRust 1.87.0からbuildしたCLIで二つの有限CSVをoffline監視し、`results.json`、`violation-report.json`、`summary.log`だけを保持します。各実行の証跡は常に`.artifacts/manifest/<id>/`に保存されます。
 
 source manuscript の asset link は同じ Git revision 内の相対 path を指します。公開 `docs/**` では Jekyll の `site.github.build_revision` を使い、Pages を生成した commit の asset へ固定します。
