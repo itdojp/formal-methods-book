@@ -2,10 +2,6 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-bash "$REPO_ROOT/tools/bootstrap.sh" --tool spin
-
-: "${SPIN_VERSION:=6.5.2}"
-SPIN_BIN="$REPO_ROOT/tools/.cache/spin-${SPIN_VERSION}/bin/spin"
 
 usage() {
   cat <<'EOF'
@@ -17,8 +13,24 @@ out_dir=""
 claim=""
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --out-dir) out_dir="${2:-}"; shift 2 ;;
-    --claim) claim="${2:-}"; shift 2 ;;
+    --out-dir)
+      if [[ $# -lt 2 || "$2" == -* ]]; then
+        echo "Missing value for --out-dir" >&2
+        usage >&2
+        exit 2
+      fi
+      out_dir="$2"
+      shift 2
+      ;;
+    --claim)
+      if [[ $# -lt 2 || "$2" == -* ]]; then
+        echo "Missing value for --claim" >&2
+        usage >&2
+        exit 2
+      fi
+      claim="$2"
+      shift 2
+      ;;
     -h|--help) usage; exit 0 ;;
     -*) echo "Unknown option: $1" >&2; usage >&2; exit 2 ;;
     *) break ;;
@@ -31,6 +43,11 @@ if [[ -z "$model" || ! -f "$model" ]]; then
   usage >&2
   exit 2
 fi
+
+bash "$REPO_ROOT/tools/bootstrap.sh" --tool spin
+: "${SPIN_VERSION:=6.5.2}"
+SPIN_BIN="$REPO_ROOT/tools/.cache/spin-${SPIN_VERSION}/bin/spin"
+
 if [[ -z "$out_dir" ]]; then
   out_dir="$REPO_ROOT/.artifacts/spin/$(basename "$model" .pml)"
 elif [[ "$out_dir" != /* ]]; then

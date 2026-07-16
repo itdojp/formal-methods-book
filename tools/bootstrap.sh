@@ -87,11 +87,21 @@ selected_tools=()
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --lane)
-      selected_lane="${2:-}"
+      if [[ $# -lt 2 || "$2" == -* ]]; then
+        echo "Missing value for --lane" >&2
+        usage >&2
+        exit 2
+      fi
+      selected_lane="$2"
       shift 2
       ;;
     --tool)
-      selected_tools+=("${2:-}")
+      if [[ $# -lt 2 || "$2" == -* ]]; then
+        echo "Missing value for --tool" >&2
+        usage >&2
+        exit 2
+      fi
+      selected_tools+=("$2")
       shift 2
       ;;
     -h|--help)
