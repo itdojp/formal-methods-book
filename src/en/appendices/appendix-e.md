@@ -118,6 +118,23 @@ environment, or result for it.
   - Statistical model checking: <https://www.prismmodelchecker.org/manual/RunningPRISM/StatisticalModelChecking>
   - Official case studies: <https://www.prismmodelchecker.org/casestudies/>
 
+### Tamarin Prover (Symbolic Protocol Verification under an Active Adversary)
+
+- Purpose: verify secrecy, authentication, replay, and related trace lemmas under a Dolev–Yao network attacker, and retain an attack trace when a lemma is falsified
+- Best after reading: Chapter 13 on communication and cryptographic protocols, Appendix B on the nightly path, and Appendix C on facts, rules, events, and lemmas
+- Execution boundary: the book's nightly contract pins official Linux x86-64 distributions, commits, and SHA-256 values for Tamarin Prover 1.12.0 and supported Maude 3.5.1, a 150-second inner timeout, a 180-second runner timeout, and automated proof mode. CI artifacts and Pages do not redistribute either binary.
+- Assurance boundary: results are relative to the symbolic model, equational theory, assumptions, and stated lemmas. They do not unconditionally establish computational soundness, implementation correctness, cryptographic strength, key-compromise behavior, or side-channel resistance.
+- Primary sources:
+  - Official manual, Introduction: <https://tamarin-prover.com/manual/master/book/001_introduction.html>
+  - Official manual, First Example and authentication: <https://tamarin-prover.com/manual/master/book/003_example.html>
+  - Official manual, Protocol Rules: <https://tamarin-prover.com/manual/master/book/005_protocol-specification-rules.html>
+  - Official manual, Property Specification: <https://tamarin-prover.com/manual/master/book/007_property-specification.html>
+  - Official repository: <https://github.com/tamarin-prover/tamarin-prover>
+  - Official examples: <https://github.com/tamarin-prover/tamarin-prover/tree/develop/examples>
+  - Official Tamarin Prover 1.12.0 release: <https://github.com/tamarin-prover/tamarin-prover/releases/tag/1.12.0>
+  - Official Maude download guidance: <https://maude.cs.illinois.edu/get-maude>
+  - Official Maude 3.5.1 release: <https://github.com/maude-lang/Maude/releases/tag/Maude3.5.1>
+
 ## 3) Theorem Proving and Proof Assistants (Rocq / Lean / Isabelle / Agda)
 
 ### Rocq (formerly Coq)

@@ -6,13 +6,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-c.md"
 translation_status: "partial"
-translation_source_commit: "53c0ef469bd9f010dd84a83cbdcbde898976df00"
+translation_source_commit: "dbe99897e679469f15eb58d9c29a2d9ee175283e"
 translation_reviewed_at: "2026-07-16"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Appendix C: Notation Cross-Reference
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`53c0ef469bd9`](https://github.com/itdojp/formal-methods-book/commit/53c0ef469bd9f010dd84a83cbdcbde898976df00) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`dbe99897e679`](https://github.com/itdojp/formal-methods-book/commit/dbe99897e679469f15eb58d9c29a2d9ee175283e) on 2026-07-16.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 This appendix is a quick lookup guide for readers who need to recover the
@@ -31,6 +31,8 @@ explanation.
 - **contract**: a runtime or verification-time guard that makes preconditions and postconditions explicit.
 - **trace**: a sequence of state transitions. Counterexamples are presented as traces.
 - **counterexample**: a minimal execution that violates a property. It is the starting point for correcting the design.
+- **authentication**: a trace property connecting an accepted peer, message, or session to a corresponding legitimate event; state whether the correspondence is non-injective or injective.
+- **attack trace**: a violating trace that includes adversary knowledge, message operations, and protocol events.
 
 ## C.2 Definition of Done Checklist for AI-Assisted Work
 
@@ -162,3 +164,20 @@ The table is a reading bridge, not a table of logical equivalences.
 In particular, do not mechanically identify `P>=1 [ F "success" ]` with `AF success`.
 DTMCs, CTMCs, and MDPs assign different meanings to path measures and nondeterminism, and probability one still leaves a boundary around measure-zero paths.
 Before comparing formulas, align the model type, initial state, scheduler, fairness assumptions, and time bound.
+
+### C.3.10 Tamarin: Minimal Correspondence for Security-Protocol Verification
+
+Tamarin represents protocol state and adversary knowledge with multiset rewriting rather than a conventional state-variable notation.
+This table is only the minimum bridge needed to read the Chapter 13 example.
+
+| Tamarin concept | Reading in this book | Chapter 13 example | Evidence to retain |
+| --- | --- | --- | --- |
+| Fact | Protocol state, key, message, or adversary knowledge | `!SharedKey`, `OpenChallenge`, `In` / `Out` | Persistent / linear multiplicity, arguments, producing rule |
+| Rule | Protocol step that consumes and produces facts | Issue challenge, send response, accept response | Premises, conclusions, action facts |
+| Action fact / event | Observation that a lemma references on a trace | `ResponseSent`, `ResponseAccepted` | Participants, session data, ordering |
+| Lemma | Trace property for executability, secrecy, or authentication | `Shared_Key_Secrecy`, `Response_Authentication`, `No_Replay` | Quantifiers, assumptions, proof mode, status |
+| Attack trace | Concrete execution that falsifies a lemma | Two acceptances of the same ciphertext | Target lemma, steps, adversary message operations |
+| Equational theory | Equations that symbolically reduce cryptographic operations | `sdec(senc(m,k),k)=m` | Built-ins, omitted operations, algebraic assumptions |
+
+Distinguish non-injective correspondence such as `Response_Authentication` from an injective property that maps each send to at most one acceptance.
+Do not reinterpret symbolic `verified` as an unconditional proof of an implementation or of computational cryptographic security.

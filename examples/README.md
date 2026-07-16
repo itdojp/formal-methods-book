@@ -12,6 +12,7 @@
 - `examples/dafny/`: Dafny の最小検証例
 - `examples/quint/`: Quintのtypecheck/test例
 - `examples/prism/`: PRISMの確率的・定量的模型検査例と期待値契約
+- `examples/tamarin/`: Tamarinの欠陥/修正protocol model、期待lemma、attack trace契約
 - `examples/kani/`: manual dispatch用Kani proof harness
 - `examples/ci/`: PR向けの軽量チェック例
 
@@ -29,6 +30,6 @@ node scripts/run-example-manifest.js --lane nightly
 node scripts/run-example-manifest.js --lane optional
 ```
 
-`pr-quick`はAlloy/TLC/Apalache/Dafnyの7件、`nightly`はSPIN/NuSMV/CBMC/Quint/PRISMの7件、`optional`はKani 1件です。Alloy/TLC/Apalache/Dafnyの代表entryにはnightly deep profileもあります。各実行の証跡は常に`.artifacts/manifest/<id>/`に保存されます。
+`pr-quick`はAlloy/TLC/Apalache/Dafnyの7件、`nightly`はSPIN/NuSMV/CBMC/Quint/PRISM/Tamarinの9件、`optional`はKani 1件です。Alloy/TLC/Apalache/Dafnyの代表entryにはnightly deep profileもあります。各実行の証跡は常に`.artifacts/manifest/<id>/`に保存されます。
 
 source manuscript の asset link は同じ Git revision 内の相対 path を指します。公開 `docs/**` では Jekyll の `site.github.build_revision` を使い、Pages を生成した commit の asset へ固定します。

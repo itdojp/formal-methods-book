@@ -3,7 +3,7 @@
   "project": "formal-methods-book",
   "projectVersion": "1.1.0",
   "locale": "ja",
-  "entryCount": 1188,
+  "entryCount": 1194,
   "entries": [
     {
       "id": "02d7269ce160fe33",
@@ -10027,13 +10027,14 @@
       "chapter": "第12章：ツールと自動化",
       "heading": "12.3 CI 段階別の検証深度と実装例",
       "url": "/formal-methods-book/chapters/chapter12/#123-ci-段階別の検証深度と実装例",
-      "text": "現実的な導入では、CI の段階ごとに検証の深さと所要時間を調整します。以下は代表的な分割例です。 段階 · トリガー · 目的 · 主な検証 · 代表ツール例 --- · --- · --- · --- · --- PR · push/PR · 即時フィードバック · 契約チェック、軽量模型検査（小モデル）、静的解析 · TLA+ 小モデル/TLC 短時間、Alloy スコープ小、静的解析 夜間 · cron · 網羅性の向上 · 状態空間拡大、探索上限引き上げ、シナリオ網羅 · TLC 長時間、Alloy スコープ拡大、CSP模型検査 リリース前 · 手動/タグ · リスク極小化 · クリティカル性質の完全検証、証明の再検証 · 証明（Rocq/Dafny）、TLA+ 特性確認、形式的レビュー 導入ミニ手順: 小さく始める: PR 段階に「高速・安定・再現容易」なチェックを1～2個追加 反例から学ぶ: 失敗時に最小反例を収集し、再現スクリプトを標準化 漸進的強化: 夜間→リリース前へと対象性質と探索深さを段階的に拡大 CI 実装例（GitHub Actions）: 本リポジトリでは、実動する例として .github/workflows/formal-checks.yml を同梱している。 PR段階はbase/head差分をexample manifestのasset、reference、config、wrapperへ照合し、関連するpr-quickだけをbash examples/ci/pr-quick-check.shから実行する。共通基盤変更時と引数なしのローカル実行は7件すべてを検査する。 schedule / manual dispatchではscripts/plan-formal-matrix.jsがtool manifestからallowlist済みmatrixを作り、tool-matrixがfail-fast: falseでAlloy/TLC/Apalache/Dafnyのdeep profileとSPIN/NuSMV/CBMC/Quint/PRISMをtool単位に分離する。Kaniは明示的にoptionalを選んだmanual dispatchだけで実行する。 例（抜粋）： 失敗時ログ例（要約）: 各entryのartifactはversion、command、input hash、exit code、stdout/stderrと実行制約を含み、success、counterexample、unknown、timeout、resource-exhaustedを区別する。1 toolが失敗しても他toolのjobとartifact収集を継続する。 ここでmemoryMiBはCI容量計画の申告値であり、OS/cgroupによる強制上限ではない。runnerが強制するtimeoutと出力上限を超えた場合は分類できるが、OOM killはtool-errorまたはrunner failureになる可能性がある。 上記のように、短時間・小スコープの検証をPRに配置し、夜間に探索深度やスコープを拡大することで、開発速度と品質保証の両立を図る。",
+      "text": "現実的な導入では、CI の段階ごとに検証の深さと所要時間を調整します。以下は代表的な分割例です。 段階 · トリガー · 目的 · 主な検証 · 代表ツール例 --- · --- · --- · --- · --- PR · push/PR · 即時フィードバック · 契約チェック、軽量模型検査（小モデル）、静的解析 · TLA+ 小モデル/TLC 短時間、Alloy スコープ小、静的解析 夜間 · cron · 網羅性の向上 · 状態空間拡大、探索上限引き上げ、シナリオ網羅 · TLC 長時間、Alloy スコープ拡大、CSP模型検査 リリース前 · 手動/タグ · リスク極小化 · クリティカル性質の完全検証、証明の再検証 · 証明（Rocq/Dafny）、TLA+ 特性確認、形式的レビュー 導入ミニ手順: 小さく始める: PR 段階に「高速・安定・再現容易」なチェックを1～2個追加 反例から学ぶ: 失敗時に最小反例を収集し、再現スクリプトを標準化 漸進的強化: 夜間→リリース前へと対象性質と探索深さを段階的に拡大 CI 実装例（GitHub Actions）: 本リポジトリでは、実動する例として .github/workflows/formal-checks.yml を同梱している。 PR段階はbase/head差分をexample manifestのasset、reference、config、wrapperへ照合し、関連するpr-quickだけをbash examples/ci/pr-quick-check.shから実行する。共通基盤変更時と引数なしのローカル実行は7件すべてを検査する。 schedule / manual dispatchではscripts/plan-formal-matrix.jsがtool manifestからallowlist済みmatrixを作り、tool-matrixがfail-fast: falseでAlloy/TLC/Apalache/Dafnyのdeep profileとSPIN/NuSMV/CBMC/Quint/PRISM/Tamarinをtool単位に分離する。Kaniは明示的にoptionalを選んだmanual dispatchだけで実行する。 例（抜粋）： 失敗時ログ例（要約）: 各entryのartifactはversion、command、input hash、exit code、stdout/stderrと実行制約を含み、success、counterexample、unknown、timeout、resource-exhaustedを区別する。1 toolが失敗しても他toolのjobとartifact収集を継続する。 ここでmemoryMiBはCI容量計画の申告値であり、OS/cgroupによる強制上限ではない。runnerが強制するtimeoutと出力上限を超えた場合は分類できるが、OOM killはtool-errorまたはrunner failureになる可能性がある。 上記のように、短時間・小スコープの検証をPRに配置し、夜間に探索深度やスコープを拡大することで、開発速度と品質保証の両立を図る。",
       "aliases": [
         "TLA Plus",
         "Coq",
         "The Rocq Prover",
         "モデル検査",
-        "model checking"
+        "model checking",
+        "Tamarin Prover"
       ]
     },
     {
@@ -10794,7 +10795,10 @@
       "aliases": [
         "TLA Plus",
         "モデル検査",
-        "model checking"
+        "model checking",
+        "Dolev–Yao",
+        "Dolev–Yao攻撃者モデル",
+        "Dolev–Yao adversary model"
       ]
     },
     {
@@ -11353,7 +11357,23 @@
       "aliases": []
     },
     {
-      "id": "1ebac4d0960e827d",
+      "id": "c3ec79763a2eb401",
+      "locale": "ja",
+      "pageId": "chapter13",
+      "section": "chapters",
+      "title": "Tamarin Prover：攻撃者下で通信・暗号プロトコルを検証する",
+      "chapter": "第13章：事例研究",
+      "heading": "Tamarin Prover：攻撃者下で通信・暗号プロトコルを検証する",
+      "url": "/formal-methods-book/chapters/chapter13/#security-protocol-verification-tamarin",
+      "text": "s2nの事例で扱う暗号プリミティブやC実装の検証と、通信プロトコルのsymbolic verificationは検査対象が異なります。 前者は実装が仕様どおり計算するか、メモリアクセス等の実装上の性質を満たすかを問います。 後者は、攻撃者が通信へ介入する状況でも、主体間のメッセージ順序、秘密性、認証が成立するかを問います。 Tamarin Proverは後者を対象とするセキュリティプロトコル検証器です。 Cedarとの違いも検査対象から整理できます。 Cedarは、主体、操作、資源、contextから「この要求を許可するか」という認可判断を検査します。 Tamarinは、鍵、fresh値、攻撃者知識、主体間のメッセージ交換から「秘密が漏れないか」「受理した相手を認証できるか」「再送や中間者介入で性質が破れないか」という攻撃者下の通信・暗号プロトコルを検査します。 どちらも形式化した仕様を検査しますが、policy requestとprotocol traceを同じモデルとして扱ってはいけません。 Tamarinの標準的なDolev–Yao攻撃者はネットワークを支配します。 攻撃者はOutへ出たメッセージを盗聴し、既知のメッセージを分解・合成し、改変または再送してInへ渡せます。 既知の鍵を用いた暗号化・復号や署名等の演算もできます。 一方、鍵を知らない暗号文を計算量で破る、hashの衝突を現実的な計算能力で見つける、side-channelから秘密を得る、といった能力はsymbolic modelへ自動的には入りません。 protocolはmultiset rewritingで記述します。 factsは鍵、未処理challenge、攻撃者へ出るメッセージ等の状態を表し、rulesは送信、受信、状態消費を表します。 !SharedKeyのようなpersistent factは複数回参照でき、OpenChallengeのようなlinear factはruleで使用すると消費されます。 action facts / eventsはResponseSentやResponseAcceptedのようにtrace上の観測点を記録し、lemmasはそのevent順序や攻撃者知識K(...)に対する性質を表します。 秘密性と認証は別のpropertyです。 この例のSharedKeySecrecyは共有鍵を攻撃者が知るtraceがないことを問い、ResponseAuthenticationはserverの受理より前に対応するclient送信があったことを問います。 ここでのResponseAuthenticationは、対応する送信が先に存在するというnon-injective correspondenceであり、一対一対応までは含みません。 秘密が漏れなくても、正規の暗号文を再送して同じ処理を二重に受理させることはあり得るため、injectiveな受理条件をNoReplayという独立したlemmaにします。 man-in-the-middleを調べる場合も、単に暗号化があることではなく、相手のidentity、role、session dataについてどのagreementを要求するかをeventとlemmaで明示します。 再送を許す欠陥モデルと修正版 架空の最小protocolでは、serverがfreshなnonceを公開し、clientがを共有鍵で暗号化して返します。 examples/tamarin/replay-challenge/replay-flawed.spthyは未処理challengeを!OpenChallengeというpersistent factで保持するため、clientが一度だけ送った同じ暗号文を攻撃者が二回serverへ渡せます。 examples/tamarin/replay-challenge/expected-flawed.jsonでは、実行可能性、共有鍵秘密性、応答認証はverifiedですが、NoReplayはfalsifiedです。 artifactのattack-trace.jsonは、一つのResponseSentに対して二つのResponseAcceptedが生じる9 stepのtraceを保持します。 examples/tamarin/replay-challenge/replay-fixed.spthyは未処理challengeをlinear factに変更し、最初の受理で消費します。 examples/tamarin/replay-challenge/expected-fixed.jsonでは、同じ四つのlemmaがすべてverifiedになります。 二つのモデルの目的、前提、実行方法はexamples/tamarin/replay-challenge/README.mdにも記録しています。 モデル · Executable · SharedKeySecrecy · ResponseAuthentication · NoReplay · 期待outcome --- · --- · --- · --- · --- · --- 欠陥版 · verified · verified · verified · falsified、attack traceあり · counterexample 修正版 · verified · verified · verified · verified · success 【ツール準拠（そのまま動く）】 nightly契約はTamarin Prover 1.12.0と対応するMaude 3.5.1の公式Linux x86-64配布物をURLとSHA-256で固定し、毎回検証済みarchiveから再展開します。 proof modeは--quit-on-warning --prove --stop-on-trace=SEQDFS --output-jsonによる自動探索で、wrapperの内側を150秒、manifest runnerを180秒で制限します。 Tamarinはlemmaをfalsifyしても正常終了するため、exit codeだけでは判定せず、lemma名、mode、status、attack graphを期待JSONと厳密照合します。 artifactは入力hash、command、tool/dependency versionとcommit、配布物digest、timeout、各lemmaのstatus、sanitized summary、欠陥版のattack graphを保持し、Tamarin/Maude binaryは再配布しません。 attack graphにはモデル内のsymbolic constantが残るため、実在する鍵、credential、tenant識別子、非公開host名をmodelへ入れてはいけません。wrapperは代表的なcredential形式を実行前に拒否しますが、これは内容レビューの代替ではありません。 保証境界：修正版のverifiedは、共有対称鍵、fresh nonce、symmetric-encryption built-inのequational theory、記載したrules/events/lemmas、自動proof設定の範囲に限られます。 公開鍵暗号、署名、hash、Diffie–Hellman等を扱う場合は、それぞれのequational theoryと代数的性質を明示してモデルを拡張する必要があります。 本例は事前共有鍵の安全な登録を仮定し、鍵侵害・鍵配布・PKIをモデル化していません。この結果だけでは、暗号方式の計算量的安全性、computational soundness、実装の暗号強度、乱数品質、encoding、side-channel、ライブラリ・OS・運用上の欠陥を保証しません。",
+      "aliases": [
+        "Dolev-Yao",
+        "Dolev–Yao攻撃者モデル",
+        "Dolev–Yao adversary model"
+      ]
+    },
+    {
+      "id": "169795e707b24698",
       "locale": "ja",
       "pageId": "chapter13",
       "section": "chapters",
@@ -11365,7 +11385,7 @@
       "aliases": []
     },
     {
-      "id": "36350f2ab247ac8c",
+      "id": "5486dff269b616e9",
       "locale": "ja",
       "pageId": "chapter13",
       "section": "chapters",
@@ -11377,7 +11397,7 @@
       "aliases": []
     },
     {
-      "id": "32190dfcf263046b",
+      "id": "890ca0c189cc3678",
       "locale": "ja",
       "pageId": "chapter13",
       "section": "chapters",
@@ -11389,7 +11409,7 @@
       "aliases": []
     },
     {
-      "id": "a4f69286cb23673c",
+      "id": "304d0c85af5ee1cf",
       "locale": "ja",
       "pageId": "chapter13",
       "section": "chapters",
@@ -11401,7 +11421,7 @@
       "aliases": []
     },
     {
-      "id": "8c7fcc5ed381fa24",
+      "id": "6dc06502ac88b017",
       "locale": "ja",
       "pageId": "chapter13",
       "section": "chapters",
@@ -11415,7 +11435,7 @@
       ]
     },
     {
-      "id": "874a70eb3a7dbda1",
+      "id": "8f9bf5fa5bc4c292",
       "locale": "ja",
       "pageId": "chapter13",
       "section": "chapters",
@@ -11427,7 +11447,7 @@
       "aliases": []
     },
     {
-      "id": "7ad44407d3d0cf66",
+      "id": "b2d02b9ca43c1947",
       "locale": "ja",
       "pageId": "chapter13",
       "section": "chapters",
@@ -11439,7 +11459,7 @@
       "aliases": []
     },
     {
-      "id": "358157cb41d39704",
+      "id": "7279ca623fe971f5",
       "locale": "ja",
       "pageId": "chapter13",
       "section": "chapters",
@@ -11451,7 +11471,7 @@
       "aliases": []
     },
     {
-      "id": "4219b0ce465d0ebf",
+      "id": "1eabda69cb40e4ad",
       "locale": "ja",
       "pageId": "chapter13",
       "section": "chapters",
@@ -11463,7 +11483,7 @@
       "aliases": []
     },
     {
-      "id": "abc562361ce29d96",
+      "id": "545b155b74f0cacd",
       "locale": "ja",
       "pageId": "chapter13",
       "section": "chapters",
@@ -11475,7 +11495,7 @@
       "aliases": []
     },
     {
-      "id": "38a49d46fce2d9b9",
+      "id": "506fc3af1aa661e1",
       "locale": "ja",
       "pageId": "chapter13",
       "section": "chapters",
@@ -11487,7 +11507,7 @@
       "aliases": []
     },
     {
-      "id": "a12c43a5186e2d7b",
+      "id": "92509e12e1e9bee0",
       "locale": "ja",
       "pageId": "chapter13",
       "section": "chapters",
@@ -11499,7 +11519,7 @@
       "aliases": []
     },
     {
-      "id": "f2533d3859bb4ea9",
+      "id": "70ccc54455cbf50d",
       "locale": "ja",
       "pageId": "chapter13",
       "section": "chapters",
@@ -11511,7 +11531,7 @@
       "aliases": []
     },
     {
-      "id": "d4ce27207afa7d30",
+      "id": "dbb6429e424a07aa",
       "locale": "ja",
       "pageId": "chapter13",
       "section": "chapters",
@@ -11523,7 +11543,7 @@
       "aliases": []
     },
     {
-      "id": "c8e9f632cdd3494c",
+      "id": "f18ae775416cf0b1",
       "locale": "ja",
       "pageId": "chapter13",
       "section": "chapters",
@@ -11537,7 +11557,7 @@
       ]
     },
     {
-      "id": "d6e1639037a783f2",
+      "id": "aba99c04a027b013",
       "locale": "ja",
       "pageId": "chapter13",
       "section": "chapters",
@@ -11549,7 +11569,7 @@
       "aliases": []
     },
     {
-      "id": "1bea7ae49711cd8a",
+      "id": "ee89d19f2a5ffc92",
       "locale": "ja",
       "pageId": "chapter13",
       "section": "chapters",
@@ -11561,7 +11581,7 @@
       "aliases": []
     },
     {
-      "id": "411d3c794c09661e",
+      "id": "54d6ccf25cfde52c",
       "locale": "ja",
       "pageId": "chapter13",
       "section": "chapters",
@@ -11573,7 +11593,7 @@
       "aliases": []
     },
     {
-      "id": "f07664f45aad82b2",
+      "id": "76afe1f629302a91",
       "locale": "ja",
       "pageId": "chapter13",
       "section": "chapters",
@@ -11738,7 +11758,24 @@
       "aliases": []
     },
     {
-      "id": "24beeba3c2a5786c",
+      "id": "130f3921cc5cd049",
+      "locale": "ja",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "attack trace（攻撃トレース）",
+      "chapter": "用語集（Glossary）",
+      "heading": "attack trace（攻撃トレース）",
+      "url": "/formal-methods-book/glossary/#glossary-attack-trace攻撃トレース",
+      "text": "Dolev–Yao攻撃者の知識獲得、message操作、protocol eventを含む性質違反trace。Tamarin等では、falsified lemmaの原因を読む成果物になる。→第13章/付録C",
+      "aliases": [
+        "Tamarin Prover",
+        "Dolev-Yao",
+        "Dolev–Yao攻撃者モデル",
+        "Dolev–Yao adversary model"
+      ]
+    },
+    {
+      "id": "fce74c11c8a64af4",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11750,7 +11787,7 @@
       "aliases": []
     },
     {
-      "id": "59b4691b4bd3dee6",
+      "id": "f822e25f43d7d24f",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11765,7 +11802,7 @@
       ]
     },
     {
-      "id": "2a54658ac9f15b41",
+      "id": "f1649ff2ea291aaf",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11777,7 +11814,7 @@
       "aliases": []
     },
     {
-      "id": "122d21a8a737a82b",
+      "id": "867ae36f39ce9ae4",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11789,7 +11826,7 @@
       "aliases": []
     },
     {
-      "id": "71ed0d74d02c32c7",
+      "id": "25b6e1a2aea28bea",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11801,7 +11838,7 @@
       "aliases": []
     },
     {
-      "id": "9d82465ceb57dec7",
+      "id": "5c6008ec4d3c6a99",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11813,7 +11850,7 @@
       "aliases": []
     },
     {
-      "id": "35528b2292fbd3cd",
+      "id": "85ee1ad05752c960",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11825,7 +11862,7 @@
       "aliases": []
     },
     {
-      "id": "0ccff2f27e905b90",
+      "id": "d5cd149161b9414f",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11837,7 +11874,7 @@
       "aliases": []
     },
     {
-      "id": "2146474a26de929e",
+      "id": "c6bce3f8c9c9d4d2",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11849,7 +11886,7 @@
       "aliases": []
     },
     {
-      "id": "ad5a72694bd7c610",
+      "id": "d8091864b082c43d",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11861,7 +11898,7 @@
       "aliases": []
     },
     {
-      "id": "aaa328efb6098bb3",
+      "id": "5a85dbb10a60909b",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11873,7 +11910,7 @@
       "aliases": []
     },
     {
-      "id": "dd2d64e411e8e3dd",
+      "id": "44a28982f25ae7f3",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11885,7 +11922,7 @@
       "aliases": []
     },
     {
-      "id": "b36f23b24c2e7253",
+      "id": "fb9aa99fe43a101c",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11897,7 +11934,7 @@
       "aliases": []
     },
     {
-      "id": "0b64d7718627af43",
+      "id": "f1118dcaa6536df4",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11909,7 +11946,7 @@
       "aliases": []
     },
     {
-      "id": "1e64827f8f3b10e7",
+      "id": "dc35777ca2d237f0",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11921,7 +11958,22 @@
       "aliases": []
     },
     {
-      "id": "66525c8d216a30ef",
+      "id": "364df4f217cb9f73",
+      "locale": "ja",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "Dolev–Yao攻撃者モデル",
+      "chapter": "用語集（Glossary）",
+      "heading": "Dolev–Yao攻撃者モデル",
+      "url": "/formal-methods-book/glossary/#glossary-dolevyao攻撃者モデル",
+      "text": "攻撃者が通信を盗聴・改変・再送・合成し、既知鍵で暗号操作できる一方、未知鍵なしに暗号を破らないとするsymbolic network model。鍵侵害やside-channelは別途モデル化する。→第13章/付録E",
+      "aliases": [
+        "Dolev-Yao",
+        "Dolev–Yao adversary model"
+      ]
+    },
+    {
+      "id": "081b7b2287e3e709",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11933,7 +11985,7 @@
       "aliases": []
     },
     {
-      "id": "6f908a91b59213e7",
+      "id": "68a95ae19ddcd79d",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11945,7 +11997,7 @@
       "aliases": []
     },
     {
-      "id": "b9bd1d8b1175d37c",
+      "id": "dbb9ba89d381dfaa",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11957,7 +12009,7 @@
       "aliases": []
     },
     {
-      "id": "b6c3d3347af42841",
+      "id": "5286543e224fc4cf",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11972,7 +12024,7 @@
       ]
     },
     {
-      "id": "eaba908926f8c14f",
+      "id": "7692ab5bec6043a3",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -11990,7 +12042,7 @@
       ]
     },
     {
-      "id": "e9b29fb79e848d5c",
+      "id": "4079ec1a84356963",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12002,7 +12054,7 @@
       "aliases": []
     },
     {
-      "id": "080f08883f65e2ec",
+      "id": "3932a2c7645d2ee7",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12014,7 +12066,7 @@
       "aliases": []
     },
     {
-      "id": "b3637c50100a0c9a",
+      "id": "f8419d1d9585ce2d",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12026,7 +12078,7 @@
       "aliases": []
     },
     {
-      "id": "037f77434ccf0d75",
+      "id": "fc418c19ca27c197",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12038,7 +12090,7 @@
       "aliases": []
     },
     {
-      "id": "ee149bb371ee70e7",
+      "id": "91b591abf583512c",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12050,7 +12102,7 @@
       "aliases": []
     },
     {
-      "id": "12e8258f5056ae4b",
+      "id": "b7a37b7adade81b2",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12065,7 +12117,7 @@
       ]
     },
     {
-      "id": "2e2d26af41a041fd",
+      "id": "4e171dd795445ac7",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12077,7 +12129,7 @@
       "aliases": []
     },
     {
-      "id": "9438982d880a938e",
+      "id": "dc34812bd32c4188",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12092,7 +12144,7 @@
       ]
     },
     {
-      "id": "7ca4ed4a40414c82",
+      "id": "a889c792f46ebf7c",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12104,7 +12156,7 @@
       "aliases": []
     },
     {
-      "id": "58d4658e520d3884",
+      "id": "4f8dfa32311dfe19",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12116,7 +12168,7 @@
       "aliases": []
     },
     {
-      "id": "4e14dff83735f92a",
+      "id": "edcbbb1c378d6e1d",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12128,7 +12180,7 @@
       "aliases": []
     },
     {
-      "id": "f26479ed17feee9f",
+      "id": "e3da809adbec5a2d",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12140,7 +12192,7 @@
       "aliases": []
     },
     {
-      "id": "780d89160513cf62",
+      "id": "9683a9bba4704b1e",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12152,7 +12204,7 @@
       "aliases": []
     },
     {
-      "id": "ec9ec646c7c8ecd8",
+      "id": "5b82d2f9421dba3e",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12164,7 +12216,7 @@
       "aliases": []
     },
     {
-      "id": "16bae8381e5674fc",
+      "id": "be44f2e70bfacbe7",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12176,7 +12228,7 @@
       "aliases": []
     },
     {
-      "id": "44cdf5df7a507267",
+      "id": "b0073c142d23ebea",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12188,7 +12240,7 @@
       "aliases": []
     },
     {
-      "id": "e3c628f85b4c7a81",
+      "id": "2931f8e8cef611ec",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12202,7 +12254,7 @@
       ]
     },
     {
-      "id": "d1ba0f09510077d3",
+      "id": "89e7e78ddd701651",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12217,7 +12269,7 @@
       ]
     },
     {
-      "id": "e6673b615e6c0ce9",
+      "id": "cc8c7243fb1e71af",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12229,7 +12281,7 @@
       "aliases": []
     },
     {
-      "id": "ea1085b066b327a6",
+      "id": "424b1da88a920c99",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12243,7 +12295,7 @@
       ]
     },
     {
-      "id": "c7a46fe8fb2ec2fb",
+      "id": "ac6cae1e7ac8cfde",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12255,7 +12307,7 @@
       "aliases": []
     },
     {
-      "id": "8d7afa4978e7409e",
+      "id": "bd1032c8f7cb4466",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12269,7 +12321,7 @@
       ]
     },
     {
-      "id": "817a989bf44daa67",
+      "id": "e09e8cd112a817d8",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12284,7 +12336,7 @@
       ]
     },
     {
-      "id": "99e064441b1cceb3",
+      "id": "eb353b71fab4bb56",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12298,7 +12350,7 @@
       ]
     },
     {
-      "id": "4bc3b6db33a7e89b",
+      "id": "0f7c5db2a3f12771",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12310,7 +12362,7 @@
       "aliases": []
     },
     {
-      "id": "9dfee2d5dd6a6e29",
+      "id": "a1af7a38e4d26138",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12322,7 +12374,7 @@
       "aliases": []
     },
     {
-      "id": "3463583f9a3a9f02",
+      "id": "85258dfe3adeab61",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12336,7 +12388,7 @@
       ]
     },
     {
-      "id": "5fb5934cc46e886e",
+      "id": "4e01aa525b5d976f",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12348,7 +12400,7 @@
       "aliases": []
     },
     {
-      "id": "a6c6cb2ba5f561e4",
+      "id": "4188c97447866431",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12360,7 +12412,7 @@
       "aliases": []
     },
     {
-      "id": "1812345b8adbccc0",
+      "id": "306045c76ae8eb1e",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12372,7 +12424,7 @@
       "aliases": []
     },
     {
-      "id": "984913218b4bea56",
+      "id": "c59373c504f39941",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12384,7 +12436,7 @@
       "aliases": []
     },
     {
-      "id": "de378d9a1afa2c96",
+      "id": "fcd4dbdc90f31fa0",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12396,7 +12448,7 @@
       "aliases": []
     },
     {
-      "id": "e4a1e4a7b1a63928",
+      "id": "0f0a126af7762b4a",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12408,7 +12460,7 @@
       "aliases": []
     },
     {
-      "id": "c67776863c9bc60a",
+      "id": "3fbc61931d524c83",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12420,7 +12472,7 @@
       "aliases": []
     },
     {
-      "id": "6fff72f4630ecf77",
+      "id": "0bd98c508184c654",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12435,7 +12487,7 @@
       ]
     },
     {
-      "id": "7f818247ae23efe9",
+      "id": "269464af5bb6c742",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12449,7 +12501,7 @@
       ]
     },
     {
-      "id": "e16a2a7fd8406dd5",
+      "id": "8e58c426998b93f0",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12464,7 +12516,7 @@
       ]
     },
     {
-      "id": "8d2ba4b122592763",
+      "id": "8cd15acb7da19bad",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12476,7 +12528,7 @@
       "aliases": []
     },
     {
-      "id": "71d6d4a1825bd53f",
+      "id": "73cd25f4151f7a60",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12488,7 +12540,7 @@
       "aliases": []
     },
     {
-      "id": "2580492e3c65d3c7",
+      "id": "94b401d1db7cb090",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12500,7 +12552,7 @@
       "aliases": []
     },
     {
-      "id": "3a715d41295c310e",
+      "id": "7c2d62e76d5fe7a6",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12512,7 +12564,7 @@
       "aliases": []
     },
     {
-      "id": "9d90950fa6a90622",
+      "id": "9299ee20074963da",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12527,7 +12579,7 @@
       ]
     },
     {
-      "id": "64dac1546306c419",
+      "id": "2d0224000b092023",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12539,7 +12591,7 @@
       "aliases": []
     },
     {
-      "id": "680e4064f4360ac8",
+      "id": "5bc0d0bc6a2d3948",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12551,7 +12603,7 @@
       "aliases": []
     },
     {
-      "id": "e1b8cc62882c9582",
+      "id": "b1523e46ee416fe0",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12563,7 +12615,7 @@
       "aliases": []
     },
     {
-      "id": "8673301883d4bc5e",
+      "id": "88b74d603cd5dac1",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12577,7 +12629,7 @@
       ]
     },
     {
-      "id": "d2a39040959143b2",
+      "id": "b4eb50370fc40b49",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12589,7 +12641,19 @@
       "aliases": []
     },
     {
-      "id": "6e65509245a2c35a",
+      "id": "c74840255b0069b9",
+      "locale": "ja",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "Tamarin Prover",
+      "chapter": "用語集（Glossary）",
+      "heading": "Tamarin Prover",
+      "url": "/formal-methods-book/glossary/#glossary-tamarin-prover",
+      "text": "multiset rewriting rules、facts、events、trace lemmasで、active attacker下のセキュリティプロトコルをsymbolicに検証するツール。結果はequational theory、仮定、lemma、proof設定に相対的である。→第13章/付録B/付録E",
+      "aliases": []
+    },
+    {
+      "id": "1794e88988c8de51",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12603,7 +12667,7 @@
       ]
     },
     {
-      "id": "07c931b10552fbd6",
+      "id": "a537a8a2e12f44a9",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12619,7 +12683,7 @@
       ]
     },
     {
-      "id": "e72eac04c2d02743",
+      "id": "c7ae98aefab3e1dc",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12631,7 +12695,7 @@
       "aliases": []
     },
     {
-      "id": "e50d72a3e8774b14",
+      "id": "4c61f556fb20782c",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12639,11 +12703,11 @@
       "chapter": "用語集（Glossary）",
       "heading": "トレース（Trace）",
       "url": "/formal-methods-book/glossary/#glossary-トレースtrace",
-      "text": "状態遷移の列。反例はトレースとして提示される。→第4章/第8章",
+      "text": "状態遷移の列。反例はトレースとして提示され、セキュリティプロトコル検証では攻撃者操作を含むattack traceとして読むことがある。→第4章/第8章/第13章",
       "aliases": []
     },
     {
-      "id": "1c9963f85c1ad88d",
+      "id": "4fffe0179fcf3b04",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12655,7 +12719,7 @@
       "aliases": []
     },
     {
-      "id": "7a4e255c9b8bb4c7",
+      "id": "953f6690846cccd6",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12667,7 +12731,7 @@
       "aliases": []
     },
     {
-      "id": "38389f4da5ce854b",
+      "id": "823e03b8c725fee7",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12679,7 +12743,7 @@
       "aliases": []
     },
     {
-      "id": "71975a9dc5a2d40b",
+      "id": "ee8ee213d512249b",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12691,7 +12755,7 @@
       "aliases": []
     },
     {
-      "id": "db182d165220f528",
+      "id": "19c45e63c65ca7bd",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12703,7 +12767,7 @@
       "aliases": []
     },
     {
-      "id": "8e15d28fdcc1c799",
+      "id": "9c564a6e61231e39",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12715,7 +12779,7 @@
       "aliases": []
     },
     {
-      "id": "ed60744a52d3418f",
+      "id": "58e84f9fb4561b5d",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12727,7 +12791,7 @@
       "aliases": []
     },
     {
-      "id": "1804727e2b63f19b",
+      "id": "1c2344980116804d",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12739,7 +12803,7 @@
       "aliases": []
     },
     {
-      "id": "742c38691df958bb",
+      "id": "34203f6a5bbd5803",
       "locale": "ja",
       "pageId": "glossary",
       "section": "special",
@@ -12893,11 +12957,12 @@
       "chapter": "付録B：ツールインストールガイド",
       "heading": "対象ツール（最小セット）",
       "url": "/formal-methods-book/appendices/appendix-b/#対象ツール最小セット",
-      "text": "Alloy 6.x（CLI実行） TLA+ TLC（tla2tools.jar） Apalache（TLA+ 向け、SMT ベース） Dafny（検証器） 補足： Quint CLI は、TLA+ 意味論に基づく型付き仕様言語をCIに載せる選択肢であり、本リポジトリでは固定版のtypecheck/testをnightlyで実行する。 Rocq/Isabelle等の定理証明器は依存が大きいため、本付録では一次情報リンク（付録E）を主とする。 Lean 4 は、本書の導線として 最小構成のみを本付録末尾に示す（Optional）。 SPIN / NuSMV / CBMC / Quint / PRISM はnightly laneの対象であり、source buildが必要なtoolだけ後述するUbuntu 24.04 x86-64向け追加前提を使う。",
+      "text": "Alloy 6.x（CLI実行） TLA+ TLC（tla2tools.jar） Apalache（TLA+ 向け、SMT ベース） Dafny（検証器） 補足： Quint CLI は、TLA+ 意味論に基づく型付き仕様言語をCIに載せる選択肢であり、本リポジトリでは固定版のtypecheck/testをnightlyで実行する。 Rocq/Isabelle等の定理証明器は依存が大きいため、本付録では一次情報リンク（付録E）を主とする。 Lean 4 は、本書の導線として 最小構成のみを本付録末尾に示す（Optional）。 SPIN / NuSMV / CBMC / Quint / PRISM / Tamarin はnightly laneの対象であり、source buildが必要なtoolだけ後述するUbuntu 24.04 x86-64向け追加前提を使う。",
       "aliases": [
         "TLA Plus",
         "Coq",
-        "The Rocq Prover"
+        "The Rocq Prover",
+        "Tamarin Prover"
       ]
     },
     {
@@ -12909,7 +12974,7 @@
       "chapter": "付録B：ツールインストールガイド",
       "heading": "Tool lane inventoryと実行保証",
       "url": "/formal-methods-book/appendices/appendix-b/#tool-lane-inventory",
-      "text": "全toolの分類、実行版、配布物digest、artifact上限、更新手順の正本は tools/tool-manifest.json である。 pr-quick はPR差分に関連する小さい例、nightly はtool単位の独立matrix、optional/manual は明示的な workflowdispatch だけで実行する。 documentation-only は本文で紹介するが、このリポジトリがversion、環境、実行結果を保証しないtool/serviceを表す。 他toolに内蔵されたsolverを間接利用しても、solver単体の実行保証には数えない。 Tool / service · lane · 検証済み version · 分類理由 --- · --- · --- · --- Alloy Analyzer · pr-quick · 6.2.0 · 小さい scope の4例を短時間で再現できる。 TLC · pr-quick · 1.7.4 · 固定 cfg・worker・seed・timeout で有限モデルを検査する。 Apalache · pr-quick · 0.52.1 · 短い探索長を固定した不変条件検査を毎PRで再現できる。 Dafny · pr-quick · 4.11.0 · 最小検証例が高速で安定している。 SPIN · nightly · 6.5.2 · source buildと状態探索をtool単位nightlyで分離する。 NuSMV · nightly · 2.7.1 · 依存を伴う公式source buildのためnightlyへ分離する。 CBMC · nightly · 6.10.0 · Ubuntu固定配布と有界検査をtool単位nightlyで実行する。 Quint · nightly · 0.32.0 · 公式single binaryでtypecheck/testを固定seedかつTypeScript backendで再現する。 PRISM Model Checker · nightly · 4.10.1 · 約41 MBの固定公式配布を取得し、定量的性質をtool単位nightlyで再現する。 Kani Rust Verifier · optional/manual · 0.67.0 · 固定Rust nightlyを追加取得するため明示的manual dispatchに限定する。 TLA+ Toolbox · documentation-only · — · GUI/編集環境であり、本リポジトリのCLI保証対象外。 TLA+ VS Code extension · documentation-only · — · 編集支援はCLI検査と分離し、extension版を固定していない。 Community Z Tools (CZT) · documentation-only · — · Zの一次情報導線のみで実行assetがない。 FDR · documentation-only · — · CSPM例は掲載するが、配布・licenseを含むCI環境を固定していない。 ProB · documentation-only · — · 紹介のみで実行assetと固定環境がない。 PAT · documentation-only · — · 紹介のみで実行assetと固定環境がない。 nuXmv · documentation-only · — · NuSMVとは別製品として紹介するが、CIはNuSMVだけを保証する。 Java PathFinder · documentation-only · — · 紹介・演習候補のみで実行assetがない。 UPPAAL · documentation-only · — · GUI/license/配布条件を伴い自動化していない。 TIMES · documentation-only · — · リアルタイム検証の紹介のみ。 Rocq / Coq · documentation-only · — · 証明project、opam switch、library版を固定していない。 Lean 4 / Lake / mathlib / elan · documentation-only · — · proof projectと依存revisionがなく、Linux配布物も大きいため未実行。 Isabelle/HOL · documentation-only · — · 紹介のみでsession/build環境を固定していない。 Agda · documentation-only · — · 紹介のみでprojectとlibrary版を固定していない。 HOL4 · documentation-only · — · Aeneas接続先として紹介するだけで実行契約がない。 F · documentation-only · — · 接続先/関連技術として紹介するだけで実行契約がない。 Frama-C · documentation-only · — · 紹介のみでplugin/solver構成を固定していない。 VeriFast · documentation-only · — · 紹介のみで実行assetがない。 SPARK · documentation-only · — · 産業toolchain/licenseを含む実行環境を固定していない。 Why3 · documentation-only · — · backend solverを含む実行構成を固定していない。 Verus · documentation-only · — · Rust/Z3/revisionを含む実行構成を固定していない。 Creusot · documentation-only · — · Why3/solver/Rustの組合せを固定していない。 Prusti / Viper · documentation-only · — · Rust/Viper toolchainと実行assetを固定していない。 Aeneas / Charon · documentation-only · — · 変換先を含むend-to-end contractを固定していない。 Z3 · documentation-only · — · 他toolの間接依存をsolver単体の実行保証には数えない。 cvc5 / CVC4 · documentation-only · — · 紹介のみでsolver単体assetを固定していない。 Yices · documentation-only · — · 紹介のみで実行assetを固定していない。 MathSAT · documentation-only · — · 紹介のみでlicense/配布を含む環境を固定していない。 SCADE · documentation-only · — · 商用/GUI toolchainでありCI必須化しない。 Simulink · documentation-only · — · 産業事例の紹介のみでlicense環境を固定していない。 SAW · documentation-only · — · 産業事例の参照のみでs2n検証assetを同梱していない。 Cedar Analysis · documentation-only · — · service/APIとtool群が変化し、対象policy assetを固定していない。 Bedrock Guardrails Automated Reasoning checks · documentation-only · — · 外部service、region、API条件を固定CIへ必須化しない。 Solidity SMTChecker · documentation-only · — · Solidity/compiler/solver構成とcontract assetを固定していない。 Aptos Move Prover · documentation-only · — · Move toolchainとcontract assetを固定していない。 Certora Prover · documentation-only · — · 外部/産業toolchainを必須CIへ組み込まない。 LeanDojo · documentation-only · — · AI証明支援の評価基盤として紹介するだけ。 Lean Copilot · documentation-only · — · AI証明支援の紹介のみでmodel/projectを固定していない。 AlphaProof / AlphaGeometry 2 · documentation-only · — · 研究成果の紹介で、再配布可能なCLI契約がない。 DeepSeek-Prover-V2 · documentation-only · — · 研究成果の紹介でmodel/runtimeを固定していない。 ProofGym · documentation-only · — · 評価基盤の紹介のみでdataset/runtimeを固定していない。 APOLLO · documentation-only · — · 研究成果の紹介のみで実行contractがない。 実行laneでは、各entryにtimeout、memory budget、seed、scope、depth、boundを明示する。 artifactはtool version、command、入力ファイル別SHA-256と集約hash、exit code、stdout/stderr、success、counterexample、unknown、timeout、resource exhaustionを区別して残す。 保持期間は14日、stdout/stderrは1 entry当たり16 MiB、tool outputは1 entry当たり64 MiBを上限とする。 timeoutとstdout/stderr上限はrunnerが強制し、retained tool outputは実行後に検査する。一方、memoryMiBはCI容量計画用の申告値であり、OS/cgroupによる強制上限ではない。このためresource-exhaustedは検出可能な出力超過を表し、OOM killはtool-errorまたはrunner failureになる場合がある。 quint-counter: examples/quint/counter.qnt をQuint 0.32.0のTypeScript evaluatorでtypecheckし、seed 20260716、各test 1 sampleで実行する。別配布のRust evaluatorを暗黙downloadしない。 【ツール準拠（そのまま動く）】 kani-abs: examples/kani/abs.rs のabsisnonnegative harnessをKani 0.67.0、固定Rust nightly、unwind 1で検査する。追加downloadと実行コストがあるためoptional/manualであり、PRやscheduleからは起動しない。 cache復元後もQuint binaryとPRISM archiveのSHA-256を再検証する。 PRISM 4.10.1はGPL-2.0の公式Linux x86-64 archiveを毎回再展開して絶対pathを再設定し、tool binaryはrepository、CI artifact、Pagesへ再配布しない。 保持するのは入力hash、標準出力、期待値との比較結果だけである。 Kaniは検証済みarchiveから毎回再展開し、固定日のRust channel manifestもSHA-256を検証する。Rust component本体の整合性検査は、そのmanifestに記録されたchecksumを検証するrustupに委ねる。 【ツール準拠（そのまま動く）】 version更新は月次に公式release/tagとasset digestを確認し、versionだけの専用PRでclean-cache実行と出力契約差分をレビューする。 任意のrelease assetはDependabot/Renovateのpackage参照ではないため、自動更新されたものとして扱わない。",
+      "text": "全toolの分類、実行版、配布物digest、artifact上限、更新手順の正本は tools/tool-manifest.json である。 pr-quick はPR差分に関連する小さい例、nightly はtool単位の独立matrix、optional/manual は明示的な workflowdispatch だけで実行する。 documentation-only は本文で紹介するが、このリポジトリがversion、環境、実行結果を保証しないtool/serviceを表す。 他toolに内蔵されたsolverを間接利用しても、solver単体の実行保証には数えない。 Tool / service · lane · 検証済み version · 分類理由 --- · --- · --- · --- Alloy Analyzer · pr-quick · 6.2.0 · 小さい scope の4例を短時間で再現できる。 TLC · pr-quick · 1.7.4 · 固定 cfg・worker・seed・timeout で有限モデルを検査する。 Apalache · pr-quick · 0.52.1 · 短い探索長を固定した不変条件検査を毎PRで再現できる。 Dafny · pr-quick · 4.11.0 · 最小検証例が高速で安定している。 SPIN · nightly · 6.5.2 · source buildと状態探索をtool単位nightlyで分離する。 NuSMV · nightly · 2.7.1 · 依存を伴う公式source buildのためnightlyへ分離する。 CBMC · nightly · 6.10.0 · Ubuntu固定配布と有界検査をtool単位nightlyで実行する。 Quint · nightly · 0.32.0 · 公式single binaryでtypecheck/testを固定seedかつTypeScript backendで再現する。 PRISM Model Checker · nightly · 4.10.1 · 約41 MBの固定公式配布を取得し、定量的性質をtool単位nightlyで再現する。 Tamarin Prover · nightly · 1.12.0 · Tamarinと対応Maudeの固定公式配布を取得し、攻撃トレースと補題をtool単位nightlyで再現する。 Kani Rust Verifier · optional/manual · 0.67.0 · 固定Rust nightlyを追加取得するため明示的manual dispatchに限定する。 TLA+ Toolbox · documentation-only · — · GUI/編集環境であり、本リポジトリのCLI保証対象外。 TLA+ VS Code extension · documentation-only · — · 編集支援はCLI検査と分離し、extension版を固定していない。 Community Z Tools (CZT) · documentation-only · — · Zの一次情報導線のみで実行assetがない。 FDR · documentation-only · — · CSPM例は掲載するが、配布・licenseを含むCI環境を固定していない。 ProB · documentation-only · — · 紹介のみで実行assetと固定環境がない。 PAT · documentation-only · — · 紹介のみで実行assetと固定環境がない。 nuXmv · documentation-only · — · NuSMVとは別製品として紹介するが、CIはNuSMVだけを保証する。 Java PathFinder · documentation-only · — · 紹介・演習候補のみで実行assetがない。 UPPAAL · documentation-only · — · GUI/license/配布条件を伴い自動化していない。 TIMES · documentation-only · — · リアルタイム検証の紹介のみ。 Rocq / Coq · documentation-only · — · 証明project、opam switch、library版を固定していない。 Lean 4 / Lake / mathlib / elan · documentation-only · — · proof projectと依存revisionがなく、Linux配布物も大きいため未実行。 Isabelle/HOL · documentation-only · — · 紹介のみでsession/build環境を固定していない。 Agda · documentation-only · — · 紹介のみでprojectとlibrary版を固定していない。 HOL4 · documentation-only · — · Aeneas接続先として紹介するだけで実行契約がない。 F · documentation-only · — · 接続先/関連技術として紹介するだけで実行契約がない。 Frama-C · documentation-only · — · 紹介のみでplugin/solver構成を固定していない。 VeriFast · documentation-only · — · 紹介のみで実行assetがない。 SPARK · documentation-only · — · 産業toolchain/licenseを含む実行環境を固定していない。 Why3 · documentation-only · — · backend solverを含む実行構成を固定していない。 Verus · documentation-only · — · Rust/Z3/revisionを含む実行構成を固定していない。 Creusot · documentation-only · — · Why3/solver/Rustの組合せを固定していない。 Prusti / Viper · documentation-only · — · Rust/Viper toolchainと実行assetを固定していない。 Aeneas / Charon · documentation-only · — · 変換先を含むend-to-end contractを固定していない。 Z3 · documentation-only · — · 他toolの間接依存をsolver単体の実行保証には数えない。 cvc5 / CVC4 · documentation-only · — · 紹介のみでsolver単体assetを固定していない。 Yices · documentation-only · — · 紹介のみで実行assetを固定していない。 MathSAT · documentation-only · — · 紹介のみでlicense/配布を含む環境を固定していない。 SCADE · documentation-only · — · 商用/GUI toolchainでありCI必須化しない。 Simulink · documentation-only · — · 産業事例の紹介のみでlicense環境を固定していない。 SAW · documentation-only · — · 産業事例の参照のみでs2n検証assetを同梱していない。 Cedar Analysis · documentation-only · — · service/APIとtool群が変化し、対象policy assetを固定していない。 Bedrock Guardrails Automated Reasoning checks · documentation-only · — · 外部service、region、API条件を固定CIへ必須化しない。 Solidity SMTChecker · documentation-only · — · Solidity/compiler/solver構成とcontract assetを固定していない。 Aptos Move Prover · documentation-only · — · Move toolchainとcontract assetを固定していない。 Certora Prover · documentation-only · — · 外部/産業toolchainを必須CIへ組み込まない。 LeanDojo · documentation-only · — · AI証明支援の評価基盤として紹介するだけ。 Lean Copilot · documentation-only · — · AI証明支援の紹介のみでmodel/projectを固定していない。 AlphaProof / AlphaGeometry 2 · documentation-only · — · 研究成果の紹介で、再配布可能なCLI契約がない。 DeepSeek-Prover-V2 · documentation-only · — · 研究成果の紹介でmodel/runtimeを固定していない。 ProofGym · documentation-only · — · 評価基盤の紹介のみでdataset/runtimeを固定していない。 APOLLO · documentation-only · — · 研究成果の紹介のみで実行contractがない。 実行laneでは、各entryにtimeout、memory budget、seed、scope、depth、boundを明示する。 artifactはtool version、command、入力ファイル別SHA-256と集約hash、exit code、stdout/stderr、success、counterexample、unknown、timeout、resource exhaustionを区別して残す。 保持期間は14日、stdout/stderrは1 entry当たり16 MiB、tool outputは1 entry当たり64 MiBを上限とする。 timeoutとstdout/stderr上限はrunnerが強制し、retained tool outputは実行後に検査する。一方、memoryMiBはCI容量計画用の申告値であり、OS/cgroupによる強制上限ではない。このためresource-exhaustedは検出可能な出力超過を表し、OOM killはtool-errorまたはrunner failureになる場合がある。 quint-counter: examples/quint/counter.qnt をQuint 0.32.0のTypeScript evaluatorでtypecheckし、seed 20260716、各test 1 sampleで実行する。別配布のRust evaluatorを暗黙downloadしない。 【ツール準拠（そのまま動く）】 kani-abs: examples/kani/abs.rs のabsisnonnegative harnessをKani 0.67.0、固定Rust nightly、unwind 1で検査する。追加downloadと実行コストがあるためoptional/manualであり、PRやscheduleからは起動しない。 cache復元後もQuint binaryとPRISM archiveのSHA-256を再検証する。 PRISM 4.10.1はGPL-2.0の公式Linux x86-64 archiveを毎回再展開して絶対pathを再設定し、tool binaryはrepository、CI artifact、Pagesへ再配布しない。 Tamarin Prover 1.12.0（GPL-3.0）と対応するMaude 3.5.1（GPL-2.0-or-later）も、固定SHA-256の公式archiveから毎回再展開する。Tamarinのartifactはlemma結果と欠陥版のattack graphを保持するが、両tool binaryは再配布しない。attack graphはmodel constantを保持するため、実在する秘密情報をmodelへ含めない。 保持するのは入力hash、標準出力、期待値との比較結果だけである。 Kaniは検証済みarchiveから毎回再展開し、固定日のRust channel manifestもSHA-256を検証する。Rust component本体の整合性検査は、そのmanifestに記録されたchecksumを検証するrustupに委ねる。 【ツール準拠（そのまま動く）】 version更新は月次に公式release/tagとasset digestを確認し、versionだけの専用PRでclean-cache実行と出力契約差分をレビューする。 任意のrelease assetはDependabot/Renovateのpackage参照ではないため、自動更新されたものとして扱わない。",
       "aliases": [
         "TLA Plus",
         "The Rocq Prover"
@@ -12963,7 +13028,7 @@
       "chapter": "付録B：ツールインストールガイド",
       "heading": "nightly lane の追加前提（Ubuntu 24.04 x86-64）",
       "url": "/formal-methods-book/appendices/appendix-b/#nightly-lane-の追加前提ubuntu-2404-x86-64",
-      "text": "node scripts/run-example-manifest.js --lane nightlyはSPIN 6.5.2、NuSMV 2.7.1、CBMC 6.10.0、Quint 0.32.0、PRISM 4.10.1の7 entryを実行する。最小セットとは別に、SPIN/NuSMVのsource buildには次の前提が必要である。CBMCはUbuntu 24.04 x86-64用の固定deb、Quintは同platform用の固定single binary、PRISMは約41 MBの固定公式archiveを使うため、この手順は同環境または互換環境を対象とする。 取得物は commit/version と SHA-256、Meson/Ninja は requirements の package hash で固定される。macOS、Windows ネイティブ、異なる CPU architecture ではこの lane を直接再現せず、Ubuntu 24.04 x86-64 のコンテナ、WSL2、または GitHub Actions の workflowdispatch を使う。 PRISMだけを再実行する場合は次を使う。 この実行はDTMCと4 propertyの数値契約を再現するだけであり、教育用成功確率0.8が実システムに妥当であることは保証しない。",
+      "text": "node scripts/run-example-manifest.js --lane nightlyはSPIN 6.5.2、NuSMV 2.7.1、CBMC 6.10.0、Quint 0.32.0、PRISM 4.10.1、Tamarin Prover 1.12.0の9 entryを実行する。最小セットとは別に、SPIN/NuSMVのsource buildには次の前提が必要である。CBMCはUbuntu 24.04 x86-64用の固定deb、Quintは同platform用の固定single binary、PRISMは約41 MBの固定公式archive、Tamarinは対応するMaude 3.5.1と二つの固定公式archiveを使うため、この手順は同環境または互換環境を対象とする。 取得物は commit/version と SHA-256、Meson/Ninja は requirements の package hash で固定される。macOS、Windows ネイティブ、異なる CPU architecture ではこの lane を直接再現せず、Ubuntu 24.04 x86-64 のコンテナ、WSL2、または GitHub Actions の workflowdispatch を使う。 PRISMだけを再実行する場合は次を使う。 この実行はDTMCと4 propertyの数値契約を再現するだけであり、教育用成功確率0.8が実システムに妥当であることは保証しない。 Tamarinの欠陥版と修正版だけを再実行する場合は次を使う。 欠陥版のcounterexampleは期待された成功結果であり、修正版は四つの指定lemmaが同じsymbolic model設定でverifiedとなることを確認する。",
       "aliases": []
     },
     {
@@ -13076,7 +13141,7 @@
       "chapter": "付録C：記法対照表",
       "heading": "C.1 用語集（Glossary）",
       "url": "/formal-methods-book/appendices/appendix-c/#c1-用語集glossary",
-      "text": "invariant（不変条件）：常に成り立つべき性質。反例が出たら仕様/実装の破綻を示す。 safety（安全性）：悪いことが起きない性質（例：二重引き落としが起きない）。 liveness（活性）：良いことがいつか起きる性質（例：要求がいつか処理される）。 refinement（詳細化）：抽象仕様から具体仕様へ設計を進めつつ、refinement mapping と内部変数の隠蔽を考慮した具体仕様の振る舞いが抽象仕様を満たすことを示す手続き。含意は概念的に ConcreteSpec => AbstractSpec の方向になる。 contract（契約）：事前条件/事後条件を明文化した実行時/検証時のガード。 trace（トレース）：状態遷移の列。反例はトレースとして提示される。 counterexample（反例）：性質が破れる最小の実行例。設計修正の入口。",
+      "text": "invariant（不変条件）：常に成り立つべき性質。反例が出たら仕様/実装の破綻を示す。 safety（安全性）：悪いことが起きない性質（例：二重引き落としが起きない）。 liveness（活性）：良いことがいつか起きる性質（例：要求がいつか処理される）。 refinement（詳細化）：抽象仕様から具体仕様へ設計を進めつつ、refinement mapping と内部変数の隠蔽を考慮した具体仕様の振る舞いが抽象仕様を満たすことを示す手続き。含意は概念的に ConcreteSpec => AbstractSpec の方向になる。 contract（契約）：事前条件/事後条件を明文化した実行時/検証時のガード。 trace（トレース）：状態遷移の列。反例はトレースとして提示される。 counterexample（反例）：性質が破れる最小の実行例。設計修正の入口。 authentication（認証）：受理した相手、message、session等が対応する正規eventに結び付くというtrace property。non-injectiveかinjectiveかを明示する。 attack trace（攻撃トレース）：攻撃者の知識獲得、message操作、protocol eventを含む性質違反trace。",
       "aliases": []
     },
     {
@@ -13225,6 +13290,20 @@
       "url": "/formal-methods-book/appendices/appendix-c/#c39-ltl--ctlと確率propertyの概念対応",
       "text": "通常のLTL / CTLは、対象pathまたは計算木で性質が成り立つかを主に真偽で表す。 PRISMのPCTL / CSL系propertyは、同じ到達・継続・長期挙動へ確率、閾値、期待rewardを加える。 下表は読み替えの入口であり、論理間の同値変換表ではない。 問いたいこと · 通常のLTL / CTLでの見方 · PRISMの定量的な見方 · 追加で固定すること --- · --- · --- · --- 成功へ到達するか · LTL F success、CTL EF success / AF success · P=? [ F \"success\" ] · 初期状態、確率分布、対象scheduler 到達確率が基準を満たすか · 真偽だけでは確率massを表さない · P>=0.99 [ F \"success\" ] · thresholdの根拠、丸め・許容差 長期に正常である割合 · 単純なG / AGは「常に」であり時間割合ではない · S=? [ \"operational\" ] · 定常性、初期分布、吸収class 完了までのcost · trace上のevent数を別途集計 · R{\"cost\"}=? [ F \"done\" ] · rewardの単位、付与位置、未到達path 環境選択を含む境界 · fairness等を仮定してpathを制約 · MDPのPmin / Pmax、Rmin / Rmax · scheduler / adversary class 不成立時の説明 · 反例trace · 確率値、scheduler、代表path、critical subsystem · 生成方法と網羅範囲 特にP>=1 [ F \"success\" ]を機械的にAF successと同一視してはいけない。 DTMC、CTMC、MDPではpath measureとnondeterminismの意味が異なり、確率1でもmeasure 0のpathをどう扱うかという境界が残る。 論理式を比較するときは、模型種別、初期状態、scheduler、公平性、時間境界を先にそろえる。",
       "aliases": []
+    },
+    {
+      "id": "1f0dfc8219110dd2",
+      "locale": "ja",
+      "pageId": "appendix-c",
+      "section": "appendices",
+      "title": "C.3.10 Tamarin：セキュリティプロトコル検証の最小対応",
+      "chapter": "付録C：記法対照表",
+      "heading": "C.3.10 Tamarin：セキュリティプロトコル検証の最小対応",
+      "url": "/formal-methods-book/appendices/appendix-c/#c310-tamarinセキュリティプロトコル検証の最小対応",
+      "text": "Tamarinは通常の状態変数中心の記法ではなく、protocol状態と攻撃者知識をmultiset rewritingで表す。 次の表は第13章の例を読むための対応であり、全記法の一覧ではない。 Tamarin概念 · 本書での読み方 · 第13章例 · 証跡として残すこと --- · --- · --- · --- fact · protocol状態、鍵、message、攻撃者知識 · !SharedKey、OpenChallenge、In / Out · persistent / linear、引数、生成rule rule · factを消費・生成するprotocol step · challenge発行、応答送信、受理 · 前提、結果、action fact action fact / event · lemmaがtrace上で参照する観測点 · ResponseSent、ResponseAccepted · 主体、session data、順序 lemma · executability、秘密性、認証等のtrace property · SharedKeySecrecy、ResponseAuthentication、NoReplay · quantifier、仮定、proof mode、status attack trace · falsified lemmaを破る具体的実行 · 同じ暗号文の二重受理 · 対象lemma、step、攻撃者のmessage操作 equational theory · 暗号演算をsymbolicに簡約する等式 · sdec(senc(m,k),k)=m · built-in、未モデル化演算、代数的仮定 ResponseAuthenticationのようなnon-injective correspondenceと、一つの送信へ一つの受理だけを対応させるinjective propertyは区別する。 symbolicなverifiedを、暗号実装や計算量的安全性の無条件な証明へ読み替えてはいけない。",
+      "aliases": [
+        "Tamarin Prover"
+      ]
     },
     {
       "id": "b107a206c4ef1ffa",
@@ -14430,7 +14509,23 @@
       ]
     },
     {
-      "id": "9d769bf1f3ed1667",
+      "id": "a4d8049eaa670279",
+      "locale": "ja",
+      "pageId": "appendix-e",
+      "section": "appendices",
+      "title": "Tamarin Prover（active adversary下のsymbolic protocol verification）",
+      "chapter": "付録E：参考文献とWebリソース",
+      "heading": "Tamarin Prover（active adversary下のsymbolic protocol verification）",
+      "url": "/formal-methods-book/appendices/appendix-e/#tamarin-proveractive-adversary下のsymbolic-protocol-verification",
+      "text": "用途：Dolev–Yao攻撃者が通信を制御する下で、秘密性、認証、replay等をtrace lemmaとして検証し、不成立時にattack traceを得る。 推奨読者：第13章（通信・暗号プロトコル）、付録B（nightly実行）、付録C（fact / rule / event / lemma対応） 実行境界：本書のnightly契約はTamarin Prover 1.12.0と対応Maude 3.5.1の公式Linux x86-64配布物、commit、SHA-256、150秒の内側timeout、180秒のrunner timeout、自動proof modeを固定する。配布binaryはCI artifactやPagesへ再配布しない。 保証境界：結果は選択したsymbolic model、equational theory、仮定、lemmaに相対的であり、computational soundness、実装、暗号強度、鍵侵害、side-channelを無条件に保証しない。 一次情報： 公式manual（Introduction）： 公式manual（First Example / authentication）： 公式manual（Rules）： 公式manual（Property Specification）： 公式repository： 公式examples： Tamarin Prover 1.12.0公式release： Maude公式配布案内： Maude 3.5.1公式release：",
+      "aliases": [
+        "Dolev-Yao",
+        "Dolev–Yao攻撃者モデル",
+        "Dolev–Yao adversary model"
+      ]
+    },
+    {
+      "id": "1cd800f8c863c2b0",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14445,7 +14540,7 @@
       ]
     },
     {
-      "id": "25baba8d80bc6d00",
+      "id": "4ae43a4733146369",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14459,7 +14554,7 @@
       ]
     },
     {
-      "id": "4ac60eb126d445b8",
+      "id": "0243a32592d00020",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14471,7 +14566,7 @@
       "aliases": []
     },
     {
-      "id": "9948364045b1b7a4",
+      "id": "cf3198c4abfd075c",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14483,7 +14578,7 @@
       "aliases": []
     },
     {
-      "id": "3311dffd2ff031d8",
+      "id": "dad2e79f4212fda6",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14495,7 +14590,7 @@
       "aliases": []
     },
     {
-      "id": "0726a6fc96d93b41",
+      "id": "e0f99495723b7b33",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14507,7 +14602,7 @@
       "aliases": []
     },
     {
-      "id": "bf9013e1f5aa2217",
+      "id": "12660969b4a1ac90",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14519,7 +14614,7 @@
       "aliases": []
     },
     {
-      "id": "6f5250b89ebc3392",
+      "id": "7a7dccede54af144",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14531,7 +14626,7 @@
       "aliases": []
     },
     {
-      "id": "3e5aee9aecc462ea",
+      "id": "4ac798c8ee335649",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14543,7 +14638,7 @@
       "aliases": []
     },
     {
-      "id": "f9535219ee167eb6",
+      "id": "44bcc19d68bb9b4c",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14558,7 +14653,7 @@
       ]
     },
     {
-      "id": "086d2753b9d2e0b0",
+      "id": "fcd7f96da50fc20e",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14570,7 +14665,7 @@
       "aliases": []
     },
     {
-      "id": "5a1695bab963a4e3",
+      "id": "0b9e3af6cc5b1389",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14582,7 +14677,7 @@
       "aliases": []
     },
     {
-      "id": "02ff928fa6306fc2",
+      "id": "6fdac53ac321e2b3",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14597,7 +14692,7 @@
       ]
     },
     {
-      "id": "3314d10547e6e666",
+      "id": "654890af9e9c755c",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14609,7 +14704,7 @@
       "aliases": []
     },
     {
-      "id": "a7a2cc0ab6ed20e6",
+      "id": "9376a6a3c580bf5a",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14621,7 +14716,7 @@
       "aliases": []
     },
     {
-      "id": "e9d750082a66a84d",
+      "id": "c89a215bec86e758",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14633,7 +14728,7 @@
       "aliases": []
     },
     {
-      "id": "8f29dcc73e4883e7",
+      "id": "e30851325c9f2094",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14647,7 +14742,7 @@
       ]
     },
     {
-      "id": "2257eff6d56945e8",
+      "id": "e39d96087fcfa198",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14659,7 +14754,7 @@
       "aliases": []
     },
     {
-      "id": "efdabf500f390251",
+      "id": "cbd4d7f2bb12c1bc",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14671,7 +14766,7 @@
       "aliases": []
     },
     {
-      "id": "09d663f4d58157b6",
+      "id": "c94a60c170a29cda",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14683,7 +14778,7 @@
       "aliases": []
     },
     {
-      "id": "d3af445cf59766b9",
+      "id": "7a40f0ee77e5fca3",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14695,7 +14790,7 @@
       "aliases": []
     },
     {
-      "id": "dc49184056e9905e",
+      "id": "d49d0256c715b955",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14707,7 +14802,7 @@
       "aliases": []
     },
     {
-      "id": "27dcca1402fe5d16",
+      "id": "9c5560de93f5149b",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14719,7 +14814,7 @@
       "aliases": []
     },
     {
-      "id": "d1a7c98681508b53",
+      "id": "1c11df450801a08d",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14731,7 +14826,7 @@
       "aliases": []
     },
     {
-      "id": "23f99a9b337b164f",
+      "id": "4e06bef9daf91029",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14743,7 +14838,7 @@
       "aliases": []
     },
     {
-      "id": "36c7ac3e1685bfc6",
+      "id": "6d3ce25b73b27461",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14757,7 +14852,7 @@
       ]
     },
     {
-      "id": "17df3f3c0996a62a",
+      "id": "b549b35291cd1352",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14769,7 +14864,7 @@
       "aliases": []
     },
     {
-      "id": "34595a274c74ee1c",
+      "id": "6d2cb66baf435748",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14781,7 +14876,7 @@
       "aliases": []
     },
     {
-      "id": "a6895a99363f81ad",
+      "id": "95c85eb3d924abd5",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14793,7 +14888,7 @@
       "aliases": []
     },
     {
-      "id": "982ab61e8a96ad81",
+      "id": "5ed865f819f3f5c4",
       "locale": "ja",
       "pageId": "appendix-e",
       "section": "appendices",

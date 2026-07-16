@@ -147,7 +147,7 @@ CI 実装例（GitHub Actions）:
 
 本リポジトリでは、実動する例として `.github/workflows/formal-checks.yml` を同梱している。
 PR段階はbase/head差分をexample manifestのasset、reference、config、wrapperへ照合し、関連する`pr-quick`だけを`bash examples/ci/pr-quick-check.sh`から実行する。共通基盤変更時と引数なしのローカル実行は7件すべてを検査する。
-schedule / manual dispatchでは`scripts/plan-formal-matrix.js`がtool manifestからallowlist済みmatrixを作り、`tool-matrix`が`fail-fast: false`でAlloy/TLC/Apalache/Dafnyのdeep profileとSPIN/NuSMV/CBMC/Quint/PRISMをtool単位に分離する。Kaniは明示的に`optional`を選んだmanual dispatchだけで実行する。
+schedule / manual dispatchでは`scripts/plan-formal-matrix.js`がtool manifestからallowlist済みmatrixを作り、`tool-matrix`が`fail-fast: false`でAlloy/TLC/Apalache/Dafnyのdeep profileとSPIN/NuSMV/CBMC/Quint/PRISM/Tamarinをtool単位に分離する。Kaniは明示的に`optional`を選んだmanual dispatchだけで実行する。
 
 例（抜粋）：
 

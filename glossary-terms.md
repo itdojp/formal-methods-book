@@ -50,6 +50,8 @@
 
 ## D
 
+**Dolev–Yao攻撃者モデル** - 通信の盗聴・改変・再送・合成と既知鍵による操作を許し、未知鍵なしの暗号解読は許さないsymbolic network model。鍵侵害やside-channelは明示的な追加modelを要する。→第13章,付録E
+
 **DeepSeek-Prover-V2** - Lean 4 向け形式証明生成を対象とする大規模モデルの研究例。ベンチマーク結果は、形式化済み問題、評価設定、計算資源に依存する。→第9章
 
 **デッドロック** - 複数のプロセスが互いに待機し合って進行できない状態。→第6章
@@ -149,6 +151,10 @@
 **時相演算子（Temporal operator）** - トレース上の「常に」「いつか」「次に」「ある条件まで」を記述する演算子。Alloy 6 の `always` / `eventually` / `after` / `until` や TLA+ の `[]` / `<>` など。→第4章,第7章,第8章
 
 ## T
+
+**Tamarin Prover** - multiset rewriting rules、facts、events、trace lemmasにより、active attacker下の秘密性・認証・replay等をsymbolicに検証するツール。→第13章,付録B,付録E
+
+**attack trace（攻撃トレース）** - 攻撃者の知識獲得、message操作、protocol eventを含む性質違反trace。→第13章,付録C
 
 **TLA+** - Leslie Lamportにより開発された仕様記述言語。時相論理を基盤とする。→第7章
 

@@ -3,7 +3,7 @@
   "project": "formal-methods-book",
   "projectVersion": "1.1.0",
   "locale": "en",
-  "entryCount": 1119,
+  "entryCount": 1125,
   "entries": [
     {
       "id": "86609783ffbbee21",
@@ -9615,7 +9615,7 @@
       "chapter": "Chapter 12: Tools and Automation",
       "heading": "Chapter 12: Tools and Automation",
       "url": "/formal-methods-book/en/chapters/chapter12/#chapter-12-tools-and-automation",
-      "text": "Translation status: Partial. Reviewed against Japanese source commit 53c0ef469bd9 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work.",
+      "text": "Translation status: Partial. Reviewed against Japanese source commit dbe99897e679 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work.",
       "aliases": []
     },
     {
@@ -9968,8 +9968,10 @@
       "chapter": "Chapter 12: Tools and Automation",
       "heading": "Operational Design Lines for Integrating Theorem Proving (Lean and Similar Tools) into CI",
       "url": "/formal-methods-book/en/chapters/chapter12/#operational-design-lines-for-integrating-theorem-proving-lean-and-similar-tools-into-ci",
-      "text": "Theorem proving delivers a high level of assurance, but runtime, dependency management, and the maintenance cost of proof assets can easily dominate the operational burden. In CI, it is therefore better not to assume full proof re-execution on every pull request. Instead, verification levels should be separated operationally. Pull requests (minimum level): smoke tests for syntax and builds, detection of incomplete markers such as sorry, and checking the scope of the change Nightly or scheduled runs (deep verification): rerun representative theorem sets, detect the impact of dependency-library updates, and execute heavier proofs Before release (stabilization): pin the toolchain and dependencies, confirm reproducibility, and preserve logs for audit purposes The companion repository applies this separation in .github/workflows/formal-checks.yml. Pull requests pass the base/head diff to examples/ci/pr-quick-check.sh, which selects only entries related through manifest assets, references, configuration, or wrappers; shared infrastructure changes fail safely to the complete quick lane. For schedules and manual runs, scripts/plan-formal-matrix.js creates an allowlisted plan from the tool manifest, and tool-matrix executes it with fail-fast: false so that one tool failure does not suppress other logs. The nightly plan covers deep profiles for Alloy, TLC, Apalache, and Dafny plus SPIN, NuSMV, CBMC, Quint, and PRISM; Kani runs only when the optional lane is selected explicitly through workflowdispatch. Each artifact records the version, command, input hash, exit code, stdout/stderr, and stated resource bounds, while distinguishing success, counterexample, unknown, timeout, and resource-exhausted. Here, memoryMiB is a declared CI-capacity budget rather than an OS/cgroup-enforced limit. The runner can classify enforced timeouts and detectable output excess, but an OOM kill may surface as tool-error or a runner failure. Operationally, the following points matter. Pin dependencies: Fix versions of the elan toolchain, Lake packages, mathlib4, and related dependencies so that CI remains reproducible. Use caching: Cache toolchains and build artifacts to keep pull-request latency under control. Control changes carefully: Review requirement changes and proof changes in the same pull request so that proofs do not drift away from requirements even when they still pass. See the trust model in Chapter 9.",
-      "aliases": []
+      "text": "Theorem proving delivers a high level of assurance, but runtime, dependency management, and the maintenance cost of proof assets can easily dominate the operational burden. In CI, it is therefore better not to assume full proof re-execution on every pull request. Instead, verification levels should be separated operationally. Pull requests (minimum level): smoke tests for syntax and builds, detection of incomplete markers such as sorry, and checking the scope of the change Nightly or scheduled runs (deep verification): rerun representative theorem sets, detect the impact of dependency-library updates, and execute heavier proofs Before release (stabilization): pin the toolchain and dependencies, confirm reproducibility, and preserve logs for audit purposes The companion repository applies this separation in .github/workflows/formal-checks.yml. Pull requests pass the base/head diff to examples/ci/pr-quick-check.sh, which selects only entries related through manifest assets, references, configuration, or wrappers; shared infrastructure changes fail safely to the complete quick lane. For schedules and manual runs, scripts/plan-formal-matrix.js creates an allowlisted plan from the tool manifest, and tool-matrix executes it with fail-fast: false so that one tool failure does not suppress other logs. The nightly plan covers deep profiles for Alloy, TLC, Apalache, and Dafny plus SPIN, NuSMV, CBMC, Quint, PRISM, and Tamarin; Kani runs only when the optional lane is selected explicitly through workflowdispatch. Each artifact records the version, command, input hash, exit code, stdout/stderr, and stated resource bounds, while distinguishing success, counterexample, unknown, timeout, and resource-exhausted. Here, memoryMiB is a declared CI-capacity budget rather than an OS/cgroup-enforced limit. The runner can classify enforced timeouts and detectable output excess, but an OOM kill may surface as tool-error or a runner failure. Operationally, the following points matter. Pin dependencies: Fix versions of the elan toolchain, Lake packages, mathlib4, and related dependencies so that CI remains reproducible. Use caching: Cache toolchains and build artifacts to keep pull-request latency under control. Control changes carefully: Review requirement changes and proof changes in the same pull request so that proofs do not drift away from requirements even when they still pass. See the trust model in Chapter 9.",
+      "aliases": [
+        "Tamarin Prover"
+      ]
     },
     {
       "id": "109b4e384833b47f",
@@ -10187,7 +10189,7 @@
       "chapter": "Chapter 13: Case Studies",
       "heading": "Chapter 13: Case Studies",
       "url": "/formal-methods-book/en/chapters/chapter13/#chapter-13-case-studies",
-      "text": "Translation status: Partial. Reviewed against Japanese source commit 83d031100ae7 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work.",
+      "text": "Translation status: Partial. Reviewed against Japanese source commit 5476db441b31 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work.",
       "aliases": []
     },
     {
@@ -10539,7 +10541,23 @@
       "aliases": []
     },
     {
-      "id": "ad469a026d2531bd",
+      "id": "0962991e3b2af250",
+      "locale": "en",
+      "pageId": "chapter13",
+      "section": "chapters",
+      "title": "Protocol-Level Adversarial Verification with Tamarin",
+      "chapter": "Chapter 13: Case Studies",
+      "heading": "Protocol-Level Adversarial Verification with Tamarin",
+      "url": "/formal-methods-book/en/chapters/chapter13/#security-protocol-verification-tamarin",
+      "text": "The s2n case primarily checks selected cryptographic implementations against their specifications. Symbolic protocol verification asks a different question: do secrecy and authentication still hold when an attacker controls communication between the participants? Tamarin Prover addresses this protocol-level question. Cedar checks authorization decisions over policies and requests, whereas Tamarin checks secrecy, authentication, and replay properties of message-passing protocols under an active adversary. In the Dolev–Yao model, the adversary controls the network. It can intercept, modify, replay, decompose, and compose messages and apply cryptographic operations with keys it knows. It does not break encryption without the required key or gain computational and side-channel capabilities unless the model explicitly represents them. Tamarin describes protocol steps with multiset-rewriting rules, state and knowledge with facts, trace observations with action facts / events, and security goals with lemmas. A persistent fact such as !SharedKey can be reused, while a linear fact such as OpenChallenge is consumed by the rule that uses it. Secrecy and authentication are separate properties. SharedKeySecrecy rules out a trace in which the attacker learns the shared key; ResponseAuthentication requires a matching client send before a server acceptance. Here ResponseAuthentication is non-injective correspondence: it requires an earlier matching send but not a one-to-one match. Neither property alone prevents a valid ciphertext from being replayed, so the example states the injective acceptance condition separately as NoReplay. A man-in-the-middle model similarly needs explicit identities, roles, session data, and an agreement lemma; the presence of encryption alone is not an authentication proof. The fictional example has a server publish a fresh nonce and a client return an encrypted tuple. The examples/tamarin/replay-challenge/replay-flawed.spthy keeps the open challenge as a persistent fact. Its examples/tamarin/replay-challenge/expected-flawed.json verifies executability, shared-key secrecy, and response authentication, but falsifies NoReplay. The retained attack graph shows two ResponseAccepted events following one ResponseSent event. The examples/tamarin/replay-challenge/replay-fixed.spthy uses a linear challenge fact that the first acceptance consumes; its examples/tamarin/replay-challenge/expected-fixed.json verifies all four stated lemmas. The examples/tamarin/replay-challenge/README.md records the teaching assumptions and commands. Model · Executable · SharedKeySecrecy · ResponseAuthentication · NoReplay · Expected outcome --- · --- · --- · --- · --- · --- Flawed · verified · verified · verified · falsified with attack trace · counterexample Fixed · verified · verified · verified · verified · success 【Tool-compliant (runs as-is)】 The nightly contract pins the official Linux x86-64 distributions for Tamarin Prover 1.12.0 and its supported Maude 3.5.1 by URL and SHA-256, then re-extracts both from verified archives for every run. It uses automated proof search with --quit-on-warning --prove --stop-on-trace=SEQDFS --output-json, a 150-second inner limit, and a 180-second manifest-runner limit. Because Tamarin can return exit code zero after falsifying a lemma, the wrapper compares every lemma name, mode, and status and the expected attack graph instead of treating exit code as the verdict. Artifacts retain input hashes, the command, tool and dependency provenance, limits, lemma results, a sanitized summary, and the flawed model's attack graph, but not the Tamarin or Maude binaries. An attack graph preserves symbolic constants from the model, so models must not contain real keys, credentials, tenant identifiers, or private host names. The wrapper rejects representative credential formats before execution, but that narrow check does not replace content review. Guarantee boundary: verified applies only to the stated rules, events, lemmas, freshness assumptions, shared-key model, symmetric-encryption equational theory, and proof configuration. Public-key encryption, signatures, hashes, and Diffie–Hellman require explicit theories and different properties. The example assumes secure registration of its pre-shared key and does not model key compromise, key distribution, or a PKI. This result does not by itself establish computational soundness, implementation correctness, cryptographic strength, random-number quality, encoding correctness, side-channel resistance, or the security of libraries, operating systems, and deployment practices.",
+      "aliases": [
+        "Dolev-Yao",
+        "Dolev–Yao攻撃者モデル",
+        "Dolev–Yao adversary model"
+      ]
+    },
+    {
+      "id": "b537e23d7c9b637b",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10553,7 +10571,7 @@
       ]
     },
     {
-      "id": "3c430c9cad018c27",
+      "id": "aab1b2e8180e5a91",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10567,7 +10585,7 @@
       ]
     },
     {
-      "id": "1ca9ae2c8f44e46c",
+      "id": "2a7476b52f212bbf",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10581,7 +10599,7 @@
       ]
     },
     {
-      "id": "d76461d6513e8f39",
+      "id": "c2f7eed96e9953da",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10595,7 +10613,7 @@
       ]
     },
     {
-      "id": "b914a8776360d964",
+      "id": "320f3c44c843d031",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10611,7 +10629,7 @@
       ]
     },
     {
-      "id": "cc86c1ca0981e665",
+      "id": "fc0bf216d1eb2580",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10625,7 +10643,7 @@
       ]
     },
     {
-      "id": "e8e306c28ffe55e2",
+      "id": "0a047133763afaf1",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10639,7 +10657,7 @@
       ]
     },
     {
-      "id": "27c9b89252b90bbf",
+      "id": "9a5516f387835f09",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10653,7 +10671,7 @@
       ]
     },
     {
-      "id": "77692c7ca9a8111f",
+      "id": "a451c0643534ec5d",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10667,7 +10685,7 @@
       ]
     },
     {
-      "id": "82eb5478d4d45689",
+      "id": "acd28b60ef70f33a",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10681,7 +10699,7 @@
       ]
     },
     {
-      "id": "85c98c8887369f65",
+      "id": "12541ee8579325c6",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10695,7 +10713,7 @@
       ]
     },
     {
-      "id": "ce2a9df1158eb6cb",
+      "id": "95d0bf96cae4b08e",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10709,7 +10727,7 @@
       ]
     },
     {
-      "id": "670c3f71031c7b88",
+      "id": "cbaf2cc1f30ceb00",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10721,7 +10739,7 @@
       "aliases": []
     },
     {
-      "id": "b6c65a3fe240604f",
+      "id": "36dc5219cb4b8d86",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10736,7 +10754,7 @@
       ]
     },
     {
-      "id": "dd6a262bd82510f1",
+      "id": "3d9360b8d239e31d",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10748,7 +10766,7 @@
       "aliases": []
     },
     {
-      "id": "ad355e7ada0d705b",
+      "id": "fdc601d819bba8cb",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10760,7 +10778,7 @@
       "aliases": []
     },
     {
-      "id": "da4f820ab8998e02",
+      "id": "884fb1c70c820198",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10772,7 +10790,7 @@
       "aliases": []
     },
     {
-      "id": "1d69f8881eea7aa0",
+      "id": "d3fce9ad44b3d37b",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10784,7 +10802,7 @@
       "aliases": []
     },
     {
-      "id": "cc4e91099a9163c1",
+      "id": "cc1e0096df8935a7",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10796,7 +10814,7 @@
       "aliases": []
     },
     {
-      "id": "414707f44ab3e797",
+      "id": "c88b34bcf0a0a81f",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10808,7 +10826,7 @@
       "aliases": []
     },
     {
-      "id": "a3d59d08ccdee9d9",
+      "id": "16a21ddacc54936a",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10820,7 +10838,7 @@
       "aliases": []
     },
     {
-      "id": "4311c15fb9e60b27",
+      "id": "1dde31ee363288bb",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10832,7 +10850,7 @@
       "aliases": []
     },
     {
-      "id": "b95914413ce245a4",
+      "id": "cfd24c8f5d747906",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10844,7 +10862,7 @@
       "aliases": []
     },
     {
-      "id": "682ea2a153322e2e",
+      "id": "6295844ddd804a18",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10858,7 +10876,7 @@
       ]
     },
     {
-      "id": "d89a39a522833d5d",
+      "id": "9df5bf8a92eef3ba",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10870,7 +10888,7 @@
       "aliases": []
     },
     {
-      "id": "7c78cae4f3db6d89",
+      "id": "1a8cd32d89fc35c5",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10882,7 +10900,7 @@
       "aliases": []
     },
     {
-      "id": "edd3b3c4d1f8fc2d",
+      "id": "4eb97d5e8cca5684",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10894,7 +10912,7 @@
       "aliases": []
     },
     {
-      "id": "675ff3504a25dc6f",
+      "id": "e2e4c84205008553",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10906,7 +10924,7 @@
       "aliases": []
     },
     {
-      "id": "961e254c04653dd2",
+      "id": "a465e3f2f2adee80",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10918,7 +10936,7 @@
       "aliases": []
     },
     {
-      "id": "b5a11db2cf0889e4",
+      "id": "d3028c0ec563cffc",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10930,7 +10948,7 @@
       "aliases": []
     },
     {
-      "id": "86ce1683bc0758bb",
+      "id": "dbe9ba2b5d26f7f4",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10942,7 +10960,7 @@
       "aliases": []
     },
     {
-      "id": "cd4ba9d94ad498b4",
+      "id": "1f56b6fa426a1c43",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10954,7 +10972,7 @@
       "aliases": []
     },
     {
-      "id": "7cd25e9b61ab2dfc",
+      "id": "3f51c00fd3ce8bd9",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10966,7 +10984,7 @@
       "aliases": []
     },
     {
-      "id": "594f332ec8b69e4b",
+      "id": "408f993607aace52",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10980,7 +10998,7 @@
       ]
     },
     {
-      "id": "f388767e531e1653",
+      "id": "fb620d4801337d0b",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -10992,7 +11010,7 @@
       "aliases": []
     },
     {
-      "id": "9f8e017f889febf5",
+      "id": "d079e20e06c1c70c",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -11004,7 +11022,7 @@
       "aliases": []
     },
     {
-      "id": "9cef154cb6fa0b19",
+      "id": "d86e3629055252f4",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -11016,7 +11034,7 @@
       "aliases": []
     },
     {
-      "id": "615ac1155a2addb5",
+      "id": "7c3bdff36c72cc3b",
       "locale": "en",
       "pageId": "chapter13",
       "section": "chapters",
@@ -11036,7 +11054,7 @@
       "chapter": "Glossary",
       "heading": "Glossary",
       "url": "/formal-methods-book/en/glossary/#glossary",
-      "text": "Translation status: Partial. Reviewed against Japanese source commit 53c0ef469bd9 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This glossary collects technical terms and abbreviations that appear repeatedly throughout the book. The definitions prioritize the way each term is used in this book. When stricter distinctions matter, refer to the appendices or to primary sources.",
+      "text": "Translation status: Partial. Reviewed against Japanese source commit dbe99897e679 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This glossary collects technical terms and abbreviations that appear repeatedly throughout the book. The definitions prioritize the way each term is used in this book. When stricter distinctions matter, refer to the appendices or to primary sources.",
       "aliases": []
     },
     {
@@ -11091,7 +11109,21 @@
       "aliases": []
     },
     {
-      "id": "ebc0141927e30b13",
+      "id": "5e66c1bf31020858",
+      "locale": "en",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "Attack trace",
+      "chapter": "Glossary",
+      "heading": "Attack trace",
+      "url": "/formal-methods-book/en/glossary/#glossary-attack-trace",
+      "text": "A violating trace containing adversary knowledge, message operations, and protocol events. In tools such as Tamarin, it is the retained explanation for a falsified lemma. See Chapter 13 and Appendix C.",
+      "aliases": [
+        "Tamarin Prover"
+      ]
+    },
+    {
+      "id": "df1e61547e2f1532",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11103,7 +11135,7 @@
       "aliases": []
     },
     {
-      "id": "ca199dc716a0becd",
+      "id": "30325dd81b5a9caf",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11119,7 +11151,7 @@
       ]
     },
     {
-      "id": "1536c48bc0be94e0",
+      "id": "0c09cc9957ede901",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11131,7 +11163,7 @@
       "aliases": []
     },
     {
-      "id": "8c253cb36bcc2ea0",
+      "id": "610adc5d5e8c6b15",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11143,7 +11175,7 @@
       "aliases": []
     },
     {
-      "id": "a5476b1e06f61563",
+      "id": "fcb5a39541cd7a3e",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11158,7 +11190,7 @@
       ]
     },
     {
-      "id": "40043093984847e5",
+      "id": "2909b1bde98fa98b",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11170,7 +11202,7 @@
       "aliases": []
     },
     {
-      "id": "9004c6e86085388d",
+      "id": "a0b83ec27472973e",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11182,7 +11214,7 @@
       "aliases": []
     },
     {
-      "id": "cf890e9ad1c1f7f8",
+      "id": "4e2ff14d6bbcb67d",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11194,7 +11226,7 @@
       "aliases": []
     },
     {
-      "id": "b3af4d27d0d26536",
+      "id": "070eeb40bc1be045",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11206,7 +11238,7 @@
       "aliases": []
     },
     {
-      "id": "dcf878109089a006",
+      "id": "26cb58d203443c11",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11218,7 +11250,7 @@
       "aliases": []
     },
     {
-      "id": "60124f87454db098",
+      "id": "836188ff7bf7046f",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11230,7 +11262,7 @@
       "aliases": []
     },
     {
-      "id": "9eba71c62ae1664e",
+      "id": "a5be03bae9d918e0",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11242,7 +11274,7 @@
       "aliases": []
     },
     {
-      "id": "42cfc94b9d13f1ef",
+      "id": "7519f8b2dd3f109d",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11254,7 +11286,7 @@
       "aliases": []
     },
     {
-      "id": "4065f7634164163c",
+      "id": "e1831124b6de3583",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11266,7 +11298,7 @@
       "aliases": []
     },
     {
-      "id": "7ca9691e2b76923d",
+      "id": "87e097546564c486",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11278,7 +11310,22 @@
       "aliases": []
     },
     {
-      "id": "f5b44e652e7ce5c2",
+      "id": "3b806866014db3af",
+      "locale": "en",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "Dolev–Yao adversary model",
+      "chapter": "Glossary",
+      "heading": "Dolev–Yao adversary model",
+      "url": "/formal-methods-book/en/glossary/#glossary-dolevyao-adversary-model",
+      "text": "A symbolic network model in which an attacker can intercept, modify, replay, and compose messages and use known keys, but does not break cryptography without the needed key. Compromise and side channels require explicit modeling. See Chapter 13 and Appendix E.",
+      "aliases": [
+        "Dolev-Yao",
+        "Dolev–Yao攻撃者モデル"
+      ]
+    },
+    {
+      "id": "b43bf9e111ee9d69",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11290,7 +11337,7 @@
       "aliases": []
     },
     {
-      "id": "428583f58d81971e",
+      "id": "8f415253c9c93151",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11302,7 +11349,7 @@
       "aliases": []
     },
     {
-      "id": "95491f01e2dd18cc",
+      "id": "78c3676e3843b86a",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11314,7 +11361,7 @@
       "aliases": []
     },
     {
-      "id": "984d59883d917d12",
+      "id": "7901ddd71ddec7fc",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11332,7 +11379,7 @@
       ]
     },
     {
-      "id": "37970b11f9dc1632",
+      "id": "80fdf3a2e6e8a8fb",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11344,7 +11391,7 @@
       "aliases": []
     },
     {
-      "id": "2b7c373388564680",
+      "id": "c048d8dde88a918c",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11356,7 +11403,7 @@
       "aliases": []
     },
     {
-      "id": "119498d405dd0bc3",
+      "id": "025d0ecf0fdfc2c4",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11368,7 +11415,7 @@
       "aliases": []
     },
     {
-      "id": "38a3886d22338292",
+      "id": "a7268c45f1d5d82c",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11380,7 +11427,7 @@
       "aliases": []
     },
     {
-      "id": "df476882e0233c11",
+      "id": "22c09524ec92f3d0",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11392,7 +11439,7 @@
       "aliases": []
     },
     {
-      "id": "17f84b517750d8fd",
+      "id": "d6f31c86aca86ec8",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11407,7 +11454,7 @@
       ]
     },
     {
-      "id": "605bba9a7200e536",
+      "id": "f873788667d6c1c5",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11419,7 +11466,7 @@
       "aliases": []
     },
     {
-      "id": "11053f7d50f6e3e4",
+      "id": "82d85b41a76ffe20",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11431,7 +11478,7 @@
       "aliases": []
     },
     {
-      "id": "9f22b65d6b4c8c24",
+      "id": "17c08e06dffd787c",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11443,7 +11490,7 @@
       "aliases": []
     },
     {
-      "id": "f58271ede050890b",
+      "id": "0365d9a05c0fc498",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11455,7 +11502,7 @@
       "aliases": []
     },
     {
-      "id": "8f6131206eb2e67f",
+      "id": "2780f7d7c9d637c4",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11467,7 +11514,7 @@
       "aliases": []
     },
     {
-      "id": "8fe79e22d7bd9ff8",
+      "id": "968519f2cd286df6",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11479,7 +11526,7 @@
       "aliases": []
     },
     {
-      "id": "e92ff59536204dec",
+      "id": "ad83e2829b54b835",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11491,7 +11538,7 @@
       "aliases": []
     },
     {
-      "id": "005703bcc058aebe",
+      "id": "1db64d3b0be917d5",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11506,7 +11553,7 @@
       ]
     },
     {
-      "id": "7a333bc12392a071",
+      "id": "91bca4229898d6c2",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11518,7 +11565,7 @@
       "aliases": []
     },
     {
-      "id": "0062834c6387f856",
+      "id": "041b601e4a2ba457",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11530,7 +11577,7 @@
       "aliases": []
     },
     {
-      "id": "ac71e9e01e133dc6",
+      "id": "b78e35fc63cfb4fb",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11542,7 +11589,7 @@
       "aliases": []
     },
     {
-      "id": "6f84369eecc764cd",
+      "id": "abc89c83ec71cf9b",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11554,7 +11601,7 @@
       "aliases": []
     },
     {
-      "id": "1fc4a058f4005bc5",
+      "id": "39ea6c200e99a816",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11568,7 +11615,7 @@
       ]
     },
     {
-      "id": "21cc86c400ca7e1d",
+      "id": "b9d655fa4a77eee4",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11580,7 +11627,7 @@
       "aliases": []
     },
     {
-      "id": "622ecd4d5b654011",
+      "id": "56789931bf7b915e",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11595,7 +11642,7 @@
       ]
     },
     {
-      "id": "b7ecc64844c4125e",
+      "id": "2d7af117725bb6f4",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11610,7 +11657,7 @@
       ]
     },
     {
-      "id": "338d48b8098e59b8",
+      "id": "0abec44b9287960e",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11622,7 +11669,7 @@
       "aliases": []
     },
     {
-      "id": "32ecdb4eaae2448e",
+      "id": "c9177663a95176c5",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11634,7 +11681,7 @@
       "aliases": []
     },
     {
-      "id": "5c4f48a8d6cf82a8",
+      "id": "a2135d3047c80219",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11646,7 +11693,7 @@
       "aliases": []
     },
     {
-      "id": "ffefdb1d8d3680b3",
+      "id": "bc754194b187541e",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11658,7 +11705,7 @@
       "aliases": []
     },
     {
-      "id": "b085a6cd1b795fa2",
+      "id": "8e21f5637704e6c7",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11670,7 +11717,7 @@
       "aliases": []
     },
     {
-      "id": "bd5c209d8a328301",
+      "id": "b0c2dd5c08258e02",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11684,7 +11731,7 @@
       ]
     },
     {
-      "id": "c80c4d7dc5fd021c",
+      "id": "90d692c6e6b92407",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11696,7 +11743,7 @@
       "aliases": []
     },
     {
-      "id": "297cc965c7288571",
+      "id": "87bc556ad8523c23",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11708,7 +11755,7 @@
       "aliases": []
     },
     {
-      "id": "438cf17bff20f7f6",
+      "id": "c436c9788c52aa9e",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11720,7 +11767,7 @@
       "aliases": []
     },
     {
-      "id": "36f77b30725e0367",
+      "id": "e9402a4edd627547",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11735,7 +11782,7 @@
       ]
     },
     {
-      "id": "a39ea75408a82826",
+      "id": "56ca0d093019d834",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11747,7 +11794,7 @@
       "aliases": []
     },
     {
-      "id": "6d5f884880840828",
+      "id": "c5bd02984815c86f",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11759,7 +11806,7 @@
       "aliases": []
     },
     {
-      "id": "ae889d8dcea25906",
+      "id": "c045589910824a93",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11771,7 +11818,7 @@
       "aliases": []
     },
     {
-      "id": "9efbad4338c99f2c",
+      "id": "6b5d4e2ee52bea8c",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11783,7 +11830,7 @@
       "aliases": []
     },
     {
-      "id": "e533f6b10c83ec15",
+      "id": "cb206b0bb6a3beae",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11795,7 +11842,7 @@
       "aliases": []
     },
     {
-      "id": "0005ec02f3908cd7",
+      "id": "7b03552a1ebe1544",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11807,7 +11854,7 @@
       "aliases": []
     },
     {
-      "id": "b1bf72b02289f625",
+      "id": "3206a1a398b4a3a1",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11823,7 +11870,7 @@
       ]
     },
     {
-      "id": "2ea4df3a83a0b766",
+      "id": "4d8591cc821336a3",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11835,7 +11882,19 @@
       "aliases": []
     },
     {
-      "id": "70da47440a317f7c",
+      "id": "fa4aa2ed26856042",
+      "locale": "en",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "Tamarin Prover",
+      "chapter": "Glossary",
+      "heading": "Tamarin Prover",
+      "url": "/formal-methods-book/en/glossary/#glossary-tamarin-prover",
+      "text": "A symbolic security-protocol verifier using multiset-rewriting rules, facts, events, and trace lemmas under an active adversary. Results are relative to the equational theory, assumptions, lemmas, and proof configuration. See Chapter 13 and Appendices B and E.",
+      "aliases": []
+    },
+    {
+      "id": "429bd1d155f3611d",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11849,7 +11908,7 @@
       ]
     },
     {
-      "id": "5edcfc3dc74cb249",
+      "id": "ff51b76f2185e440",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11863,7 +11922,7 @@
       ]
     },
     {
-      "id": "30ecb6be92889e5b",
+      "id": "4658d6a3f08c8e4f",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11875,7 +11934,7 @@
       "aliases": []
     },
     {
-      "id": "62a25f0ae42f9773",
+      "id": "fbe83fa8289f9345",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11889,7 +11948,7 @@
       ]
     },
     {
-      "id": "1fa237021336da33",
+      "id": "73e2ac6c2961055f",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11901,7 +11960,7 @@
       "aliases": []
     },
     {
-      "id": "9316898f76ee8474",
+      "id": "18bbecef1c5d60c4",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11913,7 +11972,7 @@
       "aliases": []
     },
     {
-      "id": "b6633f4b13c092d4",
+      "id": "73d1cb4189e9a944",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11921,11 +11980,11 @@
       "chapter": "Glossary",
       "heading": "Trace",
       "url": "/formal-methods-book/en/glossary/#glossary-trace",
-      "text": "A sequence of state transitions. Counterexamples are often presented as traces. See Chapter 8.",
+      "text": "A sequence of state transitions. Counterexamples are often presented as traces; security-protocol verification may present one as an attack trace that includes adversary operations. See Chapters 8 and 13.",
       "aliases": []
     },
     {
-      "id": "dcde9ca90594c6e5",
+      "id": "09121df1a83c8b49",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11940,7 +11999,7 @@
       ]
     },
     {
-      "id": "c03fc8c1436a0363",
+      "id": "888707f893d0f72b",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11952,7 +12011,7 @@
       "aliases": []
     },
     {
-      "id": "0c22ba747a1d7aeb",
+      "id": "58a1ee428d614347",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11964,7 +12023,7 @@
       "aliases": []
     },
     {
-      "id": "67ab38af77bd5f0d",
+      "id": "79e4e07e2b846661",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11976,7 +12035,7 @@
       "aliases": []
     },
     {
-      "id": "25a20e82dd1d2a07",
+      "id": "0287acdb9a237bb6",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11988,7 +12047,7 @@
       "aliases": []
     },
     {
-      "id": "5ff993ac0da70f1e",
+      "id": "da209cbc121728f3",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12130,7 +12189,7 @@
       "chapter": "Appendix B: Tool Setup and Verification Quick Start",
       "heading": "Appendix B: Tool Setup and Verification Quick Start",
       "url": "/formal-methods-book/en/appendices/appendix-b/#appendix-b-tool-setup-and-verification-quick-start",
-      "text": "Translation status: Partial. Reviewed against Japanese source commit 53c0ef469bd9 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This appendix gives the shortest reproducible path to running the book's companion examples. It prioritizes reproducibility (minimizing environment differences) over local customization. Container (recommended): use a devcontainer for a unified environment Local: run the same scripts with minimum dependencies such as Java, curl, and unzip The commands below are representative examples. Distribution formats and prerequisites may change, so consult Appendix E on primary sources when necessary. You do not need every tool before you begin reading. By following this appendix, you should be able to reproduce at least one model checking workflow (Alloy/TLC/Apalache) and one program verification workflow (Dafny).",
+      "text": "Translation status: Partial. Reviewed against Japanese source commit dbe99897e679 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This appendix gives the shortest reproducible path to running the book's companion examples. It prioritizes reproducibility (minimizing environment differences) over local customization. Container (recommended): use a devcontainer for a unified environment Local: run the same scripts with minimum dependencies such as Java, curl, and unzip The commands below are representative examples. Distribution formats and prerequisites may change, so consult Appendix E on primary sources when necessary. You do not need every tool before you begin reading. By following this appendix, you should be able to reproduce at least one model checking workflow (Alloy/TLC/Apalache) and one program verification workflow (Dafny).",
       "aliases": [
         "模型検査",
         "モデル検査"
@@ -12145,11 +12204,12 @@
       "chapter": "Appendix B: Tool Setup and Verification Quick Start",
       "heading": "Target Tools (Minimum Set)",
       "url": "/formal-methods-book/en/appendices/appendix-b/#target-tools-minimum-set",
-      "text": "Alloy 6.x (CLI execution) TLA+ TLC (tla2tools.jar) Apalache (SMT-based verification for TLA+) Dafny (verifier) Notes: Theorem provers such as Rocq and Isabelle have larger dependency footprints, so this appendix primarily points to primary sources for them in Appendix E. Lean 4 is included here only as a minimal setup at the end of the appendix as an optional path through the book. SPIN, NuSMV, CBMC, Quint, and PRISM belong to the nightly lane. Only source-built tools use the additional Ubuntu 24.04 x86-64 prerequisites below.",
+      "text": "Alloy 6.x (CLI execution) TLA+ TLC (tla2tools.jar) Apalache (SMT-based verification for TLA+) Dafny (verifier) Notes: Theorem provers such as Rocq and Isabelle have larger dependency footprints, so this appendix primarily points to primary sources for them in Appendix E. Lean 4 is included here only as a minimal setup at the end of the appendix as an optional path through the book. SPIN, NuSMV, CBMC, Quint, PRISM, and Tamarin belong to the nightly lane. Only source-built tools use the additional Ubuntu 24.04 x86-64 prerequisites below.",
       "aliases": [
         "TLA Plus",
         "Coq",
-        "The Rocq Prover"
+        "The Rocq Prover",
+        "Tamarin Prover"
       ]
     },
     {
@@ -12161,7 +12221,7 @@
       "chapter": "Appendix B: Tool Setup and Verification Quick Start",
       "heading": "Tool Lane Inventory and Execution Guarantee",
       "url": "/formal-methods-book/en/appendices/appendix-b/#tool-lane-inventory",
-      "text": "tools/tool-manifest.json is the source of truth for every tool's classification, executable version, distribution digest, artifact limits, and update procedure. pr-quick runs small examples related to a PR diff, nightly uses an independent per-tool matrix, and optional/manual runs only through an explicit workflowdispatch selection. documentation-only means that the book introduces the tool or service but this repository does not guarantee its version, environment, or result. Indirect use of an embedded solver does not constitute a standalone execution guarantee for that solver. Tool / service · lane · Verified version · Rationale --- · --- · --- · --- Alloy Analyzer · pr-quick · 6.2.0 · Four small-scope examples are reproducible within the PR budget. TLC · pr-quick · 1.7.4 · Checks a finite model with pinned cfg, worker count, seed, and timeout. Apalache · pr-quick · 0.52.1 · A short bounded invariant check is reproducible on every PR. Dafny · pr-quick · 4.11.0 · The minimal verification example is fast and stable. SPIN · nightly · 6.5.2 · Source build and state exploration run in an isolated nightly tool job. NuSMV · nightly · 2.7.1 · The official source build has extra dependencies and is isolated to nightly. CBMC · nightly · 6.10.0 · Runs the pinned Ubuntu package and bounded check in an isolated nightly job. Quint · nightly · 0.32.0 · Uses the official single binary for typecheck/test with a fixed seed and TypeScript backend. PRISM Model Checker · nightly · 4.10.1 · Downloads the pinned roughly 41 MB official distribution and reproduces quantitative properties in an isolated nightly job. Kani Rust Verifier · optional/manual · 0.67.0 · Requires a pinned Rust nightly, so it is limited to explicit manual dispatch. TLA+ Toolbox · documentation-only · — · GUI/editor environment; outside this repository's CLI guarantee. TLA+ VS Code extension · documentation-only · — · Editor support is separate from CLI checks and its extension version is not pinned. Community Z Tools (CZT) · documentation-only · — · Reference-only Z tooling with no executable asset. FDR · documentation-only · — · CSPM examples are shown, but distribution/licensing and CI are not pinned. ProB · documentation-only · — · Mentioned only; no executable asset or pinned environment. PAT · documentation-only · — · Mentioned only; no executable asset or pinned environment. nuXmv · documentation-only · — · Introduced as distinct from NuSMV; CI guarantees NuSMV only. Java PathFinder · documentation-only · — · Mentioned as an option/exercise; no executable asset. UPPAAL · documentation-only · — · Not automated due to GUI, licensing, and distribution constraints. TIMES · documentation-only · — · Reference-only real-time verification tool. Rocq / Coq · documentation-only · — · No pinned proof project, opam switch, or library set. Lean 4 / Lake / mathlib / elan · documentation-only · — · No proof project or dependency revision; the Linux distribution is also large. Isabelle/HOL · documentation-only · — · Reference-only; no pinned session/build environment. Agda · documentation-only · — · Reference-only; no pinned project or libraries. HOL4 · documentation-only · — · Mentioned as an Aeneas target; no execution contract. F · documentation-only · — · Mentioned as a target/related technology; no execution contract. Frama-C · documentation-only · — · Reference-only; plugin and solver configuration are not pinned. VeriFast · documentation-only · — · Reference-only; no executable asset. SPARK · documentation-only · — · Industrial toolchain/licensing environment is not pinned. Why3 · documentation-only · — · Execution configuration including backend solvers is not pinned. Verus · documentation-only · — · Rust/Z3/revision execution stack is not pinned. Creusot · documentation-only · — · Why3/solver/Rust combination is not pinned. Prusti / Viper · documentation-only · — · Rust/Viper toolchain and executable asset are not pinned. Aeneas / Charon · documentation-only · — · No pinned end-to-end contract including a proof target. Z3 · documentation-only · — · Indirect use by other tools is not counted as a standalone solver guarantee. cvc5 / CVC4 · documentation-only · — · Reference-only; no pinned standalone solver asset. Yices · documentation-only · — · Reference-only; no pinned executable asset. MathSAT · documentation-only · — · Reference-only; licensing/distribution environment is not pinned. SCADE · documentation-only · — · Commercial/GUI toolchain; not a mandatory CI dependency. Simulink · documentation-only · — · Industry-case reference only; no licensed environment is pinned. SAW · documentation-only · — · Industry-case reference; no s2n verification asset is included. Cedar Analysis · documentation-only · — · Service/API and tools evolve; no policy asset is pinned. Bedrock Guardrails Automated Reasoning checks · documentation-only · — · External service/region/API constraints are not mandatory CI dependencies. Solidity SMTChecker · documentation-only · — · Solidity/compiler/solver stack and contract asset are not pinned. Aptos Move Prover · documentation-only · — · Move toolchain and contract asset are not pinned. Certora Prover · documentation-only · — · External/industrial toolchain is not a mandatory CI dependency. LeanDojo · documentation-only · — · Reference-only AI proof-assistance evaluation framework. Lean Copilot · documentation-only · — · Reference-only AI proof assistance; model/project not pinned. AlphaProof / AlphaGeometry 2 · documentation-only · — · Research-result reference with no redistributable CLI contract. DeepSeek-Prover-V2 · documentation-only · — · Research-result reference; model/runtime not pinned. ProofGym · documentation-only · — · Evaluation-framework reference; dataset/runtime not pinned. APOLLO · documentation-only · — · Research-result reference; no execution contract. Every executable entry states its timeout, memory budget, seed, scope, depth, and bound. Artifacts record the tool version, command, per-file SHA-256 and aggregate input hash, exit code, stdout/stderr, and distinct success, counterexample, unknown, timeout, and resource-exhaustion outcomes. Retention is 14 days; stdout/stderr is limited to 16 MiB per entry and tool output to 64 MiB per entry. The runner enforces timeout and stdout/stderr limits and checks retained tool output after execution. memoryMiB, however, is a declared CI-capacity budget, not an OS/cgroup-enforced limit. Consequently, resource-exhausted covers detectable output excess; an OOM kill may surface as tool-error or a runner failure. quint-counter: typechecks and tests examples/quint/counter.qnt with Quint 0.32.0, the bundled TypeScript evaluator, seed 20260716, and one sample per test. It does not implicitly download the separately distributed Rust evaluator. 【Tool-compliant (runs as-is)】 kani-abs: verifies the absisnonnegative harness in examples/kani/abs.rs with Kani 0.67.0, a pinned Rust nightly, and unwind bound 1. Because it requires an additional download and execution budget, it is optional/manual and never starts from a PR or schedule. After cache restore, the bootstrap rechecks the SHA-256 of both the Quint binary and the PRISM archive. PRISM 4.10.1 is re-extracted from its official GPL-2.0 Linux x86-64 archive on every run so that its absolute launcher path is rebuilt; the repository, CI artifacts, and Pages do not redistribute the tool binary. Only input hashes, standard output, and expected-value comparisons are retained. Kani is re-extracted from its verified archive on every run, and the dated Rust channel manifest is also verified by SHA-256. rustup then verifies the Rust components against the checksums recorded in that manifest. 【Tool-compliant (runs as-is)】 Version updates are checked monthly against the official release/tag and asset digest, then reviewed in a dedicated version-only PR with a clean-cache run and output-contract comparison. Arbitrary release assets are not package references managed by Dependabot or Renovate and must not be treated as automatically updated.",
+      "text": "tools/tool-manifest.json is the source of truth for every tool's classification, executable version, distribution digest, artifact limits, and update procedure. pr-quick runs small examples related to a PR diff, nightly uses an independent per-tool matrix, and optional/manual runs only through an explicit workflowdispatch selection. documentation-only means that the book introduces the tool or service but this repository does not guarantee its version, environment, or result. Indirect use of an embedded solver does not constitute a standalone execution guarantee for that solver. Tool / service · lane · Verified version · Rationale --- · --- · --- · --- Alloy Analyzer · pr-quick · 6.2.0 · Four small-scope examples are reproducible within the PR budget. TLC · pr-quick · 1.7.4 · Checks a finite model with pinned cfg, worker count, seed, and timeout. Apalache · pr-quick · 0.52.1 · A short bounded invariant check is reproducible on every PR. Dafny · pr-quick · 4.11.0 · The minimal verification example is fast and stable. SPIN · nightly · 6.5.2 · Source build and state exploration run in an isolated nightly tool job. NuSMV · nightly · 2.7.1 · The official source build has extra dependencies and is isolated to nightly. CBMC · nightly · 6.10.0 · Runs the pinned Ubuntu package and bounded check in an isolated nightly job. Quint · nightly · 0.32.0 · Uses the official single binary for typecheck/test with a fixed seed and TypeScript backend. PRISM Model Checker · nightly · 4.10.1 · Downloads the pinned roughly 41 MB official distribution and reproduces quantitative properties in an isolated nightly job. Tamarin Prover · nightly · 1.12.0 · Downloads pinned official Tamarin and supported Maude distributions and reproduces attack traces and lemmas in an isolated nightly job. Kani Rust Verifier · optional/manual · 0.67.0 · Requires a pinned Rust nightly, so it is limited to explicit manual dispatch. TLA+ Toolbox · documentation-only · — · GUI/editor environment; outside this repository's CLI guarantee. TLA+ VS Code extension · documentation-only · — · Editor support is separate from CLI checks and its extension version is not pinned. Community Z Tools (CZT) · documentation-only · — · Reference-only Z tooling with no executable asset. FDR · documentation-only · — · CSPM examples are shown, but distribution/licensing and CI are not pinned. ProB · documentation-only · — · Mentioned only; no executable asset or pinned environment. PAT · documentation-only · — · Mentioned only; no executable asset or pinned environment. nuXmv · documentation-only · — · Introduced as distinct from NuSMV; CI guarantees NuSMV only. Java PathFinder · documentation-only · — · Mentioned as an option/exercise; no executable asset. UPPAAL · documentation-only · — · Not automated due to GUI, licensing, and distribution constraints. TIMES · documentation-only · — · Reference-only real-time verification tool. Rocq / Coq · documentation-only · — · No pinned proof project, opam switch, or library set. Lean 4 / Lake / mathlib / elan · documentation-only · — · No proof project or dependency revision; the Linux distribution is also large. Isabelle/HOL · documentation-only · — · Reference-only; no pinned session/build environment. Agda · documentation-only · — · Reference-only; no pinned project or libraries. HOL4 · documentation-only · — · Mentioned as an Aeneas target; no execution contract. F · documentation-only · — · Mentioned as a target/related technology; no execution contract. Frama-C · documentation-only · — · Reference-only; plugin and solver configuration are not pinned. VeriFast · documentation-only · — · Reference-only; no executable asset. SPARK · documentation-only · — · Industrial toolchain/licensing environment is not pinned. Why3 · documentation-only · — · Execution configuration including backend solvers is not pinned. Verus · documentation-only · — · Rust/Z3/revision execution stack is not pinned. Creusot · documentation-only · — · Why3/solver/Rust combination is not pinned. Prusti / Viper · documentation-only · — · Rust/Viper toolchain and executable asset are not pinned. Aeneas / Charon · documentation-only · — · No pinned end-to-end contract including a proof target. Z3 · documentation-only · — · Indirect use by other tools is not counted as a standalone solver guarantee. cvc5 / CVC4 · documentation-only · — · Reference-only; no pinned standalone solver asset. Yices · documentation-only · — · Reference-only; no pinned executable asset. MathSAT · documentation-only · — · Reference-only; licensing/distribution environment is not pinned. SCADE · documentation-only · — · Commercial/GUI toolchain; not a mandatory CI dependency. Simulink · documentation-only · — · Industry-case reference only; no licensed environment is pinned. SAW · documentation-only · — · Industry-case reference; no s2n verification asset is included. Cedar Analysis · documentation-only · — · Service/API and tools evolve; no policy asset is pinned. Bedrock Guardrails Automated Reasoning checks · documentation-only · — · External service/region/API constraints are not mandatory CI dependencies. Solidity SMTChecker · documentation-only · — · Solidity/compiler/solver stack and contract asset are not pinned. Aptos Move Prover · documentation-only · — · Move toolchain and contract asset are not pinned. Certora Prover · documentation-only · — · External/industrial toolchain is not a mandatory CI dependency. LeanDojo · documentation-only · — · Reference-only AI proof-assistance evaluation framework. Lean Copilot · documentation-only · — · Reference-only AI proof assistance; model/project not pinned. AlphaProof / AlphaGeometry 2 · documentation-only · — · Research-result reference with no redistributable CLI contract. DeepSeek-Prover-V2 · documentation-only · — · Research-result reference; model/runtime not pinned. ProofGym · documentation-only · — · Evaluation-framework reference; dataset/runtime not pinned. APOLLO · documentation-only · — · Research-result reference; no execution contract. Every executable entry states its timeout, memory budget, seed, scope, depth, and bound. Artifacts record the tool version, command, per-file SHA-256 and aggregate input hash, exit code, stdout/stderr, and distinct success, counterexample, unknown, timeout, and resource-exhaustion outcomes. Retention is 14 days; stdout/stderr is limited to 16 MiB per entry and tool output to 64 MiB per entry. The runner enforces timeout and stdout/stderr limits and checks retained tool output after execution. memoryMiB, however, is a declared CI-capacity budget, not an OS/cgroup-enforced limit. Consequently, resource-exhausted covers detectable output excess; an OOM kill may surface as tool-error or a runner failure. quint-counter: typechecks and tests examples/quint/counter.qnt with Quint 0.32.0, the bundled TypeScript evaluator, seed 20260716, and one sample per test. It does not implicitly download the separately distributed Rust evaluator. 【Tool-compliant (runs as-is)】 kani-abs: verifies the absisnonnegative harness in examples/kani/abs.rs with Kani 0.67.0, a pinned Rust nightly, and unwind bound 1. Because it requires an additional download and execution budget, it is optional/manual and never starts from a PR or schedule. After cache restore, the bootstrap rechecks the SHA-256 of both the Quint binary and the PRISM archive. PRISM 4.10.1 is re-extracted from its official GPL-2.0 Linux x86-64 archive on every run so that its absolute launcher path is rebuilt; the repository, CI artifacts, and Pages do not redistribute the tool binary. Tamarin Prover 1.12.0 (GPL-3.0) and its supported Maude 3.5.1 (GPL-2.0-or-later) are also re-extracted from official SHA-256-pinned archives. Tamarin artifacts retain lemma results and the flawed model's attack graph, but not either binary. Because an attack graph preserves model constants, a model must not contain real secrets. Only input hashes, standard output, and expected-value comparisons are retained. Kani is re-extracted from its verified archive on every run, and the dated Rust channel manifest is also verified by SHA-256. rustup then verifies the Rust components against the checksums recorded in that manifest. 【Tool-compliant (runs as-is)】 Version updates are checked monthly against the official release/tag and asset digest, then reviewed in a dedicated version-only PR with a clean-cache run and output-contract comparison. Arbitrary release assets are not package references managed by Dependabot or Renovate and must not be treated as automatically updated.",
       "aliases": [
         "TLA Plus",
         "The Rocq Prover"
@@ -12215,7 +12275,7 @@
       "chapter": "Appendix B: Tool Setup and Verification Quick Start",
       "heading": "Additional prerequisites for the nightly lane (Ubuntu 24.04 x86-64)",
       "url": "/formal-methods-book/en/appendices/appendix-b/#additional-prerequisites-for-the-nightly-lane-ubuntu-2404-x86-64",
-      "text": "node scripts/run-example-manifest.js --lane nightly executes seven entries across SPIN 6.5.2, NuSMV 2.7.1, CBMC 6.10.0, Quint 0.32.0, and PRISM 4.10.1. SPIN and NuSMV need the source-build prerequisites below. CBMC uses a pinned Ubuntu 24.04 x86-64 deb, Quint uses a pinned single binary, and PRISM uses a pinned official archive of roughly 41 MB for the same platform, so this procedure targets that environment or a compatible one. The downloaded tools are pinned by commit/version and SHA-256, and the Meson/Ninja packages are pinned by hashes in the requirements file. On native macOS, native Windows, or a different CPU architecture, use an Ubuntu 24.04 x86-64 container, WSL2, or the GitHub Actions workflowdispatch instead of treating this lane as locally portable. To rerun only PRISM, use: This reproduces the numerical contract for one DTMC and four properties; it does not establish that the teaching success probability of 0.8 is valid for a real system.",
+      "text": "node scripts/run-example-manifest.js --lane nightly executes nine entries across SPIN 6.5.2, NuSMV 2.7.1, CBMC 6.10.0, Quint 0.32.0, PRISM 4.10.1, and Tamarin Prover 1.12.0. SPIN and NuSMV need the source-build prerequisites below. CBMC uses a pinned Ubuntu 24.04 x86-64 deb, Quint uses a pinned single binary, PRISM uses a pinned official archive of roughly 41 MB, and Tamarin uses two pinned official archives together with supported Maude 3.5.1, so this procedure targets that environment or a compatible one. The downloaded tools are pinned by commit/version and SHA-256, and the Meson/Ninja packages are pinned by hashes in the requirements file. On native macOS, native Windows, or a different CPU architecture, use an Ubuntu 24.04 x86-64 container, WSL2, or the GitHub Actions workflowdispatch instead of treating this lane as locally portable. To rerun only PRISM, use: This reproduces the numerical contract for one DTMC and four properties; it does not establish that the teaching success probability of 0.8 is valid for a real system. To rerun only the flawed and fixed Tamarin models, use: The flawed model's counterexample is an expected passing result. The fixed model checks that all four stated lemmas are verified under the same symbolic-model configuration.",
       "aliases": []
     },
     {
@@ -12287,7 +12347,7 @@
       "chapter": "Appendix C: Notation Cross-Reference",
       "heading": "Appendix C: Notation Cross-Reference",
       "url": "/formal-methods-book/en/appendices/appendix-c/#appendix-c-notation-cross-reference",
-      "text": "Translation status: Partial. Reviewed against Japanese source commit 53c0ef469bd9 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This appendix is a quick lookup guide for readers who need to recover the meaning of a term, compare notations across methods, or check what disciplined AI-assisted verification work should leave behind. For fuller definitions, use the main Glossary. Use this appendix when you need a compact reference rather than a full chapter-length explanation.",
+      "text": "Translation status: Partial. Reviewed against Japanese source commit dbe99897e679 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This appendix is a quick lookup guide for readers who need to recover the meaning of a term, compare notations across methods, or check what disciplined AI-assisted verification work should leave behind. For fuller definitions, use the main Glossary. Use this appendix when you need a compact reference rather than a full chapter-length explanation.",
       "aliases": []
     },
     {
@@ -12299,7 +12359,7 @@
       "chapter": "Appendix C: Notation Cross-Reference",
       "heading": "C.1 Quick Reference Terms",
       "url": "/formal-methods-book/en/appendices/appendix-c/#c1-quick-reference-terms",
-      "text": "invariant: a property that must always hold. If a counterexample appears, it indicates a breakdown in the specification or the implementation. safety: a property stating that something bad does not happen, for example that a double withdrawal never occurs. liveness: a property stating that something good eventually happens, for example that a request is eventually processed. refinement: the process of developing a concrete specification while proving that, after applying a refinement mapping and hiding internal variables, its behavior satisfies the abstract specification. Conceptually, the implication runs as ConcreteSpec => AbstractSpec. contract: a runtime or verification-time guard that makes preconditions and postconditions explicit. trace: a sequence of state transitions. Counterexamples are presented as traces. counterexample: a minimal execution that violates a property. It is the starting point for correcting the design.",
+      "text": "invariant: a property that must always hold. If a counterexample appears, it indicates a breakdown in the specification or the implementation. safety: a property stating that something bad does not happen, for example that a double withdrawal never occurs. liveness: a property stating that something good eventually happens, for example that a request is eventually processed. refinement: the process of developing a concrete specification while proving that, after applying a refinement mapping and hiding internal variables, its behavior satisfies the abstract specification. Conceptually, the implication runs as ConcreteSpec => AbstractSpec. contract: a runtime or verification-time guard that makes preconditions and postconditions explicit. trace: a sequence of state transitions. Counterexamples are presented as traces. counterexample: a minimal execution that violates a property. It is the starting point for correcting the design. authentication: a trace property connecting an accepted peer, message, or session to a corresponding legitimate event; state whether the correspondence is non-injective or injective. attack trace: a violating trace that includes adversary knowledge, message operations, and protocol events.",
       "aliases": []
     },
     {
@@ -12405,6 +12465,20 @@
       "url": "/formal-methods-book/en/appendices/appendix-c/#c39-conceptual-correspondence-between-ltl--ctl-and-probabilistic-properties",
       "text": "Ordinary LTL and CTL primarily express whether a property holds over paths or a computation tree. PRISM's PCTL- and CSL-style properties add probability values, thresholds, and expected rewards to related reachability, continuation, and long-run questions. The table is a reading bridge, not a table of logical equivalences. Question · Ordinary LTL / CTL view · Quantitative PRISM view · Additional facts to fix --- · --- · --- · --- Can success be reached? · LTL F success; CTL EF success / AF success · P=? [ F \"success\" ] · Initial state, probability distribution, scheduler scope Does reachability meet a target? · Boolean truth alone does not expose probability mass · P>=0.99 [ F \"success\" ] · Rationale for the threshold, rounding, tolerance What fraction of the long run is operational? · Plain G / AG means “always,” not a time fraction · S=? [ \"operational\" ] · Steady-state assumptions, initial distribution, absorbing classes What is the cost before completion? · Count events on traces separately · R{\"cost\"}=? [ F \"done\" ] · Reward units, attachment points, non-reaching paths What bounds include environment choices? · Restrict paths with assumptions such as fairness · MDP Pmin / Pmax, Rmin / Rmax · Scheduler/adversary class How is failure explained? · Counterexample trace · Probability value, scheduler, representative paths, critical subsystem · Generation method and coverage In particular, do not mechanically identify P>=1 [ F \"success\" ] with AF success. DTMCs, CTMCs, and MDPs assign different meanings to path measures and nondeterminism, and probability one still leaves a boundary around measure-zero paths. Before comparing formulas, align the model type, initial state, scheduler, fairness assumptions, and time bound.",
       "aliases": []
+    },
+    {
+      "id": "daf375653d9415b8",
+      "locale": "en",
+      "pageId": "appendix-c",
+      "section": "appendices",
+      "title": "C.3.10 Tamarin: Minimal Correspondence for Security-Protocol Verification",
+      "chapter": "Appendix C: Notation Cross-Reference",
+      "heading": "C.3.10 Tamarin: Minimal Correspondence for Security-Protocol Verification",
+      "url": "/formal-methods-book/en/appendices/appendix-c/#c310-tamarin-minimal-correspondence-for-security-protocol-verification",
+      "text": "Tamarin represents protocol state and adversary knowledge with multiset rewriting rather than a conventional state-variable notation. This table is only the minimum bridge needed to read the Chapter 13 example. Tamarin concept · Reading in this book · Chapter 13 example · Evidence to retain --- · --- · --- · --- Fact · Protocol state, key, message, or adversary knowledge · !SharedKey, OpenChallenge, In / Out · Persistent / linear multiplicity, arguments, producing rule Rule · Protocol step that consumes and produces facts · Issue challenge, send response, accept response · Premises, conclusions, action facts Action fact / event · Observation that a lemma references on a trace · ResponseSent, ResponseAccepted · Participants, session data, ordering Lemma · Trace property for executability, secrecy, or authentication · SharedKeySecrecy, ResponseAuthentication, NoReplay · Quantifiers, assumptions, proof mode, status Attack trace · Concrete execution that falsifies a lemma · Two acceptances of the same ciphertext · Target lemma, steps, adversary message operations Equational theory · Equations that symbolically reduce cryptographic operations · sdec(senc(m,k),k)=m · Built-ins, omitted operations, algebraic assumptions Distinguish non-injective correspondence such as ResponseAuthentication from an injective property that maps each send to at most one acceptance. Do not reinterpret symbolic verified as an unconditional proof of an implementation or of computational cryptographic security.",
+      "aliases": [
+        "Tamarin Prover"
+      ]
     },
     {
       "id": "261b6f5bb1b3a8a3",
@@ -13415,7 +13489,7 @@
       "chapter": "Appendix E: References and Further Reading Paths",
       "heading": "Appendix E: References and Further Reading Paths",
       "url": "/formal-methods-book/en/appendices/appendix-e/#appendix-e-references-and-further-reading-paths",
-      "text": "Translation status: Partial. Reviewed against Japanese source commit c023d05b5094 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This appendix is a reader-facing guide to primary sources for the methods, tools, and case studies introduced in the main text. Use it when you want to deepen a chapter, verify a claim against an official source, or decide which tool family to study next. As of July 2026, it reflects naming changes and current mainstream references such as Coq → Rocq, CVC4 → cvc5, the Alloy 6 series, and Apalache in the TLA+ ecosystem.",
+      "text": "Translation status: Partial. Reviewed against Japanese source commit dbe99897e679 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This appendix is a reader-facing guide to primary sources for the methods, tools, and case studies introduced in the main text. Use it when you want to deepen a chapter, verify a claim against an official source, or decide which tool family to study next. As of July 2026, it reflects naming changes and current mainstream references such as Coq → Rocq, CVC4 → cvc5, the Alloy 6 series, and Apalache in the TLA+ ecosystem.",
       "aliases": [
         "TLA Plus",
         "The Rocq Prover"
@@ -13624,7 +13698,23 @@
       ]
     },
     {
-      "id": "da282a22372d2114",
+      "id": "cb162d7bd93d5986",
+      "locale": "en",
+      "pageId": "appendix-e",
+      "section": "appendices",
+      "title": "Tamarin Prover (Symbolic Protocol Verification under an Active Adversary)",
+      "chapter": "Appendix E: References and Further Reading Paths",
+      "heading": "Tamarin Prover (Symbolic Protocol Verification under an Active Adversary)",
+      "url": "/formal-methods-book/en/appendices/appendix-e/#tamarin-prover-symbolic-protocol-verification-under-an-active-adversary",
+      "text": "Purpose: verify secrecy, authentication, replay, and related trace lemmas under a Dolev–Yao network attacker, and retain an attack trace when a lemma is falsified Best after reading: Chapter 13 on communication and cryptographic protocols, Appendix B on the nightly path, and Appendix C on facts, rules, events, and lemmas Execution boundary: the book's nightly contract pins official Linux x86-64 distributions, commits, and SHA-256 values for Tamarin Prover 1.12.0 and supported Maude 3.5.1, a 150-second inner timeout, a 180-second runner timeout, and automated proof mode. CI artifacts and Pages do not redistribute either binary. Assurance boundary: results are relative to the symbolic model, equational theory, assumptions, and stated lemmas. They do not unconditionally establish computational soundness, implementation correctness, cryptographic strength, key-compromise behavior, or side-channel resistance. Primary sources: Official manual, Introduction: Official manual, First Example and authentication: Official manual, Protocol Rules: Official manual, Property Specification: Official repository: Official examples: Official Tamarin Prover 1.12.0 release: Official Maude download guidance: Official Maude 3.5.1 release:",
+      "aliases": [
+        "Dolev-Yao",
+        "Dolev–Yao攻撃者モデル",
+        "Dolev–Yao adversary model"
+      ]
+    },
+    {
+      "id": "8a656537f3a493c4",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -13639,7 +13729,7 @@
       ]
     },
     {
-      "id": "8ffbba0f49d23df5",
+      "id": "86282efd087cde87",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -13653,7 +13743,7 @@
       ]
     },
     {
-      "id": "1f5dc3a1239a3c59",
+      "id": "e878d3bd909addba",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -13665,7 +13755,7 @@
       "aliases": []
     },
     {
-      "id": "07ac1bd741d6cbd8",
+      "id": "41358df444a71bd0",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -13677,7 +13767,7 @@
       "aliases": []
     },
     {
-      "id": "853b676c5e54f05c",
+      "id": "0c5b59849949d2b8",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -13689,7 +13779,7 @@
       "aliases": []
     },
     {
-      "id": "d548ba72b254efd9",
+      "id": "04c6ee2c865d4912",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -13701,7 +13791,7 @@
       "aliases": []
     },
     {
-      "id": "62e5db0ab86af29a",
+      "id": "3de14498ba498f7e",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -13713,7 +13803,7 @@
       "aliases": []
     },
     {
-      "id": "3d74af5c0e176a0e",
+      "id": "8d5375e922b78d0b",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -13725,7 +13815,7 @@
       "aliases": []
     },
     {
-      "id": "b7a5ffe38720deb0",
+      "id": "96d691f41c41b7ee",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -13737,7 +13827,7 @@
       "aliases": []
     },
     {
-      "id": "5856e154b82f8aa4",
+      "id": "0d6875ffed01cf22",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -13752,7 +13842,7 @@
       ]
     },
     {
-      "id": "b2534742db0df73c",
+      "id": "2999b488a79b9a56",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -13764,7 +13854,7 @@
       "aliases": []
     },
     {
-      "id": "c636ed5e9671ddf8",
+      "id": "9f5681377fac5dd6",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -13776,7 +13866,7 @@
       "aliases": []
     },
     {
-      "id": "0b514c26c95f2524",
+      "id": "e5225e17c34a2dbf",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -13788,7 +13878,7 @@
       "aliases": []
     },
     {
-      "id": "f4752dbaa90c6939",
+      "id": "12e0807e383e8a93",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -13800,7 +13890,7 @@
       "aliases": []
     },
     {
-      "id": "c5c29ed4e1a8bfc9",
+      "id": "da2ba373f6fa9422",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -13812,7 +13902,7 @@
       "aliases": []
     },
     {
-      "id": "1ceae8341abc5af8",
+      "id": "8a028d276a233274",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -13824,7 +13914,7 @@
       "aliases": []
     },
     {
-      "id": "887b077b9aaeabac",
+      "id": "582678c96a0f03be",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -13836,7 +13926,7 @@
       "aliases": []
     },
     {
-      "id": "6b1ba4afbd1c09fb",
+      "id": "6aa867abc6c0a538",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -13848,7 +13938,7 @@
       "aliases": []
     },
     {
-      "id": "7b0f3332fd007c39",
+      "id": "11fc31d00db4b267",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -13860,7 +13950,7 @@
       "aliases": []
     },
     {
-      "id": "f1d2edc0f26f464d",
+      "id": "ecc2b1bf42b478ef",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -13874,7 +13964,7 @@
       ]
     },
     {
-      "id": "41821dede70df993",
+      "id": "337c06736f7ae9d1",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",

@@ -40,6 +40,8 @@ source_path: "src/ja/glossary/index.md"
 
 <span id="glossary-amazon-verified-permissions" class="search-term-anchor" aria-hidden="true"></span>**Amazon Verified Permissions**：Cedar ポリシー言語を利用する AWS のマネージド認可サービス。認可ロジックをアプリケーションから分離し、細粒度の権限管理と監査を行う文脈で扱う。→第13章/付録E
 
+<span id="glossary-attack-trace攻撃トレース" class="search-term-anchor" aria-hidden="true"></span>**attack trace（攻撃トレース）**：Dolev–Yao攻撃者の知識獲得、message操作、protocol eventを含む性質違反trace。Tamarin等では、falsified lemmaの原因を読む成果物になる。→第13章/付録C
+
 ## B
 
 <span id="glossary-bddbinary-decision-diagram" class="search-term-anchor" aria-hidden="true"></span>**BDD（Binary Decision Diagram）**：論理関数を効率的に表現するデータ構造。シンボリック模型検査で使用される。→第8章
@@ -69,6 +71,8 @@ source_path: "src/ja/glossary/index.md"
 ## D
 
 <span id="glossary-deepseek-prover-v2" class="search-term-anchor" aria-hidden="true"></span>**DeepSeek-Prover-V2**：Lean 4 向け形式証明生成を対象とする大規模モデルの研究例。ベンチマーク結果は、形式化済み問題、評価設定、計算資源に依存する。→第9章
+
+<span id="glossary-dolevyao攻撃者モデル" class="search-term-anchor" aria-hidden="true"></span>**Dolev–Yao攻撃者モデル**：攻撃者が通信を盗聴・改変・再送・合成し、既知鍵で暗号操作できる一方、未知鍵なしに暗号を破らないとするsymbolic network model。鍵侵害やside-channelは別途モデル化する。→第13章/付録E
 
 <span id="glossary-デッドロック" class="search-term-anchor" aria-hidden="true"></span>**デッドロック**：複数のプロセスが互いに待機し合い、進行できない状態。→第6章/第8章
 
@@ -174,13 +178,15 @@ source_path: "src/ja/glossary/index.md"
 
 ## T
 
+<span id="glossary-tamarin-prover" class="search-term-anchor" aria-hidden="true"></span>**Tamarin Prover**：multiset rewriting rules、facts、events、trace lemmasで、active attacker下のセキュリティプロトコルをsymbolicに検証するツール。結果はequational theory、仮定、lemma、proof設定に相対的である。→第13章/付録B/付録E
+
 <span id="glossary-tla" class="search-term-anchor" aria-hidden="true"></span>**TLA+**：分散・並行システムを、現在状態と次状態の関係である action、および振る舞い上の時相式として記述する仕様言語。通常はスタッタリングを許す仕様を基本とし、LTL の next-time 演算子とプライムを同一視しない。→第7章
 
 <span id="glossary-tlc" class="search-term-anchor" aria-hidden="true"></span>**TLC**：TLA+ 仕様を具体化した有限モデルの到達可能状態を列挙する明示的状態模型検査器。TLA+ は一般的な静的型システムを持たず、`TypeOK` / `TypeInvariant` などの不変条件で値の集合を明示する。結果は `.cfg`、性質、fairness、状態制約、完走状態に依存する。→第7章/第8章
 
 <span id="glossary-trusted-kernel信頼核" class="search-term-anchor" aria-hidden="true"></span>**trusted kernel（信頼核）**：証明項を基礎論理と現在の環境の下で検査する小さな中核。保証には kernel だけでなく、追加公理、未完了穴、外部 solver の接続方法、抽出・コード生成などの信頼基盤も関係する。→第9章
 
-<span id="glossary-トレースtrace" class="search-term-anchor" aria-hidden="true"></span>**トレース（Trace）**：状態遷移の列。反例はトレースとして提示される。→第4章/第8章
+<span id="glossary-トレースtrace" class="search-term-anchor" aria-hidden="true"></span>**トレース（Trace）**：状態遷移の列。反例はトレースとして提示され、セキュリティプロトコル検証では攻撃者操作を含むattack traceとして読むことがある。→第4章/第8章/第13章
 
 <span id="glossary-ラッソトレースlasso-trace" class="search-term-anchor" aria-hidden="true"></span>**ラッソトレース（Lasso trace）**：有限個の状態列の末尾が以前の状態へ戻る形で、無限トレースを有限表現する方法。Alloy 6 の時相解析結果を読む際に重要である。→第4章
 

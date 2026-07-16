@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "result": "attack-found",
+  "lemmas": [
+    { "name": "Executable", "mode": "exists-trace", "status": "verified" },
+    { "name": "Shared_Key_Secrecy", "mode": "all-traces", "status": "verified" },
+    { "name": "Response_Authentication", "mode": "all-traces", "status": "verified" },
+    { "name": "No_Replay", "mode": "all-traces", "status": "falsified" }
+  ],
+  "attackLemma": "No_Replay"
+}

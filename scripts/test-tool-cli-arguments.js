@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const { spawnSync } = require('child_process');
+const fs = require('fs');
 const path = require('path');
 
 const repoRoot = path.resolve(__dirname, '..');
@@ -55,6 +56,26 @@ const cases = [
     expected: 'PRISM expected-results contract not found',
   },
   {
+    command: 'tools/tamarin-check.sh',
+    args: ['--out-dir'],
+    expected: 'Missing value for --out-dir',
+  },
+  {
+    command: 'tools/tamarin-check.sh',
+    args: ['examples/tamarin/replay-challenge/replay-flawed.spthy'],
+    expected: 'Tamarin expected-results contract not found',
+  },
+  {
+    command: 'tools/tamarin-check.sh',
+    args: ['--time-limit', '0'],
+    expected: 'Missing or invalid value for --time-limit',
+  },
+  {
+    command: 'tools/tamarin-check.sh',
+    args: ['--time-limit', '901'],
+    expected: 'Missing or invalid value for --time-limit',
+  },
+  {
     command: 'tools/kani-check.sh',
     args: ['--harness'],
     expected: 'Missing value for --harness',
@@ -93,6 +114,26 @@ for (const testCase of cases) {
   }
 }
 
+const tamarinFixtureParent = path.join(repoRoot, 'tools', '.tmp');
+fs.mkdirSync(tamarinFixtureParent, { recursive: true });
+const tamarinFixture = fs.mkdtempSync(path.join(tamarinFixtureParent, 'tamarin-cli-test-'));
+try {
+  const model = path.join(tamarinFixture, 'credential.spthy');
+  const expected = path.join(tamarinFixture, 'expected.json');
+  fs.writeFileSync(model, 'theory Credential\nbegin\n// -----BEGIN PRIVATE KEY-----\nend\n');
+  fs.writeFileSync(expected, '{}\n');
+  const result = spawnSync('bash', ['tools/tamarin-check.sh', model, expected], {
+    cwd: repoRoot,
+    encoding: 'utf8',
+  });
+  const output = `${result.stdout || ''}${result.stderr || ''}`;
+  if (result.status !== 2 || !output.includes('prohibited credential-like marker')) {
+    throw new Error(`Tamarin credential marker was not rejected:\n${output}`);
+  }
+} finally {
+  fs.rmSync(tamarinFixture, { recursive: true, force: true });
+}
+
 const bulkFields = spawnSync('node', [
   'scripts/tool-manifest.js',
   'fields',
@@ -115,4 +156,4 @@ if (standaloneHelper.status !== 0 || standaloneHelper.stdout.trim() !== '6.2.0')
   throw new Error(`standalone tool manifest helper failed:\n${standaloneHelper.stdout}${standaloneHelper.stderr}`);
 }
 
-console.log(`Tool CLI argument tests passed (${cases.length} negative cases + bulk/standalone helpers).`);
+console.log(`Tool CLI argument tests passed (${cases.length} negative cases + credential/bulk/standalone helpers).`);

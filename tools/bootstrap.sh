@@ -18,17 +18,20 @@ mkdir -p "$CACHE_DIR" "$TMP_DIR"
 
 manifest_output="$(tool_manifest_fields \
   alloy.version tlc.version apalache.version dafny.version spin.version \
-  spin.commit nusmv.version cbmc.version quint.version prism.version kani.version \
+  spin.commit nusmv.version cbmc.version quint.version prism.version tamarin.version kani.version \
+  tamarin.commit tamarin.maudeVersion tamarin.maudeCommit \
   kani.rustToolchain kani.rustToolchainManifest.url kani.rustToolchainManifest.sha256 \
   alloy.distribution.url tlc.distribution.url apalache.distribution.url \
   dafny.distribution.url spin.distribution.url nusmv.distribution.url \
-  cbmc.distribution.url quint.distribution.url prism.distribution.url kani.distribution.url \
+  cbmc.distribution.url quint.distribution.url prism.distribution.url \
+  tamarin.distribution.url tamarin.maudeDistribution.url kani.distribution.url \
   alloy.distribution.sha256 tlc.distribution.sha256 apalache.distribution.sha256 \
   dafny.distribution.sha256 spin.distribution.sha256 nusmv.distribution.sha256 \
-  cbmc.distribution.sha256 quint.distribution.sha256 prism.distribution.sha256 kani.distribution.sha256)"
+  cbmc.distribution.sha256 quint.distribution.sha256 prism.distribution.sha256 \
+  tamarin.distribution.sha256 tamarin.maudeDistribution.sha256 kani.distribution.sha256)"
 mapfile -t manifest_values <<< "$manifest_output"
-if [[ ${#manifest_values[@]} -ne 34 ]]; then
-  echo "Unexpected bootstrap field count: ${#manifest_values[@]} (expected 34)" >&2
+if [[ ${#manifest_values[@]} -ne 42 ]]; then
+  echo "Unexpected bootstrap field count: ${#manifest_values[@]} (expected 42)" >&2
   exit 2
 fi
 manifest_index=0
@@ -47,7 +50,11 @@ next_manifest_value NUSMV_VERSION
 next_manifest_value CBMC_VERSION
 next_manifest_value QUINT_VERSION
 next_manifest_value PRISM_VERSION
+next_manifest_value TAMARIN_VERSION
 next_manifest_value KANI_VERSION
+next_manifest_value TAMARIN_COMMIT
+next_manifest_value TAMARIN_MAUDE_VERSION
+next_manifest_value TAMARIN_MAUDE_COMMIT
 next_manifest_value KANI_RUST_TOOLCHAIN
 next_manifest_value KANI_RUST_MANIFEST_URL
 next_manifest_value KANI_RUST_MANIFEST_SHA256
@@ -60,6 +67,8 @@ next_manifest_value NUSMV_URL
 next_manifest_value CBMC_URL
 next_manifest_value QUINT_URL
 next_manifest_value PRISM_URL
+next_manifest_value TAMARIN_URL
+next_manifest_value TAMARIN_MAUDE_URL
 next_manifest_value KANI_URL
 next_manifest_value ALLOY_SHA256
 next_manifest_value TLA_SHA256
@@ -70,6 +79,8 @@ next_manifest_value NUSMV_TAR_SHA256
 next_manifest_value CBMC_DEB_SHA256
 next_manifest_value QUINT_SHA256
 next_manifest_value PRISM_TAR_SHA256
+next_manifest_value TAMARIN_TAR_SHA256
+next_manifest_value TAMARIN_MAUDE_ZIP_SHA256
 next_manifest_value KANI_TAR_SHA256
 unset manifest_output manifest_values manifest_index
 
@@ -82,11 +93,17 @@ NUSMV_DIR="$CACHE_DIR/nusmv-${NUSMV_VERSION}"
 CBMC_DIR="$CACHE_DIR/cbmc-${CBMC_VERSION}"
 QUINT_BIN="$CACHE_DIR/quint-${QUINT_VERSION}/quint"
 PRISM_DIR="$CACHE_DIR/prism-${PRISM_VERSION}"
+TAMARIN_DIR="$CACHE_DIR/tamarin-${TAMARIN_VERSION}"
+TAMARIN_BIN="$TAMARIN_DIR/tamarin-prover"
+TAMARIN_MAUDE_DIR="$CACHE_DIR/maude-${TAMARIN_MAUDE_VERSION}"
+TAMARIN_MAUDE_BIN="$TAMARIN_MAUDE_DIR/maude"
 KANI_DIR="$CACHE_DIR/kani-${KANI_VERSION}"
 KANI_RUSTUP_HOME="$CACHE_DIR/kani-rustup-${KANI_RUST_TOOLCHAIN}"
 KANI_CARGO_HOME="$CACHE_DIR/kani-cargo"
 KANI_ARCHIVE="$CACHE_DIR/downloads/kani-${KANI_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
 PRISM_ARCHIVE="$CACHE_DIR/downloads/prism-${PRISM_VERSION}-linux64-x86.tar.gz"
+TAMARIN_ARCHIVE="$CACHE_DIR/downloads/tamarin-prover-${TAMARIN_VERSION}-linux64-ubuntu.tar.gz"
+TAMARIN_MAUDE_ARCHIVE="$CACHE_DIR/downloads/maude-${TAMARIN_MAUDE_VERSION}-linux-x86_64.zip"
 KANI_RUST_MANIFEST="$CACHE_DIR/downloads/$(basename "$KANI_RUST_MANIFEST_URL")"
 
 usage() {
@@ -469,6 +486,68 @@ ensure_prism() {
   fi
 }
 
+ensure_tamarin() {
+  require_command tar tar
+  require_command unzip unzip
+  mkdir -p "$(dirname "$TAMARIN_ARCHIVE")"
+
+  # Keep only checksum-verified archives in the reusable cache. Re-extract on
+  # every bootstrap so a modified executable cannot survive a cache restore.
+  download "$TAMARIN_URL" "$TAMARIN_ARCHIVE" "$TAMARIN_TAR_SHA256"
+  download "$TAMARIN_MAUDE_URL" "$TAMARIN_MAUDE_ARCHIVE" "$TAMARIN_MAUDE_ZIP_SHA256"
+
+  local tamarin_entries=""
+  tamarin_entries="$(tar -tzf "$TAMARIN_ARCHIVE")"
+  if [[ "$tamarin_entries" != 'tamarin-prover' ]]; then
+    echo 'Tamarin archive did not contain the expected single-file layout' >&2
+    return 1
+  fi
+
+  local maude_entry=""
+  while IFS= read -r maude_entry; do
+    if [[ -z "$maude_entry" || ! "$maude_entry" =~ ^[A-Za-z0-9._-]+$ \
+        || "$maude_entry" == .* ]]; then
+      echo "Maude archive contained an unsafe path: ${maude_entry:-<empty>}" >&2
+      return 1
+    fi
+  done < <(unzip -Z1 "$TAMARIN_MAUDE_ARCHIVE")
+  if ! unzip -Z1 "$TAMARIN_MAUDE_ARCHIVE" | grep -Fxq 'maude' \
+      || ! unzip -Z1 "$TAMARIN_MAUDE_ARCHIVE" | grep -Fxq 'prelude.maude'; then
+    echo 'Maude archive did not contain maude and prelude.maude' >&2
+    return 1
+  fi
+  if [[ -n "$(unzip -Z1 "$TAMARIN_MAUDE_ARCHIVE" | sort | uniq -d)" ]]; then
+    echo 'Maude archive contained duplicate entries' >&2
+    return 1
+  fi
+
+  rm -rf "$TAMARIN_DIR" "$TAMARIN_MAUDE_DIR"
+  mkdir -p "$TAMARIN_DIR" "$TAMARIN_MAUDE_DIR"
+  tar -xzf "$TAMARIN_ARCHIVE" -C "$TAMARIN_DIR"
+  unzip -q "$TAMARIN_MAUDE_ARCHIVE" -d "$TAMARIN_MAUDE_DIR"
+  if [[ ! -x "$TAMARIN_BIN" || ! -x "$TAMARIN_MAUDE_BIN" \
+      || ! -f "$TAMARIN_MAUDE_DIR/prelude.maude" \
+      || -L "$TAMARIN_BIN" || -L "$TAMARIN_MAUDE_BIN" \
+      || -n "$(find "$TAMARIN_MAUDE_DIR" -type l -print -quit)" ]]; then
+    echo 'Tamarin or Maude archive did not contain the expected executable layout' >&2
+    return 1
+  fi
+  if [[ "$($TAMARIN_MAUDE_BIN --version)" != "$TAMARIN_MAUDE_VERSION" ]]; then
+    echo "Maude binary version did not match manifest: $TAMARIN_MAUDE_VERSION" >&2
+    return 1
+  fi
+
+  local version_output=""
+  version_output="$("$TAMARIN_BIN" --with-maude="$TAMARIN_MAUDE_BIN" --version 2>&1)"
+  if ! grep -Fq "Tamarin version $TAMARIN_VERSION" <<< "$version_output" \
+      || ! grep -Fq "Maude version $TAMARIN_MAUDE_VERSION" <<< "$version_output" \
+      || ! grep -Fq "Git revision: $TAMARIN_COMMIT" <<< "$version_output"; then
+    echo 'Tamarin/Maude binary provenance did not match the manifest' >&2
+    printf '%s\n' "$version_output" >&2
+    return 1
+  fi
+}
+
 ensure_kani() {
   local bin="$KANI_DIR/bin/kani-driver"
   require_command rustup rustup
@@ -512,6 +591,7 @@ for selected_tool in "${selected_tools[@]}"; do
     cbmc) ensure_cbmc; installed+=("CBMC ${CBMC_VERSION}") ;;
     quint) ensure_quint; installed+=("Quint ${QUINT_VERSION}") ;;
     prism) ensure_prism; installed+=("PRISM ${PRISM_VERSION}") ;;
+    tamarin) ensure_tamarin; installed+=("Tamarin ${TAMARIN_VERSION} (Maude ${TAMARIN_MAUDE_VERSION})") ;;
     kani) ensure_kani; installed+=("Kani ${KANI_VERSION} (${KANI_RUST_TOOLCHAIN})") ;;
     *)
       echo "Unknown tool: $selected_tool" >&2

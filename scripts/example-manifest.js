@@ -24,6 +24,7 @@ const TOOL_WRAPPERS = Object.freeze({
   cbmc: 'tools/cbmc-check.sh',
   quint: 'tools/quint-check.sh',
   prism: 'tools/prism-check.sh',
+  tamarin: 'tools/tamarin-check.sh',
   kani: 'tools/kani-check.sh',
 });
 const TOOL_OPTION_CONTRACTS = Object.freeze({
@@ -68,6 +69,13 @@ const TOOL_OPTION_CONTRACTS = Object.freeze({
   prism: {
     flags: new Set(),
     values: { '--out-dir': 'artifact' },
+  },
+  tamarin: {
+    flags: new Set(),
+    values: {
+      '--out-dir': 'artifact',
+      '--time-limit': { type: 'positiveInteger', max: 900 },
+    },
   },
   kani: {
     flags: new Set(),

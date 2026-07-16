@@ -45,6 +45,8 @@ properties relevant to reasoning or verification. A useful model is abstract
 enough to be analyzable but concrete enough to preserve the question being
 asked. See Chapters 3, 4, and 8.
 
+**Attack trace**: A violating trace containing adversary knowledge, message operations, and protocol events. In tools such as Tamarin, it is the retained explanation for a falsified lemma. See Chapter 13 and Appendix C.
+
 **Alloy**: A representative lightweight formal-methods tool. It combines a
 relational modeling language with an analyzer that searches for counterexamples.
 See Chapter 4.
@@ -100,6 +102,8 @@ types, and proofs correspond to programs. See Chapter 9.
 **Dafny**: A verification-oriented programming language and toolchain for
 writing implementations together with contracts, invariants, and proofs. See
 Chapters 9, 10, and 12.
+
+**Dolev–Yao adversary model**: A symbolic network model in which an attacker can intercept, modify, replay, and compose messages and use known keys, but does not break cryptography without the needed key. Compromise and side channels require explicit modeling. See Chapter 13 and Appendix E.
 
 **Deadlock**: A state in which multiple processes wait on one another and no
 further progress is possible. See Chapters 6 and 8.
@@ -264,6 +268,8 @@ model checking, and many verification arguments in this book. See Chapters 7,
 
 ## T
 
+**Tamarin Prover**: A symbolic security-protocol verifier using multiset-rewriting rules, facts, events, and trace lemmas under an active adversary. Results are relative to the equational theory, assumptions, lemmas, and proof configuration. See Chapter 13 and Appendices B and E.
+
 **TLA+**: A specification language for distributed and concurrent systems. It
 uses actions to relate current and next states and temporal formulas to describe
 complete behaviors, normally in a stuttering-permitting form. Prime notation is
@@ -293,7 +299,8 @@ extraction, and code generation. See Chapter 9.
 postcondition when it terminates, but also does terminate. See Chapter 10.
 
 **Trace**: A sequence of state transitions. Counterexamples are often presented
-as traces. See Chapter 8.
+as traces; security-protocol verification may present one as an attack trace
+that includes adversary operations. See Chapters 8 and 13.
 
 **Type theory**: A logical foundation used by many proof assistants, where
 types and propositions are closely connected. It is central to Rocq, Lean, and
