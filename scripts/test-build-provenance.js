@@ -6,6 +6,7 @@ const path = require('path');
 const {
   createBuildProvenance,
   readJson,
+  sameJsonValue,
   serializeBuildProvenance,
   validateBuildProvenance,
 } = require('./lib/build-provenance');
@@ -26,6 +27,17 @@ assert.strictEqual(first.source_commit, 'abcdef0123456789abcdef0123456789abcdef0
 assert.strictEqual(first.generated_at, '2026-07-16T15:30:00.000Z');
 assert.strictEqual(first.pages_run_url, 'https://github.com/itdojp/formal-methods-book/actions/runs/29508551586');
 assert.deepStrictEqual(validateBuildProvenance(first, manifest, { requireRun: true }), []);
+
+const reordered = Object.fromEntries(Object.entries(first).reverse());
+assert(sameJsonValue(first, reordered), 'semantic JSON comparison must ignore object key order');
+assert(!sameJsonValue(first, { ...reordered, version: '9.9.9' }), 'semantic JSON comparison must detect changed values');
+
+const repositoryWithoutGit = JSON.parse(JSON.stringify(manifest));
+repositoryWithoutGit.repository.url = 'https://github.com/itdojp/formal-methods-book';
+assert.doesNotThrow(() => createBuildProvenance({ ...input, manifest: repositoryWithoutGit }));
+const wrongRepository = JSON.parse(JSON.stringify(manifest));
+wrongRepository.repository.url = 'https://github.com/itdojp/other-book.git';
+assert.throws(() => createBuildProvenance({ ...input, manifest: wrongRepository }), /optional \.git suffix/);
 
 for (const [label, replacement, pattern] of [
   ['short SHA', { sourceCommit: 'abcdef0' }, /40-character/],

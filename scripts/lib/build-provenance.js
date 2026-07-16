@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { isDeepStrictEqual } = require('util');
 
 const SCHEMA_VERSION = '1.0';
 const REPOSITORY = 'itdojp/formal-methods-book';
@@ -52,8 +53,12 @@ function canonicalVersion(manifest) {
 function assertRepository(manifest) {
   const raw = String(manifest?.repository?.url || '').trim().replace(/\.git$/, '').replace(/\/+$/, '');
   if (raw !== GITHUB_URL) {
-    throw new Error(`book-config.json repository.url must be ${GITHUB_URL}.git`);
+    throw new Error(`book-config.json repository.url must be ${GITHUB_URL} with an optional .git suffix`);
   }
+}
+
+function sameJsonValue(left, right) {
+  return isDeepStrictEqual(left, right);
 }
 
 function createBuildProvenance({ manifest, sourceCommit, generatedAt, runId }) {
@@ -153,6 +158,7 @@ module.exports = {
   normalizeGeneratedAt,
   normalizeRunId,
   readJson,
+  sameJsonValue,
   serializeBuildProvenance,
   validateBuildProvenance,
   writeBuildProvenance,

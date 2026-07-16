@@ -6,6 +6,7 @@ const path = require('path');
 const {
   DEFAULT_OUTPUT,
   readJson,
+  sameJsonValue,
   validateBuildProvenance,
 } = require('./lib/build-provenance');
 
@@ -64,7 +65,7 @@ try {
   const publicJsonPath = path.join(siteRoot, 'build-provenance.json');
   if (!fs.existsSync(publicJsonPath)) fail('built build-provenance.json is missing');
   const publicPayload = readJson(publicJsonPath);
-  if (JSON.stringify(publicPayload) !== JSON.stringify(provenance)) fail('public build-provenance.json differs from Jekyll input data');
+  if (!sameJsonValue(publicPayload, provenance)) fail('public build-provenance.json differs from Jekyll input data');
 
   const htmlPaths = readerHtmlPaths();
   if (htmlPaths.length !== 46) fail(`expected 46 JA/EN reader pages, found ${htmlPaths.length}`);
