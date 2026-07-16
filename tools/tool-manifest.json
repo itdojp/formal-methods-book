@@ -795,16 +795,47 @@
         "cvc5",
         "CVC4"
       ],
-      "lane": "documentation-only",
+      "lane": "nightly",
       "reason": {
-        "ja": "紹介のみでsolver単体assetを固定していない。",
-        "en": "Reference-only; no pinned standalone solver asset."
+        "ja": "固定solverと独立Alethe checkerを毎夜再構築し、UNSAT証明書を再検査する。",
+        "en": "Rebuilds a pinned solver and independent Alethe checker nightly to recheck an UNSAT certificate."
       },
-      "version": null,
-      "wrapper": null,
-      "distribution": null,
-      "platforms": [],
-      "sources": []
+      "version": "1.3.4",
+      "wrapper": "tools/cvc5-proof-check.sh",
+      "distribution": {
+        "url": "https://github.com/cvc5/cvc5/releases/download/cvc5-1.3.4/cvc5-Linux-x86_64-static.zip",
+        "sha256": "dcdbfada0ce493ee98259c0816e0daafc561c223aadb3af298c2968e73ea39c6"
+      },
+      "platforms": [
+        "ubuntu-x86_64"
+      ],
+      "sources": [
+        "https://github.com/cvc5/cvc5/releases/tag/cvc5-1.3.4",
+        "https://github.com/ufmg-smite/carcara/commit/394edbb15ba95c47893f1d821fddde7e016af178"
+      ],
+      "commit": "f3b21c4483d3b88dc63cb7cd3e5eb092eee5e341",
+      "checkerVersion": "1.1.0",
+      "checkerCommit": "394edbb15ba95c47893f1d821fddde7e016af178",
+      "checkerDistribution": {
+        "url": "https://github.com/ufmg-smite/carcara/archive/394edbb15ba95c47893f1d821fddde7e016af178.tar.gz",
+        "sha256": "28562432ca7413a662d25f03e328cab4b7b9bf649b2ca69268a255a44a5ddee6"
+      },
+      "checkerCargoLockSha256": "dd2e3ca62591772c4f3ef0df04f43aa795278dcf3105cfeff0d962b071b96fa7",
+      "certificateFormat": "alethe",
+      "maxCertificateBytes": 1048576,
+      "maxCheckerOutputBytes": 65536,
+      "rustToolchain": "1.87.0",
+      "rustcCommit": "17067e9ac6d7ecb70e50f92c1944e545188d2359",
+      "cargoCommit": "99624be96e9d213b0e9b1e36451271f24e4a41d8",
+      "rustHost": "x86_64-unknown-linux-gnu",
+      "rustToolchainManifest": {
+        "url": "https://static.rust-lang.org/dist/channel-rust-1.87.0.toml",
+        "sha256": "2949b5ea91e3f9c45e75ff2fc6cfc7776616c693ab599ed43abc2120b7522415"
+      },
+      "licenses": {
+        "solver": "modified BSD",
+        "checker": "Apache-2.0"
+      }
     },
     {
       "id": "yices",

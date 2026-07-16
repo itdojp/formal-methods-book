@@ -19,6 +19,9 @@ mkdir -p "$CACHE_DIR" "$TMP_DIR"
 manifest_output="$(tool_manifest_fields \
   alloy.version tlc.version apalache.version dafny.version spin.version \
   spin.commit nusmv.version cbmc.version quint.version prism.version tamarin.version sby.version kani.version \
+  cvc5.version cvc5.commit cvc5.checkerVersion cvc5.checkerCommit cvc5.certificateFormat cvc5.maxCertificateBytes \
+  cvc5.maxCheckerOutputBytes cvc5.rustToolchain cvc5.rustcCommit cvc5.cargoCommit cvc5.rustHost \
+  cvc5.rustToolchainManifest.url cvc5.rustToolchainManifest.sha256 cvc5.checkerCargoLockSha256 \
   tamarin.commit tamarin.maudeVersion tamarin.maudeCommit \
   sby.commit sby.suiteVersion sby.suiteCommit sby.yosysVersion sby.yosysCommit sby.bitwuzlaVersion sby.bitwuzlaCommit \
   kani.rustToolchain kani.rustToolchainManifest.url kani.rustToolchainManifest.sha256 \
@@ -26,13 +29,15 @@ manifest_output="$(tool_manifest_fields \
   dafny.distribution.url spin.distribution.url nusmv.distribution.url \
   cbmc.distribution.url quint.distribution.url prism.distribution.url \
   tamarin.distribution.url tamarin.maudeDistribution.url sby.distribution.url kani.distribution.url \
+  cvc5.distribution.url cvc5.checkerDistribution.url \
   alloy.distribution.sha256 tlc.distribution.sha256 apalache.distribution.sha256 \
   dafny.distribution.sha256 spin.distribution.sha256 nusmv.distribution.sha256 \
   cbmc.distribution.sha256 quint.distribution.sha256 prism.distribution.sha256 \
-  tamarin.distribution.sha256 tamarin.maudeDistribution.sha256 sby.distribution.sha256 kani.distribution.sha256)"
+  tamarin.distribution.sha256 tamarin.maudeDistribution.sha256 sby.distribution.sha256 kani.distribution.sha256 \
+  cvc5.distribution.sha256 cvc5.checkerDistribution.sha256)"
 mapfile -t manifest_values <<< "$manifest_output"
-if [[ ${#manifest_values[@]} -ne 52 ]]; then
-  echo "Unexpected bootstrap field count: ${#manifest_values[@]} (expected 52)" >&2
+if [[ ${#manifest_values[@]} -ne 70 ]]; then
+  echo "Unexpected bootstrap field count: ${#manifest_values[@]} (expected 70)" >&2
   exit 2
 fi
 manifest_index=0
@@ -54,6 +59,20 @@ next_manifest_value PRISM_VERSION
 next_manifest_value TAMARIN_VERSION
 next_manifest_value SBY_VERSION
 next_manifest_value KANI_VERSION
+next_manifest_value CVC5_VERSION
+next_manifest_value CVC5_COMMIT
+next_manifest_value CARCARA_VERSION
+next_manifest_value CARCARA_COMMIT
+next_manifest_value CVC5_CERTIFICATE_FORMAT
+next_manifest_value CVC5_MAX_CERTIFICATE_BYTES
+next_manifest_value CARCARA_MAX_CHECKER_OUTPUT_BYTES
+next_manifest_value CARCARA_RUST_TOOLCHAIN
+next_manifest_value CARCARA_RUSTC_COMMIT
+next_manifest_value CARCARA_CARGO_COMMIT
+next_manifest_value CARCARA_RUST_HOST
+next_manifest_value CARCARA_RUST_MANIFEST_URL
+next_manifest_value CARCARA_RUST_MANIFEST_SHA256
+next_manifest_value CARCARA_CARGO_LOCK_SHA256
 next_manifest_value TAMARIN_COMMIT
 next_manifest_value TAMARIN_MAUDE_VERSION
 next_manifest_value TAMARIN_MAUDE_COMMIT
@@ -80,6 +99,8 @@ next_manifest_value TAMARIN_URL
 next_manifest_value TAMARIN_MAUDE_URL
 next_manifest_value SBY_URL
 next_manifest_value KANI_URL
+next_manifest_value CVC5_URL
+next_manifest_value CARCARA_URL
 next_manifest_value ALLOY_SHA256
 next_manifest_value TLA_SHA256
 next_manifest_value APALACHE_ZIP_SHA256
@@ -93,6 +114,8 @@ next_manifest_value TAMARIN_TAR_SHA256
 next_manifest_value TAMARIN_MAUDE_ZIP_SHA256
 next_manifest_value SBY_TAR_SHA256
 next_manifest_value KANI_TAR_SHA256
+next_manifest_value CVC5_ZIP_SHA256
+next_manifest_value CARCARA_TAR_SHA256
 unset manifest_output manifest_values manifest_index
 
 ALLOY_JAR="$CACHE_DIR/alloy-${ALLOY_VERSION}.jar"
@@ -112,12 +135,21 @@ TAMARIN_MAUDE_BIN="$TAMARIN_MAUDE_DIR/maude"
 KANI_DIR="$CACHE_DIR/kani-${KANI_VERSION}"
 KANI_RUSTUP_HOME="$CACHE_DIR/kani-rustup-${KANI_RUST_TOOLCHAIN}"
 KANI_CARGO_HOME="$CACHE_DIR/kani-cargo"
+CVC5_DIR="$CACHE_DIR/cvc5-${CVC5_VERSION}"
+CVC5_BIN="$CVC5_DIR/bin/cvc5"
+CARCARA_DIR="$TMP_DIR/carcara-${CARCARA_VERSION}"
+CARCARA_BIN="$CARCARA_DIR/target/release/carcara"
+CARCARA_RUSTUP_HOME="$CACHE_DIR/carcara-rustup-${CARCARA_RUST_TOOLCHAIN}"
+CARCARA_CARGO_HOME="$CACHE_DIR/carcara-cargo"
 KANI_ARCHIVE="$CACHE_DIR/downloads/kani-${KANI_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
 PRISM_ARCHIVE="$CACHE_DIR/downloads/prism-${PRISM_VERSION}-linux64-x86.tar.gz"
 TAMARIN_ARCHIVE="$CACHE_DIR/downloads/tamarin-prover-${TAMARIN_VERSION}-linux64-ubuntu.tar.gz"
 TAMARIN_MAUDE_ARCHIVE="$CACHE_DIR/downloads/maude-${TAMARIN_MAUDE_VERSION}-linux-x86_64.zip"
 SBY_ARCHIVE="$CACHE_DIR/downloads/oss-cad-suite-linux-x64-${SBY_SUITE_VERSION}.tgz"
 KANI_RUST_MANIFEST="$CACHE_DIR/downloads/$(basename "$KANI_RUST_MANIFEST_URL")"
+CVC5_ARCHIVE="$CACHE_DIR/downloads/cvc5-Linux-x86_64-static.zip"
+CARCARA_ARCHIVE="$CACHE_DIR/downloads/carcara-${CARCARA_COMMIT}.tar.gz"
+CARCARA_RUST_MANIFEST="$CACHE_DIR/downloads/$(basename "$CARCARA_RUST_MANIFEST_URL")"
 
 usage() {
   cat <<'EOF'
@@ -325,6 +357,106 @@ require_command() {
   fi
 }
 
+safe_extract_archive() {
+  local archive="$1"
+  local archive_kind="$2"
+  local destination="$3"
+  local expected_root="$4"
+  require_command python3 python3
+  rm -rf "$destination"
+  mkdir -p "$destination"
+  python3 - "$archive" "$archive_kind" "$destination" "$expected_root" <<'PYTHON'
+import os
+import posixpath
+import shutil
+import stat
+import sys
+import tarfile
+import zipfile
+from pathlib import Path
+
+archive, kind, destination, expected_root = sys.argv[1:]
+destination = Path(destination)
+max_members = 4096
+max_member_bytes = 256 * 1024 * 1024
+max_total_bytes = 512 * 1024 * 1024
+
+def unsafe(name):
+    return (not name or name.startswith('/') or '\\' in name or
+            posixpath.normpath(name) != name or name == '..' or name.startswith('../'))
+
+def validate_name(name, seen):
+    normalized = name.rstrip('/')
+    if unsafe(normalized) or not (normalized == expected_root or normalized.startswith(expected_root + '/')):
+        raise SystemExit(f'Unsafe {kind} archive path: {name!r}')
+    if normalized in seen:
+        raise SystemExit(f'Duplicate {kind} archive path: {name!r}')
+    seen.add(normalized)
+    return normalized
+
+if kind == 'tar':
+    entries = []
+    seen = set()
+    total_bytes = 0
+    with tarfile.open(archive, 'r:*') as source:
+        for member in source.getmembers():
+            if len(entries) >= max_members:
+                raise SystemExit(f'{kind} archive exceeds {max_members} members')
+            validate_name(member.name, seen)
+            if not (member.isdir() or member.isreg()):
+                raise SystemExit(f'Unsupported tar archive member type: {member.name!r}')
+            if member.size > max_member_bytes:
+                raise SystemExit(f'Tar archive member exceeds {max_member_bytes} bytes: {member.name!r}')
+            total_bytes += member.size
+            if total_bytes > max_total_bytes:
+                raise SystemExit(f'Tar archive exceeds {max_total_bytes} extracted bytes')
+            entries.append(member)
+        if expected_root not in seen:
+            raise SystemExit(f'{kind} archive is missing its required root: {expected_root}')
+        source.extractall(destination, members=entries, filter='data')
+elif kind == 'zip':
+    seen = set()
+    with zipfile.ZipFile(archive) as source:
+        entries = source.infolist()
+        if len(entries) > max_members:
+            raise SystemExit(f'{kind} archive exceeds {max_members} members')
+        total_bytes = 0
+        for member in entries:
+            validate_name(member.filename, seen)
+            if member.file_size > max_member_bytes:
+                raise SystemExit(f'Zip archive member exceeds {max_member_bytes} bytes: {member.filename!r}')
+            total_bytes += member.file_size
+            if total_bytes > max_total_bytes:
+                raise SystemExit(f'Zip archive exceeds {max_total_bytes} extracted bytes')
+            mode = (member.external_attr >> 16) & 0o170000
+            if member.is_dir():
+                if mode not in (0, stat.S_IFDIR):
+                    raise SystemExit(f'Unsupported zip directory member type: {member.filename!r}')
+            elif mode not in (0, stat.S_IFREG):
+                raise SystemExit(f'Unsupported zip archive member type: {member.filename!r}')
+        if expected_root not in seen:
+            raise SystemExit(f'{kind} archive is missing its required root: {expected_root}')
+        for member in entries:
+            name = member.filename.rstrip('/')
+            target = destination / name
+            if member.is_dir():
+                target.mkdir(parents=True, exist_ok=True)
+            else:
+                target.parent.mkdir(parents=True, exist_ok=True)
+                with source.open(member) as input_file, open(target, 'wb') as output_file:
+                    shutil.copyfileobj(input_file, output_file, length=1024 * 1024)
+                permissions = (member.external_attr >> 16) & 0o777
+                if permissions:
+                    os.chmod(target, permissions)
+else:
+    raise SystemExit(f'Unsupported archive kind: {kind}')
+
+root = destination / expected_root
+if not root.is_dir() or root.is_symlink():
+    raise SystemExit(f'{kind} archive did not extract a regular single root: {expected_root}')
+PYTHON
+}
+
 ensure_spin() {
   local bin="$SPIN_DIR/bin/spin"
   local commit_file="$SPIN_DIR/commit.txt"
@@ -495,6 +627,113 @@ ensure_prism() {
   (cd "$PRISM_DIR" && ./install.sh silent)
   if [[ "$($bin -version)" != "PRISM version $PRISM_VERSION" ]]; then
     echo "PRISM binary version did not match manifest: $PRISM_VERSION" >&2
+    return 1
+  fi
+}
+
+ensure_cvc5() {
+  mkdir -p "$(dirname "$CVC5_ARCHIVE")"
+  # Only a checksum-verified archive is reusable. Re-extract it every time so
+  # an extracted solver binary from a restored cache is never trusted.
+  download "$CVC5_URL" "$CVC5_ARCHIVE" "$CVC5_ZIP_SHA256"
+  local extract_dir="$TMP_DIR/cvc5-${CVC5_VERSION}-extract"
+  safe_extract_archive "$CVC5_ARCHIVE" zip "$extract_dir" 'cvc5-Linux-x86_64-static'
+  rm -rf "$CVC5_DIR"
+  mv "$extract_dir/cvc5-Linux-x86_64-static" "$CVC5_DIR"
+  rmdir "$extract_dir"
+  if [[ ! -x "$CVC5_BIN" || -L "$CVC5_BIN" ]]; then
+    echo 'cvc5 archive did not contain a regular Linux x86-64 cvc5 executable' >&2
+    return 1
+  fi
+  local version_output
+  version_output="$($CVC5_BIN --version 2>&1)"
+  if ! grep -Fq "cvc5 $CVC5_VERSION" <<< "$version_output" \
+      || ! grep -Fq "git ${CVC5_COMMIT:0:7}" <<< "$version_output"; then
+    echo 'cvc5 binary version/commit did not match the manifest' >&2
+    printf '%s\n' "$version_output" >&2
+    return 1
+  fi
+}
+
+ensure_carcara() {
+  require_command rustup rustup
+  require_command cargo cargo
+  require_command m4 m4
+  require_command cc build-essential
+  require_command make build-essential
+  mkdir -p "$(dirname "$CARCARA_ARCHIVE")" "$CARCARA_RUSTUP_HOME" "$CARCARA_CARGO_HOME"
+  # Keep verified source and the dated Rust manifest in cache, but always
+  # re-extract and rebuild Carcara from Cargo.lock on every invocation.
+  download "$CARCARA_URL" "$CARCARA_ARCHIVE" "$CARCARA_TAR_SHA256"
+  download "$CARCARA_RUST_MANIFEST_URL" "$CARCARA_RUST_MANIFEST" "$CARCARA_RUST_MANIFEST_SHA256"
+  python3 - "$CARCARA_RUST_MANIFEST" "$CARCARA_RUST_TOOLCHAIN" "$CARCARA_RUSTC_COMMIT" "$CARCARA_CARGO_COMMIT" "$CARCARA_RUST_HOST" <<'PYTHON'
+import sys
+import tomllib
+
+manifest_path, release, rustc_commit, cargo_commit, host = sys.argv[1:]
+with open(manifest_path, 'rb') as stream:
+    manifest = tomllib.load(stream)
+if manifest.get('manifest-version') != '2':
+    raise SystemExit('Rust channel manifest version is not 2')
+rustc = manifest.get('pkg', {}).get('rustc', {})
+cargo = manifest.get('pkg', {}).get('cargo', {})
+if rustc.get('git_commit_hash') != rustc_commit or not rustc.get('version', '').startswith(f'{release} '):
+    raise SystemExit('Rust channel manifest rustc provenance did not match the tool manifest')
+if cargo_commit[:9] not in cargo.get('version', ''):
+    raise SystemExit('Rust channel manifest Cargo provenance did not match the tool manifest')
+for package_name in ('rustc', 'cargo', 'rust-std'):
+    target = manifest.get('pkg', {}).get(package_name, {}).get('target', {}).get(host, {})
+    if target.get('available') is not True:
+        raise SystemExit(f'Rust channel manifest does not provide {package_name} for {host}')
+PYTHON
+  RUSTUP_HOME="$CARCARA_RUSTUP_HOME" CARGO_HOME="$CARCARA_CARGO_HOME" \
+    rustup toolchain install "$CARCARA_RUST_TOOLCHAIN" --profile minimal --no-self-update
+
+  local rustc_version_output cargo_version_output
+  rustc_version_output="$(RUSTUP_HOME="$CARCARA_RUSTUP_HOME" CARGO_HOME="$CARCARA_CARGO_HOME" \
+    rustc "+$CARCARA_RUST_TOOLCHAIN" --version --verbose)"
+  cargo_version_output="$(RUSTUP_HOME="$CARCARA_RUSTUP_HOME" CARGO_HOME="$CARCARA_CARGO_HOME" \
+    cargo "+$CARCARA_RUST_TOOLCHAIN" --version --verbose)"
+  for expected in \
+    "release: $CARCARA_RUST_TOOLCHAIN" \
+    "commit-hash: $CARCARA_RUSTC_COMMIT" \
+    "host: $CARCARA_RUST_HOST"; do
+    if ! grep -Fxq "$expected" <<< "$rustc_version_output"; then
+      echo "Installed rustc provenance did not match: $expected" >&2
+      return 1
+    fi
+  done
+  for expected in \
+    "release: $CARCARA_RUST_TOOLCHAIN" \
+    "commit-hash: $CARCARA_CARGO_COMMIT" \
+    "host: $CARCARA_RUST_HOST"; do
+    if ! grep -Fxq "$expected" <<< "$cargo_version_output"; then
+      echo "Installed Cargo provenance did not match: $expected" >&2
+      return 1
+    fi
+  done
+
+  local extract_dir="$TMP_DIR/carcara-${CARCARA_COMMIT}-extract"
+  safe_extract_archive "$CARCARA_ARCHIVE" tar "$extract_dir" "carcara-${CARCARA_COMMIT}"
+  local source_dir="$extract_dir/carcara-${CARCARA_COMMIT}"
+  if [[ "$(sha256_of "$source_dir/Cargo.lock")" != "$CARCARA_CARGO_LOCK_SHA256" ]]; then
+    echo 'Carcara Cargo.lock digest did not match the manifest' >&2
+    return 1
+  fi
+  rm -rf "$CARCARA_DIR"
+  RUSTUP_HOME="$CARCARA_RUSTUP_HOME" CARGO_HOME="$CARCARA_CARGO_HOME" \
+    CARGO_TARGET_DIR="$CARCARA_DIR/target" \
+    cargo "+$CARCARA_RUST_TOOLCHAIN" build --quiet --locked --release --package carcara-cli --manifest-path "$source_dir/Cargo.toml"
+  rm -rf "$extract_dir"
+  if [[ ! -x "$CARCARA_BIN" || -L "$CARCARA_BIN" ]]; then
+    echo 'Carcara build did not produce the expected regular executable' >&2
+    return 1
+  fi
+  local version_output
+  version_output="$($CARCARA_BIN --version 2>&1)"
+  if ! grep -Eq "^carcara ${CARCARA_VERSION//./\\.}( |$)" <<< "$version_output"; then
+    echo 'Carcara binary version did not match the manifest' >&2
+    printf '%s\n' "$version_output" >&2
     return 1
   fi
 }
@@ -717,6 +956,7 @@ for selected_tool in "${selected_tools[@]}"; do
     cbmc) ensure_cbmc; installed+=("CBMC ${CBMC_VERSION}") ;;
     quint) ensure_quint; installed+=("Quint ${QUINT_VERSION}") ;;
     prism) ensure_prism; installed+=("PRISM ${PRISM_VERSION}") ;;
+    cvc5) ensure_cvc5; ensure_carcara; installed+=("cvc5 ${CVC5_VERSION} + Carcara ${CARCARA_VERSION}") ;;
     tamarin) ensure_tamarin; installed+=("Tamarin ${TAMARIN_VERSION} (Maude ${TAMARIN_MAUDE_VERSION})") ;;
     sby) ensure_sby; installed+=("SymbiYosys ${SBY_VERSION} (OSS CAD Suite ${SBY_SUITE_VERSION})") ;;
     kani) ensure_kani; installed+=("Kani ${KANI_VERSION} (${KANI_RUST_TOOLCHAIN})") ;;

@@ -158,6 +158,49 @@ function validateToolManifest(manifest, options = {}) {
           add('rustToolchainManifest.sha256 は64桁 lowercase hex である必要があります', id);
         }
       }
+      const hasCvc5CheckerDependency = [
+        tool.checkerVersion,
+        tool.checkerCommit,
+        tool.checkerDistribution,
+        tool.checkerCargoLockSha256,
+        tool.certificateFormat,
+        tool.maxCertificateBytes,
+        tool.maxCheckerOutputBytes,
+        tool.rustcCommit,
+        tool.cargoCommit,
+        tool.rustHost,
+      ].some((value) => value !== undefined);
+      if (hasCvc5CheckerDependency) {
+        if (tool.id !== 'cvc5') add('checker provenance fields are currently reserved for cvc5', id);
+        if (typeof tool.checkerVersion !== 'string' || tool.checkerVersion.trim() === '') {
+          add('checkerVersion は空でない string である必要があります', id);
+        }
+        if (!/^[0-9a-f]{40}$/.test(tool.checkerCommit || '')) {
+          add('checkerCommit は40桁 lowercase hex である必要があります', id);
+        }
+        if (typeof tool.checkerDistribution?.url !== 'string' || !tool.checkerDistribution.url.startsWith('https://')) {
+          add('checkerDistribution.url は https URL である必要があります', id);
+        }
+        if (!SHA256_PATTERN.test(tool.checkerDistribution?.sha256 || '')) {
+          add('checkerDistribution.sha256 は64桁 lowercase hex である必要があります', id);
+        }
+        if (!SHA256_PATTERN.test(tool.checkerCargoLockSha256 || '')) {
+          add('checkerCargoLockSha256 は64桁 lowercase hex である必要があります', id);
+        }
+        if (tool.certificateFormat !== 'alethe') add('certificateFormat は alethe である必要があります', id);
+        if (!Number.isSafeInteger(tool.maxCertificateBytes) || tool.maxCertificateBytes < 1024 || tool.maxCertificateBytes > 67108864) {
+          add('maxCertificateBytes は 1024..67108864 の safe integer である必要があります', id);
+        }
+        if (!Number.isSafeInteger(tool.maxCheckerOutputBytes) || tool.maxCheckerOutputBytes < 1024 || tool.maxCheckerOutputBytes > 1048576) {
+          add('maxCheckerOutputBytes は 1024..1048576 の safe integer である必要があります', id);
+        }
+        if (!/^[0-9a-f]{40}$/.test(tool.rustcCommit || '')) add('rustcCommit は40桁 lowercase hex である必要があります', id);
+        if (!/^[0-9a-f]{40}$/.test(tool.cargoCommit || '')) add('cargoCommit は40桁 lowercase hex である必要があります', id);
+        if (tool.rustHost !== 'x86_64-unknown-linux-gnu') add('rustHost は x86_64-unknown-linux-gnu である必要があります', id);
+        if (typeof tool.licenses?.solver !== 'string' || typeof tool.licenses?.checker !== 'string') {
+          add('licenses.solver / licenses.checker は string である必要があります', id);
+        }
+      }
       const hasMaudeDependency = [
         tool.maudeVersion,
         tool.maudeCommit,

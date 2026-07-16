@@ -26,6 +26,17 @@ These assumptions matter because the workflow in this appendix is designed to pr
 
 If this boundary is broken, errors from AI flow directly into errors in quality assurance.
 
+## F.2.1 Recheck Flow for Encoded Claims
+
+`LLM / agent` → `human review of requirements, terms, and encoding` →
+`solver / prover` → `model / witness or proof certificate` →
+`strict checker / kernel` → `CI artifact` → `human review`
+
+- On the `SAT` side, the returned model or witness is re-evaluated against the same encoded input
+- On the `UNSAT` side, a proof-producing solver emits a proof certificate that is rechecked by an independent checker or kernel
+- What the checker validates is the **encoded statement**, not the natural-language requirement, the original specification, the encoder, or unmodeled assumptions
+- The final human review therefore needs to confirm what was formalized, what was abstracted away, and which boundaries remain unverified
+
 ## F.3 Workflow Template
 
 1. Clarify the requirement in short sentences, including the objective and prohibited behavior

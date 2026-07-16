@@ -96,6 +96,21 @@ const cases = [
     expected: 'SBY --out-dir must be under the repository .artifacts directory',
   },
   {
+    command: 'tools/cvc5-proof-check.sh',
+    args: ['--out-dir'],
+    expected: 'Missing value for --out-dir',
+  },
+  {
+    command: 'tools/cvc5-proof-check.sh',
+    args: ['--time-limit', '0'],
+    expected: 'Missing or invalid value for --time-limit',
+  },
+  {
+    command: 'tools/cvc5-proof-check.sh',
+    args: ['--out-dir', '../../outside', 'examples/proof-certificates/qf-uf-bool-contradiction.smt2'],
+    expected: 'cvc5 --out-dir must be under the repository .artifacts directory',
+  },
+  {
     command: 'tools/kani-check.sh',
     args: ['--harness'],
     expected: 'Missing value for --harness',

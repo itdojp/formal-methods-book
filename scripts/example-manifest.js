@@ -26,6 +26,7 @@ const TOOL_WRAPPERS = Object.freeze({
   prism: 'tools/prism-check.sh',
   tamarin: 'tools/tamarin-check.sh',
   sby: 'tools/sby-check.sh',
+  cvc5: 'tools/cvc5-proof-check.sh',
   kani: 'tools/kani-check.sh',
 });
 const TOOL_OPTION_CONTRACTS = Object.freeze({
@@ -84,6 +85,13 @@ const TOOL_OPTION_CONTRACTS = Object.freeze({
       '--out-dir': 'artifact',
       '--config': 'config',
       '--task': { type: 'enum', values: ['bmc', 'prove', 'cover'] },
+      '--time-limit': { type: 'positiveInteger', max: 900 },
+    },
+  },
+  cvc5: {
+    flags: new Set(),
+    values: {
+      '--out-dir': 'artifact',
       '--time-limit': { type: 'positiveInteger', max: 900 },
     },
   },

@@ -153,6 +153,15 @@ function runEntry(entry, options = {}) {
       'yosysCommit',
       'bitwuzlaVersion',
       'bitwuzlaCommit',
+      'checkerVersion',
+      'checkerCommit',
+      'certificateFormat',
+      'checkerCargoLockSha256',
+      'maxCertificateBytes',
+      'maxCheckerOutputBytes',
+      'rustcCommit',
+      'cargoCommit',
+      'rustHost',
     ]
       .filter((field) => tool[field] !== undefined)
       .map((field) => [field, tool[field]]),
@@ -160,6 +169,8 @@ function runEntry(entry, options = {}) {
   if (tool.rustToolchainManifest) toolDependencies.rustToolchainManifest = tool.rustToolchainManifest;
   if (tool.maudeDistribution) toolDependencies.maudeDistribution = tool.maudeDistribution;
   if (tool.suiteVersion && tool.distribution) toolDependencies.suiteDistribution = tool.distribution;
+  if (tool.checkerDistribution) toolDependencies.checkerDistribution = tool.checkerDistribution;
+  if (tool.licenses) toolDependencies.licenses = tool.licenses;
   const artifactPolicy = toolManifest.policy.artifact;
   const artifactDir = path.join(repoRoot, '.artifacts', 'manifest', runtimeEntry.id);
   fs.rmSync(artifactDir, { recursive: true, force: true });
