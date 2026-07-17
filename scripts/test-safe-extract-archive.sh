@@ -35,6 +35,9 @@ with tarfile.open(root / 'permissions.tar', 'w') as archive:
     for label, mode in (('zero', 0o000), ('read', 0o400), ('write', 0o666), ('exec', 0o777)):
         tar_entry(archive, f'root/nested/{label}', mode, label.encode())
 
+with tarfile.open(root / 'implicit-root.tar', 'w') as archive:
+    tar_entry(archive, 'root/file', data=b'implicit root')
+
 for label, name, entry_type, linkname in (
     ('symlink', 'root/link', tarfile.SYMTYPE, 'target'),
     ('hardlink', 'root/link', tarfile.LNKTYPE, 'root/target'),
@@ -80,6 +83,8 @@ with zipfile.ZipFile(root / 'reject-symlink.zip', 'w') as archive:
 PYTHON
 
 safe_extract_archive "$TEST_ROOT/permissions.tar" tar "$TEST_ROOT/permissions-out" root
+safe_extract_archive "$TEST_ROOT/implicit-root.tar" tar "$TEST_ROOT/implicit-root-out" root
+test "$(cat "$TEST_ROOT/implicit-root-out/root/file")" = 'implicit root'
 declare -A expected_modes=(
   [zero]=600
   [read]=600

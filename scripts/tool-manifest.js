@@ -158,6 +158,36 @@ function validateToolManifest(manifest, options = {}) {
           add('rustToolchainManifest.sha256 は64桁 lowercase hex である必要があります', id);
         }
       }
+      const hasRustBuildProvenance = [
+        tool.rustcCommit,
+        tool.cargoCommit,
+        tool.rustHost,
+        tool.cargoLockSha256,
+      ].some((value) => value !== undefined);
+      if (hasRustBuildProvenance) {
+        if (tool.rustToolchain === undefined || tool.rustToolchainManifest === undefined) {
+          add('Rust build provenance には rustToolchain と rustToolchainManifest が必要です', id);
+        }
+        if (!/^[0-9a-f]{40}$/.test(tool.rustcCommit || '')) {
+          add('rustcCommit は40桁 lowercase hex である必要があります', id);
+        }
+        if (!/^[0-9a-f]{40}$/.test(tool.cargoCommit || '')) {
+          add('cargoCommit は40桁 lowercase hex である必要があります', id);
+        }
+        if (tool.rustHost !== 'x86_64-unknown-linux-gnu') {
+          add('rustHost は x86_64-unknown-linux-gnu である必要があります', id);
+        }
+        if (tool.cargoLockSha256 !== undefined && !SHA256_PATTERN.test(tool.cargoLockSha256)) {
+          add('cargoLockSha256 は64桁 lowercase hex である必要があります', id);
+        }
+      }
+      if (tool.licenses !== undefined) {
+        if (!tool.licenses || typeof tool.licenses !== 'object' || Array.isArray(tool.licenses)
+            || Object.keys(tool.licenses).length === 0
+            || Object.values(tool.licenses).some((value) => typeof value !== 'string' || value.trim() === '')) {
+          add('licenses は1件以上の空でない string 値を持つ map である必要があります', id);
+        }
+      }
       const hasCvc5CheckerDependency = [
         tool.checkerVersion,
         tool.checkerCommit,
@@ -166,9 +196,6 @@ function validateToolManifest(manifest, options = {}) {
         tool.certificateFormat,
         tool.maxCertificateBytes,
         tool.maxCheckerOutputBytes,
-        tool.rustcCommit,
-        tool.cargoCommit,
-        tool.rustHost,
       ].some((value) => value !== undefined);
       if (hasCvc5CheckerDependency) {
         if (tool.id !== 'cvc5') add('checker provenance fields are currently reserved for cvc5', id);

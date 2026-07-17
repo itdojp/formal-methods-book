@@ -3,7 +3,7 @@
   "project": "formal-methods-book",
   "projectVersion": "1.1.0",
   "locale": "en",
-  "entryCount": 1146,
+  "entryCount": 1158,
   "entries": [
     {
       "id": "86609783ffbbee21",
@@ -8850,7 +8850,7 @@
       "chapter": "Chapter 11: Integrating Formal Methods into Development Processes",
       "heading": "Chapter 11: Integrating Formal Methods into Development Processes",
       "url": "/formal-methods-book/en/chapters/chapter11/#chapter-11-integrating-formal-methods-into-development-processes",
-      "text": "Translation status: Partial. Reviewed against Japanese source commit 83d031100ae7 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work.",
+      "text": "Translation status: Partial. Reviewed against Japanese source commit abf0ec3d6e65 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work.",
       "aliases": []
     },
     {
@@ -9214,7 +9214,19 @@
       "aliases": []
     },
     {
-      "id": "fc3d08a4abc6976a",
+      "id": "6b1f0baa37b0f5b4",
+      "locale": "en",
+      "pageId": "chapter11",
+      "section": "chapters",
+      "title": "Connecting Observed Traces to Formal Properties with Runtime Verification",
+      "chapter": "Chapter 11: Integrating Formal Methods into Development Processes",
+      "heading": "Connecting Observed Traces to Formal Properties with Runtime Verification",
+      "url": "/formal-methods-book/en/chapters/chapter11/#runtime-verification-observed-traces",
+      "text": "Design-time verification cannot anticipate every production input, external-service response, configuration difference, or operator action. Runtime verification checks an executing or retained event sequence against a formalized property and reports verdicts or violations over the observed trace. A runtime assertion is a local form that evaluates a condition at a program point; an external event monitor has a different scope, failure boundary, and evidence model. Observability is the degree to which the state and causal relations needed for a decision can be reconstructed from events, metrics, and traces. Monitorability is a different concept: under the chosen semantics, can satisfaction or violation of the property be decided from an observed finite prefix? Finite-trace semantics define how an acquired finite sequence and its end are interpreted, rather than silently assuming the conventional infinite behaviors of LTL. For example, “every request eventually receives a response” is still inconclusive at an intermediate prefix unless a deadline or complete end-of-trace rule is supplied. In engineering work, keep the following activities and assurance boundaries distinct. Activity · Input and time · Primary evidence · Guarantee not obtained --- · --- · --- · --- Design-time formal verification · Model and properties before implementation or at change time · No counterexample or a counterexample within the explored/proved model · Production inputs, unmodeled environment, or correct instrumentation Testing · Selected inputs and an oracle at build time · Results for executed cases · Correctness for unexecuted inputs or all executions Static analysis · Source/binary and rules at build time · Findings or obligations for the analyzed target and rules · Event order or external state that occurred dynamically Runtime verification · Event trace and monitor property, online or offline · Violation, non-violation, or inconclusive result for the observed trace · Unobserved executions, missing events, or correctness of all possible executions Operational monitoring · Metrics, logs, SLOs during operation · Availability, performance, trends, and alerts · Evidence that a property was checked under formal semantics Incident response · Alerts, evidence, and business impact after detection · Containment, causal analysis, and recovery decisions · A complete cause or impact assessment from an alert alone Therefore, a monitor that emitted no violation on one run establishes only that it detected no target violation in that observed prefix. It does not establish that every run is correct, that unobserved events were safe, or that event collection itself was complete. Common monitorable property families include the following. Property family · Example · Finite-trace consideration --- · --- · --- Safety / precedence · A sensitive operation must not occur before successful authentication · A violating event refutes the property on a finite prefix Response · A response follows each request · An early trace ending may remain inconclusive Time-bounded response · A response follows a request within two seconds · Clock basis, skew, and late-event handling determine the semantics Aggregate / policy · Error rate stays below 1% over five minutes; repeated failures per subject are bounded · Window boundaries, missing data, sampling, retries, and deduplication must be fixed The executable example uses a fictional single session and a safety property: sensitive operations are allowed only after successful authentication. The canonical specification is examples/runtime-verification/auth-before-sensitive/auth-before-sensitive.lola, with examples/runtime-verification/auth-before-sensitive/normal.csv and examples/runtime-verification/auth-before-sensitive/violation.csv as the two traces. The expected contracts are pinned separately in examples/runtime-verification/auth-before-sensitive/expected-normal.json and examples/runtime-verification/auth-before-sensitive/expected-violation.json. The core property remembers whether authentication has been observed and triggers when a sensitive operation occurs before that state becomes true. This teaching contract pins RTLola CLI 0.1.2, upstream commit 11b6bb080a5fa487645fb023fb3d0baea6874e73, and Rust 1.87.0, and checks an offline relative-seconds CSV trace. The normal case expects zero violations, while the violating case expects one trigger at one second; an independent validator in the wrapper derives the same verdict again from the source trace. Normalized results.json, violation-report.json, and summary.log retain input hashes, tool provenance, the finite-trace boundary, assumptions, and the verdict, but do not retain the tool binary or raw operational logs. rtlola-auth-before-sensitive-normal: run the normal trace and expected result from assets in the same revision; lane nightly. 【Tool-compliant (runs as-is)】 rtlola-auth-before-sensitive-violation: rerun the violating trace as an expected counterexample contract rather than an unexpected CI incident; lane nightly. 【Tool-compliant (runs as-is)】 The assumptions of this minimal example are deliberately narrow. Events have strictly ascending time; equal timestamps and reordering are rejected. The schema is exactly authsuccess,sensitiveoperation,time; missing, unknown, or duplicate columns are rejected. Each row is a complete event, and authentication and the sensitive operation cannot both be true in the same row. One relative clock is used, so clock skew is outside this example. The three-event teaching trace is completely collected; production sampling, delivery delay, retries, duplicates, session changes, and logout are outside the model. A wholly missing event cannot be detected from this trace alone; production systems need separate sequence-number, heartbeat, and ingestion-completeness contracts. Online monitoring can decide on each event with low latency, but it requires explicit fail-open/fail-closed behavior, backpressure policy, reordering logic, and state recovery. Offline monitoring is easier to rerun deterministically in CI, audits, and post-incident analysis, but detection and response are delayed. This book therefore puts a fixed offline trace in nightly CI and leaves a production online connection as an environment-specific design task. Before production adoption, load-test the monitor's CPU, memory, and I/O overhead together with sampling, backpressure, and retained state. Do not put authentication identifiers, prompts, personal data, or confidential payloads directly into verification artifacts; define minimization, pseudonymization, access control, retention, and deletion rules. Fail-closed enforcement can turn a monitor failure into an availability incident, while fail-open enforcement permits operations when checking is unavailable, so each property needs a risk owner, degraded mode, manual intervention path, and audit record. A monitor violation is an input to incident response; by itself it does not establish the cause, a successful attack, or the full customer impact.",
+      "aliases": []
+    },
+    {
+      "id": "4666adc4a0259234",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9226,7 +9238,7 @@
       "aliases": []
     },
     {
-      "id": "5f6d486249910696",
+      "id": "ee6efb31cb7ee08f",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9238,7 +9250,7 @@
       "aliases": []
     },
     {
-      "id": "12db3608036bc0fb",
+      "id": "3778c4a8aa0f28ca",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9250,7 +9262,7 @@
       "aliases": []
     },
     {
-      "id": "9ed0a5565c9f2c5e",
+      "id": "e7158e9b608fc543",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9262,7 +9274,7 @@
       "aliases": []
     },
     {
-      "id": "fbad656b4bf748e2",
+      "id": "27c0b1e674fbe4a6",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9274,7 +9286,7 @@
       "aliases": []
     },
     {
-      "id": "1e11f34bcc5596e3",
+      "id": "756dea85a9db42d6",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9286,7 +9298,7 @@
       "aliases": []
     },
     {
-      "id": "6fd587ceeb07e88d",
+      "id": "07dda76f2fe3c494",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9298,7 +9310,7 @@
       "aliases": []
     },
     {
-      "id": "e531e1c2fbb40278",
+      "id": "3948d6716f7bac73",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9310,7 +9322,7 @@
       "aliases": []
     },
     {
-      "id": "293decd576029d93",
+      "id": "94a1c2a2c544069f",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9322,7 +9334,7 @@
       "aliases": []
     },
     {
-      "id": "85e24de8a5682b55",
+      "id": "ae68fcb8b3da54f0",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9334,7 +9346,7 @@
       "aliases": []
     },
     {
-      "id": "a84328b85119a37b",
+      "id": "9fadcd11cdfbf955",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9346,7 +9358,7 @@
       "aliases": []
     },
     {
-      "id": "379808a72a9f7cc3",
+      "id": "c2f1f361d7f1d3a9",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9358,7 +9370,7 @@
       "aliases": []
     },
     {
-      "id": "16a386eb4106a2d2",
+      "id": "4348fe0dd668b31d",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9370,7 +9382,7 @@
       "aliases": []
     },
     {
-      "id": "0b0ac31bfd8f52f3",
+      "id": "839dc04cd54c1387",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9382,7 +9394,7 @@
       "aliases": []
     },
     {
-      "id": "579f7bc0fbbf4726",
+      "id": "a92c38947b159bb2",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9394,7 +9406,7 @@
       "aliases": []
     },
     {
-      "id": "e3310d8a7db30658",
+      "id": "228da0a5864a3a56",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9406,7 +9418,7 @@
       "aliases": []
     },
     {
-      "id": "2ab41a9af5dc6de6",
+      "id": "e1c608c335cd1fe4",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9418,7 +9430,7 @@
       "aliases": []
     },
     {
-      "id": "b7687d0e5d52e997",
+      "id": "474a97cb84f0af8f",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9430,7 +9442,7 @@
       "aliases": []
     },
     {
-      "id": "76124212e8f75ed2",
+      "id": "4dfa003722095fed",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9442,7 +9454,7 @@
       "aliases": []
     },
     {
-      "id": "35838846b065cc43",
+      "id": "f3ff7585ea27a2f0",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9454,7 +9466,7 @@
       "aliases": []
     },
     {
-      "id": "e4f6543acb20dc72",
+      "id": "25b7c6df5f4586d6",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9466,7 +9478,7 @@
       "aliases": []
     },
     {
-      "id": "a8ddf3e1ec085b9f",
+      "id": "8aea352784e1eed9",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9478,7 +9490,7 @@
       "aliases": []
     },
     {
-      "id": "ad9fa053939a3871",
+      "id": "6e853bd0ad435a3c",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9490,7 +9502,7 @@
       "aliases": []
     },
     {
-      "id": "63a0cc9558fb1ca0",
+      "id": "96d7ef695c910c0b",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9502,7 +9514,7 @@
       "aliases": []
     },
     {
-      "id": "d9e88bf506cc7de1",
+      "id": "3376312accb93abe",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9514,7 +9526,7 @@
       "aliases": []
     },
     {
-      "id": "2118ac4b160b6057",
+      "id": "ce8fbdb1f46ea9f3",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9526,7 +9538,7 @@
       "aliases": []
     },
     {
-      "id": "67e79f1ed3ed02b2",
+      "id": "5bbbd2a862f9e49a",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9538,7 +9550,7 @@
       "aliases": []
     },
     {
-      "id": "6e48cb2a31c17596",
+      "id": "b84d1cb5c710b8de",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9550,7 +9562,7 @@
       "aliases": []
     },
     {
-      "id": "55549bf94ef1ff9d",
+      "id": "89c6e91f89d3d89d",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9562,7 +9574,7 @@
       "aliases": []
     },
     {
-      "id": "4922ff10de00b1a6",
+      "id": "66faafd23e7a8945",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9574,7 +9586,7 @@
       "aliases": []
     },
     {
-      "id": "c7880abaeec409c9",
+      "id": "b56da47658f3c4b5",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9586,7 +9598,7 @@
       "aliases": []
     },
     {
-      "id": "76a5ee0e735210d8",
+      "id": "1f21c19804c15021",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9598,7 +9610,7 @@
       "aliases": []
     },
     {
-      "id": "777d0a445b3abf4f",
+      "id": "51e8edb5630d0739",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9610,7 +9622,7 @@
       "aliases": []
     },
     {
-      "id": "8217b37205b2449e",
+      "id": "0b9968323e11f294",
       "locale": "en",
       "pageId": "chapter11",
       "section": "chapters",
@@ -9630,7 +9642,7 @@
       "chapter": "Chapter 12: Tools and Automation",
       "heading": "Chapter 12: Tools and Automation",
       "url": "/formal-methods-book/en/chapters/chapter12/#chapter-12-tools-and-automation",
-      "text": "Translation status: Partial. Reviewed against Japanese source commit 4c528522f6a4 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work.",
+      "text": "Translation status: Partial. Reviewed against Japanese source commit abf0ec3d6e65 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work.",
       "aliases": []
     },
     {
@@ -10060,7 +10072,7 @@
       "chapter": "Chapter 12: Tools and Automation",
       "heading": "Coordinating with Operational Monitoring",
       "url": "/formal-methods-book/en/chapters/chapter12/#coordinating-with-operational-monitoring",
-      "text": "If verification in CI/CD is connected to operational monitoring in production, teams can establish a more comprehensive quality-assurance loop. Runtime contract checking: Continue monitoring the contract conditions validated during development in the production environment so that specification violations can be detected early. Monitoring performance specifications: Continuously observe formally stated performance properties—such as response time, throughput, and resource usage—in the live environment so that degradations can be identified quickly. Log-based verification: Use system logs to verify whether important properties, such as security policies and business rules, continue to hold during operation. Building a feedback loop: Feed issues found in production back into the development process so that verification content can be improved based on real operational evidence. Through integration with continuous integration, formal methods cease to be a one-off activity and instead become a continuous means of quality assurance embedded in the development process itself. That makes sustained delivery of high-quality software more realistic.",
+      "text": "If verification in CI/CD is connected to operational monitoring in production, teams can establish a more comprehensive quality-assurance loop. Runtime contract checking: Continue monitoring the contract conditions validated during development in the production environment so that specification violations can be detected early. Monitoring performance specifications: Continuously observe formally stated performance properties—such as response time, throughput, and resource usage—in the live environment so that degradations can be identified quickly. Log-based verification: Use system logs to verify whether important properties, such as security policies and business rules, continue to hold during operation. The Chapter 11 RTLola example places a normal trace and a known violating trace in independent entries of the nightly matrix. The normal entry regresses a zero-violation result, while the violating entry regresses detection of exactly one expected violation; both retain input hashes, pinned tool provenance, results.json, violation-report.json, and summary.log as artifacts. This placement is not a substitute for production monitoring: it checks in CI that the property, wrapper, finite-trace semantics, and violation-report contract have not regressed. Reanalysis of operational traces still requires explicit PII minimization, retention, access control, and evidence for missing, reordered, or duplicated events instead of unrestricted retention of raw logs. Building a feedback loop: Feed issues found in production back into the development process so that verification content can be improved based on real operational evidence. Through integration with continuous integration, formal methods cease to be a one-off activity and instead become a continuous means of quality assurance embedded in the development process itself. That makes sustained delivery of high-quality software more realistic.",
       "aliases": []
     },
     {
@@ -11081,7 +11093,7 @@
       "chapter": "Glossary",
       "heading": "Glossary",
       "url": "/formal-methods-book/en/glossary/#glossary",
-      "text": "Translation status: Partial. Reviewed against Japanese source commit 4c528522f6a4 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This glossary collects technical terms and abbreviations that appear repeatedly throughout the book. The definitions prioritize the way each term is used in this book. When stricter distinctions matter, refer to the appendices or to primary sources.",
+      "text": "Translation status: Partial. Reviewed against Japanese source commit abf0ec3d6e65 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This glossary collects technical terms and abbreviations that appear repeatedly throughout the book. The definitions prioritize the way each term is used in this book. When stricter distinctions matter, refer to the appendices or to primary sources.",
       "aliases": []
     },
     {
@@ -11214,7 +11226,19 @@
       "aliases": []
     },
     {
-      "id": "ff9f3da4f624f103",
+      "id": "330c7dca516427d2",
+      "locale": "en",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "Runtime assertion",
+      "chapter": "Glossary",
+      "heading": "Runtime assertion",
+      "url": "/formal-methods-book/en/glossary/#glossary-runtime-assertion",
+      "text": "A check evaluated at a specific point during execution, with a violation producing a stop, exception, or log event. Distinguish its local scope and failure coupling from runtime verification by an external event monitor. See Chapter 11.",
+      "aliases": []
+    },
+    {
+      "id": "e6cdfeef3ad9257e",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11226,7 +11250,7 @@
       "aliases": []
     },
     {
-      "id": "05e96c50bac3acd6",
+      "id": "34c599023cb1f03c",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11241,7 +11265,7 @@
       ]
     },
     {
-      "id": "1eb81deedfaa246a",
+      "id": "ae6f7d0ed3faca59",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11253,7 +11277,7 @@
       "aliases": []
     },
     {
-      "id": "85a5be3fd6d40be1",
+      "id": "840fae93a1ec01f9",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11265,7 +11289,7 @@
       "aliases": []
     },
     {
-      "id": "e56814a5e2a33e20",
+      "id": "13b72f4d8d969d4b",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11277,7 +11301,7 @@
       "aliases": []
     },
     {
-      "id": "858d95fe5c1ce386",
+      "id": "f4e10b6c4e7c71d8",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11289,7 +11313,7 @@
       "aliases": []
     },
     {
-      "id": "69e483fadafb2f77",
+      "id": "66529d4e0e86afe0",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11301,7 +11325,7 @@
       "aliases": []
     },
     {
-      "id": "b30706a17eb51edb",
+      "id": "eb7e995a3c65fc5f",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11313,7 +11337,7 @@
       "aliases": []
     },
     {
-      "id": "bf49ff9faaf9160c",
+      "id": "e19dedc81383cd67",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11325,7 +11349,7 @@
       "aliases": []
     },
     {
-      "id": "67ad18b130adc57d",
+      "id": "9d128ca844c6339a",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11337,7 +11361,7 @@
       "aliases": []
     },
     {
-      "id": "4ca98dc5eb50d1dc",
+      "id": "4efea399e196a33c",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11349,7 +11373,7 @@
       "aliases": []
     },
     {
-      "id": "898a0ad4488ffd5e",
+      "id": "a00790b96c7a2ed9",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11361,7 +11385,7 @@
       "aliases": []
     },
     {
-      "id": "0003f8393e5419a3",
+      "id": "ce97eaf9a71e692b",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11376,7 +11400,7 @@
       ]
     },
     {
-      "id": "dcc04173686fc1f0",
+      "id": "7a0dacd4434e54d6",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11388,7 +11412,7 @@
       "aliases": []
     },
     {
-      "id": "01592651e746385f",
+      "id": "de3c9ee2e2d8dcb2",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11400,7 +11424,7 @@
       "aliases": []
     },
     {
-      "id": "4ca78c2b4ef094f7",
+      "id": "4c1ab547de65216a",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11412,7 +11436,19 @@
       "aliases": []
     },
     {
-      "id": "5762538b267e3611",
+      "id": "17e91210098b8a1c",
+      "locale": "en",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "Finite-trace semantics",
+      "chapter": "Glossary",
+      "heading": "Finite-trace semantics",
+      "url": "/formal-methods-book/en/glossary/#glossary-finite-trace-semantics",
+      "text": "Semantics that define satisfaction, violation, or an inconclusive result over an acquired finite event sequence and its end. Infinite-trace temporal logic must not be transferred silently onto a finite log. See Chapter 11 and Appendix C.",
+      "aliases": []
+    },
+    {
+      "id": "59a95883d8e6a3db",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11424,7 +11460,7 @@
       "aliases": []
     },
     {
-      "id": "0e3c75d341d385a7",
+      "id": "d755ea183dbc9f9e",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11442,7 +11478,7 @@
       ]
     },
     {
-      "id": "4bc1cd259e9e7577",
+      "id": "a9f4a2ca123f9e63",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11454,7 +11490,7 @@
       "aliases": []
     },
     {
-      "id": "6710ca2ab8c1ae54",
+      "id": "39930636d15eea30",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11466,7 +11502,7 @@
       "aliases": []
     },
     {
-      "id": "c35972daa96d73da",
+      "id": "a6e42ab26853d1b9",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11478,7 +11514,7 @@
       "aliases": []
     },
     {
-      "id": "c8f88affc1dc671b",
+      "id": "5f65137258d38fdf",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11490,7 +11526,7 @@
       "aliases": []
     },
     {
-      "id": "123f610d4f394228",
+      "id": "be1c1bdb4352c3fb",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11502,7 +11538,7 @@
       "aliases": []
     },
     {
-      "id": "fe94d7381e995a84",
+      "id": "492d7552741fdc62",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11517,7 +11553,7 @@
       ]
     },
     {
-      "id": "049f3589cc5fdf80",
+      "id": "ebb57f941d483691",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11529,7 +11565,7 @@
       "aliases": []
     },
     {
-      "id": "c62e31b3548f4536",
+      "id": "88cc11a527a4b4dc",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11541,7 +11577,7 @@
       "aliases": []
     },
     {
-      "id": "bf8288906bfdcdb9",
+      "id": "58c9879b3b4f502f",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11553,7 +11589,7 @@
       "aliases": []
     },
     {
-      "id": "0cdd39bae7a1101a",
+      "id": "b9631a86b4003b33",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11565,7 +11601,7 @@
       "aliases": []
     },
     {
-      "id": "37a007a070ffb7cf",
+      "id": "bee9169be9c2709e",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11577,7 +11613,7 @@
       "aliases": []
     },
     {
-      "id": "1ad68832a5f9a09f",
+      "id": "cdb438cd31f4b69e",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11589,7 +11625,7 @@
       "aliases": []
     },
     {
-      "id": "6a2d7310cadadb21",
+      "id": "57a56af2f2ebafa6",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11601,7 +11637,7 @@
       "aliases": []
     },
     {
-      "id": "f969ae8f4cee99bb",
+      "id": "978bdcd1a60999a8",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11613,7 +11649,7 @@
       "aliases": []
     },
     {
-      "id": "6ddb67eb4995a20b",
+      "id": "69ad2d695269423b",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11625,7 +11661,7 @@
       "aliases": []
     },
     {
-      "id": "ee49f63d3ac44d73",
+      "id": "bb2d70dd6b691996",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11637,7 +11673,7 @@
       "aliases": []
     },
     {
-      "id": "6868d0b9b5ed68d3",
+      "id": "8d8052d67289abae",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11649,7 +11685,7 @@
       "aliases": []
     },
     {
-      "id": "376b0fa342021cda",
+      "id": "bcd818a02cd18082",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11664,7 +11700,7 @@
       ]
     },
     {
-      "id": "876b163248749467",
+      "id": "2190ebe04ce08ff9",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11676,7 +11712,43 @@
       "aliases": []
     },
     {
-      "id": "d67f24316863dd0b",
+      "id": "a8a0ed35b5098507",
+      "locale": "en",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "Monitorability",
+      "chapter": "Glossary",
+      "heading": "Monitorability",
+      "url": "/formal-methods-book/en/glossary/#glossary-monitorability",
+      "text": "The ability, under chosen semantics, to decide satisfaction or violation of a property from an observed finite prefix. Evaluate it separately from observability, which asks whether the required events can be obtained. See Chapter 11 and Appendix C.",
+      "aliases": []
+    },
+    {
+      "id": "d601d4434164e5fb",
+      "locale": "en",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "O",
+      "chapter": "Glossary",
+      "heading": "O",
+      "url": "/formal-methods-book/en/glossary/#o",
+      "text": "O",
+      "aliases": []
+    },
+    {
+      "id": "6003fb0791c09670",
+      "locale": "en",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "Observability",
+      "chapter": "Glossary",
+      "heading": "Observability",
+      "url": "/formal-methods-book/en/glossary/#glossary-observability",
+      "text": "The degree to which system state and causal relations needed for a decision can be reconstructed from events, metrics, and traces. Even a monitorable property lacks evidence when required events are missing. See Chapter 11.",
+      "aliases": []
+    },
+    {
+      "id": "6e41eefe240aa00f",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11688,7 +11760,7 @@
       "aliases": []
     },
     {
-      "id": "b5db69ee9d91a754",
+      "id": "76554202ddc76054",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11700,7 +11772,7 @@
       "aliases": []
     },
     {
-      "id": "a70b68cc365a642b",
+      "id": "bd2078286676ef34",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11712,7 +11784,7 @@
       "aliases": []
     },
     {
-      "id": "d5d9d4ab84d328ce",
+      "id": "ebfaf24f023afb5d",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11724,7 +11796,7 @@
       "aliases": []
     },
     {
-      "id": "96d815173434c687",
+      "id": "7122e7588426b06e",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11738,7 +11810,7 @@
       ]
     },
     {
-      "id": "66b2c1d1c02aefc2",
+      "id": "0b2d3e8d8a630923",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11750,7 +11822,7 @@
       "aliases": []
     },
     {
-      "id": "772c7b9e8dcbf131",
+      "id": "917a696fa4112c6a",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11765,7 +11837,7 @@
       ]
     },
     {
-      "id": "bd69b4fdb438d644",
+      "id": "13b457922491f39e",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11780,7 +11852,7 @@
       ]
     },
     {
-      "id": "36b4417160db4b92",
+      "id": "1de36a6cced0d92c",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11792,7 +11864,7 @@
       "aliases": []
     },
     {
-      "id": "560ea97e5339dcd9",
+      "id": "02d775a10ba4626c",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11804,7 +11876,7 @@
       "aliases": []
     },
     {
-      "id": "45f35cae9dad8b1e",
+      "id": "00a21a11babd2897",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11816,7 +11888,7 @@
       "aliases": []
     },
     {
-      "id": "bc9f2a01661e1e62",
+      "id": "43c5a4d3789a2ab5",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11828,7 +11900,7 @@
       "aliases": []
     },
     {
-      "id": "149550b4b3e4642e",
+      "id": "55e712013ba54ea3",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11840,7 +11912,7 @@
       "aliases": []
     },
     {
-      "id": "4581ab1604ab2461",
+      "id": "f547573a1ef7d116",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11852,7 +11924,7 @@
       "aliases": []
     },
     {
-      "id": "5f45c51066c81629",
+      "id": "ffd2780b2c35bcc6",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11864,7 +11936,7 @@
       "aliases": []
     },
     {
-      "id": "7e568a1e61a10398",
+      "id": "61640adafed0914a",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11878,7 +11950,31 @@
       ]
     },
     {
-      "id": "04f99ba71c7b7c0f",
+      "id": "80cff9e05285d499",
+      "locale": "en",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "RTLola",
+      "chapter": "Glossary",
+      "heading": "RTLola",
+      "url": "/formal-methods-book/en/glossary/#glossary-rtlola",
+      "text": "A runtime-verification language and toolchain that specifies typed streams and triggers over online or offline events. This book guarantees only the pinned CLI 0.1.2 contract over finite offline CSV traces. See Chapter 11 and Appendices B and E.",
+      "aliases": []
+    },
+    {
+      "id": "ee15396502a4849c",
+      "locale": "en",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "Runtime verification",
+      "chapter": "Glossary",
+      "heading": "Runtime verification",
+      "url": "/formal-methods-book/en/glossary/#glossary-runtime-verification",
+      "text": "Checking executing or retained event traces against formal properties to produce violation, non-violation, or inconclusive verdicts over observed traces. Zero detected violations must not be generalized to correctness of all possible executions. See Chapter 11 and Appendix C.",
+      "aliases": []
+    },
+    {
+      "id": "73d726e658b045f6",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11890,7 +11986,7 @@
       "aliases": []
     },
     {
-      "id": "da45a491ecf8da5c",
+      "id": "b7647ea507109c8d",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11902,7 +11998,7 @@
       "aliases": []
     },
     {
-      "id": "107f202edba9309e",
+      "id": "c541d72a3895a0ce",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11914,7 +12010,7 @@
       "aliases": []
     },
     {
-      "id": "fa7ba5d41e187941",
+      "id": "3858f097a5c16f11",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11929,7 +12025,7 @@
       ]
     },
     {
-      "id": "70975ec12db9ea9f",
+      "id": "9c4db0bacc8c4de3",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11941,7 +12037,7 @@
       "aliases": []
     },
     {
-      "id": "4fadc824af03ad48",
+      "id": "5a4bdd92e8a3d8f6",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11953,7 +12049,7 @@
       "aliases": []
     },
     {
-      "id": "66c5869e6a577870",
+      "id": "72d04ab9edb8cd3a",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11965,7 +12061,7 @@
       "aliases": []
     },
     {
-      "id": "88e9007637743dc7",
+      "id": "577be41780f97cb9",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11977,7 +12073,7 @@
       "aliases": []
     },
     {
-      "id": "8db0608e939e8366",
+      "id": "b501f16fdd995729",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -11989,7 +12085,7 @@
       "aliases": []
     },
     {
-      "id": "5235ea7903319f58",
+      "id": "d6c2c69c6cb42f9b",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12001,7 +12097,7 @@
       "aliases": []
     },
     {
-      "id": "0059ef367a5eebbe",
+      "id": "138b706067de5989",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12013,7 +12109,7 @@
       "aliases": []
     },
     {
-      "id": "4cfa0699ad48294e",
+      "id": "90fc69c114947f9a",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12029,7 +12125,7 @@
       ]
     },
     {
-      "id": "3c17f275f839b86a",
+      "id": "dce946b5bd26075d",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12041,7 +12137,7 @@
       "aliases": []
     },
     {
-      "id": "3cb5f2a6a2618d71",
+      "id": "9a4c26af31c71a6b",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12053,7 +12149,7 @@
       "aliases": []
     },
     {
-      "id": "7acbb594c106cd9f",
+      "id": "3b6433d4005c78fc",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12067,7 +12163,7 @@
       ]
     },
     {
-      "id": "974c75f0b42321fb",
+      "id": "d0fc23dd77339bad",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12081,7 +12177,7 @@
       ]
     },
     {
-      "id": "139225f9ad005955",
+      "id": "2218eb0cef17d9c0",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12093,7 +12189,7 @@
       "aliases": []
     },
     {
-      "id": "a2c8a8d9ab33be12",
+      "id": "380f40813b1e89c6",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12107,7 +12203,7 @@
       ]
     },
     {
-      "id": "5a7fcb2dc15058b6",
+      "id": "a474952acf395281",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12119,7 +12215,7 @@
       "aliases": []
     },
     {
-      "id": "fb0101f9bb80211b",
+      "id": "e91c38e5c0eac786",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12131,7 +12227,7 @@
       "aliases": []
     },
     {
-      "id": "a35200e4f6cc4507",
+      "id": "4c5001799cbee686",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12143,7 +12239,7 @@
       "aliases": []
     },
     {
-      "id": "ed4215cab3aeafb0",
+      "id": "967d35a452c50f4f",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12155,7 +12251,7 @@
       "aliases": []
     },
     {
-      "id": "f855fd95026ec3dc",
+      "id": "95df75824f42d58d",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12170,7 +12266,7 @@
       ]
     },
     {
-      "id": "db87e3e140fdc820",
+      "id": "2d732d22238899ad",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12182,7 +12278,7 @@
       "aliases": []
     },
     {
-      "id": "b979bf832df10731",
+      "id": "f382e77d1a90346d",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12194,7 +12290,7 @@
       "aliases": []
     },
     {
-      "id": "aa10f1aaea24661f",
+      "id": "a147343c81f2cd95",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12206,7 +12302,7 @@
       "aliases": []
     },
     {
-      "id": "0605d19d55242e62",
+      "id": "fed136ef6bed3e31",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12218,7 +12314,7 @@
       "aliases": []
     },
     {
-      "id": "922a4e6caf9a231b",
+      "id": "665c44814552b09a",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12230,7 +12326,7 @@
       "aliases": []
     },
     {
-      "id": "b8f3827fb045a1aa",
+      "id": "1cb12087f441327c",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12372,7 +12468,7 @@
       "chapter": "Appendix B: Tool Setup and Verification Quick Start",
       "heading": "Appendix B: Tool Setup and Verification Quick Start",
       "url": "/formal-methods-book/en/appendices/appendix-b/#appendix-b-tool-setup-and-verification-quick-start",
-      "text": "Translation status: Partial. Reviewed against Japanese source commit a4be778350d2 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This appendix gives the shortest reproducible path to running the book's companion examples. It prioritizes reproducibility (minimizing environment differences) over local customization. Container (recommended): use a devcontainer for a unified environment Local: run the same scripts with minimum dependencies such as Java, curl, and unzip The commands below are representative examples. Distribution formats and prerequisites may change, so consult Appendix E on primary sources when necessary. You do not need every tool before you begin reading. By following this appendix, you should be able to reproduce at least one model checking workflow (Alloy/TLC/Apalache) and one program verification workflow (Dafny).",
+      "text": "Translation status: Partial. Reviewed against Japanese source commit abf0ec3d6e65 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This appendix gives the shortest reproducible path to running the book's companion examples. It prioritizes reproducibility (minimizing environment differences) over local customization. Container (recommended): use a devcontainer for a unified environment Local: run the same scripts with minimum dependencies such as Java, curl, and unzip The commands below are representative examples. Distribution formats and prerequisites may change, so consult Appendix E on primary sources when necessary. You do not need every tool before you begin reading. By following this appendix, you should be able to reproduce at least one model checking workflow (Alloy/TLC/Apalache) and one program verification workflow (Dafny).",
       "aliases": [
         "模型検査",
         "モデル検査"
@@ -12387,7 +12483,7 @@
       "chapter": "Appendix B: Tool Setup and Verification Quick Start",
       "heading": "Target Tools (Minimum Set)",
       "url": "/formal-methods-book/en/appendices/appendix-b/#target-tools-minimum-set",
-      "text": "Alloy 6.x (CLI execution) TLA+ TLC (tla2tools.jar) Apalache (SMT-based verification for TLA+) Dafny (verifier) Notes: Theorem provers such as Rocq and Isabelle have larger dependency footprints, so this appendix primarily points to primary sources for them in Appendix E. Lean 4 is included here only as a minimal setup at the end of the appendix as an optional path through the book. SPIN, NuSMV, CBMC, Quint, PRISM, Tamarin, and SymbiYosys belong to the nightly lane, and this appendix also documents one cvc5 + Carcara proof-certificate recheck path there. Additional prerequisites for source builds and archive-layout validation are listed below.",
+      "text": "Alloy 6.x (CLI execution) TLA+ TLC (tla2tools.jar) Apalache (SMT-based verification for TLA+) Dafny (verifier) Notes: Theorem provers such as Rocq and Isabelle have larger dependency footprints, so this appendix primarily points to primary sources for them in Appendix E. Lean 4 is included here only as a minimal setup at the end of the appendix as an optional path through the book. SPIN, NuSMV, CBMC, Quint, PRISM, Tamarin, SymbiYosys, and RTLola belong to the nightly lane, and this appendix also documents one cvc5 + Carcara proof-certificate recheck path there. Additional prerequisites for source builds and archive-layout validation are listed below.",
       "aliases": [
         "TLA Plus",
         "Coq",
@@ -12404,7 +12500,7 @@
       "chapter": "Appendix B: Tool Setup and Verification Quick Start",
       "heading": "Tool Lane Inventory and Execution Guarantee",
       "url": "/formal-methods-book/en/appendices/appendix-b/#tool-lane-inventory",
-      "text": "tools/tool-manifest.json is the source of truth for every tool's classification, executable version, distribution digest, artifact limits, and update procedure. pr-quick runs small examples related to a PR diff, nightly uses an independent per-tool matrix, and optional/manual runs only through an explicit workflowdispatch selection. documentation-only means that the book introduces the tool or service but this repository does not guarantee its version, environment, or result. Indirect use of an embedded solver does not constitute a standalone execution guarantee for that solver. Tool / service · lane · Verified version · Rationale --- · --- · --- · --- Alloy Analyzer · pr-quick · 6.2.0 · Four small-scope examples are reproducible within the PR budget. TLC · pr-quick · 1.7.4 · Checks a finite model with pinned cfg, worker count, seed, and timeout. Apalache · pr-quick · 0.52.1 · A short bounded invariant check is reproducible on every PR. Dafny · pr-quick · 4.11.0 · The minimal verification example is fast and stable. SPIN · nightly · 6.5.2 · Source build and state exploration run in an isolated nightly tool job. NuSMV · nightly · 2.7.1 · The official source build has extra dependencies and is isolated to nightly. CBMC · nightly · 6.10.0 · Runs the pinned Ubuntu package and bounded check in an isolated nightly job. Quint · nightly · 0.32.0 · Uses the official single binary for typecheck/test with a fixed seed and TypeScript backend. PRISM Model Checker · nightly · 4.10.1 · Downloads the pinned roughly 41 MB official distribution and reproduces quantitative properties in an isolated nightly job. Tamarin Prover · nightly · 1.12.0 · Downloads pinned official Tamarin and supported Maude distributions and reproduces attack traces and lemmas in an isolated nightly job. SymbiYosys (sby) · nightly · v0.67-4-gfea6e46 · Downloads an approximately 733 MB pinned OSS CAD Suite and reproduces RTL BMC, k-induction, and cover tasks in an isolated nightly tool job. Kani Rust Verifier · optional/manual · 0.67.0 · Requires a pinned Rust nightly, so it is limited to explicit manual dispatch. TLA+ Toolbox · documentation-only · — · GUI/editor environment; outside this repository's CLI guarantee. TLA+ VS Code extension · documentation-only · — · Editor support is separate from CLI checks and its extension version is not pinned. Community Z Tools (CZT) · documentation-only · — · Reference-only Z tooling with no executable asset. FDR · documentation-only · — · CSPM examples are shown, but distribution/licensing and CI are not pinned. ProB · documentation-only · — · Mentioned only; no executable asset or pinned environment. PAT · documentation-only · — · Mentioned only; no executable asset or pinned environment. nuXmv · documentation-only · — · Introduced as distinct from NuSMV; CI guarantees NuSMV only. Java PathFinder · documentation-only · — · Mentioned as an option/exercise; no executable asset. UPPAAL · documentation-only · — · Not automated due to GUI, licensing, and distribution constraints. TIMES · documentation-only · — · Reference-only real-time verification tool. Rocq / Coq · documentation-only · — · No pinned proof project, opam switch, or library set. Lean 4 / Lake / mathlib / elan · documentation-only · — · No proof project or dependency revision; the Linux distribution is also large. Isabelle/HOL · documentation-only · — · Reference-only; no pinned session/build environment. Agda · documentation-only · — · Reference-only; no pinned project or libraries. HOL4 · documentation-only · — · Mentioned as an Aeneas target; no execution contract. F · documentation-only · — · Mentioned as a target/related technology; no execution contract. Frama-C · documentation-only · — · Reference-only; plugin and solver configuration are not pinned. VeriFast · documentation-only · — · Reference-only; no executable asset. SPARK · documentation-only · — · Industrial toolchain/licensing environment is not pinned. Why3 · documentation-only · — · Execution configuration including backend solvers is not pinned. Verus · documentation-only · — · Rust/Z3/revision execution stack is not pinned. Creusot · documentation-only · — · Why3/solver/Rust combination is not pinned. Prusti / Viper · documentation-only · — · Rust/Viper toolchain and executable asset are not pinned. Aeneas / Charon · documentation-only · — · No pinned end-to-end contract including a proof target. Z3 · documentation-only · — · Indirect use by other tools is not counted as a standalone solver guarantee. cvc5 / CVC4 · nightly · 1.3.4 · Verifies and re-extracts a pinned official solver asset, rebuilds an independent Alethe checker from source nightly, and rechecks an UNSAT certificate. Yices · documentation-only · — · Reference-only; no pinned executable asset. MathSAT · documentation-only · — · Reference-only; licensing/distribution environment is not pinned. SCADE · documentation-only · — · Commercial/GUI toolchain; not a mandatory CI dependency. Simulink · documentation-only · — · Industry-case reference only; no licensed environment is pinned. SAW · documentation-only · — · Industry-case reference; no s2n verification asset is included. Cedar Analysis · documentation-only · — · Service/API and tools evolve; no policy asset is pinned. Bedrock Guardrails Automated Reasoning checks · documentation-only · — · External service/region/API constraints are not mandatory CI dependencies. Solidity SMTChecker · documentation-only · — · Solidity/compiler/solver stack and contract asset are not pinned. Aptos Move Prover · documentation-only · — · Move toolchain and contract asset are not pinned. Certora Prover · documentation-only · — · External/industrial toolchain is not a mandatory CI dependency. LeanDojo · documentation-only · — · Reference-only AI proof-assistance evaluation framework. Lean Copilot · documentation-only · — · Reference-only AI proof assistance; model/project not pinned. AlphaProof / AlphaGeometry 2 · documentation-only · — · Research-result reference with no redistributable CLI contract. DeepSeek-Prover-V2 · documentation-only · — · Research-result reference; model/runtime not pinned. ProofGym · documentation-only · — · Evaluation-framework reference; dataset/runtime not pinned. APOLLO · documentation-only · — · Research-result reference; no execution contract. The cvc5 nightly classification in the inventory above denotes the narrow cvc5-alethe-unsat-certificate pinned nightly contract: one cvc5 1.3.4 to Alethe to Carcara 1.1.0 recheck path, not a blanket guarantee for cvc5 as a whole. Every executable entry states its timeout, memory budget, seed, scope, depth, and bound. Artifacts record the tool version, command, per-file SHA-256 and aggregate input hash, exit code, stdout/stderr, and distinct success, counterexample, unknown, timeout, and resource-exhaustion outcomes. Retention is 14 days; stdout/stderr is limited to 16 MiB per entry and tool output to 64 MiB per entry. The runner enforces timeout and stdout/stderr limits and checks retained tool output after execution. memoryMiB, however, is a declared CI-capacity budget, not an OS/cgroup-enforced limit. Consequently, resource-exhausted covers detectable output excess; an OOM kill may surface as tool-error or a runner failure. quint-counter: typechecks and tests examples/quint/counter.qnt with Quint 0.32.0, the bundled TypeScript evaluator, seed 20260716, and one sample per test. It does not implicitly download the separately distributed Rust evaluator. 【Tool-compliant (runs as-is)】 kani-abs: verifies the absisnonnegative harness in examples/kani/abs.rs with Kani 0.67.0, a pinned Rust nightly, and unwind bound 1. Because it requires an additional download and execution budget, it is optional/manual and never starts from a PR or schedule. After cache restore, the bootstrap rechecks the SHA-256 of both the Quint binary and the PRISM archive. PRISM 4.10.1 is re-extracted from its official GPL-2.0 Linux x86-64 archive on every run so that its absolute launcher path is rebuilt; the repository, CI artifacts, and Pages do not redistribute the tool binary. Tamarin Prover 1.12.0 (GPL-3.0) and its supported Maude 3.5.1 (GPL-2.0-or-later) are also re-extracted from official SHA-256-pinned archives. Tamarin artifacts retain lemma results and the flawed model's attack graph, but not either binary. Because an attack graph preserves model constants, a model must not contain real secrets. SymbiYosys is re-extracted on every run from the SHA-256-pinned official OSS CAD Suite 20260716 Linux x64 archive. Bootstrap checks archive paths, duplicate entries, resolved symlink targets, special files, the suite version, and the SBY, Yosys, and Bitwuzla versions and source commits recorded in bundled metadata and license files. The suite release-tag commit is recorded separately as source provenance rather than treated as an identity embedded in the distribution. SBY and Yosys use the ISC license and Bitwuzla uses MIT; other bundled components retain their own licenses. Artifacts keep normalized results and only the required VCD traces, not the suite archive, extracted binaries, or solver models. Only input hashes, standard output, and expected-value comparisons are retained. Kani is re-extracted from its verified archive on every run, and the dated Rust channel manifest is also verified by SHA-256. rustup then verifies the Rust components against the checksums recorded in that manifest. 【Tool-compliant (runs as-is)】 Version updates are checked monthly against the official release/tag and asset digest, then reviewed in a dedicated version-only PR with a clean-cache run and output-contract comparison. Arbitrary release assets are not package references managed by Dependabot or Renovate and must not be treated as automatically updated.",
+      "text": "tools/tool-manifest.json is the source of truth for every tool's classification, executable version, distribution digest, artifact limits, and update procedure. pr-quick runs small examples related to a PR diff, nightly uses an independent per-tool matrix, and optional/manual runs only through an explicit workflowdispatch selection. documentation-only means that the book introduces the tool or service but this repository does not guarantee its version, environment, or result. Indirect use of an embedded solver does not constitute a standalone execution guarantee for that solver. Tool / service · lane · Verified version · Rationale --- · --- · --- · --- Alloy Analyzer · pr-quick · 6.2.0 · Four small-scope examples are reproducible within the PR budget. TLC · pr-quick · 1.7.4 · Checks a finite model with pinned cfg, worker count, seed, and timeout. Apalache · pr-quick · 0.52.1 · A short bounded invariant check is reproducible on every PR. Dafny · pr-quick · 4.11.0 · The minimal verification example is fast and stable. SPIN · nightly · 6.5.2 · Source build and state exploration run in an isolated nightly tool job. NuSMV · nightly · 2.7.1 · The official source build has extra dependencies and is isolated to nightly. CBMC · nightly · 6.10.0 · Runs the pinned Ubuntu package and bounded check in an isolated nightly job. Quint · nightly · 0.32.0 · Uses the official single binary for typecheck/test with a fixed seed and TypeScript backend. PRISM Model Checker · nightly · 4.10.1 · Downloads the pinned roughly 41 MB official distribution and reproduces quantitative properties in an isolated nightly job. Tamarin Prover · nightly · 1.12.0 · Downloads pinned official Tamarin and supported Maude distributions and reproduces attack traces and lemmas in an isolated nightly job. SymbiYosys (sby) · nightly · v0.67-4-gfea6e46 · Downloads an approximately 733 MB pinned OSS CAD Suite and reproduces RTL BMC, k-induction, and cover tasks in an isolated nightly tool job. Kani Rust Verifier · optional/manual · 0.67.0 · Requires a pinned Rust nightly, so it is limited to explicit manual dispatch. TLA+ Toolbox · documentation-only · — · GUI/editor environment; outside this repository's CLI guarantee. TLA+ VS Code extension · documentation-only · — · Editor support is separate from CLI checks and its extension version is not pinned. Community Z Tools (CZT) · documentation-only · — · Reference-only Z tooling with no executable asset. FDR · documentation-only · — · CSPM examples are shown, but distribution/licensing and CI are not pinned. ProB · documentation-only · — · Mentioned only; no executable asset or pinned environment. PAT · documentation-only · — · Mentioned only; no executable asset or pinned environment. nuXmv · documentation-only · — · Introduced as distinct from NuSMV; CI guarantees NuSMV only. Java PathFinder · documentation-only · — · Mentioned as an option/exercise; no executable asset. UPPAAL · documentation-only · — · Not automated due to GUI, licensing, and distribution constraints. TIMES · documentation-only · — · Reference-only real-time verification tool. Rocq / Coq · documentation-only · — · No pinned proof project, opam switch, or library set. Lean 4 / Lake / mathlib / elan · documentation-only · — · No proof project or dependency revision; the Linux distribution is also large. Isabelle/HOL · documentation-only · — · Reference-only; no pinned session/build environment. Agda · documentation-only · — · Reference-only; no pinned project or libraries. HOL4 · documentation-only · — · Mentioned as an Aeneas target; no execution contract. F · documentation-only · — · Mentioned as a target/related technology; no execution contract. Frama-C · documentation-only · — · Reference-only; plugin and solver configuration are not pinned. VeriFast · documentation-only · — · Reference-only; no executable asset. SPARK · documentation-only · — · Industrial toolchain/licensing environment is not pinned. Why3 · documentation-only · — · Execution configuration including backend solvers is not pinned. Verus · documentation-only · — · Rust/Z3/revision execution stack is not pinned. Creusot · documentation-only · — · Why3/solver/Rust combination is not pinned. Prusti / Viper · documentation-only · — · Rust/Viper toolchain and executable asset are not pinned. Aeneas / Charon · documentation-only · — · No pinned end-to-end contract including a proof target. Z3 · documentation-only · — · Indirect use by other tools is not counted as a standalone solver guarantee. cvc5 / CVC4 · nightly · 1.3.4 · Verifies and re-extracts a pinned official solver asset, rebuilds an independent Alethe checker from source nightly, and rechecks an UNSAT certificate. RTLola · nightly · 0.1.2 · Safely re-extracts a pinned crates.io source package, builds the CLI with a pinned Rust toolchain and Cargo.lock, and monitors fictional finite CSV traces offline. Yices · documentation-only · — · Reference-only; no pinned executable asset. MathSAT · documentation-only · — · Reference-only; licensing/distribution environment is not pinned. SCADE · documentation-only · — · Commercial/GUI toolchain; not a mandatory CI dependency. Simulink · documentation-only · — · Industry-case reference only; no licensed environment is pinned. SAW · documentation-only · — · Industry-case reference; no s2n verification asset is included. Cedar Analysis · documentation-only · — · Service/API and tools evolve; no policy asset is pinned. Bedrock Guardrails Automated Reasoning checks · documentation-only · — · External service/region/API constraints are not mandatory CI dependencies. Solidity SMTChecker · documentation-only · — · Solidity/compiler/solver stack and contract asset are not pinned. Aptos Move Prover · documentation-only · — · Move toolchain and contract asset are not pinned. Certora Prover · documentation-only · — · External/industrial toolchain is not a mandatory CI dependency. LeanDojo · documentation-only · — · Reference-only AI proof-assistance evaluation framework. Lean Copilot · documentation-only · — · Reference-only AI proof assistance; model/project not pinned. AlphaProof / AlphaGeometry 2 · documentation-only · — · Research-result reference with no redistributable CLI contract. DeepSeek-Prover-V2 · documentation-only · — · Research-result reference; model/runtime not pinned. ProofGym · documentation-only · — · Evaluation-framework reference; dataset/runtime not pinned. APOLLO · documentation-only · — · Research-result reference; no execution contract. The cvc5 nightly classification in the inventory above denotes the narrow cvc5-alethe-unsat-certificate pinned nightly contract: one cvc5 1.3.4 to Alethe to Carcara 1.1.0 recheck path, not a blanket guarantee for cvc5 as a whole. The RTLola nightly classification is likewise limited to two narrow contracts that monitor fictional three-event finite traces offline. They regress zero violations for the normal trace and one detection for a known violating trace; they do not guarantee all RTLola features, complete production-event collection, or correctness of every execution. Every executable entry states its timeout, memory budget, seed, scope, depth, and bound. Artifacts record the tool version, command, per-file SHA-256 and aggregate input hash, exit code, stdout/stderr, and distinct success, counterexample, unknown, timeout, and resource-exhaustion outcomes. Retention is 14 days; stdout/stderr is limited to 16 MiB per entry and tool output to 64 MiB per entry. The runner enforces timeout and stdout/stderr limits and checks retained tool output after execution. memoryMiB, however, is a declared CI-capacity budget, not an OS/cgroup-enforced limit. Consequently, resource-exhausted covers detectable output excess; an OOM kill may surface as tool-error or a runner failure. quint-counter: typechecks and tests examples/quint/counter.qnt with Quint 0.32.0, the bundled TypeScript evaluator, seed 20260716, and one sample per test. It does not implicitly download the separately distributed Rust evaluator. 【Tool-compliant (runs as-is)】 kani-abs: verifies the absisnonnegative harness in examples/kani/abs.rs with Kani 0.67.0, a pinned Rust nightly, and unwind bound 1. Because it requires an additional download and execution budget, it is optional/manual and never starts from a PR or schedule. After cache restore, the bootstrap rechecks the SHA-256 of both the Quint binary and the PRISM archive. PRISM 4.10.1 is re-extracted from its official GPL-2.0 Linux x86-64 archive on every run so that its absolute launcher path is rebuilt; the repository, CI artifacts, and Pages do not redistribute the tool binary. Tamarin Prover 1.12.0 (GPL-3.0) and its supported Maude 3.5.1 (GPL-2.0-or-later) are also re-extracted from official SHA-256-pinned archives. Tamarin artifacts retain lemma results and the flawed model's attack graph, but not either binary. Because an attack graph preserves model constants, a model must not contain real secrets. SymbiYosys is re-extracted on every run from the SHA-256-pinned official OSS CAD Suite 20260716 Linux x64 archive. Bootstrap checks archive paths, duplicate entries, resolved symlink targets, special files, the suite version, and the SBY, Yosys, and Bitwuzla versions and source commits recorded in bundled metadata and license files. The suite release-tag commit is recorded separately as source provenance rather than treated as an identity embedded in the distribution. SBY and Yosys use the ISC license and Bitwuzla uses MIT; other bundled components retain their own licenses. Artifacts keep normalized results and only the required VCD traces, not the suite archive, extracted binaries, or solver models. Only input hashes, standard output, and expected-value comparisons are retained. Kani is re-extracted from its verified archive on every run, and the dated Rust channel manifest is also verified by SHA-256. rustup then verifies the Rust components against the checksums recorded in that manifest. RTLola CLI 0.1.2 is built from an Apache-2.0 crates.io source package pinned by SHA-256. Bootstrap safely re-extracts it on every run, accepting the standard implicit single-root archive layout while checking paths, member count, expanded size, and file types. It verifies the embedded Cargo.lock and .cargovcsinfo.json, then performs a --locked build with pinned Rust 1.87.0. Artifacts retain normalized verdicts and input hashes, not the source package, binary, or raw operational logs. 【Tool-compliant (runs as-is)】 Version updates are checked monthly against the official release/tag and asset digest, then reviewed in a dedicated version-only PR with a clean-cache run and output-contract comparison. Arbitrary release assets are not package references managed by Dependabot or Renovate and must not be treated as automatically updated.",
       "aliases": [
         "TLA Plus",
         "The Rocq Prover"
@@ -12458,7 +12554,7 @@
       "chapter": "Appendix B: Tool Setup and Verification Quick Start",
       "heading": "Additional prerequisites for the nightly lane (Ubuntu 24.04 x86-64)",
       "url": "/formal-methods-book/en/appendices/appendix-b/#additional-prerequisites-for-the-nightly-lane-ubuntu-2404-x86-64",
-      "text": "node scripts/run-example-manifest.js --lane nightly executes 12 entries across SPIN 6.5.2, NuSMV 2.7.1, CBMC 6.10.0, Quint 0.32.0, PRISM 4.10.1, Tamarin Prover 1.12.0, and SymbiYosys. SPIN and NuSMV need the source-build prerequisites below, and SymbiYosys uses Python 3 to validate its archive layout. CBMC uses a pinned Ubuntu 24.04 x86-64 deb, Quint uses a pinned single binary, PRISM uses a pinned official archive of roughly 41 MB, Tamarin uses two pinned official archives with supported Maude 3.5.1, and SymbiYosys uses an approximately 733 MB OSS CAD Suite 20260716 Linux x64 archive, so this procedure targets that environment or a compatible one. The downloaded tools are pinned by commit/version and SHA-256, and the Meson/Ninja packages are pinned by hashes in the requirements file. On native macOS, native Windows, or a different CPU architecture, use an Ubuntu 24.04 x86-64 container, WSL2, or the GitHub Actions workflowdispatch instead of treating this lane as locally portable.",
+      "text": "node scripts/run-example-manifest.js --lane nightly executes 15 entries across SPIN 6.5.2, NuSMV 2.7.1, CBMC 6.10.0, Quint 0.32.0, PRISM 4.10.1, Tamarin Prover 1.12.0, SymbiYosys, cvc5 / Carcara, and RTLola. SPIN, NuSMV, Carcara, and RTLola need source-build prerequisites, and SymbiYosys uses Python 3 to validate its archive layout. CBMC uses a pinned Ubuntu 24.04 x86-64 deb, Quint uses a pinned single binary, PRISM uses a pinned official archive of roughly 41 MB, Tamarin uses two pinned official archives with supported Maude 3.5.1, and SymbiYosys uses an approximately 733 MB OSS CAD Suite 20260716 Linux x64 archive, so this procedure targets that environment or a compatible one. The downloaded tools are pinned by commit/version and SHA-256, and the Meson/Ninja packages are pinned by hashes in the requirements file. On native macOS, native Windows, or a different CPU architecture, use an Ubuntu 24.04 x86-64 container, WSL2, or the GitHub Actions workflowdispatch instead of treating this lane as locally portable.",
       "aliases": []
     },
     {
@@ -12470,13 +12566,25 @@
       "chapter": "Appendix B: Tool Setup and Verification Quick Start",
       "heading": "Additional prerequisites for independent proof-certificate rechecking (cvc5 + Carcara)",
       "url": "/formal-methods-book/en/appendices/appendix-b/#additional-prerequisites-for-independent-proof-certificate-rechecking-cvc5--carcara",
-      "text": "The cvc5-alethe-unsat-certificate contract is intended to download the official cvc5 1.3.4 release asset, generate an Alethe proof, download the pinned Carcara 1.1.0 compatibility source archive, and build the checker from source. Ubuntu 24.04 x86-64, or a compatible Linux environment, is the recommended target. This lane does not redistribute the downloaded cvc5 binary or the built Carcara executable through the repository or Pages. The official Rust channel-manifest digest acts as a provenance sentinel. After rustup checks the fixed-version component checksums, the bootstrap also matches the installed rustc/Cargo commits and host against manifest values. It does not claim that the independently downloaded manifest file is passed into rustup. The certificate is capped at 1 MiB and checker output at 64 KiB. Retained evidence is limited to the SMT-LIB input, the manifest expected-result contract, the generated proof certificate, stdout/stderr, input hashes, and version metadata. Even when the checker passes, the result only validates the encoded problem as checked; it does not validate the natural-language requirement, the original specification, the encoder, or unmodeled assumptions. To rerun only PRISM, use: This reproduces the numerical contract for one DTMC and four properties; it does not establish that the teaching success probability of 0.8 is valid for a real system. To rerun only the flawed and fixed Tamarin models, use: The flawed model's counterexample is an expected passing result. The fixed model checks that all four stated lemmas are verified under the same symbolic-model configuration. To rerun only the flawed BMC, fixed proof, and fixed cover contracts for SymbiYosys, use: The flawed design's counterexample is an expected passing result. The proof PASS is a k-induction result relative to the stated property and assumptions, while the cover PASS means that the requested witness state was reached.",
+      "text": "The cvc5-alethe-unsat-certificate contract is intended to download the official cvc5 1.3.4 release asset, generate an Alethe proof, download the pinned Carcara 1.1.0 compatibility source archive, and build the checker from source. Ubuntu 24.04 x86-64, or a compatible Linux environment, is the recommended target. This lane does not redistribute the downloaded cvc5 binary or the built Carcara executable through the repository or Pages. The official Rust channel-manifest digest acts as a provenance sentinel. After rustup checks the fixed-version component checksums, the bootstrap also matches the installed rustc/Cargo commits and host against manifest values. It does not claim that the independently downloaded manifest file is passed into rustup. The certificate is capped at 1 MiB and checker output at 64 KiB. Retained evidence is limited to the SMT-LIB input, the manifest expected-result contract, the generated proof certificate, stdout/stderr, input hashes, and version metadata. Even when the checker passes, the result only validates the encoded problem as checked; it does not validate the natural-language requirement, the original specification, the encoder, or unmodeled assumptions.",
+      "aliases": []
+    },
+    {
+      "id": "e16307bdde9f78bd",
+      "locale": "en",
+      "pageId": "appendix-b",
+      "section": "appendices",
+      "title": "Additional prerequisites for runtime verification (RTLola)",
+      "chapter": "Appendix B: Tool Setup and Verification Quick Start",
+      "heading": "Additional prerequisites for runtime verification (RTLola)",
+      "url": "/formal-methods-book/en/appendices/appendix-b/#additional-prerequisites-for-runtime-verification-rtlola",
+      "text": "rtlola-auth-before-sensitive-normal and rtlola-auth-before-sensitive-violation build the pinned RTLola CLI source package with Rust 1.87.0 and monitor relative-timestamp CSV traces offline. The target is Ubuntu 24.04 x86-64 or a compatible Linux environment. Bootstrap matches the Rust channel manifest, rustc/Cargo commits, host, .crate digest, embedded Cargo.lock, and upstream commit. The two contracts process fixed teaching traces; production logs must not be placed in this repository or its CI artifacts. The violating entry's counterexample is an expected result that regresses the monitor's ability to detect the stated violation. To rerun only PRISM, use: This reproduces the numerical contract for one DTMC and four properties; it does not establish that the teaching success probability of 0.8 is valid for a real system. To rerun only the flawed and fixed Tamarin models, use: The flawed model's counterexample is an expected passing result. The fixed model checks that all four stated lemmas are verified under the same symbolic-model configuration. To rerun only the flawed BMC, fixed proof, and fixed cover contracts for SymbiYosys, use: The flawed design's counterexample is an expected passing result. The proof PASS is a k-induction result relative to the stated property and assumptions, while the cover PASS means that the requested witness state was reached.",
       "aliases": [
         "Tamarin Prover"
       ]
     },
     {
-      "id": "aeb32e88caf3786f",
+      "id": "664b7077588768ca",
       "locale": "en",
       "pageId": "appendix-b",
       "section": "appendices",
@@ -12488,7 +12596,7 @@
       "aliases": []
     },
     {
-      "id": "ef5923b69f403cf8",
+      "id": "d17fc2f6a8028847",
       "locale": "en",
       "pageId": "appendix-b",
       "section": "appendices",
@@ -12500,7 +12608,7 @@
       "aliases": []
     },
     {
-      "id": "3880b5c93103ce27",
+      "id": "88a520346f9792bb",
       "locale": "en",
       "pageId": "appendix-b",
       "section": "appendices",
@@ -12512,7 +12620,7 @@
       "aliases": []
     },
     {
-      "id": "8f682a848e790c4b",
+      "id": "513417306f183528",
       "locale": "en",
       "pageId": "appendix-b",
       "section": "appendices",
@@ -12524,7 +12632,7 @@
       "aliases": []
     },
     {
-      "id": "9a5730dbad1ba0a6",
+      "id": "a78f1d0efe251d52",
       "locale": "en",
       "pageId": "appendix-b",
       "section": "appendices",
@@ -12544,7 +12652,7 @@
       "chapter": "Appendix C: Notation Cross-Reference",
       "heading": "Appendix C: Notation Cross-Reference",
       "url": "/formal-methods-book/en/appendices/appendix-c/#appendix-c-notation-cross-reference",
-      "text": "Translation status: Partial. Reviewed against Japanese source commit 4c528522f6a4 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This appendix is a quick lookup guide for readers who need to recover the meaning of a term, compare notations across methods, or check what disciplined AI-assisted verification work should leave behind. For fuller definitions, use the main Glossary. Use this appendix when you need a compact reference rather than a full chapter-length explanation.",
+      "text": "Translation status: Partial. Reviewed against Japanese source commit abf0ec3d6e65 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This appendix is a quick lookup guide for readers who need to recover the meaning of a term, compare notations across methods, or check what disciplined AI-assisted verification work should leave behind. For fuller definitions, use the main Glossary. Use this appendix when you need a compact reference rather than a full chapter-length explanation.",
       "aliases": []
     },
     {
@@ -12699,6 +12807,18 @@
       "heading": "C.3.11 SymbiYosys: Minimal Correspondence for Synchronous RTL Formal Verification",
       "url": "/formal-methods-book/en/appendices/appendix-c/#c311-symbiyosys-minimal-correspondence-for-synchronous-rtl-formal-verification",
       "text": "SymbiYosys transforms RTL and properties through Yosys and runs BMC, proof, or reachability tasks with a selected engine and solver. This table is the minimum bridge needed for the Chapter 8 arbiter example, not a syntax reference for all of SystemVerilog Assertions. RTL / formal concept · Chapter 8 expression · Checking meaning · Evidence to retain --- · --- · --- · --- Clock edge · alwaysff @(posedge clk) · One step of the register transition system · Clock, mode, depth Reset contract · assume rst only at the first edge · Restrict the environment to the intended initialization sequence · Reset polarity, asserted duration, assumption Safety property · assert(!(grant0 && grant1)) · Forbid simultaneous grants · Property location, PASS / FAIL Environment constraint · assume(...) · Restrict input traces enumerated by the solver · Every assumption and its rationale Reachability target · cover(...) · Find one execution that reaches an interesting state · Reach step, witness VCD BMC · mode bmc, depth 6 · Search for assertion violations within six steps · Bound, counterexample VCD k-induction · mode prove, depth 6 · Check the base case and temporal induction · Status of both phases, engine Sampled prior value · $past(req0) · Request value at the preceding clock edge · Guard for the first sample An assert can pass vacuously when an over-strong assume removes the defective trace. Use cover to confirm important environment conditions such as simultaneous requests, and do not treat an unreachable cover as a safety success.",
+      "aliases": []
+    },
+    {
+      "id": "863a3185bcdd7140",
+      "locale": "en",
+      "pageId": "appendix-c",
+      "section": "appendices",
+      "title": "C.3.12 RTLola: Minimal Correspondence for Runtime Verification",
+      "chapter": "Appendix C: Notation Cross-Reference",
+      "heading": "C.3.12 RTLola: Minimal Correspondence for Runtime Verification",
+      "url": "/formal-methods-book/en/appendices/appendix-c/#c312-rtlola-minimal-correspondence-for-runtime-verification",
+      "text": "Runtime verification checks an event trace obtained through instrumentation against a property; it does not explore every behavior of a design model. This table is the minimum bridge needed for the Chapter 11 authentication example, not a full RTLola or stream-processing syntax reference. Runtime-verification concept · Chapter 11 expression · Checking meaning · Evidence to retain --- · --- · --- · --- Input event field · authsuccess, sensitiveoperation, time · Observation passed from a CSV row to the monitor · Schema, unit, type, missing-data policy Derived state / output stream · authenticated · Monitor state remembering a prior successful authentication · Initial value, update expression, session boundary Previous value · offset(by: -1).defaults(to: false) · Previous event's monitor state and its initial default · Offset semantics, trace start Trigger · Sensitive operation before authentication · Verdict for a safety-property violation · Timestamp, message, property ID Finite trace · Three-row relative-time CSV · Check only the observed finite prefix · First/last time, row count, input hash Online / offline · This example uses --offline relative-float-secs · Deterministically replay a retained trace · Mode, clock, ordering, tool version No violation · Zero findings for the normal trace · No target violation was detected in that prefix · Explicit non-claim about unobserved runs Expected violation · One finding for the violating trace · The monitor detects a known violation · Comparison with an independently derived expected result Do not move infinite-trace LTL operators such as G or F onto a finite log without defining the end-of-trace true / false / inconclusive result, deadlines, and missing-data handling. If an event is never collected, the monitor cannot infer that fact automatically, so evaluate observability and monitorability separately from the property itself.",
       "aliases": []
     },
     {
@@ -13710,7 +13830,7 @@
       "chapter": "Appendix E: References and Further Reading Paths",
       "heading": "Appendix E: References and Further Reading Paths",
       "url": "/formal-methods-book/en/appendices/appendix-e/#appendix-e-references-and-further-reading-paths",
-      "text": "Translation status: Partial. Reviewed against Japanese source commit 4c528522f6a4 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This appendix is a reader-facing guide to primary sources for the methods, tools, and case studies introduced in the main text. Use it when you want to deepen a chapter, verify a claim against an official source, or decide which tool family to study next. As of July 2026, it reflects naming changes and current mainstream references such as Coq → Rocq, CVC4 → cvc5, the Alloy 6 series, and Apalache in the TLA+ ecosystem.",
+      "text": "Translation status: Partial. Reviewed against Japanese source commit abf0ec3d6e65 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This appendix is a reader-facing guide to primary sources for the methods, tools, and case studies introduced in the main text. Use it when you want to deepen a chapter, verify a claim against an official source, or decide which tool family to study next. As of July 2026, it reflects naming changes and current mainstream references such as Coq → Rocq, CVC4 → cvc5, the Alloy 6 series, and Apalache in the TLA+ ecosystem.",
       "aliases": [
         "TLA Plus",
         "The Rocq Prover"
@@ -13725,7 +13845,7 @@
       "chapter": "Appendix E: References and Further Reading Paths",
       "heading": "How to Read the Execution Guarantees",
       "url": "/formal-methods-book/en/appendices/appendix-e/#how-to-read-the-execution-guarantees",
-      "text": "Listing a tool in this appendix does not mean that the repository executes or guarantees it. The sources of truth are tools/tool-manifest.json and the lane inventory in Appendix B. Alloy, TLC, Apalache, and Dafny run in pr-quick; SPIN, NuSMV, CBMC, Quint, PRISM, Tamarin, and SymbiYosys run in nightly; and Kani runs only through explicit optional/manual dispatch. Every other tool listed here is documentation-only: the book does not guarantee a pinned version, execution environment, or result for it.",
+      "text": "Listing a tool in this appendix does not mean that the repository executes or guarantees it. The sources of truth are tools/tool-manifest.json and the lane inventory in Appendix B. Alloy, TLC, Apalache, and Dafny run in pr-quick; SPIN, NuSMV, CBMC, Quint, PRISM, Tamarin, SymbiYosys, cvc5 / Carcara, and RTLola run in nightly; and Kani runs only through explicit optional/manual dispatch. Every other tool listed here is documentation-only: the book does not guarantee a pinned version, execution environment, or result for it.",
       "aliases": [
         "Tamarin Prover"
       ]
@@ -13949,7 +14069,19 @@
       ]
     },
     {
-      "id": "50100cf212b3fd00",
+      "id": "ae4169cb740a7c12",
+      "locale": "en",
+      "pageId": "appendix-e",
+      "section": "appendices",
+      "title": "Runtime Verification (RTLola / MonPoly / RV-Monitor)",
+      "chapter": "Appendix E: References and Further Reading Paths",
+      "heading": "Runtime Verification (RTLola / MonPoly / RV-Monitor)",
+      "url": "/formal-methods-book/en/appendices/appendix-e/#runtime-verification-rtlola--monpoly--rv-monitor",
+      "text": "This comparison was rechecked against official repositories, distribution pages, and documentation on 2026-07-16. Although all three belong to runtime verification, stream specifications, metric temporal logic over logs, and Java instrumentation create different integration boundaries. Candidate · Primary integration form · Observed official distribution and maintenance facts · Decision for this book --- · --- · --- · --- RTLola · Apply typed input/output streams and triggers to online or offline events · rtlola-cli 0.1.2 crates.io package, offline CSV, JSON output, and upstream updates during 2025 were confirmed · Selected. An immutable package digest, embedded commit and Cargo.lock, pinned Rust, and structured verdict can form one nightly contract MonPoly · Check timestamped logs against metric first-order temporal logic · SourceForge lists 1.1.10 dated 2020-11-25 as the latest distribution · Not selected here. It fits offline log monitoring, but this repository would still need a JSON-verdict, provenance, and current CI-maintenance contract RV-Monitor · Generate Java monitors from specifications and instrument an application · The official GitHub repository has no release; the latest commit visible at review time was 2020-12-18; MIT license · Not selected here. Java generation and instrumentation create a wider build and integration scope than replaying a fixed CSV teaching trace RTLola was selected because it connected most narrowly to this repository's pinned offline trace and structured-artifact contract, not because of a blanket feature ranking. This is not a claim that MonPoly or RV-Monitor is inferior; a different property language, instrumentation method, or operating platform can change the choice. Execution boundary: the book pins RTLola CLI 0.1.2, commit 11b6bb080a5fa487645fb023fb3d0baea6874e73, Rust 1.87.0, relative-time CSV, and JSON violation output. Assurance boundary: only two fictional three-event normal/violating traces are checked; completeness of event collection, unobserved runs, online operation, and all RTLola features are outside the guarantee. Primary sources: Official RTLola Interpreter repository: RTLola CLI 0.1.2 documentation: RTLola language and CLI source commit: Official MonPoly project page: Official MonPoly distribution: Official MonPoly source repository: Official RV-Monitor repository:",
+      "aliases": []
+    },
+    {
+      "id": "c4fd228acbba56d8",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -13964,7 +14096,7 @@
       ]
     },
     {
-      "id": "7369740a23195d1d",
+      "id": "b823c699afb1a726",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -13978,7 +14110,7 @@
       ]
     },
     {
-      "id": "12f1cdfad085c4be",
+      "id": "4b420a48d293d5fe",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -13990,7 +14122,7 @@
       "aliases": []
     },
     {
-      "id": "b472ccebc05b26c3",
+      "id": "3563c26b1cab90e7",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14002,7 +14134,7 @@
       "aliases": []
     },
     {
-      "id": "c180ca4290db65ad",
+      "id": "34f7eac76ad1b5d7",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14014,7 +14146,7 @@
       "aliases": []
     },
     {
-      "id": "b7cbce5fa8254d86",
+      "id": "b8994cbc3ff51ff6",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14026,7 +14158,7 @@
       "aliases": []
     },
     {
-      "id": "c06103303c3dd39a",
+      "id": "4fd6903e27edd466",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14038,7 +14170,7 @@
       "aliases": []
     },
     {
-      "id": "b12aec88f89c5547",
+      "id": "29b6bc6c480435f2",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14050,7 +14182,7 @@
       "aliases": []
     },
     {
-      "id": "79653d2698621352",
+      "id": "92d8587aaf205cd2",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14062,7 +14194,7 @@
       "aliases": []
     },
     {
-      "id": "525c895268ae984e",
+      "id": "37ab11888278f5b9",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14077,7 +14209,7 @@
       ]
     },
     {
-      "id": "230ea46aaf8f043a",
+      "id": "a59733e140cbe4e3",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14089,7 +14221,7 @@
       "aliases": []
     },
     {
-      "id": "7b66a7cb47fef548",
+      "id": "13689727e3c192de",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14101,7 +14233,7 @@
       "aliases": []
     },
     {
-      "id": "525ab15e7f0e4532",
+      "id": "7d56d9d9f17403a9",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14113,7 +14245,7 @@
       "aliases": []
     },
     {
-      "id": "c91c2bf9fe4e3bcb",
+      "id": "93093b1e244807d5",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14125,7 +14257,7 @@
       "aliases": []
     },
     {
-      "id": "7b69a590babdcb92",
+      "id": "adfcad42f259105a",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14137,7 +14269,7 @@
       "aliases": []
     },
     {
-      "id": "16eeec61a29f81bb",
+      "id": "5e6d13e93f211cb3",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14149,7 +14281,7 @@
       "aliases": []
     },
     {
-      "id": "18559645f3da4011",
+      "id": "7c2aef494435e505",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14161,7 +14293,7 @@
       "aliases": []
     },
     {
-      "id": "0adfe0819e1cd3e8",
+      "id": "0c10bd4793a905e9",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14173,7 +14305,7 @@
       "aliases": []
     },
     {
-      "id": "217624d659468061",
+      "id": "f6eb876f7bb86fd1",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14185,7 +14317,7 @@
       "aliases": []
     },
     {
-      "id": "20908fe0a8952769",
+      "id": "fff26158561b8086",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14197,7 +14329,7 @@
       "aliases": []
     },
     {
-      "id": "a2a23b8d67010a56",
+      "id": "4fbe902abe86a5fc",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14211,7 +14343,7 @@
       ]
     },
     {
-      "id": "290e2dbe1243d308",
+      "id": "aa52ee5ed5bf8c9a",
       "locale": "en",
       "pageId": "appendix-e",
       "section": "appendices",
@@ -14234,7 +14366,7 @@
       "chapter": "Appendix F: Practical Playbook for AI-Assisted Formal Methods",
       "heading": "Appendix F: Practical Playbook for AI-Assisted Formal Methods",
       "url": "/formal-methods-book/en/appendices/appendix-f/#appendix-f-practical-playbook-for-ai-assisted-formal-methods",
-      "text": "Translation status: Partial. Reviewed against Japanese source commit f71c3a404722 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This appendix is a reader-facing playbook for using AI assistance without weakening formal assurance. Use it after Chapters 8–12 when you want to turn the book's main argument into a repeatable workflow: let AI draft, let tools judge, and keep the evidence needed for re-verification and review. Treat AI output as a proposal, and operate on the assumption that final judgment is delegated to verifiers such as TLC, Alloy, Rocq (formerly Coq), and Dafny.",
+      "text": "Translation status: Partial. Reviewed against Japanese source commit abf0ec3d6e65 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This appendix is a reader-facing playbook for using AI assistance without weakening formal assurance. Use it after Chapters 8–12 when you want to turn the book's main argument into a repeatable workflow: let AI draft, let tools judge, and keep the evidence needed for re-verification and review. Treat AI output as a proposal, and operate on the assumption that final judgment is delegated to verifiers such as TLC, Alloy, Rocq (formerly Coq), and Dafny.",
       "aliases": [
         "The Rocq Prover"
       ]
@@ -14441,6 +14573,18 @@
       "aliases": [
         "TLA Plus"
       ]
+    },
+    {
+      "id": "3768d90ef2508fd0",
+      "locale": "en",
+      "pageId": "appendix-f",
+      "section": "appendices",
+      "title": "F.11 Truth Boundary When an LLM Handles Runtime-Monitor Evidence",
+      "chapter": "Appendix F: Practical Playbook for AI-Assisted Formal Methods",
+      "heading": "F.11 Truth Boundary When an LLM Handles Runtime-Monitor Evidence",
+      "url": "/formal-methods-book/en/appendices/appendix-f/#f11-truth-boundary-when-an-llm-handles-runtime-monitor-evidence",
+      "text": "An LLM can help summarize a long violation report, prepare stakeholder-facing explanations, propose investigation hypotheses, and suggest additional properties. The factual basis for runtime verification must nevertheless remain the monitor property, source trace, pinned-tool verdict, and independent-validator result from the same revision. An LLM-generated sentence such as “zero violations” or “a violation occurred at one second” is not a substitute for the monitor output or source trace. Keep at least these layers separate. Layer · Treatment · Authority --- · --- · --- Observed events · Review ordering, timestamps, missing data, duplicates, and sampling · Access-controlled source trace and its hash Property · Review triggers, windows, deadlines, and finite-trace termination · Reviewed monitor specification and version Machine verdict · Distinguish violation, no violation, and inconclusive · Pinned-tool output, normalized result, and independent validator LLM interpretation · Draft summaries, causal hypotheses, and investigation steps · Untrusted derivative requiring human review and links to original evidence If raw logs contain personal data, credentials, prompts, or business-confidential material, do not send them to an external LLM; apply minimization, pseudonymization, and access policy first. Do not ask an LLM to fill in missing events or invent plausible trace rows; preserve unknowns as unknowns. When an incident report uses an LLM summary, include the input hash, property ID, tool version, artifact URL, and reviewer so that the original reproducible evidence remains reachable.",
+      "aliases": []
     },
     {
       "id": "08e35c86f3765f33",

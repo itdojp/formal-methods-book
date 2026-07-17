@@ -7,6 +7,7 @@
 
 ### Added
 
+- #327 第11章、第12章、付録、用語集にruntime verificationの保証境界を追加し、RTLola CLI 0.1.2で認証前機密操作の正常・違反有限traceをoffline検査するnightly契約を追加しました。
 - #326 第12章、付録、用語集にproof certificateと独立再検査の信頼モデルを追加し、cvc5 1.3.4が生成するAlethe形式のUNSAT証跡を、固定したCarcara 1.1.0互換commitで厳密に再検査するnightly契約を追加しました。
 - #325 第8章、付録、用語集にSymbiYosysによる同期RTL形式検証を追加し、欠陥arbiterのBMC反例、修正版のk-induction、cover witnessをOSS CAD Suite 20260716・Bitwuzla 0.9.1・固定digestのnightly契約で再実行できるようにしました。
 - #324 第13章、付録、用語集にTamarin Prover 1.12.0によるDolev–Yao攻撃者下のsymbolic protocol verificationを追加し、再送欠陥と修正版をMaude 3.5.1・固定digest・nightly artifact契約で再実行できるようにしました。

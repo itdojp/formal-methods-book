@@ -213,3 +213,22 @@ responsibilities and evidence separated in each PR.
 Turn counterexamples found by formal methods into test cases, and treat defects
 found by tests as possible missing specifications or invariants. Do not use
 only one of them as the final basis for quality assurance.
+
+## F.11 Truth Boundary When an LLM Handles Runtime-Monitor Evidence
+
+An LLM can help summarize a long violation report, prepare stakeholder-facing explanations, propose investigation hypotheses, and suggest additional properties.
+The factual basis for runtime verification must nevertheless remain the **monitor property, source trace, pinned-tool verdict, and independent-validator result from the same revision**.
+An LLM-generated sentence such as “zero violations” or “a violation occurred at one second” is not a substitute for the monitor output or source trace.
+
+Keep at least these layers separate.
+
+| Layer | Treatment | Authority |
+| --- | --- | --- |
+| Observed events | Review ordering, timestamps, missing data, duplicates, and sampling | Access-controlled source trace and its hash |
+| Property | Review triggers, windows, deadlines, and finite-trace termination | Reviewed monitor specification and version |
+| Machine verdict | Distinguish violation, no violation, and inconclusive | Pinned-tool output, normalized result, and independent validator |
+| LLM interpretation | Draft summaries, causal hypotheses, and investigation steps | Untrusted derivative requiring human review and links to original evidence |
+
+If raw logs contain personal data, credentials, prompts, or business-confidential material, do not send them to an external LLM; apply minimization, pseudonymization, and access policy first.
+Do not ask an LLM to fill in missing events or invent plausible trace rows; preserve unknowns as unknowns.
+When an incident report uses an LLM summary, include the input hash, property ID, tool version, artifact URL, and reviewer so that the original reproducible evidence remains reachable.

@@ -508,6 +508,87 @@ CI 配置の例：
 - PR 段階の検証の現実性（時間/安定性/再現性）
 - リリース前ゲートの割当の妥当性（性質と手法の適合）
 
+### 観測トレースを形式仕様へ接続する runtime verification {#runtime-verification-observed-traces}
+
+設計時の検証だけでは、実システムへ到着した入力、外部サービスの応答、設定差分、運用者の操作をすべて先取りできません。
+**runtime verification（実行時検証）**は、実行中または保存済みのイベント列を形式化した性質へ照合し、観測したトレース上の違反や判定を機械的に報告する方法です。
+プログラム内の特定地点で条件を評価する**runtime assertion**はその局所的な形であり、イベント列を別monitorへ渡す方式とは、対象範囲、故障分離、証跡の残し方が異なります。
+
+ここでいう**observability（可観測性）**は、必要な状態や因果関係をイベント、metric、traceとして外部から再構成できる度合いです。
+**monitorability（監視可能性）**は別概念で、採用した意味論の下で、対象propertyの成立または違反を観測された有限prefixから判定できるかを指します。
+**finite-trace semantics（有限トレース意味論）**は、無限実行を前提にする通常のLTLとは異なり、取得済みの有限列とその終端をどう解釈するかを定めます。
+たとえば「要求にはいつか応答する」という性質は、途中までのprefixでは未決定であり、期限または完全な終端規則なしに成功とは判定できません。
+
+実務では、次の活動を同じ「監視」と呼ばず、保証境界を分けます。
+
+| 活動 | 入力と時点 | 得られる主な証拠 | 得られない保証 |
+| --- | --- | --- | --- |
+| 設計時の形式検証 | modelとproperty、実装前または変更時 | modelの探索・証明範囲における反例不在または反例 | 本番入力、未モデル化環境、instrumentationの正しさ |
+| テスト | 選んだ入力とoracle、build時 | 実行したcaseの観測結果 | 未実行入力や全実行の一般的正しさ |
+| 静的解析 | source、binary、規則、build時 | 解析対象と規則に対する警告・証明義務 | 動的環境で実際に起きた順序や外部状態 |
+| runtime verification | event traceとmonitor property、onlineまたはoffline | **観測されたtrace**に対する違反・非違反・未決定 | 観測されなかった実行、欠落event、全可能実行の正しさ |
+| 運用monitoring | metric、log、SLO、運用中 | 可用性、性能、傾向、alert | propertyが形式意味論で検査されたという事実 |
+| incident response | alert、証跡、業務影響、事後 | 封じ込め、原因分析、復旧判断 | alert単独による原因や全影響範囲の確定 |
+
+したがって、monitorがあるrunで違反を出さなかったという事実は、**その観測prefixで対象違反を検出しなかった**ことだけを意味します。
+「全runが正しい」「未観測のeventでも正しい」「event収集自体が完全である」とは結論できません。
+
+runtime monitorへ落としやすいpropertyには、次の型があります。
+
+| property型 | 例 | 有限traceでの注意 |
+| --- | --- | --- |
+| safety / precedence | 認証成功より前に機密操作を実行しない | 違反eventが出れば有限prefixで反証できる |
+| response | requestの後にresponseが来る | trace終端が早い場合は未決定になり得る |
+| time-bounded response | request後2秒以内にresponseが来る | timestampの基準、clock skew、遅延eventの扱いが意味論を左右する |
+| aggregate / policy | 5分窓の失敗率が1%を超えない、同一主体の連続失敗を制限する | window境界、欠測、sampling、再送・重複排除を固定する |
+
+本書の実行可能例は、架空の単一sessionで「認証成功後にのみ機密操作を許す」というsafety propertyを扱います。
+正本仕様は[examples/runtime-verification/auth-before-sensitive/auth-before-sensitive.lola](../../../examples/runtime-verification/auth-before-sensitive/auth-before-sensitive.lola)、正常traceは[examples/runtime-verification/auth-before-sensitive/normal.csv](../../../examples/runtime-verification/auth-before-sensitive/normal.csv)、違反traceは[examples/runtime-verification/auth-before-sensitive/violation.csv](../../../examples/runtime-verification/auth-before-sensitive/violation.csv)です。
+期待結果は[examples/runtime-verification/auth-before-sensitive/expected-normal.json](../../../examples/runtime-verification/auth-before-sensitive/expected-normal.json)と[examples/runtime-verification/auth-before-sensitive/expected-violation.json](../../../examples/runtime-verification/auth-before-sensitive/expected-violation.json)で別に固定します。
+
+仕様の中心は、現在までに認証成功を観測したかを状態として保持し、未認証の機密操作でtriggerを発火させる次の部分です。
+
+```text
+output authenticated: Bool := auth_success || authenticated.offset(by: -1).defaults(to: false)
+trigger sensitive_operation && !authenticated "AUTH_BEFORE_SENSITIVE violated"
+```
+
+この教材contractはRTLola CLI 0.1.2、upstream commit `11b6bb080a5fa487645fb023fb3d0baea6874e73`、Rust 1.87.0を固定し、offlineの相対秒CSVを検査します。
+正常系は違反0件、違反系は時刻1秒のtrigger 1件を期待し、wrapper内の独立validatorがsource traceから同じ判定を再計算します。
+正規化した`results.json`、`violation-report.json`、`summary.log`には入力hash、tool provenance、有限trace境界、仮定、判定だけを残し、tool binaryや未加工の業務logはartifactへ含めません。
+
+- `rtlola-auth-before-sensitive-normal`: 正常traceと期待結果を同一revisionのassetから実行します。laneは`nightly`です。
+<!-- example-contract: rtlola-auth-before-sensitive-normal -->
+【ツール準拠（そのまま動く）】
+```bash
+node scripts/run-example-manifest.js --id rtlola-auth-before-sensitive-normal
+```
+
+- `rtlola-auth-before-sensitive-violation`: 違反traceを、CIを失敗させる予期しない事故ではなく、期待したcounterexample contractとして再実行します。laneは`nightly`です。
+<!-- example-contract: rtlola-auth-before-sensitive-violation -->
+【ツール準拠（そのまま動く）】
+```bash
+node scripts/run-example-manifest.js --id rtlola-auth-before-sensitive-violation
+```
+
+この最小例の仮定は意図的に狭くしています。
+
+- eventは`time`のstrict ascending順であり、同時刻や順序逆転を拒否する
+- schemaは`auth_success,sensitive_operation,time`で固定し、欠落列、未知列、重複headerを拒否する
+- 各rowは完全なeventであり、同一rowで認証と機密操作を同時に成立させない
+- 1本の相対clockだけを使うためこの例ではclock skewを扱わない
+- 3 eventを欠落なく収集した固定教材traceであり、本番のsampling、配送遅延、再送、重複、session切替、logoutはmodel外である
+- eventが完全に欠落した事実はこのtraceだけから検出できないため、本番ではsequence番号、heartbeat、ingestion completenessを別contractにする
+
+**online monitoring**ではevent到着ごとに低遅延で判定できますが、monitor停止時のfail-open / fail-closed、backpressure、順序入替え、状態復元を設計しなければなりません。
+**offline monitoring**は保存traceをCI、監査、incident後の再解析で決定的に再実行しやすい一方、検出と対応は遅れます。
+本書では再現可能性を優先してoffline固定traceをnightly CIへ置き、本番online接続は環境固有の設計課題として分離します。
+
+本番導入時は、monitor自体のCPU・memory・I/O overhead、eventのsamplingとbackpressure、状態保持量を負荷試験します。
+認証ID、prompt、個人情報、機密payloadをそのまま検証artifactへ保存せず、最小化、pseudonymization、アクセス制御、保存期間、削除手順を定めます。
+security enforcementをfail-closedにするとmonitor障害が可用性障害へ波及し、fail-openにすると検査不能時に操作を許すため、propertyごとにrisk owner、degraded mode、手動介入、監査logを決めます。
+monitor違反はincidentの入力ですが、原因、攻撃の成立、顧客影響を単独で確定するものではありません。
+
 ## 11.4 チーム開発での協働
 
 ### 個人技術からチーム能力への転換

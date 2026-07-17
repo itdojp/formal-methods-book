@@ -7,7 +7,7 @@
 
 本付録への掲載は、リポジトリでの実行保証を意味しない。実行状態の正本は
 `tools/tool-manifest.json` と[付録Bの lane inventory]({{ '/appendices/appendix-b/#tool-lane-inventory' | relative_url }})である。
-Alloy、TLC、Apalache、Dafny は `pr-quick`、SPIN、NuSMV、CBMC、Quint、PRISM、Tamarin、SymbiYosys は
+Alloy、TLC、Apalache、Dafny は `pr-quick`、SPIN、NuSMV、CBMC、Quint、PRISM、Tamarin、SymbiYosys、cvc5 / Carcara、RTLola は
 `nightly`、Kani は明示的な `optional/manual` で検証する。それ以外の掲載ツールは
 `documentation-only` であり、本書は固定バージョン、実行環境、実行結果を保証しない。
 
@@ -153,6 +153,31 @@ Alloy、TLC、Apalache、Dafny は `pr-quick`、SPIN、NuSMV、CBMC、Quint、PR
   - Tamarin Prover 1.12.0公式release：<https://github.com/tamarin-prover/tamarin-prover/releases/tag/1.12.0>
   - Maude公式配布案内：<https://maude.cs.illinois.edu/get-maude>
   - Maude 3.5.1公式release：<https://github.com/maude-lang/Maude/releases/tag/Maude3.5.1>
+
+### Runtime verification（RTLola / MonPoly / RV-Monitor）
+
+2026-07-16に公式repository、配布ページ、documentationを再確認した比較です。
+同じruntime verificationでも、stream specification、metric temporal logic、Java instrumentationでは導入境界が異なります。
+
+| 候補 | 主な適用形態 | 公式配布・保守の観測事実 | 本書での判断 |
+| --- | --- | --- | --- |
+| RTLola | typed input/output streamとtriggerをonlineまたはoffline eventへ適用 | `rtlola-cli 0.1.2`のcrates.io package、offline CSV、JSON出力、2025年のupstream更新を確認 | **採用**。immutable package digest、埋め込みcommitと`Cargo.lock`、固定Rust、構造化verdictを一つのnightly契約にできる |
+| MonPoly | timestamp付きlogをmetric first-order temporal logicへ照合 | SourceForgeの最新配布として1.1.10（2020-11-25）を確認 | 今回は不採用。offline log監視への適合性は高いが、本書のJSON verdict、provenance、現行CI保守契約を追加で設計する必要がある |
+| RV-Monitor | specificationからJava monitorを生成し、applicationへinstrumentationする | 公式GitHubにreleaseがなく、確認できる最新commitは2020-12-18、MIT license | 今回は不採用。Java code generation / instrumentationは、固定CSVを再生する最小教材よりbuild・結合範囲が広い |
+
+RTLolaを選んだ理由は機能数の一般比較ではなく、**このrepositoryの固定offline traceと構造化artifact契約に最も小さく接続できた**ためです。
+MonPolyやRV-Monitorが劣っているという結論ではなく、対象property、言語、instrumentation方式、運用platformが変われば選択も変わります。
+
+- 実行境界：本書はRTLola CLI 0.1.2、commit `11b6bb080a5fa487645fb023fb3d0baea6874e73`、Rust 1.87.0、相対時刻CSV、JSONの違反出力を固定する。
+- 保証境界：正常・違反の二つの架空3-event traceだけを検査し、event収集の完全性、未観測run、online運用、全RTLola機能を保証しない。
+- 一次情報：
+  - RTLola Interpreter公式repository：<https://github.com/reactive-systems/RTLola-Interpreter>
+  - RTLola CLI 0.1.2 documentation：<https://docs.rs/rtlola-cli/0.1.2/rtlola_cli/>
+  - RTLola言語・CLI source commit：<https://github.com/reactive-systems/RTLola-Interpreter/commit/11b6bb080a5fa487645fb023fb3d0baea6874e73>
+  - MonPoly公式project page：<https://infsec.ethz.ch/research/software/monpoly.html>
+  - MonPoly公式配布：<https://sourceforge.net/projects/monpoly/>
+  - MonPoly公式source repository：<https://bitbucket.org/monpoly/monpoly/src/master/>
+  - RV-Monitor公式repository：<https://github.com/runtimeverification/rv-monitor>
 
 ## 3) 定理証明（Rocq / Lean / Isabelle / Agda）
 

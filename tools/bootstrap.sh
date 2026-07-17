@@ -22,6 +22,8 @@ manifest_output="$(tool_manifest_fields \
   cvc5.version cvc5.commit cvc5.checkerVersion cvc5.checkerCommit cvc5.certificateFormat cvc5.maxCertificateBytes \
   cvc5.maxCheckerOutputBytes cvc5.rustToolchain cvc5.rustcCommit cvc5.cargoCommit cvc5.rustHost \
   cvc5.rustToolchainManifest.url cvc5.rustToolchainManifest.sha256 cvc5.checkerCargoLockSha256 \
+  rtlola.version rtlola.commit rtlola.cargoLockSha256 rtlola.rustToolchain rtlola.rustcCommit rtlola.cargoCommit rtlola.rustHost \
+  rtlola.rustToolchainManifest.url rtlola.rustToolchainManifest.sha256 \
   tamarin.commit tamarin.maudeVersion tamarin.maudeCommit \
   sby.commit sby.suiteVersion sby.suiteCommit sby.yosysVersion sby.yosysCommit sby.bitwuzlaVersion sby.bitwuzlaCommit \
   kani.rustToolchain kani.rustToolchainManifest.url kani.rustToolchainManifest.sha256 \
@@ -29,15 +31,15 @@ manifest_output="$(tool_manifest_fields \
   dafny.distribution.url spin.distribution.url nusmv.distribution.url \
   cbmc.distribution.url quint.distribution.url prism.distribution.url \
   tamarin.distribution.url tamarin.maudeDistribution.url sby.distribution.url kani.distribution.url \
-  cvc5.distribution.url cvc5.checkerDistribution.url \
+  cvc5.distribution.url cvc5.checkerDistribution.url rtlola.distribution.url \
   alloy.distribution.sha256 tlc.distribution.sha256 apalache.distribution.sha256 \
   dafny.distribution.sha256 spin.distribution.sha256 nusmv.distribution.sha256 \
   cbmc.distribution.sha256 quint.distribution.sha256 prism.distribution.sha256 \
   tamarin.distribution.sha256 tamarin.maudeDistribution.sha256 sby.distribution.sha256 kani.distribution.sha256 \
-  cvc5.distribution.sha256 cvc5.checkerDistribution.sha256)"
+  cvc5.distribution.sha256 cvc5.checkerDistribution.sha256 rtlola.distribution.sha256)"
 mapfile -t manifest_values <<< "$manifest_output"
-if [[ ${#manifest_values[@]} -ne 70 ]]; then
-  echo "Unexpected bootstrap field count: ${#manifest_values[@]} (expected 70)" >&2
+if [[ ${#manifest_values[@]} -ne 81 ]]; then
+  echo "Unexpected bootstrap field count: ${#manifest_values[@]} (expected 81)" >&2
   exit 2
 fi
 manifest_index=0
@@ -73,6 +75,15 @@ next_manifest_value CARCARA_RUST_HOST
 next_manifest_value CARCARA_RUST_MANIFEST_URL
 next_manifest_value CARCARA_RUST_MANIFEST_SHA256
 next_manifest_value CARCARA_CARGO_LOCK_SHA256
+next_manifest_value RTLOLA_VERSION
+next_manifest_value RTLOLA_COMMIT
+next_manifest_value RTLOLA_CARGO_LOCK_SHA256
+next_manifest_value RTLOLA_RUST_TOOLCHAIN
+next_manifest_value RTLOLA_RUSTC_COMMIT
+next_manifest_value RTLOLA_CARGO_COMMIT
+next_manifest_value RTLOLA_RUST_HOST
+next_manifest_value RTLOLA_RUST_MANIFEST_URL
+next_manifest_value RTLOLA_RUST_MANIFEST_SHA256
 next_manifest_value TAMARIN_COMMIT
 next_manifest_value TAMARIN_MAUDE_VERSION
 next_manifest_value TAMARIN_MAUDE_COMMIT
@@ -101,6 +112,7 @@ next_manifest_value SBY_URL
 next_manifest_value KANI_URL
 next_manifest_value CVC5_URL
 next_manifest_value CARCARA_URL
+next_manifest_value RTLOLA_URL
 next_manifest_value ALLOY_SHA256
 next_manifest_value TLA_SHA256
 next_manifest_value APALACHE_ZIP_SHA256
@@ -116,6 +128,7 @@ next_manifest_value SBY_TAR_SHA256
 next_manifest_value KANI_TAR_SHA256
 next_manifest_value CVC5_ZIP_SHA256
 next_manifest_value CARCARA_TAR_SHA256
+next_manifest_value RTLOLA_CRATE_SHA256
 unset manifest_output manifest_values manifest_index
 
 ALLOY_JAR="$CACHE_DIR/alloy-${ALLOY_VERSION}.jar"
@@ -141,6 +154,10 @@ CARCARA_DIR="$TMP_DIR/carcara-${CARCARA_VERSION}"
 CARCARA_BIN="$CARCARA_DIR/target/release/carcara"
 CARCARA_RUSTUP_HOME="$CACHE_DIR/carcara-rustup-${CARCARA_RUST_TOOLCHAIN}"
 CARCARA_CARGO_HOME="$CACHE_DIR/carcara-cargo"
+RTLOLA_DIR="$TMP_DIR/rtlola-$RTLOLA_VERSION"
+RTLOLA_BIN="$RTLOLA_DIR/target/release/rtlola-cli"
+RTLOLA_RUSTUP_HOME="$CACHE_DIR/rtlola-rustup-$RTLOLA_RUST_TOOLCHAIN"
+RTLOLA_CARGO_HOME="$CACHE_DIR/rtlola-cargo"
 KANI_ARCHIVE="$CACHE_DIR/downloads/kani-${KANI_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
 PRISM_ARCHIVE="$CACHE_DIR/downloads/prism-${PRISM_VERSION}-linux64-x86.tar.gz"
 TAMARIN_ARCHIVE="$CACHE_DIR/downloads/tamarin-prover-${TAMARIN_VERSION}-linux64-ubuntu.tar.gz"
@@ -150,6 +167,8 @@ KANI_RUST_MANIFEST="$CACHE_DIR/downloads/$(basename "$KANI_RUST_MANIFEST_URL")"
 CVC5_ARCHIVE="$CACHE_DIR/downloads/cvc5-Linux-x86_64-static.zip"
 CARCARA_ARCHIVE="$CACHE_DIR/downloads/carcara-${CARCARA_COMMIT}.tar.gz"
 CARCARA_RUST_MANIFEST="$CACHE_DIR/downloads/$(basename "$CARCARA_RUST_MANIFEST_URL")"
+RTLOLA_ARCHIVE="$CACHE_DIR/downloads/rtlola-cli-$RTLOLA_VERSION.crate"
+RTLOLA_RUST_MANIFEST="$CACHE_DIR/downloads/rtlola-$(basename "$RTLOLA_RUST_MANIFEST_URL")"
 
 usage() {
   cat <<'EOF'
@@ -437,7 +456,11 @@ if kind == 'tar':
             if total_bytes > max_total_bytes:
                 raise SystemExit(f'Tar archive exceeds {max_total_bytes} extracted bytes')
             entries.append((member, name, entry_type))
-        if expected_root not in seen:
+        # crates.io packages may omit an explicit directory member while
+        # placing every file below one root. validate_name() still rejects
+        # any member outside that required root.
+        if expected_root not in seen and not any(
+                name.startswith(expected_root + '/') for _, name, _ in entries):
             raise SystemExit(f'{kind} archive is missing its required root: {expected_root}')
         validate_hierarchy(entries)
         for member, name, entry_type in entries:
@@ -483,7 +506,8 @@ elif kind == 'zip':
                     raise SystemExit(f'Unsupported zip archive member type: {member.filename!r}')
                 entry_type = 'file'
             validated_entries.append((member, name, entry_type))
-        if expected_root not in seen:
+        if expected_root not in seen and not any(
+                name.startswith(expected_root + '/') for _, name, _ in validated_entries):
             raise SystemExit(f'{kind} archive is missing its required root: {expected_root}')
         validate_hierarchy(validated_entries)
         for member, name, entry_type in validated_entries:
@@ -797,6 +821,125 @@ PYTHON
   fi
 }
 
+
+ensure_rtlola_locked() {
+  require_command rustup rustup
+  require_command cargo cargo
+  require_command python3 python3
+  require_command cc build-essential
+  mkdir -p "$(dirname "$RTLOLA_ARCHIVE")" "$RTLOLA_RUSTUP_HOME" "$RTLOLA_CARGO_HOME"
+
+  # crates.io packages are immutable. Verify the package and its embedded
+  # Cargo.lock/VCS provenance, then rebuild in tools/.tmp on every invocation.
+  download "$RTLOLA_URL" "$RTLOLA_ARCHIVE" "$RTLOLA_CRATE_SHA256"
+  download "$RTLOLA_RUST_MANIFEST_URL" "$RTLOLA_RUST_MANIFEST" "$RTLOLA_RUST_MANIFEST_SHA256"
+  python3 - "$RTLOLA_RUST_MANIFEST" "$RTLOLA_RUST_TOOLCHAIN" "$RTLOLA_RUSTC_COMMIT" "$RTLOLA_CARGO_COMMIT" "$RTLOLA_RUST_HOST" <<'PYTHON'
+import sys
+
+try:
+    import tomllib
+except ModuleNotFoundError:
+    raise SystemExit(
+        'RTLola Rust-manifest verification requires Python 3.11 or later '
+        '(the standard-library tomllib module is unavailable)'
+    ) from None
+
+manifest_path, release, rustc_commit, cargo_commit, host = sys.argv[1:]
+with open(manifest_path, 'rb') as stream:
+    manifest = tomllib.load(stream)
+if manifest.get('manifest-version') != '2':
+    raise SystemExit('Rust channel manifest version is not 2')
+rustc = manifest.get('pkg', {}).get('rustc', {})
+cargo = manifest.get('pkg', {}).get('cargo', {})
+if rustc.get('git_commit_hash') != rustc_commit or not rustc.get('version', '').startswith(release + ' '):
+    raise SystemExit('Rust channel manifest rustc provenance did not match the RTLola tool manifest')
+if cargo_commit[:9] not in cargo.get('version', ''):
+    raise SystemExit('Rust channel manifest Cargo provenance did not match the RTLola tool manifest')
+for package_name in ('rustc', 'cargo', 'rust-std'):
+    target = manifest.get('pkg', {}).get(package_name, {}).get('target', {}).get(host, {})
+    if target.get('available') is not True:
+        raise SystemExit('Rust channel manifest does not provide ' + package_name + ' for ' + host)
+PYTHON
+  RUSTUP_HOME="$RTLOLA_RUSTUP_HOME" CARGO_HOME="$RTLOLA_CARGO_HOME" \
+    rustup toolchain install "$RTLOLA_RUST_TOOLCHAIN" --profile minimal --no-self-update
+
+  local rustc_version_output cargo_version_output
+  rustc_version_output="$(RUSTUP_HOME="$RTLOLA_RUSTUP_HOME" CARGO_HOME="$RTLOLA_CARGO_HOME" \
+    rustc "+$RTLOLA_RUST_TOOLCHAIN" --version --verbose)"
+  cargo_version_output="$(RUSTUP_HOME="$RTLOLA_RUSTUP_HOME" CARGO_HOME="$RTLOLA_CARGO_HOME" \
+    cargo "+$RTLOLA_RUST_TOOLCHAIN" --version --verbose)"
+  local expected
+  for expected in \
+    "release: $RTLOLA_RUST_TOOLCHAIN" \
+    "commit-hash: $RTLOLA_RUSTC_COMMIT" \
+    "host: $RTLOLA_RUST_HOST"; do
+    if ! grep -Fxq "$expected" <<< "$rustc_version_output"; then
+      echo "Installed RTLola rustc provenance did not match: $expected" >&2
+      return 1
+    fi
+  done
+  for expected in \
+    "release: $RTLOLA_RUST_TOOLCHAIN" \
+    "commit-hash: $RTLOLA_CARGO_COMMIT" \
+    "host: $RTLOLA_RUST_HOST"; do
+    if ! grep -Fxq "$expected" <<< "$cargo_version_output"; then
+      echo "Installed RTLola Cargo provenance did not match: $expected" >&2
+      return 1
+    fi
+  done
+
+  local extract_dir="$TMP_DIR/rtlola-$RTLOLA_VERSION-extract"
+  safe_extract_archive "$RTLOLA_ARCHIVE" tar "$extract_dir" "rtlola-cli-$RTLOLA_VERSION"
+  local source_dir="$extract_dir/rtlola-cli-$RTLOLA_VERSION"
+  if [[ "$(sha256_of "$source_dir/Cargo.lock")" != "$RTLOLA_CARGO_LOCK_SHA256" ]]; then
+    echo 'RTLola Cargo.lock digest did not match the manifest' >&2
+    return 1
+  fi
+  python3 - "$source_dir/.cargo_vcs_info.json" "$RTLOLA_COMMIT" <<'PYTHON'
+import json
+import sys
+
+with open(sys.argv[1], encoding='utf-8') as stream:
+    value = json.load(stream)
+if value != {'git': {'sha1': sys.argv[2]}, 'path_in_vcs': 'crates/rtlola-cli'}:
+    raise SystemExit('RTLola package VCS provenance did not match the manifest')
+PYTHON
+
+  rm -rf "$RTLOLA_DIR"
+  mkdir -p "$RTLOLA_DIR"
+  RUSTUP_HOME="$RTLOLA_RUSTUP_HOME" CARGO_HOME="$RTLOLA_CARGO_HOME" \
+    CARGO_TARGET_DIR="$RTLOLA_DIR/target" \
+    cargo "+$RTLOLA_RUST_TOOLCHAIN" build --quiet --locked --release \
+      --manifest-path "$source_dir/Cargo.toml"
+  rm -rf "$extract_dir"
+  if [[ ! -x "$RTLOLA_BIN" || -L "$RTLOLA_BIN" ]]; then
+    echo 'RTLola build did not produce the expected regular executable' >&2
+    return 1
+  fi
+  if [[ "$("$RTLOLA_BIN" --version)" != "rtlola-cli $RTLOLA_VERSION" ]]; then
+    echo 'RTLola binary version did not match the manifest' >&2
+    return 1
+  fi
+}
+
+ensure_rtlola() {
+  require_command flock util-linux
+  local lock_file="$TMP_DIR/rtlola-$RTLOLA_VERSION.lock"
+  mkdir -p "$(dirname "$lock_file")"
+
+  # Both teaching contracts rebuild into the same verified target path. A
+  # worktree may launch them concurrently outside the official sequential
+  # matrix runner, so serialize extraction and build rather than allowing one
+  # process to remove another process's source or target directory.
+  (
+    if ! flock -x -w 300 9; then
+      echo 'Timed out waiting for the RTLola bootstrap lock' >&2
+      return 75
+    fi
+    ensure_rtlola_locked
+  ) 9>"$lock_file"
+}
+
 ensure_tamarin() {
   require_command tar tar
   require_command unzip unzip
@@ -1020,6 +1163,7 @@ for selected_tool in "${selected_tools[@]}"; do
     quint) ensure_quint; installed+=("Quint ${QUINT_VERSION}") ;;
     prism) ensure_prism; installed+=("PRISM ${PRISM_VERSION}") ;;
     cvc5) ensure_cvc5; ensure_carcara; installed+=("cvc5 ${CVC5_VERSION} + Carcara ${CARCARA_VERSION}") ;;
+    rtlola) ensure_rtlola; installed+=("RTLola CLI $RTLOLA_VERSION ($RTLOLA_COMMIT)") ;;
     tamarin) ensure_tamarin; installed+=("Tamarin ${TAMARIN_VERSION} (Maude ${TAMARIN_MAUDE_VERSION})") ;;
     sby) ensure_sby; installed+=("SymbiYosys ${SBY_VERSION} (OSS CAD Suite ${SBY_SUITE_VERSION})") ;;
     kani) ensure_kani; installed+=("Kani ${KANI_VERSION} (${KANI_RUST_TOOLCHAIN})") ;;

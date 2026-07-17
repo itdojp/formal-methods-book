@@ -27,6 +27,7 @@ const TOOL_WRAPPERS = Object.freeze({
   tamarin: 'tools/tamarin-check.sh',
   sby: 'tools/sby-check.sh',
   cvc5: 'tools/cvc5-proof-check.sh',
+  rtlola: 'tools/rtlola-check.sh',
   kani: 'tools/kani-check.sh',
 });
 const TOOL_OPTION_CONTRACTS = Object.freeze({
@@ -89,6 +90,13 @@ const TOOL_OPTION_CONTRACTS = Object.freeze({
     },
   },
   cvc5: {
+    flags: new Set(),
+    values: {
+      '--out-dir': 'artifact',
+      '--time-limit': { type: 'positiveInteger', max: 900 },
+    },
+  },
+  rtlola: {
     flags: new Set(),
     values: {
       '--out-dir': 'artifact',

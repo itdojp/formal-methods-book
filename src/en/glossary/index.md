@@ -70,6 +70,11 @@ a safety proof. See Chapter 8 and Appendix C.
 expressed with `assert`; in program verification it can also mean an explicit
 check embedded in an implementation. See Chapters 4 and 10.
 
+**Runtime assertion**: A check evaluated at a specific point during execution,
+with a violation producing a stop, exception, or log event. Distinguish its
+local scope and failure coupling from runtime verification by an external event
+monitor. See Chapter 11.
+
 ## B
 
 **BDD (Binary Decision Diagram)**: A data structure for representing Boolean
@@ -125,6 +130,11 @@ or the encoder. See Chapter 12 and Appendix E.
 further progress is possible. See Chapters 6 and 8.
 
 ## F
+
+**Finite-trace semantics**: Semantics that define satisfaction, violation, or
+an inconclusive result over an acquired finite event sequence and its end.
+Infinite-trace temporal logic must not be transferred silently onto a finite
+log. See Chapter 11 and Appendix C.
 
 **FLP impossibility result**: Under complete asynchrony, deterministic
 processes, and at most one crash-stop failure, no consensus protocol guarantees
@@ -207,6 +217,18 @@ a solver for a `sat` result. It shows that the encoded constraints are
 satisfiable, but it does not by itself validate the natural-language
 requirement or the original specification. See Chapter 12 and Appendix C.
 
+**Monitorability**: The ability, under chosen semantics, to decide satisfaction
+or violation of a property from an observed finite prefix. Evaluate it
+separately from observability, which asks whether the required events can be
+obtained. See Chapter 11 and Appendix C.
+
+## O
+
+**Observability**: The degree to which system state and causal relations needed
+for a decision can be reconstructed from events, metrics, and traces. Even a
+monitorable property lacks evidence when required events are missing. See
+Chapter 11.
+
 ## P
 
 **Partial correctness**: The property that if a program terminates, the result
@@ -272,6 +294,16 @@ Chapter 8 and Appendix C.
 **Rocq**: The proof assistant formerly known as Coq. It is based on type
 theory and is used in this book as a representative environment for
 mechanized proofs. See Chapters 9, 10, and Appendix E.
+
+**RTLola**: A runtime-verification language and toolchain that specifies typed
+streams and triggers over online or offline events. This book guarantees only
+the pinned CLI 0.1.2 contract over finite offline CSV traces. See Chapter 11
+and Appendices B and E.
+
+**Runtime verification**: Checking executing or retained event traces against
+formal properties to produce violation, non-violation, or inconclusive verdicts
+over observed traces. Zero detected violations must not be generalized to
+correctness of all possible executions. See Chapter 11 and Appendix C.
 
 ## S
 

@@ -33,26 +33,26 @@
     "appendices/appendix-b.md": {
       "source_path": "src/ja/appendices/appendix-b.md",
       "translation_path": "src/en/appendices/appendix-b.md",
-      "source_commit": "a4be778350d24c089d00bdce6d31fd736cc6cf1e",
-      "translated_commit": "a4be778350d24c089d00bdce6d31fd736cc6cf1e",
-      "source_sha256": "68a102c1f49eedb316753cd06cc944c57c368443a6dcb95e6c4f63200deb5cc4",
-      "translation_sha256": "8ef6de68060f307abd07261e8637d9bc50d65694121befd07201ffbd69c37240",
+      "source_commit": "abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4",
+      "translated_commit": "abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4",
+      "source_sha256": "af29a6af9845c65dc6d11ecaef2c38fc74d463b25eb9f2d7b7c0f523a59aa5cf",
+      "translation_sha256": "6ebe2fa8bf72831d74af096205915b4e4c5fbd5a83c3603b973202643ce91fbc",
       "status": "partial",
       "reviewed_at": "2026-07-16",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "The cvc5 1.3.4 official static asset / Alethe / source-built Carcara compatibility commit, inclusive bounded output handling, Rust provenance sentinel, installed compiler commit/host verification, nightly lane, artifact, and non-redistribution guidance was semantically reviewed across JA/EN; pre-existing heading level/order, code-fence, and table-shape differences remain"
+      "notes": "The RTLola 0.1.2 source-package, Rust/Cargo provenance, finite-trace nightly, artifact, and non-redistribution guidance plus the prior cvc5/Carcara path were semantically reviewed across JA/EN; pre-existing heading level/order, code-fence, and table-shape differences remain"
     },
     "appendices/appendix-c.md": {
       "source_path": "src/ja/appendices/appendix-c.md",
       "translation_path": "src/en/appendices/appendix-c.md",
-      "source_commit": "4c528522f6a4cda22043a64361360cc3850d0fb9",
-      "translated_commit": "4c528522f6a4cda22043a64361360cc3850d0fb9",
-      "source_sha256": "ca01c8d81b699a3341415710a907d36b988dfd559976c729688f82ec48990e4b",
-      "translation_sha256": "a08c44c09a80af57a0f42225c214e99fd15d8e2ea31deef743c9dc3433014145",
+      "source_commit": "abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4",
+      "translated_commit": "abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4",
+      "source_sha256": "7aaa600295f992d861bf4915188bb25b06d74a3d777b983feb0a81cfad5e4c2c",
+      "translation_sha256": "d906e76b9387fa6fa574231512ce95f288f09aa97ac90765143ae5269c14678b",
       "status": "partial",
       "reviewed_at": "2026-07-16",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "The SAT model/witness and UNSAT proof-certificate evidence table plus prior Tamarin/SymbiYosys concept correspondences were semantically reviewed across JA/EN; pre-existing heading level/order, numbered-heading, and table-shape differences remain"
+      "notes": "The RTLola input/stream/trigger/finite-trace concept correspondence plus prior certificate, Tamarin, and SymbiYosys correspondences were semantically reviewed across JA/EN; pre-existing heading level/order, numbered-heading, and table-shape differences remain"
     },
     "appendices/appendix-d.md": {
       "source_path": "src/ja/appendices/appendix-d.md",
@@ -69,26 +69,26 @@
     "appendices/appendix-e.md": {
       "source_path": "src/ja/appendices/appendix-e.md",
       "translation_path": "src/en/appendices/appendix-e.md",
-      "source_commit": "4c528522f6a4cda22043a64361360cc3850d0fb9",
-      "translated_commit": "4c528522f6a4cda22043a64361360cc3850d0fb9",
-      "source_sha256": "5ac0de2e6bc1dc86f6c940e366bdc630d9f313cc776e222160ac0b240348e72e",
-      "translation_sha256": "0eb9380b8a8f2aa5df0b078024fd9f42f0fc1e50ef3239b471632077fbb8cdfe",
+      "source_commit": "abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4",
+      "translated_commit": "abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4",
+      "source_sha256": "a95f7ce4914e557c205e2809e4956992832735210b52988b73022882970c9f29",
+      "translation_sha256": "b9ea81c83728e94fd8f39a330611db44be03adc14830d62ca9dbb13f264d27f6",
       "status": "partial",
       "reviewed_at": "2026-07-16",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "The cvc5/Alethe/Carcara, LFSC trust-step, DRAT/LRAT scope, version, digest, and assurance-boundary entries were semantically reviewed across JA/EN; the broader appendix still has heading differences and Japanese-only external references"
+      "notes": "The RTLola/MonPoly/RV-Monitor primary-source comparison, selection rationale, version/provenance, and assurance boundary plus prior references were semantically reviewed across JA/EN; the broader appendix still has heading differences and Japanese-only external references"
     },
     "appendices/appendix-f.md": {
       "source_path": "src/ja/appendices/appendix-f.md",
       "translation_path": "src/en/appendices/appendix-f.md",
-      "source_commit": "f71c3a404722bd8980aec02ec09e6643ea7a4c01",
-      "translated_commit": "f71c3a404722bd8980aec02ec09e6643ea7a4c01",
-      "source_sha256": "077e906a56cfa6aafa4152772cb1b06fdaa7bff6932c38a1454d50375d3ef137",
-      "translation_sha256": "25c594ada52dcd3ff98cd2fb5b4bdf1c0aeb8e3303cdda5ba560d23f8c6d1df2",
+      "source_commit": "abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4",
+      "translated_commit": "abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4",
+      "source_sha256": "ea6362144fdba5e2f620a592dbbbbecdb70c6b589afcd546081d2e856a74178c",
+      "translation_sha256": "af76e1ed4b280c539c93cdafa3a82abde03c9364a2f162a810191aa46192a34d",
       "status": "partial",
       "reviewed_at": "2026-07-16",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "The LLM to solver/prover to strict checker/kernel trust-boundary flow was semantically reviewed across JA/EN; pre-existing heading level/order, numbered-heading, and table-shape differences remain"
+      "notes": "The runtime-monitor source-trace/tool-verdict/independent-validator versus LLM-summary truth boundary was semantically reviewed across JA/EN; pre-existing heading level/order, numbered-heading, and table-shape differences remain"
     },
     "chapters/chapter01.md": {
       "source_path": "src/ja/chapters/chapter01.md",
@@ -213,26 +213,26 @@
     "chapters/chapter11.md": {
       "source_path": "src/ja/chapters/chapter11.md",
       "translation_path": "src/en/chapters/chapter11.md",
-      "source_commit": "83d031100ae7bcdeab03d28f072904bcff0d71ff",
-      "translated_commit": "f95634f31d9623c3212d6b9849679178e77fee78",
-      "source_sha256": "30b33728401e6cb52ece0a81f560cdbc6af686efd9acf1dbf55d73cf74eacd31",
-      "translation_sha256": "5f08f5dfc47e147c457c89302938bb201ea09588fb57a6d3db6d0c9bb428ca3f",
+      "source_commit": "abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4",
+      "translated_commit": "abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4",
+      "source_sha256": "daee726251d98c662ea4d30eb16f1ca3897e1801510d82c4feb0de95d6a16c43",
+      "translation_sha256": "eae2d5dc498354e06d75de20a70059551954a4fdf358aca2cab133c87ca290c5",
       "status": "partial",
       "reviewed_at": "2026-07-16",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "heading level/order differs"
+      "notes": "The runtime verification definitions, method boundaries, property families, RTLola normal/violation contracts, trace assumptions, online/offline operation, and privacy/failure policy were semantically reviewed across JA/EN; pre-existing heading level/order differences remain"
     },
     "chapters/chapter12.md": {
       "source_path": "src/ja/chapters/chapter12.md",
       "translation_path": "src/en/chapters/chapter12.md",
-      "source_commit": "4c528522f6a4cda22043a64361360cc3850d0fb9",
-      "translated_commit": "4c528522f6a4cda22043a64361360cc3850d0fb9",
-      "source_sha256": "e3a58d79c54a55cf8315c380860ecde88ab0b1d21bfe5f1d5c0312e16efbbafe",
-      "translation_sha256": "bf2df793e42317ee106c2770391dc492c11d0cdcb7cfb6141f15fab52cea82fb",
+      "source_commit": "abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4",
+      "translated_commit": "abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4",
+      "source_sha256": "bb45a615965543a61eca254a6ed300d2cb6777c0ecc286e8c297e64883b2c1b7",
+      "translation_sha256": "e123a6c7e8d0fc8939c8ec0708260a725190324cdff344793cd40472fef78e93",
       "status": "partial",
       "reviewed_at": "2026-07-16",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "The model/witness versus proof-certificate distinction, solver/format/checker layers, Alethe/LFSC/DRAT/LRAT boundaries, preprocessing caveat, and cvc5/Carcara nightly contract were semantically reviewed across JA/EN; pre-existing heading, numbered-heading, code-fence, table, tool-label, and example-path differences remain"
+      "notes": "The RTLola fixed-trace nightly artifact and production-log boundary plus prior proof-certificate content were semantically reviewed across JA/EN; pre-existing heading, numbered-heading, code-fence, table, tool-label, and example-path differences remain"
     },
     "chapters/chapter13.md": {
       "source_path": "src/ja/chapters/chapter13.md",
@@ -249,14 +249,14 @@
     "glossary/index.md": {
       "source_path": "src/ja/glossary/index.md",
       "translation_path": "src/en/glossary/index.md",
-      "source_commit": "4c528522f6a4cda22043a64361360cc3850d0fb9",
-      "translated_commit": "4c528522f6a4cda22043a64361360cc3850d0fb9",
-      "source_sha256": "cb58cc25b65244b61c2b4016cddcc63639716d57c46212adf471727c301733c5",
-      "translation_sha256": "cf399a9035d277b563099334c49e0a230344cafcac848b80311a035728c3d58d",
+      "source_commit": "abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4",
+      "translated_commit": "abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4",
+      "source_sha256": "99ba8cec00e4213b7eeca1ec8de7e9ecdf4c2fa6f119dd1a567296c38f0f54fc",
+      "translation_sha256": "6da3e66649503054888123dcbac198cf5e819bf3b710535cd9380c8da257038b",
       "status": "partial",
       "reviewed_at": "2026-07-16",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "Alethe, DRAT, LFSC, LRAT, model/witness, proof certificate, proof checker, and trusted computing base definitions plus prior Tamarin/RTL terms were semantically reviewed across JA/EN; pre-existing heading-structure differences remain"
+      "notes": "Runtime verification, runtime assertion, finite-trace semantics, observability, monitorability, and RTLola definitions plus prior certificate and verification terms were semantically reviewed across JA/EN; pre-existing heading-structure differences remain"
     },
     "index.md": {
       "source_path": "src/ja/index.md",

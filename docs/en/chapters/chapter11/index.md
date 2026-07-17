@@ -6,13 +6,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/chapters/chapter11.md"
 translation_status: "partial"
-translation_source_commit: "83d031100ae7bcdeab03d28f072904bcff0d71ff"
+translation_source_commit: "abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4"
 translation_reviewed_at: "2026-07-16"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Chapter 11: Integrating Formal Methods into Development Processes
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`83d031100ae7`](https://github.com/itdojp/formal-methods-book/commit/83d031100ae7bcdeab03d28f072904bcff0d71ff) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`abf0ec3d6e65`](https://github.com/itdojp/formal-methods-book/commit/abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4) on 2026-07-16.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 ## 11.1 Reconciling with Reality: Balancing Ideals and Constraints
@@ -598,6 +598,87 @@ and operations. Formal methods can contribute there as well.
 By integrating formal reasoning across the lifecycle, organizations can improve
 quality at each stage while also strengthening consistency across stage
 boundaries.
+
+### Connecting Observed Traces to Formal Properties with Runtime Verification {#runtime-verification-observed-traces}
+
+Design-time verification cannot anticipate every production input, external-service response, configuration difference, or operator action.
+**Runtime verification** checks an executing or retained event sequence against a formalized property and reports verdicts or violations over the observed trace.
+A **runtime assertion** is a local form that evaluates a condition at a program point; an external event monitor has a different scope, failure boundary, and evidence model.
+
+**Observability** is the degree to which the state and causal relations needed for a decision can be reconstructed from events, metrics, and traces.
+**Monitorability** is a different concept: under the chosen semantics, can satisfaction or violation of the property be decided from an observed finite prefix?
+**Finite-trace semantics** define how an acquired finite sequence and its end are interpreted, rather than silently assuming the conventional infinite behaviors of LTL.
+For example, “every request eventually receives a response” is still inconclusive at an intermediate prefix unless a deadline or complete end-of-trace rule is supplied.
+
+In engineering work, keep the following activities and assurance boundaries distinct.
+
+| Activity | Input and time | Primary evidence | Guarantee not obtained |
+| --- | --- | --- | --- |
+| Design-time formal verification | Model and properties before implementation or at change time | No counterexample or a counterexample within the explored/proved model | Production inputs, unmodeled environment, or correct instrumentation |
+| Testing | Selected inputs and an oracle at build time | Results for executed cases | Correctness for unexecuted inputs or all executions |
+| Static analysis | Source/binary and rules at build time | Findings or obligations for the analyzed target and rules | Event order or external state that occurred dynamically |
+| Runtime verification | Event trace and monitor property, online or offline | Violation, non-violation, or inconclusive result for the **observed trace** | Unobserved executions, missing events, or correctness of all possible executions |
+| Operational monitoring | Metrics, logs, SLOs during operation | Availability, performance, trends, and alerts | Evidence that a property was checked under formal semantics |
+| Incident response | Alerts, evidence, and business impact after detection | Containment, causal analysis, and recovery decisions | A complete cause or impact assessment from an alert alone |
+
+Therefore, a monitor that emitted no violation on one run establishes only that it detected no target violation in that observed prefix.
+It does **not** establish that every run is correct, that unobserved events were safe, or that event collection itself was complete.
+
+Common monitorable property families include the following.
+
+| Property family | Example | Finite-trace consideration |
+| --- | --- | --- |
+| Safety / precedence | A sensitive operation must not occur before successful authentication | A violating event refutes the property on a finite prefix |
+| Response | A response follows each request | An early trace ending may remain inconclusive |
+| Time-bounded response | A response follows a request within two seconds | Clock basis, skew, and late-event handling determine the semantics |
+| Aggregate / policy | Error rate stays below 1% over five minutes; repeated failures per subject are bounded | Window boundaries, missing data, sampling, retries, and deduplication must be fixed |
+
+The executable example uses a fictional single session and a safety property: sensitive operations are allowed only after successful authentication.
+The canonical specification is [examples/runtime-verification/auth-before-sensitive/auth-before-sensitive.lola](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/runtime-verification/auth-before-sensitive/auth-before-sensitive.lola), with [examples/runtime-verification/auth-before-sensitive/normal.csv](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/runtime-verification/auth-before-sensitive/normal.csv) and [examples/runtime-verification/auth-before-sensitive/violation.csv](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/runtime-verification/auth-before-sensitive/violation.csv) as the two traces.
+The expected contracts are pinned separately in [examples/runtime-verification/auth-before-sensitive/expected-normal.json](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/runtime-verification/auth-before-sensitive/expected-normal.json) and [examples/runtime-verification/auth-before-sensitive/expected-violation.json](https://github.com/itdojp/formal-methods-book/blob/{{site.github.build_revision|default:'main'}}/examples/runtime-verification/auth-before-sensitive/expected-violation.json).
+
+The core property remembers whether authentication has been observed and triggers when a sensitive operation occurs before that state becomes true.
+
+```text
+output authenticated: Bool := auth_success || authenticated.offset(by: -1).defaults(to: false)
+trigger sensitive_operation && !authenticated "AUTH_BEFORE_SENSITIVE violated"
+```
+
+This teaching contract pins RTLola CLI 0.1.2, upstream commit `11b6bb080a5fa487645fb023fb3d0baea6874e73`, and Rust 1.87.0, and checks an offline relative-seconds CSV trace.
+The normal case expects zero violations, while the violating case expects one trigger at one second; an independent validator in the wrapper derives the same verdict again from the source trace.
+Normalized `results.json`, `violation-report.json`, and `summary.log` retain input hashes, tool provenance, the finite-trace boundary, assumptions, and the verdict, but do not retain the tool binary or raw operational logs.
+
+- `rtlola-auth-before-sensitive-normal`: run the normal trace and expected result from assets in the same revision; lane `nightly`.
+<!-- example-contract: rtlola-auth-before-sensitive-normal -->
+【Tool-compliant (runs as-is)】
+```bash
+node scripts/run-example-manifest.js --id rtlola-auth-before-sensitive-normal
+```
+
+- `rtlola-auth-before-sensitive-violation`: rerun the violating trace as an expected counterexample contract rather than an unexpected CI incident; lane `nightly`.
+<!-- example-contract: rtlola-auth-before-sensitive-violation -->
+【Tool-compliant (runs as-is)】
+```bash
+node scripts/run-example-manifest.js --id rtlola-auth-before-sensitive-violation
+```
+
+The assumptions of this minimal example are deliberately narrow.
+
+- Events have strictly ascending `time`; equal timestamps and reordering are rejected.
+- The schema is exactly `auth_success,sensitive_operation,time`; missing, unknown, or duplicate columns are rejected.
+- Each row is a complete event, and authentication and the sensitive operation cannot both be true in the same row.
+- One relative clock is used, so clock skew is outside this example.
+- The three-event teaching trace is completely collected; production sampling, delivery delay, retries, duplicates, session changes, and logout are outside the model.
+- A wholly missing event cannot be detected from this trace alone; production systems need separate sequence-number, heartbeat, and ingestion-completeness contracts.
+
+**Online monitoring** can decide on each event with low latency, but it requires explicit fail-open/fail-closed behavior, backpressure policy, reordering logic, and state recovery.
+**Offline monitoring** is easier to rerun deterministically in CI, audits, and post-incident analysis, but detection and response are delayed.
+This book therefore puts a fixed offline trace in nightly CI and leaves a production online connection as an environment-specific design task.
+
+Before production adoption, load-test the monitor's CPU, memory, and I/O overhead together with sampling, backpressure, and retained state.
+Do not put authentication identifiers, prompts, personal data, or confidential payloads directly into verification artifacts; define minimization, pseudonymization, access control, retention, and deletion rules.
+Fail-closed enforcement can turn a monitor failure into an availability incident, while fail-open enforcement permits operations when checking is unavailable, so each property needs a risk owner, degraded mode, manual intervention path, and audit record.
+A monitor violation is an input to incident response; by itself it does not establish the cause, a successful attack, or the full customer impact.
 
 ## 11.4 Collaboration in Team Development
 

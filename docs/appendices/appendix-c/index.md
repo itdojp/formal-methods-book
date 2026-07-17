@@ -234,3 +234,22 @@ SymbiYosysは、RTLとpropertyをYosysで形式模型へ変換し、指定した
 
 `assert`が`PASS`しても、強すぎる`assume`が欠陥traceを除外していれば主張は空虚になり得る。
 同時requestのような重要環境条件を`cover`で到達確認し、到達不能なcoverを安全性成功と同一視しない。
+
+### C.3.12 RTLola：runtime verificationの最小対応
+
+runtime verificationは、設計modelの全behavior探索ではなく、instrumentationから得たevent traceをpropertyへ照合する。
+次の表は第11章のauthentication例を読むための対応であり、RTLola言語やstream処理全体の構文表ではない。
+
+| runtime verification概念 | 第11章例での表現 | 検査上の意味 | 証跡として残すこと |
+| --- | --- | --- | --- |
+| input event field | `auth_success`、`sensitive_operation`、`time` | CSV rowからmonitorへ渡す観測値 | schema、単位、型、欠落方針 |
+| derived state / output stream | `authenticated` | 過去の認証成功を保持するmonitor状態 | 初期値、更新式、session境界 |
+| previous value | `offset(by: -1).defaults(to: false)` | 直前eventのmonitor状態と初期値 | offset意味論、trace始端 |
+| trigger | 未認証時の機密操作 | safety property違反のverdict | 時刻、message、property ID |
+| finite trace | 3 rowの相対時刻CSV | 観測された有限prefixだけを検査 | 最初/最後の時刻、row数、入力hash |
+| online / offline | 本例は`--offline relative-float-secs` | 保存traceを決定的に再実行 | mode、clock、ordering、tool version |
+| no violation | 正常traceの0件 | 対象prefixで違反を検出しなかった | 未観測runを保証しない旨 |
+| expected violation | 違反traceの1件 | monitorが既知の違反を検出した | 独立導出した期待結果との照合 |
+
+LTLの無限trace上の`G`や`F`を有限logへそのまま移すのではなく、終端時の`true` / `false` / inconclusive、期限、欠測の扱いを定める。
+eventが収集されなければmonitorはその事実を自動的に知れないため、observabilityとmonitorabilityをpropertyそのものから分離して評価する。

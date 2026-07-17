@@ -6,13 +6,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/appendices/appendix-f.md"
 translation_status: "partial"
-translation_source_commit: "f71c3a404722bd8980aec02ec09e6643ea7a4c01"
+translation_source_commit: "abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4"
 translation_reviewed_at: "2026-07-16"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Appendix F: Practical Playbook for AI-Assisted Formal Methods
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`f71c3a404722`](https://github.com/itdojp/formal-methods-book/commit/f71c3a404722bd8980aec02ec09e6643ea7a4c01) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`abf0ec3d6e65`](https://github.com/itdojp/formal-methods-book/commit/abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4) on 2026-07-16.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 This appendix is a **reader-facing playbook** for using AI assistance without weakening formal assurance. Use it after Chapters 8–12 when you want to turn the book's main argument into a repeatable workflow: let AI draft, let tools judge, and keep the evidence needed for re-verification and review.  
@@ -228,3 +228,22 @@ responsibilities and evidence separated in each PR.
 Turn counterexamples found by formal methods into test cases, and treat defects
 found by tests as possible missing specifications or invariants. Do not use
 only one of them as the final basis for quality assurance.
+
+## F.11 Truth Boundary When an LLM Handles Runtime-Monitor Evidence
+
+An LLM can help summarize a long violation report, prepare stakeholder-facing explanations, propose investigation hypotheses, and suggest additional properties.
+The factual basis for runtime verification must nevertheless remain the **monitor property, source trace, pinned-tool verdict, and independent-validator result from the same revision**.
+An LLM-generated sentence such as “zero violations” or “a violation occurred at one second” is not a substitute for the monitor output or source trace.
+
+Keep at least these layers separate.
+
+| Layer | Treatment | Authority |
+| --- | --- | --- |
+| Observed events | Review ordering, timestamps, missing data, duplicates, and sampling | Access-controlled source trace and its hash |
+| Property | Review triggers, windows, deadlines, and finite-trace termination | Reviewed monitor specification and version |
+| Machine verdict | Distinguish violation, no violation, and inconclusive | Pinned-tool output, normalized result, and independent validator |
+| LLM interpretation | Draft summaries, causal hypotheses, and investigation steps | Untrusted derivative requiring human review and links to original evidence |
+
+If raw logs contain personal data, credentials, prompts, or business-confidential material, do not send them to an external LLM; apply minimization, pseudonymization, and access policy first.
+Do not ask an LLM to fill in missing events or invent plausible trace rows; preserve unknowns as unknowns.
+When an incident report uses an LLM summary, include the input hash, property ID, tool version, artifact URL, and reviewer so that the original reproducible evidence remains reachable.

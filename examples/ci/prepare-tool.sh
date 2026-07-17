@@ -33,6 +33,14 @@ case "$tool" in
     sudo apt-get update
     sudo apt-get install --yes build-essential m4
     ;;
+  rtlola)
+    command -v rustup >/dev/null 2>&1 || {
+      echo 'RTLola nightly lane requires rustup on the runner.' >&2
+      exit 2
+    }
+    sudo apt-get update
+    sudo apt-get install --yes build-essential
+    ;;
   alloy|tlc|apalache|dafny|cbmc|quint|prism|tamarin|sby)
     ;;
   *)

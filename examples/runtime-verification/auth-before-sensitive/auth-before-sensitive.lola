@@ -1,0 +1,6 @@
+input auth_success: Bool
+input sensitive_operation: Bool
+input time: Float64
+
+output authenticated: Bool := auth_success || authenticated.offset(by: -1).defaults(to: false)
+trigger sensitive_operation && !authenticated "AUTH_BEFORE_SENSITIVE violated"
