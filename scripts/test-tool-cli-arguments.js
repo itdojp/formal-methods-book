@@ -296,7 +296,7 @@ const { manifest: validToolManifest } = loadToolManifest(repoRoot);
   const rtlola = fixture.tools.find((tool) => tool.id === 'rtlola');
   rtlola.cargoLockSha256 = 'invalid';
   const errors = validateToolManifest(fixture, { rootDir: repoRoot, checkFiles: false });
-  if (!errors.some((error) => error.message.includes('cargoLockSha256'))) {
+  if (!errors.some((error) => error.message.endsWith('cargoLockSha256 は64桁 lowercase hex である必要があります'))) {
     throw new Error('RTLola manifest accepted an invalid Cargo.lock digest');
   }
 }
