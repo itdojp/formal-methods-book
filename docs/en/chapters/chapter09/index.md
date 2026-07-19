@@ -6,13 +6,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/chapters/chapter09.md"
 translation_status: "partial"
-translation_source_commit: "83d031100ae7bcdeab03d28f072904bcff0d71ff"
-translation_reviewed_at: "2026-07-16"
+translation_source_commit: "ef10023d987a0371ab48b9afa113ce0143fcd343"
+translation_reviewed_at: "2026-07-19"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Chapter 9: Fundamentals of Theorem Proving
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`83d031100ae7`](https://github.com/itdojp/formal-methods-book/commit/83d031100ae7bcdeab03d28f072904bcff0d71ff) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`ef10023d987a`](https://github.com/itdojp/formal-methods-book/commit/ef10023d987a0371ab48b9afa113ce0143fcd343) on 2026-07-19.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 ## 9.1 Mechanizing Proof: Cooperation Between Mathematicians and Computers
@@ -806,9 +806,19 @@ Rocq (formerly Coq) is a proof assistant developed at INRIA in France. It is
 based on the Calculus of Constructions and treats mathematical proof and
 program development in one framework.
 
-Its main characteristic is that proofs and programs are written in the same
-language, and a type checker verifies the proof automatically. This eliminates
-entire classes of proof errors that would remain possible in handwritten work.
+Rocq expresses proofs and programs in the same language. Tactics and other
+automation construct proof terms, and the kernel type-checks them. Kernel
+acceptance conditionally guarantees that, under the foundational logic and
+current logical environment, the proof term has the theorem statement as its
+type. This detects invalid inference steps, but it does not unconditionally
+eliminate proof bugs.
+
+The remaining review boundary includes whether the statement and definitions
+capture the intended requirement, whether `Axiom` or `Parameter` assumptions
+are justified, and whether any `Admitted` proof remains. For plugins and
+external solvers, verify that the path returns a proof term that the kernel
+rechecks. Claims about an extracted program also depend on the extractor,
+user-supplied implementations, compiler, and runtime.
 
 ### Building Basic Proofs
 
@@ -832,6 +842,23 @@ This proof uses:
 - `intros` to introduce assumptions
 - `apply` to use an implication or a known theorem
 - `exact` to provide an already matching proof
+
+#### Checking Kernel Acceptance and Residual Assumptions
+
+In Rocq 9.0.0, [`Print Assumptions`](https://rocq-prover.org/doc/V9.0.0/refman/proof-engine/vernacular-commands.html)
+lists the axioms, parameters, and variables on which a theorem or definition
+depends.
+
+```coq
+Print Assumptions implication_transitivity.
+```
+
+For this self-contained theorem, the expected result is
+`Closed under the global context`. If the output lists `Axioms:` or other
+dependencies, check whether each one is permitted or comes from an unfinished
+`Admitted` proof, and retain the output as release evidence. An empty list of
+dependencies does not establish that the statement and definitions capture
+the requirement, nor does it guarantee the behavior of an extracted program.
 
 **Commutativity of conjunction**:
 

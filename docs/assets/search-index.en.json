@@ -3,7 +3,7 @@
   "project": "formal-methods-book",
   "projectVersion": "1.1.0",
   "locale": "en",
-  "entryCount": 1158,
+  "entryCount": 1160,
   "entries": [
     {
       "id": "86609783ffbbee21",
@@ -6706,7 +6706,7 @@
       "chapter": "Chapter 9: Fundamentals of Theorem Proving",
       "heading": "Chapter 9: Fundamentals of Theorem Proving",
       "url": "/formal-methods-book/en/chapters/chapter09/#chapter-9-fundamentals-of-theorem-proving",
-      "text": "Translation status: Partial. Reviewed against Japanese source commit 83d031100ae7 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work.",
+      "text": "Translation status: Partial. Reviewed against Japanese source commit ef10023d987a on 2026-07-19. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work.",
       "aliases": []
     },
     {
@@ -7213,7 +7213,7 @@
       "chapter": "Chapter 9: Fundamentals of Theorem Proving",
       "heading": "Rocq (Formerly Coq): A Proof Assistant Based on the Calculus of Constructions",
       "url": "/formal-methods-book/en/chapters/chapter09/#rocq-formerly-coq-a-proof-assistant-based-on-the-calculus-of-constructions",
-      "text": "Rocq (formerly Coq) is a proof assistant developed at INRIA in France. It is based on the Calculus of Constructions and treats mathematical proof and program development in one framework. Its main characteristic is that proofs and programs are written in the same language, and a type checker verifies the proof automatically. This eliminates entire classes of proof errors that would remain possible in handwritten work.",
+      "text": "Rocq (formerly Coq) is a proof assistant developed at INRIA in France. It is based on the Calculus of Constructions and treats mathematical proof and program development in one framework. Rocq expresses proofs and programs in the same language. Tactics and other automation construct proof terms, and the kernel type-checks them. Kernel acceptance conditionally guarantees that, under the foundational logic and current logical environment, the proof term has the theorem statement as its type. This detects invalid inference steps, but it does not unconditionally eliminate proof bugs. The remaining review boundary includes whether the statement and definitions capture the intended requirement, whether Axiom or Parameter assumptions are justified, and whether any Admitted proof remains. For plugins and external solvers, verify that the path returns a proof term that the kernel rechecks. Claims about an extracted program also depend on the extractor, user-supplied implementations, compiler, and runtime.",
       "aliases": [
         "The Rocq Prover"
       ]
@@ -7227,11 +7227,26 @@
       "chapter": "Chapter 9: Fundamentals of Theorem Proving",
       "heading": "Building Basic Proofs",
       "url": "/formal-methods-book/en/chapters/chapter09/#building-basic-proofs",
-      "text": "It is useful to begin with very small logical examples. Transitivity of implication: This proof uses: intros to introduce assumptions apply to use an implication or a known theorem exact to provide an already matching proof Commutativity of conjunction: The pattern [HP HQ] destructures a conjunction into its components.",
+      "text": "It is useful to begin with very small logical examples. Transitivity of implication: This proof uses: intros to introduce assumptions apply to use an implication or a known theorem exact to provide an already matching proof",
       "aliases": []
     },
     {
-      "id": "2bbb5f75d657beb0",
+      "id": "c4a281bf38f1d96d",
+      "locale": "en",
+      "pageId": "chapter09",
+      "section": "chapters",
+      "title": "Checking Kernel Acceptance and Residual Assumptions",
+      "chapter": "Chapter 9: Fundamentals of Theorem Proving",
+      "heading": "Checking Kernel Acceptance and Residual Assumptions",
+      "url": "/formal-methods-book/en/chapters/chapter09/#checking-kernel-acceptance-and-residual-assumptions",
+      "text": "In Rocq 9.0.0, Print Assumptions lists the axioms, parameters, and variables on which a theorem or definition depends. For this self-contained theorem, the expected result is Closed under the global context. If the output lists Axioms: or other dependencies, check whether each one is permitted or comes from an unfinished Admitted proof, and retain the output as release evidence. An empty list of dependencies does not establish that the statement and definitions capture the requirement, nor does it guarantee the behavior of an extracted program. Commutativity of conjunction: The pattern [HP HQ] destructures a conjunction into its components.",
+      "aliases": [
+        "Coq",
+        "The Rocq Prover"
+      ]
+    },
+    {
+      "id": "c2f9783824e3e8fc",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7243,7 +7258,7 @@
       "aliases": []
     },
     {
-      "id": "cfead2f892987439",
+      "id": "dc2913675ace1eea",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7258,7 +7273,7 @@
       ]
     },
     {
-      "id": "9620c03ee20880aa",
+      "id": "a2e007b7ec57b609",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7270,7 +7285,7 @@
       "aliases": []
     },
     {
-      "id": "65c27fc8873f4349",
+      "id": "5bfc41056e36076b",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7282,7 +7297,7 @@
       "aliases": []
     },
     {
-      "id": "f253ed982659833d",
+      "id": "83f7807e67204818",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7297,7 +7312,7 @@
       ]
     },
     {
-      "id": "94e2b134fe7e7ddc",
+      "id": "1a851af76f6bad54",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7309,7 +7324,7 @@
       "aliases": []
     },
     {
-      "id": "bcf87aab5db6b5dc",
+      "id": "88bcecca77b7b329",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7324,7 +7339,7 @@
       ]
     },
     {
-      "id": "4af80b01ac5a6603",
+      "id": "0f940836e2e5d7ff",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7336,7 +7351,7 @@
       "aliases": []
     },
     {
-      "id": "3de96030f62afc20",
+      "id": "dd716b1fd06e26c4",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7348,7 +7363,7 @@
       "aliases": []
     },
     {
-      "id": "f49c68f4d3202015",
+      "id": "aedb37bc30386f4a",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7360,7 +7375,7 @@
       "aliases": []
     },
     {
-      "id": "7cb49b2d145bdb31",
+      "id": "f699bb5a97800b54",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7372,7 +7387,7 @@
       "aliases": []
     },
     {
-      "id": "2d6fae4fae61213d",
+      "id": "c1a67f716cc9d621",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7384,7 +7399,7 @@
       "aliases": []
     },
     {
-      "id": "030f9e3bd17b1181",
+      "id": "5c262f6add770d97",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7396,7 +7411,7 @@
       "aliases": []
     },
     {
-      "id": "a809717d86c68348",
+      "id": "8627acdca8f7e99b",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7408,7 +7423,7 @@
       "aliases": []
     },
     {
-      "id": "f3aee1f4e9366983",
+      "id": "35d4d442f6550cfb",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7420,7 +7435,7 @@
       "aliases": []
     },
     {
-      "id": "2fe7fe1eff353196",
+      "id": "495cd223e5d14131",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7435,7 +7450,7 @@
       ]
     },
     {
-      "id": "fea88f79ee92d83b",
+      "id": "78f2e1012093540b",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7447,7 +7462,7 @@
       "aliases": []
     },
     {
-      "id": "85c09041a1f249cd",
+      "id": "2be3abb3d28cd374",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7459,7 +7474,7 @@
       "aliases": []
     },
     {
-      "id": "87a0e3daca299f2a",
+      "id": "a83582b0ca0f8ded",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7471,7 +7486,7 @@
       "aliases": []
     },
     {
-      "id": "dff7d69d0f3f847c",
+      "id": "d0bd4aaf88081346",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7483,7 +7498,7 @@
       "aliases": []
     },
     {
-      "id": "ff007dda78907d58",
+      "id": "8b6ce1a68de7ad2c",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7495,7 +7510,7 @@
       "aliases": []
     },
     {
-      "id": "738e81c76f68e7f6",
+      "id": "9c84e1e6b9c39181",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7510,7 +7525,7 @@
       ]
     },
     {
-      "id": "f3e9f44ee93347ad",
+      "id": "dec7bcbc605ec563",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7522,7 +7537,7 @@
       "aliases": []
     },
     {
-      "id": "4486e932c3fddf2b",
+      "id": "b31fde6d040840df",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7534,7 +7549,7 @@
       "aliases": []
     },
     {
-      "id": "7976e576da329898",
+      "id": "d763d0efced74ef9",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7546,7 +7561,7 @@
       "aliases": []
     },
     {
-      "id": "ec776068909df7fa",
+      "id": "6ff4cf265f14ed02",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7558,7 +7573,7 @@
       "aliases": []
     },
     {
-      "id": "671a00713e5ba8b1",
+      "id": "e7756a838364f4e3",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7570,7 +7585,7 @@
       "aliases": []
     },
     {
-      "id": "1d984a18027bb9de",
+      "id": "24315e5cbc232fa4",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7582,7 +7597,7 @@
       "aliases": []
     },
     {
-      "id": "1060b360849cd32d",
+      "id": "fc5fa583557038f2",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7594,7 +7609,7 @@
       "aliases": []
     },
     {
-      "id": "b4238bbec857a8c1",
+      "id": "108fe17ccefdfc4d",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7606,7 +7621,7 @@
       "aliases": []
     },
     {
-      "id": "92422f20cc215a01",
+      "id": "32c24e328c89b59c",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7618,7 +7633,7 @@
       "aliases": []
     },
     {
-      "id": "e5f97f914df47387",
+      "id": "4263ac64f10a6c48",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7630,7 +7645,7 @@
       "aliases": []
     },
     {
-      "id": "d1aad6423a16c4a8",
+      "id": "c117914b5bb437fd",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7642,7 +7657,7 @@
       "aliases": []
     },
     {
-      "id": "1d9e0692205172b1",
+      "id": "f1c1cde64987ffdb",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7657,7 +7672,7 @@
       ]
     },
     {
-      "id": "b28da7ef1298dd93",
+      "id": "d7e386de3914e1ac",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7669,7 +7684,7 @@
       "aliases": []
     },
     {
-      "id": "e8033c65ca39ece0",
+      "id": "f551e00be1646a4d",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7681,7 +7696,7 @@
       "aliases": []
     },
     {
-      "id": "e603285be485de4b",
+      "id": "58f62f6cae054532",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7693,7 +7708,7 @@
       "aliases": []
     },
     {
-      "id": "b2aad748d67ce439",
+      "id": "12ac27ae6e880664",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7705,7 +7720,7 @@
       "aliases": []
     },
     {
-      "id": "cb91f04cfe50cc5a",
+      "id": "d714cc2402a40730",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7717,7 +7732,7 @@
       "aliases": []
     },
     {
-      "id": "ec591e81f68a178e",
+      "id": "06803cc2b6ac954d",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7729,7 +7744,7 @@
       "aliases": []
     },
     {
-      "id": "19ec3378188651a9",
+      "id": "7dd8d5a8eba6c1c7",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7741,7 +7756,7 @@
       "aliases": []
     },
     {
-      "id": "72d1eb4078987b06",
+      "id": "9ad135323a0163db",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7755,7 +7770,7 @@
       ]
     },
     {
-      "id": "9ac411bdee422809",
+      "id": "a2b8df8f81903b44",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7767,7 +7782,7 @@
       "aliases": []
     },
     {
-      "id": "918ebe1a27a307d2",
+      "id": "77612de0ac4a28da",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7781,7 +7796,7 @@
       ]
     },
     {
-      "id": "a3d2fc3d5fc2367c",
+      "id": "fac3460d868910e2",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7793,7 +7808,7 @@
       "aliases": []
     },
     {
-      "id": "c75b45f193cb3784",
+      "id": "0c43f0ef9c1e9964",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7805,7 +7820,7 @@
       "aliases": []
     },
     {
-      "id": "39e2ad43bd811dec",
+      "id": "e621fec3a98a16eb",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7820,7 +7835,7 @@
       ]
     },
     {
-      "id": "cc590e4e602220ba",
+      "id": "247be1065be5b60c",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7835,7 +7850,7 @@
       ]
     },
     {
-      "id": "847b7dc249d525cf",
+      "id": "0a4325b37d19d389",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7850,7 +7865,7 @@
       ]
     },
     {
-      "id": "25765e33c0713ff3",
+      "id": "c5240d3ae5819ac5",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7862,7 +7877,7 @@
       "aliases": []
     },
     {
-      "id": "6867a0fa7522c3d0",
+      "id": "c8eee6ca46b7c8db",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7874,7 +7889,7 @@
       "aliases": []
     },
     {
-      "id": "d48eb4f5b801f46e",
+      "id": "7af7c5cf72b79f2b",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7886,7 +7901,7 @@
       "aliases": []
     },
     {
-      "id": "a64253267fc3b9f1",
+      "id": "8691ef341c5e6598",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7898,7 +7913,7 @@
       "aliases": []
     },
     {
-      "id": "fa81659b246104ae",
+      "id": "2b4ccc1efa426719",
       "locale": "en",
       "pageId": "chapter09",
       "section": "chapters",
@@ -11093,7 +11108,7 @@
       "chapter": "Glossary",
       "heading": "Glossary",
       "url": "/formal-methods-book/en/glossary/#glossary",
-      "text": "Translation status: Partial. Reviewed against Japanese source commit abf0ec3d6e65 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This glossary collects technical terms and abbreviations that appear repeatedly throughout the book. The definitions prioritize the way each term is used in this book. When stricter distinctions matter, refer to the appendices or to primary sources.",
+      "text": "Translation status: Partial. Reviewed against Japanese source commit ef10023d987a on 2026-07-19. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This glossary collects technical terms and abbreviations that appear repeatedly throughout the book. The definitions prioritize the way each term is used in this book. When stricter distinctions matter, refer to the appendices or to primary sources.",
       "aliases": []
     },
     {
@@ -11944,7 +11959,7 @@
       "chapter": "Glossary",
       "heading": "Rocq",
       "url": "/formal-methods-book/en/glossary/#glossary-rocq",
-      "text": "The proof assistant formerly known as Coq. It is based on type theory and is used in this book as a representative environment for mechanized proofs. See Chapters 9, 10, and Appendix E.",
+      "text": "The proof assistant formerly known as Coq. Its kernel type-checks proof terms constructed by tactics and other automation in the current logical environment. Print Assumptions inventories dependent axioms and assumptions; statement adequacy and extracted programs require separate review. See Chapters 9, 10, and Appendix E.",
       "aliases": [
         "The Rocq Prover"
       ]
@@ -11998,7 +12013,22 @@
       "aliases": []
     },
     {
-      "id": "c541d72a3895a0ce",
+      "id": "d6c1ed0a41b1d7b3",
+      "locale": "en",
+      "pageId": "glossary",
+      "section": "special",
+      "title": "Sorry / admit",
+      "chapter": "Glossary",
+      "heading": "Sorry / admit",
+      "url": "/formal-methods-book/en/glossary/#glossary-sorry--admit",
+      "text": "Mechanisms such as Lean sorry / admit and Rocq Admitted that temporarily close a proof with an axiom-like hole. In Rocq, inspect the dependency with Print Assumptions; CI should reject it or record a time-bounded exception. See Chapters 9 and 12 and Appendix F.",
+      "aliases": [
+        "Coq",
+        "The Rocq Prover"
+      ]
+    },
+    {
+      "id": "7f59f655ef5d1fb0",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12010,7 +12040,7 @@
       "aliases": []
     },
     {
-      "id": "3858f097a5c16f11",
+      "id": "3cd5e4b77d088140",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12025,7 +12055,7 @@
       ]
     },
     {
-      "id": "9c4db0bacc8c4de3",
+      "id": "7bc30646169ad4a7",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12037,7 +12067,7 @@
       "aliases": []
     },
     {
-      "id": "5a4bdd92e8a3d8f6",
+      "id": "37df06db131f65de",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12049,7 +12079,7 @@
       "aliases": []
     },
     {
-      "id": "72d04ab9edb8cd3a",
+      "id": "31d4759ed1696e3f",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12061,7 +12091,7 @@
       "aliases": []
     },
     {
-      "id": "577be41780f97cb9",
+      "id": "7b6bb688491936af",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12073,7 +12103,7 @@
       "aliases": []
     },
     {
-      "id": "b501f16fdd995729",
+      "id": "e49aca0d041c9b99",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12085,7 +12115,7 @@
       "aliases": []
     },
     {
-      "id": "d6c2c69c6cb42f9b",
+      "id": "c8dd339af6a51e44",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12097,7 +12127,7 @@
       "aliases": []
     },
     {
-      "id": "138b706067de5989",
+      "id": "8c807236c4631001",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12109,7 +12139,7 @@
       "aliases": []
     },
     {
-      "id": "90fc69c114947f9a",
+      "id": "9e3e0afdf917e4d8",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12125,7 +12155,7 @@
       ]
     },
     {
-      "id": "dce946b5bd26075d",
+      "id": "1ba25e926899ee1f",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12137,7 +12167,7 @@
       "aliases": []
     },
     {
-      "id": "9a4c26af31c71a6b",
+      "id": "e74d5fd52721901f",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12149,7 +12179,7 @@
       "aliases": []
     },
     {
-      "id": "3b6433d4005c78fc",
+      "id": "19ef2a35786e6f2a",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12163,7 +12193,7 @@
       ]
     },
     {
-      "id": "d0fc23dd77339bad",
+      "id": "786e072b85f9d5cf",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12177,7 +12207,7 @@
       ]
     },
     {
-      "id": "2218eb0cef17d9c0",
+      "id": "fbd6bebc25caa864",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12189,7 +12219,7 @@
       "aliases": []
     },
     {
-      "id": "380f40813b1e89c6",
+      "id": "9d80dd3d7d73265d",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12203,7 +12233,7 @@
       ]
     },
     {
-      "id": "a474952acf395281",
+      "id": "9d540a2b1e7bcb07",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12211,11 +12241,11 @@
       "chapter": "Glossary",
       "heading": "Trusted kernel",
       "url": "/formal-methods-book/en/glossary/#glossary-trusted-kernel",
-      "text": "The small core that checks proof terms under the foundational logic and current environment. The wider trusted computing base can also include added axioms, unfinished holes, unchecked solver paths, extraction, and code generation. See Chapter 9.",
+      "text": "The small core that checks whether a proof term has the theorem statement as its type under the foundational logic and current environment. Acceptance does not establish statement adequacy; added axioms, unfinished holes, unchecked solver paths, extraction, and code generation form additional trust boundaries. See Chapter 9.",
       "aliases": []
     },
     {
-      "id": "e91c38e5c0eac786",
+      "id": "95017c45e6590061",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12227,7 +12257,7 @@
       "aliases": []
     },
     {
-      "id": "4c5001799cbee686",
+      "id": "15e35970bc8bd046",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12239,7 +12269,7 @@
       "aliases": []
     },
     {
-      "id": "967d35a452c50f4f",
+      "id": "008a2ca1dc69dbaf",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12251,7 +12281,7 @@
       "aliases": []
     },
     {
-      "id": "95df75824f42d58d",
+      "id": "6642cc7d50138ddf",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12266,7 +12296,7 @@
       ]
     },
     {
-      "id": "2d732d22238899ad",
+      "id": "5d64f9ea7c5226dc",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12278,7 +12308,7 @@
       "aliases": []
     },
     {
-      "id": "f382e77d1a90346d",
+      "id": "7bf302a34b804712",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12290,7 +12320,7 @@
       "aliases": []
     },
     {
-      "id": "a147343c81f2cd95",
+      "id": "9e509789f13bd983",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12302,7 +12332,7 @@
       "aliases": []
     },
     {
-      "id": "fed136ef6bed3e31",
+      "id": "8f2ddf265898a20c",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12314,7 +12344,7 @@
       "aliases": []
     },
     {
-      "id": "665c44814552b09a",
+      "id": "792c58e5a7b9c991",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",
@@ -12326,7 +12356,7 @@
       "aliases": []
     },
     {
-      "id": "1cb12087f441327c",
+      "id": "3886dc65c93a8113",
       "locale": "en",
       "pageId": "glossary",
       "section": "special",

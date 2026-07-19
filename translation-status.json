@@ -189,14 +189,14 @@
     "chapters/chapter09.md": {
       "source_path": "src/ja/chapters/chapter09.md",
       "translation_path": "src/en/chapters/chapter09.md",
-      "source_commit": "83d031100ae7bcdeab03d28f072904bcff0d71ff",
-      "translated_commit": "f95634f31d9623c3212d6b9849679178e77fee78",
-      "source_sha256": "42cf85d6a9dfe7fcd53ceb782b8edf9c6870dfbc3e6bb0147870cde176095a59",
-      "translation_sha256": "c5fc349f95067e21fc329559389e4cc78fef266a071fbf42960817bf96202131",
+      "source_commit": "ef10023d987a0371ab48b9afa113ce0143fcd343",
+      "translated_commit": "ef10023d987a0371ab48b9afa113ce0143fcd343",
+      "source_sha256": "af2c8f64e9ccff4c888c14b2c5d1355c1c1b8ec0fe4eb44e741d980c678b8eb2",
+      "translation_sha256": "295b17c3ac9b283f5812a9c9ab90ee399b08cbf78e64ebc0e0b4cf514c1a50e3",
       "status": "partial",
-      "reviewed_at": "2026-07-16",
+      "reviewed_at": "2026-07-19",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "Section 9.7 and later proof-assistant coverage requires semantic reconciliation; heading level/order differs; code fence count/language sequence differs; strict tool-compliance label category counts differ; 1 Japanese external reference link(s) are absent from English"
+      "notes": "Issue #355 Rocq kernel-assurance and Print Assumptions guidance synchronized; existing Section 9.7+ semantics, heading level/order, code-fence sequence, strict tool-label, and external-link differences remain tracked by #328."
     },
     "chapters/chapter10.md": {
       "source_path": "src/ja/chapters/chapter10.md",
@@ -249,14 +249,14 @@
     "glossary/index.md": {
       "source_path": "src/ja/glossary/index.md",
       "translation_path": "src/en/glossary/index.md",
-      "source_commit": "abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4",
-      "translated_commit": "abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4",
-      "source_sha256": "99ba8cec00e4213b7eeca1ec8de7e9ecdf4c2fa6f119dd1a567296c38f0f54fc",
-      "translation_sha256": "6da3e66649503054888123dcbac198cf5e819bf3b710535cd9380c8da257038b",
+      "source_commit": "ef10023d987a0371ab48b9afa113ce0143fcd343",
+      "translated_commit": "ef10023d987a0371ab48b9afa113ce0143fcd343",
+      "source_sha256": "e4e75e6e510d0c60a8e2471ac45f24af86e4b4c1483fa8328b5526f1cb93cd0a",
+      "translation_sha256": "0e21fbcc29e4c123b7d9ed55130e5d4625c172807b99cf7b2e364362c928a4d1",
       "status": "partial",
-      "reviewed_at": "2026-07-16",
+      "reviewed_at": "2026-07-19",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "Runtime verification, runtime assertion, finite-trace semantics, observability, monitorability, and RTLola definitions plus prior certificate and verification terms were semantically reviewed across JA/EN; pre-existing heading-structure differences remain"
+      "notes": "Issue #355 Rocq, unfinished-proof, and trusted-kernel definitions synchronized, along with prior reviewed verification terms; pre-existing heading-structure differences remain tracked by #328."
     },
     "index.md": {
       "source_path": "src/ja/index.md",
