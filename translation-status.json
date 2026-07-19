@@ -69,14 +69,14 @@
     "appendices/appendix-e.md": {
       "source_path": "src/ja/appendices/appendix-e.md",
       "translation_path": "src/en/appendices/appendix-e.md",
-      "source_commit": "933055b73cece5a69931e07d8ca8413ddae18fcf",
-      "translated_commit": "933055b73cece5a69931e07d8ca8413ddae18fcf",
-      "source_sha256": "c35449c1ed3a81764830412530b0b326c7f7371e31edb0cda3a33071ef1d2774",
+      "source_commit": "269d1c49b552ec49cc7867361aa28239c82d0885",
+      "translated_commit": "269d1c49b552ec49cc7867361aa28239c82d0885",
+      "source_sha256": "decf8f5bbe2363a50be1fa3be339eed5301022a40e5f33209687da6ffa87b5ab",
       "translation_sha256": "2d74199b4b6db69af771fcfb101f6f503571ef4f891d393b20abab78c69838e4",
       "status": "partial",
       "reviewed_at": "2026-07-19",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "The RTLola/MonPoly/RV-Monitor primary-source comparison, selection rationale, version/provenance, assurance boundary, and prior references were semantically reviewed across JA/EN. Issue #357 synchronized the pinned SPIN CLI documentation reference. The broader appendix remains partial for heading differences and Japanese-only external references tracked by #328."
+      "notes": "The RTLola/MonPoly/RV-Monitor primary-source comparison, selection rationale, version/provenance, assurance boundary, and prior references were semantically reviewed across JA/EN. Issue #357 synchronized the pinned SPIN CLI documentation reference and normalized the Japanese option label after review. The broader appendix remains partial for heading differences and Japanese-only external references tracked by #328."
     },
     "appendices/appendix-f.md": {
       "source_path": "src/ja/appendices/appendix-f.md",
