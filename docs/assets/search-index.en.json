@@ -4287,7 +4287,7 @@
       "chapter": "Chapter 7: Specifying Time — Introduction to TLA+",
       "heading": "Chapter 7: Specifying Time — Introduction to TLA+",
       "url": "/formal-methods-book/en/chapters/chapter07/#chapter-7-specifying-time--introduction-to-tla",
-      "text": "Translation status: Partial. Reviewed against Japanese source commit 83d031100ae7 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work.",
+      "text": "Translation status: Partial. Reviewed against Japanese source commit 88e9512b3af9 on 2026-07-19. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work.",
       "aliases": [
         "TLA Plus"
       ]
@@ -5159,15 +5159,15 @@
       ]
     },
     {
-      "id": "1322ce743d588d03",
+      "id": "5196c2d47417910f",
       "locale": "en",
       "pageId": "chapter07",
       "section": "chapters",
-      "title": "Probabilistic or Sampling-Based Checking",
+      "title": "Randomized Defect Search with Simulation",
       "chapter": "Chapter 7: Specifying Time — Introduction to TLA+",
-      "heading": "Probabilistic or Sampling-Based Checking",
-      "url": "/formal-methods-book/en/chapters/chapter07/#probabilistic-or-sampling-based-checking",
-      "text": "For very large state spaces, exhaustive checking may be impractical. In such cases, bounded or sampling-oriented approaches may be used operationally, even though their guarantees differ from exhaustive model checking. 【擬似記法】",
+      "heading": "Randomized Defect Search with Simulation",
+      "url": "/formal-methods-book/en/chapters/chapter07/#randomized-defect-search-with-simulation",
+      "text": "For a large state space, TLC model checking may not finish exploring the state graph of the configured finite model. TLC simulation mode instead chooses one enabled successor pseudo-randomly at each step and repeatedly generates behaviors with a bounded length to search for violations and counterexamples. Simulation is neither exhaustive model checking nor probabilistic model checking. Aspect · Model checking · Simulation --- · --- · --- Exploration · Systematically explores reachable states and behaviors of the configured finite model · Generates pseudo-random behaviors from a seed Completion · Finishes the state graph and the configured property checks; timeout, resource exhaustion, or an incomplete run is not success · Bounds each behavior with -depth; repository-pinned v1.7.4 uses num to set an upper bound on the total number of generated behaviors Meaning of no counterexample · Only after completion, no violation was found within the configured finite model, properties, constraints, fairness, and TLC settings · No violation was observed in the run identified by its seed, aril, depth, and number of generated behaviors Primary use · Exhaustive checking within a finite model · Early defect and counterexample search in a large state space The following CLI example targets TLA+ tools v1.7.4, which is pinned in this repository's tools/tool-manifest.json (checked on 2026-07-19). Simulation mode itself is selected with -simulate, not by .cfg entries such as CONSTRAINT or COVERAGE; the .cfg file still supplies constants, properties, constraints, and other model settings. Here, num=1000 is the upper bound on the total number of behaviors to generate, and -depth 100 is the maximum number of steps in each behavior. In v1.7.4, file is an absolute-path prefix for generated trace modules, so replace the placeholder with a writable absolute path. Preserve the complete command: -seed supplies the pseudo-random seed, and -aril is the seed adjustment for random simulation. Also preserve the tla2tools.jar version or SHA, the .cfg file, and the termination reason in the execution log. 【Context-dependent snippet】 Finding no counterexample in simulation does not prove the property. Record a result such as simulation-no-violation-observed together with its execution conditions instead of calling the specification \"verified.\" A guarantee claim requires a separately confirmed completed model-checking run, with its finite model, checked properties, constraints, fairness assumptions, and tool version. Primary sources are the pinned TLA+ tools v1.7.4 release, the TLC CLI descriptions pinned to the same release for -simulate, -depth, -seed, and -aril, and Lamport's Specifying Systems. Also check java -cp tla2tools.jar tlc2.TLC -help for the pinned v1.7.4 binary when reproducing the command.",
       "aliases": [
         "TLA Plus",
         "模型検査",

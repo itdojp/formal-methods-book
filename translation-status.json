@@ -165,14 +165,14 @@
     "chapters/chapter07.md": {
       "source_path": "src/ja/chapters/chapter07.md",
       "translation_path": "src/en/chapters/chapter07.md",
-      "source_commit": "83d031100ae7bcdeab03d28f072904bcff0d71ff",
-      "translated_commit": "f95634f31d9623c3212d6b9849679178e77fee78",
-      "source_sha256": "80e8ab56cd9f759327f2d2b86dad3eb099743062cc170dbbf47fdf29623042aa",
-      "translation_sha256": "a9184540e9b2323aaf8231b2f2875c337c3afef2be359dc8477c547bee1b36c6",
+      "source_commit": "88e9512b3af9d1a08184fa4a78edca2405e94636",
+      "translated_commit": "88e9512b3af9d1a08184fa4a78edca2405e94636",
+      "source_sha256": "ffe7e382484cf73cff6d034693d90d7057a8002bba387ac3c74428a671d0a3bd",
+      "translation_sha256": "3795d9ab330576250dceafc6bcba1681a1e569b86093c13862986ec7362d7bc2",
       "status": "partial",
-      "reviewed_at": "2026-07-16",
+      "reviewed_at": "2026-07-19",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "heading level/order differs; code fence count/language sequence differs; table count/column shape differs; strict tool-compliance label category counts differ"
+      "notes": "Issue #354 simulation section synchronized; existing heading level/order, code fence count/language sequence, table count/column shape, and strict tool-label category differences remain tracked by #328."
     },
     "chapters/chapter08.md": {
       "source_path": "src/ja/chapters/chapter08.md",

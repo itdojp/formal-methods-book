@@ -908,18 +908,33 @@ EventualProgress ≜
 \* Property EventualProgress is violated by the following behavior:
 ```
 
-### 確率的検証
+### simulationによるランダム欠陥探索
 
-大きな状態空間を持つシステムでは、完全な検証が困難な場合があります。TLC は、ランダムサンプリングによる確率的検証もサポートします。
+大きな状態空間では、TLC の model checking が指定した有限モデルの状態グラフを完走できない場合があります。TLC の simulation modeは、各stepで有効なsuccessorを擬似ランダムに1つ選び、長さに上限を持つbehaviorを繰り返し生成して、違反や反例を探すためのmodeです。simulation は、網羅的な model checking でも確率モデル検査でもありません。
+
+| 観点 | model checking | simulation |
+| --- | --- | --- |
+| 探索方式 | 指定した有限モデルのreachable stateとbehaviorを系統的に探索する | seedから擬似ランダムにbehaviorを生成する |
+| 完了条件 | state graphと対象propertyの検査を完走する。timeout、resource枯渇、未完走は成功ではない | 各behaviorは`-depth`で打ち切る。リポジトリで固定したv1.7.4では`num`で生成behavior総数の上限を指定する |
+| 反例なしの意味 | 完走時に限り、指定した有限モデル、property、constraint、fairness、TLC設定の範囲で違反がなかった | 記録したseed、aril、depth、生成behavior数の実行で違反を観測しなかっただけである |
+| 主用途 | 有限モデル内の網羅的検査 | 大きな状態空間での早期の欠陥・反例探索 |
+
+次は、このリポジトリの`tools/tool-manifest.json`で固定しているTLA+ tools v1.7.4を対象にしたCLI例です（2026-07-19確認）。simulation mode自体は`.cfg`の`CONSTRAINT`や`COVERAGE`ではなく`-simulate`で選択しますが、`.cfg`は引き続き定数、検査property、constraint等の設定を与えます。ここで`num=1000`は生成するbehavior総数の上限、`-depth 100`は各behaviorの最大step数です。v1.7.4の`file`引数はtrace moduleを書き出す絶対pathのprefixであり、実際の実行では書き込み可能な絶対pathへ置き換えます。`-seed`は擬似乱数seed、`-aril`はrandom simulation用のseed調整値です。これらを含む完全なcommand、使用した`tla2tools.jar`のversion/SHA、`.cfg`、終了理由をログへ保存します。
 
 【文脈依存スニペット】
-```cfg
-\* 設定ファイルでの指定
-CONSTRAINT StateConstraint
-SYMMETRY Symmetries  
-CHECK_DEADLOCK TRUE
-COVERAGE 80
+```bash
+java -cp tla2tools.jar tlc2.TLC \
+  -config BankingSystem.cfg \
+  -simulate file=/absolute/path/simulation-trace,num=1000 \
+  -depth 100 \
+  -seed 20260719 \
+  -aril 0 \
+  BankingSystem.tla
 ```
+
+simulationで反例が見つからなかったという事実は、性質の証明ではありません。release判断では「検証済み」と記録せず、`simulation-no-violation-observed`等の結果と実行条件を記録します。保証を主張する場合は、対象を有限化したmodel checkingが完走したこと、検査property、constraint、fairness、tool versionを別途確認します。
+
+一次情報は、固定版の[TLA+ tools v1.7.4 release](https://github.com/tlaplus/tlaplus/releases/tag/v1.7.4)、同じ版に固定したTLCの[`-simulate`、`-depth`、`-seed`、`-aril`のCLI説明](https://github.com/tlaplus/tlaplus/blob/v1.7.4/general/docs/current-tools.md)、Lamportの[*Specifying Systems*](https://lamport.azurewebsites.net/tla/book.html)です。再現時は固定したv1.7.4の`java -cp tla2tools.jar tlc2.TLC -help`も確認します。
 
 ### 性能最適化のテクニック
 
