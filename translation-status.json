@@ -76,7 +76,7 @@
       "status": "partial",
       "reviewed_at": "2026-07-19",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "Issue #357 synchronized the pinned SPIN CLI documentation reference across JA/EN. The broader appendix remains partial for heading differences and Japanese-only external references tracked by #328."
+      "notes": "The RTLola/MonPoly/RV-Monitor primary-source comparison, selection rationale, version/provenance, assurance boundary, and prior references were semantically reviewed across JA/EN. Issue #357 synchronized the pinned SPIN CLI documentation reference. The broader appendix remains partial for heading differences and Japanese-only external references tracked by #328."
     },
     "appendices/appendix-f.md": {
       "source_path": "src/ja/appendices/appendix-f.md",
