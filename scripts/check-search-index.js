@@ -98,6 +98,16 @@ function checkGenerated() {
   if (!ja.some((entry) => entry.pageId === 'chapter09' && entry.text.includes('LeanDojo'))) {
     errors.push('ja: Chapter 9 LeanDojo acceptance marker is not searchable');
   }
+  if (!ja.some((entry) => entry.pageId === 'chapter07'
+      && entry.heading.includes('simulationによるランダム欠陥探索')
+      && entry.text.includes('性質の証明ではありません'))) {
+    errors.push('ja: Chapter 7 simulation assurance-boundary marker is not searchable');
+  }
+  if (!en.some((entry) => entry.pageId === 'chapter07'
+      && entry.heading.includes('Randomized Defect Search with Simulation')
+      && entry.text.includes('does not prove the property'))) {
+    errors.push('en: Chapter 7 simulation assurance-boundary marker is not searchable');
+  }
   if (!en.some((entry) => entry.pageId === 'chapter08' && /model checking/iu.test(`${entry.heading} ${entry.text}`))) {
     errors.push('en: Chapter 8 model checking acceptance marker is not searchable');
   }

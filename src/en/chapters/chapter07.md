@@ -1035,19 +1035,59 @@ EventualProgress ≜
 A TLC violation report for such a property will typically show a cycle in which
 a desired event is postponed forever.
 
-### Probabilistic or Sampling-Based Checking
+### Randomized Defect Search with Simulation
 
-For very large state spaces, exhaustive checking may be impractical. In such
-cases, bounded or sampling-oriented approaches may be used operationally, even
-though their guarantees differ from exhaustive model checking.
+For a large state space, TLC model checking may not finish exploring the state
+graph of the configured finite model. TLC simulation mode instead chooses one
+enabled successor pseudo-randomly at each step and repeatedly generates
+behaviors with a bounded length to search for violations and counterexamples.
+Simulation is neither exhaustive model checking nor probabilistic model
+checking.
 
-【擬似記法】
-```text
-CONSTRAINT StateConstraint
-SYMMETRY Symmetries
-CHECK_DEADLOCK TRUE
-COVERAGE 80
+| Aspect | Model checking | Simulation |
+| --- | --- | --- |
+| Exploration | Systematically explores reachable states and behaviors of the configured finite model | Generates pseudo-random behaviors from a seed |
+| Completion | Finishes the state graph and the configured property checks; timeout, resource exhaustion, or an incomplete run is not success | Bounds each behavior with `-depth`; repository-pinned v1.7.4 uses `num` to set an upper bound on the total number of generated behaviors |
+| Meaning of no counterexample | Only after completion, no violation was found within the configured finite model, properties, constraints, fairness, and TLC settings | No violation was observed in the run identified by its seed, aril, depth, and number of generated behaviors |
+| Primary use | Exhaustive checking within a finite model | Early defect and counterexample search in a large state space |
+
+The following CLI example targets TLA+ tools v1.7.4, which is pinned in this
+repository's `tools/tool-manifest.json` (checked on 2026-07-19).
+Simulation mode itself is selected with `-simulate`, not by `.cfg` entries such
+as `CONSTRAINT` or `COVERAGE`; the `.cfg` file still supplies constants,
+properties, constraints, and other model settings. Here, `num=1000` is the
+upper bound on the total number of behaviors to generate, and `-depth 100` is
+the maximum number of steps in each behavior.
+In v1.7.4, `file` is an absolute-path prefix for generated trace modules, so
+replace the placeholder with a writable absolute path. Preserve the complete
+command: `-seed` supplies the pseudo-random seed, and `-aril` is the seed
+adjustment for random simulation. Also preserve the
+`tla2tools.jar` version or SHA, the `.cfg` file, and the termination reason in
+the execution log.
+
+【Context-dependent snippet】
+```bash
+java -cp tla2tools.jar tlc2.TLC \
+  -config BankingSystem.cfg \
+  -simulate file=/absolute/path/simulation-trace,num=1000 \
+  -depth 100 \
+  -seed 20260719 \
+  -aril 0 \
+  BankingSystem.tla
 ```
+
+Finding no counterexample in simulation does not prove the property. Record a
+result such as `simulation-no-violation-observed` together with its execution
+conditions instead of calling the specification "verified." A guarantee claim
+requires a separately confirmed completed model-checking run, with its finite
+model, checked properties, constraints, fairness assumptions, and tool version.
+
+Primary sources are the pinned [TLA+ tools v1.7.4 release](https://github.com/tlaplus/tlaplus/releases/tag/v1.7.4),
+the help definitions pinned in the same release's TLC source for
+[`-simulate`, `-depth`, `-seed`, and `-aril`](https://github.com/tlaplus/tlaplus/blob/v1.7.4/tlatools/org.lamport.tlatools/src/tlc2/TLC.java#L1451-L1466),
+and Lamport's [*Specifying Systems*](https://lamport.azurewebsites.net/tla/book.html).
+Also check `java -cp tla2tools.jar tlc2.TLC -help` for the pinned v1.7.4 binary
+when reproducing the command.
 
 ### Performance-Optimization Techniques
 

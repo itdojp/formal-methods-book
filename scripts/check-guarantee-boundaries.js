@@ -112,6 +112,18 @@ function runSelfTest() {
     auditContent('finite model with TypeOK', ['finite model', 'TypeOK'], ['static type system']),
     [],
   );
+  assert.deepStrictEqual(
+    auditContent(
+      'simulationによるランダム欠陥探索 反例が見つからなかったという事実は、性質の証明ではありません。 -simulate file=/absolute/path/trace,num=1000',
+      ['simulationによるランダム欠陥探索', '性質の証明ではありません', '-simulate file=/absolute/path/trace,num=1000'],
+      ['確率的検証'],
+    ),
+    [],
+  );
+  assert.deepStrictEqual(
+    auditContent('### 確率的検証', [], ['### 確率的検証']),
+    [{ kind: 'forbidden', marker: '### 確率的検証' }],
+  );
   assert.strictEqual(stripFrontMatter('---\ntitle: T\n---\nBody\n'), 'Body\n');
   assert.strictEqual(
     normalizeGeneratedBody('[examples/a.smv](../../../examples/a.smv)'),
@@ -136,11 +148,19 @@ const jaChapter7Required = [
   '故障検出器（failure detector）',
   '不可能性定理は結論だけでなく',
   '実装コード、モデルに含めなかった故障',
+  '### simulationによるランダム欠陥探索',
+  'simulation は、網羅的な model checking でも確率モデル検査でもありません',
+  'simulationで反例が見つからなかったという事実は、性質の証明ではありません',
+  '-simulate file=/absolute/path/simulation-trace,num=1000',
+  'TLA+ tools v1.7.4',
+  'https://github.com/tlaplus/tlaplus/blob/v1.7.4/tlatools/org.lamport.tlatools/src/tlc2/TLC.java#L1451-L1466',
 ];
 const jaChapter7Forbidden = [
   'すべてのノードが同じデータを見る',
   '非同期分散システムにおいて、一つでもノード故障がある場合、決定論的な合意アルゴリズムは存在しない',
   '理論的な正しさと実用的な堅牢性を同時に保証',
+  '### 確率的検証',
+  'ランダムサンプリングによる確率的検証',
 ];
 const enChapter7Required = [
   'atomic, or linearizable, behavior',
@@ -149,11 +169,19 @@ const enChapter7Required = [
   'failure detectors expose structured suspicions',
   'a package of computational, failure, communication, and guarantee assumptions',
   'does not establish correctness of the implementation',
+  '### Randomized Defect Search with Simulation',
+  'Simulation is neither exhaustive model checking nor probabilistic model',
+  'Finding no counterexample in simulation does not prove the property',
+  '-simulate file=/absolute/path/simulation-trace,num=1000',
+  'TLA+ tools v1.7.4',
+  'https://github.com/tlaplus/tlaplus/blob/v1.7.4/tlatools/org.lamport.tlatools/src/tlc2/TLC.java#L1451-L1466',
 ];
 const enChapter7Forbidden = [
   'all nodes observe the same data',
   'if even a single node can fail, there is no deterministic consensus algorithm',
   'check the essential correctness of the algorithm',
+  '### Probabilistic or Sampling-Based Checking',
+  'bounded or sampling-oriented approaches may be used operationally',
 ];
 
 for (const filePath of ['src/ja/chapters/chapter07.md', 'docs/chapters/chapter07/index.md']) {
