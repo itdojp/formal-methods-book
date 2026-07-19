@@ -6,13 +6,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/chapters/chapter07.md"
 translation_status: "partial"
-translation_source_commit: "88e9512b3af9d1a08184fa4a78edca2405e94636"
+translation_source_commit: "910a6c5903cce29144691037a5c65042e2924b13"
 translation_reviewed_at: "2026-07-19"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Chapter 7: Specifying Time — Introduction to TLA+
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`88e9512b3af9`](https://github.com/itdojp/formal-methods-book/commit/88e9512b3af9d1a08184fa4a78edca2405e94636) on 2026-07-19.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`910a6c5903cc`](https://github.com/itdojp/formal-methods-book/commit/910a6c5903cce29144691037a5c65042e2924b13) on 2026-07-19.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 ## 7.1 The Challenge of Distributed Systems: Time and State Become Complex
@@ -1098,8 +1098,8 @@ requires a separately confirmed completed model-checking run, with its finite
 model, checked properties, constraints, fairness assumptions, and tool version.
 
 Primary sources are the pinned [TLA+ tools v1.7.4 release](https://github.com/tlaplus/tlaplus/releases/tag/v1.7.4),
-the TLC CLI descriptions pinned to the same release for
-[`-simulate`, `-depth`, `-seed`, and `-aril`](https://github.com/tlaplus/tlaplus/blob/v1.7.4/general/docs/current-tools.md),
+the help definitions pinned in the same release's TLC source for
+[`-simulate`, `-depth`, `-seed`, and `-aril`](https://github.com/tlaplus/tlaplus/blob/v1.7.4/tlatools/org.lamport.tlatools/src/tlc2/TLC.java#L1451-L1466),
 and Lamport's [*Specifying Systems*](https://lamport.azurewebsites.net/tla/book.html).
 Also check `java -cp tla2tools.jar tlc2.TLC -help` for the pinned v1.7.4 binary
 when reproducing the command.
