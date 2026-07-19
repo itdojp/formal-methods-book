@@ -98,6 +98,18 @@ function checkGenerated() {
   if (!ja.some((entry) => entry.pageId === 'chapter09' && entry.text.includes('LeanDojo'))) {
     errors.push('ja: Chapter 9 LeanDojo acceptance marker is not searchable');
   }
+  if (!ja.some((entry) => entry.pageId === 'chapter09'
+      && entry.heading.includes('カーネル受理と残存仮定の確認')
+      && entry.text.includes('Print Assumptions')
+      && entry.text.includes('Closed under the global context'))) {
+    errors.push('ja: Chapter 9 Rocq assumption-audit marker is not searchable');
+  }
+  if (!en.some((entry) => entry.pageId === 'chapter09'
+      && entry.heading.includes('Checking Kernel Acceptance and Residual Assumptions')
+      && entry.text.includes('Print Assumptions')
+      && entry.text.includes('Closed under the global context'))) {
+    errors.push('en: Chapter 9 Rocq assumption-audit marker is not searchable');
+  }
   if (!ja.some((entry) => entry.pageId === 'chapter07'
       && entry.heading.includes('simulationによるランダム欠陥探索')
       && entry.text.includes('性質の証明ではありません'))) {

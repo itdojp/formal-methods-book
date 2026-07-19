@@ -172,7 +172,7 @@ source_path: "src/ja/glossary/index.md"
 
 <span id="glossary-reward-property" class="search-term-anchor" aria-hidden="true"></span>**reward property**：状態や遷移へ付けたattempt数、時間、energy、cost等の値について、累積値や到達までの期待値を問う確率property。未到達pathが正の確率で残る場合は無限大になり得る。→第8章/付録C
 
-<span id="glossary-rocq旧称-coq" class="search-term-anchor" aria-hidden="true"></span>**Rocq（旧称 Coq）**：依存型理論に基づく証明支援系。2025年以降は The Rocq Prover が公式名称だが、既存資料では Coq 名も残るため併記して扱う。→第9章
+<span id="glossary-rocq旧称-coq" class="search-term-anchor" aria-hidden="true"></span>**Rocq（旧称 Coq）**：依存型理論に基づく証明支援系。tactic 等が構築した証明項をカーネルが現在の論理環境で型検査する。`Print Assumptions` で依存する公理や仮定を棚卸しできるが、定理文の妥当性や抽出後プログラムは別途レビューする。2025年以降は The Rocq Prover が公式名称である。→第9章
 
 <span id="glossary-rtlola" class="search-term-anchor" aria-hidden="true"></span>**RTLola**：typed streamとtriggerでevent列のpropertyを記述し、onlineまたはofflineでmonitorするruntime verification言語・toolchain。本書は固定したCLI 0.1.2による有限CSV traceのoffline契約だけを実行保証する。→第11章/付録B/付録E
 
@@ -188,7 +188,7 @@ source_path: "src/ja/glossary/index.md"
 
 <span id="glossary-記号的模型検査symbolic-model-checking" class="search-term-anchor" aria-hidden="true"></span>**記号的模型検査（Symbolic model checking）**：状態を明示列挙せず、論理式や SMT/BDDなどの記号表現で状態集合や遷移を扱う模型検査。ソルバー、抽象化、timeout、`unknown` の扱いを証跡に含める。→第8章/第12章
 
-<span id="glossary-sorry--admit" class="search-term-anchor" aria-hidden="true"></span>**sorry / admit**：Lean や Rocq 系で証明を一時的に未完了にするために使われることがある穴埋め。CI では失敗または例外台帳対象として扱う。→第9章/第12章/付録F
+<span id="glossary-sorry--admit" class="search-term-anchor" aria-hidden="true"></span>**sorry / admit**：Lean の `sorry` / `admit` や Rocq の `Admitted` など、証明を公理相当の穴として一時的に閉じる仕組み。Rocq では `Print Assumptions` でも依存を確認し、CI では失敗または期限付き例外台帳の対象として扱う。→第9章/第12章/付録F
 
 <span id="glossary-solidity-smtchecker" class="search-term-anchor" aria-hidden="true"></span>**Solidity SMTChecker**：Solidity の形式検証機能。`require` を仮定、`assert` を証明対象として扱い、反例、警告、`unknown` を確認する。仕様が目的に合っているかは別途レビューする。→第13章/付録E
 
@@ -218,7 +218,7 @@ source_path: "src/ja/glossary/index.md"
 
 <span id="glossary-tlc" class="search-term-anchor" aria-hidden="true"></span>**TLC**：TLA+ 仕様を具体化した有限モデルの到達可能状態を列挙する明示的状態模型検査器。TLA+ は一般的な静的型システムを持たず、`TypeOK` / `TypeInvariant` などの不変条件で値の集合を明示する。結果は `.cfg`、性質、fairness、状態制約、完走状態に依存する。→第7章/第8章
 
-<span id="glossary-trusted-kernel信頼核" class="search-term-anchor" aria-hidden="true"></span>**trusted kernel（信頼核）**：証明項を基礎論理と現在の環境の下で検査する小さな中核。保証には kernel だけでなく、追加公理、未完了穴、外部 solver の接続方法、抽出・コード生成などの信頼基盤も関係する。→第9章
+<span id="glossary-trusted-kernel信頼核" class="search-term-anchor" aria-hidden="true"></span>**trusted kernel（信頼核）**：証明項が、基礎論理と現在の環境の下で定理文の型を持つかを検査する小さな中核。受理は定理文の要求妥当性まで保証せず、追加公理、未完了穴、外部 solver の接続方法、抽出・コード生成は別の信頼境界になる。→第9章
 
 <span id="glossary-trusted-computing-basetcb" class="search-term-anchor" aria-hidden="true"></span>**trusted computing base（TCB）**：最終保証に関与する信頼前提の集合。kernel に加え、追加公理、未検証変換、外部 solver 連携、proof reconstruction、抽出、コード生成、運用例外まで含み得る。→第9章/第12章
 

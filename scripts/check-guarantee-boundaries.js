@@ -124,6 +124,33 @@ function runSelfTest() {
     auditContent('### 確率的検証', [], ['### 確率的検証']),
     [{ kind: 'forbidden', marker: '### 確率的検証' }],
   );
+  assert.deepStrictEqual(
+    auditContent(
+      'カーネル受理は条件付き保証です。Print Assumptions implication_transitivity.',
+      ['条件付き保証', 'Print Assumptions implication_transitivity.'],
+      ['証明にバグが含まれる可能性を排除できます'],
+    ),
+    [],
+  );
+  assert.deepStrictEqual(
+    auditContent(
+      '証明にバグが含まれる可能性を排除できます',
+      ['Print Assumptions implication_transitivity.'],
+      ['証明にバグが含まれる可能性を排除できます'],
+    ),
+    [
+      { kind: 'missing', marker: 'Print Assumptions implication_transitivity.' },
+      { kind: 'forbidden', marker: '証明にバグが含まれる可能性を排除できます' },
+    ],
+  );
+  assert.deepStrictEqual(
+    auditContent(
+      'Kernel acceptance is conditional. Print Assumptions implication_transitivity.',
+      ['Kernel acceptance is conditional', 'Print Assumptions implication_transitivity.'],
+      ['This eliminates entire classes of proof errors'],
+    ),
+    [],
+  );
   assert.strictEqual(stripFrontMatter('---\ntitle: T\n---\nBody\n'), 'Body\n');
   assert.strictEqual(
     normalizeGeneratedBody('[examples/a.smv](../../../examples/a.smv)'),
@@ -236,6 +263,12 @@ const jaChapter9Required = [
   '抽出・コード生成・native evaluation',
   '検証済み証明ではない',
   'クリティカル部分の証明義務を完了',
+  '証明項が定理文の型を持つこと',
+  '定理文や定義が要求を正しく表すか',
+  'プラグインや外部 solver',
+  '抽出器、利用者が与えた実装、コンパイラ、実行系',
+  'Print Assumptions implication_transitivity.',
+  '`Closed under the global context`',
 ];
 const jaChapter9Forbidden = [
   '「有限の範囲での完全性」を提供',
@@ -244,6 +277,7 @@ const jaChapter9Forbidden = [
   'Admitted. (* 詳細は省略 *)',
   '論理的な正しさを保証します',
   'クリティカル部分の完全検証',
+  '証明にバグが含まれる可能性を排除できます',
 ];
 const enChapter9Required = [
   '`Γ ⊢ φ`',
@@ -255,6 +289,14 @@ const enChapter9Required = [
   'Extraction, code generation, or native evaluation',
   'not a checked completed proof',
   "close the critical core's stated proof obligations",
+  'the proof term has the theorem statement',
+  'whether the statement and definitions',
+  'For plugins and',
+  'external solvers, verify',
+  'depend on the extractor',
+  'user-supplied implementations, compiler, and runtime',
+  'Print Assumptions implication_transitivity.',
+  '`Closed under the global context`',
 ];
 const enChapter9Forbidden = [
   'then it is enough to trust that kernel',
@@ -262,6 +304,7 @@ const enChapter9Forbidden = [
   'everything provable in the system is true',
   'The detailed reflective proof is omitted',
   'fully verify the critical core',
+  'This eliminates entire classes of proof errors',
 ];
 
 for (const filePath of ['src/ja/chapters/chapter09.md', 'docs/chapters/chapter09/index.md']) {
@@ -278,6 +321,7 @@ auditFile('src/ja/glossary/index.md', [
   '**完全性（Completeness）**',
   '**trusted kernel（信頼核）**',
   '`TypeOK` / `TypeInvariant`',
+  '`Print Assumptions`',
 ]);
 auditFile('src/en/glossary/index.md', [
   '**CAP theorem**',
@@ -286,6 +330,8 @@ auditFile('src/en/glossary/index.md', [
   '**Completeness**',
   '**Trusted kernel**',
   '`TypeOK` or `TypeInvariant`',
+  '`Print Assumptions`',
+  '**Sorry / admit**',
 ]);
 auditFile('glossary-terms.md', [
   '**CAP 定理**',
@@ -294,6 +340,7 @@ auditFile('glossary-terms.md', [
   '**完全性（Completeness）**',
   '**trusted kernel（信頼核）**',
   '`TypeOK` / `TypeInvariant`',
+  '`Print Assumptions`',
 ]);
 
 const primarySourceUrls = [

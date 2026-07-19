@@ -3,7 +3,7 @@
   "project": "formal-methods-book",
   "projectVersion": "1.1.0",
   "locale": "ja",
-  "entryCount": 1226,
+  "entryCount": 1227,
   "entries": [
     {
       "id": "02d7269ce160fe33",
@@ -7408,7 +7408,7 @@
       "chapter": "第9章：定理証明の基礎",
       "heading": "Rocq（旧称 Coq）：構成の計算に基づく証明支援系",
       "url": "/formal-methods-book/chapters/chapter09/#rocq旧称-coq構成の計算に基づく証明支援系",
-      "text": "Rocq（旧称 Coq）は、フランス国立情報学自動制御研究所（INRIA）で開発された証明支援系です。構成の計算（Calculus of Constructions）という型理論に基づき、数学的証明とプログラム開発を統一的に扱うことができます。 Rocq の特徴は、証明とプログラムが同じ言語で記述され、型チェッカーが証明の正しさを自動的に検証することです。これにより、証明にバグが含まれる可能性を排除できます。 2025年3月に公開された Rocq 9.0 以降、プロジェクトの公式名称は The Rocq Prover です。 ただし、既存の教材、論文、パッケージ、コード例では Coq という名称や coq 由来のファイル拡張子・コマンド名が残ることがあります。 本書では読者が検索しやすいように「Rocq（旧称 Coq）」を併記し、実際のインストール、標準ライブラリ、コマンド体系は公式 changelog と各プロジェクトの移行状況で確認する前提にします。 名称変更は証明の信頼モデルを変えるものではなく、最終的な正しさは証明項を小さなカーネルが検査できるかに依存します。",
+      "text": "Rocq（旧称 Coq）は、フランス国立情報学自動制御研究所（INRIA）で開発された証明支援系です。構成の計算（Calculus of Constructions）という型理論に基づき、数学的証明とプログラム開発を統一的に扱うことができます。 Rocq では、証明とプログラムを同じ言語で記述し、tactic などが構築した証明項をカーネルが型検査します。カーネル受理が保証するのは、採用した基礎論理と現在の論理環境の下で、証明項が定理文の型を持つことです。この条件付き保証により不正な推論ステップを検出できますが、証明のバグを無条件に排除するものではありません。 残るレビュー境界には、定理文や定義が要求を正しく表すか、Axiom / Parameter の仮定が妥当か、Admitted が残っていないかが含まれます。プラグインや外部 solver は、生成した証明項をカーネルが再検査する経路かを確認します。抽出後のプログラムについては、抽出器、利用者が与えた実装、コンパイラ、実行系も保証境界に入ります。 2025年3月に公開された Rocq 9.0 以降、プロジェクトの公式名称は The Rocq Prover です。 ただし、既存の教材、論文、パッケージ、コード例では Coq という名称や coq 由来のファイル拡張子・コマンド名が残ることがあります。 本書では読者が検索しやすいように「Rocq（旧称 Coq）」を併記し、実際のインストール、標準ライブラリ、コマンド体系は公式 changelog と各プロジェクトの移行状況で確認する前提にします。 名称変更は証明の信頼モデルを変えるものではなく、最終的な正しさは証明項を小さなカーネルが検査できるかに依存します。",
       "aliases": []
     },
     {
@@ -7420,11 +7420,26 @@
       "chapter": "第9章：定理証明の基礎",
       "heading": "基本的な証明の構築",
       "url": "/formal-methods-book/chapters/chapter09/#基本的な証明の構築",
-      "text": "まず、最も基本的な論理的性質から証明を始めてみましょう。 含意の推移性： この証明では： intros で仮定を導入 apply で仮定や既知の定理を適用 exact で完全に一致する証拠を提供 論理積の交換律： 分解パターン [HP HQ] により、論理積の仮定を要素に分解できます。",
+      "text": "まず、最も基本的な論理的性質から証明を始めてみましょう。 含意の推移性： この証明では： intros で仮定を導入 apply で仮定や既知の定理を適用 exact で完全に一致する証拠を提供",
       "aliases": []
     },
     {
-      "id": "27e445596c11c5b7",
+      "id": "f4db8e5d96c5d755",
+      "locale": "ja",
+      "pageId": "chapter09",
+      "section": "chapters",
+      "title": "カーネル受理と残存仮定の確認",
+      "chapter": "第9章：定理証明の基礎",
+      "heading": "カーネル受理と残存仮定の確認",
+      "url": "/formal-methods-book/chapters/chapter09/#カーネル受理と残存仮定の確認",
+      "text": "Rocq 9.0.0 では、Print Assumptions で、定理や定義が依存する公理、parameter、variable を列挙できます。 この自己完結した定理では、期待する結果は Closed under the global context です。Axioms: などの依存が表示された場合は、許可した仮定か、Admitted 由来の未完了証明かを確認し、リリース証跡に出力を残します。ただし、依存が表示されないことは、定理文や定義が要求を正しく表すこと、または抽出後プログラムの動作を保証しません。 論理積の交換律： 分解パターン [HP HQ] により、論理積の仮定を要素に分解できます。",
+      "aliases": [
+        "Coq",
+        "The Rocq Prover"
+      ]
+    },
+    {
+      "id": "df2e80e4b4bfed81",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7436,7 +7451,7 @@
       "aliases": []
     },
     {
-      "id": "cee9b0a227650ce2",
+      "id": "0f0355ce206917a9",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7451,7 +7466,7 @@
       ]
     },
     {
-      "id": "c71c843849267ef0",
+      "id": "7adffbd370153ebc",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7463,7 +7478,7 @@
       "aliases": []
     },
     {
-      "id": "bf78694461a24a93",
+      "id": "e415b30e5839909f",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7475,7 +7490,7 @@
       "aliases": []
     },
     {
-      "id": "e4dc123c6fa33343",
+      "id": "6643f03b0ecf1962",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7490,7 +7505,7 @@
       ]
     },
     {
-      "id": "d4e92720364ce952",
+      "id": "d0b5b7b25d8ada04",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7502,7 +7517,7 @@
       "aliases": []
     },
     {
-      "id": "d1db3980dafa22af",
+      "id": "baf7b1d0e2125798",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7517,7 +7532,7 @@
       ]
     },
     {
-      "id": "da743e8220ef0d15",
+      "id": "e24ed3585f5cb6ae",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7529,7 +7544,7 @@
       "aliases": []
     },
     {
-      "id": "86bb7a067b61dcd0",
+      "id": "8ecc18c0d34c6da7",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7544,7 +7559,7 @@
       ]
     },
     {
-      "id": "0ff1b2b6ac210180",
+      "id": "43a893ecc62db361",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7556,7 +7571,7 @@
       "aliases": []
     },
     {
-      "id": "153d20bdb4e7c952",
+      "id": "cd9ad1a3fb710955",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7568,7 +7583,7 @@
       "aliases": []
     },
     {
-      "id": "ec77edbf26f75c16",
+      "id": "970ed90c1b716ee3",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7580,7 +7595,7 @@
       "aliases": []
     },
     {
-      "id": "d0afd272eef09b9f",
+      "id": "9cfab463b67ef333",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7592,7 +7607,7 @@
       "aliases": []
     },
     {
-      "id": "e055fd74a3c62923",
+      "id": "a93ddcd4e11da70d",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7604,7 +7619,7 @@
       "aliases": []
     },
     {
-      "id": "8af4d8207c508001",
+      "id": "5cafacd19d4ab5fd",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7616,7 +7631,7 @@
       "aliases": []
     },
     {
-      "id": "28f517a09a29cae3",
+      "id": "92795acae96d470c",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7631,7 +7646,7 @@
       ]
     },
     {
-      "id": "a3d103067374cb6d",
+      "id": "425eb1f786d5a308",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7643,7 +7658,7 @@
       "aliases": []
     },
     {
-      "id": "eb12fb68135090d9",
+      "id": "54c2d69bb0da6b97",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7655,7 +7670,7 @@
       "aliases": []
     },
     {
-      "id": "53a2d18b5b0907d0",
+      "id": "dab7e5325426434a",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7667,7 +7682,7 @@
       "aliases": []
     },
     {
-      "id": "307ae3521f2b4315",
+      "id": "0a551fe96b8b103d",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7679,7 +7694,7 @@
       "aliases": []
     },
     {
-      "id": "5fa2f60dfa4b4749",
+      "id": "eb3352c54eb67f8d",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7691,7 +7706,7 @@
       "aliases": []
     },
     {
-      "id": "153a41a370444abb",
+      "id": "086278ca7be8946f",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7705,7 +7720,7 @@
       ]
     },
     {
-      "id": "8b4ca78cd6c06404",
+      "id": "0efa7e092fdf05b5",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7717,7 +7732,7 @@
       "aliases": []
     },
     {
-      "id": "e0d590c71f176438",
+      "id": "9ac4b58b03b392b7",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7729,7 +7744,7 @@
       "aliases": []
     },
     {
-      "id": "8d39e4fcc224f08e",
+      "id": "1bbd67463874bb25",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7741,7 +7756,7 @@
       "aliases": []
     },
     {
-      "id": "7906f62e17dd7c6c",
+      "id": "55835adb89f4e2c0",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7753,7 +7768,7 @@
       "aliases": []
     },
     {
-      "id": "a01e4463f41557c9",
+      "id": "a330e77b06ff7f1f",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7765,7 +7780,7 @@
       "aliases": []
     },
     {
-      "id": "3ce266c8b3996905",
+      "id": "7694fd48e9ec3721",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7777,7 +7792,7 @@
       "aliases": []
     },
     {
-      "id": "811cca28865279ba",
+      "id": "be04175d50aa2b30",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7789,7 +7804,7 @@
       "aliases": []
     },
     {
-      "id": "5060d458959340ca",
+      "id": "db002a02f1772408",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7801,7 +7816,7 @@
       "aliases": []
     },
     {
-      "id": "c0e5b3d1e4bda064",
+      "id": "8a9e9051aa01fd09",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7813,7 +7828,7 @@
       "aliases": []
     },
     {
-      "id": "d45af6df81e8e0f8",
+      "id": "59b85d113e34e1f9",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7825,7 +7840,7 @@
       "aliases": []
     },
     {
-      "id": "29fd8b2d5b9242c2",
+      "id": "d220902ce3cf305e",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7837,7 +7852,7 @@
       "aliases": []
     },
     {
-      "id": "6aa3a5f715f798b3",
+      "id": "23c108a0097a20c5",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7852,7 +7867,7 @@
       ]
     },
     {
-      "id": "877a6bdf80d44023",
+      "id": "460f2d015a58154c",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7867,7 +7882,7 @@
       ]
     },
     {
-      "id": "5f1622e395443f5f",
+      "id": "14256ecdce8ae423",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7879,7 +7894,7 @@
       "aliases": []
     },
     {
-      "id": "d9b87039d9c66fb1",
+      "id": "08a8f0161203bf0e",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7894,7 +7909,7 @@
       ]
     },
     {
-      "id": "ba6c33dc303fec44",
+      "id": "df8397e7d95843ed",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7906,7 +7921,7 @@
       "aliases": []
     },
     {
-      "id": "9eb70730e2b40a38",
+      "id": "e0012891b16578c0",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7918,7 +7933,7 @@
       "aliases": []
     },
     {
-      "id": "3b268d332361ee81",
+      "id": "3b2bc0d4019c8836",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7930,7 +7945,7 @@
       "aliases": []
     },
     {
-      "id": "ebcf0dce33d9aff8",
+      "id": "fa0db5d29412d45f",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7942,7 +7957,7 @@
       "aliases": []
     },
     {
-      "id": "9347cf0c0b8394ca",
+      "id": "0e63f8c588a5f5ed",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7956,7 +7971,7 @@
       ]
     },
     {
-      "id": "64de293786aa46f2",
+      "id": "d87a497b2532dc82",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7968,7 +7983,7 @@
       "aliases": []
     },
     {
-      "id": "afc5c12b88922683",
+      "id": "4265073b9be3d8dd",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7982,7 +7997,7 @@
       ]
     },
     {
-      "id": "469ff4ac2667e711",
+      "id": "0aff70c0c0fab6ce",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -7994,7 +8009,7 @@
       "aliases": []
     },
     {
-      "id": "2134a7efead1ea66",
+      "id": "4f61682f0122175a",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -8006,7 +8021,7 @@
       "aliases": []
     },
     {
-      "id": "06bbb43d5f098f0d",
+      "id": "3388ff70f0ba65ce",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -8020,7 +8035,7 @@
       ]
     },
     {
-      "id": "f456a865d6a50c05",
+      "id": "b4357c9cabdffc96",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -8034,7 +8049,7 @@
       ]
     },
     {
-      "id": "2063c47fab3f6524",
+      "id": "38d86932d61dca47",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -8048,7 +8063,7 @@
       ]
     },
     {
-      "id": "bf1bd943286245d2",
+      "id": "fa4982ca41c6a544",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -8060,7 +8075,7 @@
       "aliases": []
     },
     {
-      "id": "cc6413026255404b",
+      "id": "69176262bd39439c",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -8072,7 +8087,7 @@
       "aliases": []
     },
     {
-      "id": "967129406c0ed4e1",
+      "id": "23a7121e4808f701",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -8084,7 +8099,7 @@
       "aliases": []
     },
     {
-      "id": "bc26552a79e55842",
+      "id": "aaadc0b476005180",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -8096,7 +8111,7 @@
       "aliases": []
     },
     {
-      "id": "f349a2a41173615a",
+      "id": "22d8d61f03c9438e",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -8108,7 +8123,7 @@
       "aliases": []
     },
     {
-      "id": "51150b4fea8dffdd",
+      "id": "c8e22cf993ac7337",
       "locale": "ja",
       "pageId": "chapter09",
       "section": "chapters",
@@ -12640,7 +12655,7 @@
       "chapter": "用語集（Glossary）",
       "heading": "Rocq（旧称 Coq）",
       "url": "/formal-methods-book/glossary/#glossary-rocq旧称-coq",
-      "text": "依存型理論に基づく証明支援系。2025年以降は The Rocq Prover が公式名称だが、既存資料では Coq 名も残るため併記して扱う。→第9章",
+      "text": "依存型理論に基づく証明支援系。tactic 等が構築した証明項をカーネルが現在の論理環境で型検査する。Print Assumptions で依存する公理や仮定を棚卸しできるが、定理文の妥当性や抽出後プログラムは別途レビューする。2025年以降は The Rocq Prover が公式名称である。→第9章",
       "aliases": []
     },
     {
@@ -12741,7 +12756,7 @@
       "chapter": "用語集（Glossary）",
       "heading": "sorry / admit",
       "url": "/formal-methods-book/glossary/#glossary-sorry--admit",
-      "text": "Lean や Rocq 系で証明を一時的に未完了にするために使われることがある穴埋め。CI では失敗または例外台帳対象として扱う。→第9章/第12章/付録F",
+      "text": "Lean の sorry / admit や Rocq の Admitted など、証明を公理相当の穴として一時的に閉じる仕組み。Rocq では Print Assumptions でも依存を確認し、CI では失敗または期限付き例外台帳の対象として扱う。→第9章/第12章/付録F",
       "aliases": [
         "Coq",
         "The Rocq Prover"
@@ -12935,7 +12950,7 @@
       "chapter": "用語集（Glossary）",
       "heading": "trusted kernel（信頼核）",
       "url": "/formal-methods-book/glossary/#glossary-trusted-kernel信頼核",
-      "text": "証明項を基礎論理と現在の環境の下で検査する小さな中核。保証には kernel だけでなく、追加公理、未完了穴、外部 solver の接続方法、抽出・コード生成などの信頼基盤も関係する。→第9章",
+      "text": "証明項が、基礎論理と現在の環境の下で定理文の型を持つかを検査する小さな中核。受理は定理文の要求妥当性まで保証せず、追加公理、未完了穴、外部 solver の接続方法、抽出・コード生成は別の信頼境界になる。→第9章",
       "aliases": []
     },
     {

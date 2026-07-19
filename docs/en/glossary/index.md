@@ -5,13 +5,13 @@ locale: "en"
 lang: "en"
 source_path: "src/en/glossary/index.md"
 translation_status: "partial"
-translation_source_commit: "abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4"
-translation_reviewed_at: "2026-07-16"
+translation_source_commit: "ef10023d987a0371ab48b9afa113ce0143fcd343"
+translation_reviewed_at: "2026-07-19"
 translation_tracking_issue: "https://github.com/itdojp/formal-methods-book/issues/328"
 ---
 # Glossary
 
-> **Translation status: Partial.** Reviewed against Japanese source commit [`abf0ec3d6e65`](https://github.com/itdojp/formal-methods-book/commit/abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4) on 2026-07-16.
+> **Translation status: Partial.** Reviewed against Japanese source commit [`ef10023d987a`](https://github.com/itdojp/formal-methods-book/commit/ef10023d987a0371ab48b9afa113ce0143fcd343) on 2026-07-19.
 > Some content, headings, examples, tables, or references remain partially synchronized. [Track the remaining work](https://github.com/itdojp/formal-methods-book/issues/328).
 
 This glossary collects technical terms and abbreviations that appear repeatedly
@@ -305,9 +305,11 @@ time, energy, or cost attached to states or transitions. A reachability reward
 can be infinite when the target is missed with positive probability. See
 Chapter 8 and Appendix C.
 
-<span id="glossary-rocq" class="search-term-anchor" aria-hidden="true"></span>**Rocq**: The proof assistant formerly known as Coq. It is based on type
-theory and is used in this book as a representative environment for
-mechanized proofs. See Chapters 9, 10, and Appendix E.
+<span id="glossary-rocq" class="search-term-anchor" aria-hidden="true"></span>**Rocq**: The proof assistant formerly known as Coq. Its kernel type-checks
+proof terms constructed by tactics and other automation in the current logical
+environment. `Print Assumptions` inventories dependent axioms and assumptions;
+statement adequacy and extracted programs require separate review. See Chapters
+9, 10, and Appendix E.
 
 <span id="glossary-rtlola" class="search-term-anchor" aria-hidden="true"></span>**RTLola**: A runtime-verification language and toolchain that specifies typed
 streams and triggers over online or offline events. This book guarantees only
@@ -324,6 +326,11 @@ correctness of all possible executions. See Chapter 11 and Appendix C.
 <span id="glossary-soundness" class="search-term-anchor" aria-hidden="true"></span>**Soundness**: A metaproperty relating a deductive system to a semantics: every
 derivable formula is valid in that semantics. The relevant logic and semantics
 must be stated. See Chapter 9.
+
+<span id="glossary-sorry--admit" class="search-term-anchor" aria-hidden="true"></span>**Sorry / admit**: Mechanisms such as Lean `sorry` / `admit` and Rocq
+`Admitted` that temporarily close a proof with an axiom-like hole. In Rocq,
+inspect the dependency with `Print Assumptions`; CI should reject it or record a
+time-bounded exception. See Chapters 9 and 12 and Appendix F.
 
 <span id="glossary-scheduler--adversary" class="search-term-anchor" aria-hidden="true"></span>**Scheduler / adversary**: A policy that resolves an MDP's nondeterministic
 choices, potentially from the execution history. Best- and worst-case
@@ -389,10 +396,11 @@ type system; predicates commonly named `TypeOK` or `TypeInvariant` assert that
 values belong to expected sets. Results depend on the `.cfg`, properties,
 fairness, state constraints, and completion status. See Chapters 7 and 8.
 
-<span id="glossary-trusted-kernel" class="search-term-anchor" aria-hidden="true"></span>**Trusted kernel**: The small core that checks proof terms under the
-foundational logic and current environment. The wider trusted computing base
-can also include added axioms, unfinished holes, unchecked solver paths,
-extraction, and code generation. See Chapter 9.
+<span id="glossary-trusted-kernel" class="search-term-anchor" aria-hidden="true"></span>**Trusted kernel**: The small core that checks whether a proof term has the
+theorem statement as its type under the foundational logic and current
+environment. Acceptance does not establish statement adequacy; added axioms,
+unfinished holes, unchecked solver paths, extraction, and code generation form
+additional trust boundaries. See Chapter 9.
 
 <span id="glossary-trusted-computing-base-tcb" class="search-term-anchor" aria-hidden="true"></span>**Trusted computing base (TCB)**: The full set of trusted assumptions behind a
 final assurance claim. Depending on the workflow, this can include the kernel,
