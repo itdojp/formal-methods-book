@@ -291,9 +291,11 @@ time, energy, or cost attached to states or transitions. A reachability reward
 can be infinite when the target is missed with positive probability. See
 Chapter 8 and Appendix C.
 
-**Rocq**: The proof assistant formerly known as Coq. It is based on type
-theory and is used in this book as a representative environment for
-mechanized proofs. See Chapters 9, 10, and Appendix E.
+**Rocq**: The proof assistant formerly known as Coq. Its kernel type-checks
+proof terms constructed by tactics and other automation in the current logical
+environment. `Print Assumptions` inventories dependent axioms and assumptions;
+statement adequacy and extracted programs require separate review. See Chapters
+9, 10, and Appendix E.
 
 **RTLola**: A runtime-verification language and toolchain that specifies typed
 streams and triggers over online or offline events. This book guarantees only
@@ -310,6 +312,11 @@ correctness of all possible executions. See Chapter 11 and Appendix C.
 **Soundness**: A metaproperty relating a deductive system to a semantics: every
 derivable formula is valid in that semantics. The relevant logic and semantics
 must be stated. See Chapter 9.
+
+**Sorry / admit**: Mechanisms such as Lean `sorry` / `admit` and Rocq
+`Admitted` that temporarily close a proof with an axiom-like hole. In Rocq,
+inspect the dependency with `Print Assumptions`; CI should reject it or record a
+time-bounded exception. See Chapters 9 and 12 and Appendix F.
 
 **Scheduler / adversary**: A policy that resolves an MDP's nondeterministic
 choices, potentially from the execution history. Best- and worst-case
@@ -375,10 +382,11 @@ type system; predicates commonly named `TypeOK` or `TypeInvariant` assert that
 values belong to expected sets. Results depend on the `.cfg`, properties,
 fairness, state constraints, and completion status. See Chapters 7 and 8.
 
-**Trusted kernel**: The small core that checks proof terms under the
-foundational logic and current environment. The wider trusted computing base
-can also include added axioms, unfinished holes, unchecked solver paths,
-extraction, and code generation. See Chapter 9.
+**Trusted kernel**: The small core that checks whether a proof term has the
+theorem statement as its type under the foundational logic and current
+environment. Acceptance does not establish statement adequacy; added axioms,
+unfinished holes, unchecked solver paths, extraction, and code generation form
+additional trust boundaries. See Chapter 9.
 
 **Trusted computing base (TCB)**: The full set of trusted assumptions behind a
 final assurance claim. Depending on the workflow, this can include the kernel,

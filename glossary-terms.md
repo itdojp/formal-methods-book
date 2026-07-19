@@ -148,7 +148,7 @@
 
 **reward property** - 状態や遷移へ付けたattempt数、時間、energy、cost等について、累積値や到達までの期待値を問う確率property。→第8章,付録C
 
-**Rocq（旧称Coq）** - 依存型理論に基づく証明支援系。2025年以降は The Rocq Prover が公式名称だが、既存資料では Coq 名も残るため併記して扱う。→第9章
+**Rocq（旧称Coq）** - 依存型理論に基づく証明支援系。tactic 等が構築した証明項をカーネルが現在の論理環境で型検査する。`Print Assumptions` で依存公理を棚卸しできるが、定理文や抽出後プログラムは別途レビューする。→第9章
 
 **RTLola** - typed streamとtriggerでevent列のpropertyを記述し、onlineまたはofflineでmonitorするruntime verification言語・toolchain。→第11章,付録B,付録E
 
@@ -164,7 +164,7 @@
 
 **記号的模型検査（Symbolic model checking）** - 状態を明示列挙せず、論理式やSMT/BDDなどの記号表現で状態集合や遷移を扱う模型検査。ソルバー、抽象化、timeout、`unknown` の扱いを証跡に含める。→第8章,第12章
 
-**sorry / admit** - Lean や Rocq 系で証明を一時的に未完了にするために使われることがある穴埋め。CIでは失敗または例外台帳対象として扱う。→第9章,第12章,付録F
+**sorry / admit** - Lean の `sorry` / `admit` や Rocq の `Admitted` など、証明を公理相当の穴として一時的に閉じる仕組み。Rocq では `Print Assumptions` でも依存を確認し、CIでは失敗または期限付き例外台帳対象として扱う。→第9章,第12章,付録F
 
 **Solidity SMTChecker** - Solidity の形式検証機能。`require` を仮定、`assert` を証明対象として扱い、反例、警告、`unknown` を確認する。仕様が目的に合っているかは別途レビューする。→第13章,付録E
 
@@ -194,7 +194,7 @@
 
 **TLC** - TLA+仕様を具体化した有限モデルの到達可能状態を列挙する明示的状態模型検査器。`TypeOK` / `TypeInvariant` は静的型検査ではなく、値が期待集合に属することを表す不変条件である。→第7章,第8章
 
-**trusted kernel（信頼核）** - 証明項を基礎論理と現在の環境の下で検査する中核。追加公理、未完了穴、外部ソルバー、抽出・コード生成は別の信頼境界になる。→第9章
+**trusted kernel（信頼核）** - 証明項が基礎論理と現在の環境の下で定理文の型を持つかを検査する中核。受理は定理文の妥当性まで保証せず、追加公理、未完了穴、外部ソルバー、抽出・コード生成は別の信頼境界になる。→第9章
 
 **trusted computing base（TCB）** - 最終保証に関与する信頼前提の集合。kernel に加え、追加公理、未検証変換、外部 solver 連携、proof reconstruction、抽出、コード生成、運用例外まで含み得る。→第9章,第12章
 
