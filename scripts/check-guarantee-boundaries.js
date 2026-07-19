@@ -298,7 +298,7 @@ auditFile('glossary-terms.md', [
 
 const primarySourceUrls = [
   'https://lamport.azurewebsites.net/pubs/spec-book-chap.pdf',
-  'https://spinroot.com/spin/Man/Quick.html',
+  'https://github.com/nimble-code/Spin/blob/4883fbb1b1ef1f75fa9dda78efe1ad8910baf819/Man/spin.1',
   'https://nuxmv.fbk.eu/downloads/nuxmv-user-manual.pdf',
   'https://diffblue.github.io/cbmc/background-concepts.html',
   'https://rocq-prover.org/doc/v9.0/refman/proofs/writing-proofs/proof-mode.html',
