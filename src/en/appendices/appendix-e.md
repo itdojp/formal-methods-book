@@ -88,7 +88,7 @@ environment, or result for it.
 - Best after reading: Chapter 6, "Process-Centric Specification — Concurrency with CSP"; Chapter 8, "Introduction to Model Checking"
 - Primary sources:
   - Official page (`spinroot`): <https://spinroot.com/spin/whatispin.html>
-  - SPIN Quick Reference (search, weak fairness, and bitstate hashing): <https://spinroot.com/spin/Man/Quick.html>
+  - Pinned SPIN CLI manual source (`-search` and related options): <https://github.com/nimble-code/Spin/blob/4883fbb1b1ef1f75fa9dda78efe1ad8910baf819/Man/spin.1>
 
 ### NuSMV / nuXmv
 
