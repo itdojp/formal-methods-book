@@ -91,7 +91,7 @@ Alloy、TLC、Apalache、Dafny は `pr-quick`、SPIN、NuSMV、CBMC、Quint、PR
 - 推奨読者：第6章（並行性の落とし穴）、第8章（模型検査）
 - 一次情報：
   - 公式（spinroot）：<https://spinroot.com/spin/whatispin.html>
-  - SPIN Quick Reference（探索方式、weak fairness、bitstate hashing）：<https://spinroot.com/spin/Man/Quick.html>
+  - 固定版SPIN CLI man page（`-search`等のオプション）：<https://github.com/nimble-code/Spin/blob/4883fbb1b1ef1f75fa9dda78efe1ad8910baf819/Man/spin.1>
 
 ### NuSMV / nuXmv
 

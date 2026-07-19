@@ -14803,12 +14803,10 @@
       "chapter": "付録E：参考文献とWebリソース",
       "heading": "SPIN（Promela）",
       "url": "/formal-methods-book/appendices/appendix-e/#spinpromela",
-      "text": "用途：並行システムの明示的状態模型検査（Promela）と反例トレース。full-state search と bitstate hashing などの近似モードを区別する。 推奨読者：第6章（並行性の落とし穴）、第8章（模型検査） 一次情報： 公式（spinroot）： SPIN Quick Reference（探索方式、weak fairness、bitstate hashing）：",
+      "text": "用途：並行システムの明示的状態模型検査（Promela）と反例トレース。full-state search と bitstate hashing などの近似モードを区別する。 推奨読者：第6章（並行性の落とし穴）、第8章（模型検査） 一次情報： 公式（spinroot）： 固定版SPIN CLI man page（-search等のオプション）：",
       "aliases": [
         "モデル検査",
-        "model checking",
-        "WF",
-        "弱公平性"
+        "model checking"
       ]
     },
     {
