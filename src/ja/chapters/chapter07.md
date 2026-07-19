@@ -926,7 +926,7 @@ java -cp tla2tools.jar tlc2.TLC \
 
 simulationで反例が見つからなかったという事実は、性質の証明ではありません。release判断では「検証済み」と記録せず、`simulation-no-violation-observed`等の結果と実行条件を記録します。保証を主張する場合は、対象を有限化したmodel checkingが完走したこと、検査property、constraint、fairness、tool versionを別途確認します。
 
-一次情報は、固定版の[TLA+ tools v1.7.4 release](https://github.com/tlaplus/tlaplus/releases/tag/v1.7.4)、同じ版に固定したTLCの[`-simulate`、`-depth`、`-seed`、`-aril`のCLI説明](https://github.com/tlaplus/tlaplus/blob/v1.7.4/general/docs/current-tools.md)、Lamportの[*Specifying Systems*](https://lamport.azurewebsites.net/tla/book.html)です。再現時は固定したv1.7.4の`java -cp tla2tools.jar tlc2.TLC -help`も確認します。
+一次情報は、固定版の[TLA+ tools v1.7.4 release](https://github.com/tlaplus/tlaplus/releases/tag/v1.7.4)、同じ版に固定したTLC sourceの[`-simulate`、`-depth`、`-seed`、`-aril`のhelp定義](https://github.com/tlaplus/tlaplus/blob/v1.7.4/tlatools/org.lamport.tlatools/src/tlc2/TLC.java#L1451-L1466)、Lamportの[*Specifying Systems*](https://lamport.azurewebsites.net/tla/book.html)です。再現時は固定したv1.7.4の`java -cp tla2tools.jar tlc2.TLC -help`も確認します。
 
 ### 性能最適化のテクニック
 

@@ -153,7 +153,7 @@ const jaChapter7Required = [
   'simulationで反例が見つからなかったという事実は、性質の証明ではありません',
   '-simulate file=/absolute/path/simulation-trace,num=1000',
   'TLA+ tools v1.7.4',
-  'https://github.com/tlaplus/tlaplus/blob/v1.7.4/general/docs/current-tools.md',
+  'https://github.com/tlaplus/tlaplus/blob/v1.7.4/tlatools/org.lamport.tlatools/src/tlc2/TLC.java#L1451-L1466',
 ];
 const jaChapter7Forbidden = [
   'すべてのノードが同じデータを見る',
@@ -174,7 +174,7 @@ const enChapter7Required = [
   'Finding no counterexample in simulation does not prove the property',
   '-simulate file=/absolute/path/simulation-trace,num=1000',
   'TLA+ tools v1.7.4',
-  'https://github.com/tlaplus/tlaplus/blob/v1.7.4/general/docs/current-tools.md',
+  'https://github.com/tlaplus/tlaplus/blob/v1.7.4/tlatools/org.lamport.tlatools/src/tlc2/TLC.java#L1451-L1466',
 ];
 const enChapter7Forbidden = [
   'all nodes observe the same data',
