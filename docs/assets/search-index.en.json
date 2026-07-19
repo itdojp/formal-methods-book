@@ -13830,7 +13830,7 @@
       "chapter": "Appendix E: References and Further Reading Paths",
       "heading": "Appendix E: References and Further Reading Paths",
       "url": "/formal-methods-book/en/appendices/appendix-e/#appendix-e-references-and-further-reading-paths",
-      "text": "Translation status: Partial. Reviewed against Japanese source commit abf0ec3d6e65 on 2026-07-16. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This appendix is a reader-facing guide to primary sources for the methods, tools, and case studies introduced in the main text. Use it when you want to deepen a chapter, verify a claim against an official source, or decide which tool family to study next. As of July 2026, it reflects naming changes and current mainstream references such as Coq → Rocq, CVC4 → cvc5, the Alloy 6 series, and Apalache in the TLA+ ecosystem.",
+      "text": "Translation status: Partial. Reviewed against Japanese source commit 933055b73cec on 2026-07-19. Some content, headings, examples, tables, or references remain partially synchronized. Track the remaining work. This appendix is a reader-facing guide to primary sources for the methods, tools, and case studies introduced in the main text. Use it when you want to deepen a chapter, verify a claim against an official source, or decide which tool family to study next. As of July 2026, it reflects naming changes and current mainstream references such as Coq → Rocq, CVC4 → cvc5, the Alloy 6 series, and Apalache in the TLA+ ecosystem.",
       "aliases": [
         "TLA Plus",
         "The Rocq Prover"
@@ -14002,12 +14002,10 @@
       "chapter": "Appendix E: References and Further Reading Paths",
       "heading": "SPIN (Promela)",
       "url": "/formal-methods-book/en/appendices/appendix-e/#spin-promela",
-      "text": "Purpose: explicit-state model checking of concurrent systems written in Promela, including counterexample traces; distinguish full-state search from approximate modes such as bitstate hashing Best after reading: Chapter 6, \"Process-Centric Specification — Concurrency with CSP\"; Chapter 8, \"Introduction to Model Checking\" Primary sources: Official page (spinroot): SPIN Quick Reference (search, weak fairness, and bitstate hashing):",
+      "text": "Purpose: explicit-state model checking of concurrent systems written in Promela, including counterexample traces; distinguish full-state search from approximate modes such as bitstate hashing Best after reading: Chapter 6, \"Process-Centric Specification — Concurrency with CSP\"; Chapter 8, \"Introduction to Model Checking\" Primary sources: Official page (spinroot): Pinned SPIN CLI manual source (-search and related options):",
       "aliases": [
         "模型検査",
-        "モデル検査",
-        "WF",
-        "弱公平性"
+        "モデル検査"
       ]
     },
     {

@@ -69,14 +69,14 @@
     "appendices/appendix-e.md": {
       "source_path": "src/ja/appendices/appendix-e.md",
       "translation_path": "src/en/appendices/appendix-e.md",
-      "source_commit": "abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4",
-      "translated_commit": "abf0ec3d6e6509ed53da0e7b7e10fc59d8dfebd4",
-      "source_sha256": "a95f7ce4914e557c205e2809e4956992832735210b52988b73022882970c9f29",
-      "translation_sha256": "b9ea81c83728e94fd8f39a330611db44be03adc14830d62ca9dbb13f264d27f6",
+      "source_commit": "933055b73cece5a69931e07d8ca8413ddae18fcf",
+      "translated_commit": "933055b73cece5a69931e07d8ca8413ddae18fcf",
+      "source_sha256": "c35449c1ed3a81764830412530b0b326c7f7371e31edb0cda3a33071ef1d2774",
+      "translation_sha256": "2d74199b4b6db69af771fcfb101f6f503571ef4f891d393b20abab78c69838e4",
       "status": "partial",
-      "reviewed_at": "2026-07-16",
+      "reviewed_at": "2026-07-19",
       "tracking_issue": "https://github.com/itdojp/formal-methods-book/issues/328",
-      "notes": "The RTLola/MonPoly/RV-Monitor primary-source comparison, selection rationale, version/provenance, and assurance boundary plus prior references were semantically reviewed across JA/EN; the broader appendix still has heading differences and Japanese-only external references"
+      "notes": "Issue #357 synchronized the pinned SPIN CLI documentation reference across JA/EN. The broader appendix remains partial for heading differences and Japanese-only external references tracked by #328."
     },
     "appendices/appendix-f.md": {
       "source_path": "src/ja/appendices/appendix-f.md",
